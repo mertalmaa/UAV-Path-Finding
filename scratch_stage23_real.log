@@ -1,0 +1,7 @@
+search bounds: min=3240.0 max=3780.0 (27 z-steps)
+w_MSL=0.63, dominance_pruning=ON, msl_lower_bound_heuristic=ON, vertical_reachability_heuristic=OFF, cache=ON, cap=30000 (single run, no retry)
+
+status=search_limit_reached wall=68.78s runtime=68.69s expanded=30000 max_open=79912 cache_hit_rate=0.686 multiplier=3.0412
+dominance: checks=193553 pruned=50493 frontier_removed=81200 pop_skipped=3672 max_frontier=3 avg_frontier=1.676
+
+SEARCH_LIMIT_REACHED -- no path metrics to report (matches Stage 19-22's same limitation).
