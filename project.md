@@ -894,6 +894,345 @@ değeri yok (`ds.nodata is None`, sentinel piksel bulunmadı).
   1.00 rerun, ARA*, terrain-aware, resolution, cost/w_MSL/dominance/
   heuristic değişikliği, GPU) hiçbiri implement edilmedi.
 
+- **Stage 28 — Cost Function Validation / Route Ranking Test: search YOK, cost
+  formülü/weight DEĞİŞMEDİ. 6 candidate rota (aynı 6.48km/w_MSL=0.63 gerçek
+  Aladağlar senaryosu, START row=48,GOAL row=264,col=276) elle inşa edilip
+  `validate_and_cost_path()`/`decompose_cost()` (gerçek production
+  fonksiyonları) ile değerlendirildi. Sonuç: CASE A -- cost function doğru,
+  ana darboğaz SEARCH.** 6/6 candidate VALID (C ve F ilk denemede terrain
+  nedeniyle INVALID çıktı -- START'a 2 satır yakın terrain peak'i, ~3556.8m,
+  200m AGL için >=3756.8m MSL gerektiriyor; descent'e hemen satır 48'de
+  başlamak bunu ihlal ediyordu; 4 satırlık (120m) zorunlu güvenlik buffer'ı
+  eklenince VALID oldu -- gerçek terrain'den ölçülmüş bir kısıt, tasarım
+  tercihi değil). Sonuçlar (total_cost, ucuzdan pahalıya):
+  ```
+  C EARLY_DEEP_VALLEY   21,071.25  (G=6539.6 wM=14531.7 R=0.00, min_MSL=3400, depth=360m, 1 reversal)
+  D LATE_DESCENT        21,533.92  (G=6539.6 wM=14994.3 R=0.00, min_MSL=3400, depth=360m, aynı G/depth/min_MSL, sadece SIRA farklı)
+  B SHALLOW_VALLEY      21,668.85  (Stage 26 eps=1.10'un GERÇEK bulduğu path, min_MSL=3660, depth=100m, 1 reversal)
+  A DIRECT_LEVEL         21,829.82 (G=6480.0 wM=15349.8 R=0.00, baseline, Stage 20/24'ün incumbent'ıyla bit-exact)
+  E ROLLER_COASTER      22,702.98  (G=6539.6 wM=15463.4 R=700.00, 18x20m osilasyon, 35 reversal)
+  F LONG_DETOUR         23,726.23  (G=7384.6 wM=16341.6 R=0.00, C ile AYNI min_MSL=3400 ama +845m detour)
+  ```
+  **6/6 candidate'ta `total_cost == G + w_MSL*M + R` bit-exact eşleşti**
+  (production formülünün decomposition'ı doğrulandı). **KRİTİK bulgu**: C
+  (21,071.25), B'den (21,668.85, Stage 26'nın weighted A* eps=1.10 ile
+  GERÇEKTEN bulduğu path -- bu adımda bir kerelik, yeni arama değil, sadece
+  o sonucun path array'ini diskte hiç kaydedilmemiş olduğu için tekrar
+  üretmek amacıyla aynı çağrı bit-bit tekrarlandı) **%2.76 DAHA UCUZ** --
+  yani cost function'a göre daha iyi (daha derin) bir vadi rotası zaten
+  MEVCUT ve geçerli primitive'lerle ifade edilebilir, ama weighted A*
+  30.000 expansion içinde onu bulamadı (Stage 25-27'nin "thrashing/state
+  explosion" teşhisiyle tam örtüşüyor). **early vs late**: C, D'den %2.20
+  ucuz (aynı G/depth/min_MSL/climb/descent -- SADECE sıra farklı) -- doğru
+  yönde ama depth etkisine (A'dan C'ye %3.47) göre daha KÜÇÜK bir etki;
+  D yine de hem B'den hem A'dan ucuz çıktı, yani "geç ama derin" cost
+  function'a göre "erken ama sığ"dan daha iyi -- zamanlamadan çok toplam
+  düşük-MSL miktarı baskın. **roller-coaster**: E, C'den %7.74 pahalı, hatta
+  A'dan (direct level) bile %4.00 pahalı -- R=700.00 (E'nin toplam
+  maliyetinin ~%3.1'i) katkı yapıyor ama asıl ceza G+w*M'den geliyor (R=0
+  varsayılsa bile E hâlâ A'dan %0.79 pahalı kalıyor, çünkü 18-aşağı+18-yukarı
+  net MSL faydası sıfırlıyor, sadece fazladan mesafe/dz ekliyor).
+  **long detour**: F, 6 candidate'ın EN PAHALISI (C'den %12.59, A'dan %8.69
+  pahalı) -- aynı min_MSL'e (3400) ulaşıyor ama +845m fazladan mesafe hem G
+  hem M'i (aynı düşük irtifada daha fazla mesafe uçtuğu için) büyütüyor,
+  hiçbir ekstra MSL faydası olmadan. (Not/kısıt: bu F candidate'ı C'nin
+  ULAŞTIĞI derinlikten DAHA DERİN bir MSL açmıyor -- sadece aynı derinliğe
+  daha uzun yoldan ulaşıyor; "gerçekten daha düşük MSL'ye detour'la erişim"
+  senaryosu bu turda test edilmedi.) **Sonuç: w_MSL=0.63 mantıklı görünüyor**
+  (detour/roller-coaster doğru cezalandırılıyor, depth doğru ödüllendiriliyor,
+  degenere davranış yok). **CASE A seçildi**: cost function mission
+  davranışını yeterince temsil ediyor, weighted A*'ın sadece ~100m alçalmış
+  olmasının nedeni cost DEĞİL, search'ün 30k bütçede daha ucuz/derin dalı
+  bulamamış olması. Bu turda hiçbir weight/formül/search değişikliği
+  yapılmadı (tek istisna: candidate B'nin path'ini almak için Stage 26'nın
+  eps=1.10 çağrısı bir kez, hiç değiştirilmeden tekrar çalıştırıldı --
+  yeni arama/tuning değil, zaten tamamlanmış bir sonucun geri alınması).
+  Script: `scripts/validate_cost_function_ranking.py`. Bir sonraki adım
+  (resolution/coarse-to-fine, per CASE A) bu turda BAŞLATILMADI, karar
+  kullanıcıda.
+
+- **Stage 29 — Cost Weight Sensitivity / w_MSL Calibration: search YOK,
+  cost formülü DEĞİŞMEDİ, sadece `msl_cost_weight` sweep edildi
+  ({0.30,0.40,0.50,0.63,0.80,1.00,1.25}). Stage 28'in 6 candidate'ı
+  (A-F, AYNI geometri, yeniden üretilmedi) + yeni candidate G
+  (DEEPER_BUT_LONGER_DETOUR, gerçek terrain'den ölçülmüş, fabrike değil)
+  her weight'te yeniden costlandı. SONUÇ: CASE C -- tek bir scalar w_MSL,
+  SHALLOW_VALLEY'i DEEP'ten hiçbir zaman >%5 ayıramıyor (matematiksel
+  tavan ~%4.41, kanıtlanmış); bu bir weight seçimi sorunu değil, cost
+  FORMÜLASYONUNUN yapısal bir sınırı.** G/R her candidate'ta sweep
+  boyunca bit-exact invariant kaldı (sadece w*M değişti) -- production
+  formülü doğrulandı. **Terrain taraması** (col 220-296, rows 96-216
+  benzeri pencereler): direct corridor'un (col276) 3400m floor'undan daha
+  derin bir nokta yalnızca col~264-267'de, ve sadece **20m** daha derin
+  (3380m) bulundu -- makul bir lateral mesafede bu ROI'de daha fazla derinlik
+  YOK (uydurulmadı, ölçüldü). G candidate'ı bu 20m'lik tek adımı, col276'dan
+  ~12 sütun (360m) batıya/geri bir detour ile VALID olarak erişiyor
+  (geom_len 6480->6778m). **Ana bulgu (matematiksel, sweep verisinden analitik
+  türetildi, yeni run gerektirmedi)**: her candidate X için relative_gap(w) =
+  (ΔG_X + w*ΔM_X) / (G_C + w*M_C) -- w->sonsuz limiti = ΔM_X/M_C (sabit).
+  **Level için bu tavan %5.63** (w≈2.66'da tam %5'i geçiyor, ama bu
+  test edilen aralığın (0.30-1.25) 2x'inden fazlası, ve tavana çok yakın/
+  kırılgan bir marj). **Shallow için tavan %4.41 -- HİÇBİR w_MSL değeri
+  (w->sonsuz dahil) bunu %5'e çıkaramaz, matematiksel olarak imkansız**
+  (breakeven_w hesaplaması "None" döndü). Kök neden: her candidate G/M'sinin
+  büyük bir ortak/paylaşılan kısmı var (tüm rotalar ~3400-3760m aralığında
+  uçuyor, `msl_reference_m=0` referansına göre bu zaten büyük bir "ortak
+  taban" M üretiyor) -- w_MSL büyüdükçe HEM fark HEM taban büyüyor, oran
+  kilitli kalıyor. **Test edilen weight'ler arasında hiçbir dejenerasyon
+  bulunmadı**: LONG_DETOUR sürekli en kötü aday kaldı (%12.5-12.7 gap,
+  hafifçe düşüyor ama hep yüksek), ROLLER_COASTER sürekli kötü kaldı
+  (%7.2-8.5 gap, hep direct level'dan da pahalı), LATE_DESCENT sürekli
+  EARLY'den kötü kaldı (%1.64-2.60, w büyüdükçe HAFİFÇE artıyor -- doğru
+  yönde), ve **DEEPER_BUT_LONGER_DETOUR (G) hiçbir weight'te C'den ucuza
+  düşmedi** (kendi asimptotik tavanı da pozitif, ~%4.38 -- yapısal olarak
+  hiçbir w_MSL'de C'yi geçemez, "küçük irtifa kazancı için aşırı detour"
+  tuzağı bu candidate için YOK). **Karar: w_MSL=0.63 mevcut haliyle
+  yeterli/makul (mission ranking DOĞRU yönde, dejenerasyon yok), ama %5
+  bounded-suboptimality hedefiyle mission preferences arasındaki
+  ayrım tek bir scalar w_MSL ile YAPISAL OLARAK sağlanamıyor** -- özellikle
+  Shallow-vs-Deep için. Bu, cost formülasyonunun (ör. nonlinear altitude
+  term, early-dwell reward, mission-specific term) yeniden düşünülmesi
+  gerektiğine işaret ediyor -- **bu turda hiçbir formül değişikliği
+  implement edilmedi**, sadece teşhis edildi. Reversal weight ayrı bir
+  sensitivity testine bırakıldı (bu turda dokunulmadı, mevcut veriyle
+  acil bir sorun görünmüyor). Script:
+  `scripts/calibrate_msl_weight_sensitivity.py`. Sonraki adım (cost
+  formula rework vs. resolution/coarse-to-fine) bu turda BAŞLATILMADI,
+  karar kullanıcıda.
+
+- **Stage 30 — Cost Formulation Redesign / Common-Baseline Analysis: search
+  YOK, production kodu DEĞİŞMEDİ. Stage 29'un 7 candidate'ı (aynı geometri)
+  iki alternatif altitude-term formülasyonuyla yeniden costlandı: F1
+  (shifted linear: reference=H_FLOOR) ve F2 (shifted quadratic: aynı
+  reference, kare). SONUÇ: CASE B -- F1, common-baseline problemini
+  gerçekten çözüyor, mission separation'ı %5 barajının rahatça üstüne
+  çıkarıyor, dejenere detour davranışı yaratmıyor; production'a aday
+  olarak öneriliyor (henüz uygulanmadı).** H_FLOOR, Stage 17'nin kendi
+  `_min_possible_aircraft_msl()` fonksiyonu (hiç değiştirilmeden) + bu
+  benchmark'ın `min_search_altitude_msl=3240` ile **3240.0m** çıktı (ROI
+  geneli terrain min=1697.7m + 200m çok daha düşük kaldığı için floor,
+  min_search'ün kendisinden geliyor) -- state/row/col'a bağlı değil, tüm
+  sweep boyunca tek sabit sayı. **F0 @ w=0.63, Stage 28/29'un decomposition'ıyla
+  7/7 candidate'ta bit-exact eşleşti** (G/M/R ayrı ayrı doğrulandı).
+  **F1 (w_alt sweep 0.25-2.0)**: w_alt=0.50'de HEM shallow (%7.16) HEM level
+  (%9.18) zaten %5 barajını geçiyor; w_alt=0.63'te shallow=%8.88,
+  level=%11.40, late=%5.99 (üçü de >%5). **F2 (quadratic)** benzer yönde
+  ama biraz daha yavaş ayrışıyor (w=0.5'te shallow=%5.08, level=%7.25;
+  w=0.63'te shallow=%6.49, level=%9.25, late=%4.53 -- late hâlâ tam %5'i
+  geçmiyor, F1'den bu açıdan biraz daha zayıf). **Kritik
+  matematiksel dogrulama**: F1 hâlâ lineer olduğu için Stage 29'daki kapalı
+  formül tekrar uygulanabildi -- asimptotik tavan (w->sonsuz) Level için
+  **%5.63 -> %79.44**, Shallow için **%4.41 -> %61.58**, Late için
+  (Stage 29'da hesaplanmamıştı, bu turda F0 icin de geriye dönük
+  hesaplandı) **%3.19 -> %39.11**, Long-detour için F1 tavanı **%7.20**
+  (F0'da bu adım için ayrıca hesaplanmamıştı), Deeper-detour(G)
+  **%4.38 -> %1.80 (KÜÇÜLDÜ ama hâlâ pozitif --
+  G test edilen HİÇBİR w_alt'ta (0.25-2.0) C'den ucuza düşmedi, "G_cheaper_
+  than_C" hep False; degenerasyon YOK ama güvenlik marjı F0'a göre daralıyor,
+  izlenmesi gereken bir sinyal).** **Roller-coaster hem C'den hem A'dan hep
+  kötü kaldı, gap w büyüdükçe BÜYÜDÜ (F0'ın tersine)** -- F1 altında E
+  7 candidate içinde EN KÖTÜSÜ hâline geldi (F0'da bu F idi). **ÖNEMLİ:
+  reference değişikliği ranking'i olduğu gibi KORUMADI (section 18'in
+  uyarısı doğrulandı)**: F0 sırası C<D<B<A<G<E<F idi; F1 (w=0.5/0.63)
+  sırası **C<G<D<B<A<F<E** -- G, D/B/A'yı geçti (gerçek ~20m ekstra derinliği
+  artık daha güçlü ödüllendiriliyor, ama C'yi hiçbir zaman geçmedi), ve
+  F artık E'den daha iyi (E en kötü hâle geldi). Bu değişiklik mission
+  açısından makul görünüyor (G, C'den sonra en "derin" aday olduğu için
+  öne çıkması tutarlı) ama üretime alınmadan önce bilinçli kabul edilmesi
+  gereken bir davranış değişikliği. **Common-baseline azalması sayısal**:
+  M_raw(Deep) F0'da 23066.13 -> F1'de 1877.86 (**%91.9 azalma**), M_raw
+  (Level) 24364.80 -> 3369.60 (**%86.2 azalma**) -- farklı oranlarda
+  azaldığı için (translation etkisi, "sadece sabit çıkarmak" değil) ranking
+  de değişti. **Heuristic uyumluluğu (sadece analiz, implement edilmedi)**:
+  F1 hâlâ additive/non-negative, admissible heuristic türetilebilir --
+  hatta Stage 17'nin GLOBAL multiplier bound'u H_FLOOR tanımı gereği
+  otomatik olarak 1.0'a kilitleniyor (o mekanizma F1 altında anlamsızlaşıyor),
+  ama Stage 21'in FORWARD (descent-rate envelope) heuristic'i aynı ispat
+  yapısıyla F1'e uyarlanabilir görünüyor. F2 için de bir lower-bound
+  prensipte türetilebilir (quadratic parça hâlâ tam entegre edilebilir)
+  ama F0/F1'den belirgin daha karmaşık -- bu turda türetilmedi. **Karar:
+  F1 (shifted linear, H_FLOOR=3240, w_alt≈0.63 civarı) bir sonraki
+  production adayı olarak öneriliyor (CASE B) -- basit/additive/kolay-
+  heuristic-uyumlu kalırken mission separation'ı gerçek biçimde çözüyor;
+  F2 gereksiz karmaşıklık (nonlinear heuristic türetimi) getiriyor ve
+  ölçülen faydası F1'den belirgin değil. Production'a bu turda
+  UYGULANMADI** (config.py/astar.py dokunulmadı), sadece diagnostic.
+  Script: `scripts/analyze_cost_formulations.py`. Sonraki adım (production
+  cost update mi, yoksa mevcut cost'u koruyup coarse-to-fine'a geçmek mi)
+  bu turda BAŞLATILMADI, karar kullanıcıda.
+
+- **Stage 31 — Normalized Cost Function Design / Distance-Altitude
+  Trade-off: search YOK, production kodu DEĞİŞMEDİ. Aynı 7 candidate
+  boyutsuz bir C_distance/C_altitude/C_reversal yapısıyla yeniden
+  costlandı. SONUÇ: CASE B -- normalization yapısal olarak değerli
+  (component'ler artık aynı büyüklük mertebesinde, D/E/F/G artık C'ye
+  karşı KANITLANABİLİR şekilde domine ediliyor -- herhangi bir pozitif
+  weight'te asla C'yi geçemezler), ama test edilen H_scale=100m + weight
+  set'leri kombinasyonu mission'ın "biraz daha önemli" ifadesine göre çok
+  agresif ayrım üretiyor (%45-66) -- production'a geçmeden H_scale/weight
+  yeniden kalibre edilmeli.** D_ref=6480.0000m (exact, start-goal
+  straight-line). H_ref=3240m (Stage 30'un H_FLOOR'u, aynen), H_scale=100m
+  (spesin verdiği diagnostic değer), R_scale=20 (=vertical_reversal_cost_
+  weight(1.0)*z_step_m(20)*max_factor(1.0) -- tek bir en-kötü-durum
+  reversal'ın ham maliyeti, keyfi değil). **Normalized component'ler
+  (weight'ten bağımsız)**: her candidate'ta C_distance≈1.00-1.14 (D_ref'e
+  göre neredeyse hepsi), C_altitude 2.90-5.20 arası (H_scale=100 nedeniyle
+  distance'tan 3-5x büyük mertebede -- component'ler artık "aynı
+  mertebede" ama altitude hâlâ sayısal olarak baskın), C_reversal yalnız
+  E'de sıfır değil (E: 35.0 -- **R_scale=20 ile bu tek başına E'nin
+  toplamını EZİYOR** (E toplamı SET_A'da 41.19, sırf reversal'dan 35.0 --
+  distance+altitude'un ~6 katı); bu R_scale/weight_reversal kombinasyonu
+  bilinçli olarak FİNALİZE EDİLMEDİ, ham R (=700 E için, 0 diğerlerinde)
+  ayrıca raporlandı -- section 6'nın "yeterli veri yoksa finalleştirme"
+  kaçış maddesi kullanıldı; bu diğer 6 candidate karşılaştırmasını
+  ETKİLEMİYOR (hepsinin R=0). **Domination testi (en önemli yapısal
+  bulgu)**: D, E, F, G'nin HEPSİ C'ye göre HEM C_distance HEM C_altitude'da
+  daha kötü çıktı (`dC_distance>=0 VE dC_altitude>=0` dört candidate'ta
+  da) -- yani **hiçbir pozitif (w_distance,w_altitude) çifti bu dört
+  candidate'ı C'den ucuza düşüremez, matematiksel garanti** (Stage 29/30'un
+  "asimptotik tavan pozitif kaldı" bulgusundan daha güçlü bir sonuç --
+  orada sadece test edilen aralıkta geçmedi, burada YAPISAL OLARAK
+  geçemez). Yalnız A ve B, C'ye göre hafifçe daha KISA (`dC_distance<0`)
+  olduğu için gerçek bir trade-off (weight'e bağlı) hâlâ var -- bu
+  beklenen/doğru davranış. **4 weight set sonucu**: hepsi zaten %5
+  barajını çok rahat geçiyor (SET_A: shallow=%45.50, level=%58.68; SET_D:
+  shallow=%48.02, level=%61.93) -- ama bu dramatik sıçrama (F1'in %8.88/
+  %11.40'ından) esas olarak weight seçiminden değil, **H_scale=100'ün F1'in
+  msl_scale=1000'inden 10x daha sıkı olmasından geliyor** -- section 9'un
+  uyardığı "scale ile gizli tuning" riskinin somut bir örneği: weight
+  set'leri (SET_A'dan SET_C'ye) gap'i sadece %45->%66 kaydırırken, H_scale
+  tek başına F1'den buraya %9->%45+ sıçratıyor. **G ve F hâlâ hiçbir
+  weight'te C'yi geçmiyor (kanıtlandı, yukarıya bkz), roller-coaster hâlâ
+  açık ara en kötü** (ama bu ölçüm R_scale'e bağlı, yukarıda not edildi).
+  **100m altitude <-> distance trade-off (analitik)**: `extra_distance_
+  ratio=(w_altitude/w_distance)*(100/H_scale)` -- SET_A: %100.0 (1 km 100m
+  daha alçak uçmak, 1 EKSTRA km'e eşdeğer), SET_B/D: %125.0, SET_C: %166.7
+  -- H_scale=100 sabit tutulduğu sürece bu oranlar zaten oldukça güçlü,
+  "biraz daha önemli" ifadesinin ima ettiğinden daha agresif olabilir.
+  **Mission-length robustness (analitik, benchmark koşulmadı)**:
+  C_distance ve C_altitude ikisi de D_ref ile orantılı ölçeklendiği sürece
+  (fiziksel altitude profili aynı kalırsa) mission uzunluğundan bağımsız
+  kalıyor; C_reversal ise zaten olay-sayısı bazlı, mesafeden bağımsız.
+  **H_ref stabilite riski**: H_ref=3240m, `min_search_altitude_msl`'den
+  geliyor -- bu bir SEARCH-CALL parametresi (bu benchmark'ın korîdor
+  taramasına özel), fiziksel/mission sabiti değil; search bound'u
+  değişirse AYNI fiziksel path'in cost'u değişebilir -- production için
+  daha stabil bir global H_ref tanımı gerekli, bu turda implement
+  edilmedi. **Karar: CASE B** -- normalization yapısal olarak faydalı
+  (yorumlanabilir, domination garantisi güçlü) ama H_scale/weight
+  kombinasyonu mission'ın "biraz daha önemli" ölçeğine göre yeniden
+  kalibre edilmeli; F1 (Stage 30) hâlâ daha ölçülü bir ara adım olarak
+  görünüyor. Production'a bu turda hiçbir değişiklik UYGULANMADI. Script:
+  `scripts/analyze_normalized_cost.py`. Sonraki adım (H_scale/weight
+  recalibration mı, yoksa F1'i mi tercih etmek, ya da coarse-to-fine'a
+  geçmek mi) bu turda BAŞLATILMADI, karar kullanıcıda.
+
+- **Stage 32 — Production Normalized Cost + Calibration + Final Aladağlar
+  Testi: bu adım artık diagnostic-only DEĞİL, gerçek production kodu
+  değişti.** `planner/config.py`'ye `cost_mode: str = "legacy"` (yeni
+  default, DEĞİŞMEDİ) + normalized-mode-only alanlar eklendi:
+  `altitude_reference_msl: Optional[float] = None` (artık explicit
+  mission/cost parametresi, hiçbir search bound'undan TÜRETİLMİYOR),
+  `normalized_altitude_scale_m=1000.0`, `normalized_w_distance=1.0`,
+  `normalized_w_altitude=1.0`, `normalized_w_reversal=1.0` (hepsi
+  cost_mode="legacy" iken tamamen atıl/okunmuyor). `planner/astar.py`'de:
+  `compute_distance_reference(start,goal,terrain,config)` yeni public
+  fonksiyon (D_ref'i BİR KEZ, search döngüsü dışında hesaplıyor);
+  `compute_edge_cost()` artık `config.cost_mode`'a göre dispatch ediyor --
+  legacy branch **hiç değişmeden aynı kaldı** (yeni `distance_reference_m:
+  Optional[float]=None` parametresi legacy'de asla okunmuyor), normalized
+  branch yeni `_compute_edge_cost_normalized()` fonksiyonuna gidiyor
+  (`dC_distance=geom/D_ref`, `dC_altitude=dC_distance*(excess/H_scale)`,
+  `dC_reversal=reversal_raw/D_ref` -- Stage 31'in aşırı agresif `R_raw/20`
+  yerine spesin düzelttiği `R_raw/D_ref`); `_heuristic()` normalized mode
+  için ayrı, kasıtlı minimal bir dal aldı (`h=w_distance*D3D/D_ref`,
+  admissible+consistent ispatı: altitude/reversal terimleri hep >=0
+  olduğundan gerçek maliyet her zaman `w_distance*dC_distance`'tan büyük,
+  ve D3D üçgen eşitsizliğiyle sınır oluşturuyor) -- Stage 17/21'in legacy
+  MSL-lower-bound/vertical-reachability makinesi normalized mode'da
+  TAMAMEN ATLANIYOR (`use_msl_lower_bound_heuristic and config.cost_mode
+  =="legacy"` guard'ı eklendi), spesin section 16 talimatı gereği.
+  `validate_and_cost_path()`/`_generate_neighbors()` yeni opsiyonel
+  `distance_reference_m` parametresi aldı (default None, legacy çağrılarda
+  hiç kullanılmıyor, geriye dönük uyumlu). `SearchResult`'a `cost_mode` ve
+  `distance_reference_m` alanları eklendi (raporlama için). **Legacy mode
+  regresyon testleri (Stage 24 `validate_incumbent_pruning.py`, Stage 25
+  `validate_weighted_astar.py`) tam bit-exact PASS** -- project.md'deki
+  kayıtlı sayılarla (`cost=2717.84`, `expanded=679/494/679/494`, `C*=
+  2424.1952`, `expanded=1308`, certified `ratio=1.0000<=1.05` vb.) birebir
+  eşleşti; legacy davranış hiç bozulmadı. **Kalibrasyon** (`scripts/
+  calibrate_normalized_production_cost.py`, GERÇEK production
+  `compute_edge_cost`/`validate_and_cost_path` çağrılıyor, diagnostic
+  formül tekrar YAZILMADI): 4 H_scale (500/750/1000/1500) x 2 w_altitude
+  (1.0/1.25) = 8 kombinasyon, aynı 7 Stage 28-31 path'i üzerinde. **Seçilen
+  konfigürasyon: H_scale=1000, w_altitude=1.25** (trade-off=%12.5 extra
+  distance per 100m altitude advantage -- mission'ın %10-15 hedef bandının
+  ortasına en yakın, ve Sh>5/Lv>5/G_never_beats_C üç kriteri de sağlayan
+  aday): Shallow gap=%15.78, Level gap=%20.31, Late gap=%10.33, Roller
+  gap=%28.68, Long-detour gap=%11.41, Deeper-detour(G) gap=%3.87 (hep
+  pozitif, G hiçbir kombinasyonda C'yi geçmedi). **9 unit/regression testi
+  (A-I) ALL PASS**: additivity (bit-exact manuel toplamla eşleşti),
+  non-negative (tüm candidate'ların tüm edge'lerinde), ve en önemlisi (I)
+  `altitude_reference_msl` search-bound bağımsızlığı -- level-only
+  primitive set ile forced-identical fiziksel path, `[1300,1400]` vs
+  `[800,1900]` search bound'larında **bit-exact aynı cost** verdi
+  (`same_path=True same_cost=True`) -- Stage 31'in H_FLOOR riskinin artık
+  giderildiği doğrulandı. **GERÇEK 6.48km Aladağlar testi (TEK run, 30k
+  cap, retry YOK)**: `status=search_limit_reached`, wall=**64.38s**,
+  expanded=30,000, max_open=**51,492** (legacy eps=1.10'un 108,341'inin
+  yaklaşık YARISI), cache_hit=0.757, **reopened_states=0** (legacy eps=
+  1.10'un %95.0 reopen-thrashing'inin TAM TERSİ -- hiç reopen olmadı),
+  initial_incumbent (yeni normalized formülle) = **1.650000** (eski
+  21829.82 legacy cost'u DEĞİL, kasıtlı olarak yeniden hesaplandı),
+  **first_solution_found=False** (legacy eps=1.10'un 685 expansion'da
+  bulduğu ilk çözümün aksine, normalized cost 30.000 expansion boyunca
+  fiziksel goal'a HİÇ ulaşamadı), `current_lower_bound=1.094752`,
+  `final_bound_ratio=1.5072` (incumbent hâlâ ilk direct-level path,
+  hiç iyileşmedi). **Path bulunamadığı için fiziksel analiz (min/avg MSL,
+  descent, dwell vb.) yapılamadı** -- legacy eps=1.10'un ulaştığı 3660m
+  minimumla karşılaştırma mümkün olmadı. **Sınıflandırma: CASE C (search
+  problemi devam ediyor)** -- cost davranışı kalibrasyonda kanıtlanabilir
+  şekilde doğru (Stage 28-31'in bütün mission-separation kriterlerini
+  sağlıyor, unit testler ALL PASS) ama gerçek ölçekte 30k'da hâlâ çözüm
+  yok. **Olası kök neden (ölçülmedi, sadece hipotez)**: normalized mode'un
+  KASITLI OLARAK minimal heuristic'i (`w_distance*D3D/D_ref`, legacy'nin
+  Stage 17/21 MSL-farkındalı sınırlarının hiçbiri yok) düşük-MSL
+  tercihini hiç "görmüyor" -- reopened_states=0 olması search'ün artık
+  thrashing yapmadığını ama bunun yerine büyük bir alanı zayıf
+  yönlendirmeyle GENİŞÇE (max_open yine de 51k) taradığını düşündürüyor;
+  bu, legacy'nin Stage 17 MSL-aware heuristic'ini normalized cost'a
+  uyarlamanın (bu turda YAPILMADI, spesin section 16 talimatı gereği)
+  gelecekteki bir aday olabileceğine işaret ediyor. **Bu turda `cost_mode`
+  global default'u "legacy" olarak KALDI, değiştirilmedi.** 150k retry
+  YAPILMADI (spesin açık yasağı). Scriptler: `scripts/
+  calibrate_normalized_production_cost.py`,
+  `scripts/run_normalized_aladaglar_benchmark.py`. Sonraki adım
+  (normalized+Stage17-tipi heuristic kombinasyonu mu, yoksa coarse-to-fine
+  mı) bu turda BAŞLATILMADI, karar kullanıcıda.
+
+  **Ek: epsilon=1.20 ve 1.30 ile 2 ek run (kod/cost/heuristic/config
+  DEĞİŞMEDİ, sadece epsilon_search).** Script: `scripts/
+  run_normalized_aladaglar_epsilon_sweep.py`. Sonuç: **üçü de (1.10/1.20/
+  1.30) `search_limit_reached`, first_solution_found=False** -- epsilon
+  artışı search'ü İYİLEŞTİRMEDİ, KÖTÜLEŞTİRDİ:
+  ```
+  eps               status  runtime  max_open  reopen  incumbent        LB   ratio
+  1.10 search_limit_reached    64.30     51492       0  1.650000  1.094752  1.5072
+  1.20 search_limit_reached    50.60     57389       0  1.650000  1.079845  1.5280
+  1.30 search_limit_reached    40.14    119209   12039  1.650000  1.055286  1.5636
+  ```
+  max_open monoton büyüyor (51,492 -> 57,389 -> 119,209), ve eps=1.30'da
+  reopen_ratio=%40.1 ile thrashing tekrar başlıyor (legacy'nin eps
+  küçültmede gördüğü thrashing örüntüsünün ADAYI BURADA epsilon
+  BÜYÜTMEDE ortaya çıkıyor -- ters yönde ama aynı patoloji). current_
+  lower_bound eps büyüdükçe düşüyor (1.095->1.080->1.055, teorik optimum
+  daha ucuza yaklaşıyor) ama hiçbirinde fiziksel goal'a ulaşılamadı.
+  **1.10, üç değer içinde en iyisi** (en düşük max_open, reopen=0, en
+  düşük final_bound_ratio). **CASE C teyit edildi, daha güçlü biçimde**:
+  epsilon-tuning bu ölçekte normalized+minimal-heuristic kombinasyonunu
+  kurtarmıyor. 150k retry ve 1.30 üstü epsilon denenmedi (spesin açık
+  yasağı).
+
 Henüz implement edilmedi: binary mask, polygonization, buffer/C-Space,
 climb/descent için ayrı reversal weight, preferred-AGL/terrain-following
 mode, heading/turn radius/Dubins, 2D Dijkstra heuristic,

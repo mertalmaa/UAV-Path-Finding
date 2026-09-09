@@ -85,5 +85,38 @@ class PlannerConfig:
     # trend_age_unit_m) so the augmented state stays a small bounded integer.
     trend_age_unit_m: float = 30.0
 
+    # --- Cost model selection (Stage 32) ---
+    # "legacy": the Stage 1-31 production formula, kept bit-for-bit unchanged
+    # (compute_edge_cost's legacy branch). "normalized": the dimensionless
+    # distance/altitude/reversal cost from project.md "Stage 32" (see
+    # planner/astar.py compute_edge_cost / _compute_edge_cost_normalized).
+    # "legacy" remains the default -- normalized is opt-in only via an
+    # explicit dataclasses.replace(), not yet validated as a production
+    # default.
+    cost_mode: str = "legacy"
+
+    # --- Normalized cost mode parameters (Stage 32) -- read ONLY when
+    # cost_mode == "normalized"; inert (never referenced) under "legacy". ---
+    # Explicit mission/cost altitude reference for the normalized excess-MSL
+    # term. Unlike the legacy msl_reference_m (fixed at sea level) or Stage
+    # 30/31's diagnostic H_FLOOR (which was DERIVED from a search call's own
+    # min_search_altitude_msl -- a stability risk flagged in project.md
+    # "Stage 31"/"Stage 32"), this must be set explicitly by the caller; it
+    # is never derived from search bounds and never changes with them.
+    # None means "not configured" -- normalized mode requires a real value,
+    # checked at cost-computation time (planner/astar.py raises if unset).
+    altitude_reference_msl: Optional[float] = None
+    # H_scale: normalizes excess-altitude (MSL above altitude_reference_msl)
+    # into a dimensionless quantity, matched in scale to the dimensionless
+    # distance ratio (ds/D_ref). TEST/TUNING PARAMETER -- Stage 32
+    # calibration candidate, not a sourced physical value.
+    normalized_altitude_scale_m: float = 1000.0
+    # Component weights for the normalized cost: dC_total = w_distance*
+    # dC_distance + w_altitude*dC_altitude + w_reversal*dC_reversal. All
+    # TEST/TUNING PARAMETERS, not sourced physical/mission values.
+    normalized_w_distance: float = 1.0
+    normalized_w_altitude: float = 1.0
+    normalized_w_reversal: float = 1.0
+
 
 DEFAULT_CONFIG = PlannerConfig()
