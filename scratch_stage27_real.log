@@ -1,0 +1,11 @@
+initial incumbent (direct 216-edge level chain): valid=True edges=216 cost=21829.82
+
+=== epsilon_search=1.05 (cap=30000, target_suboptimality=1.05) ===
+  status=search_limit_reached wall=64.53s runtime=64.40s expanded=30000 max_open=221404 cache_hit_rate=0.893
+  reopened_states=17950  reopen_ratio=0.5983
+  initial_incumbent_cost=21829.82  final_incumbent_cost=21829.82  incumbent_updates=0  incumbent_pruned_candidates=0
+  first_solution_found=False  first_solution_cost=inf  first_solution_expanded=n/a  first_solution_runtime=nan
+  current_lower_bound=20012.07  final_bound_ratio=1.0908
+  bounded_termination_triggered=False
+  >> No internal complete solution found within this cap.
+

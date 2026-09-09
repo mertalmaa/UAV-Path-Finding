@@ -1,0 +1,16 @@
+=== epsilon_search=1.1 (cap=30000, target_suboptimality=1.05) ===
+  status=search_limit_reached wall=36.36s runtime=36.30s expanded=30000 max_open=108341 cache_hit_rate=0.981
+  reopened_states=28488  reopen_ratio=0.9496
+  initial_incumbent_cost=21829.82  final_incumbent_cost=21668.85  incumbent_updates=57  incumbent_pruned_candidates=104607
+  first_solution_found=True  first_solution_cost=21688.4575440296  first_solution_expanded=685  first_solution_runtime=2.247163599997293
+  current_lower_bound=19758.88  final_bound_ratio=1.0967
+  bounded_termination_triggered=False
+  >> Solution found but %5 certificate not reached. Certified gap ~= %9.67 (incumbent=21668.85, LB=19758.88).
+  final_total_cost=21668.85  improvement_vs_direct_incumbent=0.74%
+  geometric_path_length=6496.6  avg_MSL=3707.0 min_MSL=3660.0 min_AGL=203.2
+  total_climb=100.0 total_descent=100.0 reversal_count=1
+  cost decomposition: G=6496.6 M=24083.0 R=0.00
+  last_climb_start_distance_m=6360.0
+  SAFETY CHECK: PASS (min_agl=203.191650390625, max_primitive_angle=9.462322208025617)
+  ascii: START -\___________/-------------------------------- GOAL
+

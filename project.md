@@ -807,11 +807,98 @@ değeri yok (`ds.nodata is None`, sentinel piksel bulunmadı).
   GPU, yeni cost, w_MSL tuning, bucket değiştirme, ARA*/decreasing-
   epsilon) hiçbiri implement edilmedi.
 
+- **Stage 26 — epsilon sweep (1.20, 1.10), kod değişikliği YOK (sadece
+  benchmark parametresi). epsilon küçüldükçe reopen ORANI düşmedi (hatta
+  1.1'de arttı), ama epsilon=1.1'de search İLK KEZ fiziksel goal'a ulaştı
+  ve 685 expansion / ~2.2s'de bir improving solution buldu — üç
+  epsilon'dan hiçbiri A/B/C kategorilerine tam uymuyor, karma/nüanslı bir
+  sonuç.** Karşılaştırma tablosu (aynı incumbent=21,829.82, target=1.05,
+  30k cap, dominance OFF):
+  ```
+  eps   status              expanded  runtime  max_open  reopened  reopen%  1st_sol  incumbent   LB        ratio
+  1.50  search_limit_reached  30000    12.99s     1,061    26,714    89.0%     no     21829.82  19716.80  1.1072
+  1.20  search_limit_reached  30000    27.08s     3,303    26,649    88.8%     no     21829.82  19716.80  1.1072
+  1.10  search_limit_reached  30000    36.30s   108,341    28,488    95.0%    YES     21668.85  19758.88  1.0967
+  ```
+  **epsilon=1.2, epsilon=1.5'in neredeyse birebir kopyası**: aynı
+  current_lower_bound (19,716.80), aynı final_bound_ratio (1.1072), aynı
+  reopen oranı (~%89), first solution yok — search yine SAME küçük
+  bölgede thrashing yapıyor, epsilon'un 1.5→1.2 küçülmesi hiçbir niteliksel
+  fark yaratmadı. **epsilon=1.1'de nitelik değişti**: max_open 108,341'e
+  fırladı (Stage 22-24'ün eski-model ~%80-100k aralığına yakın —
+  search artık çok daha GENİŞ bir alanı tarıyor, dar bölgede sıkışmıyor),
+  reopen_ratio bile arttı (%95.0) ama bu sefer YARARLI reopen'lar (57
+  incumbent update, first_solution_expanded=685'te bulundu — sadece
+  ~2.2 saniyede!). **Bulunan path**: cost=21,668.85 (direct incumbent'a
+  göre sadece **%0.74 iyileşme** — min_MSL=3660m (sadece 100m inip 100m
+  çıkıyor), son 120m'de tırmanışa geçiyor (`last_climb_start_distance_m
+  =6360.0`), 1 reversal, **SAFETY PASS** (min_AGL=203.2m, max_angle=
+  9.46°). Bu, Stage 19-21'in aradığı "derin vadiye dalış" (520m relief)
+  DEĞİL — yüzeysel/küçük bir düzeltme; `current_lower_bound=19,758.88`
+  ile `final_incumbent=21,668.85` arasındaki gap (%9.67) tam da bunu
+  gösteriyor: daha iyi bir çözüm (muhtemelen derin vadi rotası) hâlâ
+  kanıtlanabilir şekilde mevcut, ama 30k cap içinde bulunamadı. **%5
+  certificate hiçbirinde gelmedi.** Section 12'nin A/B/C kriterleri
+  literal olarak hiçbirine tam uymuyor: A değil (reopen ratio düşmedi),
+  C değil (1.1'de first solution bulundu), B'ye yakın ama "goal
+  bulunmuyor" öncülü 1.1 için yanlış. **Yorum**: epsilon 1.5→1.2 aralığı
+  aynı davranışı veriyor (etkisiz bölge), ama 1.2→1.1 arasında keskin bir
+  GEÇİŞ var — search'in "dar bölgede sıkışma" modundan "genişçe tarama +
+  hızlı-ama-yüzeysel çözüm bulma" moduna geçtiği bir eşik bölgesi
+  (muhtemelen 1.1-1.2 arası) olduğuna işaret ediyor. Section 7'nin "goal'a
+  fiziksel ilerleme" diagnostiği **implement edilmedi** (astar.py
+  değişikliği gerektirdiği için spec'in kendi escape-clause'u kullanıldı,
+  açıkça not edildi). Section 13 YAPMAZ listesi (epsilon=1.05/2.0 real
+  run, ARA*, terrain-aware, dominance ON, vb.) hiçbiri implement edilmedi.
+
+- **Stage 27 — epsilon=1.05 final test, kod değişikliği YOK. Sonuç: state
+  explosion GERİ GELDİ — ε=1.10'un bulduğu tek çözüm bile bu kez
+  bulunamadı, max_open Stage 22-24'ün eski-exact-model baseline'ını bile
+  aştı. Sınıflandırma: Durum C (weighted A* aşamasını kapat, resolution/
+  coarse-to-fine'a geç).** Karşılaştırma tablosu (aynı incumbent=
+  21,829.82, target=1.05, 30k cap, dominance OFF):
+  ```
+  eps   status              exp@goal  runtime  expanded  max_open  reopen%  incumbent   LB        ratio    min_MSL
+  1.50  search_limit_reached    --     12.99s    30000      1,061   89.0%    21829.82  19716.80  1.1072      --
+  1.20  search_limit_reached    --     27.08s    30000      3,303   88.8%    21829.82  19716.80  1.1072      --
+  1.10  search_limit_reached   685     36.30s    30000    108,341   95.0%    21668.85  19758.88  1.0967    3660.0
+  1.05  search_limit_reached    --     64.53s    30000    221,404   59.8%    21829.82  20012.07  1.0908      --
+  ```
+  ε=1.05'te: `first_solution_found=False` (ε=1.10'un tersine, HİÇ bir
+  fiziksel goal pop'u olmadı), `incumbent_pruned_candidates=0` (ε=1.10'un
+  104,607'sine karşı — incumbent bound bu genişlikte artık HİÇ işe
+  yaramıyor, her candidate'in f_lb'si incumbent'ın altında kalıyor),
+  `max_open=221,404` (ε=1.10'un ~2 katı, ve Stage 22-24'ün eski-exact-model
+  baseline'larının ~80-100k'sını da AŞIYOR), `runtime=64.53s` (ε=1.10'a
+  göre **%78 daha yavaş**), `cache_hit_rate=0.893` (0.981'den düştü —
+  search artık çok daha dağınık bir alanı tarıyor, aynı hücrelere daha az
+  geri dönüyor). Tek "iyileşen" metrik `reopen_ratio` (%59.8, ε=1.10'un
+  %95.0'ından ve ε=1.5/1.2'nin ~%89'undan daha düşük) — ama bu bir kazanç
+  değil, sadece search'ün artık DAHA GENİŞ, daha az tekrar-ziyaret edilen
+  bir alanı ilk kez tarıyor olmasının (klasik unweighted-A* tarzı geniş
+  keşif) yan etkisi. `current_lower_bound=20,012.07` (üç öncekinden daha
+  sıkı) ve `final_bound_ratio=1.0908` sayısal olarak ε=1.10'unkinden
+  (1.0967) bile hafifçe daha iyi görünüyor — **ama bu YANILTICI**: ε=1.05
+  hiçbir zaman incumbent'ı iyileştiremedi (hâlâ 21,829.82, direct level
+  path), oran sadece LB'nin yükselmesinden geliyor; ε=1.10 gerçek, daha
+  düşük bir incumbent (21,668.85) üretti. **Sonuç açık**: ε=1.5→1.2→1.10
+  arası gözlenen "dar-bölge sıkışma → geniş-tarama+hızlı-yüzeysel-çözüm"
+  geçişi, ε=1.10→1.05'te DEVAM ETMİYOR — tam tersine geri sıçrıyor,
+  klasik state-explosion'a dönüyor (Section 12'nin **Durum C**'si tam
+  isabetli: "state explosion geri geliyor, goal yine zorlaşıyor, ciddi
+  runtime artışı"). **ε≈1.10, bu 6.48km problemi için gözlenen dar
+  pencere içindeki tek "iyi" nokta gibi görünüyor** — ne 1.05 (çok geniş/
+  yavaş) ne 1.5/1.2 (çok dar/sıkışık) onun bulduğu (yüzeysel de olsa)
+  gerçek çözümü üretebildi. Goal-progress diagnostiği bu turda da
+  (talimat gereği) eklenmedi. Section 13 YAPMAZ listesi (1.075/1.08/1.15/
+  1.00 rerun, ARA*, terrain-aware, resolution, cost/w_MSL/dominance/
+  heuristic değişikliği, GPU) hiçbiri implement edilmedi.
+
 Henüz implement edilmedi: binary mask, polygonization, buffer/C-Space,
 climb/descent için ayrı reversal weight, preferred-AGL/terrain-following
 mode, heading/turn radius/Dubins, 2D Dijkstra heuristic,
 EDT/buffer, global planner, görselleştirme, bağımsız final validator,
-ARA*/decreasing-epsilon anytime search, weighted A*'ın thrashing/reopen-hacmi sorununun kök nedeni (ölçülmedi), low-MSL tie-break, msl_cost_weight default kararı,
+terrain-aware 2D / coarse-to-fine planlama (Weighted A* aşaması ε≈1.10'da kapatıldı -- Stage 20-27 boyunca denenen state-space optimizasyonlarının (dominance/bucket/incumbent/weighted-A*) hiçbiri bu 6.48km/520m-relief benchmarkını tek başına çözemedi), "goal'a fiziksel ilerleme" diagnostiği (astar.py değişikliği gerektiriyor), ARA*/decreasing-epsilon anytime search, low-MSL tie-break, msl_cost_weight default kararı,
 backward (goal-side) vertical-reachability envelope, uzun-rota + yüksek-
 w_MSL search explosion çözümü (terrain-aware/Dijkstra/wavefront/corridor
 adayları not edildi, henüz implement edilmedi), variable-angle primitive
