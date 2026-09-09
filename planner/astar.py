@@ -199,6 +199,10 @@ class SearchResult:
     final_bound_ratio: float = float("nan")  # final_incumbent_cost / current_lower_bound
     bounded_termination_triggered: bool = False  # stopped early via incumbent <= target_suboptimality * LB
     reopened_states: int = 0  # states re-added to open after being closed with a worse g (weighted-mode only)
+    # Stage 32: which cost formula this run used, and (only for "normalized") the D_ref it computed
+    # once from start/goal -- NaN under "legacy", where it's never computed/used.
+    cost_mode: str = "legacy"
+    distance_reference_m: float = float("nan")
 
 
 def _heuristic(
@@ -209,6 +213,7 @@ def _heuristic(
     cost_multiplier: float = 1.0,
     min_possible_msl: Optional[float] = None,
     use_vertical_reachability: bool = False,
+    distance_reference_m: Optional[float] = None,
 ) -> float:
     """h = max(h_global, h_forward) -- both individually admissible and
     consistent lower bounds on the true remaining cost, so their max is
@@ -232,10 +237,30 @@ def _heuristic(
     physical position, and every trend/age variant of the goal state
     shares the same value, which is what makes "stop at the first
     goal-position pop" still A*-optimal (see astar_search).
+
+    cost_mode == "normalized" (Stage 32) takes a DIFFERENT, deliberately
+    minimal path: h = normalized_w_distance * D3D / distance_reference_m.
+    This is a valid admissible+consistent lower bound because the true
+    normalized edge cost is always >= w_distance*dC_distance (the altitude
+    and reversal terms are non-negative -- see _compute_edge_cost_normalized),
+    and sum(dC_distance) over any path from n to goal >= D3D(n,goal)/D_ref
+    by the ordinary Euclidean triangle inequality. The legacy
+    cost_multiplier / min_possible_msl / vertical-reachability machinery
+    (Stage 17/21) is NOT applied here -- see project.md "Stage 32" section
+    16 for why that's deliberate this stage (isolate normalized cost's own
+    search behavior first, no legacy heuristic blindly reused).
     """
     x1, y1, z1 = state_to_xyz((current[0], current[1], current[2]), terrain, config)
     x2, y2, z2 = state_to_xyz(goal, terrain, config)
     d3d = math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2 + (z2 - z1) ** 2)
+
+    if config.cost_mode == "normalized":
+        if distance_reference_m is None or distance_reference_m <= 0.0:
+            raise ValueError(
+                "cost_mode='normalized' requires a positive distance_reference_m for the heuristic"
+            )
+        return config.normalized_w_distance * d3d / distance_reference_m
+
     h_global = d3d * cost_multiplier
 
     if not use_vertical_reachability or min_possible_msl is None:
@@ -546,12 +571,30 @@ def _next_trend_and_bucket(
     return mode, next_bucket, True, reversal_factor
 
 
+def compute_distance_reference(
+    start: CanonicalState,
+    goal: CanonicalState,
+    terrain: TerrainQuery,
+    config: PlannerConfig = DEFAULT_CONFIG,
+) -> float:
+    """D_ref for normalized cost mode (project.md "Stage 32"): the
+    straight-line 3D distance between start and goal, computed ONCE per
+    mission (never per-edge, never per-state, never inside the search
+    loop). Every edge's normalized distance/altitude contribution is a
+    ratio against this single constant -- independent of which path is
+    actually flown."""
+    x1, y1, z1 = state_to_xyz(start, terrain, config)
+    x2, y2, z2 = state_to_xyz(goal, terrain, config)
+    return math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2 + (z2 - z1) ** 2)
+
+
 def compute_edge_cost(
     primitive: MotionPrimitive,
     start_altitude_msl: float,
     previous_vertical_trend: int,
     previous_trend_bucket: int,
     config: PlannerConfig = DEFAULT_CONFIG,
+    distance_reference_m: Optional[float] = None,
 ) -> float:
     """The actual A* edge cost for applying one primitive from a given
     altitude and standing (vertical_trend, trend_age_bucket).
@@ -560,15 +603,42 @@ def compute_edge_cost(
     -- validation/diagnostic scripts included -- can cost a hypothetical
     primitive sequence without duplicating this formula.
 
+    Dispatches on config.cost_mode:
+
+    "legacy" (default, UNCHANGED since Stage 14/22 -- distance_reference_m
+    is ignored entirely):
         base_cost = geometric_cost * (1 + msl_cost_weight * altitude_scaled)
         reversal_cost = vertical_reversal_cost_weight * abs(dz) * reversal_factor
                          (0 unless this primitive is a direction reversal)
         edge_cost = base_cost + reversal_cost
 
+    "normalized" (Stage 32, opt-in -- see _compute_edge_cost_normalized):
+        dimensionless dC_total = w_distance*dC_distance + w_altitude*
+        dC_altitude + w_reversal*dC_reversal. Requires distance_reference_m
+        (see compute_distance_reference) and config.altitude_reference_msl
+        to both be set -- raises ValueError otherwise rather than silently
+        falling back.
+
     No abs(delta_z) term outside of a reversal, and no term at all for a
     reversal starting from an already-MATURE standing trend -- see
-    _next_trend_and_bucket.
+    _next_trend_and_bucket (shared by both modes).
     """
+    if config.cost_mode == "normalized":
+        if distance_reference_m is None or distance_reference_m <= 0.0:
+            raise ValueError(
+                "cost_mode='normalized' requires a positive distance_reference_m "
+                "(see compute_distance_reference()) -- none was provided"
+            )
+        if config.altitude_reference_msl is None:
+            raise ValueError(
+                "cost_mode='normalized' requires config.altitude_reference_msl to be "
+                "set explicitly (never derived from search bounds -- see project.md 'Stage 32')"
+            )
+        return _compute_edge_cost_normalized(
+            primitive, start_altitude_msl, previous_vertical_trend, previous_trend_bucket,
+            config, distance_reference_m,
+        )
+
     end_altitude_msl = start_altitude_msl + primitive.dz_m
     geometric_cost = math.sqrt(primitive.horizontal_distance_m ** 2 + primitive.dz_m ** 2)
     mean_altitude_msl = (start_altitude_msl + end_altitude_msl) / 2.0
@@ -582,11 +652,63 @@ def compute_edge_cost(
     return base_cost + reversal_cost
 
 
+def _compute_edge_cost_normalized(
+    primitive: MotionPrimitive,
+    start_altitude_msl: float,
+    previous_vertical_trend: int,
+    previous_trend_bucket: int,
+    config: PlannerConfig,
+    distance_reference_m: float,
+) -> float:
+    """Stage 32 dimensionless edge cost (project.md "Stage 32" -- the
+    production implementation of the Stage 31 diagnostic formula, with the
+    reversal normalization corrected per that stage's instruction 9:
+    R_edge_raw / D_ref, not the too-aggressive R_edge_raw / 20 from Stage 31).
+
+        dC_distance = geometric_cost / D_ref
+        excess_altitude = max(0, mean_MSL - altitude_reference_msl)
+        dC_altitude = dC_distance * (excess_altitude / normalized_altitude_scale_m)
+        dC_reversal = reversal_cost_raw / D_ref   (reversal_cost_raw: same
+            raw formula as the legacy branch -- vertical_reversal_cost_weight
+            * abs(dz) * reversal_factor, 0 unless this primitive is a
+            direction reversal)
+        dC_total = w_distance*dC_distance + w_altitude*dC_altitude + w_reversal*dC_reversal
+
+    Every term is non-negative (max(0,...) before any weighting) and the
+    total is additive -- required for A* edge costs. Mission objective is
+    still LOW ABSOLUTE MSL: excess_altitude is always (aircraft MSL -
+    altitude_reference_msl), never (aircraft MSL - local terrain) -- this
+    is not a terrain-following/preferred-AGL cost.
+    """
+    end_altitude_msl = start_altitude_msl + primitive.dz_m
+    geometric_cost = math.sqrt(primitive.horizontal_distance_m ** 2 + primitive.dz_m ** 2)
+    mean_altitude_msl = (start_altitude_msl + end_altitude_msl) / 2.0
+
+    dC_distance = geometric_cost / distance_reference_m
+    excess_altitude = max(0.0, mean_altitude_msl - config.altitude_reference_msl)
+    dC_altitude = dC_distance * (excess_altitude / config.normalized_altitude_scale_m)
+
+    _, _, is_reversal, reversal_factor = _next_trend_and_bucket(
+        previous_vertical_trend, previous_trend_bucket, primitive, config
+    )
+    reversal_cost_raw = (
+        config.vertical_reversal_cost_weight * abs(primitive.dz_m) * reversal_factor if is_reversal else 0.0
+    )
+    dC_reversal = reversal_cost_raw / distance_reference_m
+
+    return (
+        config.normalized_w_distance * dC_distance
+        + config.normalized_w_altitude * dC_altitude
+        + config.normalized_w_reversal * dC_reversal
+    )
+
+
 def validate_and_cost_path(
     path: List[CanonicalState],
     primitives: List[MotionPrimitive],
     terrain: TerrainQuery,
     config: PlannerConfig = DEFAULT_CONFIG,
+    distance_reference_m: Optional[float] = None,
 ) -> Tuple[bool, float]:
     """Stage 23 incumbent support: validate every edge of a CANDIDATE initial
     incumbent path with the exact same safety authority the search itself
@@ -598,6 +720,13 @@ def validate_and_cost_path(
     evaluate_primitive() rejects it -- the caller must treat that as "no
     usable initial incumbent" (pass cost=inf to astar_search) rather than
     trusting a partially-checked path.
+
+    distance_reference_m (Stage 32): required, and used, only when
+    config.cost_mode == "normalized" -- ignored under "legacy" (may be left
+    None). The caller computes it once via compute_distance_reference(start,
+    goal, ...) with the SAME start/goal passed to astar_search(), so the
+    incumbent's own cost and the search's internal cost use an identical
+    D_ref -- never recomputed per-path here.
     """
     if len(path) < 2:
         return False, math.inf
@@ -612,7 +741,7 @@ def validate_and_cost_path(
         result = evaluate_primitive(start_xyz, prim, terrain, config)
         if not result.valid:
             return False, math.inf
-        total_cost += compute_edge_cost(prim, start_xyz[2], trend, bucket, config)
+        total_cost += compute_edge_cost(prim, start_xyz[2], trend, bucket, config, distance_reference_m)
         trend, bucket, _, _ = _next_trend_and_bucket(trend, bucket, prim, config)
     return True, total_cost
 
@@ -633,6 +762,7 @@ def _generate_neighbors(
     max_search_altitude_msl: float,
     primitive_cache: Optional[Dict[PrimitiveCacheKey, PrimitiveEvalResult]],
     cache_stats: Dict[str, int],
+    distance_reference_m: Optional[float] = None,
 ):
     """current -> primitive -> candidate -> bounds -> altitude bounds -> evaluate_primitive (or cache) -> neighbor.
 
@@ -700,7 +830,7 @@ def _generate_neighbors(
         # and reversal terms only ever add to geometric_cost, and only
         # apply to edges already proven safe -- they can't forbid an edge,
         # and can't stop a climb that's the only safe way through.
-        edge_cost = compute_edge_cost(prim, start_xyz[2], prev_trend, prev_bucket, config)
+        edge_cost = compute_edge_cost(prim, start_xyz[2], prev_trend, prev_bucket, config, distance_reference_m)
         next_trend, next_bucket, _, _ = _next_trend_and_bucket(prev_trend, prev_bucket, prim, config)
 
         neighbor_state: AugmentedState = (new_row, new_col, new_z_index, next_trend, next_bucket)
@@ -1064,7 +1194,11 @@ def astar_search(
     min_possible_msl = float("nan")
     cost_multiplier = 1.0
     vertical_reachability_active = False
-    if use_msl_lower_bound_heuristic:
+    if use_msl_lower_bound_heuristic and config.cost_mode == "legacy":
+        # Stage 32: this entire legacy MSL-lower-bound/vertical-reachability
+        # machinery is specific to the legacy cost formula's own admissibility
+        # proof -- skipped for cost_mode=="normalized", which uses its own,
+        # deliberately minimal heuristic (see _heuristic's docstring).
         min_possible_msl = _min_possible_aircraft_msl(
             _terrain_min_valid_elevation(terrain), min_search_altitude_msl, config
         )
@@ -1075,6 +1209,12 @@ def astar_search(
         # else: config has a negative weight/non-positive scale -- stay at 1.0 (safe fallback),
         # and the vertical-reachability envelope stays off too (same non-negativity assumptions).
     heuristic_min_msl = min_possible_msl if vertical_reachability_active else None
+
+    # Stage 32: D_ref, computed ONCE per search call (never per-edge/per-state),
+    # only when cost_mode=="normalized" -- None (and unused) under "legacy".
+    distance_reference_m = (
+        compute_distance_reference(start, goal, terrain, config) if config.cost_mode == "normalized" else None
+    )
 
     incumbent_cost = initial_incumbent_cost if use_incumbent_pruning else math.inf
     incumbent_path: List[CanonicalState] = (
@@ -1100,7 +1240,7 @@ def astar_search(
         frontier[start_aug[:4]] = [(0, 0.0)]
 
     h_start = _heuristic(start_aug, goal, terrain, config, cost_multiplier, heuristic_min_msl,
-                          vertical_reachability_active)
+                          vertical_reachability_active, distance_reference_m)
     start_counter = next(counter)
     open_heap = [(epsilon_search * h_start, start_counter, start_aug, h_start)]
     lb_heap: List[Tuple[float, int, AugmentedState]] = [(h_start, start_counter, start_aug)] if bounded_mode else []
@@ -1176,7 +1316,7 @@ def astar_search(
 
         neighbors, rej_counts, gen_count, rej_count = _generate_neighbors(
             current, primitives, terrain, config, min_search_altitude_msl, max_search_altitude_msl,
-            primitive_cache, cache_stats,
+            primitive_cache, cache_stats, distance_reference_m,
         )
         generated_neighbors += gen_count
         rejected_neighbors += rej_count
@@ -1219,7 +1359,7 @@ def astar_search(
 
                 if push_to_heap:
                     h_val = _heuristic(neighbor_state, goal, terrain, config, cost_multiplier,
-                                        heuristic_min_msl, vertical_reachability_active)
+                                        heuristic_min_msl, vertical_reachability_active, distance_reference_m)
                     f_lb = tentative_g + h_val  # admissible, unweighted -- the ONLY value used for pruning/bounds
                     f_weighted = tentative_g + epsilon_search * h_val  # search ORDERING only, never a bound
                     if use_incumbent_pruning and f_lb >= incumbent_cost:
@@ -1345,4 +1485,6 @@ def astar_search(
         final_bound_ratio=final_bound_ratio,
         bounded_termination_triggered=bounded_termination_triggered,
         reopened_states=reopened_states,
+        cost_mode=config.cost_mode,
+        distance_reference_m=distance_reference_m if distance_reference_m is not None else float("nan"),
     )

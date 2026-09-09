@@ -1,0 +1,27 @@
+initial incumbent (direct 216-edge level chain, normalized cost, identical to Stage 32): valid=True cost=1.650000
+
+=== epsilon_search=1.2 (cap=30000) ===
+  status=search_limit_reached  wall=50.68s  runtime=50.60s
+  expanded=30000  max_open=57389  cache_hit_rate=0.754
+  reopened_states=0  reopen_ratio=0.0000
+  first_solution_found=False  first_solution_cost=inf  first_solution_expanded=n/a  first_solution_runtime=nan
+  initial_incumbent_cost=1.650000  final_incumbent_cost=1.650000  incumbent_updates=0  incumbent_pruned_candidates=0
+  current_lower_bound=1.079845  final_bound_ratio=1.5280
+  bounded_termination_triggered=False
+  >> No internal complete solution found within this cap.
+
+=== epsilon_search=1.3 (cap=30000) ===
+  status=search_limit_reached  wall=40.23s  runtime=40.14s
+  expanded=30000  max_open=119209  cache_hit_rate=0.834
+  reopened_states=12039  reopen_ratio=0.4013
+  first_solution_found=False  first_solution_cost=inf  first_solution_expanded=n/a  first_solution_runtime=nan
+  initial_incumbent_cost=1.650000  final_incumbent_cost=1.650000  incumbent_updates=0  incumbent_pruned_candidates=0
+  current_lower_bound=1.055286  final_bound_ratio=1.5636
+  bounded_termination_triggered=False
+  >> No internal complete solution found within this cap.
+
+=== COMPARISON TABLE ===
+  eps              status  goal_exp  runtime max_open  reopen  incumbent         LB   ratio  min_MSL
+  1.1 search_limit_reached       n/a    64.30    51492       0   1.650000   1.094752  1.5072      n/a
+  1.2 search_limit_reached       n/a    50.60    57389       0   1.650000   1.079845  1.5280      n/a
+  1.3 search_limit_reached       n/a    40.14   119209   12039   1.650000   1.055286  1.5636      n/a

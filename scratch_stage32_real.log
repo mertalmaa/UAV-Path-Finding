@@ -1,0 +1,18 @@
+=== Stage 32 REAL Aladaglar benchmark -- cost_mode='normalized' (SINGLE run, cap=30000, no retry) ===
+  start=(48,276) goal=(264,276) aircraft_msl=3760.0
+  D_ref=6480.0000m  altitude_reference_msl=3240.0  H_scale=1000.0  w_altitude=1.25  w_distance=1.0  w_reversal=1.0
+  search bounds=[3240.0,3780.0]  epsilon_search=1.1  target_suboptimality=1.05  dominance=OFF  cache=ON  incumbent_pruning=ON
+
+initial incumbent (direct 216-edge level chain, NEW normalized cost): valid=True cost=1.650000  (legacy cost was 21829.82 -- NOT reused, this is the new formula's own value)
+
+=== SEARCH RESULT ===
+  status=search_limit_reached  wall=64.38s  runtime=64.30s
+  expanded=30000  max_open=51492  cache_hit_rate=0.757
+  reopened_states=0  reopen_ratio=0.0000
+  initial_incumbent_cost=1.650000  final_incumbent_cost=1.650000  incumbent_updates=0  incumbent_pruned_candidates=0
+  first_solution_found=False  first_solution_cost=inf  first_solution_expanded=n/a  first_solution_runtime=nan
+  current_lower_bound=1.094752  final_bound_ratio=1.5072
+  bounded_termination_triggered=False
+  >> No internal complete solution found within this cap.
+
+=== No path (neither success nor a first internal solution) -- no physical analysis possible. ===
