@@ -1,0 +1,50 @@
+=== 1: synthetic flat terrain, old==new ===
+  [flat] checked=7200 mismatches=0
+
+=== 2: mid-segment ridge, old==new ===
+  [ridge] checked=2592 mismatches=0
+
+=== 3: NoData crossing, old==new ===
+  [nodata] checked=1728 mismatches=0
+
+=== 4: bounds crossing (edge of a small grid), old==new ===
+  [bounds] checked=768 mismatches=0
+
+=== 5: level/climb/descent all match ===
+  [level] checked=1536 mismatches=0
+  [climb] checked=1536 mismatches=0
+  [descent] checked=1536 mismatches=0
+
+=== 6: many different start MSL levels, old/new validity identical ===
+  [multi-level] checked=23040 mismatches=0
+
+=== 7: real coarse ROI, random states/primitives, broad comparison ===
+  random checks=4000 mismatches=0
+  precompute: entries=295704 preprocessing_time=70.556s static_invalid=7512 approx_memory_MB=59.14
+
+Equivalence tests: ALL PASS (0 mismatches everywhere)
+
+======================================================================
+=== REAL 6.48km COARSE BENCHMARK (precomputed safety) ===
+  precompute: entries=295704 preprocessing_time=37.160s static_invalid_count=7512 approx_memory_MB=59.14
+  START -> msl=3760.0 (lifted=False)  GOAL -> msl=3800.0 (lifted=True)
+  search bounds=[3280.0,3880.0]  D_ref=6480.12m  cap=30000 (1 run, no retry)
+
+  status=success  search_runtime=4.697s  expanded=24959  max_open=12348
+  preprocessing_time=37.160s  search_time=4.702s  total_time=41.862s
+  Stage 35 baseline runtime=247.76s  speedup=5.92x  expansions/sec=5308.0
+
+=== Comparison vs Stage 35 baseline ===
+  expanded: new=24959 baseline=24959 identical=True
+  path_node_count: new=31 baseline=31 identical=True
+  xy_length_m: new=6480.00 baseline=6480.0 identical=True
+  min_MSL: new=3360.0 baseline=3360.0 identical=True
+  max_MSL: new=3800.0 baseline=3800.0 identical=True
+  total_cost: new=1.409649 baseline=1.409649 identical=True
+  BEHAVIOR PRESERVED: True
+
+=== FINE REPLAY (30m DEM, <=10m sampling) ===
+  min_AGL_m=202.31  max_angle_deg=8.43  violations=0
+  fine replay matches Stage 35 baseline: True
+
+Overall Stage 35.1: PASS

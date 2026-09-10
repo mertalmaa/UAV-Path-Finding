@@ -1,0 +1,43 @@
+=== Building precompute cache ONCE (reused for every epsilon) ===
+  entries=295704 preprocessing_time=39.898s static_invalid=7512
+
+=== epsilon_search=1.1 ===
+  status=success expanded=18966 runtime=3.964s max_open=14342
+  path_nodes=31 xy_length=6480.0 3d_length=6541.9
+  min_MSL=3360.0 mean_MSL=3545.8 max_MSL=3800.0
+  total_climb=440.0 total_descent=400.0
+  cost=1.409649  cost_delta_vs_eps1.0=-0.00%
+  min_coarse_MAX_AGL=200.0  max_flight_path_angle=8.43
+
+=== epsilon_search=1.25 ===
+  status=success expanded=9248 runtime=2.288s max_open=14834
+  path_nodes=31 xy_length=6480.0 3d_length=6541.9
+  min_MSL=3360.0 mean_MSL=3551.0 max_MSL=3800.0
+  total_climb=440.0 total_descent=400.0
+  cost=1.412427  cost_delta_vs_eps1.0=+0.20%
+  min_coarse_MAX_AGL=200.0  max_flight_path_angle=8.43
+
+=== epsilon_search=1.5 ===
+  status=success expanded=836 runtime=0.316s max_open=4088
+  path_nodes=27 xy_length=6480.0 3d_length=6547.8
+  min_MSL=3400.0 mean_MSL=3598.5 max_MSL=3800.0
+  total_climb=480.0 total_descent=440.0
+  cost=1.440851  cost_delta_vs_eps1.0=+2.21%
+  min_coarse_MAX_AGL=203.2  max_flight_path_angle=8.43
+
+=== Selecting best epsilon (safety guaranteed regardless; then success; expansions<5000; runtime<=~1s; cost not badly degraded) ===
+  eps=1.1: expanded=18966 runtime=3.964s cost_delta=-0.00%
+  eps=1.25: expanded=9248 runtime=2.288s cost_delta=+0.20%
+  eps=1.5: expanded=836 runtime=0.316s cost_delta=+2.21%
+  >> BEST: epsilon=1.5 (expanded=836, runtime=0.316s, cost_delta=+2.21%)
+
+=== COMPARISON TABLE ===
+  eps expansions  runtime       cost  cost_delta   path    status
+  1.0      24959    4.70s   1.409649    baseline     31   success
+  1.1      18966    3.96s   1.409649      -0.00%     31   success
+ 1.25       9248    2.29s   1.412427      +0.20%     31   success
+  1.5        836    0.32s   1.440851      +2.21%     27   success
+
+=== FINE REPLAY for the BEST epsilon (1.5) ONLY ===
+  min_AGL_m=209.90  max_flight_path_angle_deg=8.43  violations=0
+  PASS

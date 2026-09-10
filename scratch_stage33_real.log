@@ -1,0 +1,27 @@
+=== Stage 33 REAL Aladaglar benchmark -- Safe Goal Region (70x70x50m box) (SINGLE run, cap=30000, no retry) ===
+  start=(48,276) goal_center=(264,276) aircraft_msl=3760.0
+  goal_tolerance_xy_m=35.0  goal_tolerance_z_m=25.0
+  D_ref=6480.0000m  altitude_reference_msl=3240.0  H_scale=1000.0  w_altitude=1.25  w_distance=1.0  w_reversal=1.0
+  search bounds=[3240.0,3780.0]  epsilon_search=1.1  target_suboptimality=1.05  dominance=OFF  cache=ON  incumbent_pruning=ON
+
+initial incumbent (direct 216-edge level chain, re-validated under normalized cost + goal region): valid=True cost=1.650000
+
+=== SEARCH RESULT ===
+  status=search_limit_reached  wall=98.95s  runtime=98.88s
+  expanded=30000  max_open=51475  cache_hit_rate=0.757  reopened_states=0  reopen_ratio=0.0000
+  initial_incumbent_cost=1.650000  final_incumbent_cost=1.650000  incumbent_updates=0  incumbent_pruned_candidates=0
+  first_solution_found=False  first_solution_cost=inf  first_solution_expanded=n/a  first_solution_runtime=nan
+  current_lower_bound=1.089276  final_bound_ratio=1.5148
+  bounded_termination_triggered=False
+  >> No internal complete solution found within this cap.
+
+=== GOAL-REGION DIAGNOSTIC (closest expanded state to goal) ===
+  closest_distance_to_goal_region_m=5066.80  (0.0 means some state DID enter the box)
+  closest_distance_to_goal_center_m=5102.51
+  closest_state: row=94 col=276 z_index=180  x=692405.8 y=4188643.1 msl=3600.0  terrain=3203.6  point_AGL=396.4
+
+=== No path (neither success nor a first internal solution) -- no physical/deviation analysis possible. ===
+
+=== COMPARISON vs Stage 32 (goal_tolerance=0, same everything else) -- from project.md, NOT re-run ===
+  Stage 32 (exact goal): status=search_limit_reached expanded=30000 max_open=51492 first_solution_found=False final_bound_ratio=1.5072
+  Stage 33 (region goal): status=search_limit_reached expanded=30000 max_open=51475 first_solution_found=False final_bound_ratio=1.5148

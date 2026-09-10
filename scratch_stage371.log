@@ -1,0 +1,35 @@
+  START tube check: xy_in_corridor=True z_guide=3760.0 diff=0.0 in_tube=True
+  GOAL tube check: xy_in_corridor=True z_guide=3795.6 diff=35.6 in_tube=True
+
+=== Stage 37.1 REAL Aladaglar benchmark -- 3D corridor (XY +/-300m, Z +/-200m) (SINGLE run, cap=30000, no retry) ===
+  D_ref=6480.0000m  epsilon_search=1.1  target_suboptimality=1.05
+
+initial incumbent (direct 216-edge level chain): valid=True cost=1.650000
+
+=== SEARCH RESULT ===
+  status=search_limit_reached  wall=37.80s  runtime=37.73s
+  expanded=30000  max_open=34435  cache_hit_rate=0.768  reopened_states=0
+  xy_corridor_reject_count=53790  z_corridor_reject_count=41
+  initial_incumbent_cost=1.650000  final_incumbent_cost=1.650000  incumbent_updates=0
+  first_solution_found=False  bounded_termination_triggered=False
+
+=== STATE-SPACE COMPOSITION DIAGNOSTICS ===
+  unique_expanded_xy=1012
+  unique_expanded_xyz=7089
+  unique_full_states=30000
+  avg_z_states_per_xy=7.005
+  avg_history_states_per_xyz=4.232
+  max_z_states_in_one_xy=13
+
+=== GOAL-REGION DIAGNOSTIC ===
+  closest_distance_to_goal_region_m=4918.11
+  closest_distance_to_goal_center_m=4954.04
+  closest_state: row=99 col=276 z_index=178  msl=3560.0  point_AGL=384.9
+
+=== COMPARISON vs Stage 37 baseline (NOT re-run) ===
+  Stage 37:   status=search_limit_reached expanded=30000 max_open=34435 wall=37.00s closest_goal_region=4918.11m xy_rejects=53790
+  Stage 37.1: status=search_limit_reached expanded=30000 max_open=34435 wall=37.80s closest_goal_region=4918.11m xy_rejects=53790 z_rejects=41
+  expansion change vs Stage 37: +0.00%  wall-clock change: -2.17%
+
+=== FAIL -- no path/incumbent to report ===
+  closest_state_to_goal=(99, 276, 178)  distance_to_goal_region_m=4918.11

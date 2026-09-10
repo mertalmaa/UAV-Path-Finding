@@ -1,0 +1,50 @@
+initial reference (direct 216-edge level chain): valid=True cost=1.650000
+
+=== PRECOMPUTE: fine corridor primitive safety (dense NumPy arrays) ===
+  entry_count=116472  corridor_cell_count=4853
+  preprocessing_time=18.410s
+  approx_memory_MB=12.69
+  static_invalid_count=0 (among computed corridor entries)
+  (equivalence vs old evaluator verified separately in scripts/validate_fine_precompute.py -- ALL PASS)
+
+=== Stage 38.1: genuine ARA*, epsilon_schedule=(1.7, 1.5, 1.3, 1.2), freeze_history=True, fine_precompute=ON, max_expansions_cumulative=30000 ===
+
+=== PER-EPSILON PHASE REPORT ===
+  eps=1.70  added_exp=56  cum_exp=56  phase_time=0.155s  cum_time=0.155s
+    incumbent_cost=1.509232  cost_gain_vs_prev_phase=+nan%  quality_gain_per_second=nan
+    min_MSL=3520.0  mean_MSL=3636.7  max_MSL=3780.0  path_length_3d=6537.7m  xy_length=6450.0m
+    OPEN=1159  INCONS=0  CLOSED_this_phase=56  g_improvements=1219  reversal_count(diagnostic)=30  phase_complete=True
+  eps=1.50  added_exp=16911  cum_exp=16967  phase_time=10.339s  cum_time=10.494s
+    incumbent_cost=1.483210  cost_gain_vs_prev_phase=+1.724%  quality_gain_per_second=0.1668
+    min_MSL=3520.0  mean_MSL=3613.9  max_MSL=3780.0  path_length_3d=6514.6m  xy_length=6450.0m
+    OPEN=8455  INCONS=10617  CLOSED_this_phase=16911  g_improvements=106861  reversal_count(diagnostic)=12  phase_complete=True
+  eps=1.30  added_exp=13033  cum_exp=30000  phase_time=9.140s  cum_time=19.634s
+    incumbent_cost=1.483210  cost_gain_vs_prev_phase=+0.000%  quality_gain_per_second=0.0000
+    min_MSL=3320.0  mean_MSL=3512.5  max_MSL=3760.0  path_length_3d=6803.7m  xy_length=6729.4m
+    OPEN=22604  INCONS=4715  CLOSED_this_phase=13033  g_improvements=77149  reversal_count(diagnostic)=3  phase_complete=False
+
+=== SUMMARY ===
+  path_found=True  refinement_limit_reached=True
+  total_expanded=30000  total_runtime_s=19.6341
+
+=== FIRST SOLUTION (epsilon=1.7 phase) vs Stage 38 baseline (NOT re-run) ===
+  this run:  expanded=54  runtime_s=0.1019  cost=1.517405
+  Stage 38:  expanded=54  cost=1.517405
+
+=== FINAL BEST INCUMBENT (independent fine DEM replay) ===
+  cost=1.483210  min_MSL=3320.0  max_MSL=3760.0  3d_length=6803.7m  xy_length=6729.4m
+  min_AGL=200.76m  max_angle=9.46deg  violations=0  SAFETY=PASS
+  vs Stage 38 final (cost=1.48321): -0.000%
+
+=== SHORT TABLE ===
+  epsilon | added_exp | phase_time |  cum_time |       cost | cost_gain |  min_MSL |  mean_MSL
+     1.70 |        56 |     0.155s |    0.155s |   1.509232 |       n/a |   3520.0 |    3636.7
+     1.50 |     16911 |    10.339s |   10.494s |   1.483210 |    +1.72% |   3520.0 |    3613.9
+     1.30 |     13033 |     9.140s |   19.634s |   1.483210 |    +0.00% |   3320.0 |    3512.5
+
+=== KARAR SORULARI ===
+  1.5 ek kazanç: +1.72% cost / 10.34s phase time (quality_gain_per_second=0.1668)
+  1.3 ek kazanç: +0.00% cost / 9.14s phase time (quality_gain_per_second=0.0000)
+  precompute preprocessing_time=18.410s (ONE-TIME, amortized across the whole run)
+
+Final path written to outputs/stage38_1_ara_final_path.csv

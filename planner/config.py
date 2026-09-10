@@ -115,8 +115,24 @@ class PlannerConfig:
     # dC_distance + w_altitude*dC_altitude + w_reversal*dC_reversal. All
     # TEST/TUNING PARAMETERS, not sourced physical/mission values.
     normalized_w_distance: float = 1.0
-    normalized_w_altitude: float = 1.0
+    # Production mission-policy candidate. Normalized mode remains explicit;
+    # this does not alter legacy-mode callers.
+    normalized_w_altitude: float = 1.25
     normalized_w_reversal: float = 1.0
+
+    # --- Safe goal region (Stage 33) -- production feature, opt-in. ---
+    # A state counts as "at goal" if its physical position is within this
+    # axis-aligned box (+/- goal_tolerance_xy_m in X and Y, +/- goal_tolerance_z_m
+    # in Z) around the goal center, rather than requiring the exact goal state.
+    # Both default to 0.0, which reproduces the pre-Stage-33 EXACT goal condition
+    # bit-for-bit (see planner/astar.py _state_in_goal_region) -- this loosens
+    # ONLY target-location precision, never any safety constraint: AGL, terrain
+    # collision, NoData, bounds, and max climb/descent angle are enforced by
+    # evaluate_primitive() before a state ever becomes a candidate at all, so a
+    # state inside the box that fails any of those is never reachable as "goal"
+    # regardless of tolerance.
+    goal_tolerance_xy_m: float = 0.0
+    goal_tolerance_z_m: float = 0.0
 
 
 DEFAULT_CONFIG = PlannerConfig()

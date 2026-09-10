@@ -1,0 +1,29 @@
+initial incumbent (direct 216-edge level chain): valid=True cost=1.650000
+Shared primitive_cache built once, reused across epsilon=[1.3, 1.5, 1.7]
+
+=== epsilon_search=1.3 (freeze_history=True) ===
+  status=search_limit_reached expanded=30000 first_solution_expanded=None wall=35.57s max_open=97497
+  reopened_states=24647 reopen_ratio=0.8216 cache_hit_rate=0.811 (shared cache size=119696)
+  unique_expanded_xy=1106 unique_expanded_xyz=5353 avg_history_states_per_xyz=1.000
+  FAIL: closest_distance_to_goal_region_m=614.86 closest_state=(243, 277, 179)
+
+=== epsilon_search=1.5 (freeze_history=True) ===
+  status=search_limit_reached expanded=30000 first_solution_expanded=19732 wall=18.77s max_open=100372
+  reopened_states=28300 reopen_ratio=0.9433 cache_hit_rate=0.959 (shared cache size=149083)
+  unique_expanded_xy=453 unique_expanded_xyz=1700 avg_history_states_per_xyz=1.000
+  FAIL: closest_distance_to_goal_region_m=0.00 closest_state=(263, 276, 187)
+
+=== epsilon_search=1.7 (freeze_history=True) ===
+  status=search_limit_reached expanded=30000 first_solution_expanded=57 wall=13.44s max_open=20404
+  reopened_states=28840 reopen_ratio=0.9613 cache_hit_rate=0.967 (shared cache size=172292)
+  unique_expanded_xy=274 unique_expanded_xyz=1160 avg_history_states_per_xyz=1.000
+  FAIL: closest_distance_to_goal_region_m=0.00 closest_state=(263, 276, 187)
+
+=== COMPARISON TABLE ===
+  eps              status expansions   runtime  reopened         cost  goal_dist
+  1.1 search_limit_reached      30000   132.33s       463          n/a    1499.49  (Stage 37.2 baseline, NOT re-run)
+  1.3 search_limit_reached      30000    35.57s     24647          n/a     614.86
+  1.5 search_limit_reached      30000    18.77s     28300          n/a       0.00
+  1.7 search_limit_reached      30000    13.44s     28840          n/a       0.00
+
+No epsilon in this sweep reached SUCCESS -- no fine replay performed.

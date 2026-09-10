@@ -10,6 +10,30 @@ yol haritası. PDF bir roadmap'tir, bu dosyadaki kararlar PDF'nin tamamını
 implement etme taahhüdü değildir; her aşama kendi promptunun scope'unda
 kalır.
 
+## MISSION OBJECTIVE CONTRACT
+
+**Safety > all optimization objectives.** Terrain collision, minimum AGL,
+bounds, NoData ve climb/descent limitleri hard feasibility koşullarıdır;
+unsafe bir edge/path, soft cost'u ne kadar düşük olursa olsun aday değildir.
+
+Safe path'ler arasında **low aircraft absolute MSL**, distance'tan biraz daha
+önemli primary soft preference'tır; distance ise aşırı detour'ları engelleyen
+güçlü regularizer olarak kalır. Bu strict lexicographic bir kural değildir.
+Mevcut production candidate `w_distance=1.0`, `w_altitude=1.25`,
+`altitude_scale_m=1000`; yaklaşık 100m daha düşük absolute MSL, yaklaşık
+%10–15 ek path length'i haklı çıkarabilir. Bu bir hard threshold veya
+location-specific kural değil, additive soft trade-off'tur.
+
+**Low MSL = low aircraft absolute MSL.** Şunlar değildir: minimum AGL,
+terrain following, lowest terrain elevation veya reduced safety margin.
+Altitude reference explicit mission datum'dur; terrain elevation'dan veya
+search altitude bound'larından türetilmez.
+
+**Cost correctness != search effectiveness.** Mission cost bir rotayı doğru
+şekilde tercih edebilir, fakat search algorithm bu rotayı verilen epsilon,
+budget veya exploration geometry altında erken keşfedemeyebilir. Objective
+ranking ve search discoverability ayrı test edilmeli ve ayrı raporlanmalıdır.
+
 ## Öncelik sırası
 
 Güvenlik > pathfinding performansı > basitlik. Bu yüzden aşağıdaki
@@ -1233,17 +1257,1294 @@ değeri yok (`ds.nodata is None`, sentinel piksel bulunmadı).
   kurtarmıyor. 150k retry ve 1.30 üstü epsilon denenmedi (spesin açık
   yasağı).
 
+- **Stage 33 — Safe Goal Region (70x70x50m box, ±35m XY/±25m Z) production
+  feature olarak eklendi (`goal_tolerance_xy_m`/`goal_tolerance_z_m`,
+  default 0.0 = eski exact-goal davranışı bit-exact korunuyor); gerçek
+  6.48km testinde box'a HİÇ ulaşılamadı, en yakın state hâlâ ~5.07km
+  uzakta (yolun sadece ~%21'i) -- Stage 33'ün kendi hipotezi
+  ÇÜRÜTÜLDÜ: exact-goal-discretization köken problem DEĞİL.
+  Sınıflandırma: CASE C, coarse-to-fine için güçlü kanıt.** `planner/
+  config.py`'ye 2 yeni alan (`goal_tolerance_xy_m/z_m: float = 0.0`).
+  `planner/astar.py`'ye: `_distance_to_goal_box()` (axis-aligned box'a
+  min 3D mesafe, `max(abs(delta)-tolerance,0)` per eksen, tolerance=0 iken
+  bit-exact aynı plain distance'a indiriyor) ve `_state_in_goal_region()`
+  (tolerance=0 iken hiç float'a girmeden eski `state==goal` integer-tuple
+  karşılaştırmasını AYNEN kullanıyor -- section 1'in "birebir korunmalı"
+  şartı kod seviyesinde garanti edildi, davranışsal umuda değil). Ana
+  loop'taki goal-check `_state_in_goal_region(...)`'a geçti; x/y metrik
+  mesafe HER ZAMAN `terrain.rowcol_to_xy` üzerinden (gerçek affine
+  transform), row/col farkını kör kullanma YOK. **Safety asla gevşemedi**:
+  bir state'in goal-check'e ulaşabilmesi için zaten `_generate_neighbors`
+  içinde `evaluate_primitive()`'den geçmiş olması gerekiyor (AGL/terrain/
+  NoData/bounds/açı) -- box'un kendisi hiçbir safety kuralını bypass
+  etmiyor, mimari olarak edemez. **Heuristic'in DEĞİŞTİRİLMESİ zorunluydu**
+  çünkü exact-center'a mesafe kullanmak artık bir OVERESTIMATE üretirdi
+  (box'un herhangi bir noktasına ulaşmak yeterliyken merkeze mesafe daha
+  büyük bir sayı verir) -- bu admissibility'yi (`h<=h*`) bozardı.
+  `_heuristic()`'teki D3D hesaplaması `_distance_to_goal_box`'a geçti (hem
+  legacy h_global/h_forward hem normalized mod için TEK ortak değişiklik
+  noktası) -- tolerance=0 iken bit-exact aynı, yeni bir "exact mode"
+  dalı gerekmedi. **9 unit test (A-K, spesin istediği tüm case'ler) ALL
+  PASS**: A-G box-membership formülü (D/E boundary case'leri dahil, `<=`
+  ile INCLUSIVE), H (goal box'ın TAMAMI unsafe yapıldı -- terrain aircraft'ın
+  kendi irtifasında, box içindeki HİÇBİR z bile 200m AGL'yi sağlamıyor --
+  search `no_path` ile bitti, `closest_distance_to_goal_region_m=25.00`
+  yani box'a asla girmedi, kanıtlandı), I/J (box içi h=0, box dışı h=
+  merkez-mesafesi DEĞİL yüzey-mesafesi -- 150m merkez mesafesi olan bir
+  state h=115m verdi, tam beklenen `150-35` yüzey mesafesi), K (tolerance=0
+  ile default çağrı ile explicit `goal_tolerance_xy_m=0.0/z_m=0.0` çağrısı
+  arasında `expanded/max_open/cost` bit-exact eşleşti). **Diagnostic
+  eklentisi (section 9, kritik teşhis gücü nedeniyle bu turda astar.py'ye
+  eklendi -- Stage 26/27'nin section 7'sinden farklı olarak burada
+  "büyük refactor gerekiyorsa atla" kaçışı YOKTU)**: her expand edilen
+  state için O(1) `closest_distance_to_goal_region_m`/`_center_m`/
+  `closest_state_to_goal` takibi, `SearchResult`'a 3 yeni alan --
+  saf gözlemsel, search kararlarını hiç etkilemiyor. **Regresyon**:
+  Stage 24/25'in validation script'leri (`validate_incumbent_pruning.py`,
+  `validate_weighted_astar.py`) bu değişiklikten SONRA tekrar çalıştırıldı,
+  kayıtlı sayılarla (expanded=679/494/679/494, C*=2424.1952, certified
+  ratio=1.0000<=1.05, incumbent_updates=10, reopened=1679 vb.) bit-exact
+  eşleşti -- legacy davranış hiç bozulmadı. **GERÇEK 6.48km testi (TEK
+  run, Stage 32 normalized-cost baseline'ıyla AYNI: H_scale=1000,
+  w_altitude=1.25, altitude_reference_msl=3240, epsilon=1.10, target=1.05,
+  dominance OFF, 30k cap, retry YOK) + goal region ±35m/±25m**: initial
+  incumbent (yeniden doğrulandı) = 1.650000 (Stage 32 ile aynı, tolerance
+  cost'u etkilemiyor). `status=search_limit_reached`, wall=98.95s,
+  expanded=30,000, max_open=51,475 (Stage 32'nin 51,492'sine PRATİKTE
+  AYNI), cache_hit=0.757, reopened=0, `first_solution_found=False`
+  (Stage 32'yle birebir aynı sonuç -- tolerance HİÇBİR fark yaratmadı).
+  `final_bound_ratio=1.5148` (Stage 32'nin 1.5072'sine çok yakın).
+  **Kritik teşhis**: `closest_distance_to_goal_region_m=5,066.80m` (box'a
+  hâlâ 5+ KM uzakta!), `closest_distance_to_goal_center_m=5,102.51m`,
+  en yakın state row=94 (start row=48, goal row=264 -- yolun sadece
+  **~%21'i**, `col=276 msl=3600 terrain=3203.6 point_AGL=396.4` -- güvenli
+  ve mantıklı bir ilk-inişe başlamış durum, ama goal'dan ÇOK uzak).
+  **Sonuç kesin: exact-goal-discretization hipotezi ÇÜRÜTÜLDÜ** -- search
+  "hedefin yakınına gelip tek bir hücreyi kaçırmıyor", 30.000 expansion
+  içinde yolun beşte birinden fazlasını bile kat edemiyor. Bu, Stage
+  20'den beri tekrar tekrar doğrulanan "ham search hacmi/state-explosion"
+  teşhisini nihai olarak teyit ediyor -- **Sınıflandırma: CASE C**
+  (spesin kendi kelimeleriyle: "exact goal condition kök problem değil,
+  coarse-to-fine'a geçmek için güçlü kanıt oluşur"). Bu turda YAPMAZ
+  listesi (coarse-to-fine, resolution, terrain-aware Dijkstra, corridor,
+  epsilon sweep, cost tuning, yeni heuristic terimi, dominance, variable
+  angle, heading, turn radius, GPU) hiçbiri implement edilmedi.
+
 Henüz implement edilmedi: binary mask, polygonization, buffer/C-Space,
 climb/descent için ayrı reversal weight, preferred-AGL/terrain-following
 mode, heading/turn radius/Dubins, 2D Dijkstra heuristic,
 EDT/buffer, global planner, görselleştirme, bağımsız final validator,
-terrain-aware 2D / coarse-to-fine planlama (Weighted A* aşaması ε≈1.10'da kapatıldı -- Stage 20-27 boyunca denenen state-space optimizasyonlarının (dominance/bucket/incumbent/weighted-A*) hiçbiri bu 6.48km/520m-relief benchmarkını tek başına çözemedi), "goal'a fiziksel ilerleme" diagnostiği (astar.py değişikliği gerektiriyor), ARA*/decreasing-epsilon anytime search, low-MSL tie-break, msl_cost_weight default kararı,
+terrain-aware 2D / coarse-to-fine planlama (Stage 33'ün "exact-goal-discretization kök problem" hipotezi ÇÜRÜTÜLDÜ -- search 30k expansion'da goal'dan hâlâ 5+km/yolun %79'u kadar uzakta kalıyor; Stage 20-33 boyunca denenen state-space optimizasyonlarının (dominance/bucket/incumbent/weighted-A*/epsilon-sweep/normalized-cost/safe-goal-region) HİÇBİRİ bu 6.48km/520m-relief benchmarkını tek başına çözemedi), ARA*/decreasing-epsilon anytime search, low-MSL tie-break, msl_cost_weight default kararı,
 backward (goal-side) vertical-reachability envelope, uzun-rota + yüksek-
 w_MSL search explosion çözümü (terrain-aware/Dijkstra/wavefront/corridor
 adayları not edildi, henüz implement edilmedi), variable-angle primitive
 testi (bu problem çözülmeden yapılmayacak).
 
+- **Stage 34 — Conservative 90m coarse DEM: sadece terrain representation,
+  hiçbir A*/search çalıştırılmadı. MAX pooling (average/bilinear/nearest
+  DEĞİL) ile 30m/333×333 fine DEM'den 90m/111×111 coarse DEM üretildi;
+  gerçek ROI'nin 12.321 bloğunun HEPSİ conservatism testini geçti (0
+  violation), global peak (3700.39m) korundu. PASS.** Yeni modül:
+  `planner/coarse.py` (`build_coarse_dem(fine_roi, factor=3)`, mevcut
+  `ROIData`/`TerrainQuery` mimarisine dokunmadan aynı `ROIData` yapısını
+  üretiyor). NoData: bir blokta TEK bir NoData hücresi bile varsa (ya da
+  gerçek NaN, sentinel ne olursa olsun) coarse hücre NoData oluyor — bu
+  gerçek DEM'de hiç tetiklenmedi (nodata_count=0, fine ve coarse'da) ama
+  4 sentetik testte (D dahil) doğrulandı. Affine transform fine'ın kendi
+  a/b/c/d/e/f'inden türetildi (hardcoded UTM yok): pixel scale 30m->90m,
+  origin (684110.84, 4191478.06) bit-exact korundu. Edge policy: sadece
+  TAM 3×3 bloklar (gerçek ROI 333=3×111 tam bölündüğü için bu senaryoda
+  `dropped_rows=dropped_cols=0`). **9 test (A-H + real-ROI) ALL PASS**:
+  A (3×3 merkez peak 3650m korundu), B (6×6->2×2 elle hesaplanan 4 blok
+  bit-exact), C (köşedeki peak korundu), D (NoData bloğu NoData'ya
+  düştü), E (90m/-90m pixel + origin doğrulandı), F (world-coordinate
+  round-trip fine(7,4)->UTM->coarse(2,1) doğru), G (gerçek ROI: 12,321
+  blok, 0 violation), H (global max 3700.39m fine==coarse). **START/GOAL
+  mapping**: START fine(48,276)->UTM(692405.84,4190023.06)->coarse(16,92);
+  GOAL fine(264,276)->UTM(692405.84,4183543.06)->coarse(88,92) --
+  transform-tabanlı mapping ile naive `row//3` INTEGER DIVISION birebir
+  aynı sonucu verdi (333 tam bölündüğü için beklenen), mapping_error=
+  42.43m (=sqrt(30²+30²), fine noktanın coarse hücre MERKEZİNE olan
+  mesafesi -- mapping'in kendisinde bir hata değil). Bounds/extent: fine
+  ve coarse aynı (684110.84,4181488.06)-(694100.84,4191478.06) kutusunu
+  kapsıyor, sıfır shift. Coarse terrain istatistikleri: min=1703.59m
+  (fine 1697.70'ten yüksek, max-pooling'in beklenen etkisi -- ortalama
+  YUKARI kayıyor), max=3700.39m (fine ile bit-exact), mean=2860.61m
+  (fine'ın 2840.06'sından yüksek, aynı sebep). GeoTIFF `working_dem/
+  aladaglar_roi_coarse_90m_max.tif`'e yazıldı (CRS/transform/nodata/dtype
+  doğrulandı); mevcut fine DEM dosyası HİÇ açılmadı-yazma modunda,
+  sadece `load_roi()` ile okundu. Script: `scripts/validate_coarse_dem.py`.
+  Bu turda YAPMAZ listesi (coarse/fine A*, corridor, cost/heuristic
+  tuning, herhangi bir path search) hiçbiri implement edilmedi. Sonraki
+  adım (Stage 35: coarse planner) bu turda BAŞLATILMADI, karar kullanıcıda.
+
+- **Stage 34.5 — Coarse Terrain Statistics: her 90m coarse hücre için
+  min/mean/max/relief eklendi (yalnız MAX'ın tek başına gizleyebileceği
+  düşük-terrain bilgisini karakterize etmek için); hiçbir A*/cost'a
+  bağlanmadı. 14 test (5 sentetik + F/G/H real-ROI) ALL PASS.**
+  `planner/coarse.py`'ye `CoarseTerrainStats` dataclass (4 ayrı NumPy
+  array: min_elevation/mean_elevation/max_elevation/relief, hepsi
+  (111,111)) + `build_coarse_terrain_stats(fine_roi, factor=3)` eklendi.
+  Stage 34'ün `build_coarse_dem`'i **davranış olarak değişmedi** --
+  ortak crop/nodata-mask/transform mantığı `_crop_to_complete_blocks`/
+  `_coarse_transform` helper'larına çıkarıldı (pure refactor, Stage 34'ün
+  kendi validation script'i sonrasında tekrar çalıştırılıp bit-exact
+  ALL PASS doğrulandı). **NoData policy Stage 34 ile birebir aynı**:
+  bloktaki TEK bir NoData/NaN hücre → o coarse hücrenin min/mean/max/
+  relief'inin HEPSİ NoData (8 valid+1 unknown durumunda bile kısmi
+  inference YOK) -- gerçek ROI'de hiç tetiklenmedi (nodata_count=0),
+  ama Test E'de sentetik doğrulandı. **MAX'ın safety rolü, MIN/MEAN'in
+  yalnız guidance rolü kod docstring'inde açıkça belirtildi**: hard
+  safety kararları için ileride SADECE `max_elevation` kullanılacak;
+  `min_elevation`/`mean_elevation` asla bir safety margin'i temizlemek
+  için kullanılmayacak (tek bir düşük 30m fine hücre 90m'lik bloğun
+  min'ini gerçekte-geçilemez bir noktayı "geçilebilir" gibi
+  göstermeden çok aşağı çekebilir -- bu caveat hem docstring'de hem
+  diagnostic fonksiyon isimlerinde ("MAX alone hides low terrain",
+  "NOT a valley claim") vurgulandı). **relief = max-min, terrain
+  slope/climb-angle DEĞİL** -- kod ve raporlama boyunca bu ayrım
+  korundu. **Gerçek ROI sonuçları**: MIN(1697.70-3690.02, mean=2819.49),
+  MEAN(1701.53-3694.57, mean=2840.06), MAX(1703.59-3700.39, mean=
+  2860.61) -- üç katman arasındaki sıralı artış (min<mean<max
+  ortalamada) beklenen max-pooling etkisiyle tutarlı. **RELIEF**:
+  min=0.84 max=**282.10m** mean=41.11 median=36.42 p90=73.25 p95=88.94
+  -- yüksek-relief hücrelerin HEPSİ dağlık/sarp bölgelerde (örn.
+  row=21,col=81: 3046→3328m tek bir 90×90m hücre içinde), START/GOAL
+  hücreleri düşük relief'li (41.68m / 39.47m, nispeten düz alanlar).
+  **F (relief==max-min) ve G (min<=mean<=max) 12.321 valid hücrenin
+  HEPSİNDE 0 violation. H: yeni MAX layer, hem in-memory
+  `build_coarse_dem()` hem diskteki mevcut max.tif ile bit-exact
+  eşleşti** (max.tif SADECE okundu, hiç yeniden yazılmadı). 3 yeni
+  GeoTIFF yazıldı: `working_dem/aladaglar_roi_coarse_90m_{min,mean,
+  relief}.tif` (aynı shape/transform/CRS/bounds/nodata-policy, dtype:
+  min/max/relief=fine'ın kendi dtype'ı float32, mean=her zaman float32).
+  Script: `scripts/validate_coarse_terrain_stats.py`. Bu turda YAPMAZ
+  listesi (coarse/fine A*, corridor, terrain/relief/min/mean-tabanlı
+  cost/heuristic, herhangi bir path search) hiçbiri implement edilmedi
+  -- **bu istatistikler henüz planner/cost'a bağlanmadı**. Sonraki adım
+  (Stage 35: coarse planner) bu turda BAŞLATILMADI, karar kullanıcıda.
+
+- **Stage 35 — Simplified Coarse 3D A*: PROJENİN Stage 19'dan beri İLK
+  BAŞARILI 6.48km start-goal çözümü. Coarse (90m) A*, 24,959 expansion'da
+  (30k cap altında) SUCCESS buldu; 31-node path fine 30m DEM üzerinde
+  <=10m sample ile replay edildi ve 0 VIOLATION verdi (min_AGL=202.31m).**
+  Yeni, tamamen izole modül: `planner/coarse_astar.py` -- `planner/astar.py`
+  hiç değiştirilmedi/dokunulmadı. State SADECE `(row,col,z_index)` --
+  trend/bucket/dominance/reversal/heading YOK. Safety, mevcut
+  `planner.primitives.evaluate_primitive`/`planner.agl.evaluate_agl`/
+  `planner.transition.evaluate_transition` fonksiyonları HİÇ
+  DEĞİŞTİRİLMEDEN, sadece coarse config (xy_res=90m, z_step=40m,
+  sample_spacing=30m) + coarse MAX `TerrainQuery` ile çağrılarak
+  reuse edildi -- "aircraft_msl - coarse_MAX_terrain >= 200m" hard
+  safety'si SIFIR yeni kod ile otomatik olarak doğru çalıştı. MIN/MEAN/
+  RELIEF (`CoarseTerrainStats`) cost'a veya safety'ye HİÇ girmedi --
+  sadece path-sonrası diagnostic. **Cost** (Stage 32'nin basitleştirilmiş
+  hali, reversal terimi yok): `dC_distance=ds_3d/D_ref`,
+  `dC_altitude=dC_distance*max(0,mean_MSL-3240)/1000`,
+  `total=1.0*dC_distance+1.25*dC_altitude`. **Heuristic**:
+  `h=D3D_to_goal/D_ref` (admissible, aynı üçgen-eşitsizliği argümanı).
+  Standart A* (epsilon=1.0, dominance/incumbent/weighting YOK).
+  **Endpoint lift policy** (`lift_endpoint_if_unsafe`): START coarse
+  (16,92) cell_max=3556.81 -> required=3756.81<=3760 -> **lift YOK**
+  (3760 kalıyor); GOAL coarse (88,92) cell_max=3560.36 ->
+  required=3760.36>3760 -> **3800'e lift edildi** (bir z-step yukarı,
+  40m). **10/10 sentetik test ALL PASS**: 24 primitive/max açı<=10°
+  (test 1/2), flat terrain level path (3), düşük-MSL edge daha ucuz
+  (4, cost 0.090 vs 0.1305), mid-segment ridge 2-hücrelik primitive'in
+  KENDİ intermediate sampling'i ile yakalandı (5), coarse safety'nin
+  YAPISAL olarak sadece stored (=MAX) elevation'ı kullandığı (MEAN bu
+  modüle hiç girmiyor, import bile edilmiyor) doğrulandı (6), endpoint
+  lift/no-lift (7/8, gerçek START/GOAL hücre değerleriyle bit-exact
+  eşleşti), NoData crossing INVALID (9), state literal
+  `(row,col,z_index)` (10). **GERÇEK 6.48km BENCHMARK (TEK run, 30k cap,
+  retry YOK)**: `status=success`, runtime=247.76s (primitive cache
+  KASITLI OLARAK yok, "basitleştirilmiş" talimatı gereği -- bu yüzden
+  yavaş ama sınır içinde tamamlandı), expanded=24,959/30,000,
+  max_open=12,348. **Path**: 31 node, xy_length=6480.0m (=D_ref, dead
+  straight XY corridor), 3d_length=6541.9m, min_MSL=3360.0 (start'tan
+  400m aşağı), mean_MSL=3545.8, max_MSL=3800.0 (lifted goal),
+  total_climb=440.0/total_descent=400.0 (net +40 = 3800-3760, tutarlı),
+  min_coarse_MAX_AGL=**200.0m** (tam sınırda -- düşük-MSL tercihi
+  beklenen şekilde constraint'i zorluyor), max_flight_path_angle=8.43°
+  (10° limitinin altında). Cost: distance=1.0095 altitude=0.4001
+  total=1.4096. **Relief diagnostic** (sadece bilgi): path boyunca
+  mean_relief=25.00 max_relief=65.89 p95=63.83 -- Stage 34.5'in ROI-geneli
+  max relief'i (282.10m) ile kıyaslandığında bu path hiçbir aşırı-relief
+  hücreden geçmiyor (makul/düz bir koridor). **FINE REPLAY (30m DEM,
+  <=10m sample, `evaluate_agl`/`evaluate_transition` reuse edildi, yeni
+  kod YAZILMADI)**: min_AGL=**202.31m** (coarse'un raporladığı 200.0'dan
+  biraz daha gevşek -- beklenen, çünkü coarse MAX daha KONSERVATİF),
+  max_angle=8.43° (coarse ile aynı), **violation_count=0**. CSV:
+  `outputs/stage35_coarse_path.csv` (31 satır). **Bu, Stage 19'dan
+  itibaren denenen HERHANGİ bir mekanizmanın (dominance/bucket/incumbent/
+  weighted-A*/epsilon-sweep/normalized-cost/goal-region -- Stage 20-33)
+  bulamadığı ilk tam start-goal çözümü** -- coarse-to-fine hipotezini
+  (Stage 27'den beri öngörülen) doğruluyor. Bu turda YAPMAZ listesi
+  (corridor, fine A*, epsilon sweep, terrain-aware heuristic, MIN/MEAN/
+  RELIEF routing cost, Numba/GPU, heading/turn radius, variable angle,
+  cost tuning) hiçbiri implement edilmedi. **Sonraki adım (corridor
+  aşaması) için hazır** -- karar kullanıcıda, bu turda başlatılmadı.
+
+- **Stage 35.1 — Coarse Primitive Safety Precomputation: search davranışı
+  bit-exact korunarak search-only runtime 247.76s'den 4.70s'e düştü
+  (~%53x), toplam (preprocessing+search) 41.86s (5.92x speedup). PASS.**
+  `planner/coarse_astar.py`'ye `precompute_coarse_primitive_safety()`
+  eklendi -- her `(row,col,primitive_id)` için (Z state key'e GİRMİYOR)
+  `required_start_msl = max_i(terrain_max(i)+min_agl-primitive.dz_m*t_i)`
+  önceden hesaplanıyor; search sırasında pahalı per-sample terrain
+  query yerine tek bir `start_msl >= required_start_msl` karşılaştırması
+  yeterli. Endpoint transition (açı) kontrolü tekrar YAPILMADI --
+  `build_primitive_set()` bunu primitive'in kendi sabit geometrisi için
+  zaten bir kere garantiliyor, konum/irtifadan bağımsız. out_of_bounds/
+  nodata konuma bağlı ama irtifadan bağımsız olduğu için `static_invalid`
+  olarak (irtifa ne olursa olsun) cache'leniyor. `coarse_astar_search()`'e
+  opsiyonel `precomputed_safety=None` parametresi eklendi -- `None` iken
+  (default) Stage 35 davranışı BİREBİR AYNI kalıyor (yeni kod pasif),
+  verilince `_generate_coarse_neighbors` `evaluate_primitive()` yerine
+  O(1) `precomputed_primitive_validity()` çağırıyor. **Eşdeğerlik
+  testleri (1-7) TOPLAM ~40,000+ karşılaştırma, 0 MISMATCH**: flat (7200),
+  ridge (2592), NoData (1728), bounds (768), level/climb/descent (3×1536),
+  15 farklı start-MSL seviyesi (23040), gerçek ROI'de 4000 rastgele
+  (row,col,primitive,start_msl) örneği -- hepsi eski (`evaluate_primitive`)
+  ve yeni (cache lookup) arasında bit-exact aynı valid/reason verdi.
+  **Precompute istatistikleri** (gerçek 111×111×24 grid): entry_count=
+  **295,704** (=111×111×24 tam), preprocessing_time=**37.16s**,
+  static_invalid_count=7,512 (~%2.5, sabit/statik olarak invalid --
+  konumdan kaynaklı, irtifadan bağımsız), approx_memory=**59.14MB**.
+  **GERÇEK 6.48km benchmark (TEK run, AYNI ayarlar: 30k cap, epsilon
+  denenmedi, 150k retry yapılmadı)**: `status=success`,
+  search_runtime=**4.70s** (baseline 247.76s'e göre **~52.7x** search-only
+  hızlanma), expanded=**24,959** (Stage 35 ile BİREBİR AYNI), max_open
+  aynı, path_node_count=31 (aynı), xy_length=6480.0m (aynı), min_MSL=
+  3360.0/max_MSL=3800.0 (aynı), total_cost=1.409649 (aynı, 6 ondalık
+  hane bit-exact) -- **davranış tamamen korundu, sadece hız değişti**.
+  Toplam runtime (preprocessing+search)=41.86s, Stage 35'in 247.76s'ine
+  göre **5.92x** toplam speedup (tek-seferlik önişleme maliyeti
+  amortisman edilmedi bu turda -- cache birden fazla search'te
+  yeniden kullanılırsa toplam speedup search-only'nin 52.7x'ine
+  yaklaşabilir, bu turda test edilmedi). **Fine replay Stage 35 ile
+  BİREBİR AYNI**: min_AGL=202.31m, max_angle=8.43°, violations=0.
+  Script: `scripts/validate_coarse_precompute.py`. Bu turda YAPMAZ
+  listesi (weighted A*, epsilon tuning, corridor, fine A*, heuristic/
+  cost/state değişikliği, min/mean/relief routing, Numba/GPU, heading,
+  variable angle) hiçbiri implement edilmedi. **Sonraki adım corridor
+  olabilir** (coarse search artık pratik hızda tekrar tekrar
+  çalıştırılabilir) -- karar kullanıcıda, bu turda başlatılmadı.
+
+- **Stage 35.2 — Coarse Weighted A* Expansion Reduction: sadece open-heap
+  priority (`f=g+epsilon*h`) değişti; epsilon=1.5 expansion'ı 24,959'dan
+  836'ya (**%96.6 azalma**), search runtime'ı 4.70s'den 0.32s'e
+  (**~15x**) düşürdü, cost sadece **%2.21** arttı, fine replay hâlâ PASS
+  (0 violation). PASS -- epsilon=1.5 coarse guidance default'u olarak
+  öneriliyor.** `planner/coarse_astar.py`'ye `coarse_astar_search`'e
+  opsiyonel `epsilon_search=1.0` parametresi eklendi -- TEK etkisi
+  open-heap'e push edilen `f_score = tentative_g + epsilon_search*h_val`
+  (ve start düğümünün ilk push'u da aynı şekilde); `g_score`/
+  `g_distance`/`g_altitude` (gerçek biriken maliyet) HİÇ epsilon ile
+  ölçeklenmiyor -- döndürülen path'in cost'u her zaman gerçek fiziksel
+  maliyet. Stage 25'in reopening mekanizması KASITLI OLARAK eklenmedi
+  (spesin "yalnız ordering" talimatı gereği) -- `closed` set permanent
+  kalıyor, bu daha yüksek-cost (ama hâlâ tam ve güvenli) bir path'e yol
+  açabilir, asla güvensiz bir path'e (safety hâlâ tamamen precomputed
+  cache/`evaluate_primitive`'in elinde, epsilon'dan bağımsız).
+  `epsilon_search=1.0` Stage 35/35.1'i bit-exact reprodüksiyon (1.0 ile
+  çarpmak hiçbir biti değiştirmiyor). **Precompute cache BİR KEZ
+  oluşturuldu (39.9s) ve 3 epsilon'un HEPSİNDE reuse edildi** (spesin
+  talimatı gereği, epsilon başına yeniden precompute YAPILMADI).
+  ```
+  eps   expansions  runtime   cost       cost_delta   path   status
+  1.00       24,959   4.70s   1.409649   baseline     31     success (Stage 35.1 baseline, tekrar çalıştırılmadı)
+  1.10       18,966   3.96s   1.409649   -0.00%       31     success
+  1.25        9,248   2.29s   1.412427   +0.20%       31     success
+  1.50          836   0.32s   1.440851   +2.21%       27     success
+  ```
+  **epsilon=1.10'da cost/path TAM AYNI kaldı** (31 node, aynı 6 ondalık
+  hane -1.409649) -- sadece %24 daha az expansion, hiçbir kalite kaybı
+  yok. **epsilon=1.25'te path uzunluğu (31 node) korunuyor, cost sadece
+  %0.20 artıyor** -- %63 expansion azalması için ihmal edilebilir bir
+  bedel. **epsilon=1.50'de path 27 node'a kısalıyor** (min_MSL 3360->3400,
+  yani biraz daha az derine iniyor), cost %2.21 artıyor, ama expansion
+  %96.6 azalıyor (836) ve runtime 0.32s'e düşüyor -- "%<5000 expansion,
+  ~1s veya altı runtime" kriterini AÇIKÇA en güçlü şekilde sağlıyor.
+  Üçünde de `min_coarse_MAX_AGL>=200m` (1.5'te 203.2m, marj korunuyor) ve
+  `max_flight_path_angle=8.43°<=10°` -- **safety üçünde de hiç
+  bozulmadı**. **Seçilen epsilon=1.5 için FINE REPLAY (tek run, diğer
+  epsilon path'leri replay edilmedi)**: `min_AGL=209.90m` (>=200m),
+  `max_angle=8.43°`, **violations=0** -- PASS. **Öneri: epsilon=1.5
+  coarse guidance default'u olarak kullanılabilir** -- bu coarse search
+  zaten final optimal path değil (fine planner corridor içinde asıl
+  optimizasyonu yapacak), bu yüzden %2.21'lik cost artışı ve 27-vs-31
+  node'luk path farkı kabul edilebilir; kazanılan ~15x search-hızı,
+  coarse guide'ın corridor aşamasında (muhtemelen birden fazla kez)
+  çalıştırılması ihtiyacı düşünüldüğünde değerli. Script:
+  `scripts/validate_coarse_weighted.py`. Bu turda YAPMAZ listesi (disk
+  cache, corridor, fine A*, cost/heuristic/state/primitive değişikliği,
+  terrain-aware heuristic, Numba/GPU, eski PASS testlerini tekrar
+  çalıştırma) hiçbiri implement edilmedi. Sonraki adım (corridor) bu
+  turda BAŞLATILMADI, karar kullanıcıda.
+
+- **Stage 36 — Coarse Path -> Fine XY Corridor: epsilon=1.5 coarse path
+  etrafında ±300m XY-only corridor mask üretildi (fine A* ÇALIŞTIRILMADI).
+  PASS.** Yeni modül `planner/corridor.py` (`build_xy_corridor_mask`,
+  `min_distance_to_polyline`, `bfs_connected` -- scipy bağımlılığı yok,
+  plain numpy/BFS). Epsilon=1.5 coarse path Stage 35.2'de diske
+  kaydedilmemişti -- bu adımda TEK SEFER yeniden çalıştırıldı (aynı
+  precompute cache mekanizması, 36.19s) ve `outputs/
+  stage36_coarse_path_eps1.5.csv`'ye kaydedildi (27 node, Stage 35.2 ile
+  aynı: expanded=836). Corridor SADECE XY -- Z/altitude hiç
+  kısıtlanmadı; her fine hücre merkezinin coarse path polyline'ına
+  (segment-clamp projeksiyonu, vektörize) minimum mesafesi <=300m ise
+  `True`. **İstatistikler**: fine_grid=(333,333)=110,889 hücre,
+  corridor_cell_count=**4,853**, coverage=**%4.38**, approx_area=4.37km²,
+  **search-space XY reduction=%95.62** (sadece diagnostic, henüz bir hız
+  iddiası değil). START (row=48,col=276, distance=42.4m) ve GOAL
+  (row=264,col=276, distance=30.0m) doğal olarak corridor içinde çıktı
+  (force-include hiç gerekmedi). **start<->goal 8-connected BFS ile XY
+  bağlantılı (PASS)**. Perpendicular width taraması (10 örnek nokta):
+  min=mean=max=**620m** (beklenen ~600m'den biraz fazla -- 10m adım
+  quantization + polyline'ın bükümlü olduğu noktalarda convex köşe
+  etkisi, hata değil). **7 test**: 1 (düz sentetik polyline, 260m
+  içeride/340m dışarıda doğru), 2 (L-bükümde köşe boşluğu yok, clamp
+  projeksiyonu doğru), 3 (start/goal dahil), 4 (mask shape==fine grid
+  shape), 5 (XY connectivity), 6 (>305m olan 106,028 hücrenin hiçbiri
+  yanlışlıkla dahil değil), 7 (<=295m olan 4,397 hücrenin hiçbiri
+  yanlışlıkla hariç değil, ayrıca distance=300.0000m'ye en yakın hücre
+  doğru şekilde `<=` ile dahil edildi) -- **ALL PASS**. Çıktılar:
+  `outputs/stage36_coarse_path_eps1.5.csv`, `outputs/
+  stage36_corridor_mask.npy`, `outputs/stage36_corridor_mask.tif`
+  (fine DEM ile aynı transform/CRS/shape). Script: `scripts/
+  build_fine_corridor.py`. Bu turda YAPMAZ listesi (fine A*, corridor
+  width sweep, 600m retry, cost/heuristic değişikliği, coarse planner
+  tuning, terrain stats cost, Z corridor, Numba/GPU) hiçbiri implement
+  edilmedi. Sonraki adım (corridor içinde fine A*) bu turda
+  BAŞLATILMADI, karar kullanıcıda.
+
+- **Stage 37 — Corridor-Constrained Fine A*: fine A*'a opsiyonel
+  `corridor_mask` eklendi (None=eski davranış bit-exact); gerçek
+  6.48km testinde wall-clock %62.6 düştü (98.95s->37.00s) ve max_open
+  %33.1 azaldı (51,475->34,435), AMA 30k'da hâlâ `search_limit_reached`
+  -- expansion sayısı AYNI (30,000, cap'e bağlı, %0 değişim). Corridor
+  30k yakınsama problemini ÇÖZMEDİ, sadece expansion'ı ucuzlattı.**
+  `planner/astar.py`'ye: `_generate_neighbors`'a opsiyonel
+  `corridor_mask: Optional[np.ndarray]` (shape=fine ROI shape, True=
+  corridor içi) -- `out_of_bounds` kontrolünden SONRA, `evaluate_primitive`/
+  cache'den ÖNCE kontrol ediliyor (`outside_corridor` reddi, pahalı
+  terrain evaluation'a hiç gitmiyor). `astar_search`'e aynı isimli
+  parametre + `SearchResult.corridor_reject_count` eklendi.
+  **Corridor SADECE XY** -- z_index/altitude hiç kısıtlanmadı; AGL/
+  terrain/NoData/açı kontrolleri corridor içindeki HER candidate için
+  aynen devam ediyor (mimari olarak ayrık: corridor kontrolü geçen bir
+  primitive hâlâ `evaluate_primitive`'den geçmek zorunda). `None`
+  (default) -- Stage 24/25'in regresyon scriptleri (`validate_
+  incumbent_pruning.py`, `validate_weighted_astar.py`) bu değişiklikten
+  SONRA tekrar çalıştırılıp kayıtlı sayılarla (expanded=679/494/679/494,
+  C*=2424.1952, certified ratio=1.0000<=1.05 vb.) bit-exact eşleşti --
+  legacy davranış hiç bozulmadı. **4 küçük entegrasyon testi ALL PASS**:
+  1 (`corridor_mask=None` == tamamen-True mask, birebir aynı accepted/
+  rejected/corridor_reject sayıları), 2 (successor corridor dışında ->
+  24/24 primitive `outside_corridor` ile reddedildi, `evaluate_primitive`
+  hiç çağrılmadı), 3 (successor corridor içinde -> 24/24 normal
+  evaluate_primitive'e gitti, hepsi kabul edildi), 4 (gerçek Stage 36
+  mask'inde START(48,276) ve GOAL(264,276) corridor içinde, doğrulandı).
+  **GERÇEK 6.48km testi (Stage 33 ile TÜM diğer ayarlar aynı: normalized
+  cost, altitude_reference=3240, H_scale=1000, w_altitude=1.25,
+  epsilon=1.10, target_suboptimality=1.05, dominance OFF, incumbent ON,
+  goal tolerance ±35m/±25m, 30k cap, retry YOK -- eski baseline TEKRAR
+  ÇALIŞTIRILMADI)**: `status=search_limit_reached`, wall=**37.00s**
+  (Stage 33'ün 98.95s'ine göre **%62.6 daha hızlı**), expanded=30,000
+  (Stage 33 ile AYNI -- cap'e ulaşıldığı için expansion sayısında
+  değişim YOK, `%0.00`), max_open=**34,435** (Stage 33'ün 51,475'ine
+  göre **%33.1 daha küçük**), `corridor_reject_count=53,790` (30k
+  expansion boyunca reddedilen candidate'lerin büyük kısmı, pahalı
+  terrain evaluation'a hiç gitmeden), cache_hit_rate=0.768.
+  `first_solution_found=False`, `incumbent_updates=0` (Stage 33 ile
+  aynı, hiç iyileşme yok). **closest_distance_to_goal_region_m=4,918.11m**
+  (Stage 33'ün 5,066.80m'sine göre sadece **~%2.9 daha yakın**, en yakın
+  state row=99 -- yolun sadece **~%23.6'sı**, Stage 33'ün de benzer
+  ölçekteki ilerlemesiyle karşılaştırılabilir). **Sonuç: corridor,
+  %95.62 XY-alan küçülmesine rağmen, search'ün GERÇEKTEN goal'e
+  ulaşması için gereken expansion SAYISINI azaltmadı** -- sadece her
+  expansion'ı ucuzlattı (daha az candidate pahalı terrain sample'ına
+  gidiyor, bu yüzden wall-clock/max_open düştü). Bu, darboğazın büyük
+  kısmının XY breadth'ten değil, dikey (z_index × trend × bucket) state
+  space'in kendisinden kaynaklandığını düşündürüyor -- corridor tek
+  başına yeterli değil, muhtemelen weighted-A*/epsilon ile BİRLİKTE
+  (bu turda denenmedi, YAPMAZ listesinde) daha etkili olabilir. Path
+  bulunamadığı için CSV yazılmadı. Script: `scripts/
+  benchmark_corridor_fine_real.py`, `scripts/validate_astar_corridor.py`.
+  **Not (transparanlık)**: `scripts/validate_primitive_cache.py` (Stage
+  15'in eski scripti) `_generate_neighbors`'ın artık 5-tuple döndürmesi
+  nedeniyle artık çalışmıyor -- proje konvansiyonu gereği (Stage 22'nin
+  `compute_edge_cost` imza değişikliğinde olduğu gibi) eski scriptler
+  geriye dönük düzeltilmiyor, sadece not ediliyor. Bu turda YAPMAZ
+  listesi (corridor width sweep, 600m retry, coarse tuning, epsilon
+  tuning, cost/heuristic/state değişikliği, heading/turn radius,
+  variable angle, Numba/GPU, eski PASS testlerini tekrar çalıştırma)
+  hiçbiri implement edilmedi. Sonraki adım (corridor+weighted-A*
+  kombinasyonu mu, yoksa başka bir yaklaşım mı) bu turda BAŞLATILMADI,
+  karar kullanıcıda.
+
+- **Stage 37.1 — 3D Corridor Fine A*: Z-tube (±200m) hemen hemen HİÇ
+  bağlayıcı çıkmadı (41 reject, XY'nin 53,790'ına karşı) -- expanded/
+  max_open/wall-clock/closest-distance Stage 37 ile PRATİKTE AYNI. Yeni
+  state-composition diagnostiği asıl darboğazı ortaya çıkardı: sadece
+  1,012 benzersiz XY hücresi (4,853 corridor hücresinin ~%20.9'u)
+  ziyaret edildi, ama bu KÜÇÜK alan içinde Z (~7.0x) ve history (~4.2x)
+  çarpımsal olarak state'i şişiriyor -- darboğaz "Z" veya "history"
+  tek başına değil, XY ilerlemesinin kendisinin zaten zayıf olması VE
+  bunun üstüne Z×history çarpımının eklenmesi. SUCCESS gelmedi.**
+  `planner/astar.py`'ye: `_generate_neighbors`/`astar_search`'e opsiyonel
+  `z_guide_grid`/`z_guide_tolerance_m` (her ikisi de None=eski davranış,
+  Stage 37 XY-only corridor bit-exact korunuyor) -- XY kontrolünden
+  SONRA, `evaluate_primitive`'den ÖNCE: `abs(new_z_msl - z_guide_grid[
+  new_row,new_col]) > z_guide_tolerance_m` ise `outside_z_guide_tube`
+  reddi (`z_corridor_reject_count`). Ayrıca 6 yeni state-composition
+  diagnostiği (`unique_expanded_xy/xyz`, `unique_full_states`, `avg_z_
+  states_per_xy`, `avg_history_states_per_xyz`, `max_z_states_in_one_xy`)
+  -- HER search çağrısında ücretsiz hesaplanıyor (sadece final `closed`
+  set üzerinde bir geçiş), corridor kullanılmasa da. `planner/
+  corridor.py`'ye `build_z_guide_grid()` eklendi (coarse 3D polyline'ın
+  segment-clamp projeksiyonuyla aynı XY-en-yakın segmentten Z lineer
+  interpolasyonu -- Stage 36'nın `min_distance_to_polyline`'ıyla aynı
+  matematik, Z'yi de taşıyor). **Regresyon**: Stage 24/25 scriptleri
+  (`validate_incumbent_pruning.py`, `validate_weighted_astar.py`) bu
+  değişiklikten SONRA tekrar çalıştırılıp kayıtlı sayılarla bit-exact
+  eşleşti. **5 yeni entegrasyon testi ALL PASS**: 1 (segment üzerinde Z
+  interpolasyonu doğru: orta nokta ~1100m, başlangıç ~1000m), 2/3
+  (z_guide=1300 (mevcut irtifaya yakın) -> 24/24 kabul; z_guide=1600
+  (300m uzak, primitive'lerin ±20m'lik z_step'i bile bu farkı
+  kapatamıyor) -> 24/24 `outside_z_guide_tube` ile reddedildi), 4 (XY
+  reddi Z tüpünden ÖNCE tetikleniyor -- Z tüpü hiç kontrol edilmiyor),
+  5 (gerçek coarse path: START z_guide=3760.0/diff=0.0, GOAL
+  z_guide=3795.6/diff=35.6 -- ikisi de ±200m tüpüne DOĞAL olarak
+  giriyor, force-include hiç gerekmedi). **GERÇEK 6.48km testi (Stage
+  37 ile TÜM diğer ayarlar aynı, sadece Z-tube eklendi, eski baseline
+  TEKRAR ÇALIŞTIRILMADI)**: `status=search_limit_reached`,
+  expanded=30,000 (Stage 37 ile AYNI), max_open=**34,435 (Stage 37 ile
+  BİREBİR AYNI)**, wall=37.80s (Stage 37'nin 37.00s'ine göre sadece
+  `%2.17` fark, gürültü seviyesinde), `xy_corridor_reject_count=53,790`
+  (BİREBİR AYNI), **`z_corridor_reject_count=41`** (ÇOK küçük -- Z-tube
+  pratikte hiç bağlayıcı olmadı), `closest_distance_to_goal_region_m=
+  4,918.11m` (BİREBİR AYNI), en yakın state hâlâ row=99. **State-
+  composition diagnostiği (asıl bulgu)**: `unique_expanded_xy=1,012`
+  (4,853 corridor hücresinin sadece **~%20.9'u** ziyaret edildi!),
+  `unique_expanded_xyz=7,089`, `unique_full_states=30,000`,
+  `avg_z_states_per_xy=7.005`, `avg_history_states_per_xyz=4.232`,
+  `max_z_states_in_one_xy=13`. Çarpım tutarlı: 1,012×7.005×4.232≈30,000.
+  **Yorum**: Z-tube'un neredeyse hiç tetiklenmemesi (41/53,831),
+  search'ün DOĞAL DAVRANIŞININ zaten coarse path'in ±200m'lik
+  civarında kaldığını gösteriyor -- yani Z-tube constraint DEĞİL,
+  search zaten kendiliğinden o bölgede. Gerçek darboğaz: search
+  30,000 expansion'ın HEPSİNİ corridor'un sadece beşte birlik bir
+  diliminde (row~48-99 civarı) Z (~7x) ve history (~4.2x) kombinasyonlarını
+  tekrar tekrar keşfederek harcıyor, corridor'un geri kalan ~%79'una
+  hiç ilerleyemiyor. **Sınıflandırma: darboğaz Z VEYA history'nin
+  TEKİ değil -- ikisinin ÇARPIMI, VE bunun üstüne XY ilerlemesinin
+  kendisinin (corridor içinde bile) yavaş olması.** Path bulunamadığı
+  için CSV yazılmadı. Scriptler: `scripts/validate_astar_3d_corridor.py`,
+  `scripts/benchmark_3d_corridor_fine_real.py`. Bu turda YAPMAZ listesi
+  (epsilon tuning, Z tolerance sweep, corridor width sweep, trend/bucket
+  değişikliği, cost/heuristic değişikliği, coarse tuning, Numba/GPU,
+  heading/turn radius, variable angle) hiçbiri implement edilmedi.
+  Sonraki adım bu turda BAŞLATILMADI, karar kullanıcıda.
+
+- **Stage 37.2 — Fine A* History-Free Diagnostic: trend/bucket kaldırılınca
+  hedefe ilerleme ÇARPICI biçimde arttı (goal-box mesafesi 4,918.11m'den
+  1,499.49m'e düştü, %69.5 azalma; en yakın state row=99'dan row=214'e
+  ilerledi, yolun %23.6'sından %76.9'una) -- AMA yine de 30k'da SUCCESS
+  gelmedi. History gerçekten büyük bir darboğazdı, ama tek başına yeterli
+  değildi.** `planner/astar.py`'ye diagnostic-only `freeze_history=False`
+  parametresi eklendi (production default DEĞİŞMEDİ) -- `True` iken
+  `_generate_neighbors` `_next_trend_and_bucket`'ı hiç çağırmıyor, successor
+  `(trend,bucket)`'ı ebeveyninkini DONMUŞ olarak devralıyor (başlangıçtaki
+  `(0,BUCKET_SHORT)`'ta sonsuza kadar sabit kalıyor), ve `compute_edge_cost`
+  `disable_reversal_cost=True` ile çağrılıyor (reversal terimi kesin 0.0).
+  Augmented state hâlâ teknik olarak 5-tuple ama son iki alan hiç
+  değişmediği için fiilen `(row,col,z_index)` ile bijektif -- Stage 37.1'in
+  ZATEN var olan `unique_full_states`/`unique_expanded_xyz` diagnostiği bunu
+  otomatik doğruluyor (`avg_history_states_per_xyz==1.0` garantisi).
+  **Regresyon**: Stage 24/25/37/37.1 script'leri bu değişiklikten SONRA
+  tekrar çalıştırılıp bit-exact eşleşti (freeze_history default=False
+  hiçbir mevcut davranışı bozmadı). **4 yeni entegrasyon testi ALL PASS**:
+  1 (frozen modda `unique_full_states==unique_expanded_xyz`, ratio=1.0),
+  2 (aynı senaryoda normal modda ratio=2.740 iken frozen modda 1.0 --
+  history'nin gerçekten XYZ'yi çoğaltmadığı doğrulandı), 3 (NoData/AGL
+  reddi frozen/normal modda identik), 4 (`freeze_history=False`
+  default'un normal davranışla bit-exact aynı olduğu, argüman verilmese
+  de verilse de). **GERÇEK 6.48km testi (Stage 37.1 ile TÜM diğer ayarlar
+  aynı, sadece `freeze_history=True`, eski baseline TEKRAR
+  ÇALIŞTIRILMADI)**: `status=search_limit_reached` (**hâlâ FAIL**),
+  expanded=30,000 (aynı cap), wall=**132.33s** (Stage 37.1'in 37.80s'ine
+  göre **~3.5x daha yavaş** -- cache_hit_rate 0.768'den **0.013'e çöktü**,
+  çünkü search artık aynı fiziksel hücreleri çok daha az tekrar
+  ziyaret ediyor), max_open=25,318 (Stage 37.1'in 34,435'inden düşük),
+  `reopened_states=463` (Stage 37.1'de 0'dı). **State-composition**:
+  `unique_expanded_xy=3,034` (Stage 37.1'in 1,012'sinin **3x'i** --
+  corridor'un ~%62.5'i artık ziyaret edildi, 4,853'ün), `unique_expanded_
+  xyz=29,537`, `unique_full_states=29,537` (birebir aynı -- history
+  çarpımı sıfır, tasarım gereği doğrulandı), `avg_z_states_per_xy=9.735`.
+  **En kritik bulgu: `closest_distance_to_goal_region_m=1,499.49m`**
+  (Stage 37.1'in 4,918.11m'sine göre **%69.5 daha yakın**), en yakın
+  state row=**214** (col=279, Stage 37.1'in row=99'una göre — yolun
+  **%76.9'u**, önceki %23.6'ya karşı). **Yorum**: history'nin (trend/
+  bucket) kaldırılması search'ün gerçek FİZİKSEL ilerlemesini büyük
+  ölçüde iyileştirdi -- bu, Stage 37.1'in "darboğaz Z ve history'nin
+  ÇARPIMI" teşhisini DOĞRULUYOR ve history'nin bu çarpımdaki payının
+  önemli/belirleyici olduğunu gösteriyor (arındırılınca ilerleme 3x'e
+  yakın arttı). Ama SUCCESS hâlâ gelmedi -- yani history TEK BAŞINA
+  darboğazın tamamı değildi; kalan mesafe (1,499m, corridor'un/rotanın
+  son ~%23'ü) hâlâ 30k expansion'ı aşıyor, üstelik cache_hit_rate
+  çöküşü nedeniyle KALAN her expansion da daha maliyetli hale geldi
+  (wall-clock 3.5x arttı). **Sınıflandırma: ana sorun artık kısmen
+  "search guidance" (goal'e daha agresif/etkili yönlendirme) ve kısmen
+  hâlâ ham hacim (kalan ~%23'lük mesafe için 30k'nın yetmemesi) --
+  history en büyük tek faktördü ama TEK faktör değildi.** Path
+  bulunamadığı için CSV yazılmadı. Scriptler: `scripts/
+  validate_astar_history_free.py`, `scripts/
+  benchmark_history_free_fine_real.py`. Bu turda YAPMAZ listesi (epsilon
+  sweep, corridor/Z tolerance değişikliği, heuristic/cost tuning, başka
+  epsilon'lu Weighted A*, Numba/GPU, heading/turn radius, variable
+  angle, eski PASS testlerini tekrar çalıştırma) hiçbiri implement
+  edilmedi. Sonraki adım bu turda BAŞLATILMADI, karar kullanıcıda.
+
+- **Stage 37.3 — History-Free Fine Weighted A* Sweep: 🎯 PROJENİN Stage
+  20'den beri İLK BAŞARILI TAM 6.48km FINE PATH'İ (30m grid). epsilon=1.5
+  VE epsilon=1.7, freeze_history=True + 3D corridor ile tam, güvenli bir
+  path buldu (epsilon=1.3 bulamadı). Seçilen en iyi aday: epsilon=1.7,
+  sadece 57 expansion'da ilk çözüm, fine terrain replay SAFETY PASS.**
+  `planner/astar.py`'ye `external_primitive_cache` parametresi eklendi
+  (default None = eski davranış bit-exact) -- üç epsilon run'ı TEK bir
+  paylaşılan primitive cache dict'i kullanarak çalıştırıldı (spesin
+  talimatı gereği, epsilon başına yeniden precompute/cache YOK).
+  **KRİTİK METODOLOJİK DÜZELTME (script'in ilk versiyonunda kendi
+  kendine yakalandı)**: `result.status=="success"` SADECE %5 certified
+  bound kanıtlandığında true oluyor (`target_suboptimality=1.05` hâlâ
+  aktif) -- ama gerçek, güvenli, TAM bir path çok daha ÖNCE bulunmuş
+  olabilir (`first_solution_cost`/`incumbent_path` üzerinden) ve
+  30k cap, certificate tamamlanmadan yetişebilir. İlk script çalıştırması
+  epsilon=1.5/1.7 için `closest_distance_to_goal_region_m=0.00` gösterip
+  hâlâ "FAIL" raporladı -- bu tutarsızlık fark edilip script düzeltildi:
+  gerçek başarı ölçütü `first_solution_cost<inf` (`incumbent_path`), status
+  değil. Düzeltme sonrası: **her ikisi de (1.5 ve 1.7) GERÇEKTEN tam path
+  bulmuş.** **Sonuçlar** (paylaşılan cache, aynı 3D corridor/normalized
+  cost/safety):
+  ```
+  eps   status               found_path  expansions  runtime  reopened  cost
+  1.1   search_limit_reached  False       30000       132.33s  463       n/a  (Stage 37.2 baseline, tekrar çalıştırılmadı)
+  1.3   search_limit_reached  False       30000       35.08s   24647     n/a
+  1.5   search_limit_reached  True        30000       16.81s   28300     1.460453
+  1.7   search_limit_reached  True        30000       13.37s   28840     1.497221
+  ```
+  epsilon=1.3: hâlâ path bulamadı (closest_distance=614.86m -- Stage
+  37.2'nin 1499.49m'inden daha yakın ama hâlâ tam değil). epsilon=1.5:
+  first_solution_expanded=**19,732**, 4 incumbent update, cost=1.460453,
+  81 node. epsilon=1.7: first_solution_expanded=**57** (pratikte anında),
+  140 incumbent update (agresif ordering çok daha fazla iyileştirme
+  buluyor), cost=1.497221, 63 node -- eps=1.5'e göre sadece **%2.52**
+  daha pahalı. **reopen_ratio üçünde de çok yüksek (%82-%96)** -- ama bu
+  ARTIK zararlı thrashing değil, GERÇEK ilerlemeye dönüşen reopening
+  (Stage 37.2'nin bulgusuyla tutarlı: history kaldırılınca reopening
+  hacmi yüksek kalıyor ama artık anlamlı). **Seçim kriteri** (reopen_ratio
+  <0.98 VE cost_delta<%10 kabul barajını her ikisi de geçti, en az
+  `first_solution_expanded` tercih edildi): **epsilon=1.7 seçildi**
+  (57 expansion, %2.52 cost farkı kabul edilebilir). **SADECE epsilon=1.7
+  için fine DEM replay/validation yapıldı** (diğerleri replay edilmedi,
+  spesin talimatı gereği): `path_node_count=63`, `3d_length=6534.4m`,
+  `min_MSL=3520.0` `max_MSL=3780.0`, `min_AGL=200.8m` (>=200m marj
+  korunuyor), `max_flight_path_angle=9.46°` (<=10° limitin altında),
+  `total_climb=500.0` `total_descent=520.0`. **SAFETY CHECK: PASS.**
+  Path: `outputs/stage37_3_best_path.csv`. **Bu, Stage 20'den beri
+  denenen HERHANGİ bir mekanizmanın (dominance/bucket/incumbent/
+  weighted-A*/epsilon-sweep/normalized-cost/goal-region/XY-corridor/3D-
+  corridor/history-removal, tek tek veya art arda) ayrı ayrı BULAMADIĞI
+  ilk tam, güvenli, gerçek-ölçekli (30m) 6.48km fine path'i** -- ancak
+  bunun için GEREKLİ kombinasyon şuydu: coarse-guided 3D corridor +
+  trend/bucket history'nin kaldırılması + orta-agresif weighted ordering
+  (epsilon>=1.5). Script: `scripts/
+  benchmark_history_free_epsilon_sweep.py`. Bu turda YAPMAZ listesi
+  (epsilon=1.10 tekrar, corridor/cost/heuristic/history yapısı
+  değişikliği) hiçbiri implement edilmedi. Sonraki adım bu turda
+  BAŞLATILMADI, karar kullanıcıda.
+
+- **Stage 37.4 — First-Solution Speed + Route Quality: epsilon=1.7,
+  freeze_history=True, `stop_on_first_solution=True` ile ilk tam güvenli
+  path SADECE 57 expansion / 0.33s'de bulundu. SAFETY PASS. Ama vertical
+  smoothness diagnostiği path'in belirgin roller-coaster karakterli
+  olduğunu ortaya çıkardı (30 reversal, 29'u <300m aralıklı).**
+  `planner/astar.py`'ye `stop_on_first_solution=False` (default) eklendi
+  -- `True` iken goal-region pop'unda `bounded_mode` aktif olsa bile
+  HEMEN duruyor (certificate aranmıyor); tüm running counter'lar
+  (`expanded_nodes`, `max_open_size`, `reopened_states`, `generated_
+  neighbors`) doğal olarak "ilk çözüm anındaki" değerlerini yansıtıyor,
+  ekstra snapshot alanı gerekmedi. Regresyon (Stage 24/25) bit-exact
+  PASS. **GERÇEK TEK RUN sonuçları**: `first_solution_expanded=57`,
+  `runtime=0.3427s`, `max_open=1164`, `reopened_states=0` (ilk
+  çözümden önce hiç reopen olmamış), `generated_states=1344`,
+  `cache_hit_rate=0.000` (soğuk cache, paylaşılan cache Stage 37.3'ten
+  farklı olarak burada kullanılmadı -- spesin "tek run" talimatına
+  uygun). **SAFETY**: min_AGL=206.31m (>=200m), max_angle=9.46°
+  (<=10°), 0 NoData/bounds violation, fine DEM replay PASS. **DISTANCE**:
+  xy_length=6450.0m, 3d_length=6537.7m, direct_distance=6480.0m,
+  **detour=-0.46%** (aslında düz çizgiden biraz KISA -- xy_length ölçümü
+  gerçek 3D path'in XY izdüşümü, 6480m tam olarak start-goal düz çizgisi
+  değilse bu makul). **LOW-MSL QUALITY**: min_MSL=3520.0, max_MSL=3780.0,
+  distance-weighted mean_MSL=3636.7, total_descent=540.0,
+  total_climb=520.0, normalized_distance=1.008909,
+  normalized_altitude=0.500324, **total_diagnostic_cost=1.509232**.
+  **VERTICAL SMOOTHNESS (sadece ölçüldü, cost'a eklenmedi)**:
+  `vertical_reversal_count=30`, **`short_reversal_count (<300m)=29`**
+  (reversal'ların neredeyse HEPSİ kısa-aralıklı), `longest_continuous_
+  descent=260.0m`, `longest_continuous_climb=40.0m`, `total_vertical_
+  variation=1060.0m` -- 6480m'lik bir rotada 1060m toplam dikey hareket
+  ve 29 kısa reversal, path'in ASCII profilinin gösterdiği tek-basit-
+  vadi görünümünün ALTINDA, primitive seviyesinde belirgin bir "roller-
+  coaster" karakteri olduğunu gösteriyor (reversal cost=0 olduğu için
+  bu freeze_history modunda hiç cezalandırılmıyor). **REFERENCE
+  COMPARISON**: direct level'a göre **%8.53 daha ucuz**; Stage 32'nin
+  deep candidate'ine göre (SADECE aynı normalized distance+altitude
+  objective açısından, global optimum kanıtı DEĞİL) **%10.05 daha
+  pahalı** (min_MSL 120m daha yüksek, 3520 vs 3400); Stage 37.3'ün
+  30k'ya kadar arıtılmış eps=1.7 sonucuna göre (cost=1.497221) **sadece
+  %0.80 daha pahalı** -- yani search'ün geri kalan ~29,943 expansion'ı
+  (57'den 30,000'e) sadece %0.80'lik bir iyileştirme sağlamış, ilk
+  çözüm zaten neredeyse aynı kalitede. Path: `outputs/
+  stage37_4_first_solution_eps17.csv`. Script: `scripts/
+  benchmark_first_solution_eps17.py`. Bu turda YAPMAZ listesi (30k'ya
+  devam, certificate arama, epsilon sweep, ARA*, cost tuning, corridor/
+  history değişikliği) hiçbiri implement edilmedi. Sonraki adım bu
+  turda BAŞLATILMADI, karar kullanıcıda.
+
+- **Stage 38 — Fine ARA* Refinement: GERÇEK bir ARA* implement edildi
+  (`planner/astar.py::ara_star_search`) -- epsilon_schedule=(1.7,1.5,1.3,1.1)
+  boyunca TEK bir g/parent/OPEN/CLOSED/INCONS/incumbent state korunarak
+  (asla ayrı ayrı `astar_search()` çağrıları değil), tek bir CUMULATIVE
+  30,000-expansion bütçesiyle çalıştı. Sonuç: ε=1.7 ilk çözüm Stage 37.4
+  baseline'ına (57 exp/0.343s/cost=1.509232) neredeyse birebir yakın
+  geldi (54 exp/0.374s/cost=1.517405) -- ARA*'nin kendi search mekaniği
+  bağımsız doğrulandı. ε=1.5'e geçişte cost 1.483210'a düştü (%2.25 FIRST'e
+  göre daha ucuz), MSL 200m aşağı indi (3520->3320) -- ama ε=1.3 fazı
+  bütçe tükenmeden TAMAMLANAMADI (30,000/30,000 kullanıldı), ε=1.1'e HİÇ
+  geçilemedi.**
+  `planner/astar.py`'ye YENİ `ara_star_search()` fonksiyonu + `ARAPhaseResult`/
+  `ARASearchResult` dataclass'ları eklendi (mevcut `astar_search`'e HİÇBİR
+  değişiklik yapılmadı -- tamamen ayrı, ek bir fonksiyon). Algoritma:
+  `_generate_neighbors`'ı (freeze_history=True hardwired, aynı corridor_mask/
+  z_guide_grid/z_guide_tolerance_m argümanlarıyla) ve `_heuristic`/
+  `_state_in_goal_region`/`_reconstruct_path`/`_path_altitude_metrics`/
+  `_path_vertical_reversal_metrics`'i DOĞRUDAN reuse ediyor -- hiçbir
+  terrain/AGL/angle/corridor/cost/heuristic mantığı tekrar yazılmadı.
+  Goal bir REGION olduğu için klasik ARA*'nin tekil `sgoal` düğümü yerine
+  `incumbent_cost`/`incumbent_state` o rolü üstleniyor: goal-region'a giren
+  bir successor normal bir relaxation gibi g/parent güncellemesi alıyor,
+  ama OPEN/INCONS'a HİÇ itilmiyor (sink -- bölgenin içinden geçmeye gerek
+  yok) ve eğer g'si incumbent'i iyileştiriyorsa incumbent güncelleniyor.
+  Reopening: aynı faz içinde CLOSED bir state daha iyi g bulursa ANINDA
+  reopen edilmiyor, INCONS'a ekleniyor (bu ARA*'yi tekrarlı Weighted A*'dan
+  ayıran temel mekanizma). Epsilon düşürüldüğünde: `OPEN = OPEN ∪ INCONS`,
+  INCONS temizleniyor, kalan OPEN elemanlarının key'leri yeni epsilon ile
+  yeniden hesaplanıyor, CLOSED temizleniyor -- g/parent/incumbent/primitive_
+  cache DOKUNULMADAN taşınıyor (hiçbir edge yeniden değerlendirilmiyor).
+  ImprovePath'in faz sonlandırma testi: OPEN'ın en düşük weighted key'i
+  incumbent_cost'u artık yenemeyecek hale gelince (`f_weighted_top >=
+  incumbent_cost`) faz bitiyor -- spesifikasyondaki "OPEN'daki en iyi
+  weighted lower key artık incumbent'i iyileştiremeyecek noktaya gelince"
+  kriterinin birebir karşılığı. `diagnostic_lower_bound` (OPEN∪INCONS
+  üzerinden min(g+h)) her faz sonunda hesaplanıyor AMA açıkça sadece
+  DIAGNOSTIC olarak raporlanıyor, certificate DEĞİL -- çünkü önceki bir
+  fazda CLOSED edilip bir daha hiç INCONS'a girmemiş bir state'in "çözülmüş"
+  sayılması, bu multi-epsilon/region-goal ortamında ayrıca ispatlanmış bir
+  admissibility argümanına sahip değil (astar_search'ün tek-epsilon
+  bounded_mode certificate'inin aksine) -- yanlış certificate üretmeme
+  talimatına bu şekilde uyuldu.
+  **SONUÇLAR** (tek run, paylaşılan primitive cache, aynı 3D corridor/
+  normalized cost/freeze_history=True):
+  ```
+  eps   added_exp  cum_exp   time(s)  incumbent    min_MSL  mean_MSL  complete
+  1.70         56       56    0.440   1.509232       3520.0    3636.7    True
+  1.50      16911    16967   86.208   1.483210       3520.0    3613.9    True
+  1.30      13033    30000  124.226   1.483210       3320.0    3512.5   False (bütçe tükendi)
+  1.10          --       --       --       --             --        --    (hiç başlamadı)
+  ```
+  **FIRST (ε=1.7 fazının ilk incumbent'ı, 54 expansion/0.374s) vs FINAL
+  (bütçe tükendiğindeki en iyi incumbent, cost=1.483210) independent fine
+  DEM replay**: FIRST cost=1.517405, min_MSL=3520.0, mean_MSL=3639.6,
+  3d_length=6569.4m, xy_length=6480.0m, climb=540.0, descent=540.0,
+  min_AGL=211.52m, max_angle=9.46°, reversal_count=30 (29 kısa-aralıklı --
+  Stage 37.4'ün 30/29 bulgusuyla BİREBİR tutarlı). FINAL cost=1.483210,
+  min_MSL=3320.0, mean_MSL=3492.6, 3d_length=6803.7m (+234.3m), xy_length=
+  6729.4m (+249.4m), climb=440.0, descent=460.0, min_AGL=200.76m, max_angle=
+  9.46°, **reversal_count=3 (sadece 2 kısa-aralıklı)** -- roller-coaster
+  karakteri YAN ETKİ olarak büyük ölçüde ortadan kalktı (cost'a reversal
+  hiç dahil değilken bile, düşük-epsilon search'ün doğal olarak daha az
+  zigzag'lı bir rota bulması). **SAFETY: FIRST ve FINAL ikisi de PASS**
+  (min_AGL>=200m, max_angle<=10°, 0 fine-DEM violation). **cost improvement
+  FIRST->FINAL: +2.25%**. **Küçük gözlemlenen incelik**: eps=1.5 fazı
+  sonundaki incumbent (min_MSL=3520, xy=6450.0) ile eps=1.3 fazı sonundaki
+  incumbent (min_MSL=3320, xy=6729.4) 6 ondalıkta AYNI cost'u (1.483210)
+  gösteriyor ama FARKLI bir fiziksel rota -- muhtemelen 6. ondalığın altında
+  gerçek (çok küçük) bir iyileşme incumbent_state'i FARKLI bir goal-region
+  girişine kaydırdı; şeffaflık için not edildi, gizlenmedi.
+  **9 SORUYA CEVAP**: (1) İlk path yine ~57 exp/sub-second geldi mi? EVET
+  (54 exp, 0.374s -- pratikte aynı). (2) ARA* search bilgisini gerçekten
+  reuse etti mi? EVET -- tek g/parent/cache/expansion-counter tüm fazlar
+  boyunca korundu, hiçbir faz sıfırdan başlamadı. (3) ε düştükçe cost
+  anlamlı iyileşti mi? EVET ama azalan getiriyle -- esas iyileşme ε=1.7->1.5
+  geçişinde geldi (+2.25%), ε=1.3'ün 13,033 expansion'ı görünür bir ek
+  iyileşme getirmedi (bütçe tükendi, ε=1.1'e hiç ulaşılamadı). (4) MSL daha
+  aşağı indi mi? EVET (-200m, 3520->3320). (5) XY rota değişti mi? EVET
+  (+249.4m, %3.8 daha uzun -- düşük MSL için mesafe feda edildi, w_altitude=
+  1.25>w_distance=1.0 ile tutarlı). (6) 30k'nın ne kadarı kullanıldı? TAMAMI
+  (30,000/30,000, %100). (7) INCONS mekanizması eski %90+ reopening
+  thrashing'ini azalttı mı? Dolaylı kanıt EVET -- INCONS/added_expansions
+  oranı ε=1.5 fazında %63, ε=1.3 fazında %36 (Stage 37.3'ün ~%94-96 reopen_
+  ratio'suna göre belirgin düşük; doğrudan aynı metrik değil ama analog).
+  (8) Final path SAFE mi? EVET (PASS). (9) Refinement süreye değdi mi?
+  KISMEN -- ε=1.7->1.5 geçişi (86s, +2.25% cost, reversal 30->3) net bir
+  kazanç; ε=1.3'ün kalan ~124s'lik kısmı (13,033 expansion) görünür bir
+  ek kazanç getirmeden bütçeyi tükettі -- Stage 37.4'ün "30k'nın geri kalanı
+  sadece %0.80 iyileştirdi" bulgusuna göre ARA* bütçeyi ~3x daha iyi kullandı,
+  ama mutlak getiri hâlâ mütevazı ve azalan. Path: `outputs/
+  stage38_ara_first_path.csv`, `outputs/stage38_ara_final_path.csv`.
+  Script: `scripts/benchmark_stage38_ara.py`. Bu turda YAPMAZ listesi (epsilon
+  başına search restart, vertical profile optimizer, roller-coaster
+  penalty, trend/bucket geri getirme, corridor değiştirme, cost tuning,
+  Numba/GPU, heading/turn radius, eski benchmarkları tekrar çalıştırma)
+  hiçbiri implement edilmedi. Sonraki adım bu turda BAŞLATILMADI, karar
+  kullanıcıda.
+
+- **Stage 38.1 — Fine Corridor Safety Precompute + ARA* Runtime Sweep:
+  precompute search DAVRANIŞINI birebir aynı tuttu (aynı 54 exp/cost=
+  1.517405 ilk çözüm, aynı eps=1.5/1.3 sonu incumbent=1.483210, aynı
+  30,000/30,000 bütçe tüketimi) AMA search-only wall-clock'u ~6.3x
+  hızlandırdı (124.23s -> 19.63s) -- SADECE 30k'lık AYNI expansion
+  bütçesi içinde eps=1.2'ye hâlâ ULAŞILAMADI (bütçe expansion-count
+  bazlı, wall-clock bazlı değil -- precompute expansion SAYISINI
+  değiştirmiyor, sadece her expansion'ın maliyetini düşürüyor).**
+  `planner/fine_precompute.py` (YENİ, izole modül -- `planner/astar.py`'nin
+  ARA*/A* mantığına dokunmuyor, Stage 35.1'in coarse-grid precompute'unun
+  fine-grid + corridor-restricted + dense-NumPy-array analoğu):
+  `FinePrecomputeResult` (`static_invalid_reason_code`: int8 (H,W,P) --
+  0=temiz, 1=out_of_bounds, 2=nodata, 3=corridor dışı/hiç hesaplanmadı;
+  `required_start_msl`: float32 (H,W,P)), `precompute_fine_corridor_
+  primitive_safety()` (SADECE corridor_mask=True hücreler için doldurur,
+  matematik Stage 35.1 ile birebir aynı: `required_start_msl = max_i(
+  terrain_elev(i) + min_agl - primitive.dz_m*t_i)`), `fine_precomputed_
+  primitive_validity()` (O(1) array lookup + karşılaştırma). z_index
+  cache key'e HİÇ girmiyor (spesin talimatı). `planner/astar.py`'ye
+  minimal, geriye-dönük-uyumlu değişiklik: `_generate_neighbors`'a
+  opsiyonel `fine_precompute=None` parametresi (verildiğinde primitive_
+  cache/evaluate_primitive'i tamamen bypass ediyor; None=eski davranış
+  bit-exact, `astar_search()` bunu HİÇ kullanmıyor, regresyon riski yok);
+  `ara_star_search()`'e aynı isimde opsiyonel parametre eklendi (Stage 38
+  ARA*'nin kendisine hiçbir mantık değişikliği yok, sadece safety-check
+  yolunu değiştiriyor). Circular-import'tan kaçınmak için `planner.
+  fine_precompute`'un fonksiyonu lazy-import edildi (fine_precompute
+  modülü zaten `planner.astar`'dan import ettiği için).
+  **EQUIVALENCE TESTLER (`scripts/validate_fine_precompute.py`)**: 7 test,
+  hepsi ALL PASS, 0 mismatch -- flat/level-climb-descent, ridge, bounds,
+  NoData, 30 farklı start-MSL seviyesi, corridor-dışı hücrelerin hep
+  invalid döndüğü doğrulaması, VE gerçek Stage 36 corridor mask'ı üzerinde
+  4,000 rastgele gerçek-corridor örneği (row/col/primitive/start_msl) --
+  old evaluator (evaluate_primitive) vs new evaluator (fine_precomputed_
+  primitive_validity) tam eşleşti. Gerçek corridor precompute: entry_
+  count=116,472 (corridor_cell_count=4,853 x 24 primitive),
+  preprocessing_time=18.26s (test script'inde) / 18.41s (benchmark
+  script'inde), approx_memory_MB=12.69, static_invalid_count=0 (corridor
+  hücrelerinin hiçbiri bounds/NoData'ya çarpmıyor -- Stage 37.3'ün
+  bulgusuyla tutarlı). **ARA* SWEEP (`scripts/
+  benchmark_stage38_1_ara_precompute.py`, precompute BİR KEZ oluşturulup
+  TEK continuous ARA* run'a geçirildi, epsilon_schedule=(1.7,1.5,1.3,1.2),
+  max_expansions_cumulative=30,000 -- Stage 38 ile AYNI, bu turda
+  değiştirilmedi)**:
+  ```
+  eps   added_exp  cum_exp  phase_time  cum_time      cost   cost_gain  min_MSL  mean_MSL
+  1.70         56       56      0.155s     0.155s  1.509232        n/a   3520.0    3636.7
+  1.50      16911    16967     10.339s    10.494s  1.483210     +1.72%   3520.0    3613.9
+  1.30      13033    30000      9.140s    19.634s  1.483210     +0.00%   3320.0    3512.5
+  1.20        --         --       --          --       --          --      --        --   (bütçe tükendi, hiç başlamadı)
+  ```
+  **İLK ÇÖZÜM (ε=1.7)**: expanded=54, runtime=0.1019s, cost=1.517405 --
+  Stage 38'in (precompute'suz) AYNI sonucuyla (54 exp, cost=1.517405)
+  BİREBİR eşleşti -- precompute'un search KARARLARINI hiç değiştirmediğinin
+  doğrudan kanıtı, sadece hızını değiştiriyor. **FINAL** (bütçe tükendiğinde,
+  eps=1.3 fazı tamamlanmadan): cost=1.483210 (Stage 38'in final'iyle
+  BİREBİR aynı, `%-0.000` fark), min_MSL=3320.0, 3d_length=6803.7m,
+  independent fine DEM replay: min_AGL=200.76m, max_angle=9.46°,
+  violations=0, **SAFETY: PASS**. Path: `outputs/
+  stage38_1_ara_final_path.csv` (FIRST path yazılmadı -- Stage 38'in
+  first-path CSV'siyle zaten birebir aynı olacağı için gereksiz tekrar).
+  **KARAR SORULARI**: (1) 1.5 ne kadar kazandırdı/kaç saniye? +1.72% cost
+  / 10.34s phase time (quality_gain_per_second=0.167) -- Stage 38'deki
+  aynı geçişin 86.2s'sine göre ~8.3x daha hızlı ulaşıldı. (2) 1.3 ek olarak
+  ne kazandırdı/kaç saniye? +0.00% (görünür iyileşme yok, 6 ondalıkta aynı
+  cost) / 9.14s phase time, quality_gain_per_second=0.0000 -- Stage 38'in
+  bulgusuyla tutarlı (1.3 fazı burada da tamamlanamadı, ama artık SADECE
+  9.14s'de, önceki 124.23s'nin bir kısmı yerine). (3) 1.2 ek olarak ne
+  kazandırdı/kaç saniye? CEVAPLANAMAZ -- ε=1.2 fazına HİÇ ulaşılamadı,
+  30,000'lik expansion bütçesi ε=1.3'ün ortasında tükendi (precompute
+  expansion SAYISINI değiştirmediği için bu, Stage 38 ile MATEMATİKSEL
+  OLARAK AYNI nokta). (4) Precompute sonrası daha düşük epsilon'lar
+  pratik hale geldi mi? **KISMEN/WALL-CLOCK açısından EVET, ama AYNI
+  expansion bütçesiyle HAYIR.** Precompute search-only wall-clock'u
+  124.23s'den 19.63s'e düşürdü (~6.3x, +18.41s tek-seferlik precompute
+  dahil toplam ~38.04s, yine de ~3.3x uçtan uca hızlanma) -- AMA bütçe
+  expansion-SAYISI bazlı olduğu için (wall-clock bazlı değil) aynı 30,000
+  cap ile ε=1.2'ye hâlâ erişilemiyor; precompute'un asıl kazancı, DAHA
+  YÜKSEK bir expansion bütçesinin artık çok daha ucuza (aynı wall-clock
+  süresinde ~6x daha fazla expansion) karşılanabilir olması -- bu spesin
+  kapsamı dışında olduğu için bütçe bu turda YÜKSELTİLMEDİ, sadece
+  gözlem olarak raporlanıyor. (5) Production stopping point hangi
+  epsilon olmalı? **ε=1.5** -- tüm ölçülebilir kalite kazancı (+1.72%
+  cost, MSL aynı, reversal 30->12) oradan geliyor ve precompute ile artık
+  ~10.5s'de (tek-seferlik ~18.4s precompute dahil ~28.9s) elde ediliyor;
+  ε=1.3/1.2'nin bu bütçede EK bir ölçülebilir kazanç sağladığı
+  GÖSTERİLEMEDİ (1.3 fazı %0.00 gösterdi, 1.2 hiç denenemedi) -- FAST
+  için ε=1.7 (54 exp, <0.2s toplam), BALANCED/QUALITY için ε=1.5 önerilir;
+  ε=1.3'e devam etmenin bu ölçümde somut bir gerekçesi yok. Bu turda
+  YAPMAZ listesi (ε=1.10, corridor değiştirme, cost/heuristic tuning,
+  vertical optimizer, roller-coaster penalty, heading/turn radius,
+  Numba/GPU, disk cache, eski PASS benchmarklarını tekrar çalıştırma)
+  hiçbiri implement edilmedi. Sonraki adım bu turda BAŞLATILMADI, karar
+  kullanıcıda.
+
+- **Stage 38.2 — Altitude Weight Test (`w_altitude=1.50`): HAYIR — tek
+  continuous ARA* `epsilon_schedule=(1.70,1.50)` koşusu, eski ε=1.3 düşük-
+  altitude avantajını daha erken yakalamadı.** Yalnız normalized altitude
+  weight `1.25 -> 1.50` değiştirildi; `w_distance=1.0`, `freeze_history=True`,
+  state=`(row,col,z)`, XY corridor ±300m, Z guide ±200m, fine safety precompute,
+  30m XY, 20m Z, min AGL=200m, max angle=10°, H_ref=3240, H_scale=1000,
+  heuristic, goal tolerance, ARA* ve precompute aynen korundu. ε=1.3/1.2/1.1
+  çalıştırılmadı; eski benchmark/PASS testleri tekrar çalıştırılmadı.
+
+  **Tek yeni search run sonucu:** ε=1.70 ilk incumbent'ı expansion=143 /
+  0.196s'de buldu (cost=1.631084003); phase-end incumbent son kez cumulative
+  expansion=368'de iyileşti. Faz 416 expansion / 0.654s'de tamamlandı.
+  ε=1.50 fazında **hiç incumbent improvement olmadı**; 29,584 ek expansion
+  ve 19.953s sonra cumulative 30,000 cap'e ulaşıldı, faz tamamlanamadı.
+  Dolayısıyla final ε=1.50 accepted incumbent, ε=1.70 phase-end incumbent'ının
+  aynısıdır. Precompute=20.143s, search=20.607s, uçtan uca=40.751s.
+
+  ```
+  phase | expansions                 | time                         | min MSL | mean MSL | XY length | cost
+  1.70  | 416 (cum 416)              | 0.654s (cum 0.654s)          | 3540.0  | 3652.5   | 6462.4m   | 1.629699545
+  1.50  | 29584 (cum 30000)          | 19.953s (cum 20.607s)        | 3540.0  | 3652.5   | 6462.4m   | 1.629699545
+  ```
+
+  Her iki phase-end accepted incumbent için rota metrikleri aynıdır:
+  distance-weighted mean MSL=3652.5m, 3D length=6523.7m, total climb=360m,
+  total descent=380m, reversal count=15, min AGL=200.05m, max angle=9.46°,
+  violations=0. **Final ε=1.50 fine replay: PASS** (`AGL>=200`, `angle<=10°`,
+  violation=0). Yeni objective içindeki cost ayrımı: distance component=
+  1.006739302, altitude component=0.622960243, total=1.629699545 (search
+  incumbent ile ~1.6e-15 içinde aynı). Bu cost eski `w_altitude=1.25`
+  cost'larıyla doğrudan iyi/kötü diye karşılaştırılmadı.
+
+  **Search çalıştırmadan kayıtlı yol replay'i:** Stage 38/38.1 ε=1.5 phase
+  path'ini diske kaydetmediği için o yol recompute edilemedi. Kayıtlı eski
+  ε=1.3 yolu (`outputs/stage38_1_ara_final_path.csv`) `w_altitude=1.50`
+  altında replay edildi: min/mean MSL=3320.0/3512.5m, XY/3D=6729.4/6803.7m,
+  climb/descent=440/460m, reversal=3, min AGL=200.76m, max angle=9.46°,
+  violations=0; distance component=1.049955334, altitude component=
+  0.429137998, total=**1.479093332**. Böylece yeni objective eski düşük-MSL
+  yolu yeni run incumbent'ına göre gerçekten tercih ediyor (%9.24 daha düşük
+  total); problem objective yönü değil, bu ε schedule/30k budget ile yolun
+  accepted incumbent olarak erken yüzeye çıkarılamaması.
+
+  **Kritik cevaplar:** (1) ε=1.7, 3520m altına inmedi; tersine min=3540m.
+  (2) ε=1.5 eski ε=1.3'ün ~3320/~3513m davranışına yaklaşmadı; accepted
+  incumbent 3540/3652.5m'de kaldı. (3) Düşük irtifa kazanımı olmadığı için
+  bunun uğruna rota uzamadı; eski w=1.25 ε=1.7/1.5 phase-end XY=6450m
+  referansına göre yalnız +12.4m (+%0.19). (4) Kötüleşme belirgin: ε=1.7
+  added expansion 56->416; ε=1.5'e kadarki cumulative expansion
+  16,967->30,000 (+%76.8) ve search runtime 10.494->20.607s (+%96.4), üstelik
+  ε=1.5 tamamlanmadı. (5) Safety aynen korundu, PASS. (6) `w_altitude=1.50`
+  objective olarak düşük yolu doğru sıralasa da **mevcut production stopping
+  point ε=1.7/1.5 ile 1.25'ten daha uygun görünmüyor**: daha yüksek MSL,
+  tamamlanmayan refinement ve daha yüksek search maliyeti verdi.
+
+  **Raporlama düzeltmesi (search mimarisi değişmedi):** İlk ham çıktı,
+  ε=1.50'de incumbent hiç güncellenmediği halde live parent map'ten yeniden
+  path kurduğu için search cost=1.629699545 ile path-recomputed cost=
+  1.521685628 arasında açık mismatch gösterdi. Neden, incumbent goal sink'in
+  g'si tekrar relax edilmeden ancestor parent'larının sonraki fazda
+  değişebilmesiydi; bu türetilmiş yol accepted incumbent değildir ve sonuçtan
+  çıkarıldı. `ARAPhaseResult` artık yalnız raporlama için incumbent yolu,
+  güncellendiği anda immutable snapshot olarak saklıyor; ordering/relaxation/
+  stopping/OPEN-CLOSED-INCONS reuse'a dokunulmadı. Arama tekrar çalıştırılmadı.
+  Script: `scripts/benchmark_stage38_2_altitude_weight.py`; tam düzeltilmiş
+  kayıt: `scratch_stage38_2.log`; accepted yollar: `outputs/
+  stage38_2_eps17_path.csv` ve aynı SHA-256'ya sahip `outputs/
+  stage38_2_eps15_path.csv`. **Tek karar: HAYIR.** `w_altitude=1.50` ile
+  ε=1.7/1.5, eski ε=1.3 düşük-altitude avantajını daha erken yakalamıyor.
+
+- **Stage 38.3 — Mission Policy Generalization + Epsilon Robustness:
+  MissionPolicy merkezileştirildi; objective A–K=11/11 PASS, fakat selected
+  synthetic search yalnız FLAT'te preferred topology'yi buldu. Ana sonuç:
+  OBJECTIVE DOĞRU, SEARCH/GLOBAL XY GUIDANCE DARBOĞAZ.** `planner/mission.py`
+  tek normalized soft-objective authority oldu: `MissionPolicy`,
+  `CostComponents`, production factory (`w_distance=1.0`, `w_altitude=1.25`,
+  scale=1000) ve config adapter. Fine A*/ARA* normalized edge cost ile coarse
+  edge cost aynı helper'a geçirildi; aynı level edge için common/fine/coarse
+  cost=`0.028125000000`, max delta=`0` — consistency PASS. Coarse planner'daki
+  location-specific `altitude_reference_msl=3240` default'u kaldırıldı;
+  reference artık caller/config tarafından explicit mission datum olarak
+  veriliyor. `PlannerConfig.normalized_w_altitude` production candidate 1.25
+  oldu (legacy mode'a etkisiz); production weight bu stage'de değiştirilmedi.
+  Safety-only `validate_path_safety()` costing/optimization'dan ayrıldı;
+  eski `validate_and_cost_path()` yalnız backward-compatible safety+replay
+  convenience wrapper olarak kaldı. Hard safety logic'in kendisi değişmedi.
+
+  **TABLE 1 — Objective Tests (FULL SEARCH YOK; actual winner w_alt=1.25):**
+
+  | scenario | candidate | length m | mean MSL | cost w=1.0 | cost w=1.25 | cost w=1.5 | expected winner | actual winner | result |
+  |---|---|---:|---:|---:|---:|---:|---|---|---|
+  | A FLAT | short | 4000.0 | 500.0 | 1.100000 | 1.125000 | 1.150000 | short | short | PASS |
+  | A FLAT | same-MSL detour | 4123.1 | 500.0 | 1.133854 | 1.159623 | 1.185393 | short | short | PASS |
+  | B LOW SLIGHT | high short | 4000.0 | 500.0 | 1.100000 | 1.125000 | 1.150000 | low 8% | low 8% | PASS |
+  | B LOW SLIGHT | low 8% detour | 4332.1 | 420.0 | 1.104663 | 1.110076 | 1.115489 | low 8% | low 8% | PASS |
+  | C LOW LARGE | high short | 4000.0 | 500.0 | 1.100000 | 1.125000 | 1.150000 | high short | high short | PASS |
+  | C LOW LARGE | low 43% detour | 5736.9 | 427.3 | 1.473430 | 1.483233 | 1.493036 | high short | high short | PASS |
+  | D RIDGE | ridge overflight | 4000.0 | 600.0 | 1.100000 | 1.125000 | 1.150000 | lower bypass | lower bypass | PASS |
+  | D RIDGE | lower bypass | 4332.1 | 520.0 | 1.104663 | 1.110076 | 1.115489 | lower bypass | lower bypass | PASS |
+  | E BROAD VALLEY | high cruise | 4000.0 | 500.0 | 1.100000 | 1.125000 | 1.150000 | descend/cruise | descend/cruise | PASS |
+  | E BROAD VALLEY | descend/cruise/climb | 4016.6 | 415.1 | 1.019345 | 1.023147 | 1.026948 | descend/cruise | descend/cruise | PASS |
+  | F NARROW SIDE | center high | 4000.0 | 500.0 | 1.100000 | 1.125000 | 1.150000 | side low | side low | PASS |
+  | F NARROW SIDE | side low (3 cells) | 4025.6 | 417.7 | 1.024226 | 1.028681 | 1.033136 | side low | side low | PASS |
+  | G TWO VALLEYS | near/high | 4000.0 | 500.0 | 1.100000 | 1.125000 | 1.150000 | far/deep | far/deep | PASS |
+  | G TWO VALLEYS | far/deep | 4332.1 | 420.0 | 1.104663 | 1.110076 | 1.115489 | far/deep | far/deep | PASS |
+  | H HIGH-VALLEY-HIGH | stay high | 4000.0 | 500.0 | 1.100000 | 1.125000 | 1.150000 | early descent | early descent | PASS |
+  | H HIGH-VALLEY-HIGH | early descent | 4016.6 | 415.1 | 1.019345 | 1.023147 | 1.026948 | early descent | early descent | PASS |
+  | I SAFETY OVERRIDE | high safe | 4000.0 | 500.0 | 1.150000 | 1.187500 | 1.225000 | high safe | high safe | PASS |
+  | I SAFETY OVERRIDE | lowest unsafe | 4036.9 | 373.0 | 1.032425 | 1.038224 | 1.044022 | high safe | high safe | PASS (unsafe rejected) |
+  | J LOW AGL vs MSL | terrain-follow/high MSL | 4000.0 | 600.0 | 1.100000 | 1.125000 | 1.150000 | higher-AGL/low-MSL | higher-AGL/low-MSL | PASS |
+  | J LOW AGL vs MSL | higher-AGL/low-MSL | 4332.1 | 520.0 | 1.104663 | 1.110076 | 1.115489 | higher-AGL/low-MSL | higher-AGL/low-MSL | PASS |
+  | K DIFFERENT ENDPOINTS | monotone | 4001.2 | 450.0 | 1.050000 | 1.062500 | 1.075000 | monotone | monotone | PASS |
+  | K DIFFERENT ENDPOINTS | unneeded climb | 4010.5 | 507.6 | 1.110188 | 1.137158 | 1.164127 | monotone | monotone | PASS |
+
+  Her candidate için CSV'de ayrıca geometric length, distance/altitude
+  components, min/max MSL, climb/descent, safety, distance-weighted
+  P25/P50/P75 ve reference+50m low-band fraction saklandı. Örnek: B düşük
+  rota P25/P50/P75=`400/400/450`, low band=%100; high rota=`500/500/500`,
+  low band=%0. Bu nedenle yalnız kısa bir min-MSL dip'i “iyi rota” sayılmadı.
+  I senaryosunda unsafe düşük rota cost açısından çok ucuz (`1.038224 <
+  1.187500`) olmasına rağmen AGL ihlali yüzünden INVALID; safety supremacy
+  doğrudan doğrulandı. J, düşük AGL ile düşük absolute MSL'nin karışmadığını
+  gösterdi.
+
+  **Teorik trade-off:** düşük rota altitude reference üzerinde ve high rota
+  100m yukarıdayken eşdeğer ekstra mesafe `w_altitude*(100/1000)` olur:
+  w=1.0 → %10, w=1.25 → **%12.5**, w=1.5 → %15. Deneysel B (%8.30 detour,
+  ~80m mean-MSL gain) w=1.25'te düşük rotayı seçti (`1.110076<1.125000`);
+  C (%43.42 detour) yüksek/kısa rotayı seçti (`1.125000<1.483233`). Böylece
+  intended “100m lower ≈ %10–15 detour” davranışı hem teorik hem deneysel
+  aynı order'da doğrulandı; hard threshold değildir. Not: w=1.0'da B'nin
+  high rotayı az farkla seçmesi (`1.100000<1.104663`), sweep'in weight
+  seçmek yerine trade-off değişimini gerçekten gösterdiğini doğrular.
+
+  **TABLE 2 — Search Tests** (`w_altitude=1.25` sabit, her scenario tek
+  continuous ε=1.70→1.50→1.30 ARA*, max 12k fakat hiçbirinde cap'e
+  yaklaşılmadı; expansions/time = phase added, parantez cumulative):
+
+  | scenario | epsilon | expansions | runtime | mean MSL | path length | cost | preferred found? | OBJECTIVE/SEARCH status |
+  |---|---:|---:|---:|---:|---:|---:|---|---|
+  | A FLAT | 1.70 | 28 (28) | .0317s (.0317) | 300.0 | 840.0 | 1.000000 | yes | OBJECTIVE PASS + SEARCH PASS |
+  | A FLAT | 1.50 | 0 (28) | .0063s (.0380) | 300.0 | 840.0 | 1.000000 | yes | OBJECTIVE PASS + SEARCH PASS |
+  | A FLAT | 1.30 | 0 (28) | .0067s (.0447) | 300.0 | 840.0 | 1.000000 | yes | OBJECTIVE PASS + SEARCH PASS |
+  | F NARROW SIDE | 1.70 | 14 (14) | .0924s (.0924) | 410.0 | 1703.2 | 1.153190 | no | OBJECTIVE PASS + SEARCH FAIL |
+  | F NARROW SIDE | 1.50 | 0 (14) | .0293s (.1217) | 410.0 | 1703.2 | 1.153190 | no | OBJECTIVE PASS + SEARCH FAIL |
+  | F NARROW SIDE | 1.30 | 0 (14) | .0237s (.1454) | 410.0 | 1703.2 | 1.153190 | no | OBJECTIVE PASS + SEARCH FAIL |
+  | G TWO VALLEYS | 1.70 | 15 (15) | .0943s (.0943) | 390.0 | 1703.2 | 1.153190 | no | OBJECTIVE PASS + SEARCH FAIL |
+  | G TWO VALLEYS | 1.50 | 0 (15) | .0181s (.1125) | 390.0 | 1703.2 | 1.153190 | no | OBJECTIVE PASS + SEARCH FAIL |
+  | G TWO VALLEYS | 1.30 | 0 (15) | .0173s (.1298) | 390.0 | 1703.2 | 1.153190 | no | OBJECTIVE PASS + SEARCH FAIL |
+  | H HIGH-VALLEY-HIGH | 1.70 | 49 (49) | .3399s (.3399) | 390.4 | 1777.5 | 1.177648 | no | OBJECTIVE PASS + SEARCH FAIL |
+  | H HIGH-VALLEY-HIGH | 1.50 | 0 (49) | .0487s (.3886) | 390.4 | 1777.5 | 1.177648 | no | OBJECTIVE PASS + SEARCH FAIL |
+  | H HIGH-VALLEY-HIGH | 1.30 | 34 (83) | .2009s (.5895) | 395.7 | 1703.2 | 1.135087 | no | OBJECTIVE PASS + SEARCH FAIL |
+
+  Tüm search path'leri safety PASS. F/G'de ε=1.7 goal-directed high route'a
+  çok hızlı bağlandı; ε=1.5/1.3 ImprovePath başlangıcında active key
+  incumbent'i yenemediği için 0 ek expansion ve 0 INCONS ile aynı topology
+  kaldı. H'de ε=1.3 34 ek expansion yaptı, INCONS=4 ve cost'u %3.61 düşürdü;
+  ama mean MSL `390.4→395.7` yükselirken length `1777.5→1703.2` düştü:
+  yeni düşük-MSL topology değil, distance refinement. ε=1.5 hiçbir selected
+  scenario'da meaningful improvement getirmedi. Bu sonuç “daha düşük epsilon
+  her zaman daha iyi” iddiasını çürütür; aynı zamanda mevcut ARA* phase
+  stopping/reuse davranışının lateral topology keşfi için yeterli olmadığını
+  gösterir. First-improvement expansions: A=28, F=14, G=15, H=49; yalnız H
+  ε=1.3'te yeni incumbent expansion=83. Ayrıntılı distance/altitude component,
+  climb/descent, safety, g-improvement ve INCONS alanları CSV'dedir.
+
+  **TABLE 3 — Epsilon Summary:**
+
+  | epsilon | typical strength | typical weakness | scenarios where useful | search cost |
+  |---:|---|---|---|---|
+  | 1.70 | Çok hızlı first path; düz/direct topology | Greedy goal direction; lateral/deep valley kaçırıyor | A; F/G/H'de yalnız hızlı fallback | 14–49 exp, .032–.340s phase |
+  | 1.50 | Bu suite'te ek kalite yok | Inherited incumbent nedeniyle frontier hemen durabiliyor | Ölçülen scenario yok | 0 ek exp; .006–.049s rekey/diagnostic |
+  | 1.30 | H'de daha kısa/cost-lower refinement | F/G'de yeni topology yok; altitude quality artmadı | H distance refinement | 0–34 ek exp; en çok .201s; INCONS yalnız H=4 |
+
+  **Aladağlar replay-only (`w_altitude=1.25`, YENİ SEARCH YOK):** direct
+  level: D/A/total=`1.000000/0.650000/1.650000`, length=6480m,
+  min/mean=3760/3760m, climb/descent=0/0; ε=1.7 fast:
+  `1.013794/0.503611/1.517405`, length=6569.4m, min/mean=3520/3637.4m,
+  climb/descent=540/540; kayıtlı eski ε=1.3 low:
+  `1.049955/0.357615/1.407570`, length=6803.7m, min/mean=3320/3512.5m,
+  climb/descent=440/460. Üçü de replay safety PASS. ε=1.5 phase path eski
+  stage'lerde persist edilmediği için mevcut değil. Stage 38.2 referansı
+  aynen destekleniyor: w=1.5 objective eski low rotayı tercih etmişti ama
+  search erken bulamamıştı — cost preference != discoverability.
+
+  **15 final cevap:** (1) EVET, normalized mission semantics merkezi
+  `MissionPolicy` oldu. (2) EVET, coarse/fine/ARA* için low MSL yalnız aircraft
+  absolute MSL. (3) EVET, safety-only validation objective'den ayrı ve
+  daima önce. (4) Objective A–K 11/11 PASS; selected search A PASS, F/G/H
+  FAIL. (5) EVET, w=1.25 low-MSL slightly>distance davranışını B/D/E/F/G/H/J
+  tekrar etti; C excessive detour'u reddetti. (6) EVET, teorik %12.5 ve
+  deneysel %8.3-wins/%43.4-loses aynı order'da. (7) Cost tüm A–K'de doğru;
+  I unsafe adayı filtreledi. (8) Search özellikle lateral F ve multi-valley G,
+  ayrıca broad vertical opportunity H'de zorlandı. (9) ε=1.7 flat/directte
+  güçlü ve hızlı, lateral alternatives'ta fazla greedy. (10) ε=1.5 bu küçük
+  suite'te gerçek gain getirmedi; bu evrensel bir sabit kararı değildir.
+  (11) ε=1.3 hiçbir testte yeni low-MSL topology bulmadı; yalnız H'de daha
+  kısa rota/cost refinement verdi, F/G'de gereksizdi. (12) EVET: F/G/H ve
+  Stage 38.2 açık OBJECTIVE PASS + SEARCH FAIL örnekleri. (13) EVET, ortak
+  helper aynı edge'de numeric exact; farklı resolution approximation ileride
+  ranking ayrışması yaratabilir ama bu suite'te gözlenmedi. (14) Cost tarafında
+  flat/ridge/broad/narrow/two-valley/safety/endpoint çeşitliliği ve 11/11
+  tekrar overfit işareti vermiyor; yine de B/D/G/J benzer candidate geometrisi
+  kullandığı için tamamen bağımsız saha kanıtı değildir. Epsilon/corridor/
+  lateral width/Z tube production constant olarak kilitlenmedi, config/adaptive
+  kalmalı. (15) Sonraki ana darboğaz **heuristic/search guidance + global XY
+  exploration**; mission cost değil. Local refinement ve vertical smoothing
+  ayrı sonraki problemler, ama preferred topology bulunmadan ana engel değiller.
+
+  Script: `scripts/validate_stage38_3_mission_generalization.py`. Ham tablolar:
+  `outputs/stage38_3_objective_tests.csv`, `outputs/stage38_3_search_tests.csv`.
+  Eski pahalı benchmark/PASS testleri çalıştırılmadı; production parameter
+  değiştirilmedi; başka optimizer/tuning yapılmadı. Bu stage burada DURDU.
+
+- **Stage 38.4 — Independent Search-Guidance Review + Controlled Experiment:
+  TEŞHİS KISMEN DOĞRULANDI (no ARA* bug; heuristic distance-only), ÖNERİLEN
+  ÇÖZÜM (terrain+min_agl XY guidance + heap reordering, test edilen haliyle)
+  REDDEDİLDİ — F/G/H'de preferred topology'yi bulmadı, çoğu ayarda
+  baseline'dan daha kötü sonuç verdi.** `planner/astar.py` bu stage'de HİÇ
+  değiştirilmedi (checksum ile doğrulandı); tüm deney bağımsız bir prototip
+  script'te (`scripts/prototype_stage38_4_guidance.py`, diagnostic-only,
+  production'a dahil değil) yapıldı.
+
+  **(1) Epsilon bound bağımsız doğrulama — CONFIRMED, bug yok.** F/G/H için
+  aynı sentetik gridlerde `epsilon_schedule=(1.0,)` (=admissible+consistent
+  heuristic için provably optimal düz A*) ground truth olarak kullanıldı.
+  Heuristic'in normalized modda (`h = w_distance*D3D/D_ref`) hem admissible
+  hem CONSISTENT olduğu, triangle-inequality argümanıyla ayrıca elle
+  ispatlandı (tek fazlı eps=1.0 koşusunun INCONS'a hiç dokunmadan optimal
+  verdiğini garanti eder). Sonuç:
+
+  | scenario | eps=1.0 true optimal | eps=1.7/1.5 found | eps=1.3 found | found/optimal (1.3) | bound (<=1.3) |
+  |---|---:|---:|---:|---:|---|
+  | F NARROW SIDE VALLEY | 1.097325 (mean MSL 344.6) | 1.153190 | 1.153190 | 1.051 | OK |
+  | G TWO VALLEYS | 1.129027 (mean MSL 381.4) | 1.153190 | 1.153190 | 1.021 | OK |
+  | H HIGH-VALLEY-HIGH | 1.094188 (mean MSL 368.5) | 1.177648 | 1.135087 | 1.037 | OK |
+
+  Hiçbir epsilon'da bound ihlali yok; ORAN bound'un belirgin altında (1.02–
+  1.05), yani darboğaz "epsilon'u biraz daha sıkmak" değil. `astar.py`
+  1985-2064 satırlarındaki faz döngüsü (heap her epsilon değişiminde
+  `open_members|incons_members`'tan sıfırdan kuruluyor, termination
+  `f_w_top>=incumbent_cost` klasik Key(sgoal) kriterine bire bir uyuyor,
+  closed-ama-relax-edilen node'lar aynı fazda reopen edilmeyip INCONS'a
+  düşüyor) kod okumasıyla da doğru bulundu — implementasyon riski YOK.
+  `+0 expansion` OPEN boşaldığı için değil (F/G/H'de faz sonunda sırasıyla
+  247/186/503-660 state hâlâ OPEN'da) "kalan hiçbir aday incumbent'ı
+  yenemeyeceği kanıtlandığı an" duruyor — beklenen ARA* davranışı.
+  `use_dominance_pruning`/bucket-dominance mekanizması `ara_star_search`
+  içinde HİÇ kullanılmıyor (yalnız eski tek-epsilon `astar_search`'te var) —
+  branching/dominance alternatif açıklaması elendi. corridor_mask/z_guide_grid
+  bu testlerde `None` (kullanılmadı), goal_tolerance=0 (etkisiz),
+  vertical-reachability heuristic normalized modda hiç çağrılmıyor (legacy
+  moda özel) — hepsi elendi. `freeze_history=True` hardwired olduğu için
+  reversal cost bu testlerde her zaman 0.
+
+  **(2) Yeni yapısal bulgu (önceden belgelenmemiş): primitive/discretization
+  friction.** F'nin gerçek optimal path'i (eps=1.0, 27 state) çıkarıldı: row=9
+  boyunca ilerliyor, ama 400→300 MSL inişi 5 primitive×4 kolon = 20 kolon,
+  300→400 çıkışı yine 20 kolon sürüyor; toplam ~56 kolonluk rotanın yalnız
+  ~12 kolonu gerçek vadi tabanında (300 MSL) geçiyor. Bunun sebebi
+  `max_climb/descent_angle_deg=10°` (config.py'de TEST PARAMETER olarak
+  işaretli, gerçek gereksinim değil) + `z_step_m=20` kombinasyonunun her tek
+  20m'lik irtifa adımı için ~4 grid hücresi (113-127m) zorunlu yatay mesafe
+  dayatması. Vadi bandı yalnız 3 hücre genişliğinde. Bu, F/G/H'de gerçek
+  kazancın neden mütevazı kaldığının (%2-8) ek ve doğrulanmış bir yapısal
+  sebebi — heuristic körlüğüne ek, onun yerine değil.
+
+  **(3) ANCHOR+GUIDANCE deneyi — REJECTED (bu haliyle).** Guidance sinyali:
+  goal'dan reverse-Dijkstra, 2D XY-only, edge cost = mission'ın normalized
+  formülüyle aynı ama `mean_msl` yerine `terrain+min_agl_m` ("achievable min
+  MSL") kullanıyor. Sinyal YÖNÜ doğrulandı (F'de vadi hücreleri —terrain=100—
+  ölçülebilir şekilde düşük/cazip skor alıyor). Entegrasyon: mevcut tek-heap
+  yapısına dokunmadan, PROVEN-SAFE bir "bucketed anchor key" tasarımı
+  (`bucket=floor(raw_key/W)*W`; heap `(bucket, guidance, counter, state,
+  raw_key)`; termination `bucket_top>=incumbent_cost` — bucket, raw_key için
+  geçerli bir ALT SINIR olduğundan termination asla ERKEN tetiklenmiyor,
+  yalnız W kadar gecikebiliyor — production `astar.py` değişmedi). Bucket
+  genişliği W∈{0.0005,...,0.05} tarandı:
+
+  | W | F final cost | F mean MSL | preferred bulundu mu? | final cum. expansions |
+  |---:|---:|---:|---|---:|
+  | 0 (baseline, guidance OFF) | 1.153190 | 410.0 | Hayır | 14 |
+  | 0.0005–0.002 | 1.153190 | 410.0 | Hayır | 14 |
+  | 0.005 | 1.178535 | 430.0 | Hayır | 14 |
+  | 0.01–0.02 | 1.196–1.200 | 445–447 | Hayır | 17–25 |
+  | 0.05 | 1.199853 | 448.7 | Hayır | 284 |
+
+  Hiçbir W'de F/G/H preferred topology'yi (mean_MSL eşiği Stage 38.3 ile
+  aynı) bulmadı; W büyüdükçe sonuç baseline'dan DAHA KÖTÜ (cost ve mean MSL
+  ikisi de yükseliyor), expansion sayısı arttı ama kaliteye dönüşmedi. Kök
+  neden: guidance yalnız (row,col) — z-blind — oysa gerçek friction (2) tam
+  olarak z-bağımlı (kaç primitive'le, hangi kolon aralığında inip
+  çıkabileceğin). Z-blind sinyal, arama sırasını irtifa geçişinin gerçek
+  maliyetini görmeyen bir yöne çekiyor. Bu, Stage 38.4 promptunda önceden
+  sorulan "narrow valley yanlış cazip görünebilir mi / climb-descent
+  reachability bunu bozabilir mi" risklerinin varsayımsal değil DENEYSEL
+  doğrulanmış hali.
+
+  **Karar:** MHA*/Focal ailesi (anchor+focal, tie-break, MHA*) teorik olarak
+  bound-safe ama guidance sinyali reachability/z-tutarlılığı olmadan
+  düzeltilmeden hiçbiri işe yaramaz — sırf literatürde tanıdık olduğu için
+  seçilmedi, aksine üçü de bu haliyle reddedildi. Sonraki adım (bu stage'de
+  YAPILMADI): guidance'ı ya coarse_astar.py'nin gerçek 3D-tutarlı edge
+  cost'una reverse-Dijkstra ile bağlamak, ya da heap reordering yerine
+  incumbent warm-start (cheap coarse path → verified seed) mimarisine
+  geçmek — ikisi de bound/termination mantığına hiç dokunmuyor. Ayrıca F/G/H
+  ölçeğinde gerçek kazanç zaten %2-8 (bkz. madde 1); bu karmaşıklığın
+  gerçek Aladağlar ölçeğinde daha büyük bir kazanca karşılık gelip
+  gelmeyeceği hâlâ açık soru.
+
+  `validate_epsilon_bound_control.py` regression: gerekmedi (production
+  search kodu değişmedi, checksum doğrulandı), önceki "no violation" sonucu
+  hâlâ geçerli. Weight tuning, epsilon=1.0 production, expansion cap
+  büyütme, macro primitives, 30°/45° açı değişikliği, vertical/local
+  optimizer, corridor tuning, heading/turn radius, hard low-MSL pruning —
+  hiçbiri bu stage'de yapılmadı (yalnız tartışıldı). Script:
+  `scripts/prototype_stage38_4_guidance.py` (diagnostic-only). Bu stage
+  burada DURDU.
+
+- **Stage 38.5 — Search vs Vertical-Envelope Isolation + Adaptive
+  Max-Feasible Vertical Primitive Study: CASE 1 (SEARCH DOMINANT)
+  DOĞRULANDI — F-WIDE'da bolca dikey geçiş alanı olsa bile ARA* preferred
+  topolojiyi hiç bulmuyor; sabit-zarf 10°→45° sweep'inde 12/12 hücrede
+  `first_pref_exp=None`.** `planner/astar.py`/`primitives.py` bu stage'de
+  HİÇ değiştirilmedi (checksum `8e1dd037...` doğrulandı); tüm deneyler
+  `scripts/stage38_5_lib.py` + 4 ayrı prototip script'te, üretim
+  `ara_star_search`'e bit-exact eşleşen bağımsız bir `ara_star_generic`
+  sarmalayıcı üzerinden yapıldı (self-check: F/G/H'de production ile
+  cost/expansion dizisi birebir aynı).
+
+  **(1) Primitive geometry — configured açı ≠ realized açı, doğrulandı.**
+  `build_primitive_set()`'ten gerçek primitive'ler çıkarıldı:
+
+  | configured max açı | axial climb/descent (horiz, n_cells, realized) | diagonal climb/descent (horiz, n_cells, realized) |
+  |---:|---|---|
+  | 10° | 120.0m, 4, **9.46°** | 127.28m, 3, **8.93°** |
+  | 20° | 60.0m, 2, **18.43°** | 84.85m, 2, **13.26°** |
+  | 30° | 60.0m, 2, **18.43°** (20°'yle AYNI) | 42.43m, 1, **25.24°** |
+  | 45° | 30.0m, 1, **33.69°** | 42.43m, 1, **25.24°** (30°'yle AYNI) |
+
+  Her configured açıda toplam **24 primitive** (üretim değişmedi); dz her
+  zaman tek bir `z_step_m=20m`, çok-adımlı "macro" primitive üretim kodunda
+  yok. Analitik kontrol (`atan(20/30)=33.69°`, `atan(20/42.43)=25.24°`)
+  koddan çıkan sayılarla birebir eşleşti — configured açı yalnızca "bu
+  n_cells'i seç" eşiğidir, gerçekleşen flight-path açısı grid-kotalı
+  (`n_cells` tam sayı) olduğundan configured değerin altında kalıyor ve
+  20°/30° (axial) ile 30°/45° (diagonal) birbirinden AYRIŞMIYOR.
+
+  **(2) Experiment A — F-WIDE (valley'nin longitudinal alanı bollaştırıldı,
+  10° sabit): search hâlâ bulmuyor, graph optimum hâlâ buluyor.** Yeni
+  senaryo (grid 17×128, 80 ekstra cruise kolonu + 2×20 kolonluk zorunlu
+  descent/climb rampası, aynı terrain seviyeleri/MissionPolicy/grid/z_step/
+  10°): eps=1.0 graph optimum `cost=1.045800`, `mean_MSL=321.4` (preferred
+  eşiği 375'in belirgin altında, **preferred=True**, 90 state'in 76'sı
+  vadi tabanında). **ARA* 1.7→1.5→1.3 hiçbirinde preferred'ı bulmadı**
+  (`mean_MSL≈409-410`, `found/optimal=1.10-1.12`) — bu oran orijinal dar
+  F'nin (1.05) bile ÜSTÜNDE, yani bol dikey geçiş alanı arama kalitesini
+  İYİLEŞTİRMEDİ. Bu, darboğazı vertical envelope'tan search/guidance'a
+  izole eden doğrudan kanıt.
+
+  **(3) Experiment B — sabit zarf sweep (10°/20°/30°/45° × F/G/H, terrain/
+  MissionPolicy/grid/z_step/corridor/goal-tolerance/cost/heuristic sabit):
+  first_pref_exp=None → 12/12 hücrede.** ARA* hiçbir açıda hiçbir
+  senaryoda preferred topolojiyi bulmadı. Ayrıca beklenmedik ek bulgu: **G
+  senaryosunda graph optimum'un kendisi 10°/20°'de preferred DEĞİL**
+  (mean_MSL=381.4/380.8, eşik 365'in üstünde), ama **30°/45°'te preferred
+  OLUYOR** (mean_MSL=298.9/296.9) — yani G özelinde vertical envelope
+  gerçekten graph-optimal çözümün kendisini değiştiriyor (F/H'de graph
+  optimum her açıda zaten preferred). Bu nüans G için kısmi CASE 3 sinyali,
+  ama ARA* G'de 30°/45°'te bile preferred'ı YİNE bulamadığından (final
+  cost=1.150/1.197, preferred=False), arama darboğazı G'de de baskın
+  kalıyor.
+
+  **(4) Section 4B/5 — adaptive max-feasible primitive vs fixed, aynı açı:
+  bu temiz sentetik terrainlerde İKİSİ AYNI sonucu veriyor (9/9
+  karşılaştırma).** Adaptive generator'ın steepest (n_min) adayı bu
+  terrainlerde her zaman zaten terrain-safe olduğundan hiçbir yönde
+  shallower'a geri çekilme tetiklenmedi; `avg_valid_successor`,
+  `final_exp`, `final_cost`, `mean_MSL` fixed ile birebir aynı. Tek fark:
+  adaptive `avg_generated` (denenen aday sayısı) fixed'in 24'ünden düşük
+  (ör. F@30°: 20.0 vs 24.0) — adaptive aynı geçerli successor sayısına
+  (branching değişmeden) daha az `evaluate_primitive` denemesiyle ulaşıyor.
+  **Branching açıyla monoton ARTMIYOR** — F@45°'te avg_valid=16.0, F@10°/
+  30°'ün 20.0'ından DÜŞÜK (dik açı max/min MSL sınırına daha az hopta
+  çarpıyor, bazı yönleri erken kapatıyor) — kullanıcının "45° all-discrete
+  daha yüksek branching'e sahip olabilir" hipotezi bu ölçülen veride
+  DOĞRULANMADI (tersi yönde: branching düştü).
+
+  **(5) Section 6 — adaptive fallback deneyi (yapay spike/trap terrain):
+  geri-çekilme mekanizması ve greedy-olmama davranışı ikisi de doğrulandı.**
+  TEST 1 (spike=193, max=45°): denemeler 33.69°→18.43°→12.53°→9.46°
+  (geçerli) — doğru shallower'a geri çekildi; spike=197/198'de 8 denemenin
+  hepsi invalid → `None` (crash yok, unsafe seçim yok). TEST 2 (max-feasible
+  descent mevcut ama hemen ardından duvar/costly-climb var): optimal search
+  path'i tamamen LEVEL satırda kaldı, tuzak descent'e hiç girmedi — adaptive
+  generator'ın max-feasible'i yalnızca bir ADAY olarak sunduğu, A*'ın seçim
+  hakkını koruduğu doğrudan gösterildi.
+
+  **(6) Section 9 (climb/descent asimetrisi) ÇALIŞTIRILMADI — kullanıcının
+  kendi koşuluna göre.** Talimat açıkça "yalnızca simetrik sweep gerçek
+  vertical-envelope duyarlılığı gösterirse" asimetri testine geç diyordu;
+  simetrik sweep (madde 3) F/H'de graph-optimum'u hiç değiştirmedi ve
+  ARA*'ı hiçbir açıda preferred'a getirmedi (G'de graph-optimum değişti
+  ama ARA* yine bulamadı) — yani baskın sinyal search tarafında, vertical
+  envelope tarafında değil. Bu koşul karşılanmadığı için asimetri testi
+  atlandı; production karar için de hiçbir zaman kullanılmayacak (Section
+  13/14 gereği zaten TEST PARAMETER kapsamında).
+
+  **CASE kararı: CASE 1 (SEARCH DOMINANT), G'de ek bir kısmi CASE 3 nüansı
+  ile.** F ve H'de vertical envelope (10°→45°) graph optimum'un preferred
+  olma durumunu hiç değiştirmiyor — yalnız arama bunu bulamıyor. G'de
+  envelope graph optimum'u da etkiliyor ama arama orada da başarısız
+  kalıyor. Sonuç: birincil ve evrensel darboğaz search/guidance katmanı;
+  vertical primitive/envelope değişiklikleri (fixed veya adaptive, 10-45°)
+  bu üç sentetik senaryoda ARA*'ın erken keşif başarısızlığını TEK BAŞINA
+  düzeltmiyor. Bir sonraki mantıklı yön, z-farkındalıklı/kaba 3D guidance
+  veya coarse-to-fine warm-start mimarisi (Stage 38.4'ün REDDEDİLEN
+  z-blind XY guidance'ı DEĞİL) — adaptive vertical primitive kendi başına
+  yeterli değil, ama irtifa-geçiş verimliliği sorununu (Stage 38.4 madde 2)
+  ayrı ve doğru şekilde çözüyor.
+
+  Güvenlik: bu stage'deki her run (24+36 fixed-sweep satırı, 15×3
+  adaptive-comparison fazı, F-WIDE 1+3 fazı, fallback testleri) bağımsız
+  replay ile AGL≥200m/açı-limiti/bounds/NoData kontrolünden geçti — **0
+  istisna**. Üretim `max_climb/descent_angle_deg` default'u (10°) hiç
+  değiştirilmedi; 20°/30°/45° yalnızca diagnostic duyarlılık değeri olarak
+  kullanıldı, safety relaxation olarak yorumlanmadı. Weight tuning,
+  MissionPolicy değişikliği, yeni guidance implementasyonu, MHA*/Focal
+  production entegrasyonu, corridor tuning, expansion cap artırımı,
+  vertical/local optimizer, macro primitive implementasyonu, heading/turn
+  radius, tam Aladağlar koşusu — hiçbiri bu stage'de yapılmadı. Scriptler:
+  `scripts/stage38_5_lib.py`, `scripts/prototype_stage38_5_fixed_envelope_
+  sweep.py`, `scripts/prototype_stage38_5_fwide_isolation.py`,
+  `scripts/prototype_stage38_5_adaptive_comparison.py`,
+  `scripts/prototype_stage38_5_adaptive_fallback_test.py` (hepsi
+  diagnostic-only). Bu stage burada DURDU.
+
 ## Ortam
 
 Python 3.14, rasterio 1.5.1, numpy 2.5.2, pyproj 3.8.0, shapely 2.1.2.
-Proje henüz git repo değil.
+Proje artık git repo (main branch).

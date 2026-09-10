@@ -1,0 +1,27 @@
+=== Stage 37 REAL Aladaglar benchmark -- corridor-constrained fine A* (mask=outputs/stage36_corridor_mask.npy, 4853 cells) (SINGLE run, cap=30000, no retry) ===
+  start=(48,276) goal_center=(264,276) aircraft_msl=3760.0
+  goal_tolerance_xy_m=35.0  goal_tolerance_z_m=25.0
+  D_ref=6480.0000m  epsilon_search=1.1  target_suboptimality=1.05  dominance=OFF  cache=ON  incumbent_pruning=ON
+
+initial incumbent (direct 216-edge level chain): valid=True cost=1.650000
+
+=== SEARCH RESULT ===
+  status=search_limit_reached  wall=37.00s  runtime=36.94s
+  expanded=30000  max_open=34435  cache_hit_rate=0.768  reopened_states=0
+  corridor_reject_count=53790
+  initial_incumbent_cost=1.650000  final_incumbent_cost=1.650000  incumbent_updates=0
+  first_solution_found=False  bounded_termination_triggered=False
+
+=== GOAL-REGION DIAGNOSTIC ===
+  closest_distance_to_goal_region_m=4918.11
+  closest_distance_to_goal_center_m=4954.04
+  closest_state: row=99 col=276 z_index=178  msl=3560.0  point_AGL=384.9
+
+=== COMPARISON vs Stage 33 baseline (NOT re-run) ===
+  Stage 33: status=search_limit_reached expanded=30000 max_open=51475 wall=98.95s closest_goal_region=5066.80m
+  Stage 37: status=search_limit_reached expanded=30000 max_open=34435 wall=37.00s closest_goal_region=4918.11m
+  expansion change vs Stage 33: +0.00%  wall-clock change: +62.61%
+
+=== FAIL -- no path/incumbent to report ===
+  closest_state_to_goal=(99, 276, 178)  distance_to_goal_region_m=4918.11
+  expanded=30000  max_open=34435

@@ -1,0 +1,44 @@
+initial incumbent (direct 216-edge level chain): valid=True cost=1.650000
+Shared primitive_cache built once, reused across epsilon=[1.3, 1.5, 1.7]
+
+=== epsilon_search=1.3 (freeze_history=True) ===
+  status=search_limit_reached expanded=30000 first_solution_expanded=None wall=35.08s max_open=97497
+  reopened_states=24647 reopen_ratio=0.8216 cache_hit_rate=0.811 (shared cache size=119696)
+  unique_expanded_xy=1106 unique_expanded_xyz=5353 avg_history_states_per_xyz=1.000
+  NO PATH FOUND: closest_distance_to_goal_region_m=614.86 closest_state=(243, 277, 179)
+
+=== epsilon_search=1.5 (freeze_history=True) ===
+  status=search_limit_reached expanded=30000 first_solution_expanded=19732 wall=16.81s max_open=100372
+  reopened_states=28300 reopen_ratio=0.9433 cache_hit_rate=0.959 (shared cache size=149083)
+  unique_expanded_xy=453 unique_expanded_xyz=1700 avg_history_states_per_xyz=1.000
+  COMPLETE PATH FOUND (certified=False): cost=1.460453 path_nodes=81 min_AGL=200.8 max_angle=9.462322208025617 incumbent_updates=4
+
+=== epsilon_search=1.7 (freeze_history=True) ===
+  status=search_limit_reached expanded=30000 first_solution_expanded=57 wall=13.37s max_open=20404
+  reopened_states=28840 reopen_ratio=0.9613 cache_hit_rate=0.967 (shared cache size=172292)
+  unique_expanded_xy=274 unique_expanded_xyz=1160 avg_history_states_per_xyz=1.000
+  COMPLETE PATH FOUND (certified=False): cost=1.497221 path_nodes=63 min_AGL=200.8 max_angle=9.462322208025617 incumbent_updates=140
+
+=== COMPARISON TABLE ===
+(NOTE: 'status' is the CERTIFIED (%5 bound) outcome -- 'found_path' is whether a real, safe, complete path was found at all, which can be True even when status stays search_limit_reached because the certificate itself wasn't proven before the cap. found_path is what matters here.)
+  eps              status found_path expansions   runtime  reopened         cost
+  1.1 search_limit_reached      False      30000   132.33s       463          n/a  (Stage 37.2 baseline, NOT re-run)
+  1.3 search_limit_reached      False      30000    35.08s     24647          n/a
+  1.5 search_limit_reached       True      30000    16.81s     28300     1.460453
+  1.7 search_limit_reached       True      30000    13.37s     28840     1.497221
+
+Cost deltas between candidates that found a path:
+  eps=1.5 (cost=1.460453) vs eps=1.7 (cost=1.497221): +2.52%
+  eps=1.5: first_solution_expanded=19732 reopen_ratio=0.9433 cost_delta_vs_cheapest=+0.00%
+  eps=1.7: first_solution_expanded=57 reopen_ratio=0.9613 cost_delta_vs_cheapest=+2.52%
+
+>> BEST CANDIDATE: epsilon=1.7 (first_solution_expanded=57, reopen_ratio=0.9613, cost_delta_vs_cheapest=+2.52%)
+
+=== FINE DEM REPLAY/VALIDATION for the BEST candidate (epsilon=1.7) ONLY ===
+  path_node_count=63  3d_length=6534.4m
+  min_MSL=3520.0  max_MSL=3780.0  min_AGL=200.8
+  total_climb=500.0  total_descent=520.0
+  SAFETY CHECK: PASS  (min_agl=200.76375325520848, max_primitive_angle=9.462322208025617)
+  ascii: START -\______/------------------------------------- GOAL
+
+Best path written to outputs/stage37_3_best_path.csv

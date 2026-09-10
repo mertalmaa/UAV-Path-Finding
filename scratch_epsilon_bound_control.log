@@ -1,0 +1,26 @@
+
+===== A FLAT =====
+  eps=1.0 control (ground truth): cost=1.000000 expansions=28 phase_complete=True time=0.07s
+  eps=1.70: found=1.000000  found/optimal=1.0000  bound<= 1.70  OK  OPEN_left=61 INCONS_left=0
+  eps=1.50: found=1.000000  found/optimal=1.0000  bound<= 1.50  OK  OPEN_left=61 INCONS_left=0
+  eps=1.30: found=1.000000  found/optimal=1.0000  bound<= 1.30  OK  OPEN_left=61 INCONS_left=0
+
+===== F NARROW SIDE VALLEY =====
+  eps=1.0 control (ground truth): cost=1.097325 expansions=2117 phase_complete=True time=24.84s
+  eps=1.70: found=1.153190  found/optimal=1.0509  bound<= 1.70  OK  OPEN_left=247 INCONS_left=0
+  eps=1.50: found=1.153190  found/optimal=1.0509  bound<= 1.50  OK  OPEN_left=247 INCONS_left=0
+  eps=1.30: found=1.153190  found/optimal=1.0509  bound<= 1.30  OK  OPEN_left=247 INCONS_left=0
+
+===== G TWO VALLEYS =====
+  eps=1.0 control (ground truth): cost=1.129027 expansions=2437 phase_complete=True time=28.11s
+  eps=1.70: found=1.153190  found/optimal=1.0214  bound<= 1.70  OK  OPEN_left=186 INCONS_left=0
+  eps=1.50: found=1.153190  found/optimal=1.0214  bound<= 1.50  OK  OPEN_left=186 INCONS_left=0
+  eps=1.30: found=1.153190  found/optimal=1.0214  bound<= 1.30  OK  OPEN_left=186 INCONS_left=0
+
+===== H HIGH-VALLEY-HIGH =====
+  eps=1.0 control (ground truth): cost=1.094188 expansions=2645 phase_complete=True time=28.65s
+  eps=1.70: found=1.177648  found/optimal=1.0763  bound<= 1.70  OK  OPEN_left=503 INCONS_left=0
+  eps=1.50: found=1.177648  found/optimal=1.0763  bound<= 1.50  OK  OPEN_left=503 INCONS_left=0
+  eps=1.30: found=1.135087  found/optimal=1.0374  bound<= 1.30  OK  OPEN_left=660 INCONS_left=4
+
+ALL SCENARIOS: found_cost respects its epsilon bound against the true optimum. No ARA* bug. Remaining topology miss (F/G) is a heuristic/guidance limitation, not a search bug.

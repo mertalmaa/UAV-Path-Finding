@@ -1,0 +1,38 @@
+initial incumbent (direct 216-edge level chain): valid=True cost=1.650000
+
+=== Stage 37.4: epsilon_search=1.7, freeze_history=True, stop_on_first_solution=True (SINGLE run) ===
+
+=== SEARCH ===
+  status=success  first_solution_expanded=57  runtime_to_first_solution=0.3427s (internal timer=0.3266s)
+  max_open=1164  reopened_states_before_first_solution=0  generated_states=1344  cache_hit_rate=0.000
+
+=== SAFETY ===
+  min_AGL=206.31m  max_flight_path_angle=9.46 deg
+  NoData/bounds violations=0
+  fine DEM replay: PASS
+  SAFETY CHECK (verify_path_safety): PASS
+
+=== DISTANCE ===
+  xy_length=6450.0m  3d_length=6537.7m  direct_distance=6480.0m  detour=-0.46%
+
+=== LOW-MSL QUALITY ===
+  min_MSL=3520.0  max_MSL=3780.0  distance_weighted_mean_MSL=3636.7
+  total_descent=540.0  total_climb=520.0
+  normalized_distance_component=1.008909  normalized_altitude_component=0.500324
+  total_diagnostic_cost=1.509232  (reversal component forced to 0.0 -- freeze_history)
+
+=== VERTICAL SMOOTHNESS DIAGNOSTIC (measured only, not added to cost) ===
+  vertical_reversal_count=30
+  short_reversal_count (<300m separation)=29
+  longest_continuous_descent_m=260.0
+  longest_continuous_climb_m=40.0
+  total_vertical_variation_m=1060.0
+
+=== REFERENCE COMPARISON (project.md numbers, not re-run) ===
+  vs direct level (cost~=1.65): -8.53%
+  vs deep candidate (cost~=1.3714, min_MSL~=3400.0 -- SAME normalized distance+altitude objective only, NOT a global-optimum claim): +10.05%  (min_MSL diff: +120.0m)
+  vs Stage 37.3 refined eps=1.7 (cost=1.497221, 3d_length=6534.4, min_MSL=3520.0): +0.80%  (3d_length diff: +3.3m, min_MSL diff: +0.0m)
+
+  ascii: START -\______/------------------------------------- GOAL
+
+Path written to outputs/stage37_4_first_solution_eps17.csv

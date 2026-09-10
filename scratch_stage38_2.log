@@ -1,0 +1,69 @@
+Stage 38.2 -- Altitude Weight Test (corrected incumbent-snapshot report)
+
+Configuration:
+  w_distance=1.0, w_altitude=1.50, H_ref=3240, H_scale=1000
+  epsilon_schedule=(1.70, 1.50), one continuous ARA* run, 30,000 cumulative cap
+  freeze_history=True, XY corridor +/-300m, Z guide +/-200m
+  fine safety precompute ON, all other Stage 38.1 settings unchanged
+
+Existing-path replay only (no search):
+  old epsilon=1.5 ARA* phase path was not saved by Stage 38/38.1, so it cannot be replayed.
+  old epsilon=1.3 path (outputs/stage38_1_ara_final_path.csv):
+    min_MSL=3320.0, distance-weighted mean_MSL=3512.5
+    XY=6729.4m, 3D=6803.7m, climb=440.0m, descent=460.0m, reversals=3
+    min_AGL=200.76m, max_angle=9.46deg, violations=0
+    distance_component=1.049955334
+    altitude_component=0.429137998
+    total_cost(w_alt=1.50)=1.479093332
+
+One-time precompute:
+  entries=116472, cells=4853, time=20.143s, memory=12.69MB, static_invalid=0
+
+One continuous search:
+  epsilon=1.70:
+    first incumbent expansion=143, last incumbent improvement expansion=368
+    added/cumulative expansions=416/416
+    phase/cumulative runtime=0.654s/0.654s, phase_complete=True
+    phase incumbent: min_MSL=3540.0, distance-weighted mean_MSL=3652.5
+    XY=6462.4m, 3D=6523.7m, climb=360.0m, descent=380.0m, reversals=15
+    min_AGL=200.05m, max_angle=9.46deg, violations=0
+    distance_component=1.006739302
+    altitude_component=0.622960243
+    total/search cost=1.629699545
+
+  epsilon=1.50:
+    no incumbent improvement; inherited incumbent last improved at cumulative expansion 368
+    added/cumulative expansions=29584/30000
+    phase/cumulative runtime=19.953s/20.607s, phase_complete=False (cap)
+    correct immutable incumbent path and all metrics are identical to epsilon=1.70 phase-end above
+
+  preprocessing + search end-to-end=40.751s
+
+First epsilon=1.70 incumbent:
+  expansion=143, runtime=0.196s, cost=1.631084003
+  min_MSL=3540.0, distance-weighted mean_MSL=3656.1
+  XY=6450.0m, 3D=6507.9m, climb=340.0m, descent=360.0m, reversals=15
+  min_AGL=203.19m, max_angle=9.46deg, violations=0
+  distance_component=1.004310767, altitude_component=0.626773236
+
+Reporting correction:
+  The first raw report reconstructed the epsilon=1.50 path from the live parent map even though
+  incumbent_cost/state had not improved. Later parent changes produced a valid-looking path with
+  recomputed cost=1.521685628, inconsistent with search_incumbent_cost=1.629699545. This is not an
+  accepted incumbent and is excluded. planner.astar now snapshots an incumbent path exactly when
+  its cost/state updates; search ordering, relaxation, stopping, and reuse are unchanged. No rerun
+  was performed. outputs/stage38_2_eps15_path.csv was replaced by the identical accepted snapshot
+  from outputs/stage38_2_eps17_path.csv (matching SHA-256).
+
+Final epsilon=1.50 fine replay (accepted incumbent snapshot):
+  AGL=200.05m >=200, angle=9.46deg <=10, violations=0 -- PASS
+
+Required table:
+phase | expansions | time | min MSL | mean MSL | XY length | cost
+1.70 | 416 (cum 416) | 0.654s (cum 0.654s) | 3540.0 | 3652.5 | 6462.4m | 1.629699545
+1.50 | 29584 (cum 30000) | 19.953s (cum 20.607s) | 3540.0 | 3652.5 | 6462.4m | 1.629699545
+
+Decision: NO. With w_altitude=1.50, epsilon=1.70/1.50 did not capture the old epsilon=1.3
+low-altitude advantage earlier. The objective does prefer the recorded low route when replayed
+(1.479093332 vs 1.629699545), but this epsilon schedule/search budget did not surface it as an
+incumbent; runtime/expansions worsened and epsilon=1.50 did not complete.

@@ -1,0 +1,57 @@
+=== SELF-CHECK: guidance_fn=None must reproduce Stage 38.3 baseline bit-for-bit ===
+
+----- F NARROW SIDE VALLEY  (guidance=OFF) -----
+  eps=1.70: first_improve_exp=14 cum_exp=14 time=0.1585s cost=1.153190 mean_msl=410.0 min_msl=400 xy=1680.0m preferred=False OPEN=247 INCONS=0 phase_complete=True
+  eps=1.50: first_improve_exp=None cum_exp=14 time=0.1774s cost=1.153190 mean_msl=410.0 min_msl=400 xy=1680.0m preferred=False OPEN=247 INCONS=0 phase_complete=True
+  eps=1.30: first_improve_exp=None cum_exp=14 time=0.1958s cost=1.153190 mean_msl=410.0 min_msl=400 xy=1680.0m preferred=False OPEN=247 INCONS=0 phase_complete=True
+  wall=0.196s  preferred_topology_first_found_at=None
+
+----- G TWO VALLEYS  (guidance=OFF) -----
+  eps=1.70: first_improve_exp=15 cum_exp=15 time=0.1588s cost=1.153190 mean_msl=390.0 min_msl=380 xy=1680.0m preferred=False OPEN=186 INCONS=0 phase_complete=True
+  eps=1.50: first_improve_exp=None cum_exp=15 time=0.1747s cost=1.153190 mean_msl=390.0 min_msl=380 xy=1680.0m preferred=False OPEN=186 INCONS=0 phase_complete=True
+  eps=1.30: first_improve_exp=None cum_exp=15 time=0.1894s cost=1.153190 mean_msl=390.0 min_msl=380 xy=1680.0m preferred=False OPEN=186 INCONS=0 phase_complete=True
+  wall=0.190s  preferred_topology_first_found_at=None
+
+----- H HIGH-VALLEY-HIGH  (guidance=OFF) -----
+  eps=1.70: first_improve_exp=49 cum_exp=49 time=0.5488s cost=1.177648 mean_msl=390.4 min_msl=360 xy=1754.6m preferred=False OPEN=503 INCONS=0 phase_complete=True
+  eps=1.50: first_improve_exp=None cum_exp=49 time=0.5926s cost=1.177648 mean_msl=390.4 min_msl=360 xy=1754.6m preferred=False OPEN=503 INCONS=0 phase_complete=True
+  eps=1.30: first_improve_exp=83 cum_exp=83 time=0.9131s cost=1.135087 mean_msl=395.7 min_msl=360 xy=1680.0m preferred=False OPEN=660 INCONS=4 phase_complete=True
+  wall=0.914s  preferred_topology_first_found_at=None
+
+
+=== BUCKET-WIDTH SWEEP (guidance ON) ===
+
+--- bucket_width=0.0005 ---
+  F NARROW SIDE VALLEY: final_cost=1.153190 mean_msl=410.0 first_improve_exp=14 final_cum_exp=14 wall=0.212s preferred_first_found_at=None
+  G TWO VALLEYS: final_cost=1.153190 mean_msl=390.0 first_improve_exp=15 final_cum_exp=15 wall=0.210s preferred_first_found_at=None
+  H HIGH-VALLEY-HIGH: final_cost=1.135087 mean_msl=395.7 first_improve_exp=28 final_cum_exp=28 wall=0.395s preferred_first_found_at=None
+
+--- bucket_width=0.001 ---
+  F NARROW SIDE VALLEY: final_cost=1.153190 mean_msl=410.0 first_improve_exp=14 final_cum_exp=14 wall=0.199s preferred_first_found_at=None
+  G TWO VALLEYS: final_cost=1.153190 mean_msl=390.0 first_improve_exp=15 final_cum_exp=15 wall=0.181s preferred_first_found_at=None
+  H HIGH-VALLEY-HIGH: final_cost=1.135087 mean_msl=395.7 first_improve_exp=28 final_cum_exp=28 wall=0.365s preferred_first_found_at=None
+
+--- bucket_width=0.002 ---
+  F NARROW SIDE VALLEY: final_cost=1.153190 mean_msl=410.0 first_improve_exp=14 final_cum_exp=14 wall=0.204s preferred_first_found_at=None
+  G TWO VALLEYS: final_cost=1.153190 mean_msl=390.0 first_improve_exp=14 final_cum_exp=14 wall=0.178s preferred_first_found_at=None
+  H HIGH-VALLEY-HIGH: final_cost=1.135087 mean_msl=395.7 first_improve_exp=28 final_cum_exp=28 wall=0.387s preferred_first_found_at=None
+
+--- bucket_width=0.005 ---
+  F NARROW SIDE VALLEY: final_cost=1.178535 mean_msl=430.0 first_improve_exp=14 final_cum_exp=14 wall=0.191s preferred_first_found_at=None
+  G TWO VALLEYS: final_cost=1.185777 mean_msl=415.7 first_improve_exp=14 final_cum_exp=14 wall=0.187s preferred_first_found_at=None
+  H HIGH-VALLEY-HIGH: final_cost=1.178535 mean_msl=430.0 first_improve_exp=14 final_cum_exp=14 wall=0.200s preferred_first_found_at=None
+
+--- bucket_width=0.01 ---
+  F NARROW SIDE VALLEY: final_cost=1.200259 mean_msl=447.1 first_improve_exp=14 final_cum_exp=17 wall=0.223s preferred_first_found_at=None
+  G TWO VALLEYS: final_cost=1.236466 mean_msl=455.7 first_improve_exp=14 final_cum_exp=14 wall=0.178s preferred_first_found_at=None
+  H HIGH-VALLEY-HIGH: final_cost=1.200259 mean_msl=447.1 first_improve_exp=14 final_cum_exp=17 wall=0.222s preferred_first_found_at=None
+
+--- bucket_width=0.02 ---
+  F NARROW SIDE VALLEY: final_cost=1.196232 mean_msl=445.8 first_improve_exp=14 final_cum_exp=25 wall=0.301s preferred_first_found_at=None
+  G TWO VALLEYS: final_cost=1.236466 mean_msl=455.7 first_improve_exp=14 final_cum_exp=14 wall=0.171s preferred_first_found_at=None
+  H HIGH-VALLEY-HIGH: final_cost=1.196232 mean_msl=445.8 first_improve_exp=14 final_cum_exp=25 wall=0.304s preferred_first_found_at=None
+
+--- bucket_width=0.05 ---
+  F NARROW SIDE VALLEY: final_cost=1.199853 mean_msl=448.7 first_improve_exp=185 final_cum_exp=284 wall=2.532s preferred_first_found_at=None
+  G TWO VALLEYS: final_cost=1.225604 mean_msl=447.1 first_improve_exp=381 final_cum_exp=576 wall=4.740s preferred_first_found_at=None
+  H HIGH-VALLEY-HIGH: final_cost=1.199853 mean_msl=448.7 first_improve_exp=185 final_cum_exp=284 wall=2.539s preferred_first_found_at=None

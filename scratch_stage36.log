@@ -1,0 +1,41 @@
+=== 1: straight synthetic polyline -> correct 300m buffer ===
+  point ~300m off the line: in_mask=False (expect True)  point ~330m off: in_mask=False (expect False)  FAIL
+
+=== 2: corner/diagonal path -> no gap at the bend ===
+  point near the inside of the bend (dist_to_vertex~=71m): in_mask=True (expect True)  PASS
+
+Synthetic buffer/corner tests: FAIL
+
+======================================================================
+=== Running the ONE epsilon=1.5 coarse search (not saved to disk in Stage 35.2) ===
+  precompute: entries=295704 time=36.71s
+  status=success expanded=836 path_nodes=27
+  coarse path (epsilon=1.5) saved to outputs/stage36_coarse_path_eps1.5.csv
+
+======================================================================
+=== Building fine XY corridor mask (+/-300m) ===
+  start (row=48,col=276) included: True (distance_to_polyline=42.4m)
+  goal  (row=264,col=276) included: True (distance_to_polyline=30.0m)
+  start<->goal XY-connected within corridor: True
+
+=== Corridor statistics ===
+  fine_grid_shape=(333, 333)  total_fine_cells=110889
+  corridor_cell_count=4853  coverage=4.38%  approx_area_km2=4.37
+  search-space XY reduction (diagnostic only, NOT a speed claim)=95.62%
+  measured corridor width (perpendicular scan, 10 sample points along path): min=620.0m mean=620.0m max=620.0m (expected up to ~600m where not clipped by ROI edge)
+
+=== 6: cells >300m away are excluded ===
+  cells with distance>305m: 106028  wrongly included in corridor: 0  PASS
+
+=== 7: cells <=300m (incl. near-boundary tolerance) are included ===
+  cells with distance<=295m: 4397  wrongly excluded: 0
+  closest-to-exactly-300m cell: distance=300.0000m in_mask=True  PASS
+
+3: start/goal included (after any needed force-include): PASS
+4: mask shape == fine grid shape ((333, 333) == (333, 333)): PASS
+5: XY connectivity: PASS
+6: outside-cells-excluded: PASS
+7: inside-cells-included: PASS
+
+Overall Stage 36: FAIL
+  Validation FAILED -- no mask files written.

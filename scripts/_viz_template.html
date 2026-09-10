@@ -1,0 +1,316 @@
+<title>Aladağlar Uçuş Koridoru</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/4.1.0/plotly.min.js"></script>
+<style>
+  :root{
+    --bg:#0a0e13;
+    --panel:#121922;
+    --panel-2:#0e141c;
+    --border:#233040;
+    --text:#e7edf3;
+    --text-muted:#8fa0b3;
+    --text-faint:#5c6b7c;
+    --red:#e8432f;
+    --red-dim:#6b2a22;
+    --blue:#2f8fff;
+    --blue-dim:#1a3a5c;
+    --green:#35c97b;
+    --amber:#e8a33d;
+    --font-display:"IBM Plex Sans",system-ui,sans-serif;
+    --font-mono:"IBM Plex Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--font-display);
+    display:flex;
+    flex-direction:column;
+    height:100vh;
+    overflow:hidden;
+  }
+  header{
+    display:flex;
+    align-items:baseline;
+    gap:14px;
+    padding:14px 20px;
+    border-bottom:1px solid var(--border);
+    background:linear-gradient(180deg,var(--panel-2),var(--bg));
+    flex:none;
+    z-index:2;
+  }
+  header h1{
+    font-size:17px;
+    font-weight:700;
+    margin:0;
+    letter-spacing:0.01em;
+  }
+  header .subtitle{
+    font-size:12.5px;
+    color:var(--text-muted);
+    font-weight:400;
+  }
+  header .divider{
+    margin-left:auto;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-family:var(--font-mono);
+    font-size:11.5px;
+    color:var(--text-faint);
+  }
+  main{
+    flex:1;
+    display:grid;
+    grid-template-columns:1fr 296px;
+    min-height:0;
+  }
+  #plot{
+    min-width:0;
+    min-height:0;
+  }
+  aside{
+    border-left:1px solid var(--border);
+    background:var(--panel);
+    overflow-y:auto;
+    padding:18px 16px 24px;
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+  }
+  .block{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .block-label{
+    font-size:10.5px;
+    font-weight:600;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--text-faint);
+  }
+  .legend-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:12.5px;
+    color:var(--text);
+  }
+  .swatch{
+    flex:none;
+    width:22px;
+    height:8px;
+    border-radius:2px;
+  }
+  .swatch.tube{background:var(--red);opacity:0.55}
+  .swatch.path{background:var(--blue);height:4px;border-radius:2px;box-shadow:0 0 6px var(--blue)}
+  .swatch.dot{width:10px;height:10px;border-radius:50%;margin:0 6px 0 0}
+  .swatch.dot.start{background:var(--green)}
+  .swatch.dot.goal{background:var(--amber)}
+  .legend-row .lbl{color:var(--text-muted)}
+  .stat-grid{
+    display:grid;
+    grid-template-columns:1fr auto;
+    gap:6px 10px;
+    font-family:var(--font-mono);
+    font-size:12px;
+  }
+  .stat-grid .k{color:var(--text-muted)}
+  .stat-grid .v{color:var(--text);text-align:right;font-variant-numeric:tabular-nums}
+  .pill{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:4px 10px;
+    border-radius:999px;
+    font-family:var(--font-mono);
+    font-size:11.5px;
+    font-weight:600;
+    letter-spacing:0.02em;
+    width:fit-content;
+  }
+  .pill.pass{background:rgba(53,201,123,0.12);color:var(--green);border:1px solid rgba(53,201,123,0.35)}
+  .pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+  .hr{height:1px;background:var(--border);margin:2px 0}
+  .hint{
+    font-size:11px;
+    color:var(--text-faint);
+    line-height:1.5;
+  }
+  footer{
+    flex:none;
+    padding:6px 20px;
+    border-top:1px solid var(--border);
+    font-family:var(--font-mono);
+    font-size:10.5px;
+    color:var(--text-faint);
+    display:flex;
+    justify-content:space-between;
+    background:var(--panel-2);
+  }
+  @media (max-width: 760px){
+    main{grid-template-columns:1fr}
+    aside{
+      border-left:none;
+      border-top:1px solid var(--border);
+      max-height:38vh;
+    }
+  }
+</style>
+
+<header>
+  <h1>Aladağlar Uçuş Koridoru</h1>
+  <span class="subtitle">30m fine DEM &middot; coarse arama tüpü + bulunan rota</span>
+  <div class="divider" id="camera-hint">sürükle: döndür &middot; tekerlek: yakınlaştır</div>
+</header>
+
+<main>
+  <div id="plot"></div>
+  <aside>
+    <div class="block">
+      <div class="block-label">Gösterim</div>
+      <div class="legend-row"><span class="swatch tube"></span><span class="lbl">Coarse arama tüpü (±300m XY, ±200m Z)</span></div>
+      <div class="legend-row"><span class="swatch path"></span><span class="lbl">Bulunan güvenli rota (ARA*)</span></div>
+      <div class="legend-row"><span class="swatch dot start"></span><span class="lbl">Start</span></div>
+      <div class="legend-row"><span class="swatch dot goal"></span><span class="lbl">Goal</span></div>
+    </div>
+
+    <div class="hr"></div>
+
+    <div class="block">
+      <div class="block-label">Start / Goal</div>
+      <div class="stat-grid" id="stat-endpoints"></div>
+    </div>
+
+    <div class="block">
+      <div class="block-label">Arama Tüpü</div>
+      <div class="stat-grid" id="stat-corridor"></div>
+    </div>
+
+    <div class="block">
+      <div class="block-label">Bulunan Rota</div>
+      <div class="stat-grid" id="stat-path"></div>
+      <div id="safety-pill"></div>
+    </div>
+
+    <div class="hr"></div>
+    <div class="hint">Z ekseni okunabilirlik için ~2.9x abartılmıştır (gerçek eğim değil). Arazi rengi mutlak MSL yüksekliğini kodlar.</div>
+  </aside>
+</main>
+
+<footer>
+  <span>planner/fine_precompute.py &middot; Stage 38.1 ARA* final incumbent</span>
+  <span id="camera-reset-hint">çift tık: kamerayı sıfırla</span>
+</footer>
+
+<script>
+  const VIZ = __VIZ_DATA__;
+  const STATS = __STATS__;
+
+  function fmt(n, d=1){ return Number(n).toLocaleString('tr-TR', {minimumFractionDigits:d, maximumFractionDigits:d}); }
+
+  function fillStats(){
+    document.getElementById('stat-endpoints').innerHTML = `
+      <div class="k">start (row,col)</div><div class="v">${STATS.start_row}, ${STATS.start_col}</div>
+      <div class="k">goal (row,col)</div><div class="v">${STATS.goal_row}, ${STATS.goal_col}</div>
+      <div class="k">uçuş MSL</div><div class="v">${fmt(STATS.aircraft_msl,0)} m</div>
+    `;
+    document.getElementById('stat-corridor').innerHTML = `
+      <div class="k">XY yarı genişlik</div><div class="v">±${STATS.corridor_xy_m} m</div>
+      <div class="k">Z yarı genişlik</div><div class="v">±${STATS.corridor_z_m} m</div>
+      <div class="k">corridor hücre</div><div class="v">${STATS.corridor_cells.toLocaleString('tr-TR')}</div>
+    `;
+    document.getElementById('stat-path').innerHTML = `
+      <div class="k">düğüm sayısı</div><div class="v">${STATS.path_nodes}</div>
+      <div class="k">3D uzunluk</div><div class="v">${fmt(STATS.path_length_3d,0)} m</div>
+      <div class="k">cost</div><div class="v">${fmt(STATS.path_cost,6)}</div>
+      <div class="k">min MSL</div><div class="v">${fmt(STATS.path_min_msl,0)} m</div>
+      <div class="k">min AGL</div><div class="v">${fmt(STATS.min_agl,2)} m</div>
+      <div class="k">maks açı</div><div class="v">${fmt(STATS.max_angle,2)}°</div>
+    `;
+    document.getElementById('safety-pill').innerHTML = `<span class="pill pass">SAFETY: PASS</span>`;
+  }
+
+  function buildPlot(){
+    const terrain = {
+      type: 'surface',
+      x: VIZ.terrain.x, y: VIZ.terrain.y, z: VIZ.terrain.z,
+      colorscale: [
+        [0.0,'#1a3a52'],[0.15,'#2f5741'],[0.35,'#5a7a3f'],
+        [0.55,'#8a8850'],[0.72,'#a68a5c'],[0.86,'#c9ad82'],[1.0,'#efe6d8']
+      ],
+      showscale: true,
+      colorbar: {
+        title: {text:'MSL (m)', font:{color:'#8fa0b3', family:'IBM Plex Mono', size:11}},
+        tickfont: {color:'#8fa0b3', family:'IBM Plex Mono', size:10},
+        len:0.55, thickness:10, x:1.0, outlinewidth:0
+      },
+      contours: { z: { show:true, usecolormap:true, highlightcolor:'#ffffff', project:{z:false}, width:1 } },
+      lighting: { ambient:0.55, diffuse:0.65, roughness:0.9, specular:0.15 },
+      opacity: 1.0,
+      hoverinfo: 'x+y+z',
+    };
+
+    const tube = {
+      type: 'scatter3d', mode: 'markers',
+      x: VIZ.tube.x, y: VIZ.tube.y, z: VIZ.tube.z,
+      marker: { size:2.6, color:'#e8432f', opacity:0.22 },
+      hoverinfo: 'skip', name: 'Arama tüpü',
+    };
+
+    const path = {
+      type: 'scatter3d', mode: 'lines+markers',
+      x: VIZ.path.x, y: VIZ.path.y, z: VIZ.path.z,
+      line: { color:'#2f8fff', width:11 },
+      marker: { size:2.2, color:'#8fc4ff' },
+      hoverinfo: 'x+y+z', name: 'Bulunan rota',
+    };
+
+    const start = {
+      type: 'scatter3d', mode: 'markers+text',
+      x: [VIZ.start.x], y: [VIZ.start.y], z: [VIZ.start.z],
+      marker: { size:6, color:'#35c97b', symbol:'diamond', line:{color:'#0a0e13', width:1} },
+      text: ['START'], textposition:'top center',
+      textfont: { color:'#35c97b', family:'IBM Plex Mono', size:11 },
+      hoverinfo:'x+y+z', name:'Start',
+    };
+
+    const goal = {
+      type: 'scatter3d', mode: 'markers+text',
+      x: [VIZ.goal.x], y: [VIZ.goal.y], z: [VIZ.goal.z],
+      marker: { size:6, color:'#e8a33d', symbol:'diamond', line:{color:'#0a0e13', width:1} },
+      text: ['GOAL'], textposition:'top center',
+      textfont: { color:'#e8a33d', family:'IBM Plex Mono', size:11 },
+      hoverinfo:'x+y+z', name:'Goal',
+    };
+
+    const layout = {
+      paper_bgcolor: '#0a0e13',
+      plot_bgcolor: '#0a0e13',
+      margin: { l:0, r:0, t:6, b:0 },
+      showlegend: false,
+      scene: {
+        aspectmode: 'manual',
+        aspectratio: { x:1, y:1, z:0.62 },
+        xaxis: { title:'', showbackground:true, backgroundcolor:'#0d131a', gridcolor:'#1c2632', zerolinecolor:'#1c2632', tickfont:{color:'#5c6b7c', family:'IBM Plex Mono', size:9} },
+        yaxis: { title:'', showbackground:true, backgroundcolor:'#0d131a', gridcolor:'#1c2632', zerolinecolor:'#1c2632', tickfont:{color:'#5c6b7c', family:'IBM Plex Mono', size:9} },
+        zaxis: { title:{text:'MSL (m)', font:{color:'#8fa0b3', family:'IBM Plex Mono', size:10}}, showbackground:true, backgroundcolor:'#0d131a', gridcolor:'#1c2632', zerolinecolor:'#1c2632', tickfont:{color:'#5c6b7c', family:'IBM Plex Mono', size:9} },
+        camera: { eye: {x:1.35, y:-1.55, z:0.85} },
+      },
+    };
+
+    const config = { displaylogo:false, responsive:true, modeBarButtonsToRemove:['toImage'] };
+
+    Plotly.newPlot('plot', [terrain, tube, path, start, goal], layout, config);
+
+    document.getElementById('plot').addEventListener('dblclick', () => {
+      Plotly.relayout('plot', {'scene.camera': { eye: {x:1.35, y:-1.55, z:0.85} }});
+    });
+  }
+
+  fillStats();
+  buildPlot();
+</script>

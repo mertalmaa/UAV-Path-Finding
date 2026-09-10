@@ -1,0 +1,24 @@
+=== Stage 37.2 REAL Aladaglar benchmark -- history-free diagnostic (freeze_history=True) (SINGLE run, cap=30000, no retry) ===
+  D_ref=6480.0000m  epsilon_search=1.1
+
+initial incumbent (direct 216-edge level chain): valid=True cost=1.650000
+
+=== SEARCH RESULT ===
+  status=search_limit_reached  wall=132.33s  runtime=132.14s
+  expanded=30000  max_open=25318  cache_hit_rate=0.013  reopened_states=463
+  xy_corridor_reject_count=51175  z_corridor_reject_count=12511
+
+=== STATE-SPACE COMPOSITION DIAGNOSTICS ===
+  unique_expanded_xy=3034
+  unique_expanded_xyz=29537
+  unique_full_states=29537
+  avg_z_states_per_xy=9.735
+  avg_history_states_per_xyz=1.000  (expect exactly 1.0 -- no history)
+  max_z_states_in_one_xy=16
+
+=== COMPARISON vs Stage 37.1 baseline (NOT re-run) ===
+  Stage 37.1: status=search_limit_reached expanded=30000 wall=37.80s max_open=34435 unique_xy=1012 unique_xyz=7089 full_states=30000 closest_goal_region=4918.11m cache_hit=0.768
+  Stage 37.2: status=search_limit_reached expanded=30000 wall=132.33s max_open=25318 unique_xy=3034 unique_xyz=29537 full_states=29537 closest_goal_region=1499.49m cache_hit=0.013
+
+=== FAIL -- no path/incumbent to report ===
+  closest_state_to_goal=(214, 279, 171)  distance_to_goal_region_m=1499.49

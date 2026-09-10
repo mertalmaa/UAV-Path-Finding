@@ -1,0 +1,29 @@
+Stage 38.3 concise run record
+
+Central policy:
+  planner/mission.py MissionPolicy; production w_distance=1.0,
+  w_altitude=1.25, altitude_scale_m=1000; reference is explicit mission input.
+  common/fine/coarse sample edge cost=0.028125000000, max delta=0 (PASS).
+
+Objective replay (NO SEARCH): A-K = 11/11 PASS.
+  Flat chooses short. 8.30% low detour wins at w=1.25. 43.42% low detour loses.
+  Ridge/broad valley/narrow side valley/two valleys/high-valley-high choose low.
+  Safety override rejects lower-cost AGL-invalid route. Low-AGL != low-MSL PASS.
+  Different endpoints choose monotone route without unnecessary climb.
+  Theoretical 100m breakeven: w=1.0 ->10%, w=1.25 ->12.5%, w=1.5 ->15%.
+
+Synthetic continuous ARA* search (w_alt=1.25):
+  A: eps1.7 28 exp/.0317s, preferred found; eps1.5/1.3 add 0. SEARCH PASS.
+  F: eps1.7 14 exp/.0924s, preferred lateral low valley missed; later add 0. SEARCH FAIL.
+  G: eps1.7 15 exp/.0943s, preferred deep valley missed; later add 0. SEARCH FAIL.
+  H: eps1.7 49 exp/.3399s; eps1.5 add 0; eps1.3 add34/.2009s, INCONS=4,
+     cost 1.177648->1.135087 through shorter path, mean MSL worsens 390.4->395.7.
+     No preferred low topology. SEARCH FAIL.
+  All returned paths safety PASS; no scenario approached 12k cap.
+
+Aladaglar REPLAY ONLY at w=1.25:
+  direct total=1.650000, eps1.7 fast=1.517405190, eps1.3 low=1.407570333.
+  No real search; old eps1.5 phase path unavailable.
+
+Decision: mission cost is generalized and correct; the main bottleneck is
+heuristic/search guidance plus global XY exploration, especially lateral valley topology.

@@ -71,7 +71,10 @@ import time
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Tuple
 
+import numpy as np
+
 from planner.config import DEFAULT_CONFIG, PlannerConfig
+from planner.mission import mission_policy_from_config
 from planner.primitives import MotionPrimitive, Point3, PrimitiveEvalResult, build_primitive_set, evaluate_primitive
 from planner.terrain import TerrainQuery
 
@@ -124,6 +127,62 @@ def state_to_xyz(state: CanonicalState, terrain: TerrainQuery, config: PlannerCo
 
 def path_to_xyz(path: List[CanonicalState], terrain: TerrainQuery, config: PlannerConfig = DEFAULT_CONFIG) -> List[Point3]:
     return [state_to_xyz(s, terrain, config) for s in path]
+
+
+def _distance_to_goal_box(
+    x: float, y: float, z: float,
+    goal_x: float, goal_y: float, goal_z: float,
+    tolerance_xy_m: float, tolerance_z_m: float,
+) -> float:
+    """Stage 33: minimum 3D distance from (x, y, z) to the axis-aligned goal
+    tolerance box (goal_x +/- tolerance_xy_m, goal_y +/- tolerance_xy_m,
+    goal_z +/- tolerance_z_m). 0.0 when the point is already inside.
+
+    dx_out/dy_out/dz_out = max(abs(delta) - tolerance, 0) per axis --
+    "how far outside the box on this axis, or 0 if already within it" --
+    then the ordinary 3D norm of those. Reduces EXACTLY (bit-for-bit) to
+    the plain point-to-point distance when both tolerances are 0.0, since
+    max(abs(d) - 0.0, 0.0) == abs(d) always (subtracting then max-ing with
+    0.0 changes nothing when abs(d) is already >= 0) -- every caller can
+    use this unconditionally, with no separate exact-goal formula needed.
+    """
+    dx_out = max(abs(x - goal_x) - tolerance_xy_m, 0.0)
+    dy_out = max(abs(y - goal_y) - tolerance_xy_m, 0.0)
+    dz_out = max(abs(z - goal_z) - tolerance_z_m, 0.0)
+    return math.sqrt(dx_out * dx_out + dy_out * dy_out + dz_out * dz_out)
+
+
+def _state_in_goal_region(
+    state: CanonicalState,
+    goal: CanonicalState,
+    terrain: TerrainQuery,
+    config: PlannerConfig,
+) -> bool:
+    """Stage 33: is `state`'s physical position within the goal tolerance
+    box around `goal`? Metric x/y come from the terrain's real affine
+    transform (state_to_xyz), never a blind row/col*resolution shortcut --
+    stays correct even if the grid were ever non-north-up. When both
+    tolerances are exactly 0.0 (the default), takes the EXACT pre-Stage-33
+    integer-tuple comparison verbatim (zero floating point involved at
+    all) -- guarantees bit-for-bit identical behavior to every earlier
+    stage in that case.
+
+    NEVER a safety bypass: this only asks "is the position close enough",
+    never "is it safe". A state only ever reaches this check after already
+    passing evaluate_primitive() inside _generate_neighbors (AGL, terrain
+    collision, NoData, bounds, climb/descent angle) -- an unsafe state is
+    never even a candidate here, regardless of tolerance, so a goal box
+    can never "rescue" an otherwise-invalid state into being a solution.
+    """
+    if config.goal_tolerance_xy_m == 0.0 and config.goal_tolerance_z_m == 0.0:
+        return state == goal
+    x1, y1, z1 = state_to_xyz(state, terrain, config)
+    x2, y2, z2 = state_to_xyz(goal, terrain, config)
+    return (
+        abs(x1 - x2) <= config.goal_tolerance_xy_m
+        and abs(y1 - y2) <= config.goal_tolerance_xy_m
+        and abs(z1 - z2) <= config.goal_tolerance_z_m
+    )
 
 
 # --------------------------------------------------------------------------
@@ -203,6 +262,27 @@ class SearchResult:
     # once from start/goal -- NaN under "legacy", where it's never computed/used.
     cost_mode: str = "legacy"
     distance_reference_m: float = float("nan")
+    # Safe goal region (Stage 33) -- goal_tolerance_* mirror config (both 0.0 reproduces the exact
+    # pre-Stage-33 goal condition). The three closest_* fields are always tracked (cheap, purely
+    # observational -- never affect search behavior) so a FAILED run can still report how close the
+    # search actually got, in real UTM meters, to both the goal box and the exact goal center.
+    goal_tolerance_xy_m: float = 0.0
+    goal_tolerance_z_m: float = 0.0
+    closest_distance_to_goal_region_m: float = float("inf")  # 0.0 iff some expanded state ever entered the box
+    closest_distance_to_goal_center_m: float = float("inf")  # plain 3D distance to the exact goal center
+    closest_state_to_goal: Optional[CanonicalState] = None  # the (row,col,z_index) that achieved the region minimum
+    # Corridor-constrained search (Stage 37) -- 0 when corridor_mask=None (no corridor check ever ran).
+    corridor_reject_count: int = 0
+    # 3D guidance tube (Stage 37.1) -- 0 when z_guide_grid/z_guide_tolerance_m=None.
+    z_corridor_reject_count: int = 0
+    # State-space composition diagnostics (Stage 37.1) -- always tracked (cheap, purely
+    # observational, derived from `closed` at the end of the run), regardless of corridor use.
+    unique_expanded_xy: int = 0
+    unique_expanded_xyz: int = 0
+    unique_full_states: int = 0
+    avg_z_states_per_xy: float = float("nan")
+    avg_history_states_per_xyz: float = float("nan")
+    max_z_states_in_one_xy: int = 0
 
 
 def _heuristic(
@@ -249,10 +329,18 @@ def _heuristic(
     (Stage 17/21) is NOT applied here -- see project.md "Stage 32" section
     16 for why that's deliberate this stage (isolate normalized cost's own
     search behavior first, no legacy heuristic blindly reused).
+
+    D3D (Stage 33): with a nonzero goal tolerance, "remaining distance"
+    means distance to the NEAREST point of the goal box, not to its exact
+    center -- using center-distance here would overestimate once a state
+    is already within tolerance of one axis but not another, breaking
+    admissibility. _distance_to_goal_box gives that minimum-to-box distance
+    (0.0 once inside), and reduces bit-for-bit to the plain center distance
+    when both tolerances are 0.0, so this is the correct D3D unconditionally.
     """
     x1, y1, z1 = state_to_xyz((current[0], current[1], current[2]), terrain, config)
     x2, y2, z2 = state_to_xyz(goal, terrain, config)
-    d3d = math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2 + (z2 - z1) ** 2)
+    d3d = _distance_to_goal_box(x1, y1, z1, x2, y2, z2, config.goal_tolerance_xy_m, config.goal_tolerance_z_m)
 
     if config.cost_mode == "normalized":
         if distance_reference_m is None or distance_reference_m <= 0.0:
@@ -595,6 +683,7 @@ def compute_edge_cost(
     previous_trend_bucket: int,
     config: PlannerConfig = DEFAULT_CONFIG,
     distance_reference_m: Optional[float] = None,
+    disable_reversal_cost: bool = False,
 ) -> float:
     """The actual A* edge cost for applying one primitive from a given
     altitude and standing (vertical_trend, trend_age_bucket).
@@ -622,6 +711,14 @@ def compute_edge_cost(
     No abs(delta_z) term outside of a reversal, and no term at all for a
     reversal starting from an already-MATURE standing trend -- see
     _next_trend_and_bucket (shared by both modes).
+
+    disable_reversal_cost (default False, Stage 37.2): forces the
+    reversal contribution to exactly 0.0 and skips consulting
+    previous_vertical_trend/previous_trend_bucket entirely for it -- used
+    by astar_search's history-free diagnostic mode, where trend/bucket
+    are frozen (never updated), so a reversal determination against them
+    would be meaningless. False (the default) reproduces the pre-
+    Stage-37.2 formula exactly.
     """
     if config.cost_mode == "normalized":
         if distance_reference_m is None or distance_reference_m <= 0.0:
@@ -636,7 +733,7 @@ def compute_edge_cost(
             )
         return _compute_edge_cost_normalized(
             primitive, start_altitude_msl, previous_vertical_trend, previous_trend_bucket,
-            config, distance_reference_m,
+            config, distance_reference_m, disable_reversal_cost,
         )
 
     end_altitude_msl = start_altitude_msl + primitive.dz_m
@@ -644,6 +741,9 @@ def compute_edge_cost(
     mean_altitude_msl = (start_altitude_msl + end_altitude_msl) / 2.0
     altitude_scaled = _altitude_scaled(mean_altitude_msl, config)
     base_cost = geometric_cost * (1.0 + config.msl_cost_weight * altitude_scaled)
+
+    if disable_reversal_cost:
+        return base_cost
 
     _, _, is_reversal, reversal_factor = _next_trend_and_bucket(
         previous_vertical_trend, previous_trend_bucket, primitive, config
@@ -659,6 +759,7 @@ def _compute_edge_cost_normalized(
     previous_trend_bucket: int,
     config: PlannerConfig,
     distance_reference_m: float,
+    disable_reversal_cost: bool = False,
 ) -> float:
     """Stage 32 dimensionless edge cost (project.md "Stage 32" -- the
     production implementation of the Stage 31 diagnostic formula, with the
@@ -680,27 +781,41 @@ def _compute_edge_cost_normalized(
     altitude_reference_msl), never (aircraft MSL - local terrain) -- this
     is not a terrain-following/preferred-AGL cost.
     """
-    end_altitude_msl = start_altitude_msl + primitive.dz_m
-    geometric_cost = math.sqrt(primitive.horizontal_distance_m ** 2 + primitive.dz_m ** 2)
-    mean_altitude_msl = (start_altitude_msl + end_altitude_msl) / 2.0
-
-    dC_distance = geometric_cost / distance_reference_m
-    excess_altitude = max(0.0, mean_altitude_msl - config.altitude_reference_msl)
-    dC_altitude = dC_distance * (excess_altitude / config.normalized_altitude_scale_m)
-
-    _, _, is_reversal, reversal_factor = _next_trend_and_bucket(
-        previous_vertical_trend, previous_trend_bucket, primitive, config
+    if disable_reversal_cost:
+        reversal_cost_raw = 0.0
+    else:
+        _, _, is_reversal, reversal_factor = _next_trend_and_bucket(
+            previous_vertical_trend, previous_trend_bucket, primitive, config
+        )
+        reversal_cost_raw = (
+            config.vertical_reversal_cost_weight * abs(primitive.dz_m) * reversal_factor if is_reversal else 0.0
+        )
+    geometric_cost = math.hypot(primitive.horizontal_distance_m, primitive.dz_m)
+    components = mission_policy_from_config(config).edge_components(
+        geometric_cost,
+        start_altitude_msl,
+        start_altitude_msl + primitive.dz_m,
+        distance_reference_m,
+        reversal_cost_raw,
     )
-    reversal_cost_raw = (
-        config.vertical_reversal_cost_weight * abs(primitive.dz_m) * reversal_factor if is_reversal else 0.0
-    )
-    dC_reversal = reversal_cost_raw / distance_reference_m
+    return components.total
 
-    return (
-        config.normalized_w_distance * dC_distance
-        + config.normalized_w_altitude * dC_altitude
-        + config.normalized_w_reversal * dC_reversal
-    )
+
+def validate_path_safety(
+    path: List[CanonicalState],
+    primitives: List[MotionPrimitive],
+    terrain: TerrainQuery,
+    config: PlannerConfig = DEFAULT_CONFIG,
+) -> bool:
+    """Safety-only path validation; performs no costing or optimization."""
+    if len(path) < 2:
+        return False
+    by_delta = {(p.drow, p.dcol, round(p.dz_m / config.z_step_m)): p for p in primitives}
+    for s1, s2 in zip(path, path[1:]):
+        prim = by_delta.get((s2[0] - s1[0], s2[1] - s1[1], s2[2] - s1[2]))
+        if prim is None or not evaluate_primitive(state_to_xyz(s1, terrain, config), prim, terrain, config).valid:
+            return False
+    return True
 
 
 def validate_and_cost_path(
@@ -728,19 +843,18 @@ def validate_and_cost_path(
     incumbent's own cost and the search's internal cost use an identical
     D_ref -- never recomputed per-path here.
     """
-    if len(path) < 2:
+    # Backward-compatible incumbent convenience API.  Safety is decided by
+    # the safety-only validator above; the remaining loop is objective replay.
+    if not validate_path_safety(path, primitives, terrain, config):
         return False, math.inf
     by_delta = {(p.drow, p.dcol, round(p.dz_m / config.z_step_m)): p for p in primitives}
     trend, bucket = 0, BUCKET_SHORT
     total_cost = 0.0
     for (r1, c1, z1), (r2, c2, z2) in zip(path, path[1:]):
         prim = by_delta.get((r2 - r1, c2 - c1, z2 - z1))
-        if prim is None:
+        if prim is None:  # already excluded by validate_path_safety
             return False, math.inf
         start_xyz = state_to_xyz((r1, c1, z1), terrain, config)
-        result = evaluate_primitive(start_xyz, prim, terrain, config)
-        if not result.valid:
-            return False, math.inf
         total_cost += compute_edge_cost(prim, start_xyz[2], trend, bucket, config, distance_reference_m)
         trend, bucket, _, _ = _next_trend_and_bucket(trend, bucket, prim, config)
     return True, total_cost
@@ -763,8 +877,14 @@ def _generate_neighbors(
     primitive_cache: Optional[Dict[PrimitiveCacheKey, PrimitiveEvalResult]],
     cache_stats: Dict[str, int],
     distance_reference_m: Optional[float] = None,
+    corridor_mask: Optional[np.ndarray] = None,
+    z_guide_grid: Optional[np.ndarray] = None,
+    z_guide_tolerance_m: Optional[float] = None,
+    freeze_history: bool = False,
+    fine_precompute: Optional["FinePrecomputeResult"] = None,
 ):
-    """current -> primitive -> candidate -> bounds -> altitude bounds -> evaluate_primitive (or cache) -> neighbor.
+    """current -> primitive -> candidate -> bounds -> XY corridor -> Z guide tube ->
+    altitude bounds -> evaluate_primitive (or cache) -> neighbor.
 
     primitive_cache holds PHYSICAL feasibility results only, keyed by
     (row, col, z_index, primitive_id) -- never by vertical_trend or
@@ -775,7 +895,43 @@ def _generate_neighbors(
     computed fresh per augmented state below, never cached -- those DO
     depend on history/config preference.
 
-    Returns (accepted, rejected_reason_counts, generated_count, rejected_count).
+    corridor_mask (Stage 37, default None): an optional boolean array,
+    shape (terrain.roi.height, terrain.roi.width), True where (row, col)
+    is inside the allowed XY corridor (e.g. planner.corridor's fine mask
+    around a coarse guide path -- see planner/corridor.py). A successor
+    whose (row, col) is outside the corridor is rejected ("outside_
+    corridor") BEFORE the expensive evaluate_primitive()/cache lookup --
+    corridor_reject_count. This is an XY-only prefilter, never a safety
+    decision: it changes nothing about AGL/terrain/NoData/angle checks,
+    which still apply to every candidate the corridor lets through. None
+    (the default) reproduces the pre-Stage-37 behavior exactly -- no
+    corridor check is ever performed.
+
+    z_guide_grid / z_guide_tolerance_m (Stage 37.1, both default None):
+    an optional per-(row,col) guidance altitude (MSL, e.g. planner.
+    corridor's interpolated coarse-path Z -- see build_z_guide_grid) and
+    a tolerance in meters. A successor that passed the XY corridor check
+    but whose own altitude is farther than z_guide_tolerance_m from
+    z_guide_grid[new_row, new_col] is rejected ("outside_z_guide_tube" --
+    z_corridor_reject_count) -- again BEFORE evaluate_primitive, and
+    again purely a guidance prefilter, never a safety decision. Only
+    consulted when BOTH are given (and only meaningfully after the XY
+    check already passed) -- None (the default) means no Z-tube
+    narrowing at all, reproducing the pre-Stage-37.1 behavior exactly.
+
+    fine_precompute (Stage 38.1, default None): a planner.fine_precompute.
+    FinePrecomputeResult -- when given, REPLACES evaluate_primitive()/
+    primitive_cache for the safety decision with an O(1) dense-array
+    lookup (planner.fine_precompute.fine_precomputed_primitive_validity),
+    keyed by (row, col, primitive_index, start_msl) -- z_index never
+    enters it, matching primitive_cache's own key shape. primitive_cache
+    is ignored entirely when this is given (no terrain re-sampling, no
+    cache_stats hits/misses recorded -- the precompute has already
+    superseded that role). None (the default) reproduces the pre-Stage-
+    38.1 behavior exactly.
+
+    Returns (accepted, rejected_reason_counts, generated_count, rejected_count,
+    corridor_reject_count, z_corridor_reject_count).
     accepted is a list of (neighbor_augmented_state, edge_cost).
     """
     row, col, z_index, prev_trend, prev_bucket = state
@@ -785,8 +941,10 @@ def _generate_neighbors(
     rejected_counts: Dict[str, int] = {}
     generated = 0
     rejected = 0
+    corridor_reject_count = 0
+    z_corridor_reject_count = 0
 
-    for prim in primitives:
+    for prim_idx, prim in enumerate(primitives):
         generated += 1
         new_row = row + prim.drow
         new_col = col + prim.dcol
@@ -799,29 +957,51 @@ def _generate_neighbors(
             rejected_counts["out_of_bounds"] = rejected_counts.get("out_of_bounds", 0) + 1
             continue
 
+        if corridor_mask is not None and not corridor_mask[new_row, new_col]:
+            rejected += 1
+            corridor_reject_count += 1
+            rejected_counts["outside_corridor"] = rejected_counts.get("outside_corridor", 0) + 1
+            continue
+
+        if z_guide_grid is not None and z_guide_tolerance_m is not None:
+            z_guide = z_guide_grid[new_row, new_col]
+            if abs(new_z_msl - z_guide) > z_guide_tolerance_m:
+                rejected += 1
+                z_corridor_reject_count += 1
+                rejected_counts["outside_z_guide_tube"] = rejected_counts.get("outside_z_guide_tube", 0) + 1
+                continue
+
         if not (min_search_altitude_msl <= new_z_msl <= max_search_altitude_msl):
             rejected += 1
             rejected_counts["altitude_search_bounds"] = rejected_counts.get("altitude_search_bounds", 0) + 1
             continue
 
-        if primitive_cache is None:
-            eval_result = evaluate_primitive(start_xyz, prim, terrain, config)
-            cache_stats["actual_calls"] += 1
+        if fine_precompute is not None:
+            from planner.fine_precompute import fine_precomputed_primitive_validity  # lazy: avoids import cycle
+            valid, reason = fine_precomputed_primitive_validity(fine_precompute, row, col, prim_idx, start_xyz[2])
+            if not valid:
+                rejected += 1
+                rejected_counts[reason] = rejected_counts.get(reason, 0) + 1
+                continue
         else:
-            cache_key: PrimitiveCacheKey = (row, col, z_index, _primitive_id(prim))
-            eval_result = primitive_cache.get(cache_key)
-            if eval_result is None:
-                cache_stats["misses"] += 1
+            if primitive_cache is None:
                 eval_result = evaluate_primitive(start_xyz, prim, terrain, config)
                 cache_stats["actual_calls"] += 1
-                primitive_cache[cache_key] = eval_result  # cache both VALID and INVALID results
             else:
-                cache_stats["hits"] += 1
+                cache_key: PrimitiveCacheKey = (row, col, z_index, _primitive_id(prim))
+                eval_result = primitive_cache.get(cache_key)
+                if eval_result is None:
+                    cache_stats["misses"] += 1
+                    eval_result = evaluate_primitive(start_xyz, prim, terrain, config)
+                    cache_stats["actual_calls"] += 1
+                    primitive_cache[cache_key] = eval_result  # cache both VALID and INVALID results
+                else:
+                    cache_stats["hits"] += 1
 
-        if not eval_result.valid:
-            rejected += 1
-            rejected_counts[eval_result.reason] = rejected_counts.get(eval_result.reason, 0) + 1
-            continue
+            if not eval_result.valid:
+                rejected += 1
+                rejected_counts[eval_result.reason] = rejected_counts.get(eval_result.reason, 0) + 1
+                continue
 
         # AGL/terrain/transition safety was already fully decided above by
         # evaluate_primitive() (or the cached result of it) -- everything
@@ -830,13 +1010,21 @@ def _generate_neighbors(
         # and reversal terms only ever add to geometric_cost, and only
         # apply to edges already proven safe -- they can't forbid an edge,
         # and can't stop a climb that's the only safe way through.
-        edge_cost = compute_edge_cost(prim, start_xyz[2], prev_trend, prev_bucket, config, distance_reference_m)
-        next_trend, next_bucket, _, _ = _next_trend_and_bucket(prev_trend, prev_bucket, prim, config)
+        edge_cost = compute_edge_cost(prim, start_xyz[2], prev_trend, prev_bucket, config, distance_reference_m,
+                                      disable_reversal_cost=freeze_history)
+        if freeze_history:
+            # Stage 37.2 diagnostic: trend/bucket are never updated -- every reachable
+            # state inherits the SAME (frozen) history its start_aug began with, so the
+            # augmented 5-tuple's last two fields are constant and the state is
+            # effectively (row, col, z_index) only (see astar_search's docstring).
+            next_trend, next_bucket = prev_trend, prev_bucket
+        else:
+            next_trend, next_bucket, _, _ = _next_trend_and_bucket(prev_trend, prev_bucket, prim, config)
 
         neighbor_state: AugmentedState = (new_row, new_col, new_z_index, next_trend, next_bucket)
         accepted.append((neighbor_state, edge_cost))
 
-    return accepted, rejected_counts, generated, rejected
+    return accepted, rejected_counts, generated, rejected, corridor_reject_count, z_corridor_reject_count
 
 
 def _reconstruct_path(came_from: Dict[AugmentedState, AugmentedState], start: AugmentedState, goal_state: AugmentedState) -> List[CanonicalState]:
@@ -1034,6 +1222,12 @@ def astar_search(
     initial_incumbent_path: Optional[List[CanonicalState]] = None,
     epsilon_search: float = 1.0,
     target_suboptimality: Optional[float] = None,
+    corridor_mask: Optional[np.ndarray] = None,
+    z_guide_grid: Optional[np.ndarray] = None,
+    z_guide_tolerance_m: Optional[float] = None,
+    freeze_history: bool = False,
+    external_primitive_cache: Optional[Dict[PrimitiveCacheKey, PrimitiveEvalResult]] = None,
+    stop_on_first_solution: bool = False,
 ) -> SearchResult:
     """3D A* from start to goal using only the existing safe motion primitives.
 
@@ -1175,6 +1369,68 @@ def astar_search(
     earlier stage) -- epsilon_search alone, without a target, just makes
     that first solution biased/found differently, with no certificate
     computed.
+
+    corridor_mask (default None, Stage 37): an optional boolean array,
+    shape (terrain.roi.height, terrain.roi.width), True where (row, col)
+    is inside an allowed XY corridor (e.g. planner.corridor's mask around
+    a coarse guide path). A successor whose (row, col) falls outside it
+    is rejected BEFORE the expensive evaluate_primitive()/cache lookup --
+    see _generate_neighbors -- reported as corridor_reject_count. XY-only:
+    never restricts z_index/altitude, and never changes AGL/terrain/
+    NoData/angle safety, which still applies to every candidate the
+    corridor lets through. None (the default) reproduces the pre-
+    Stage-37 search exactly -- no corridor check is ever performed.
+
+    z_guide_grid / z_guide_tolerance_m (default None, Stage 37.1): an
+    optional per-(row,col) guidance MSL (e.g. planner.corridor.
+    build_z_guide_grid's coarse-path-interpolated altitude) and a
+    tolerance in meters -- a successor that already passed corridor_mask
+    but whose own altitude is farther than z_guide_tolerance_m from that
+    guidance value is rejected, again before evaluate_primitive, again
+    purely a guidance narrowing (never changes AGL/terrain/NoData/angle
+    safety). Reported as z_corridor_reject_count. Only meaningful when
+    both are given; None (the default, either one) means no Z-tube
+    narrowing at all, reproducing the pre-Stage-37.1 search exactly.
+
+    freeze_history (default False, Stage 37.2): a diagnostic-only mode --
+    NOT a production default -- that measures the search-state impact of
+    vertical_trend/trend_age_bucket in isolation. When True, a
+    successor's (trend, bucket) are never advanced via
+    _next_trend_and_bucket; they simply inherit the CURRENT state's own
+    (frozen at start_aug's initial (0, BUCKET_SHORT) forever), and
+    compute_edge_cost is called with disable_reversal_cost=True (the
+    reversal component is always exactly 0.0 -- there is no history left
+    to reverse against). The augmented state therefore still has the
+    same 5-tuple shape internally, but since its last two fields never
+    vary, it is bijective with (row, col, z_index) alone -- no XYZ is
+    ever duplicated across different histories, because there IS only
+    one (frozen) history. Everything else (corridor_mask, z_guide_grid,
+    incumbent, epsilon_search, cache, dominance, cost's distance/
+    altitude terms) behaves exactly as already documented above. False
+    (the default) reproduces the pre-Stage-37.2 search exactly.
+
+    external_primitive_cache (default None, Stage 37.3): pass an existing
+    dict (e.g. one returned by a previous call's own internal cache, if
+    the caller kept a reference) to reuse and keep populating it across
+    MULTIPLE astar_search() calls -- e.g. an epsilon sweep against the
+    same terrain/config, where every call after the first can reuse
+    already-evaluated (row, col, z_index, primitive_id) results instead
+    of recomputing them. Only consulted when use_primitive_cache=True;
+    ignored (a fresh cache is created, exactly as before) when it is
+    False. None (the default) reproduces the pre-Stage-37.3 behavior
+    exactly -- a brand new, empty cache every call, discarded after.
+
+    stop_on_first_solution (default False, Stage 37.4): when True, the
+    search breaks IMMEDIATELY at the first goal-region pop, exactly like
+    the non-bounded-mode path already does -- even if target_
+    suboptimality is set (bounded_mode), no certificate is pursued.
+    Every running counter (expanded_nodes, max_open_size,
+    reopened_states, generated_neighbors, ...) therefore reflects
+    exactly the state at the moment the first complete solution was
+    found, with nothing extra explored afterward -- no separate
+    "snapshot" fields are needed for that. False (the default)
+    reproduces the pre-Stage-37.4 behavior exactly (bounded_mode, if
+    active, keeps searching for a tighter certified bound as before).
     """
     if primitives is None:
         primitives = build_primitive_set(config)
@@ -1182,7 +1438,12 @@ def astar_search(
     t0 = time.perf_counter()
     counter = itertools.count()
 
-    primitive_cache: Optional[Dict[PrimitiveCacheKey, PrimitiveEvalResult]] = {} if use_primitive_cache else None
+    if use_primitive_cache:
+        primitive_cache: Optional[Dict[PrimitiveCacheKey, PrimitiveEvalResult]] = (
+            external_primitive_cache if external_primitive_cache is not None else {}
+        )
+    else:
+        primitive_cache = None
     cache_stats = {"hits": 0, "misses": 0, "actual_calls": 0}
 
     # Per-base-key Pareto frontier of (age, g) pairs, age ascending / g strictly
@@ -1229,6 +1490,15 @@ def astar_search(
     first_solution_cost = math.inf
     first_solution_expanded = 0
     first_solution_runtime_s = float("nan")
+    corridor_reject_count = 0
+    z_corridor_reject_count = 0
+
+    # Stage 33: goal center in real UTM meters, computed once (never per-expansion),
+    # for the closest-state-to-goal diagnostics below.
+    goal_x, goal_y, goal_z = state_to_xyz(goal, terrain, config)
+    closest_distance_to_goal_region_m = math.inf
+    closest_distance_to_goal_center_m = math.inf
+    closest_state_to_goal: Optional[CanonicalState] = None
 
     start_aug: AugmentedState = (start[0], start[1], start[2], 0, BUCKET_SHORT)
 
@@ -1286,7 +1556,18 @@ def astar_search(
         closed.add(current)
         expanded_nodes += 1
 
-        if (current[0], current[1], current[2]) == goal:
+        current_physical = (current[0], current[1], current[2])
+        x_c, y_c, z_c = state_to_xyz(current_physical, terrain, config)
+        region_dist = _distance_to_goal_box(x_c, y_c, z_c, goal_x, goal_y, goal_z,
+                                             config.goal_tolerance_xy_m, config.goal_tolerance_z_m)
+        if region_dist < closest_distance_to_goal_region_m:
+            closest_distance_to_goal_region_m = region_dist
+            closest_state_to_goal = current_physical
+        center_dist = math.sqrt((x_c - goal_x) ** 2 + (y_c - goal_y) ** 2 + (z_c - goal_z) ** 2)
+        if center_dist < closest_distance_to_goal_center_m:
+            closest_distance_to_goal_center_m = center_dist
+
+        if _state_in_goal_region(current_physical, goal, terrain, config):
             solution_cost = g_score[current]
             if first_solution_cost == math.inf:
                 first_solution_cost = solution_cost
@@ -1296,12 +1577,13 @@ def astar_search(
                 incumbent_cost = solution_cost
                 incumbent_stats["updates"] += 1
                 incumbent_path = _reconstruct_path(came_from, start_aug, current)
-            if not bounded_mode:
+            if not bounded_mode or stop_on_first_solution:
                 status = "success"
                 goal_state = current
                 break
-            # bounded_mode: don't stop here -- a tighter certified solution may
-            # still be reachable; fall through to the certificate check below.
+            # bounded_mode (and stop_on_first_solution is False): don't stop here --
+            # a tighter certified solution may still be reachable; fall through to
+            # the certificate check below.
 
         if bounded_mode and incumbent_cost < math.inf:
             current_lb = _current_lower_bound(lb_heap, closed)
@@ -1314,12 +1596,15 @@ def astar_search(
             status = "search_limit_reached"
             break
 
-        neighbors, rej_counts, gen_count, rej_count = _generate_neighbors(
+        neighbors, rej_counts, gen_count, rej_count, corridor_rej_count, z_corridor_rej_count = _generate_neighbors(
             current, primitives, terrain, config, min_search_altitude_msl, max_search_altitude_msl,
-            primitive_cache, cache_stats, distance_reference_m,
+            primitive_cache, cache_stats, distance_reference_m, corridor_mask, z_guide_grid, z_guide_tolerance_m,
+            freeze_history,
         )
         generated_neighbors += gen_count
         rejected_neighbors += rej_count
+        corridor_reject_count += corridor_rej_count
+        z_corridor_reject_count += z_corridor_rej_count
         for reason, cnt in rej_counts.items():
             rejected_reason_counts[reason] = rejected_reason_counts.get(reason, 0) + cnt
 
@@ -1376,6 +1661,22 @@ def astar_search(
                             heapq.heappush(lb_heap, (f_lb, c, neighbor_state))
 
     runtime_s = time.perf_counter() - t0
+
+    # Stage 37.1: state-space composition diagnostics, derived once from the final
+    # `closed` set (every AugmentedState this search actually expanded) -- cheap
+    # (one pass over at most max_expansions entries), always computed, never
+    # affects search behavior.
+    xy_seen: Dict[Tuple[int, int], set] = {}
+    xyz_seen: set = set()
+    for (r, c, z, _trend, _bucket) in closed:
+        xy_seen.setdefault((r, c), set()).add(z)
+        xyz_seen.add((r, c, z))
+    unique_expanded_xy = len(xy_seen)
+    unique_expanded_xyz = len(xyz_seen)
+    unique_full_states = len(closed)
+    avg_z_states_per_xy = unique_expanded_xyz / unique_expanded_xy if unique_expanded_xy else float("nan")
+    avg_history_states_per_xyz = unique_full_states / unique_expanded_xyz if unique_expanded_xyz else float("nan")
+    max_z_states_in_one_xy = max((len(v) for v in xy_seen.values()), default=0)
 
     if status == "no_path" and incumbent_cost < math.inf:
         # open_heap ran out with nothing left unexplored -- the search is
@@ -1487,4 +1788,353 @@ def astar_search(
         reopened_states=reopened_states,
         cost_mode=config.cost_mode,
         distance_reference_m=distance_reference_m if distance_reference_m is not None else float("nan"),
+        goal_tolerance_xy_m=config.goal_tolerance_xy_m,
+        goal_tolerance_z_m=config.goal_tolerance_z_m,
+        closest_distance_to_goal_region_m=closest_distance_to_goal_region_m,
+        closest_distance_to_goal_center_m=closest_distance_to_goal_center_m,
+        closest_state_to_goal=closest_state_to_goal,
+        corridor_reject_count=corridor_reject_count,
+        z_corridor_reject_count=z_corridor_reject_count,
+        unique_expanded_xy=unique_expanded_xy,
+        unique_expanded_xyz=unique_expanded_xyz,
+        unique_full_states=unique_full_states,
+        avg_z_states_per_xy=avg_z_states_per_xy,
+        avg_history_states_per_xyz=avg_history_states_per_xyz,
+        max_z_states_in_one_xy=max_z_states_in_one_xy,
+    )
+
+
+# --------------------------------------------------------------------------
+# Stage 38: genuine ARA* (Anytime Repairing A*, Likhachev et al.) over the
+# SAME fine-grid search graph as astar_search -- see ara_star_search's own
+# docstring below for the full algorithm mapping.
+# --------------------------------------------------------------------------
+
+@dataclass
+class ARAPhaseResult:
+    epsilon: float
+    added_expansions: int  # this phase's own expansions (cumulative_expansions delta)
+    cumulative_expansions: int  # running total across every phase so far, shared 30k budget
+    cumulative_runtime_s: float
+    open_size_at_end: int
+    incons_size_at_end: int
+    closed_size_this_phase: int  # reset to 0 at the start of every phase
+    g_value_improvement_count: int  # g(s) strictly improved (new discovery, reopen-as-INCONS, or incumbent update)
+    incumbent_available: bool
+    incumbent_cost: float
+    diagnostic_lower_bound: float  # min(g+h) over OPEN u INCONS at phase end -- see docstring, NOT a certificate
+    diagnostic_bound_ratio: float  # incumbent_cost / diagnostic_lower_bound, NaN if not computable
+    xy_length_m: float
+    length_3d_m: float
+    min_msl: float
+    mean_msl: float
+    max_msl: float
+    total_climb_m: float
+    total_descent_m: float
+    vertical_reversal_count: int  # diagnostic only (fresh replay), never a cost input here
+    phase_complete: bool  # True: ImprovePath ran to its own termination; False: cut off by the 30k cap
+    # Reporting-only snapshots.  They do not participate in ARA* ordering,
+    # relaxation, stopping, or reuse; Stage 38.2 uses them to replay each
+    # phase's incumbent without starting another search.
+    first_incumbent_improvement_expansion: Optional[int] = None
+    last_incumbent_improvement_expansion: Optional[int] = None
+    incumbent_path: List[CanonicalState] = field(default_factory=list)
+
+
+@dataclass
+class ARASearchResult:
+    path_found: bool  # True iff any incumbent (complete, safe -- goal-region-reaching) path was ever found
+    refinement_limit_reached: bool  # True iff the cumulative 30k cap stopped the run before the schedule finished
+    first_incumbent_cost: float
+    first_incumbent_expanded: int
+    first_incumbent_runtime_s: float
+    first_incumbent_path: List[CanonicalState]
+    final_incumbent_cost: float
+    final_incumbent_path: List[CanonicalState]
+    total_expanded: int
+    total_runtime_s: float
+    phases: List[ARAPhaseResult] = field(default_factory=list)
+
+
+def ara_star_search(
+    start: CanonicalState,
+    goal: CanonicalState,
+    terrain: TerrainQuery,
+    min_search_altitude_msl: float,
+    max_search_altitude_msl: float,
+    config: PlannerConfig = DEFAULT_CONFIG,
+    primitives: Optional[List[MotionPrimitive]] = None,
+    epsilon_schedule: Tuple[float, ...] = (1.7, 1.5, 1.3, 1.1),
+    max_expansions_cumulative: int = 30_000,
+    corridor_mask: Optional[np.ndarray] = None,
+    z_guide_grid: Optional[np.ndarray] = None,
+    z_guide_tolerance_m: Optional[float] = None,
+    use_primitive_cache: bool = True,
+    fine_precompute: Optional["FinePrecomputeResult"] = None,
+) -> ARASearchResult:
+    """Genuine ARA* -- ONE persistent g/parent/OPEN/CLOSED/INCONS/incumbent
+    search state is carried across the decreasing epsilon_schedule via
+    repeated ImprovePath phases, never a series of independent astar_search()
+    calls (each phase would then re-derive everything from scratch, which is
+    exactly what ARA* exists to avoid). freeze_history=True semantics (Stage
+    37.2/37.3: no trend/bucket, disable_reversal_cost) are hardwired ON --
+    this refines exactly the Stage 37.3/37.4 configuration, so every edge
+    still passes through the SAME _generate_neighbors -> evaluate_primitive
+    terrain/AGL/angle safety checks, and the SAME corridor_mask/z_guide_grid/
+    z_guide_tolerance_m prefilters, on every expansion, every phase.
+
+    Goal-as-region adaptation: classic ARA* holds a single fixed sgoal whose
+    g(sgoal) never gets expanded, only relaxed-into (like any other edge
+    target), and ImprovePath's stopping test compares OPEN's min key against
+    Key(sgoal). Here _state_in_goal_region replaces "is this state sgoal" --
+    a candidate successor that lands inside the goal region has its g/parent
+    updated exactly like any other relaxation, and if that g improves the
+    running incumbent_cost/incumbent_state, the incumbent updates -- but the
+    state is NEVER pushed into OPEN or INCONS (it is a sink: no path through
+    the interior of the goal region needs to continue past its entry point).
+    This exactly plays the role of g(sgoal), so incumbent_cost substitutes
+    for Key(sgoal) in the termination test.
+
+    Reopening: a state already CLOSED this phase that gets relaxed to a
+    strictly better g is deferred into INCONS -- never immediately reopened
+    into OPEN within the same phase (that would make this repeated weighted
+    A*, not ARA*). At each epsilon decrease: OPEN absorbs all of INCONS
+    (which is then cleared), every remaining OPEN key is recomputed with the
+    new epsilon, and CLOSED is cleared -- but g, parent, the primitive_cache,
+    and incumbent_cost/state all persist untouched, so no search information
+    or edge evaluation is ever redone from scratch.
+
+    ImprovePath terminates a phase when OPEN's minimum weighted key can no
+    longer beat incumbent_cost (or OPEN empties outright) -- exactly the
+    "min active weighted key >= incumbent" criterion the spec calls for.
+
+    fine_precompute (Stage 38.1, default None): a planner.fine_precompute.
+    FinePrecomputeResult (see that module) -- when given, every expansion's
+    safety decision is an O(1) dense-array lookup instead of evaluate_
+    primitive()/primitive_cache (use_primitive_cache is then ignored). It
+    changes nothing about WHICH edges are safe -- only how that decision is
+    computed -- so search order, costs, and results are unaffected; only
+    wall-clock (and cache_hit_rate reporting, which becomes meaningless)
+    change. None (the default) reproduces the pre-Stage-38.1 behavior
+    exactly.
+
+    max_expansions_cumulative caps TOTAL expansions across every phase
+    combined (never reset per-phase). If it is reached mid-phase, the whole
+    run stops immediately: refinement_limit_reached=True, and path_found
+    reflects whatever incumbent already stands (independent of whether any
+    phase's ImprovePath, or the schedule itself, ever completed).
+
+    diagnostic_lower_bound (per phase) = min(g(s)+h(s)) over every state
+    currently in OPEN or INCONS (the active, unresolved frontier) at that
+    phase's end -- reported ONLY as a diagnostic anytime-quality ratio, never
+    as a certified bound. Unlike astar_search's single-epsilon bounded_mode
+    (which has an existing, separately proven admissibility argument for its
+    %-suboptimality certificate), a state CLOSED in an earlier phase and
+    never reopened into INCONS is only "resolved" in the ordinary weighted-A*
+    sense (within that phase's own epsilon factor) -- there is no proof here
+    that excluding it from the min is still a valid admissible lower bound
+    once epsilon has since changed and the goal is a region rather than a
+    single node. Reporting it honestly as a diagnostic (not a certificate)
+    is the explicit instruction this stage was given.
+    """
+    if primitives is None:
+        primitives = build_primitive_set(config)
+
+    t0 = time.perf_counter()
+    counter = itertools.count()
+
+    primitive_cache: Optional[Dict[PrimitiveCacheKey, PrimitiveEvalResult]] = (
+        {} if (use_primitive_cache and fine_precompute is None) else None
+    )
+    cache_stats = {"hits": 0, "misses": 0, "actual_calls": 0}
+
+    distance_reference_m = (
+        compute_distance_reference(start, goal, terrain, config) if config.cost_mode == "normalized" else None
+    )
+
+    start_aug: AugmentedState = (start[0], start[1], start[2], 0, BUCKET_SHORT)
+
+    g: Dict[AugmentedState, float] = {start_aug: 0.0}
+    parent: Dict[AugmentedState, AugmentedState] = {}
+
+    open_members: set = {start_aug}
+    incons_members: set = set()
+
+    incumbent_cost = math.inf
+    incumbent_state: Optional[AugmentedState] = None
+    # Keep the accepted incumbent immutable.  Parent pointers for its
+    # ancestors may improve in later phases even when the goal sink itself
+    # is not relaxed again; reconstructing from the live parent map later
+    # can therefore produce a different path whose recomputed cost no longer
+    # equals incumbent_cost.  This snapshot is reporting/output state only.
+    incumbent_path_snapshot: List[CanonicalState] = []
+
+    first_incumbent_cost = math.inf
+    first_incumbent_expanded = 0
+    first_incumbent_runtime_s = float("nan")
+    first_incumbent_path: List[CanonicalState] = []
+
+    expanded_nodes = 0
+    refinement_limit_reached = False
+    budget_hit = False
+    phases: List[ARAPhaseResult] = []
+
+    def h_of(s: AugmentedState) -> float:
+        return _heuristic(s, goal, terrain, config, 1.0, None, False, distance_reference_m)
+
+    for epsilon in epsilon_schedule:
+        phase_start_expanded = expanded_nodes
+        phase_g_improvements = 0
+        phase_first_incumbent_improvement_expansion: Optional[int] = None
+        phase_last_incumbent_improvement_expansion: Optional[int] = None
+
+        # OPEN = OPEN u INCONS; INCONS cleared; keys recomputed with the new
+        # epsilon; CLOSED cleared -- g/parent/incumbent all persist untouched.
+        open_members = open_members | incons_members
+        incons_members = set()
+        closed_this_phase: set = set()
+
+        heap: List[Tuple[float, int, AugmentedState, float]] = []
+        for s in open_members:
+            h_val = h_of(s)
+            heapq.heappush(heap, (g[s] + epsilon * h_val, next(counter), s, g[s] + h_val))
+
+        phase_complete = False
+        while heap:
+            f_w_top, _, s_top, _ = heap[0]
+            if s_top in closed_this_phase:
+                heapq.heappop(heap)
+                continue
+            if incumbent_cost < math.inf and f_w_top >= incumbent_cost:
+                phase_complete = True
+                break
+
+            _, _, s, _ = heapq.heappop(heap)
+            if s in closed_this_phase:
+                continue  # stale duplicate entry for an already-expanded state
+
+            closed_this_phase.add(s)
+            open_members.discard(s)
+            expanded_nodes += 1
+
+            if expanded_nodes >= max_expansions_cumulative:
+                budget_hit = True
+                break
+
+            neighbors, _rej_counts, _gen, _rej, _corr_rej, _z_rej = _generate_neighbors(
+                s, primitives, terrain, config, min_search_altitude_msl, max_search_altitude_msl,
+                primitive_cache, cache_stats, distance_reference_m, corridor_mask, z_guide_grid,
+                z_guide_tolerance_m, True,  # freeze_history hardwired for Stage 38
+                fine_precompute,
+            )
+            g_s = g[s]
+            for neighbor, edge_cost in neighbors:
+                tentative_g = g_s + edge_cost
+                if tentative_g < g.get(neighbor, math.inf):
+                    g[neighbor] = tentative_g
+                    parent[neighbor] = s
+                    phase_g_improvements += 1
+
+                    if _state_in_goal_region((neighbor[0], neighbor[1], neighbor[2]), goal, terrain, config):
+                        # Sink, exactly like sgoal in classic ARA* -- g/parent update above is
+                        # its "relaxation"; it is never pushed to OPEN/INCONS, since no path
+                        # needs to continue past the goal region's entry point.
+                        if tentative_g < incumbent_cost:
+                            incumbent_cost = tentative_g
+                            incumbent_state = neighbor
+                            incumbent_path_snapshot = _reconstruct_path(parent, start_aug, neighbor)
+                            if phase_first_incumbent_improvement_expansion is None:
+                                phase_first_incumbent_improvement_expansion = expanded_nodes
+                            phase_last_incumbent_improvement_expansion = expanded_nodes
+                            if first_incumbent_cost == math.inf:
+                                first_incumbent_cost = tentative_g
+                                first_incumbent_expanded = expanded_nodes
+                                first_incumbent_runtime_s = time.perf_counter() - t0
+                                first_incumbent_path = _reconstruct_path(parent, start_aug, neighbor)
+                    elif neighbor in closed_this_phase:
+                        incons_members.add(neighbor)
+                    else:
+                        open_members.add(neighbor)
+                        h_val = h_of(neighbor)
+                        heapq.heappush(heap, (tentative_g + epsilon * h_val, next(counter), neighbor, tentative_g + h_val))
+
+        if budget_hit:
+            refinement_limit_reached = True
+        elif not heap:
+            phase_complete = True  # OPEN exhausted -- nothing left could ever beat the incumbent
+
+        active_frontier = open_members | incons_members
+        if active_frontier:
+            diagnostic_lb = min(g[s] + h_of(s) for s in active_frontier)
+        else:
+            diagnostic_lb = math.inf
+        diagnostic_bound_ratio = (
+            incumbent_cost / diagnostic_lb
+            if incumbent_cost < math.inf and 0.0 < diagnostic_lb < math.inf
+            else float("nan")
+        )
+
+        if incumbent_state is not None:
+            phase_path = list(incumbent_path_snapshot)
+            phase_xyz = [state_to_xyz(s, terrain, config) for s in phase_path]
+            xy_length_m = sum(
+                math.hypot(phase_xyz[i + 1][0] - phase_xyz[i][0], phase_xyz[i + 1][1] - phase_xyz[i][1])
+                for i in range(len(phase_xyz) - 1)
+            )
+            alt_metrics = _path_altitude_metrics(phase_path, terrain, config)
+            reversal_metrics = _path_vertical_reversal_metrics(phase_path, primitives, config)
+        else:
+            xy_length_m = float("nan")
+            alt_metrics = {"geometric_path_length": float("nan"), "minimum_aircraft_msl": float("nan"),
+                           "maximum_aircraft_msl": float("nan"), "average_aircraft_msl": float("nan"),
+                           "total_climb_m": float("nan"), "total_descent_m": float("nan")}
+            reversal_metrics = {"total_vertical_reversal_count": 0}
+
+        phases.append(ARAPhaseResult(
+            epsilon=epsilon,
+            added_expansions=expanded_nodes - phase_start_expanded,
+            cumulative_expansions=expanded_nodes,
+            cumulative_runtime_s=time.perf_counter() - t0,
+            open_size_at_end=len(open_members),
+            incons_size_at_end=len(incons_members),
+            closed_size_this_phase=len(closed_this_phase),
+            g_value_improvement_count=phase_g_improvements,
+            incumbent_available=incumbent_cost < math.inf,
+            incumbent_cost=incumbent_cost,
+            diagnostic_lower_bound=diagnostic_lb,
+            diagnostic_bound_ratio=diagnostic_bound_ratio,
+            xy_length_m=xy_length_m,
+            length_3d_m=alt_metrics["geometric_path_length"],
+            min_msl=alt_metrics["minimum_aircraft_msl"],
+            mean_msl=alt_metrics["average_aircraft_msl"],
+            max_msl=alt_metrics["maximum_aircraft_msl"],
+            total_climb_m=alt_metrics["total_climb_m"],
+            total_descent_m=alt_metrics["total_descent_m"],
+            vertical_reversal_count=reversal_metrics["total_vertical_reversal_count"],
+            phase_complete=phase_complete,
+            first_incumbent_improvement_expansion=phase_first_incumbent_improvement_expansion,
+            last_incumbent_improvement_expansion=phase_last_incumbent_improvement_expansion,
+            incumbent_path=phase_path if incumbent_state is not None else [],
+        ))
+
+        if budget_hit:
+            break
+
+    total_runtime_s = time.perf_counter() - t0
+    final_incumbent_path = (
+        list(incumbent_path_snapshot) if incumbent_state is not None else []
+    )
+
+    return ARASearchResult(
+        path_found=incumbent_cost < math.inf,
+        refinement_limit_reached=refinement_limit_reached,
+        first_incumbent_cost=first_incumbent_cost,
+        first_incumbent_expanded=first_incumbent_expanded,
+        first_incumbent_runtime_s=first_incumbent_runtime_s,
+        first_incumbent_path=first_incumbent_path,
+        final_incumbent_cost=incumbent_cost,
+        final_incumbent_path=final_incumbent_path,
+        total_expanded=expanded_nodes,
+        total_runtime_s=total_runtime_s,
+        phases=phases,
     )

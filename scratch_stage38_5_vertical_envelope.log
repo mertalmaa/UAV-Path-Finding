@@ -1,0 +1,130 @@
+Stage 38.5 -- Search vs Vertical-Envelope Isolation + Adaptive Max-Feasible
+Vertical Primitive Study. Diagnostic-only; planner/ untouched (production
+default max_climb/descent_angle_deg=10 unchanged).
+
+=== TABLE 1 raw: fixed primitive geometry at configured max angle (real build_primitive_set output) ===
+configured=10 deg  total primitives=24
+  level  axial  dz=  +0.0  horiz= 30.000m  n_cells=1  realized=  0.00 deg
+  climb  axial  dz= +20.0  horiz=120.000m  n_cells=4  realized=  9.46 deg
+  descent axial dz= -20.0  horiz=120.000m  n_cells=4  realized=  9.46 deg
+  level  diag   dz=  +0.0  horiz= 42.426m  n_cells=1  realized=  0.00 deg
+  climb  diag   dz= +20.0  horiz=127.279m  n_cells=3  realized=  8.93 deg
+  descent diag  dz= -20.0  horiz=127.279m  n_cells=3  realized=  8.93 deg
+
+configured=20 deg  total primitives=24
+  climb/descent axial  horiz= 60.000m  n_cells=2  realized= 18.43 deg
+  climb/descent diag   horiz= 84.853m  n_cells=2  realized= 13.26 deg
+
+configured=30 deg  total primitives=24
+  climb/descent axial  horiz= 60.000m  n_cells=2  realized= 18.43 deg   (IDENTICAL to 20 deg axial)
+  climb/descent diag   horiz= 42.426m  n_cells=1  realized= 25.24 deg
+
+configured=45 deg  total primitives=24
+  climb/descent axial  horiz= 30.000m  n_cells=1  realized= 33.69 deg
+  climb/descent diag   horiz= 42.426m  n_cells=1  realized= 25.24 deg   (IDENTICAL to 30 deg diagonal)
+
+Analytic check: atan(20/30)=33.69deg, atan(20/(30*sqrt(2)))=atan(20/42.43)=25.24deg.
+Production only ever emits ONE climb + ONE descent primitive per direction
+(dz is always exactly one z_step=20m; no multi-z_step "macro" primitive
+exists in build_primitive_set). The dz=40 example in the prompt does not
+correspond to anything the current generator produces.
+
+=== EXPERIMENT A: F-WIDE isolation (self-contained log) ===
+F-WIDE grid shape=(17, 128) width=128 transition_cols_each_way=20 cruise_cols=80
+start=(7, 4) goal=(7, 123)
+
+GRAPH OPTIMUM (eps=1.0): cost=1.045800 exp=3547 complete=True wall=33.5s
+  mean_msl=321.4 min_msl=300 xy=3619.7m safe=True preferred=True
+  path shape: n_states=90 descent_steps=5 climb_steps=5 states_at_floor_msl(300)=76
+
+ARA* eps=1.7->1.5->1.3:
+  eps=1.70: cum_exp=40  cost=1.172335 found/opt=1.1210 mean_msl=409.9 preferred=False safe=True OPEN=680 INCONS=0 phase_complete=True first_improve_exp=40
+  eps=1.50: cum_exp=51  cost=1.151532 found/opt=1.1011 mean_msl=409.4 preferred=False safe=True OPEN=724 INCONS=2 phase_complete=True first_improve_exp=51
+  eps=1.30: cum_exp=51  cost=1.151532 found/opt=1.1011 mean_msl=409.4 preferred=False safe=True OPEN=726 INCONS=0 phase_complete=True first_improve_exp=None
+
+INTERPRETATION: vertical transition room was generous (80 extra cruise
+columns beyond the 40 required for descent+climb) and the graph optimum
+robustly used the valley (76/90 states at the floor). ARA* STILL never
+found the preferred topology at any epsilon -- ratio got WORSE (1.10-1.12)
+than original narrow F (1.05). This isolates the failure to search/
+guidance, not vertical envelope.
+
+=== EXPERIMENT B: fixed vertical envelope sweep (10/20/30/45 deg) x F/G/H ===
+F angle=10: optimal cost=1.097325 exp=2117  mean_msl=344.6  || ARA* final cost=1.153190 found/opt=1.0509 first_pref_exp=None final_exp=14
+F angle=20: optimal cost=1.085061 exp=2174  mean_msl=327.6  || ARA* final cost=1.199030 found/opt=1.1050 first_pref_exp=None final_exp=28
+F angle=30: optimal cost=1.085061 exp=2316  mean_msl=327.6  || ARA* final cost=1.199030 found/opt=1.1050 first_pref_exp=None final_exp=28
+F angle=45: optimal cost=1.091672 exp=2595  mean_msl=319.5  || ARA* final cost=1.125000 found/opt=1.0305 first_pref_exp=None final_exp=56
+G angle=10: optimal cost=1.129027 exp=2437  mean_msl=381.4  || ARA* final cost=1.153190 found/opt=1.0214 first_pref_exp=None final_exp=15
+G angle=20: optimal cost=1.130288 exp=3733  mean_msl=380.8  || ARA* final cost=1.197148 found/opt=1.0592 first_pref_exp=None final_exp=29
+G angle=30: optimal cost=1.129117 exp=4059  mean_msl=298.9  || ARA* final cost=1.197148 found/opt=1.0603 first_pref_exp=None final_exp=29
+G angle=45: optimal cost=1.131180 exp=4199  mean_msl=296.9  || ARA* final cost=1.150000 found/opt=1.0166 first_pref_exp=None final_exp=56
+H angle=10: optimal cost=1.094188 exp=2645  mean_msl=368.5  || ARA* final cost=1.135087 found/opt=1.0374 first_pref_exp=None final_exp=83
+H angle=20: optimal cost=1.083026 exp=2780  mean_msl=350.0  || ARA* final cost=1.178325 found/opt=1.0880 first_pref_exp=None final_exp=32
+H angle=30: optimal cost=1.083026 exp=2979  mean_msl=350.0  || ARA* final cost=1.178325 found/opt=1.0880 first_pref_exp=None final_exp=32
+H angle=45: optimal cost=1.089637 exp=3420  mean_msl=341.4  || ARA* final cost=1.125000 found/opt=1.0325 first_pref_exp=None final_exp=56
+
+first_pref_exp=None IN EVERY SINGLE CELL: ARA* never discovered the
+preferred low-MSL topology at ANY tested angle, in ANY scenario. All
+paths independently safety-replayed PASS (AGL>=200m, angle within
+configured limit, no NoData/bounds violation) -- zero exceptions across
+24 optimal runs + 36 ARA* phase rows.
+
+=== EXPERIMENT 4B/5: adaptive max-feasible vs fixed, same angle ===
+F  A_fixed10:     avg_valid_succ=20.00  final_exp=14  final_cost=1.153190  mean_msl=410.0
+F  B_fixed30:     avg_valid_succ=20.00  final_exp=28  final_cost=1.199030  mean_msl=410.0
+F  C_fixed45:     avg_valid_succ=16.00  final_exp=56  final_cost=1.125000  mean_msl=400.0
+F  D_adaptive30:  avg_valid_succ=20.00  final_exp=28  final_cost=1.199030  mean_msl=410.0
+F  E_adaptive45:  avg_valid_succ=16.00  final_exp=56  final_cost=1.125000  mean_msl=400.0
+G  A_fixed10:     avg_valid_succ=15.00  final_exp=15  final_cost=1.153190  mean_msl=390.0
+G  B_fixed30:     avg_valid_succ=19.00  final_exp=29  final_cost=1.197148  mean_msl=388.6
+G  C_fixed45:     avg_valid_succ=24.00  final_exp=56  final_cost=1.150000  mean_msl=400.0
+G  D_adaptive30:  avg_valid_succ=19.00  final_exp=29  final_cost=1.197148  mean_msl=388.6
+G  E_adaptive45:  avg_valid_succ=24.00  final_exp=56  final_cost=1.150000  mean_msl=400.0
+H  A_fixed10:     avg_valid_succ=18.33  final_exp=83  final_cost=1.135087  mean_msl=395.7
+H  B_fixed30:     avg_valid_succ=21.84  final_exp=32  final_cost=1.178325  mean_msl=394.3
+H  C_fixed45:     avg_valid_succ=21.46  final_exp=56  final_cost=1.125000  mean_msl=400.0
+H  D_adaptive30:  avg_valid_succ=21.84  final_exp=32  final_cost=1.178325  mean_msl=394.3
+H  E_adaptive45:  avg_valid_succ=21.46  final_exp=56  final_cost=1.125000  mean_msl=400.0
+
+On these clean synthetic terrains, adaptive == fixed EXACTLY (same expansions,
+cost, mean_msl) at matching angles in all 9 comparisons, because the adaptive
+back-off search's steepest candidate (n_min) is already always terrain-safe
+here -- there is no obstacle forcing a shallower fallback. Branching (avg
+valid successors) does NOT increase monotonically with angle -- it fell at
+F's 45 deg (16.00, lower than 10/30's 20.00) because steeper climb/descent
+hits the max/min MSL search bound in fewer hops, cutting off some directions
+sooner. Expansion count differences across angles are therefore NOT
+explained by branching factor; the far more likely driver is state-space
+depth/size (shorter horizontal-per-z-step primitives create more distinct
+reachable states in the same physical region).
+
+=== SECTION 6: adaptive back-off fallback test (empirical, spike terrain) ===
+TEST 1 (steep attempts blocked, generator backs off to a shallower valid one):
+  spike=190: attempts=[(1,33.69,False),(2,18.43,False),(3,12.53,True),...] -> chosen=(3, 12.53 deg)
+  spike=193: attempts=[(1,33.69,False),(2,18.43,False),(3,12.53,False),(4,9.46,True),...] -> chosen=(4, 9.46 deg)
+  spike=195: attempts=[...(1..5 False)...,(6,6.34,True),...] -> chosen=(6, 6.34 deg)
+  spike=197/198: all 8 tried n_cells invalid -> chosen=None (correctly declines, no crash, no unsafe pick)
+  spike=100 (no real obstruction): n=1 already valid -> chosen=(1, 33.69 deg) immediately (matches "45 valid -> 45 candidate" case)
+
+TEST 2 (max-feasible descent available but a trap follows -- planner not
+forced into greedy descent):
+  terrain: row 3 is a low band (100) reachable by descent from row 2 (200),
+  but row 3 has a wall (elev 400) blocking the low band shortly after entry.
+  optimal search result: cost=1.125000, path stayed entirely on row 2
+  (LEVEL), never dropped into the trap. Confirms the adaptive generator
+  offers max-feasible descent as a CANDIDATE (available to the search) but
+  the search is free to -- and did -- prefer LEVEL when descent leads
+  somewhere worse overall. No greedy-forced descent behavior observed.
+
+All safety replays across every run in this stage (fixed sweep: 24 optimal
++ 36 ARA* rows; adaptive comparison: 15 configs x 3 phases; F-WIDE: 1
+optimal + 3 ARA* phases) came back safe=True, max_angle within the
+configured limit. Zero exceptions.
+
+Scripts: scripts/stage38_5_lib.py (shared library),
+scripts/prototype_stage38_5_fixed_envelope_sweep.py,
+scripts/prototype_stage38_5_fwide_isolation.py,
+scripts/prototype_stage38_5_adaptive_comparison.py,
+scripts/prototype_stage38_5_adaptive_fallback_test.py.
+All diagnostic-only; planner/astar.py and planner/primitives.py never
+modified; production max_climb/descent_angle_deg default (10) unchanged.

@@ -1,0 +1,57 @@
+=== 1/2: primitive set (24 primitives, all angles <=10 deg) ===
+  primitive_count=24 (expect 24)  max_angle=8.9301 (expect <=10.0)  PASS
+
+=== 3: flat terrain -> level path PASS ===
+  status=success path_len=8 all_level=True  PASS
+
+=== 4: lower-MSL edge is cheaper (cost comparison) ===
+  same primitive at MSL=3240 -> cost=0.090000; at MSL=3600 -> cost=0.130500  PASS
+
+=== 5: mid-segment ridge caught (endpoints clear, middle doesn't) ===
+  2-cell level primitive over the ridge: valid=False reason=below_min_agl min_agl=30.0  PASS
+
+=== 6: coarse safety strictly uses the stored (MAX) elevation, never a hypothetical MEAN ===
+  cell elevation (=MAX by construction)=3600m, aircraft=3760m (AGL=160m<200m): valid=False reason=below_min_agl  PASS
+  (this module never receives a MEAN value at all -- CoarseTerrainStats.mean_elevation is not even imported here -- so 'MEAN would have passed' is a structural guarantee, not a runtime check)
+
+=== 7/8: endpoint lift policy (unsafe lifted, safe left alone) ===
+  GOAL-like cell (max=3560.36): required=3760.36 was_lifted=True -> msl=3800.0 (expect lifted to 3800.0)  PASS
+  START-like cell (max=3556.81): required=3756.81 was_lifted=False -> msl=3760.0 (expect unchanged 3760.0)  PASS
+
+=== 9: NoData crossing -> INVALID ===
+  primitive crossing a NoData cell: valid=False reason=nodata  PASS
+
+=== 10: state is ONLY (row, col, z_index) ===
+  state=(5, 5, 90) len=3 all_int=True  PASS
+
+Synthetic tests: ALL PASS
+
+======================================================================
+=== REAL 6.48km COARSE BENCHMARK ===
+  START coarse=(16, 92): cell_max=3556.81 required=3756.81 original=3760.0 -> msl=3760.0 was_lifted=False
+  GOAL  coarse=(88, 92): cell_max=3560.36 required=3760.36 original=3760.0 -> msl=3800.0 was_lifted=True
+  search bounds=[3280.0,3880.0]  D_ref=6480.12m  altitude_reference_msl=3240.0  w_distance=1.0  w_altitude=1.25
+
+  status=success  runtime=247.76s  expanded=24959  max_open=12348  generated=598992  rejected=59284
+  rejected_reason_counts={'below_min_agl': 36434, 'altitude_search_bounds': 14480, 'out_of_bounds': 8370}
+
+=== SUCCESS -- coarse path metrics ===
+  path_node_count=31
+  xy_length_m=6480.0  3d_length_m=6541.9
+  min_MSL=3360.0  mean_MSL=3545.8  max_MSL=3800.0
+  total_climb_m=440.0  total_descent_m=400.0
+  min_coarse_MAX_AGL_m=200.0  max_flight_path_angle_deg=8.43
+  cost: distance=1.009531  altitude=0.400118  total=1.409649
+
+=== Path relief diagnostic (NOT used for cost/safety) ===
+  mean_relief=25.00  max_relief=65.89  p95_relief=63.83
+    path_node=7 coarse(row=33,col=92) relief=65.89 min=3109.2 mean=3135.8 max=3175.1
+    path_node=27 coarse(row=79,col=92) relief=64.56 min=3243.5 mean=3269.6 max=3308.1
+    path_node=28 coarse(row=82,col=92) relief=63.09 min=3404.5 mean=3445.9 max=3467.6
+    path_node=2 coarse(row=18,col=92) relief=44.81 min=3491.7 mean=3510.7 max=3536.5
+    path_node=0 coarse(row=16,col=92) relief=41.68 min=3515.1 mean=3537.9 max=3556.8
+
+=== FINE REPLAY (30m DEM, <=10m sampling) ===
+  min_AGL_m=202.31  max_flight_path_angle_deg=8.43  violation_count=0
+
+Coarse path written to outputs/stage35_coarse_path.csv

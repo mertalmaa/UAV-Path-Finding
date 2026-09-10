@@ -1,0 +1,31 @@
+initial reference (direct 216-edge level chain): valid=True cost=1.650000  (NOT the ARA* incumbent seed)
+
+=== Stage 38: genuine ARA*, epsilon_schedule=(1.7, 1.5, 1.3, 1.1), freeze_history=True, max_expansions_cumulative=30000 ===
+
+=== PER-EPSILON PHASE REPORT ===
+    eps added_exp  cum_exp  cum_t(s)    OPEN  INCONS  CLOSED  g_impr  incumbent  min_MSL  mean_MSL   diag_LB  inc/LB complete
+   1.70        56       56     0.440    1159       0      56    1219   1.509232   3520.0    3636.7    0.9976  1.5129     True
+        xy_length=6450.0m  3d_length=6537.7m  max_MSL=3780.0  climb=520.0  descent=540.0  reversal_count(diagnostic)=30
+   1.50     16911    16967    86.208    8455   10617   16911  106861   1.483210   3520.0    3613.9    0.9976  1.4868     True
+        xy_length=6450.0m  3d_length=6514.6m  max_MSL=3780.0  climb=380.0  descent=400.0  reversal_count(diagnostic)=12
+   1.30     13033    30000   124.226   22604    4715   13033   77149   1.483210   3320.0    3512.5    1.0493  1.4136    False
+        xy_length=6729.4m  3d_length=6803.7m  max_MSL=3760.0  climb=440.0  descent=460.0  reversal_count(diagnostic)=3
+
+=== SUMMARY ===
+  path_found=True  refinement_limit_reached=True
+  total_expanded=30000  total_runtime_s=124.2261
+
+=== FIRST SOLUTION (epsilon=1.7 phase, first incumbent) vs Stage 37.4 baseline (NOT re-run) ===
+  ARA* first incumbent: expanded=54  runtime_s=0.3737  cost=1.517405
+  Stage 37.4 baseline:  expanded=57  runtime_s=0.3427  cost=1.509232
+
+=== INDEPENDENT FINE DEM REPLAY: FIRST vs FINAL ===
+  [FIRST] cost=1.517405  min_MSL=3520.0  mean_MSL=3639.6  3d_length=6569.4m  xy_length=6480.0m  climb=540.0  descent=540.0  min_AGL=211.52m  max_angle=9.46deg  violations=0  SAFETY=PASS
+  [FINAL] cost=1.483210  min_MSL=3320.0  mean_MSL=3492.6  3d_length=6803.7m  xy_length=6729.4m  climb=440.0  descent=460.0  min_AGL=200.76m  max_angle=9.46deg  violations=0  SAFETY=PASS
+
+  cost improvement FIRST->FINAL: +2.25%
+  min_MSL change: -200.0m
+  3d_length change: +234.3m
+
+First path written to outputs/stage38_ara_first_path.csv
+Final path written to outputs/stage38_ara_final_path.csv
