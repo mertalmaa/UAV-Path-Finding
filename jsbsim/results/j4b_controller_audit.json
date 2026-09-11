@@ -1,0 +1,33 @@
+{
+  "anti_windup": "bounded_integrator_state_and_bounded_command",
+  "cas_controller_commands": "fcs/throttle-cmd-norm",
+  "classification_rule": {
+    "controller_setup_failure": "UNKNOWN",
+    "reliable_dry_throttle_boundary_with_CAS_failure_and_gamma_authority": "INFEASIBLE/thrust_limited",
+    "tracking_failure_alone": "UNKNOWN"
+  },
+  "command_limits": {
+    "elevator_cmd_norm": [
+      -0.3,
+      0.3
+    ],
+    "normalized_control_surface_acceptance": 0.9,
+    "throttle_cmd_norm": [
+      0.0,
+      0.5
+    ],
+    "throttle_position_norm": [
+      0.0,
+      1.0
+    ]
+  },
+  "direct_surface_position_commanded": false,
+  "fbw_override": 0.0,
+  "gamma_controller_commands": "fcs/elevator-cmd-norm",
+  "native_fcs_active": true,
+  "signal_chain": {
+    "cas": "target_305_KCAS -> PI outer loop -> fcs/throttle-cmd-norm -> FCS throttle gain -> engine",
+    "gamma": "target_gamma -> PI outer loop -> fcs/elevator-cmd-norm -> native F-16 pitch FCS -> elevator surface"
+  },
+  "throttle_adjusted_by": "J4B CAS PI outer loop around level-trim baseline"
+}

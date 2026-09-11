@@ -1,0 +1,177 @@
+[
+  {
+    "altitude_status_counts": {
+      "INFEASIBLE": 0,
+      "UNKNOWN": 0,
+      "VALID": 13
+    },
+    "candidate_kcas": 275.0,
+    "dynamic_pressure_pa_range": [
+      11714.125921909224,
+      12252.612005507044
+    ],
+    "eligible_single_cas": true,
+    "mach_range": [
+      0.41564260909081296,
+      0.5953658155278888
+    ],
+    "margin_components": {
+      "alpha_command_reduction_clearance": 0.9013146451711489,
+      "control_surface_reserve": 0.9447566101250506,
+      "dry_throttle_two_sided_reserve": 0.39405931929857574,
+      "lower_speed_schedule_clearance": 0.09964916595861315,
+      "mach_schedule_clearance": 0.33848242719123467
+    },
+    "maximum_altitude_drift_m": 1.6828277110844283,
+    "maximum_cas_tracking_error_relative": 0.0005832088214556692,
+    "maximum_control_surface_usage_norm": 0.04971905088745441,
+    "maximum_gamma_error_deg": 0.030138838217970535,
+    "maximum_speed_drift_kcas": 0.13614059113677968,
+    "minimum_normalized_observed_margin": 0.09964916595861315,
+    "throttle_position_norm_range": [
+      0.39405931929857574,
+      0.5428042013394763
+    ],
+    "worst_abs_alpha_deg": 2.7631899352078304
+  },
+  {
+    "altitude_status_counts": {
+      "INFEASIBLE": 0,
+      "UNKNOWN": 0,
+      "VALID": 13
+    },
+    "candidate_kcas": 305.0,
+    "dynamic_pressure_pa_range": [
+      14277.08723838056,
+      15071.11987036537
+    ],
+    "eligible_single_cas": true,
+    "mach_range": [
+      0.46098055712242747,
+      0.6572895089358168
+    ],
+    "margin_components": {
+      "alpha_command_reduction_clearance": 0.9291846632872062,
+      "control_surface_reserve": 0.9472407933678872,
+      "dry_throttle_two_sided_reserve": 0.4123648001476119,
+      "lower_speed_schedule_clearance": 0.21957557565157004,
+      "mach_schedule_clearance": 0.269678323404648
+    },
+    "maximum_altitude_drift_m": 2.137499010283136,
+    "maximum_cas_tracking_error_relative": 0.000636690168417757,
+    "maximum_control_surface_usage_norm": 0.04748328596890155,
+    "maximum_gamma_error_deg": 0.035392239785947494,
+    "maximum_speed_drift_kcas": 0.16436858668674859,
+    "minimum_normalized_observed_margin": 0.21957557565157004,
+    "throttle_position_norm_range": [
+      0.43409352521490524,
+      0.5876351998523881
+    ],
+    "worst_abs_alpha_deg": 1.9828294279582244
+  },
+  {
+    "altitude_status_counts": {
+      "INFEASIBLE": 0,
+      "UNKNOWN": 0,
+      "VALID": 13
+    },
+    "candidate_kcas": 335.0,
+    "dynamic_pressure_pa_range": [
+      17056.905694158308,
+      18181.106785405154
+    ],
+    "eligible_single_cas": true,
+    "mach_range": [
+      0.5063193747209015,
+      0.7184487198655723
+    ],
+    "margin_components": {
+      "alpha_command_reduction_clearance": 0.9500347668734916,
+      "control_surface_reserve": 0.9488523699507165,
+      "dry_throttle_two_sided_reserve": 0.37276151094515897,
+      "lower_speed_schedule_clearance": 0.3395000821551944,
+      "mach_schedule_clearance": 0.2017236445938085
+    },
+    "maximum_altitude_drift_m": 2.694892075887765,
+    "maximum_cas_tracking_error_relative": 0.0007007964636551124,
+    "maximum_control_surface_usage_norm": 0.046032867044355184,
+    "maximum_gamma_error_deg": 0.043195434119962926,
+    "maximum_speed_drift_kcas": 0.2008882771525009,
+    "minimum_normalized_observed_margin": 0.2017236445938085,
+    "throttle_position_norm_range": [
+      0.47076734900417067,
+      0.627238489054841
+    ],
+    "worst_abs_alpha_deg": 1.3990265275422347
+  },
+  {
+    "altitude_status_counts": {
+      "INFEASIBLE": 0,
+      "UNKNOWN": 0,
+      "VALID": 13
+    },
+    "candidate_kcas": 365.0,
+    "dynamic_pressure_pa_range": [
+      20043.975471495312,
+      21582.546392528566
+    ],
+    "eligible_single_cas": true,
+    "mach_range": [
+      0.5516590019646751,
+      0.7788370148859457
+    ],
+    "margin_components": {
+      "alpha_command_reduction_clearance": 0.9660773027335939,
+      "control_surface_reserve": 0.9498684457318018,
+      "dry_throttle_two_sided_reserve": 0.33766969333265917,
+      "lower_speed_schedule_clearance": 0.45943034333508764,
+      "mach_schedule_clearance": 0.1346255390156159
+    },
+    "maximum_altitude_drift_m": 3.2780242635371906,
+    "maximum_cas_tracking_error_relative": 0.0007506928775881048,
+    "maximum_control_surface_usage_norm": 0.04511839884137833,
+    "maximum_gamma_error_deg": 0.05057244381827172,
+    "maximum_speed_drift_kcas": 0.23701440979601784,
+    "minimum_normalized_observed_margin": 0.1346255390156159,
+    "throttle_position_norm_range": [
+      0.5047655277875365,
+      0.6623303066673408
+    ],
+    "worst_abs_alpha_deg": 0.949835523459372
+  },
+  {
+    "altitude_status_counts": {
+      "INFEASIBLE": 0,
+      "UNKNOWN": 0,
+      "VALID": 13
+    },
+    "candidate_kcas": 395.0,
+    "dynamic_pressure_pa_range": [
+      23228.139103154692,
+      25275.411219184814
+    ],
+    "eligible_single_cas": true,
+    "mach_range": [
+      0.5969993654164814,
+      0.8384450478712492
+    ],
+    "margin_components": {
+      "alpha_command_reduction_clearance": 0.9790678665495681,
+      "control_surface_reserve": 0.9472308413328768,
+      "dry_throttle_two_sided_reserve": 0.30588943783102707,
+      "lower_speed_schedule_clearance": 0.5793218122823446,
+      "mach_schedule_clearance": 0.0683943912541676
+    },
+    "maximum_altitude_drift_m": 4.2052177038876835,
+    "maximum_cas_tracking_error_relative": 0.0008619944875069645,
+    "maximum_control_surface_usage_norm": 0.047492242800410825,
+    "maximum_gamma_error_deg": 0.06856842123195239,
+    "maximum_speed_drift_kcas": 0.2984700918260046,
+    "minimum_normalized_observed_margin": 0.0683943912541676,
+    "throttle_position_norm_range": [
+      0.5365634280432503,
+      0.6941105621689729
+    ],
+    "worst_abs_alpha_deg": 0.5860997366120897
+  }
+]

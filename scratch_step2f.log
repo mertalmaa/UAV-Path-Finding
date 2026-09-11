@@ -1,0 +1,64 @@
+======================================================================
+STEP 2F -- multi-region XY validation + final XY decision
+======================================================================
+
+--- 1. REPRESENTATIVE WINDOWS (objective selection, not cherry-picked to outcome) ---
+  low-relief (p10, relief=14.6m)
+    criterion: relief closest to full-map 10th percentile
+    coarse cell: (81, 17)  fine window: rows(234, 254) cols(42, 62)
+  medium-relief (p50, relief=36.4m)
+    criterion: relief closest to full-map median
+    coarse cell: (14, 93)  fine window: rows(33, 53) cols(270, 290)
+  high-relief (REGRESSION reference, relief=282.1m, unchanged since Step 2B)
+    criterion: single highest-relief coarse cell (Step 2B's own window, kept for continuity)
+    coarse cell: (21, 81)  fine window: rows(55, 75) cols(235, 255)
+  valley-like (local min_elevation dip=11.3m below all 8 neighbors)
+    criterion: strict local minimum of coarse min_elevation vs its 8 neighbors
+    coarse cell: (14, 86)  fine window: rows(33, 53) cols(249, 269)
+  ridge-like (local max_elevation rise=13.4m above all 8 neighbors)
+    criterion: strict local maximum of coarse max_elevation vs its 8 neighbors
+    coarse cell: (64, 99)  fine window: rows(183, 203) cols(288, 308)
+
+--- 2. 30/60/90 COMPARISON PER WINDOW ---
+
+  [low-relief (p10, relief=14.6m)]
+    edges: [60m] PRESERVED=2455/3200 (76.7%)  FALSE-BLOCK=745 (23.3%)  UNSAFE-OPTIMISM=0
+    edges: [90m] PRESERVED=1662/3200 (51.9%)  FALSE-BLOCK=1538 (48.1%)  UNSAFE-OPTIMISM=0
+    connectivity (band=[3000,3800]m, 1 intervals): preserved_both=1  loss_90_only(60m recovers)=0  loss_60_only=0  loss_both=0
+
+  [medium-relief (p50, relief=36.4m)]
+    edges: [60m] PRESERVED=2038/3200 (63.7%)  FALSE-BLOCK=1162 (36.3%)  UNSAFE-OPTIMISM=0
+    edges: [90m] PRESERVED=1716/3200 (53.6%)  FALSE-BLOCK=1484 (46.4%)  UNSAFE-OPTIMISM=0
+    connectivity (band=[3000,3800]m, 347 intervals): preserved_both=72  loss_90_only(60m recovers)=29  loss_60_only=0  loss_both=244
+
+  [high-relief (REGRESSION reference, relief=282.1m, unchanged since Step 2B)]
+    edges: [60m] PRESERVED=2112/3200 (66.0%)  FALSE-BLOCK=1088 (34.0%)  UNSAFE-OPTIMISM=0
+    edges: [90m] PRESERVED=1593/3200 (49.8%)  FALSE-BLOCK=1607 (50.2%)  UNSAFE-OPTIMISM=0
+    connectivity (band=[3000,3800]m, 384 intervals): preserved_both=161  loss_90_only(60m recovers)=53  loss_60_only=4  loss_both=164
+
+  [valley-like (local min_elevation dip=11.3m below all 8 neighbors)]
+    edges: [60m] PRESERVED=2273/3200 (71.0%)  FALSE-BLOCK=927 (29.0%)  UNSAFE-OPTIMISM=0
+    edges: [90m] PRESERVED=1789/3200 (55.9%)  FALSE-BLOCK=1411 (44.1%)  UNSAFE-OPTIMISM=0
+    connectivity (band=[3000,3800]m, 365 intervals): preserved_both=89  loss_90_only(60m recovers)=74  loss_60_only=0  loss_both=200
+
+  [ridge-like (local max_elevation rise=13.4m above all 8 neighbors)]
+    edges: [60m] PRESERVED=2005/3200 (62.7%)  FALSE-BLOCK=1195 (37.3%)  UNSAFE-OPTIMISM=0
+    edges: [90m] PRESERVED=1625/3200 (50.8%)  FALSE-BLOCK=1575 (49.2%)  UNSAFE-OPTIMISM=0
+    connectivity (band=[3000,3800]m, 331 intervals): preserved_both=130  loss_90_only(60m recovers)=22  loss_60_only=8  loss_both=169
+
+--- 3. INVESTIGATE loss_60_only (regression window, aligned with Step 2E) ---
+  found 4 interval(s) where fine=True, 60m=False, 90m=True:
+    {'interval': (3167.01, 3169.56), 'rep_z': 3168.29, 'start_rc': (62, 237), 'goal_rc': (55, 248), 'start_coarse60_valid': False, 'goal_coarse60_valid': False}
+    {'interval': (3169.56, 3170.42), 'rep_z': 3169.99, 'start_rc': (62, 237), 'goal_rc': (55, 248), 'start_coarse60_valid': False, 'goal_coarse60_valid': False}
+    {'interval': (3170.42, 3171.7), 'rep_z': 3171.06, 'start_rc': (62, 237), 'goal_rc': (55, 248), 'start_coarse60_valid': False, 'goal_coarse60_valid': False}
+    {'interval': (3171.7, 3176.83), 'rep_z': 3174.26, 'start_rc': (62, 237), 'goal_rc': (55, 248), 'start_coarse60_valid': False, 'goal_coarse60_valid': False}
+
+--- 4. GENERALIZATION (aggregate across all windows) ---
+  windows where 60m had FEWER false-blocks than 90m: 5/5
+  mean false-block rate: 60m=32.0%  90m=47.6%
+  total connectivity intervals recovered by 60m (90m lost, 60m didn't) across all windows: 178
+  total connectivity intervals lost by 60m ALONE (90m preserved) across all windows: 12
+  MAX-pooling safety invariant (UNSAFE-OPTIMISM) across ALL windows, both resolutions: 0 (expected 0)
+
+======================================================================
+Done.

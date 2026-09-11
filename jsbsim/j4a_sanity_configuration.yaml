@@ -1,0 +1,71 @@
+schema_version: 1
+configuration_id: f16_j4a_straight_vertical_sanity_v1
+parent_stage: J3.1
+parent_provenance_id: j3.1-7761df15481027018aac
+
+scope:
+  straight_climb_descent_sanity_only: true
+  full_altitude_grid: false
+  gamma_capability_boundary_search: false
+  maximum_climb_descent_search: false
+  turn_characterization: false
+  coupled_maneuvers: false
+  lookup_generation: false
+  derating: false
+  planner_integration: false
+  speed_added_to_planner_state: false
+
+reference:
+  nominal_cas_kts: 305.0
+  representative_altitudes_msl_m: [0.0, 3000.0, 5000.0, 6000.0]
+  gamma_targets_deg:
+    level: 0.0
+    modest_climb: 2.0
+    modest_descent: -2.0
+  gamma_targets_are_capability_limits: false
+  gamma_target_rationale: >-
+    Symmetric two-degree targets are large enough to make altitude,
+    vertical-speed, and throttle signs observable while remaining deliberately
+    modest and not searching the model's vertical capability boundary.
+  cold_start_repetitions_per_point: 3
+
+simulation:
+  timestep_s: 0.008333333333333333
+  replay_duration_s: 30.0
+  steady_measurement_window_s: 20.0
+  latest_acceptable_settling_time_s: 10.0
+  gamma_target_ramp_s: 3.0
+
+outer_loop_sanity_controller:
+  interpretation: test_harness_only_not_planner_or_aircraft_capability_policy
+  gamma:
+    proportional_elevator_cmd_per_deg: -0.040
+    integral_elevator_cmd_per_deg_s: -0.006
+    integral_limit_deg_s: 20.0
+    elevator_cmd_min_norm: -0.30
+    elevator_cmd_max_norm: 0.30
+  cas:
+    proportional_throttle_cmd_per_knot: 0.004
+    integral_throttle_cmd_per_knot_s: 0.0005
+    integral_limit_knot_s: 100.0
+    throttle_cmd_min_norm: 0.0
+    throttle_cmd_max_dry_norm: 0.5
+
+airborne_test_fixture:
+  synthetic_terrain_elevation_msl_m: -1000.0
+  purpose: atmospheric_altitude_isolation_and_zero_msl_ground_clearance
+  planner_terrain_assumption: false
+
+acceptance:
+  cas_tracking_relative: 0.02
+  gamma_tracking_absolute_deg: 0.5
+  normalized_control_surface_usage_max: 0.90
+  cold_start_repeatability_relative_approx: 0.01
+  zero_wind_residual_fps: 1.0e-9
+  require_gamma_vertical_speed_sign_consistency: true
+  require_altitude_evolution_sign_consistency: true
+  require_climb_throttle_above_level: true
+  require_descent_throttle_below_level: true
+  afterburner_off_max_throttle_position_norm: 1.0
+  capability_overprediction_allowed: false
+

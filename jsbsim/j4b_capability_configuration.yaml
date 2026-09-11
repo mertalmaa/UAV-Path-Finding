@@ -1,0 +1,74 @@
+schema_version: 1
+configuration_id: f16_j4b_straight_vertical_capability_v1
+parent_stage: J4A
+parent_provenance_id: j4a-2342f25aec9f6ff3314c
+
+scope:
+  straight_climb_descent_capability_only: true
+  full_main_altitude_grid: true
+  turn_characterization: false
+  coupled_maneuvers: false
+  macro_primitives: false
+  lookup_generation: false
+  derating: false
+  planner_integration: false
+  speed_added_to_planner_state: false
+
+reference:
+  nominal_cas_kts: 305.0
+  main_altitudes_msl_m: [0.0, 500.0, 1000.0, 1500.0, 2000.0, 2500.0, 3000.0, 3500.0, 4000.0, 4500.0, 5000.0, 5500.0, 6000.0]
+  afterburner: prohibited
+
+sweep:
+  level_control_gamma_deg: 0.0
+  initial_validated_magnitude_deg: 2.0
+  coarse_step_deg: 2.0
+  refinement_step_deg: 0.5
+  maximum_abs_gamma_search_guard_deg: 40.0
+  search_guard_is_aircraft_limit: false
+  discovery_repetitions: 1
+  boundary_critical_repetitions: 3
+  stop_at_first_non_valid: true
+
+controller:
+  parent_architecture: j4a_sanity_configuration.yaml
+  outer_loop_only_not_planner_or_capability_policy: true
+  gamma:
+    proportional_elevator_cmd_per_deg: -0.060
+    integral_elevator_cmd_per_deg_s: -0.001
+    integral_limit_deg_s: 20.0
+    elevator_cmd_min_norm: -0.30
+    elevator_cmd_max_norm: 0.30
+  cas:
+    proportional_throttle_cmd_per_knot: 0.040
+    integral_throttle_cmd_per_knot_s: 0.006
+    integral_limit_knot_s: 100.0
+    throttle_cmd_min_norm: 0.0
+    throttle_cmd_max_dry_norm: 0.5
+  gamma_target_ramp_s: 5.0
+  tuning_rationale: >-
+    J4A architecture is retained. Gains are adjusted before the capability
+    sweep so 305 KCAS tracking remains controller-authority limited only when
+    a dry-throttle boundary is actually reached; this prevents the slower J4A
+    sanity tuning from creating a false aircraft boundary.
+  anti_windup: bounded_integrator_state_and_bounded_command
+  direct_surface_position_commanded: false
+  native_fcs_active: true
+  fbw_override: 0.0
+
+classification:
+  cas_tracking_relative: 0.02
+  sustained_command_boundary_epsilon_norm: 1.0e-6
+  measurement_mean_boundary_tolerance_norm: 0.01
+  tracking_failure_alone_is_infeasible: false
+  controller_or_setup_failure_status: UNKNOWN
+  physical_inability_status: INFEASIBLE
+  climb_thrust_limited_evidence: measurement_mean_near_dry_max_and_window_ends_at_dry_max_and_final_cas_low_with_gamma_authority
+  descent_thrust_limited_evidence: measurement_mean_near_minimum_and_window_ends_at_minimum_and_final_cas_high_with_gamma_authority
+  allowed_failure_classes:
+    - none
+    - thrust_limited
+    - aerodynamic_control_limited
+    - controller_limited
+    - trim_setup_failure
+    - other_unknown

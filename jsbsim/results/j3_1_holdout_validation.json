@@ -1,0 +1,62 @@
+[
+  {
+    "adjacent_endpoint_minimum_margin_floor": 0.21965845919981825,
+    "adjacent_main_band_msl_m": [
+      0.0,
+      500.0
+    ],
+    "altitude_msl_m": 250.0,
+    "holdout_minimum_margin": 0.21966149043357747,
+    "local_250m_refinement_required": false,
+    "margin_components": {
+      "alpha_command_reduction_clearance": 0.9357210852371219,
+      "control_surface_reserve": 0.9475490945770668,
+      "dry_throttle_two_sided_reserve": 0.44041873953183336,
+      "lower_speed_schedule_clearance": 0.21966149043357747,
+      "mach_schedule_clearance": 0.4805218597796098
+    },
+    "margin_not_worse_than_adjacent_endpoints": true,
+    "selection_or_fitting_input": false,
+    "status": "VALID"
+  },
+  {
+    "adjacent_endpoint_minimum_margin_floor": 0.21965221257330403,
+    "adjacent_main_band_msl_m": [
+      500.0,
+      1000.0
+    ],
+    "altitude_msl_m": 750.0,
+    "holdout_minimum_margin": 0.21965536734212515,
+    "local_250m_refinement_required": false,
+    "margin_components": {
+      "alpha_command_reduction_clearance": 0.9353540875671927,
+      "control_surface_reserve": 0.9475221380527432,
+      "dry_throttle_two_sided_reserve": 0.45320157780535975,
+      "lower_speed_schedule_clearance": 0.21965536734212515,
+      "mach_schedule_clearance": 0.4655608348347287
+    },
+    "margin_not_worse_than_adjacent_endpoints": true,
+    "selection_or_fitting_input": false,
+    "status": "VALID"
+  },
+  {
+    "adjacent_endpoint_minimum_margin_floor": 0.21964570471207254,
+    "adjacent_main_band_msl_m": [
+      1000.0,
+      1500.0
+    ],
+    "altitude_msl_m": 1250.0,
+    "holdout_minimum_margin": 0.2196489925210519,
+    "local_250m_refinement_required": false,
+    "margin_components": {
+      "alpha_command_reduction_clearance": 0.9349601075846738,
+      "control_surface_reserve": 0.9474931425157652,
+      "dry_throttle_two_sided_reserve": 0.4661873489056267,
+      "lower_speed_schedule_clearance": 0.2196489925210519,
+      "mach_schedule_clearance": 0.45003932460077073
+    },
+    "margin_not_worse_than_adjacent_endpoints": true,
+    "selection_or_fitting_input": false,
+    "status": "VALID"
+  }
+]

@@ -1,0 +1,114 @@
+schema_version: 1
+configuration_id: f16_j5a_level_turn_sanity_v1
+parent_stage: J4B
+parent_provenance_id: j4b-9fa3129fabfcda51c7a7
+
+scope:
+  level_turn_sanity_only: true
+  representative_altitudes_only: true
+  full_turn_capability_sweep: false
+  minimum_turn_radius_lookup: false
+  maximum_turn_rate_capability: false
+  climbing_descending_turn: false
+  macro_primitives: false
+  lookup_generation: false
+  derating: false
+  planner_integration: false
+  three_d_safety_box: false
+  speed_added_to_planner_state: false
+
+reference:
+  nominal_cas_kts: 305.0
+  representative_altitudes_msl_m: [0.0, 3000.0, 5000.0, 6000.0]
+  afterburner: prohibited
+  maneuvers:
+    straight:
+      target_bank_deg: 0.0
+    modest_left:
+      target_bank_deg: -20.0
+    modest_right:
+      target_bank_deg: 20.0
+  targets_are_capability_limits: false
+  target_rationale: >-
+    Twenty degrees is deliberately modest rather than a model limit. At 305
+    KCAS it produces enough heading change during a twenty-second window for
+    sign, steady-rate, and trajectory-radius diagnostics without attempting a
+    sustained-turn envelope search.
+  cold_start_repetitions_per_point: 3
+
+simulation:
+  timestep_s: 0.008333333333333333
+  replay_duration_s: 30.0
+  steady_measurement_window_s: 20.0
+  latest_acceptable_settling_time_s: 10.0
+  bank_target_ramp_s: 5.0
+
+controller:
+  parent_architecture: j4b_capability_configuration.yaml
+  outer_loop_only_not_planner_or_capability_policy: true
+  turn_outer_loop_quantity: bank_angle_deg
+  lateral_command: fcs/aileron-cmd-norm
+  rudder_policy: beta_zero_outer_loop_pilot_equivalent_command_then_native_yaw_fcs
+  bank:
+    proportional_aileron_cmd_per_deg: 0.008
+    integral_aileron_cmd_per_deg_s: 0.0005
+    integral_limit_deg_s: 40.0
+    aileron_cmd_min_norm: -0.30
+    aileron_cmd_max_norm: 0.30
+  beta:
+    target_deg: 0.0
+    proportional_rudder_cmd_per_deg: 1.800
+    integral_rudder_cmd_per_deg_s: 0.000
+    integral_limit_deg_s: 20.0
+    rudder_cmd_min_norm: -1.00
+    rudder_cmd_max_norm: 1.00
+  gamma:
+    proportional_elevator_cmd_per_deg: -0.060
+    integral_elevator_cmd_per_deg_s: -0.001
+    integral_limit_deg_s: 20.0
+    elevator_cmd_min_norm: -0.30
+    elevator_cmd_max_norm: 0.30
+  cas:
+    proportional_throttle_cmd_per_knot: 0.040
+    integral_throttle_cmd_per_knot_s: 0.006
+    integral_limit_knot_s: 100.0
+    throttle_cmd_min_norm: 0.0
+    throttle_cmd_max_dry_norm: 0.5
+  anti_windup: bounded_integrator_state_and_bounded_command
+  direct_surface_position_commanded: false
+  native_fcs_active: true
+  fbw_override: 0.0
+
+measurement:
+  measured_radius_method: horizontal_trajectory_arc_length_divided_by_unwrapped_ground_track_change
+  measured_turn_rate_method: least_squares_slope_of_unwrapped_true_heading
+  theory_cross_check: tas_squared_divided_by_g_tan_actual_bank
+  standard_gravity_mps2: 9.80665
+  radius_source_for_future_characterization: measured_trajectory_not_theory
+
+acceptance:
+  cas_tracking_relative: 0.02
+  gamma_tracking_absolute_deg: 0.5
+  bank_tracking_absolute_deg: 1.0
+  turn_rate_stability_relative: 0.05
+  straight_heading_rate_absolute_deg_s: 0.10
+  theory_radius_relative_difference_max: 0.10
+  normalized_control_surface_usage_max: 0.90
+  cold_start_repeatability_relative_approx: 0.01
+  measurement_command_boundary_epsilon_norm: 1.0e-6
+  zero_wind_residual_fps: 1.0e-9
+  left_right_magnitude_difference_relative_max: 0.10
+  beta_near_zero_for_sign_test_deg: 0.10
+  beta_operational_limit_defined: false
+  capability_overprediction_allowed: false
+
+status_semantics:
+  VALID: stable_repeatable_level_turn_measurement
+  UNKNOWN: controller_setup_settling_numerical_or_unexplained_sanity_failure
+  INFEASIBLE: reliable_aircraft_inability_evidence_only
+  modest_target_failure_default: UNKNOWN
+
+airborne_test_fixture:
+  synthetic_terrain_elevation_msl_m: -1000.0
+  purpose: atmospheric_altitude_isolation_and_zero_msl_ground_clearance
+  planner_terrain_assumption: false

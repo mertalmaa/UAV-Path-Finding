@@ -1,0 +1,62 @@
+schema_version: 1
+configuration_id: f16_j3_nominal_cas_candidates_v1
+parent_reference_configuration: j2_reference_configuration.yaml
+
+scope:
+  maneuver_family: straight_level
+  nominal_cas_selection_only: true
+  capability_sweep: false
+  climb_descent_limit_sweep: false
+  turn_characterization: false
+  coupled_turn_characterization: false
+  macro_primitive_characterization: false
+  lookup_generation: false
+  planner_integration: false
+  derating: false
+
+candidate_cas_kts: [275.0, 305.0, 335.0, 365.0, 395.0]
+candidate_rationale:
+  reference_seed_kcas: 335.0
+  spacing_kts: 30.0
+  lower_endpoint_basis: above_explicit_250_kcas_f16_tef_schedule_breakpoint
+  upper_endpoint_basis: approach_but_do_not_cross_mach_0_9_f16_schedule_breakpoint_at_6000m
+  values_are_real_f16_limits: false
+
+main_altitudes_msl_m: [1500.0, 2000.0, 2500.0, 3000.0, 3500.0, 4000.0, 4500.0, 5000.0, 5500.0, 6000.0]
+cold_start_repetitions_per_point: 3
+
+numerical_tolerances:
+  zero_wind_residual_fps: 1.0e-9
+  rationale: suppress_coordinate_transform_roundoff_only
+
+model_observation_boundaries:
+  trailing_edge_flap_schedule_kcas: 250.0
+  mach_schedule_breakpoint: 0.9
+  alpha_command_reduction_start_abs_deg: 28.0
+  afterburner_off_max_throttle_position_norm: 1.0
+  normalized_control_surface_usage_max: 0.90
+
+selection:
+  require_all_altitudes_valid: true
+  require_all_repeatability_checks: true
+  reject_schedule_breakpoint_crossing: true
+  method: maximize_minimum_normalized_observed_margin
+  margin_components:
+    - lower_speed_schedule_clearance
+    - mach_schedule_clearance
+    - dry_throttle_two_sided_reserve
+    - control_surface_reserve
+    - alpha_command_reduction_clearance
+  tie_breakers:
+    - lower_maximum_cas_tracking_error
+    - lower_maximum_gamma_error
+    - lower_maximum_altitude_drift
+
+throttle_policy_baseline:
+  afterburner: prohibited
+  level_flight: use_trim_throttle_within_unaugmented_range
+  level_turn: initialize_from_same_altitude_level_trim_then_measure_required_throttle_later
+  climb: initialize_from_level_trim_and_define_maneuver_specific_unaugmented_policy_later
+  descent: initialize_from_level_trim_and_define_maneuver_specific_lower_throttle_policy_later
+  j3_defines_maximum_climb_throttle: false
+  j3_defines_descent_idle_floor: false

@@ -1,0 +1,67 @@
+======================================================================
+STEP 3D.1 -- production goal-tolerance integration + regression re-run
+======================================================================
+
+  reused production tolerance (Stage 33, unchanged since scripts/benchmark_goal_region_real.py):
+  goal_tolerance_xy_m=35.0  goal_tolerance_z_m=25.0
+  goal condition: planner.astar._state_in_goal_region (production, reused verbatim, not reimplemented)
+
+  dense whole-window possible states (unchanged from Step 3D): 48381
+
+--- MISSION [A_easy_open] (WITH production goal tolerance) ---
+  found_goal=False  path_len=None
+  instantiated=48370  expanded=48370  generated=1160880  max_open_size=1682  bound_rejected=12466  primitive_eval_calls=1002308  primitive_rejected=760
+  search_time_s=261.4827
+  final_goal_xy_error_m=None  final_goal_z_error_m=None  (tolerances: xy<=35.0m z<=25.0m)
+  independent safety validation: {'checked': False}
+  CandidateZGenerator.floor_for(): call_count=1014774  mean=1.879us  p95=2.700us  raw_dem_reads(must be 0)=0
+
+  BEFORE (exact goal, Step 3D) vs AFTER (production tolerance, this step):
+    found_goal:   False -> False
+    instantiated: 48370 -> 48370
+    expanded:     48370 -> 48370
+    generated:    1160880 -> 1160880
+    search_time_s:252.4373 -> 261.4827
+
+--- MISSION [B_relief_affected] (WITH production goal tolerance) ---
+  found_goal=True  path_len=24
+  instantiated=641  expanded=297  generated=7104  max_open_size=424  bound_rejected=2029  primitive_eval_calls=3029  primitive_rejected=132
+  search_time_s=0.7844
+  final_goal_xy_error_m=0.0  final_goal_z_error_m=0.0  (tolerances: xy<=35.0m z<=25.0m)
+  independent safety validation: {'checked': True, 'violations': [], 'min_agl': 101.091796875, 'max_angle': 9.462322208025617, 'safe': True}
+  CandidateZGenerator.floor_for(): call_count=5058  mean=1.542us  p95=2.100us  raw_dem_reads(must be 0)=0
+
+  BEFORE (exact goal, Step 3D) vs AFTER (production tolerance, this step):
+    found_goal:   True -> True
+    instantiated: 641 -> 641
+    expanded:     297 -> 297
+    generated:    7104 -> 7104
+    search_time_s:0.8266 -> 0.7844
+
+--- MISSION [C_z_matters] (WITH production goal tolerance) ---
+  found_goal=True  path_len=31
+  instantiated=3535  expanded=2519  generated=60432  max_open_size=1542  bound_rejected=8055  primitive_eval_calls=42593  primitive_rejected=581
+  search_time_s=11.0496
+  final_goal_xy_error_m=0.0  final_goal_z_error_m=0.0  (tolerances: xy<=35.0m z<=25.0m)
+  independent safety validation: {'checked': True, 'violations': [], 'min_agl': 100.037353515625, 'max_angle': 9.462322208025617, 'safe': True}
+  CandidateZGenerator.floor_for(): call_count=50648  mean=1.759us  p95=2.465us  raw_dem_reads(must be 0)=0
+
+  BEFORE (exact goal, Step 3D) vs AFTER (production tolerance, this step):
+    found_goal:   True -> True
+    instantiated: 3535 -> 3535
+    expanded:     2519 -> 2519
+    generated:    60432 -> 60432
+    search_time_s:10.8854 -> 11.0496
+
+======================================================================
+FAILURE CLASSIFICATION (only for missions that still fail)
+======================================================================
+  [A_easy_open] STILL FAILS with production tolerance.
+    Classification: goal-condition was NOT the limiting factor here (tolerance ruled out as cause since it's now production-correct) -- remaining cause is SEARCH/GUIDANCE / STATE-EXPLOSION (uniform-cost/greedy-XY-heuristic A* exhausting a bounded region while looking for a path that both clears a real mid-route terrain obstruction AND lands within the (now widened, but still narrow at 60m XY) goal tolerance band). NOT representation loss -- no P3/P4 evidence found. Recorded as OPEN ISSUE, not solved here per scope.
+
+======================================================================
+STEP 3D.1 SUMMARY
+======================================================================
+  [A_easy_open] found=False  safe=None  instantiated=48370
+  [B_relief_affected] found=True  safe=True  instantiated=641
+  [C_z_matters] found=True  safe=True  instantiated=3535

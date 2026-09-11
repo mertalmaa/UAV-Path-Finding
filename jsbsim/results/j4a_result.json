@@ -1,0 +1,63 @@
+{
+  "gamma_targets_are_capability_limits": false,
+  "gamma_targets_deg": {
+    "level": 0.0,
+    "modest_climb": 2.0,
+    "modest_descent": -2.0
+  },
+  "j4a_pass": true,
+  "j4b_blocker": null,
+  "parent_j3_1_provenance_id": "j3.1-7761df15481027018aac",
+  "point_count": 12,
+  "provenance_id": "j4a-2342f25aec9f6ff3314c",
+  "repeatability_passed": true,
+  "run_count": 36,
+  "scope_guards": {
+    "coupled_maneuvers": false,
+    "derating": false,
+    "full_altitude_grid": false,
+    "gamma_capability_boundary_search": false,
+    "lookup_generation": false,
+    "maximum_climb_descent_search": false,
+    "planner_integration": false,
+    "speed_added_to_planner_state": false,
+    "straight_climb_descent_sanity_only": true,
+    "turn_characterization": false
+  },
+  "sign_validation_passed": true,
+  "status_counts": {
+    "INFEASIBLE": 0,
+    "UNKNOWN": 0,
+    "VALID": 12
+  },
+  "throttle_ordering": [
+    {
+      "altitude_msl_m": 0.0,
+      "climb_throttle_pos_norm": 0.49689223171460695,
+      "descent_throttle_pos_norm": 0.3633159590918958,
+      "level_throttle_pos_norm": 0.43406654029543984,
+      "passed": true
+    },
+    {
+      "altitude_msl_m": 3000.0,
+      "climb_throttle_pos_norm": 0.5843716095401897,
+      "descent_throttle_pos_norm": 0.4357438810203636,
+      "level_throttle_pos_norm": 0.5136983730141554,
+      "passed": true
+    },
+    {
+      "altitude_msl_m": 5000.0,
+      "climb_throttle_pos_norm": 0.6364106861914659,
+      "descent_throttle_pos_norm": 0.4742543247201003,
+      "level_throttle_pos_norm": 0.5585567469679856,
+      "passed": true
+    },
+    {
+      "altitude_msl_m": 6000.0,
+      "climb_throttle_pos_norm": 0.6689639258661652,
+      "descent_throttle_pos_norm": 0.49975306121273916,
+      "level_throttle_pos_norm": 0.5875986240682907,
+      "passed": true
+    }
+  ]
+}

@@ -1,0 +1,206 @@
+[
+  {
+    "altitude_msl_m": 0.0,
+    "comparisons": {
+      "actual_bank_deg": {
+        "left": -20.148412829186952,
+        "passed": true,
+        "relative_magnitude_difference": 0.0005308191810017217,
+        "right": 20.137720503036384
+      },
+      "beta": {
+        "left_deg": -0.486438514753573,
+        "mirrored_sign_or_both_near_zero": true,
+        "operational_limit_claimed": false,
+        "passed": true,
+        "right_deg": 0.484527456755708
+      },
+      "load_factor_nz": {
+        "left": 1.0523721203799332,
+        "passed": true,
+        "relative_magnitude_difference": 0.0012122114644024424,
+        "right": 1.0510971955700266
+      },
+      "maximum_cas_error_relative": {
+        "absolute_difference": 1.1923271433790403e-05,
+        "difference_as_fraction_of_tracking_acceptance": 0.0005961635716895201,
+        "left": 0.00016284455856372065,
+        "passed": true,
+        "right": 0.00015092128712993025
+      },
+      "measured_radius_m": {
+        "left": 7492.607243487186,
+        "passed": true,
+        "relative_magnitude_difference": 0.00015969972079601791,
+        "right": 7491.410771740469
+      },
+      "throttle_pos_norm": {
+        "left": 0.4487677949960626,
+        "passed": true,
+        "relative_magnitude_difference": 0.07757638371772815,
+        "right": 0.41525395363974565
+      },
+      "turn_rate_deg_s": {
+        "left": -1.1998749855969775,
+        "passed": true,
+        "relative_magnitude_difference": 0.0005889067670751017,
+        "right": 1.1991685791020978
+      }
+    },
+    "passed": true,
+    "relative_difference_limit": 0.1
+  },
+  {
+    "altitude_msl_m": 3000.0,
+    "comparisons": {
+      "actual_bank_deg": {
+        "left": -20.165290142443855,
+        "passed": true,
+        "relative_magnitude_difference": 0.00028398879354514116,
+        "right": 20.15956423907101
+      },
+      "beta": {
+        "left_deg": -0.4139338425339441,
+        "mirrored_sign_or_both_near_zero": true,
+        "operational_limit_claimed": false,
+        "passed": true,
+        "right_deg": 0.41250691370130493
+      },
+      "load_factor_nz": {
+        "left": 1.0532208991215062,
+        "passed": true,
+        "relative_magnitude_difference": 0.0012494507919916472,
+        "right": 1.0519057730276264
+      },
+      "maximum_cas_error_relative": {
+        "absolute_difference": 4.114923067614554e-06,
+        "difference_as_fraction_of_tracking_acceptance": 0.0002057461533807277,
+        "left": 0.0001397599129909693,
+        "passed": true,
+        "right": 0.00013564498992335475
+      },
+      "measured_radius_m": {
+        "left": 9716.63536662243,
+        "passed": true,
+        "relative_magnitude_difference": 5.3865855244448436e-05,
+        "right": 9717.158775593487
+      },
+      "throttle_pos_norm": {
+        "left": 0.5257032584927898,
+        "passed": true,
+        "relative_magnitude_difference": 0.051818173178968904,
+        "right": 0.499150240447217
+      },
+      "turn_rate_deg_s": {
+        "left": -1.06165915961383,
+        "passed": true,
+        "relative_magnitude_difference": 0.0007935995250961432,
+        "right": 1.0608169615929213
+      }
+    },
+    "passed": true,
+    "relative_difference_limit": 0.1
+  },
+  {
+    "altitude_msl_m": 5000.0,
+    "comparisons": {
+      "actual_bank_deg": {
+        "left": -20.22089956906278,
+        "passed": true,
+        "relative_magnitude_difference": 0.0001913050794522823,
+        "right": 20.21703157824727
+      },
+      "beta": {
+        "left_deg": -0.378272700934849,
+        "mirrored_sign_or_both_near_zero": true,
+        "operational_limit_claimed": false,
+        "passed": true,
+        "right_deg": 0.3770231058393784
+      },
+      "load_factor_nz": {
+        "left": 1.053604855078481,
+        "passed": true,
+        "relative_magnitude_difference": 0.0013410488389345645,
+        "right": 1.052192866283849
+      },
+      "maximum_cas_error_relative": {
+        "absolute_difference": 7.037394050071348e-06,
+        "difference_as_fraction_of_tracking_acceptance": 0.0003518697025035674,
+        "left": 0.00016993936216645348,
+        "passed": true,
+        "right": 0.00016290196811638214
+      },
+      "measured_radius_m": {
+        "left": 11649.183954352362,
+        "passed": true,
+        "relative_magnitude_difference": 0.00036416204139765534,
+        "right": 11653.426917524861
+      },
+      "throttle_pos_norm": {
+        "left": 0.5666378524176392,
+        "passed": true,
+        "relative_magnitude_difference": 0.03191459940121551,
+        "right": 0.5488378719747572
+      },
+      "turn_rate_deg_s": {
+        "left": -0.9735638988357612,
+        "passed": true,
+        "relative_magnitude_difference": 0.0010423563716921635,
+        "right": 0.9725496269189579
+      }
+    },
+    "passed": true,
+    "relative_difference_limit": 0.1
+  },
+  {
+    "altitude_msl_m": 6000.0,
+    "comparisons": {
+      "actual_bank_deg": {
+        "left": -20.32047783825635,
+        "passed": true,
+        "relative_magnitude_difference": 5.725677348318896e-05,
+        "right": 20.319314386567438
+      },
+      "beta": {
+        "left_deg": -0.37889192010219785,
+        "mirrored_sign_or_both_near_zero": true,
+        "operational_limit_claimed": false,
+        "passed": true,
+        "right_deg": 0.3780315453150289
+      },
+      "load_factor_nz": {
+        "left": 1.053512987440871,
+        "passed": true,
+        "relative_magnitude_difference": 0.0014350239755097126,
+        "right": 1.0520022550140091
+      },
+      "maximum_cas_error_relative": {
+        "absolute_difference": 1.3010149254502027e-05,
+        "difference_as_fraction_of_tracking_acceptance": 0.0006505074627251013,
+        "left": 0.00025230836801271283,
+        "passed": true,
+        "right": 0.0002392982187582108
+      },
+      "measured_radius_m": {
+        "left": 12808.140977395486,
+        "passed": true,
+        "relative_magnitude_difference": 0.0006942500208171713,
+        "right": 12817.03611726119
+      },
+      "throttle_pos_norm": {
+        "left": 0.5900467981385062,
+        "passed": true,
+        "relative_magnitude_difference": 0.010195709641300607,
+        "right": 0.5840613651781774
+      },
+      "turn_rate_deg_s": {
+        "left": -0.9290422540658185,
+        "passed": true,
+        "relative_magnitude_difference": 0.001322732553677757,
+        "right": 0.9278141918315711
+      }
+    },
+    "passed": true,
+    "relative_difference_limit": 0.1
+  }
+]

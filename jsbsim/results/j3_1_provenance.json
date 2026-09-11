@@ -1,0 +1,78 @@
+{
+  "domain": {
+    "altitude_reference": "MSL",
+    "ceiling_m": 6000.0,
+    "combined_main_altitudes_m": [
+      0.0,
+      500.0,
+      1000.0,
+      1500.0,
+      2000.0,
+      2500.0,
+      3000.0,
+      3500.0,
+      4000.0,
+      4500.0,
+      5000.0,
+      5500.0,
+      6000.0
+    ],
+    "existing_main_altitudes_m": [
+      1500.0,
+      2000.0,
+      2500.0,
+      3000.0,
+      3500.0,
+      4000.0,
+      4500.0,
+      5000.0,
+      5500.0,
+      6000.0
+    ],
+    "extension_reason": "Future planning regions may contain substantially lower terrain; characterization cost is still small at this stage, so the reusable prototype aircraft domain is extended to 0\u20136000 m before maneuver envelope generation begins.",
+    "floor_m": 0.0,
+    "main_spacing_m": 500.0,
+    "midpoint_offset_m": 250.0,
+    "new_main_altitudes_m": [
+      0.0,
+      500.0,
+      1000.0
+    ],
+    "new_midpoint_holdouts_m": [
+      250.0,
+      750.0,
+      1250.0
+    ],
+    "real_f16_operational_envelope_claim": false
+  },
+  "parent_j3_provenance_id": "j3-7d701f785aae566708fc",
+  "provenance_id": "j3.1-7761df15481027018aac",
+  "source_artifacts": {
+    "parent_points": {
+      "path": "C:\\Users\\PC_10004_YD26\\Desktop\\uav_pathfinder\\jsbsim\\results\\j3_points.json",
+      "sha256": "b68b2e2b43be3d0bc33b73b8b35eabaa9bf7f43a666c872fcb3458974ebbef98"
+    },
+    "parent_provenance": {
+      "path": "C:\\Users\\PC_10004_YD26\\Desktop\\uav_pathfinder\\jsbsim\\results\\j3_provenance.json",
+      "sha256": "d5d6ba95799521795b79e839d8a51f3950d6ece8ad08d7093e9a3f5c1fad9961"
+    },
+    "parent_selection": {
+      "path": "C:\\Users\\PC_10004_YD26\\Desktop\\uav_pathfinder\\jsbsim\\results\\j3_selection.json",
+      "sha256": "0a50a2c9d86b1e5e25456e1927895182fa31532efcdb15c1c80ec1cbec3646b1"
+    },
+    "parent_summary": {
+      "path": "C:\\Users\\PC_10004_YD26\\Desktop\\uav_pathfinder\\jsbsim\\results\\j3_candidate_summary.json",
+      "sha256": "f95bac066add2c1b6e1fac7edf11b0f7e7b1e6b6b09fd91393f857470e838bd6"
+    }
+  },
+  "stage_files": {
+    "domain_extension_configuration": {
+      "path": "C:\\Users\\PC_10004_YD26\\Desktop\\uav_pathfinder\\jsbsim\\j3_1_domain_extension.yaml",
+      "sha256": "b0308ae82f641c1b4db1f8fc5c3d84677017c4b458deab1f26820baae02aa569"
+    },
+    "domain_extension_harness": {
+      "path": "C:\\Users\\PC_10004_YD26\\Desktop\\uav_pathfinder\\jsbsim\\j3_1_domain_extension.py",
+      "sha256": "b7b063fcbe49479dee5e14939a04db5a664e5a4f6c5ade1660ffde8e38b983db"
+    }
+  }
+}

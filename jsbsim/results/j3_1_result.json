@@ -1,0 +1,28 @@
+{
+  "combined_main_point_count": 65,
+  "decision": "nominal_cas_305_kcas_revalidated_for_0_6000m",
+  "effective_nominal_cas_kts": 305.0,
+  "holdout_point_count": 3,
+  "holdout_run_count": 9,
+  "holdouts_used_for_selection_or_fitting": false,
+  "j3_1_pass": true,
+  "j4_blocker": null,
+  "local_refinement_bands_msl_m": [],
+  "new_main_point_count": 15,
+  "new_main_run_count": 45,
+  "parent_j3_provenance_id": "j3-7d701f785aae566708fc",
+  "prior_nominal_cas_kts": 305.0,
+  "proposed_nominal_cas_kts": 305.0,
+  "provenance_id": "j3.1-7761df15481027018aac",
+  "reused_main_point_count": 50,
+  "scope_guards": {
+    "climb_descent_limit_sweep": false,
+    "derating": false,
+    "domain_extension_only": true,
+    "lookup_generation": false,
+    "planner_integration": false,
+    "rerun_existing_main_grid": false,
+    "speed_added_to_planner_state": false,
+    "turn_characterization": false
+  }
+}

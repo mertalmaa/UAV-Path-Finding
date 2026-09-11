@@ -1,0 +1,2102 @@
+[
+  {
+    "altitude_msl_m": 0.0,
+    "dataset_origin": "j3_1_new_measurement",
+    "derated_capability": null,
+    "diagnostics": {
+      "afterburner_observed": false,
+      "all_checks_passed": true,
+      "control_surface_saturation_observed": false,
+      "repeatability": {
+        "metrics": {
+          "actual_altitude_msl_m": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.5522780035982575,
+            "passed": true,
+            "values": [
+              0.5522780035982575,
+              0.5522780035982575,
+              0.5522780035982575
+            ]
+          },
+          "actual_kcas": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 274.92967968029694,
+            "passed": true,
+            "values": [
+              274.92967968029694,
+              274.92967968029694,
+              274.92967968029694
+            ]
+          },
+          "alpha_deg": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 2.579394060812417,
+            "passed": true,
+            "values": [
+              2.579394060812417,
+              2.579394060812417,
+              2.579394060812417
+            ]
+          },
+          "load_factor_nz": {
+            "maximum_relative_deviation": 1.1146078902026172e-16,
+            "mean": 0.9960660016710777,
+            "passed": true,
+            "values": [
+              0.9960660016710776,
+              0.9960660016710776,
+              0.9960660016710776
+            ]
+          },
+          "mach": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.41564260909081296,
+            "passed": true,
+            "values": [
+              0.41564260909081296,
+              0.41564260909081296,
+              0.41564260909081296
+            ]
+          },
+          "tas_mps": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 141.4396056508341,
+            "passed": true,
+            "values": [
+              141.4396056508341,
+              141.4396056508341,
+              141.4396056508341
+            ]
+          },
+          "throttle_pos_norm": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.39405931929857574,
+            "passed": true,
+            "values": [
+              0.39405931929857574,
+              0.39405931929857574,
+              0.39405931929857574
+            ]
+          },
+          "weight_lbs": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 20630.0,
+            "passed": true,
+            "values": [
+              20630.0,
+              20630.0,
+              20630.0
+            ]
+          }
+        },
+        "passed": true,
+        "tolerance_relative": 0.01
+      },
+      "run_ids": [
+        "j3.1-main-275kcas-0m-r1",
+        "j3.1-main-275kcas-0m-r2",
+        "j3.1-main-275kcas-0m-r3"
+      ],
+      "run_statuses": [
+        "VALID",
+        "VALID",
+        "VALID"
+      ],
+      "trim_success_count": 3
+    },
+    "maneuver_family": "straight_level",
+    "measured_values": {
+      "actual_kcas_mean": 274.92967968029694,
+      "alpha_deg_mean": 2.579394060812417,
+      "altitude_drift_m_max_abs": 0.8623634097218513,
+      "beta_deg_mean": 5.622947456698883e-07,
+      "dynamic_pressure_pa_mean": 12252.612005507044,
+      "elevator_pos_norm_mean": -0.04919852734985935,
+      "gamma_deg_mean": 0.017466036190966032,
+      "left_aileron_pos_norm_mean": 1.680530132295345e-08,
+      "load_factor_nz_mean": 0.9960660016710777,
+      "mach_mean": 0.41564260909081296,
+      "maximum_cas_tracking_error_relative": 0.0004447098865939965,
+      "maximum_control_surface_usage_norm": 0.049199210804500945,
+      "maximum_gamma_tracking_error_deg": 0.019542499471733515,
+      "p_deg_s_mean": -1.011198907342409e-06,
+      "q_deg_s_mean": -0.000827502399690835,
+      "r_deg_s_mean": 4.93996101605724e-07,
+      "right_aileron_pos_norm_mean": 0.0,
+      "rudder_pos_norm_mean": 9.022047314863627e-08,
+      "speed_drift_kcas_max_abs": 0.10144173462464323,
+      "tas_mps_mean": 141.4396056508341,
+      "throttle_cmd_norm_mean": 0.19702965964928787,
+      "throttle_pos_norm_mean": 0.39405931929857574
+    },
+    "provenance_id": "j3.1-7761df15481027018aac",
+    "raw_capability": null,
+    "requested_target": {
+      "gamma_deg": 0.0,
+      "speed_type": "KCAS",
+      "speed_value": 275.0
+    },
+    "status": "VALID"
+  },
+  {
+    "altitude_msl_m": 500.0,
+    "dataset_origin": "j3_1_new_measurement",
+    "derated_capability": null,
+    "diagnostics": {
+      "afterburner_observed": false,
+      "all_checks_passed": true,
+      "control_surface_saturation_observed": false,
+      "repeatability": {
+        "metrics": {
+          "actual_altitude_msl_m": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 500.5809801319637,
+            "passed": true,
+            "values": [
+              500.5809801319637,
+              500.5809801319637,
+              500.5809801319637
+            ]
+          },
+          "actual_kcas": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 274.928392803176,
+            "passed": true,
+            "values": [
+              274.928392803176,
+              274.928392803176,
+              274.928392803176
+            ]
+          },
+          "alpha_deg": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 2.5892893583358423,
+            "passed": true,
+            "values": [
+              2.5892893583358423,
+              2.5892893583358423,
+              2.5892893583358423
+            ]
+          },
+          "load_factor_nz": {
+            "maximum_relative_deviation": 1.114800590351658e-16,
+            "mean": 0.995893825527077,
+            "passed": true,
+            "values": [
+              0.9958938255270768,
+              0.9958938255270768,
+              0.9958938255270768
+            ]
+          },
+          "mach": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.42767859222690424,
+            "passed": true,
+            "values": [
+              0.42767859222690424,
+              0.42767859222690424,
+              0.42767859222690424
+            ]
+          },
+          "tas_mps": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 144.71229171966854,
+            "passed": true,
+            "values": [
+              144.71229171966854,
+              144.71229171966854,
+              144.71229171966854
+            ]
+          },
+          "throttle_pos_norm": {
+            "maximum_relative_deviation": 1.3621493917971484e-16,
+            "mean": 0.40752616097430644,
+            "passed": true,
+            "values": [
+              0.4075261609743065,
+              0.4075261609743065,
+              0.4075261609743065
+            ]
+          },
+          "weight_lbs": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 20630.0,
+            "passed": true,
+            "values": [
+              20630.0,
+              20630.0,
+              20630.0
+            ]
+          }
+        },
+        "passed": true,
+        "tolerance_relative": 0.01
+      },
+      "run_ids": [
+        "j3.1-main-275kcas-500m-r1",
+        "j3.1-main-275kcas-500m-r2",
+        "j3.1-main-275kcas-500m-r3"
+      ],
+      "run_statuses": [
+        "VALID",
+        "VALID",
+        "VALID"
+      ],
+      "trim_success_count": 3
+    },
+    "maneuver_family": "straight_level",
+    "measured_values": {
+      "actual_kcas_mean": 274.928392803176,
+      "alpha_deg_mean": 2.5892893583358423,
+      "altitude_drift_m_max_abs": 0.9105362891614277,
+      "beta_deg_mean": 5.687167155810632e-07,
+      "dynamic_pressure_pa_mean": 12221.720879683917,
+      "elevator_pos_norm_mean": -0.04922599531396635,
+      "gamma_deg_mean": 0.018024677419762467,
+      "left_aileron_pos_norm_mean": 1.7176908222061604e-08,
+      "load_factor_nz_mean": 0.995893825527077,
+      "mach_mean": 0.42767859222690424,
+      "maximum_cas_tracking_error_relative": 0.000455193740078812,
+      "maximum_control_surface_usage_norm": 0.04922675079965888,
+      "maximum_gamma_tracking_error_deg": 0.02023271727846728,
+      "p_deg_s_mean": -1.0334951645150898e-06,
+      "q_deg_s_mean": -0.0008332869179604911,
+      "r_deg_s_mean": 5.002256376505662e-07,
+      "right_aileron_pos_norm_mean": 0.0,
+      "rudder_pos_norm_mean": 9.135895229912674e-08,
+      "speed_drift_kcas_max_abs": 0.10409822302131033,
+      "tas_mps_mean": 144.71229171966854,
+      "throttle_cmd_norm_mean": 0.20376308048715322,
+      "throttle_pos_norm_mean": 0.40752616097430644
+    },
+    "provenance_id": "j3.1-7761df15481027018aac",
+    "raw_capability": null,
+    "requested_target": {
+      "gamma_deg": 0.0,
+      "speed_type": "KCAS",
+      "speed_value": 275.0
+    },
+    "status": "VALID"
+  },
+  {
+    "altitude_msl_m": 1000.0,
+    "dataset_origin": "j3_1_new_measurement",
+    "derated_capability": null,
+    "diagnostics": {
+      "afterburner_observed": false,
+      "all_checks_passed": true,
+      "control_surface_saturation_observed": false,
+      "repeatability": {
+        "metrics": {
+          "actual_altitude_msl_m": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 1000.6113446528125,
+            "passed": true,
+            "values": [
+              1000.6113446528125,
+              1000.6113446528125,
+              1000.6113446528125
+            ]
+          },
+          "actual_kcas": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 274.92706002175174,
+            "passed": true,
+            "values": [
+              274.92706002175174,
+              274.92706002175174,
+              274.92706002175174
+            ]
+          },
+          "alpha_deg": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 2.5999257295242137,
+            "passed": true,
+            "values": [
+              2.5999257295242137,
+              2.5999257295242137,
+              2.5999257295242137
+            ]
+          },
+          "load_factor_nz": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.9957208128915093,
+            "passed": true,
+            "values": [
+              0.9957208128915093,
+              0.9957208128915093,
+              0.9957208128915093
+            ]
+          },
+          "mach": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.44017398483003106,
+            "passed": true,
+            "values": [
+              0.44017398483003106,
+              0.44017398483003106,
+              0.44017398483003106
+            ]
+          },
+          "tas_mps": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 148.08850280778603,
+            "passed": true,
+            "values": [
+              148.08850280778603,
+              148.08850280778603,
+              148.08850280778603
+            ]
+          },
+          "throttle_pos_norm": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.4211356187999989,
+            "passed": true,
+            "values": [
+              0.4211356187999989,
+              0.4211356187999989,
+              0.4211356187999989
+            ]
+          },
+          "weight_lbs": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 20630.0,
+            "passed": true,
+            "values": [
+              20630.0,
+              20630.0,
+              20630.0
+            ]
+          }
+        },
+        "passed": true,
+        "tolerance_relative": 0.01
+      },
+      "run_ids": [
+        "j3.1-main-275kcas-1000m-r1",
+        "j3.1-main-275kcas-1000m-r2",
+        "j3.1-main-275kcas-1000m-r3"
+      ],
+      "run_statuses": [
+        "VALID",
+        "VALID",
+        "VALID"
+      ],
+      "trim_success_count": 3
+    },
+    "maneuver_family": "straight_level",
+    "measured_values": {
+      "actual_kcas_mean": 274.92706002175174,
+      "alpha_deg_mean": 2.5999257295242137,
+      "altitude_drift_m_max_abs": 0.961601410076014,
+      "beta_deg_mean": 5.752060330213768e-07,
+      "dynamic_pressure_pa_mean": 12188.82561765348,
+      "elevator_pos_norm_mean": -0.04925557136873155,
+      "gamma_deg_mean": 0.018601587418446686,
+      "left_aileron_pos_norm_mean": 1.755742433136019e-08,
+      "load_factor_nz_mean": 0.9957208128915093,
+      "mach_mean": 0.44017398483003106,
+      "maximum_cas_tracking_error_relative": 0.00046603418663153205,
+      "maximum_control_surface_usage_norm": 0.04925639866643529,
+      "maximum_gamma_tracking_error_deg": 0.02095065424939079,
+      "p_deg_s_mean": -1.0563248778314387e-06,
+      "q_deg_s_mean": -0.0008391012948750582,
+      "r_deg_s_mean": 5.065257370848658e-07,
+      "right_aileron_pos_norm_mean": 0.0,
+      "rudder_pos_norm_mean": 9.251043370969392e-08,
+      "speed_drift_kcas_max_abs": 0.10684237291695808,
+      "tas_mps_mean": 148.08850280778603,
+      "throttle_cmd_norm_mean": 0.21056780939999944,
+      "throttle_pos_norm_mean": 0.4211356187999989
+    },
+    "provenance_id": "j3.1-7761df15481027018aac",
+    "raw_capability": null,
+    "requested_target": {
+      "gamma_deg": 0.0,
+      "speed_type": "KCAS",
+      "speed_value": 275.0
+    },
+    "status": "VALID"
+  },
+  {
+    "altitude_msl_m": 0.0,
+    "dataset_origin": "j3_1_new_measurement",
+    "derated_capability": null,
+    "diagnostics": {
+      "afterburner_observed": false,
+      "all_checks_passed": true,
+      "control_surface_saturation_observed": false,
+      "repeatability": {
+        "metrics": {
+          "actual_altitude_msl_m": {
+            "maximum_relative_deviation": 1.558145994167088e-16,
+            "mean": 0.7125282411155766,
+            "passed": true,
+            "values": [
+              0.7125282411155764,
+              0.7125282411155764,
+              0.7125282411155764
+            ]
+          },
+          "actual_kcas": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 304.91611580634424,
+            "passed": true,
+            "values": [
+              304.91611580634424,
+              304.91611580634424,
+              304.91611580634424
+            ]
+          },
+          "alpha_deg": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 1.7949375146201876,
+            "passed": true,
+            "values": [
+              1.7949375146201876,
+              1.7949375146201876,
+              1.7949375146201876
+            ]
+          },
+          "load_factor_nz": {
+            "maximum_relative_deviation": 1.1140251948987243e-16,
+            "mean": 0.9965869979503351,
+            "passed": true,
+            "values": [
+              0.9965869979503352,
+              0.9965869979503352,
+              0.9965869979503352
+            ]
+          },
+          "mach": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.46098055712242747,
+            "passed": true,
+            "values": [
+              0.46098055712242747,
+              0.46098055712242747,
+              0.46098055712242747
+            ]
+          },
+          "tas_mps": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 156.86743597982127,
+            "passed": true,
+            "values": [
+              156.86743597982127,
+              156.86743597982127,
+              156.86743597982127
+            ]
+          },
+          "throttle_pos_norm": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.43409352521490524,
+            "passed": true,
+            "values": [
+              0.43409352521490524,
+              0.43409352521490524,
+              0.43409352521490524
+            ]
+          },
+          "weight_lbs": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 20630.0,
+            "passed": true,
+            "values": [
+              20630.0,
+              20630.0,
+              20630.0
+            ]
+          }
+        },
+        "passed": true,
+        "tolerance_relative": 0.01
+      },
+      "run_ids": [
+        "j3.1-main-305kcas-0m-r1",
+        "j3.1-main-305kcas-0m-r2",
+        "j3.1-main-305kcas-0m-r3"
+      ],
+      "run_statuses": [
+        "VALID",
+        "VALID",
+        "VALID"
+      ],
+      "trim_success_count": 3
+    },
+    "maneuver_family": "straight_level",
+    "measured_values": {
+      "actual_kcas_mean": 304.91611580634424,
+      "alpha_deg_mean": 1.7949375146201876,
+      "altitude_drift_m_max_abs": 1.15857100405097,
+      "beta_deg_mean": 5.416453232384838e-07,
+      "dynamic_pressure_pa_mean": 15071.11987036537,
+      "elevator_pos_norm_mean": -0.04719359575382279,
+      "gamma_deg_mean": 0.021157892585820157,
+      "left_aileron_pos_norm_mean": 1.4854569014410725e-08,
+      "load_factor_nz_mean": 0.9965869979503351,
+      "mach_mean": 0.46098055712242747,
+      "maximum_cas_tracking_error_relative": 0.0004951216253630264,
+      "maximum_control_surface_usage_norm": 0.0471943279373447,
+      "maximum_gamma_tracking_error_deg": 0.024977736091951388,
+      "p_deg_s_mean": -8.976809018251529e-07,
+      "q_deg_s_mean": -0.0007419382288197026,
+      "r_deg_s_mean": 4.723700270486044e-07,
+      "right_aileron_pos_norm_mean": 0.0,
+      "rudder_pos_norm_mean": 8.625283474911402e-08,
+      "speed_drift_kcas_max_abs": 0.12715508356177452,
+      "tas_mps_mean": 156.86743597982127,
+      "throttle_cmd_norm_mean": 0.21704676260745262,
+      "throttle_pos_norm_mean": 0.43409352521490524
+    },
+    "provenance_id": "j3.1-7761df15481027018aac",
+    "raw_capability": null,
+    "requested_target": {
+      "gamma_deg": 0.0,
+      "speed_type": "KCAS",
+      "speed_value": 305.0
+    },
+    "status": "VALID"
+  },
+  {
+    "altitude_msl_m": 500.0,
+    "dataset_origin": "j3_1_new_measurement",
+    "derated_capability": null,
+    "diagnostics": {
+      "afterburner_observed": false,
+      "all_checks_passed": true,
+      "control_surface_saturation_observed": false,
+      "repeatability": {
+        "metrics": {
+          "actual_altitude_msl_m": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 500.74806066459786,
+            "passed": true,
+            "values": [
+              500.74806066459786,
+              500.74806066459786,
+              500.74806066459786
+            ]
+          },
+          "actual_kcas": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 304.91461479995456,
+            "passed": true,
+            "values": [
+              304.91461479995456,
+              304.91461479995456,
+              304.91461479995456
+            ]
+          },
+          "alpha_deg": {
+            "maximum_relative_deviation": 1.2302616845152922e-16,
+            "mean": 1.8048567042264192,
+            "passed": true,
+            "values": [
+              1.804856704226419,
+              1.804856704226419,
+              1.804856704226419
+            ]
+          },
+          "load_factor_nz": {
+            "maximum_relative_deviation": 1.1142152044412787e-16,
+            "mean": 0.996417047801709,
+            "passed": true,
+            "values": [
+              0.9964170478017091,
+              0.9964170478017091,
+              0.9964170478017091
+            ]
+          },
+          "mach": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.47420104017038556,
+            "passed": true,
+            "values": [
+              0.47420104017038556,
+              0.47420104017038556,
+              0.47420104017038556
+            ]
+          },
+          "tas_mps": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 160.4536437899162,
+            "passed": true,
+            "values": [
+              160.4536437899162,
+              160.4536437899162,
+              160.4536437899162
+            ]
+          },
+          "throttle_pos_norm": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.44678679401703664,
+            "passed": true,
+            "values": [
+              0.44678679401703664,
+              0.44678679401703664,
+              0.44678679401703664
+            ]
+          },
+          "weight_lbs": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 20630.0,
+            "passed": true,
+            "values": [
+              20630.0,
+              20630.0,
+              20630.0
+            ]
+          }
+        },
+        "passed": true,
+        "tolerance_relative": 0.01
+      },
+      "run_ids": [
+        "j3.1-main-305kcas-500m-r1",
+        "j3.1-main-305kcas-500m-r2",
+        "j3.1-main-305kcas-500m-r3"
+      ],
+      "run_statuses": [
+        "VALID",
+        "VALID",
+        "VALID"
+      ],
+      "trim_success_count": 3
+    },
+    "maneuver_family": "straight_level",
+    "measured_values": {
+      "actual_kcas_mean": 304.91461479995456,
+      "alpha_deg_mean": 1.8048567042264192,
+      "altitude_drift_m_max_abs": 1.219338331854317,
+      "beta_deg_mean": 5.482981747591274e-07,
+      "dynamic_pressure_pa_mean": 15024.971057688255,
+      "elevator_pos_norm_mean": -0.04721693384715033,
+      "gamma_deg_mean": 0.021769961186521882,
+      "left_aileron_pos_norm_mean": 1.5189442487415636e-08,
+      "load_factor_nz_mean": 0.996417047801709,
+      "mach_mean": 0.47420104017038556,
+      "maximum_cas_tracking_error_relative": 0.0005060246184119352,
+      "maximum_control_surface_usage_norm": 0.04721772506466867,
+      "maximum_gamma_tracking_error_deg": 0.025808666717168152,
+      "p_deg_s_mean": -9.177368902217935e-07,
+      "q_deg_s_mean": -0.0007474132188779471,
+      "r_deg_s_mean": 4.786875007424752e-07,
+      "right_aileron_pos_norm_mean": 0.0,
+      "rudder_pos_norm_mean": 8.740510899895917e-08,
+      "speed_drift_kcas_max_abs": 0.13020184566397575,
+      "tas_mps_mean": 160.4536437899162,
+      "throttle_cmd_norm_mean": 0.22339339700851832,
+      "throttle_pos_norm_mean": 0.44678679401703664
+    },
+    "provenance_id": "j3.1-7761df15481027018aac",
+    "raw_capability": null,
+    "requested_target": {
+      "gamma_deg": 0.0,
+      "speed_type": "KCAS",
+      "speed_value": 305.0
+    },
+    "status": "VALID"
+  },
+  {
+    "altitude_msl_m": 1000.0,
+    "dataset_origin": "j3_1_new_measurement",
+    "derated_capability": null,
+    "diagnostics": {
+      "afterburner_observed": false,
+      "all_checks_passed": true,
+      "control_surface_saturation_observed": false,
+      "repeatability": {
+        "metrics": {
+          "actual_altitude_msl_m": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 1000.7855739282401,
+            "passed": true,
+            "values": [
+              1000.7855739282401,
+              1000.7855739282401,
+              1000.7855739282401
+            ]
+          },
+          "actual_kcas": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 304.913053143326,
+            "passed": true,
+            "values": [
+              304.913053143326,
+              304.913053143326,
+              304.913053143326
+            ]
+          },
+          "alpha_deg": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 1.8155031931482721,
+            "passed": true,
+            "values": [
+              1.8155031931482721,
+              1.8155031931482721,
+              1.8155031931482721
+            ]
+          },
+          "load_factor_nz": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.9962464180476222,
+            "passed": true,
+            "values": [
+              0.9962464180476222,
+              0.9962464180476222,
+              0.9962464180476222
+            ]
+          },
+          "mach": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.4879155531863948,
+            "passed": true,
+            "values": [
+              0.4879155531863948,
+              0.4879155531863948,
+              0.4879155531863948
+            ]
+          },
+          "tas_mps": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 164.14995217207132,
+            "passed": true,
+            "values": [
+              164.14995217207132,
+              164.14995217207132,
+              164.14995217207132
+            ]
+          },
+          "throttle_pos_norm": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.4596670687580678,
+            "passed": true,
+            "values": [
+              0.4596670687580678,
+              0.4596670687580678,
+              0.4596670687580678
+            ]
+          },
+          "weight_lbs": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 20630.0,
+            "passed": true,
+            "values": [
+              20630.0,
+              20630.0,
+              20630.0
+            ]
+          }
+        },
+        "passed": true,
+        "tolerance_relative": 0.01
+      },
+      "run_ids": [
+        "j3.1-main-305kcas-1000m-r1",
+        "j3.1-main-305kcas-1000m-r2",
+        "j3.1-main-305kcas-1000m-r3"
+      ],
+      "run_statuses": [
+        "VALID",
+        "VALID",
+        "VALID"
+      ],
+      "trim_success_count": 3
+    },
+    "maneuver_family": "straight_level",
+    "measured_values": {
+      "actual_kcas_mean": 304.913053143326,
+      "alpha_deg_mean": 1.8155031931482721,
+      "altitude_drift_m_max_abs": 1.2835684660971083,
+      "beta_deg_mean": 5.55082881928236e-07,
+      "dynamic_pressure_pa_mean": 14975.911760776633,
+      "elevator_pos_norm_mean": -0.04724203557360499,
+      "gamma_deg_mean": 0.022400708685555094,
+      "left_aileron_pos_norm_mean": 1.5534115408886056e-08,
+      "load_factor_nz_mean": 0.9962464180476222,
+      "mach_mean": 0.4879155531863948,
+      "maximum_cas_tracking_error_relative": 0.0005173413323546572,
+      "maximum_control_surface_usage_norm": 0.047242885007619674,
+      "maximum_gamma_tracking_error_deg": 0.026669687697374767,
+      "p_deg_s_mean": -9.383780139004875e-07,
+      "q_deg_s_mean": -0.0007530000984546208,
+      "r_deg_s_mean": 4.851310222142604e-07,
+      "right_aileron_pos_norm_mean": 0.0,
+      "rudder_pos_norm_mean": 8.858048576464816e-08,
+      "speed_drift_kcas_max_abs": 0.13336063008893007,
+      "tas_mps_mean": 164.14995217207132,
+      "throttle_cmd_norm_mean": 0.2298335343790339,
+      "throttle_pos_norm_mean": 0.4596670687580678
+    },
+    "provenance_id": "j3.1-7761df15481027018aac",
+    "raw_capability": null,
+    "requested_target": {
+      "gamma_deg": 0.0,
+      "speed_type": "KCAS",
+      "speed_value": 305.0
+    },
+    "status": "VALID"
+  },
+  {
+    "altitude_msl_m": 0.0,
+    "dataset_origin": "j3_1_new_measurement",
+    "derated_capability": null,
+    "diagnostics": {
+      "afterburner_observed": false,
+      "all_checks_passed": true,
+      "control_surface_saturation_observed": false,
+      "repeatability": {
+        "metrics": {
+          "actual_altitude_msl_m": {
+            "maximum_relative_deviation": 1.2489114151927396e-16,
+            "mean": 0.8889525799184245,
+            "passed": true,
+            "values": [
+              0.8889525799184244,
+              0.8889525799184244,
+              0.8889525799184244
+            ]
+          },
+          "actual_kcas": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 334.9023695947013,
+            "passed": true,
+            "values": [
+              334.9023695947013,
+              334.9023695947013,
+              334.9023695947013
+            ]
+          },
+          "alpha_deg": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 1.2104762507430538,
+            "passed": true,
+            "values": [
+              1.2104762507430538,
+              1.2104762507430538,
+              1.2104762507430538
+            ]
+          },
+          "load_factor_nz": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.9968555044710589,
+            "passed": true,
+            "values": [
+              0.9968555044710589,
+              0.9968555044710589,
+              0.9968555044710589
+            ]
+          },
+          "mach": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.5063193747209015,
+            "passed": true,
+            "values": [
+              0.5063193747209015,
+              0.5063193747209015,
+              0.5063193747209015
+            ]
+          },
+          "tas_mps": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 172.29547501645018,
+            "passed": true,
+            "values": [
+              172.29547501645018,
+              172.29547501645018,
+              172.29547501645018
+            ]
+          },
+          "throttle_pos_norm": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.47076734900417067,
+            "passed": true,
+            "values": [
+              0.47076734900417067,
+              0.47076734900417067,
+              0.47076734900417067
+            ]
+          },
+          "weight_lbs": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 20630.0,
+            "passed": true,
+            "values": [
+              20630.0,
+              20630.0,
+              20630.0
+            ]
+          }
+        },
+        "passed": true,
+        "tolerance_relative": 0.01
+      },
+      "run_ids": [
+        "j3.1-main-335kcas-0m-r1",
+        "j3.1-main-335kcas-0m-r2",
+        "j3.1-main-335kcas-0m-r3"
+      ],
+      "run_statuses": [
+        "VALID",
+        "VALID",
+        "VALID"
+      ],
+      "trim_success_count": 3
+    },
+    "maneuver_family": "straight_level",
+    "measured_values": {
+      "actual_kcas_mean": 334.9023695947013,
+      "alpha_deg_mean": 1.2104762507430538,
+      "altitude_drift_m_max_abs": 1.4856687675207854,
+      "beta_deg_mean": 5.127688295269843e-07,
+      "dynamic_pressure_pa_mean": 18181.106785405154,
+      "elevator_pos_norm_mean": -0.04591470557735211,
+      "gamma_deg_mean": 0.024702229103393786,
+      "left_aileron_pos_norm_mean": 1.3079394615323563e-08,
+      "load_factor_nz_mean": 0.9968555044710589,
+      "mach_mean": 0.5063193747209015,
+      "maximum_cas_tracking_error_relative": 0.0005372043467254279,
+      "maximum_control_surface_usage_norm": 0.045915476531933036,
+      "maximum_gamma_tracking_error_deg": 0.03083138585198362,
+      "p_deg_s_mean": -7.961104935010587e-07,
+      "q_deg_s_mean": -0.0006679473907252536,
+      "r_deg_s_mean": 4.4455005833883477e-07,
+      "right_aileron_pos_norm_mean": 0.0,
+      "rudder_pos_norm_mean": 8.121149415166214e-08,
+      "speed_drift_kcas_max_abs": 0.15300398705460339,
+      "tas_mps_mean": 172.29547501645018,
+      "throttle_cmd_norm_mean": 0.23538367450208533,
+      "throttle_pos_norm_mean": 0.47076734900417067
+    },
+    "provenance_id": "j3.1-7761df15481027018aac",
+    "raw_capability": null,
+    "requested_target": {
+      "gamma_deg": 0.0,
+      "speed_type": "KCAS",
+      "speed_value": 335.0
+    },
+    "status": "VALID"
+  },
+  {
+    "altitude_msl_m": 500.0,
+    "dataset_origin": "j3_1_new_measurement",
+    "derated_capability": null,
+    "diagnostics": {
+      "afterburner_observed": false,
+      "all_checks_passed": true,
+      "control_surface_saturation_observed": false,
+      "repeatability": {
+        "metrics": {
+          "actual_altitude_msl_m": {
+            "maximum_relative_deviation": 1.134753624965649e-16,
+            "mean": 500.93181118966476,
+            "passed": true,
+            "values": [
+              500.9318111896647,
+              500.9318111896647,
+              500.9318111896647
+            ]
+          },
+          "actual_kcas": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 334.90060536253173,
+            "passed": true,
+            "values": [
+              334.90060536253173,
+              334.90060536253173,
+              334.90060536253173
+            ]
+          },
+          "alpha_deg": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 1.2203725200922517,
+            "passed": true,
+            "values": [
+              1.2203725200922517,
+              1.2203725200922517,
+              1.2203725200922517
+            ]
+          },
+          "load_factor_nz": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.996687183523001,
+            "passed": true,
+            "values": [
+              0.996687183523001,
+              0.996687183523001,
+              0.996687183523001
+            ]
+          },
+          "mach": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.520688389167975,
+            "passed": true,
+            "values": [
+              0.520688389167975,
+              0.520688389167975,
+              0.520688389167975
+            ]
+          },
+          "tas_mps": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 176.1830260923363,
+            "passed": true,
+            "values": [
+              176.1830260923363,
+              176.1830260923363,
+              176.1830260923363
+            ]
+          },
+          "throttle_pos_norm": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.48290545466588625,
+            "passed": true,
+            "values": [
+              0.48290545466588625,
+              0.48290545466588625,
+              0.48290545466588625
+            ]
+          },
+          "weight_lbs": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 20630.0,
+            "passed": true,
+            "values": [
+              20630.0,
+              20630.0,
+              20630.0
+            ]
+          }
+        },
+        "passed": true,
+        "tolerance_relative": 0.01
+      },
+      "run_ids": [
+        "j3.1-main-335kcas-500m-r1",
+        "j3.1-main-335kcas-500m-r2",
+        "j3.1-main-335kcas-500m-r3"
+      ],
+      "run_statuses": [
+        "VALID",
+        "VALID",
+        "VALID"
+      ],
+      "trim_success_count": 3
+    },
+    "maneuver_family": "straight_level",
+    "measured_values": {
+      "actual_kcas_mean": 334.90060536253173,
+      "alpha_deg_mean": 1.2203725200922517,
+      "altitude_drift_m_max_abs": 1.5599037371188729,
+      "beta_deg_mean": 5.197578246713621e-07,
+      "dynamic_pressure_pa_mean": 18114.85493933711,
+      "elevator_pos_norm_mean": -0.04593486719527199,
+      "gamma_deg_mean": 0.025364255729565955,
+      "left_aileron_pos_norm_mean": 1.3387408989107493e-08,
+      "load_factor_nz_mean": 0.996687183523001,
+      "mach_mean": 0.520688389167975,
+      "maximum_cas_tracking_error_relative": 0.0005487357522773986,
+      "maximum_control_surface_usage_norm": 0.045935685587090616,
+      "maximum_gamma_tracking_error_deg": 0.03175037307648631,
+      "p_deg_s_mean": -8.1450271906042e-07,
+      "q_deg_s_mean": -0.0006734511287141992,
+      "r_deg_s_mean": 4.510700228846521e-07,
+      "right_aileron_pos_norm_mean": 0.0,
+      "rudder_pos_norm_mean": 8.239760127665194e-08,
+      "speed_drift_kcas_max_abs": 0.1565252066354219,
+      "tas_mps_mean": 176.1830260923363,
+      "throttle_cmd_norm_mean": 0.24145272733294312,
+      "throttle_pos_norm_mean": 0.48290545466588625
+    },
+    "provenance_id": "j3.1-7761df15481027018aac",
+    "raw_capability": null,
+    "requested_target": {
+      "gamma_deg": 0.0,
+      "speed_type": "KCAS",
+      "speed_value": 335.0
+    },
+    "status": "VALID"
+  },
+  {
+    "altitude_msl_m": 1000.0,
+    "dataset_origin": "j3_1_new_measurement",
+    "derated_capability": null,
+    "diagnostics": {
+      "afterburner_observed": false,
+      "all_checks_passed": true,
+      "control_surface_saturation_observed": false,
+      "repeatability": {
+        "metrics": {
+          "actual_altitude_msl_m": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 1000.976976159035,
+            "passed": true,
+            "values": [
+              1000.976976159035,
+              1000.976976159035,
+              1000.976976159035
+            ]
+          },
+          "actual_kcas": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 334.89876386672097,
+            "passed": true,
+            "values": [
+              334.89876386672097,
+              334.89876386672097,
+              334.89876386672097
+            ]
+          },
+          "alpha_deg": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 1.2309809334463828,
+            "passed": true,
+            "values": [
+              1.2309809334463828,
+              1.2309809334463828,
+              1.2309809334463828
+            ]
+          },
+          "load_factor_nz": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.9965182901236752,
+            "passed": true,
+            "values": [
+              0.9965182901236752,
+              0.9965182901236752,
+              0.9965182901236752
+            ]
+          },
+          "mach": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.5355822029353708,
+            "passed": true,
+            "values": [
+              0.5355822029353708,
+              0.5355822029353708,
+              0.5355822029353708
+            ]
+          },
+          "tas_mps": {
+            "maximum_relative_deviation": 1.5773530810784117e-16,
+            "mean": 180.18609638732582,
+            "passed": true,
+            "values": [
+              180.1860963873258,
+              180.1860963873258,
+              180.1860963873258
+            ]
+          },
+          "throttle_pos_norm": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.49525675268044456,
+            "passed": true,
+            "values": [
+              0.49525675268044456,
+              0.49525675268044456,
+              0.49525675268044456
+            ]
+          },
+          "weight_lbs": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 20630.0,
+            "passed": true,
+            "values": [
+              20630.0,
+              20630.0,
+              20630.0
+            ]
+          }
+        },
+        "passed": true,
+        "tolerance_relative": 0.01
+      },
+      "run_ids": [
+        "j3.1-main-335kcas-1000m-r1",
+        "j3.1-main-335kcas-1000m-r2",
+        "j3.1-main-335kcas-1000m-r3"
+      ],
+      "run_statuses": [
+        "VALID",
+        "VALID",
+        "VALID"
+      ],
+      "trim_success_count": 3
+    },
+    "maneuver_family": "straight_level",
+    "measured_values": {
+      "actual_kcas_mean": 334.89876386672097,
+      "alpha_deg_mean": 1.2309809334463828,
+      "altitude_drift_m_max_abs": 1.638184914591875,
+      "beta_deg_mean": 5.269367069196204e-07,
+      "dynamic_pressure_pa_mean": 18044.553696255305,
+      "elevator_pos_norm_mean": -0.045956532851441884,
+      "gamma_deg_mean": 0.0260453617459112,
+      "left_aileron_pos_norm_mean": 1.3705922119155146e-08,
+      "load_factor_nz_mean": 0.9965182901236752,
+      "mach_mean": 0.5355822029353708,
+      "maximum_cas_tracking_error_relative": 0.0005607423468954473,
+      "maximum_control_surface_usage_norm": 0.04595739757960354,
+      "maximum_gamma_tracking_error_deg": 0.0326961086696542,
+      "p_deg_s_mean": -8.335190240122284e-07,
+      "q_deg_s_mean": -0.0006791277251330467,
+      "r_deg_s_mean": 4.5776592884278354e-07,
+      "right_aileron_pos_norm_mean": 0.0,
+      "rudder_pos_norm_mean": 8.361584203139302e-08,
+      "speed_drift_kcas_max_abs": 0.160187450147248,
+      "tas_mps_mean": 180.18609638732582,
+      "throttle_cmd_norm_mean": 0.24762837634022228,
+      "throttle_pos_norm_mean": 0.49525675268044456
+    },
+    "provenance_id": "j3.1-7761df15481027018aac",
+    "raw_capability": null,
+    "requested_target": {
+      "gamma_deg": 0.0,
+      "speed_type": "KCAS",
+      "speed_value": 335.0
+    },
+    "status": "VALID"
+  },
+  {
+    "altitude_msl_m": 0.0,
+    "dataset_origin": "j3_1_new_measurement",
+    "derated_capability": null,
+    "diagnostics": {
+      "afterburner_observed": false,
+      "all_checks_passed": true,
+      "control_surface_saturation_observed": false,
+      "repeatability": {
+        "metrics": {
+          "actual_altitude_msl_m": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 1.0824352468615632,
+            "passed": true,
+            "values": [
+              1.0824352468615632,
+              1.0824352468615632,
+              1.0824352468615632
+            ]
+          },
+          "actual_kcas": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 364.8883373504189,
+            "passed": true,
+            "values": [
+              364.8883373504189,
+              364.8883373504189,
+              364.8883373504189
+            ]
+          },
+          "alpha_deg": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.7634487888434133,
+            "passed": true,
+            "values": [
+              0.7634487888434133,
+              0.7634487888434133,
+              0.7634487888434133
+            ]
+          },
+          "load_factor_nz": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.9969924528178075,
+            "passed": true,
+            "values": [
+              0.9969924528178075,
+              0.9969924528178075,
+              0.9969924528178075
+            ]
+          },
+          "mach": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.5516590019646751,
+            "passed": true,
+            "values": [
+              0.5516590019646751,
+              0.5516590019646751,
+              0.5516590019646751
+            ]
+          },
+          "tas_mps": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 187.72369205226957,
+            "passed": true,
+            "values": [
+              187.72369205226957,
+              187.72369205226957,
+              187.72369205226957
+            ]
+          },
+          "throttle_pos_norm": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.5047655277875365,
+            "passed": true,
+            "values": [
+              0.5047655277875365,
+              0.5047655277875365,
+              0.5047655277875365
+            ]
+          },
+          "weight_lbs": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 20630.0,
+            "passed": true,
+            "values": [
+              20630.0,
+              20630.0,
+              20630.0
+            ]
+          }
+        },
+        "passed": true,
+        "tolerance_relative": 0.01
+      },
+      "run_ids": [
+        "j3.1-main-365kcas-0m-r1",
+        "j3.1-main-365kcas-0m-r2",
+        "j3.1-main-365kcas-0m-r3"
+      ],
+      "run_statuses": [
+        "VALID",
+        "VALID",
+        "VALID"
+      ],
+      "trim_success_count": 3
+    },
+    "maneuver_family": "straight_level",
+    "measured_values": {
+      "actual_kcas_mean": 364.8883373504189,
+      "alpha_deg_mean": 0.7634487888434133,
+      "altitude_drift_m_max_abs": 1.84458617759943,
+      "beta_deg_mean": 4.787397019213901e-07,
+      "dynamic_pressure_pa_mean": 21582.546392528566,
+      "elevator_pos_norm_mean": -0.04506046578209815,
+      "gamma_deg_mean": 0.028149583531842087,
+      "left_aileron_pos_norm_mean": 1.1473805721791608e-08,
+      "load_factor_nz_mean": 0.9969924528178075,
+      "mach_mean": 0.5516590019646751,
+      "maximum_cas_tracking_error_relative": 0.0005736827795175648,
+      "maximum_control_surface_usage_norm": 0.04506126667110697,
+      "maximum_gamma_tracking_error_deg": 0.03650672006880217,
+      "p_deg_s_mean": -7.061758145225002e-07,
+      "q_deg_s_mean": -0.000603687864345165,
+      "r_deg_s_mean": 4.1280948429243705e-07,
+      "right_aileron_pos_norm_mean": 0.0,
+      "rudder_pos_norm_mean": 7.551948894301906e-08,
+      "speed_drift_kcas_max_abs": 0.17924823763695485,
+      "tas_mps_mean": 187.72369205226957,
+      "throttle_cmd_norm_mean": 0.25238276389376824,
+      "throttle_pos_norm_mean": 0.5047655277875365
+    },
+    "provenance_id": "j3.1-7761df15481027018aac",
+    "raw_capability": null,
+    "requested_target": {
+      "gamma_deg": 0.0,
+      "speed_type": "KCAS",
+      "speed_value": 365.0
+    },
+    "status": "VALID"
+  },
+  {
+    "altitude_msl_m": 500.0,
+    "dataset_origin": "j3_1_new_measurement",
+    "derated_capability": null,
+    "diagnostics": {
+      "afterburner_observed": false,
+      "all_checks_passed": true,
+      "control_surface_saturation_observed": false,
+      "repeatability": {
+        "metrics": {
+          "actual_altitude_msl_m": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 501.13306305332156,
+            "passed": true,
+            "values": [
+              501.13306305332156,
+              501.13306305332156,
+              501.13306305332156
+            ]
+          },
+          "actual_kcas": {
+            "maximum_relative_deviation": 1.5578393865758144e-16,
+            "mean": 364.8862607444523,
+            "passed": true,
+            "values": [
+              364.8862607444522,
+              364.8862607444522,
+              364.8862607444522
+            ]
+          },
+          "alpha_deg": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.7732875332352224,
+            "passed": true,
+            "values": [
+              0.7732875332352224,
+              0.7732875332352224,
+              0.7732875332352224
+            ]
+          },
+          "load_factor_nz": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.9968253214136972,
+            "passed": true,
+            "values": [
+              0.9968253214136972,
+              0.9968253214136972,
+              0.9968253214136972
+            ]
+          },
+          "mach": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.567138768466729,
+            "passed": true,
+            "values": [
+              0.567138768466729,
+              0.567138768466729,
+              0.567138768466729
+            ]
+          },
+          "tas_mps": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 191.89979491247038,
+            "passed": true,
+            "values": [
+              191.89979491247038,
+              191.89979491247038,
+              191.89979491247038
+            ]
+          },
+          "throttle_pos_norm": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.516489189016102,
+            "passed": true,
+            "values": [
+              0.516489189016102,
+              0.516489189016102,
+              0.516489189016102
+            ]
+          },
+          "weight_lbs": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 20630.0,
+            "passed": true,
+            "values": [
+              20630.0,
+              20630.0,
+              20630.0
+            ]
+          }
+        },
+        "passed": true,
+        "tolerance_relative": 0.01
+      },
+      "run_ids": [
+        "j3.1-main-365kcas-500m-r1",
+        "j3.1-main-365kcas-500m-r2",
+        "j3.1-main-365kcas-500m-r3"
+      ],
+      "run_statuses": [
+        "VALID",
+        "VALID",
+        "VALID"
+      ],
+      "trim_success_count": 3
+    },
+    "maneuver_family": "straight_level",
+    "measured_values": {
+      "actual_kcas_mean": 364.8862607444523,
+      "alpha_deg_mean": 0.7732875332352224,
+      "altitude_drift_m_max_abs": 1.9330792169898814,
+      "beta_deg_mean": 4.861483024277274e-07,
+      "dynamic_pressure_pa_mean": 21490.537026821297,
+      "elevator_pos_norm_mean": -0.04507813418293057,
+      "gamma_deg_mean": 0.02885808792740231,
+      "left_aileron_pos_norm_mean": 1.1762520118259201e-08,
+      "load_factor_nz_mean": 0.9968253214136972,
+      "mach_mean": 0.567138768466729,
+      "maximum_cas_tracking_error_relative": 0.0005860077786051017,
+      "maximum_control_surface_usage_norm": 0.0450789728115109,
+      "maximum_gamma_tracking_error_deg": 0.03749709529564579,
+      "p_deg_s_mean": -7.233389362916268e-07,
+      "q_deg_s_mean": -0.0006094110275574721,
+      "r_deg_s_mean": 4.196244763751122e-07,
+      "right_aileron_pos_norm_mean": 0.0,
+      "rudder_pos_norm_mean": 7.675524001335392e-08,
+      "speed_drift_kcas_max_abs": 0.18332961661667468,
+      "tas_mps_mean": 191.89979491247038,
+      "throttle_cmd_norm_mean": 0.258244594508051,
+      "throttle_pos_norm_mean": 0.516489189016102
+    },
+    "provenance_id": "j3.1-7761df15481027018aac",
+    "raw_capability": null,
+    "requested_target": {
+      "gamma_deg": 0.0,
+      "speed_type": "KCAS",
+      "speed_value": 365.0
+    },
+    "status": "VALID"
+  },
+  {
+    "altitude_msl_m": 1000.0,
+    "dataset_origin": "j3_1_new_measurement",
+    "derated_capability": null,
+    "diagnostics": {
+      "afterburner_observed": false,
+      "all_checks_passed": true,
+      "control_surface_saturation_observed": false,
+      "repeatability": {
+        "metrics": {
+          "actual_altitude_msl_m": {
+            "maximum_relative_deviation": 1.1355212811363545e-16,
+            "mean": 1001.1863239396604,
+            "passed": true,
+            "values": [
+              1001.1863239396605,
+              1001.1863239396605,
+              1001.1863239396605
+            ]
+          },
+          "actual_kcas": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 364.8840888186314,
+            "passed": true,
+            "values": [
+              364.8840888186314,
+              364.8840888186314,
+              364.8840888186314
+            ]
+          },
+          "alpha_deg": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.7838222029939765,
+            "passed": true,
+            "values": [
+              0.7838222029939765,
+              0.7838222029939765,
+              0.7838222029939765
+            ]
+          },
+          "load_factor_nz": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.9966576906791477,
+            "passed": true,
+            "values": [
+              0.9966576906791477,
+              0.9966576906791477,
+              0.9966576906791477
+            ]
+          },
+          "mach": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.5831702639650225,
+            "passed": true,
+            "values": [
+              0.5831702639650225,
+              0.5831702639650225,
+              0.5831702639650225
+            ]
+          },
+          "tas_mps": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 196.19568960711317,
+            "passed": true,
+            "values": [
+              196.19568960711317,
+              196.19568960711317,
+              196.19568960711317
+            ]
+          },
+          "throttle_pos_norm": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.5284424240554386,
+            "passed": true,
+            "values": [
+              0.5284424240554386,
+              0.5284424240554386,
+              0.5284424240554386
+            ]
+          },
+          "weight_lbs": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 20630.0,
+            "passed": true,
+            "values": [
+              20630.0,
+              20630.0,
+              20630.0
+            ]
+          }
+        },
+        "passed": true,
+        "tolerance_relative": 0.01
+      },
+      "run_ids": [
+        "j3.1-main-365kcas-1000m-r1",
+        "j3.1-main-365kcas-1000m-r2",
+        "j3.1-main-365kcas-1000m-r3"
+      ],
+      "run_statuses": [
+        "VALID",
+        "VALID",
+        "VALID"
+      ],
+      "trim_success_count": 3
+    },
+    "maneuver_family": "straight_level",
+    "measured_values": {
+      "actual_kcas_mean": 364.8840888186314,
+      "alpha_deg_mean": 0.7838222029939765,
+      "altitude_drift_m_max_abs": 2.0262043092191107,
+      "beta_deg_mean": 4.937980935584558e-07,
+      "dynamic_pressure_pa_mean": 21393.093533255753,
+      "elevator_pos_norm_mean": -0.045097105724612695,
+      "gamma_deg_mean": 0.029586015033967895,
+      "left_aileron_pos_norm_mean": 1.2062272296248423e-08,
+      "load_factor_nz_mean": 0.9966576906791477,
+      "mach_mean": 0.5831702639650225,
+      "maximum_cas_tracking_error_relative": 0.0005988697345272046,
+      "maximum_control_surface_usage_norm": 0.04509798086300463,
+      "maximum_gamma_tracking_error_deg": 0.03851424425681107,
+      "p_deg_s_mean": -7.411548023832869e-07,
+      "q_deg_s_mean": -0.0006153526674568558,
+      "r_deg_s_mean": 4.266597263425786e-07,
+      "right_aileron_pos_norm_mean": 0.0,
+      "rudder_pos_norm_mean": 7.803107406198233e-08,
+      "speed_drift_kcas_max_abs": 0.18758470231290403,
+      "tas_mps_mean": 196.19568960711317,
+      "throttle_cmd_norm_mean": 0.2642212120277193,
+      "throttle_pos_norm_mean": 0.5284424240554386
+    },
+    "provenance_id": "j3.1-7761df15481027018aac",
+    "raw_capability": null,
+    "requested_target": {
+      "gamma_deg": 0.0,
+      "speed_type": "KCAS",
+      "speed_value": 365.0
+    },
+    "status": "VALID"
+  },
+  {
+    "altitude_msl_m": 0.0,
+    "dataset_origin": "j3_1_new_measurement",
+    "derated_capability": null,
+    "diagnostics": {
+      "afterburner_observed": false,
+      "all_checks_passed": true,
+      "control_surface_saturation_observed": false,
+      "repeatability": {
+        "metrics": {
+          "actual_altitude_msl_m": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 1.2916999833534084,
+            "passed": true,
+            "values": [
+              1.2916999833534084,
+              1.2916999833534084,
+              1.2916999833534084
+            ]
+          },
+          "actual_kcas": {
+            "maximum_relative_deviation": 1.4395332565763724e-16,
+            "mean": 394.87395377025297,
+            "passed": true,
+            "values": [
+              394.873953770253,
+              394.873953770253,
+              394.873953770253
+            ]
+          },
+          "alpha_deg": {
+            "maximum_relative_deviation": 1.3410110971504825e-16,
+            "mean": 0.41394997661998173,
+            "passed": true,
+            "values": [
+              0.4139499766199818,
+              0.4139499766199818,
+              0.4139499766199818
+            ]
+          },
+          "load_factor_nz": {
+            "maximum_relative_deviation": 1.1134988659631824e-16,
+            "mean": 0.9970580649534903,
+            "passed": true,
+            "values": [
+              0.9970580649534904,
+              0.9970580649534904,
+              0.9970580649534904
+            ]
+          },
+          "mach": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.5969993654164814,
+            "passed": true,
+            "values": [
+              0.5969993654164814,
+              0.5969993654164814,
+              0.5969993654164814
+            ]
+          },
+          "tas_mps": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 203.15205611393358,
+            "passed": true,
+            "values": [
+              203.15205611393358,
+              203.15205611393358,
+              203.15205611393358
+            ]
+          },
+          "throttle_pos_norm": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.5365634280432503,
+            "passed": true,
+            "values": [
+              0.5365634280432503,
+              0.5365634280432503,
+              0.5365634280432503
+            ]
+          },
+          "weight_lbs": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 20630.0,
+            "passed": true,
+            "values": [
+              20630.0,
+              20630.0,
+              20630.0
+            ]
+          }
+        },
+        "passed": true,
+        "tolerance_relative": 0.01
+      },
+      "run_ids": [
+        "j3.1-main-395kcas-0m-r1",
+        "j3.1-main-395kcas-0m-r2",
+        "j3.1-main-395kcas-0m-r3"
+      ],
+      "run_statuses": [
+        "VALID",
+        "VALID",
+        "VALID"
+      ],
+      "trim_success_count": 3
+    },
+    "maneuver_family": "straight_level",
+    "measured_values": {
+      "actual_kcas_mean": 394.87395377025297,
+      "alpha_deg_mean": 0.41394997661998173,
+      "altitude_drift_m_max_abs": 2.232737572708726,
+      "beta_deg_mean": 4.4471520477299284e-07,
+      "dynamic_pressure_pa_mean": 25275.411219184814,
+      "elevator_pos_norm_mean": -0.0444674245267068,
+      "gamma_deg_mean": 0.03148557854928033,
+      "left_aileron_pos_norm_mean": 1.0092816894220268e-08,
+      "load_factor_nz_mean": 0.9970580649534903,
+      "mach_mean": 0.5969993654164814,
+      "maximum_cas_tracking_error_relative": 0.0006060395208617339,
+      "maximum_control_surface_usage_norm": 0.04446824693659068,
+      "maximum_gamma_tracking_error_deg": 0.04196111550830735,
+      "p_deg_s_mean": -6.310970681985494e-07,
+      "q_deg_s_mean": -0.0005493532108087975,
+      "r_deg_s_mean": 3.8135947808447913e-07,
+      "right_aileron_pos_norm_mean": 0.0,
+      "rudder_pos_norm_mean": 6.994350183543573e-08,
+      "speed_drift_kcas_max_abs": 0.20592845096950896,
+      "tas_mps_mean": 203.15205611393358,
+      "throttle_cmd_norm_mean": 0.26828171402162515,
+      "throttle_pos_norm_mean": 0.5365634280432503
+    },
+    "provenance_id": "j3.1-7761df15481027018aac",
+    "raw_capability": null,
+    "requested_target": {
+      "gamma_deg": 0.0,
+      "speed_type": "KCAS",
+      "speed_value": 395.0
+    },
+    "status": "VALID"
+  },
+  {
+    "altitude_msl_m": 500.0,
+    "dataset_origin": "j3_1_new_measurement",
+    "derated_capability": null,
+    "diagnostics": {
+      "afterburner_observed": false,
+      "all_checks_passed": true,
+      "control_surface_saturation_observed": false,
+      "repeatability": {
+        "metrics": {
+          "actual_altitude_msl_m": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 501.36326528014564,
+            "passed": true,
+            "values": [
+              501.36326528014564,
+              501.36326528014564,
+              501.36326528014564
+            ]
+          },
+          "actual_kcas": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 394.8698111913186,
+            "passed": true,
+            "values": [
+              394.8698111913186,
+              394.8698111913186,
+              394.8698111913186
+            ]
+          },
+          "alpha_deg": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.42398359357104604,
+            "passed": true,
+            "values": [
+              0.42398359357104604,
+              0.42398359357104604,
+              0.42398359357104604
+            ]
+          },
+          "load_factor_nz": {
+            "maximum_relative_deviation": 1.113691574639589e-16,
+            "mean": 0.9968855380668972,
+            "passed": true,
+            "values": [
+              0.9968855380668973,
+              0.9968855380668973,
+              0.9968855380668973
+            ]
+          },
+          "mach": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.6135484619821364,
+            "passed": true,
+            "values": [
+              0.6135484619821364,
+              0.6135484619821364,
+              0.6135484619821364
+            ]
+          },
+          "tas_mps": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 207.60265642268857,
+            "passed": true,
+            "values": [
+              207.60265642268857,
+              207.60265642268857,
+              207.60265642268857
+            ]
+          },
+          "throttle_pos_norm": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.549197640245196,
+            "passed": true,
+            "values": [
+              0.549197640245196,
+              0.549197640245196,
+              0.549197640245196
+            ]
+          },
+          "weight_lbs": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 20630.0,
+            "passed": true,
+            "values": [
+              20630.0,
+              20630.0,
+              20630.0
+            ]
+          }
+        },
+        "passed": true,
+        "tolerance_relative": 0.01
+      },
+      "run_ids": [
+        "j3.1-main-395kcas-500m-r1",
+        "j3.1-main-395kcas-500m-r2",
+        "j3.1-main-395kcas-500m-r3"
+      ],
+      "run_statuses": [
+        "VALID",
+        "VALID",
+        "VALID"
+      ],
+      "trim_success_count": 3
+    },
+    "maneuver_family": "straight_level",
+    "measured_values": {
+      "actual_kcas_mean": 394.8698111913186,
+      "alpha_deg_mean": 0.42398359357104604,
+      "altitude_drift_m_max_abs": 2.3472996411055647,
+      "beta_deg_mean": 4.828794387428873e-07,
+      "dynamic_pressure_pa_mean": 25150.947773584,
+      "elevator_pos_norm_mean": -0.04427262924600137,
+      "gamma_deg_mean": 0.0323914436828878,
+      "left_aileron_pos_norm_mean": 8.488901759761487e-09,
+      "load_factor_nz_mean": 0.9968855380668972,
+      "mach_mean": 0.6135484619821364,
+      "maximum_cas_tracking_error_relative": 0.0006194745535053756,
+      "maximum_control_surface_usage_norm": 0.04427513799343279,
+      "maximum_gamma_tracking_error_deg": 0.04291562271400406,
+      "p_deg_s_mean": -5.375500780573449e-07,
+      "q_deg_s_mean": -0.000574853320063797,
+      "r_deg_s_mean": 3.956565370867238e-07,
+      "right_aileron_pos_norm_mean": 0.0,
+      "rudder_pos_norm_mean": 7.243632248847561e-08,
+      "speed_drift_kcas_max_abs": 0.20909591694299934,
+      "tas_mps_mean": 207.60265642268857,
+      "throttle_cmd_norm_mean": 0.274598820122598,
+      "throttle_pos_norm_mean": 0.549197640245196
+    },
+    "provenance_id": "j3.1-7761df15481027018aac",
+    "raw_capability": null,
+    "requested_target": {
+      "gamma_deg": 0.0,
+      "speed_type": "KCAS",
+      "speed_value": 395.0
+    },
+    "status": "VALID"
+  },
+  {
+    "altitude_msl_m": 1000.0,
+    "dataset_origin": "j3_1_new_measurement",
+    "derated_capability": null,
+    "diagnostics": {
+      "afterburner_observed": false,
+      "all_checks_passed": true,
+      "control_surface_saturation_observed": false,
+      "repeatability": {
+        "metrics": {
+          "actual_altitude_msl_m": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 1001.425168488417,
+            "passed": true,
+            "values": [
+              1001.425168488417,
+              1001.425168488417,
+              1001.425168488417
+            ]
+          },
+          "actual_kcas": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 394.86728415655097,
+            "passed": true,
+            "values": [
+              394.86728415655097,
+              394.86728415655097,
+              394.86728415655097
+            ]
+          },
+          "alpha_deg": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.43478118925222725,
+            "passed": true,
+            "values": [
+              0.43478118925222725,
+              0.43478118925222725,
+              0.43478118925222725
+            ]
+          },
+          "load_factor_nz": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.9967209442768646,
+            "passed": true,
+            "values": [
+              0.9967209442768646,
+              0.9967209442768646,
+              0.9967209442768646
+            ]
+          },
+          "mach": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.630674660448206,
+            "passed": true,
+            "values": [
+              0.630674660448206,
+              0.630674660448206,
+              0.630674660448206
+            ]
+          },
+          "tas_mps": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 212.1769861517661,
+            "passed": true,
+            "values": [
+              212.1769861517661,
+              212.1769861517661,
+              212.1769861517661
+            ]
+          },
+          "throttle_pos_norm": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.5621794871960886,
+            "passed": true,
+            "values": [
+              0.5621794871960886,
+              0.5621794871960886,
+              0.5621794871960886
+            ]
+          },
+          "weight_lbs": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 20630.0,
+            "passed": true,
+            "values": [
+              20630.0,
+              20630.0,
+              20630.0
+            ]
+          }
+        },
+        "passed": true,
+        "tolerance_relative": 0.01
+      },
+      "run_ids": [
+        "j3.1-main-395kcas-1000m-r1",
+        "j3.1-main-395kcas-1000m-r2",
+        "j3.1-main-395kcas-1000m-r3"
+      ],
+      "run_statuses": [
+        "VALID",
+        "VALID",
+        "VALID"
+      ],
+      "trim_success_count": 3
+    },
+    "maneuver_family": "straight_level",
+    "measured_values": {
+      "actual_kcas_mean": 394.86728415655097,
+      "alpha_deg_mean": 0.43478118925222725,
+      "altitude_drift_m_max_abs": 2.458227803859131,
+      "beta_deg_mean": 5.44454782019958e-07,
+      "dynamic_pressure_pa_mean": 25019.638810395074,
+      "elevator_pos_norm_mean": -0.0440112231404969,
+      "gamma_deg_mean": 0.033190896269616126,
+      "left_aileron_pos_norm_mean": 6.0342164994526265e-09,
+      "load_factor_nz_mean": 0.9967209442768646,
+      "mach_mean": 0.630674660448206,
+      "maximum_cas_tracking_error_relative": 0.000634197627242498,
+      "maximum_control_surface_usage_norm": 0.04401339208282984,
+      "maximum_gamma_tracking_error_deg": 0.04410710070681848,
+      "p_deg_s_mean": -3.9036246592572406e-07,
+      "q_deg_s_mean": -0.0005743443572740426,
+      "r_deg_s_mean": 4.188552011207428e-07,
+      "right_aileron_pos_norm_mean": 0.0,
+      "rudder_pos_norm_mean": 7.650505099715133e-08,
+      "speed_drift_kcas_max_abs": 0.21451425769816979,
+      "tas_mps_mean": 212.1769861517661,
+      "throttle_cmd_norm_mean": 0.2810897435980443,
+      "throttle_pos_norm_mean": 0.5621794871960886
+    },
+    "provenance_id": "j3.1-7761df15481027018aac",
+    "raw_capability": null,
+    "requested_target": {
+      "gamma_deg": 0.0,
+      "speed_type": "KCAS",
+      "speed_value": 395.0
+    },
+    "status": "VALID"
+  }
+]

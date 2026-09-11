@@ -1,0 +1,66 @@
+======================================================================
+STEP 3D -- small real-terrain cache-backed sparse/lazy integration
+======================================================================
+
+DISCLOSURE: primitives reused here (build_primitive_set) are the SAME placeholder,
+z_step-derived geometry used throughout this project -- NOT real aircraft performance
+data. Heading is OFF. No CLASS-C motion events. 60m XY remains a PROVISIONAL geometric
+planning candidate (Step 2F), not an aircraft-aware final decision.
+
+--- 1. TEST ALANI ---
+  reused Step 1B window: fine rows[146,186) cols[146,186) -> 60m coarse rows[73,93) cols[73,93) (20x20 coarse cells)
+  selection criterion (unchanged from Step 1B): 40x40 fine-cell window centered on the ROI's own documented max-elevation pixel, chosen for real relief -- NOT re-picked now for this task.
+
+--- 2/3. TERRAIN CACHE (Step 3C, cache-backed, no raw DEM read) ---
+  cache loaded from outputs/terrain_cache in 0.0070s, available_factors=[2, 3]
+  60m coarse TerrainQuery built from cache max_elevation_f2 array (shape=(166, 166)) -- zero fresh build_coarse_dem() call
+
+--- 4. MISSION SETUP (3 missions, criteria fixed before any search) ---
+  [A_easy_open] criterion: two LOWEST of the window's 4 corners (avoids the peak by construction)
+    start_rc=(73, 73) start_z=3260.0m   goal_rc=(92, 73) goal_z=3340.0m
+  [B_relief_affected] criterion: lowest corner -> highest corner (diagonal, passes near the window's own peak)
+    start_rc=(73, 73) start_z=3260.0m   goal_rc=(92, 92) goal_z=3580.0m
+  [C_z_matters] criterion: single lowest-elevation cell -> single highest-elevation cell in the WHOLE window (objective extremes, not hand-picked)
+    start_rc=(np.int64(73), np.int64(74)) start_z=3240.0m   goal_rc=(np.int64(83), np.int64(83)) goal_z=3820.0m
+
+--- 5/9. DENSE eager baseline (whole 60m window, whole 20m ladder) ---
+  possible_representation_states (dense, whole window)=48381  cells=400  mean_per_cell=121.0  max_per_cell=139
+
+--- MISSION [A_easy_open] ---
+  found_goal=False  path_len=None
+  instantiated=48370  expanded=48370  generated=1160880  bound_rejected=12466  primitive_eval_calls=1002308  primitive_rejected=760
+  search_time_s=252.4373
+  reduction factor (whole-window dense / this mission's lazy instantiated) = 1.0x
+  independent safety validation: {'checked': False}
+  validation_time_s=0.0000
+  CandidateZGenerator.floor_for(): call_count=1014774  mean=1.873us  p95=2.500us  raw_dem_reads(must be 0)=0
+
+--- MISSION [B_relief_affected] ---
+  found_goal=True  path_len=24
+  instantiated=641  expanded=297  generated=7104  bound_rejected=2029  primitive_eval_calls=3029  primitive_rejected=132
+  search_time_s=0.8266
+  reduction factor (whole-window dense / this mission's lazy instantiated) = 75.5x
+  independent safety validation: {'checked': True, 'violations': [], 'min_agl': 101.091796875, 'max_angle': 9.462322208025617, 'safe': True}
+  validation_time_s=0.0071
+  CandidateZGenerator.floor_for(): call_count=5058  mean=1.721us  p95=2.900us  raw_dem_reads(must be 0)=0
+
+--- MISSION [C_z_matters] ---
+  found_goal=True  path_len=31
+  instantiated=3535  expanded=2519  generated=60432  bound_rejected=8055  primitive_eval_calls=42593  primitive_rejected=581
+  search_time_s=10.8854
+  reduction factor (whole-window dense / this mission's lazy instantiated) = 13.7x
+  independent safety validation: {'checked': True, 'violations': [], 'min_agl': 100.037353515625, 'max_angle': 9.462322208025617, 'safe': True}
+  validation_time_s=0.0077
+  CandidateZGenerator.floor_for(): call_count=50648  mean=1.805us  p95=2.500us  raw_dem_reads(must be 0)=0
+
+--- 8. PRESERVATION / P3-delta_z_loss-P4 OBSERVATIONS ---
+  P3 (state existence loss): NOT POSSIBLE by construction in this integration -- CandidateZGenerator.floor_for() is used ONLY as a cheap bound check (reject if outside [floor,ceiling]), it never restricts movement to a small discrete event set. The lazy search can reach ANY 20m-ladder z a primitive's fixed dz produces, exactly like the 'dense' system would -- so lazy and dense/eager, if both run as a SEARCH, would find the IDENTICAL path (same primitives, same evaluate_primitive checks). The dense baseline measured above is a MATERIALIZATION cost comparison (would-be state count), not an alternative search -- so no path-quality delta_z_loss exists between dense-as-search and sparse/lazy-as-search here; this matches Step 3B's own finding, now confirmed on real terrain.
+  delta_z_loss: 0 for all 3 missions (see reasoning above) -- explicitly NOT claiming this generalizes to a genuinely event-RESTRICTED (not just bound-checked) sparse system, which was never built/tested here.
+  P4 (motion/edge loss): none observed -- independent validation reuses the SAME evaluate_primitive the search itself called, so by construction they agree; the only real P4-relevant signal here is primitive_eval_calls saved by the cheap floor bound-check (bound_rejected counts above), i.e. pre-filter efficiency, not a safety loss.
+
+======================================================================
+STEP 3D SUMMARY
+======================================================================
+  [A_easy_open] found=False  safe=None  instantiated=48370  dense_whole_window=48381
+  [B_relief_affected] found=True  safe=True  instantiated=641  dense_whole_window=48381
+  [C_z_matters] found=True  safe=True  instantiated=3535  dense_whole_window=48381

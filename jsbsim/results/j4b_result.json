@@ -1,0 +1,32 @@
+{
+  "additional_boundary_repeat_runs": 104,
+  "altitude_count": 13,
+  "boundary_count": 26,
+  "boundary_critical_point_count": 52,
+  "bracketed_boundary_count": 26,
+  "j4b_pass": true,
+  "j5_blocker": null,
+  "parent_j4a_provenance_id": "j4a-2342f25aec9f6ff3314c",
+  "provenance_id": "j4b-9fa3129fabfcda51c7a7",
+  "run_count": 385,
+  "runtime_wall_s": 43.50485109999863,
+  "scope_guards": {
+    "coupled_maneuvers": false,
+    "derating": false,
+    "full_main_altitude_grid": true,
+    "lookup_generation": false,
+    "macro_primitives": false,
+    "planner_integration": false,
+    "speed_added_to_planner_state": false,
+    "straight_climb_descent_capability_only": true,
+    "turn_characterization": false
+  },
+  "status_counts": {
+    "INFEASIBLE": 50,
+    "UNKNOWN": 0,
+    "VALID": 231
+  },
+  "tested_point_count": 281,
+  "unique_discovery_point_runs": 281,
+  "unknown_points": []
+}

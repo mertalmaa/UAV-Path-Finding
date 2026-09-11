@@ -1,0 +1,37 @@
+{
+  "altitude_gamma_hold": "gamma=0 PI elevator outer loop reused from J4B",
+  "anti_windup": "bounded_integrator_state_and_bounded_command",
+  "cas_throttle_controller": "same gains and dry command bounds as J4B",
+  "command_limits": {
+    "aileron_cmd_norm": [
+      -0.3,
+      0.3
+    ],
+    "elevator_cmd_norm": [
+      -0.3,
+      0.3
+    ],
+    "rudder_cmd_norm": [
+      -1.0,
+      1.0
+    ],
+    "throttle_cmd_norm": [
+      0.0,
+      0.5
+    ]
+  },
+  "direct_surface_position_commanded": false,
+  "fbw_override": 0.0,
+  "heading_rate_commanded": false,
+  "lateral_stick_equivalent_command": "fcs/aileron-cmd-norm",
+  "native_fcs_active": true,
+  "rudder_command_policy": "beta_zero_outer_loop_pilot_equivalent_command_then_native_yaw_fcs",
+  "rudder_managed_by_native_fcs": true,
+  "signal_chain": {
+    "cas": "target_305_KCAS -> J4B PI outer loop -> fcs/throttle-cmd-norm -> FCS throttle gain -> engine -> aircraft",
+    "coordination": "target_beta_0 -> PI outer loop -> fcs/rudder-cmd-norm -> native F-16 yaw-rate/yaw-load FCS -> rudder -> aircraft",
+    "level": "target_gamma_0 -> J4B PI outer loop -> fcs/elevator-cmd-norm -> native F-16 pitch FCS -> elevator -> aircraft",
+    "turn": "target_bank -> PI outer loop -> fcs/aileron-cmd-norm -> native F-16 roll-rate FCS -> ailerons/flaperons -> aircraft"
+  },
+  "turn_target_quantity": "bank_angle_deg"
+}

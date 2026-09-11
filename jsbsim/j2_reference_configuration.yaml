@@ -1,0 +1,81 @@
+schema_version: 1
+configuration_id: f16_j2_baseline_v1
+interpretation: prototype_characterization_context_not_real_f16_specification
+
+simulation:
+  timestep_s: 0.008333333333333333
+  trim_mode: full
+  replay_duration_s: 30.0
+  steady_measurement_window_s: 20.0
+  maximum_settling_time_s: 10.0
+  cold_start_repetitions: 3
+
+aircraft:
+  model: f16
+  expected_loaded_model_id: f16
+  expected_fdm_config_name: General Dynamics F-16A
+  expected_engine_model: F100-PW-229
+  expected_thruster_model: direct
+  expected_system_models: [pushback, hook]
+  expected_fcs_name: F-16 FC
+  fcs_mode: native
+  fbw_override: 0.0
+
+mass_and_fuel:
+  empty_weight_lbs: 17400.0
+  pilot_point_mass_lbs: 230.0
+  internal_tank_contents_lbs: [1500.0, 1500.0]
+  external_tank_contents_lbs: [0.0, 0.0]
+  expected_total_fuel_lbs: 3000.0
+  expected_total_weight_lbs: 20630.0
+  expected_total_mass_kg: 9357.610593
+  expected_cg_in: [-191.8917111003393, 0.0, -3.574406204556471]
+  freeze_fuel_during_replay: true
+
+configuration:
+  landing_gear_command_norm: 0.0
+  landing_gear_position_norm: 0.0
+  speedbrake_command_norm: 0.0
+  expected_speedbrake_position_norm: 0.0
+  external_stores: none
+  afterburner_allowed: false
+  afterburner_off_max_throttle_position_norm: 1.0
+
+environment:
+  atmosphere_model: US_Standard
+  delta_temperature_R: 0.0
+  wind_north_fps: 0.0
+  wind_east_fps: 0.0
+  wind_down_fps: 0.0
+  gust_north_fps: 0.0
+  gust_east_fps: 0.0
+  gust_down_fps: 0.0
+  turbulence_type: 0
+
+sanity_condition:
+  speed_type: KCAS
+  speed_value: 335.0
+  role: sanity_only_not_nominal_speed_selection
+  source: upstream_jsbsim_f16_trim_regression_example
+  installed_package_contains_airborne_f16_trim_example: false
+  gamma_deg: 0.0
+  representative_altitudes_msl_m: [1500.0, 5000.0, 6000.0]
+
+acceptance:
+  cas_tracking_relative: 0.02
+  gamma_tracking_absolute_deg: 0.5
+  normalized_control_surface_usage_max: 0.90
+  key_metric_repeatability_relative_approx: 0.01
+  capability_overprediction_allowed: false
+  exact_trajectory_matching_required: false
+
+units_and_conventions:
+  logged_altitude: m_MSL_positive_up
+  jsbsim_altitude_input: ft_MSL_via_ic_h_sl_ft
+  requested_speed: knot_calibrated_airspeed_KCAS
+  logged_tas: m_per_s
+  angles: degrees
+  angular_rates: degrees_per_s_body_axes
+  gamma_sign: positive_climb_negative_descent
+  position_frame_for_cg: JSBSim_structural_frame_inches
+  atmosphere_wind_frame: local_NED_feet_per_second

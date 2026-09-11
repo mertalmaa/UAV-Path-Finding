@@ -1,0 +1,96 @@
+{
+  "base_model_provenance": {
+    "files": {
+      "aircraft_model": {
+        "path": "C:\\Users\\PC_10004_YD26\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\f16\\f16.xml",
+        "sha256": "78edd90534338204913c35ed50d7c222eecac1b83c454c73ad70bf6d4907ea2f"
+      },
+      "aircraft_reset_example": {
+        "path": "C:\\Users\\PC_10004_YD26\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\f16\\reset00.xml",
+        "sha256": "738c7d0f3495b072bcdb570c203c92cbd7ae5af3c4213f01183a46dd861a0c85"
+      },
+      "baseline_harness": {
+        "path": "C:\\Users\\PC_10004_YD26\\Desktop\\uav_pathfinder\\jsbsim\\j2_baseline_sanity.py",
+        "sha256": "d3ec410e45ea851e120ca16348f5a8457bcb4e3f1cda576ebc35ea9ed9bfe08f"
+      },
+      "engine_model": {
+        "path": "C:\\Users\\PC_10004_YD26\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\engine\\F100-PW-229.xml",
+        "sha256": "92fd101fdcc60dc8f41f449a297e134419ff062f5293c2e58678fd07d8127e69"
+      },
+      "package_binary": {
+        "path": "C:\\Users\\PC_10004_YD26\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\_jsbsim.pyd",
+        "sha256": "4ab248200b605f3b5c31f6bedea734840a459caa96df11eb72fd4426e985a177"
+      },
+      "package_init": {
+        "path": "C:\\Users\\PC_10004_YD26\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\__init__.py",
+        "sha256": "b363aeea5d58e3c334ca023a0299f24ed5aecb11d73b3b22146b1cbadaa484b4"
+      },
+      "reference_configuration": {
+        "path": "C:\\Users\\PC_10004_YD26\\Desktop\\uav_pathfinder\\jsbsim\\j2_reference_configuration.yaml",
+        "sha256": "7f781ea0b32b028b648d39bde81acb7b66029a891472ab3b28befb1dd01c9444"
+      },
+      "system_hook": {
+        "path": "C:\\Users\\PC_10004_YD26\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\f16\\Systems\\hook.xml",
+        "sha256": "9067ea104820d9d2d2f438b0361cbfdc9cea28a7969bd46eaa540fd7d9dfdd62"
+      },
+      "system_pushback": {
+        "path": "C:\\Users\\PC_10004_YD26\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\f16\\Systems\\pushback.xml",
+        "sha256": "a3c0e2fc8a494b18b7158718cfc96d51fb34aac440965c0c73a1b7f33bb1a64b"
+      },
+      "thruster_model": {
+        "path": "C:\\Users\\PC_10004_YD26\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\engine\\direct.xml",
+        "sha256": "f116b6f6d25d4b2b46c2f0faa713e85d0064db7a634105bc96e391fb52e4dde5"
+      }
+    },
+    "jsbsim_compiled_version": "1.3.1 [GitHub build 1837/commit 3b25f25e49b42d0489c04ac805674fc1450ca579] May 17 2026 14:28:34",
+    "jsbsim_default_root": "C:\\Users\\PC_10004_YD26\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim",
+    "jsbsim_git_commit": "3b25f25e49b42d0489c04ac805674fc1450ca579",
+    "jsbsim_github_build": 1837,
+    "jsbsim_python_package_version": "1.3.1",
+    "model_dependency_declarations": {
+      "engine_model": "F100-PW-229",
+      "fcs_name": "F-16 FC",
+      "fdm_config_name": "General Dynamics F-16A",
+      "system_models": [
+        "pushback",
+        "hook"
+      ],
+      "thruster_model": "direct"
+    },
+    "platform": "Windows-11-10.0.26200-SP0",
+    "provenance_id": "j2-c25dabb783f4ac1ffdef",
+    "python_executable": "C:\\Users\\PC_10004_YD26\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe",
+    "python_version": "3.14.7 (tags/v3.14.7:823f032, Aug  5 2026, 10:51:32) [MSC v.1944 64 bit (AMD64)]",
+    "timestep_s": 0.008333333333333333,
+    "units_and_conventions": {
+      "angles": "degrees",
+      "angular_rates": "degrees_per_s_body_axes",
+      "atmosphere_wind_frame": "local_NED_feet_per_second",
+      "gamma_sign": "positive_climb_negative_descent",
+      "jsbsim_altitude_input": "ft_MSL_via_ic_h_sl_ft",
+      "logged_altitude": "m_MSL_positive_up",
+      "logged_tas": "m_per_s",
+      "position_frame_for_cg": "JSBSim_structural_frame_inches",
+      "requested_speed": "knot_calibrated_airspeed_KCAS"
+    }
+  },
+  "candidate_rationale": {
+    "lower_endpoint_basis": "above_explicit_250_kcas_f16_tef_schedule_breakpoint",
+    "reference_seed_kcas": 335.0,
+    "spacing_kts": 30.0,
+    "upper_endpoint_basis": "approach_but_do_not_cross_mach_0_9_f16_schedule_breakpoint_at_6000m",
+    "values_are_real_f16_limits": false
+  },
+  "j3_files": {
+    "candidate_configuration": {
+      "path": "C:\\Users\\PC_10004_YD26\\Desktop\\uav_pathfinder\\jsbsim\\j3_candidate_configuration.yaml",
+      "sha256": "06d5a63a5c0fb59ef919067982fb277205de12cd9e10a0d8e10c426043962e4d"
+    },
+    "nominal_cas_harness": {
+      "path": "C:\\Users\\PC_10004_YD26\\Desktop\\uav_pathfinder\\jsbsim\\j3_nominal_cas_selection.py",
+      "sha256": "11403120e7041a298e7782afa552fbe70bd72d8e647dcab090788f920e503820"
+    }
+  },
+  "parent_j2_provenance_id": "j2-c25dabb783f4ac1ffdef",
+  "provenance_id": "j3-7d701f785aae566708fc"
+}

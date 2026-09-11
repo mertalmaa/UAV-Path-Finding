@@ -2544,6 +2544,476 @@ testi (bu problem çözülmeden yapılmayacak).
   `scripts/prototype_stage38_5_adaptive_fallback_test.py` (hepsi
   diagnostic-only). Bu stage burada DURDU.
 
+## Planlanan mimari yön değişikliği — Adaptive Resolution + Tube Emekliliği
+### (KARAR KAYDI — HENÜZ IMPLEMENTE EDİLMEDİ, `planner/` bu kayıt yazılırken hiç değiştirilmedi)
+
+**Bağlam:** Mentörün 8 maddelik geri bildirimi + bunun üzerine yapılan çok
+turlu mimari tartışma (bkz. sohbet geçmişi) + Stage 38.3-38.5'in ölçülmüş
+bulguları (dense fine grid + hard corridor + ARA*/epsilon tuning yaklaşımı
+state-explosion'a yatkın VE düşük-MSL topolojisini erken bulamıyor, CASE 1)
+birleştirilerek şu yön kararlaştırıldı. Bu bölüm bir **karar + yol haritası**
+kaydıdır, yukarıdaki Stage'lerin aksine henüz ölçülmüş bir sonuç DEĞİLDİR —
+gelecekteki bir oturumun bunu "zaten yapılmış/kanıtlanmış" sanmaması için
+bilinçli olarak "Stage NN" formatı dışında, ayrı başlıkla tutulmuştur.
+
+**Karar:** Hard coarse-path tube/corridor (±300m, Stage 36-37) artık
+gelecekteki geliştirmenin varsayılan yönü DEĞİL; bu mimariye daha fazla
+yatırım şimdilik durduruldu. Hedeflenen yerine geçen şey: globally
+accessible, lazy, adaptive-resolution bir graph — yoğunluk terrain
+karmaşıklığına göre değişir, coarse path'e yakınlığa göre değil. **Bu bir
+tasarım kararıdır, henüz deneysel doğrulanmış bir sonuç değildir** — tube
+gerçekten "emekliye ayrılmış" sayılabilmesi için, adaptive-resolution
+graph'ın tube'u ilk gerektiren gerçek stres testinde (Stage 19'un Aladağlar
+HIGH→VALLEY→HIGH senaryosu, 6.48km/520m relief) tube olmadan tractable
+kaldığı GÖSTERİLMELİDİR (aşağıdaki yol haritasının 11. adımı). Coarse
+terrain ürünleri (Stage 34/34.5 — 90m DEM, terrain stats, relief) geçerli
+kalır ve preprocessing/gelecekteki global-guidance denemeleri için
+kullanılabilir; sadece hard-restriction (tube) kullanımı duraklatılıyor.
+Corridor kodu (Stage 36-37) SİLİNMİYOR, regression/fallback için feature
+flag arkasında tutulacak.
+
+**Temel prensip:** Bütün harita erişilebilir kalacak; sadece temsil
+yoğunluğu (node density) bölgeden bölgeye değişecek. Tube erişilebilirliği
+kısıtlıyordu (dışarısı yasaktı); adaptive resolution sadece yoğunluğu
+değiştirir (her yer erişilebilir, sadece bazı yerlerde node seyrek).
+
+**Hedef mimari (taslak):**
+```text
+Copernicus DEM / ileride multi-tile VRT
+                ↓
+        OFFLINE PREPROCESSING
+                ↓
+ terrain stats / slope / relief / validity
+                ↓
+      Refinement Need Map
+                ↓
+────────────────────────────────────
+          ONLINE PLANNER
+                ↓
+ Lazy Adaptive 3D Graph
+                ↓
+ yatay hizalı Z katmanları (terrain+200 tabanlı DEĞİL, mutlak MSL — zaten
+ mevcut astar.py z_index mimarisiyle uyumlu, bkz. bu dosyanın üst kısmı)
+                ↓
+ gerekli yerde XY/Z refinement
+                ↓
+ heading-aware fixed-wing primitives
+                ↓
+ global search
+                ↓
+ candidate path(ler) — tek incumbent'a mimari olarak kilitlenmeden
+                ↓
+ shortcut / smoothing / refinement
+                ↓
+ independent validator
+                ↓
+ visualization
+```
+
+**Onaylanmış yol haritası (v2 — 19 adım, küçük promptlarla, her adım PASS
+etmeden bir sonrakine geçilmeyecek).** v1 (18 adım) tek değişiklikle
+revize edildi: "aircraft dynamics" tek adım değil, İKİ ayrı adıma
+bölündü — **Characterization** (JSBSim ile referans uçağın performans
+zarfını ÖĞRENME/ölçme; search state'e DOKUNMAZ, bu yüzden erken ve
+paralel yapılabilir) ve **Integration** (o zarfı gerçek `(x,y,z,heading)`
+search state'ine kablolama; adaptive graph'ın tube'suz tractable olduğu
+KANITLANMADAN yapılmaz). Gerekçe: Characterization'ın çıktısı sadece bir
+lookup table'dır (girdi yok, search'e bağımlılık yok) — adaptive-graph
+işiyle paralel ilerleyebilir ve zaman kaybettirmez; Integration ise
+state-space'e yeni bir boyut (`heading`) eklediği için Stage 12/14/22
+emsaliyle aynı risk sınıfındadır ve Test A/B ayrımının koruduğu
+tam olarak bu confounding riskidir.
+
+1. Yatay hizalı Z-layer node yapısı — SADECE tasarım+görselleştirme, search
+   yok, cost tuning yok, heading yok. Başarı kriteri görsel: düz bölgede
+   düzenli yatay katmanlar, terrain içine giren node yok, gereksiz
+   terrain-following zigzag başlangıç yapısı yok. **İLK SOMUT ÇIKTI
+   ÜRETİLDİ** (bkz. "Stage 1 — ilk görselleştirme sonucu" bölümü altta).
+2. Node görselleştirme (generic, sonraki her adımda yeniden kullanılacak) —
+   adım 1'deki tek-seferlik SVG script'i genelleştirilecek: herhangi bir
+   terrain kesiti + herhangi bir Z-layer seti + herhangi bir validity
+   grid'i çizebilen yeniden kullanılabilir bir araç.
+3. Statik multi-signal refinement map — sinyaller: relief, slope/gradient,
+   roughness, valid/invalid safety sınırına yakınlık, NoData/terrain
+   boundary. Çıktı basit sınıflandırma (LEVEL 0/1/2 = simple/medium/
+   complex), sayısal çözünürlük değerleri (300m/90m/30m gibi) HENÜZ
+   kilitlenmiyor. Test terrainleri: flat, single hill, ridge, narrow
+   valley, high→valley→high.
+4. Lazy node generation — refinement map ≠ graph; graph hiçbir zaman
+   baştan tüm adaptive node'ları materialize etmez, search ihtiyaç
+   duydukça üretir.
+5. Mixed-resolution bridge kuralları + safety/math doğrulama BİRLİKTE
+   (önce ispat, sonra implementasyon — Stage 17/21 disiplini): coarse↔fine,
+   coarse↔coarse, fine↔fine bağlantı geometrisi tanımlanır, sonra terrain/
+   AGL/NoData/bounds/açı/cost-integral/heuristic-consistency kanıtlanır.
+   Mevcut `evaluate_primitive()`'in segment-boyu terrain sampling'i
+   (`primitive_sample_spacing_m`) sabit-uzunluktan değişken-uzunluğa
+   genelleştirilerek yeniden kullanılacak, yeniden icat edilmeyecek.
+6. Küçük mixed-resolution search (flat/hill/ridge/valley/high-valley-high
+   üzerinde) — dense fine graph ile karşılaştırma: node count, expansions,
+   runtime, path validity.
+7. **[YENİ] Aircraft Dynamics Characterization — OFFLINE, ERKEN, PARALEL
+   YAPILABİLİR.** Search state'ine (hâlâ `(row,col,z_index)`) HİÇBİR
+   DOKUNUŞ YOK. JSBSim ile referans uçağın (ör. "F-16" — gerçek uçak
+   seçimi henüz kilitlenmedi, yer tutucu) her altitude-band'de hangi
+   primitive'lerin (8 pusula yönü × level/climb/descent) fiziksel olarak
+   mümkün olduğu + geometrisi karakterize edilir. Çıktı bir lookup table:
+   `aircraft_envelope[altitude_band][primitive] -> {valid, turn_radius_m,
+   delta_heading_deg, path_length_m, climb/descent açı limiti,
+   estimated_time}`. Bu tablonun altitude-band granülaritesi (kaba, ör.
+   500m) planlayıcının kendi adaptive Z çözünürlüğünden (ince, 20-100m)
+   BİLİNÇLİ OLARAK AYRIŞTIRILIR — birçok ince Z-katmanı aynı kaba
+   envelope band'ini paylaşabilir. Bu adımın sonucu adım 14'e kadar hiçbir
+   yerde search'e bağlanmaz; sadece bir veri/tablo üretim işidir, adım
+   1-6/8-13 ile zaman olarak paralel ilerleyebilir.
+8. F/G/H sürekli regresyon — amaç "F/G/H artık düzeldi mi" DEĞİL, "temsil
+   değişirken topology-discovery davranışı yanlışlıkla değişti mi" diye
+   izlemek.
+9. Küçük gerçek DEM testleri (~1×1km → ~2×2km → ~5×5km) — dense/legacy-
+   corridor/adaptive üçlü karşılaştırma, preprocessing time ile search
+   time AYRI raporlanır.
+10. Orta ölçek gerçek DEM testleri.
+11. Adaptive vs legacy corridor karşılaştırması (metrikler: potential node
+    count, actually generated states, expanded states, runtime, path
+    length, mean MSL, safety).
+12. **Aladağlar 6.48km stress test — HEADING YOK (Test A).** Soru: adaptive
+    resolution TEK BAŞINA (heading eklenmeden) tube olmadan tractable mı?
+    Bu adım, aşağıdaki 15. adımdan (heading'li tekrar) BİLİNÇLİ OLARAK
+    AYRILDI — ikisini aynı anda test edip "patlarsa nedenini ayıramayız"
+    riskini önlemek için (bkz. Stage 12/14/22'nin state-boyutu-ekleme
+    maliyeti emsalleri).
+13. Tube emeklilik kararı — SADECE 12. adım (heading'siz) PASS ederse
+    verilir (state count düşük, runtime makul, safe route var). Yoksa
+    corridor stratejisine geri dönülür, bu bölümdeki "karar" geçersiz
+    sayılır ve buraya güncellenerek not düşülür.
+14. **[YENİ] Aircraft Dynamics Integration — SADECE 13. adım (tube kararı)
+    PASS ettikten SONRA.** Adım 7'de üretilen lookup table gerçek search
+    state'ine kablolanır: state `(row,col,z_index)` → `(row,col,z_index,
+    heading=ψ)` olur (başlangıçta ör. 8 heading, production kararı olarak
+    KİLİTLENMEDEN). Runtime akışı: state'in z'si → altitude-band lookup →
+    o band'deki geçerli primitive seti + geometrisi → mevcut heading'e
+    göre döndür (ör. `→` iken sadece `↗,→,↘` gelir, `↑,←` gibi 90°/180°
+    dönüş YOK) → terrain/AGL/NoData doğrulaması mevcut
+    `evaluate_primitive()`/`evaluate_agl()` ile YENİDEN KULLANILARAK
+    yapılır → successor. Uçak hızı state'e EKLENMEZ (sabit/nominal kalır);
+    bir `V_band` boyutu (state'i `(x,y,z,ψ,V_band)` yapacak, ~3× ek
+    state-count riski) sadece gerekliliği KANITLANIRSA sonraki bir adımda
+    eklenir. Altitude-band sınırını geçen primitive'lerin davranışı (hangi
+    band'in envelope'u kullanılır) bu adımda Stage 17/21 disipliniyle
+    ayrıca tanımlanıp ispatlanacak açık bir tasarım boşluğudur.
+15. **Aynı Aladağlar testi heading İLE tekrar (Test B).** A/B ayrımı net
+    yorum sağlar: A PASS + B FAIL → sorun heading/primitive branching'te;
+    A FAIL → adaptive representation tube'un yerini zaten alamıyor demektir.
+16. Search/topology guidance problemi (CASE 1) — adaptive graph bunu
+    OTOMATİK ÇÖZMÜŞ VARSAYILMAYACAK (Stage 38.5'in bulgusu: cost doğru,
+    vertical authority artırmak çözmedi, search doğru topolojiyi erken
+    bulamıyor). Yeni bir guidance denenirse Z/reachability-aware olmalı;
+    Stage 38.4'te REDDEDİLEN "terrain+minAGL → z-blind XY guidance" fikri
+    aynı haliyle tekrar paketlenip kullanılmayacak.
+17. Path smoothing/shortcut/Theta* araştırmasının uygulanabilir kısmı —
+    kinodynamic/heading-aware shortcut olarak (plain Theta* fixed-wing
+    kısıtları yüzünden muhtemelen yeterli değil), search'ün içine konup
+    yeniden state-explosion yaratılmayacak.
+18. Cost/epsilon tuning — EN SON. Mission contract (safety > optimization,
+    low absolute MSL distance'tan biraz daha önemli, distance excessive
+    detour'u önler) değişmiyor; sadece sayısal tuning yapısal iş bitene
+    kadar donduruluyor.
+19. Multi-tile / 100×100km scaling — Copernicus tiles → VRT/tiled map
+    backend → coarse metadata → refinement map → lazy graph. Relief/slope/
+    min-max-mean/validity/refinement-class önceden hesaplanabilir; ama
+    `100×100km × tüm Z × heading × primitive` graph'ı asla baştan
+    materialize edilmeyecek.
+
+**Ek yapısal prensipler (roadmap'e gömülü, ayrıca vurgulanmalı):** (a)
+mimari tek incumbent'a aşırı bağımlı tasarlanmayacak — ileride 2-3 anlamlı
+candidate topology (ör. valley A, valley B, ridge route) saklanabilmesi
+mimari olarak mümkün bırakılacak, şimdilik implement edilmeyecek; (b) her
+adımda invariant/regression seti (safety PASS, mission semantics aynı,
+F/G/H davranışı, node count, search runtime) kontrol edilecek, ileride
+"Stage N'de bir şey bozulmuş" durumuna düşülmeyecek; (c) MissionPolicy'nin
+LOW MSL tanımı (aircraft absolute MSL, terrain/AGL değil) ve hard safety
+mimarisi (AGL/bounds/NoData/açı) bu değişikliklerin hiçbirinde
+gevşetilmeyecek; (d) adım 7 (Characterization) ile adım 14 (Integration)
+arasındaki ayrım kalıcıdır — Characterization'ın "erken/paralel"
+olabilmesinin TEK sebebi search state'ine dokunmamasıdır, Integration
+geldiğinde bu artık geçerli değildir ve adım 13'ün PASS'ine bağımlı kalır.
+
+### Stage 1 — ilk görselleştirme sonucu (2026-09-11)
+
+Yukarıdaki adım 1'in ilk somut çıktısı üretildi: yatay hizalı (terrain-
+takip ETMEYEN, sabit-MSL) Z-katmanları + her katmanda AGL yeterliliğine
+göre gecerli/gecersiz node işaretlemesi, 6.48km'lik bir HIGH→VALLEY→HIGH
+kesiti üzerinde.
+
+**Önemli kısıtlama — bu görselleştirme GERÇEK DEM verisi kullanmıyor.**
+Bu oturumda projeye yüklenen kopyada `working_dem/aladaglar_N37_E035_
+utm36n_max.tif` (gerçek Copernicus rasterı) mevcut değildi — sadece
+`planner/` kodu, scriptler ve bu dosya (`project.md`) yüklenmişti.
+`load_roi()` çağrısı `RasterioIOError` ile başarısız oldu. Bu yüzden
+terrain kesiti, Stage 19'da zaten belgelenmiş üç GERÇEK, ÖLÇÜLMÜŞ
+noktadan (start_msl=3530.5, valley_min_msl=3036.3, goal_msl=3539.5,
+yatay mesafe=6480.0m) kosinüs interpolasyonuyla YENİDEN OLUŞTURULMUŞ bir
+profildir — gerçek pikseller değil. Bu görselleştirme dolayısıyla "adım
+1 PASS/FAIL" için görsel/yapısal bir kanıt sayılır (katmanlar gerçekten
+yatay mı, node'lar terrain içine mi giriyor mu), ama "gerçek Aladağlar
+terrainin bu şekilde göründüğü" iddiası DEĞİLDİR.
+
+**Kullanılan parametre:** `min_agl_diag = 100.0` m — bu SADECE bu
+diagnostic görselleştirme için seçilmiş yeni bir değerdir, production
+`planner/config.py`'deki `min_agl_m = 200.0` (TEST PARAMETER olarak
+işaretli, gerçek bir gereksinim değil) ile KARIŞTIRILMAMALIDIR; ikisi
+şu an birbirinden bağımsızdır ve bu görselleştirme `config.py`'yi
+değiştirmez/okumaz.
+
+**Adım 1'in kendi PASS kriterlerine göre değerlendirme:**
+- Düz bölgede düzenli yatay katmanlar → **PASS**: her Z-katmanı x'ten
+  bağımsız sabit MSL'de yatay bir çizgi (3000-4200m arası, 200m
+  aralıklarla); terrain profiline hiç uymuyor, tam olarak istenen
+  "terrain-following DEĞİL, mutlak MSL" davranışı.
+- Terrain içine giren node yok → **PASS**: geçerlilik kuralı
+  `z_msl >= terrain_msl(x) + min_agl_diag` şeklinde uygulandı; kırmızı
+  X'ler (gecersiz) sadece terrain'e yakın alt katmanlarda, vadi
+  tabanına yakın x-aralığında yoğunlaşıyor — terrain'in İÇİNDE hiçbir
+  yeşil (gecerli) node yok.
+- Gereksiz terrain-following zigzag yapısı yok → **PASS**: katmanlar
+  birbirine paralel yatay çizgiler; hiçbir katman terrain konturunu
+  takip etmiyor, sadece hangi (x, z) çiftlerinin AGL güvenli olduğu
+  ayrı bir validity maskesi olarak üstüne bindirilmiş.
+
+Bu üç kriter de yapısal/geometrik olduğu için gerçek DEM verisi
+gerektirmiyor — reconstructed transect üzerinde de geçerli şekilde
+gösterilebiliyorlar. Gerçek DEM ile tekrar görselleştirme, `working_dem/`
+rasterı bu ortama yüklendiğinde ya da kullanıcının kendi makinesinde
+mevcut kopyayla çalışıldığında ucuz bir doğrulama adımı olarak kalıyor.
+
+## Step 2-3 — Adaptive XY/Z Representation Investigation (kalıcı kararlar)
+
+Yukarıdaki "Planlanan mimari yön değişikliği" yol haritasının 1-4. adımları
+(Step 2A-3C) tamamlandı. Bu bölüm sadece **kalıcı kararları, önemli
+metrikleri ve blocker'ları** kaydeder — ham deney logu değil (tüm ölçümler
+`scripts/step2*.py` / `scripts/step3*.py` script'lerinde tekrar
+çalıştırılabilir durumda). Hiçbir adım `planner/`'ın MEVCUT dosyalarını
+değiştirmedi; sadece yeni, katkı niteliğinde dosyalar eklendi
+(`planner/terrain_cache.py`, Step 3C).
+
+**Step 2A-2D (information-loss audit + preservation contract, P1-P4)**:
+Coarse XY temsilinin bilgi kaybını 4 formal predicate ile karakterize eden
+contract kuruldu — **P1** (node validity ambiguity, `[min_elev+min_agl,
+max_elev+min_agl)` band'i, `CoarseTerrainStats`'tan exact türetiliyor, 0
+mismatch doğrulandı), **P2** (XY connectivity preservation — MAX-pooling
+"asla sahte bağlantı üretmez, ama narrow-pass/gerçek bağlantı
+kaybedebilir" asimetrisi teorem olarak ispatlandı VE gerçek DEM'de 3200+
+edge/32,000+ test üzerinde 0 UNSAFE-OPTIMISM ile doğrulandı), **P3** (Z
+state existence preservation), **P4** (motion/edge preservation, aynı
+fiziksel primitive fine vs coarse terrain'de karşılaştırılarak). "Relief
+yüksek = refine et" gibi doğrudan bir kural KURULMADI — iki karşı örnek
+(yüksek relief ama mission bandı dışında kayıpsız; düşük relief ama
+clearance sınırına oturduğu için kayıplı) bunun yeterli olmadığını
+kanıtladı.
+
+**Step 2E-2F — XY resolution kararı (PROVİZYONEL)**:
+30m/60m/90m gerçek Aladağlar DEM'inde 5 objektif kriterle seçilmiş
+pencerede (low-relief/medium-relief/high-relief/valley-like/ridge-like —
+elle cherry-pick edilmedi) karşılaştırıldı. **5/5 pencerede 60m, 90m'den
+daha az false-block** (ortalama %32.0 vs %47.6) ve connectivity'de net
+üstünlük (178 kurtarılan aralığa karşı 12 kayıp, ~15:1) gösterdi; tek
+istisna sınıfı (`loss_60_only`, 12 örnek) incelenip **grid-alignment
+artefaktı** olduğu (genel bir mimari dezavantaj değil) doğrulandı.
+UNSAFE-OPTIMISM tüm ölçümlerde (32,000+ test) **0**.
+
+> **KARAR (provizyonel)**: 30m = fine refinement resolution; **60m =
+> default/provisional geometric planning candidate**; 90m = optional/global
+> coarse metadata level. **60m kararı, aircraft turn-radius/maneuverability
+> verisi geldiğinde (roadmap adım 7, JSBSim) tekrar gate edilecek** — henüz
+> final değil.
+
+**Step 3A — Z representation: dense'in reddi + üç sınıf event taxonomy**:
+Mevcut z_index mimarisinin ZATEN absolute-MSL olduğu (Step 1A/1B) teyit
+edildi; sorun mimari değil, **dense enumeration** — 60m XY grid'inde
+hücre başına ortalama 153 (max 210) Z-state, toplam ~4.22M "possible
+representation state" ölçüldü (search state DEĞİL). **Dense 20m full-Z
+enumeration hedef mimariden çıkarıldı**, yerine **sparse/event-aware Z**
+hedeflendi. Z representation spacing ile aircraft motion primitive
+geometrisi arasındaki mevcut coupling (`dz_m` doğrudan `z_step_m`'den
+türüyor) tespit edildi ve **ayrılması gereken iki ayrı kavram** olarak
+işaretlendi (henüz ayrılmadı — bu bir sonraki entegrasyon adımının işi).
+5 kontrollü vaka (A: geniş aralık kayıpsız, B: dar aralık dense'te var
+sparse'ta P3 FAIL, C: P3 PASS ama delta_z_loss=80m, D: B ile aynı P3
+FAIL, E: endpoint'ler valid ama direkt motion edge invalid — gerçek
+`evaluate_primitive` ile doğrulandı, min_agl=95m<100) tanımlandı ve
+`delta_z_loss` metriği (`P3`'ün ÜSTÜNE, onun YERİNE değil) eklendi.
+
+**Step 3A.1 — contract düzeltmesi**: Step 3A'nın "primitive fail olursa
+search sırasında yeni motion-repair Z event üret" fikri **reddedildi** —
+representation search history'den bağımsız olmalı. Düzeltilmiş contract:
+**Z event taxonomy 3 sınıf** — A) static terrain (terrain+min_agl floor,
+validity-transition), B) mission (start/goal/ceiling), C) motion/aircraft
+(**PROVISIONAL** — mevcut z_step-türevi primitifler aircraft truth
+DEĞİL, gerçek veri JSBSim'den gelecek). `CandidateZGenerator(xy,
+mission_context, terrain_metadata, motion_context)` contract'ı: **her
+zaman deterministic, search history'den bağımsız, lazy olabilir ama
+lazy≠search-dependent**. Global accessibility invariant düzeltildi:
+~~"regular sparse grid tek başına accessibility sağlar"~~ (Step 3A
+Case B/D bunun yanlış olabileceğini kanıtlamıştı) → **"not instantiated
+!= not representable != inaccessible"** — accessibility artık grid
+yoğunluğunun değil, generator contract'ının TAMLIĞININ garantisi.
+`AircraftSafetyContext` için sadece interface yeri bırakıldı (empty/not
+implemented).
+
+**Step 3B — sparse/lazy prototype: PASS**: `CandidateZGenerator` gerçek,
+çalışan bir implementasyon olarak yazıldı (`scripts/
+step3b_sparse_lazy_z_prototype.py`) ve 5 vaka (A-E) gerçek implementasyonla
+tekrar doğrulandı — hepsi PASS, **Case E'nin 3660m kurtarma irtifası
+CLASS-A'nın kendisinden (hump'ın kendi hücresindeki floor event'i) geliyor,
+CLASS-C icat edilmedi** (motion_context ile/olmadan birebir aynı sonuç
+doğrulandı — **CLASS-C motion event durumu: unresolved/provisional**,
+açıkça böyle raporlandı, gizlenmedi). Synthetic testte dense=957 vs
+lazy=138 instantiated/106 expanded (**6.93x azalma**), 6 state'lik path
+bulundu. **Runtime speedup henüz KANITLANMADI** (search 0.12s sürdü, dense
+build 0.0006s — bu KÜÇÜK synthetic testte lazy DAHA YAVAŞ, çünkü asıl
+kazanç instantiated-state SAYISINDA, ham wall-clock'ta değil; büyük gerçek
+DEM'de bu oranın tersine döneceği iddia edilmedi, ÖLÇÜLMEDİ). Accessibility
+contract (44 candidate, 24'ü hiç instantiate edilmedi, hepsi deterministik
+şekilde on-demand üretilebildi) ve floor_for() cache-bound performansı
+(72-85x cold/warm speedup) doğrulandı.
+
+**Step 3C — persistent terrain cache: PASS**: `planner/terrain_cache.py`
+(YENİ dosya, mevcut hiçbir `planner/` dosyası değişmedi) — `build_
+terrain_cache`/`load_terrain_cache`/`validate_terrain_cache` + `TerrainCache`.
+Format: `.npz` (numpy arrays, compressed) + `manifest.json` (schema_version,
+code_version, source SHA256, dims/CRS/transform, pooling factors, array
+shapes/dtypes). **Cache scope kararı**: cache = f(terrain) SADECE —
+`min_agl_m` cache fingerprint'inin parçası DEĞİL (terrain+min_agl floor
+gibi türetilmiş değerler cache'lenmiyor, çağıran taraf O(1) ile ucuza
+hesaplıyor) — böylece min_agl değişince terrain cache'i invalide olmuyor,
+doğrulandı. Gerçek tam Aladağlar ROI'sinde (333x333, factor=2/3 = 60m/90m,
+bağımsız derived level'lar, zorunlu 90→60→30 hiyerarşi varsayılmadı):
+build=0.035s, cache boyutu=**0.864MB**, validate=0.005s, load=0.015s.
+**Correctness**: cache'teki TÜM array'ler (min/max/mean/relief, 2 factor +
+fine elevation) fresh `build_coarse_terrain_stats`/DEM ile **bit-exact
+eşleşti**. `CandidateZGenerator` (Step 3B'den DEĞİŞTİRİLMEDEN import
+edildi), cache-backed bir store ile canlı-DEM-backed store'un **birebir
+aynı** candidate set'i ürettiği 6 gerçek hücrede doğrulandı. Failure
+safety: eksik cache, tamper edilmiş SHA256, tamper edilmiş boyutlar →
+üçü de doğru exception fırlattı (`TerrainCacheMissingError`/
+`TerrainCacheStaleError`), sessizce yanlış veri kullanılmadı. 100x100km
+için **static metadata** boyutu (3D graph/state-count DEĞİL, sadece
+terrain array'leri) alan-oranlı ~86MB olarak tahmin edildi (gerçek build
+YAPILMADI).
+
+**Step 3D — gerçek terrain entegrasyonu: PASS (1 mission'ın anlamlı, sparse'a atfedilemeyen FAIL'iyle birlikte)**:
+Step 3C cache + Step 3B `CandidateZGenerator`/lazy instantiation, ilk kez
+GERÇEK Aladağlar terraininde, 60m XY (Step 2F'nin provizyonel adayı) ile
+birleştirildi. Test alanı: Step 1B'nin kendi penceresi reuse edildi (fine
+rows/cols [146,186) → 60m coarse [73,93)×[73,93), 20x20 hücre, relief
+gerçek ve önceden belgelenmiş — bu görev için yeniden seçilmedi). Cache
+gerçekten kullanıldı: 60m terrain, Step 3C'nin `max_elevation_f2`
+array'inden okundu, **search sırasında sıfır ham DEM okuması** (`raw_dem_
+reads=0`, tüm mission'larda doğrulandı). 3 mission, kriterleri ÖNCEDEN
+tanımlanmış objektif seçimle kuruldu (A: pencerenin en alçak 2 köşesi; B:
+en alçak köşe→en yüksek köşe, çapraz; C: pencerenin objektif min/max
+hücreleri).
+
+**Mission B ve C: PASS.** B (24 node, 0.83s, safe: min_AGL=101.1m,
+max_angle=9.46°) ve C (31 node, 10.9s, safe: min_AGL=100.0m, max_angle=
+9.46°) her ikisi de path buldu, bağımsız validasyon **SAFETY PASS**.
+
+**Mission A: FAIL, ama representation loss DEĞİL.** "Kolay" göründüğü
+hâlde (aynı sütun, sadece 80m irtifa farkı) 252s'de ve pencerenin
+TAMAMINI (48,370/48,381 possible state) tükettikten sonra path
+BULUNAMADI. **Kök neden araştırıldı ve doğrulandı**: start/goal'ün
+bulunduğu sütun (coarse col=73) üzerinde, aradaki bir terrain tümseği
+gerçekten 3480m floor gerektiriyor (start=3260m, goal=3340m'nin çok
+üzerinde) — aircraft'ın EXACT (tolerans YOK — bu basit test harness'inin
+kendi eksikliği, production `planner.astar`'ın `goal_tolerance_z_m`'si
+BURADA kullanılmadı) 3340m'ye tam olarak inmesi gerekiyor, bu da dar
+20x20 pencere içinde bulunması çok zor bir rota. **Sınıflandırma: SEARCH
+LIMIT/GUIDANCE + test-harness'in exact-goal-altitude eksikliği** —
+representation loss DEĞİL: sparse Z generator'ın `floor_for()`'u sadece
+bound-check yapıyor (küçük bir event kümesine kısıtlamıyor), yani "dense"
+bir arama da AYNI primitives/AYNI terrain/AYNI exact-z kısıtıyla
+MEKANİK OLARAK AYNI şekilde başarısız olurdu — dense-path-var-sparse-yok
+durumu YOK, bu yüzden Step 3D'nin asıl PASS kriteri ihlal edilmedi.
+
+**P3/delta_z_loss/P4**: 3 mission'da da P3 kaybı YOK (yapısal olarak
+imkansız, floor_for bound-check tasarımı gereği); delta_z_loss=0 (dense
+ve sparse aynı search dinamiğini paylaştığı için — Step 3B'nin bulgusu
+gerçek terrainde doğrulandı); P4-tipi kayıp gözlenmedi.
+
+**State counts**: dense (whole-window, eager) = 48,381 possible state.
+Sparse/lazy instantiated: B=641 (**75.5x azalma**), C=3,535 (**13.7x
+azalma**), A=48,370 (azalma YOK — pencerenin tamamı tüketildi, tam da
+başarısızlığın kanıtı).
+
+**Placeholder primitive limitation**: `build_primitive_set` hâlâ
+z_step-türevi placeholder — gerçek aircraft truth DEĞİL, raporlarda
+açıkça böyle işaretlendi.
+
+**Step 3D.1 — production goal-tolerance entegrasyonu: PASS**: Step 3D'nin
+basit test-harness'indeki exact-XYZ-goal eksikliği kapatıldı — production
+`planner.astar._state_in_goal_region` (Stage 33 Safe Goal Region)
+**değiştirilmeden reuse edildi**, production tolerance değerleriyle
+(`goal_tolerance_xy_m=35.0`, `goal_tolerance_z_m=25.0` — Stage 33'ten beri
+projede kullanılan AYNI sabitler, burada icat edilmedi). Aynı 3 mission
+(A/B/C), aynı ROI/60m/cache/CandidateZGenerator/primitive set ile
+DEĞİŞTİRİLMEDEN tekrar çalıştırıldı.
+
+- **B ve C: sıfır regresyon** — instantiated/expanded/generated sayıları
+  Step 3D ile **bit-bit aynı** (641/297/7104 ve 3535/2519/60432), safety
+  **PASS** (aynı min_AGL/max_angle), final goal error=0.0m (ikisi de zaten
+  tam hedefte bitiyordu, tolerance hiçbir şeyi değiştirmedi).
+- **A: hâlâ FAIL, ve bu ÖNEMLİ bir bulgu** — instantiated/expanded/
+  generated sayıları Step 3D ile **birebir aynı** (48,370/48,370/1,160,880)
+  — yani search, tolerance'lı hedef koşuluna rağmen (92,73) hücresine HİÇBİR
+  irtifada hiç ulaşamadan bölgeyi tükeniyor. Bu, Step 3D'de varsayılan
+  "exact-z belki suçludur" hipotezini **çürütüyor**: sorun goal-tolerance
+  hassasiyeti değil, search'ün o hücreye giden GÜVENLİ bir rota bulamaması.
+  **Sınıflandırma: SEARCH/GUIDANCE — OPEN ISSUE** (representation loss
+  KANITI yok, P3/P4 temiz). Bu stage'te search guidance'a dokunulmadı
+  (scope dışı) — kayıt olarak bırakıldı.
+- raw DEM reads=0 (3 mission'da da), CandidateZGenerator timing'inde
+  regresyon yok (~1.5-1.9µs mean, değişmedi).
+
+## Genel açık kalan konular (blocker, sonraki entegrasyon adımı için)
+
+- **CLASS-C (motion/aircraft) event'leri** hâlâ algoritmasız — Step
+  3A.1'in corridor-precompute fikri hâlâ sadece kavram, kodda yok.
+- **60m XY kararı** hâlâ provizyonel (aircraft maneuverability verisiyle
+  tekrar gate edilecek).
+- **Mission A / SEARCH-GUIDANCE OPEN ISSUE (Step 3D.1 ile doğrulandı,
+  ÇÖZÜLMEDİ)**: goal-tolerance eksikliği DEĞİL — search'ün kendisi, dar
+  bir bölgede gerçek bir terrain engelini aşıp hedefe güvenli bir rota
+  bulamıyor (uniform-cost + salt-XY-heuristic A*, 48K+ state tüketip
+  başarısız). Bu proje roadmap'inin ayrı, sonraki bir "search
+  intelligence" aşamasının konusu — bu stage'te bilinçli olarak
+  ÇÖZÜLMEDİ.
+
+## J4B/J5A Offline Aircraft Characterization — kalıcı kararlar
+
+- **J4B: PASS.** Validated prototype F-16 context'inde 0–6000 m MSL,
+  305 KCAS ve afterburner-off için raw straight climb/descent envelope
+  mevcuttur. J4B'nin 0.5° genişliğindeki son-VALID/ilk-INFEASIBLE
+  bracket'ları planner limiti veya derated capability değildir.
+- Straight/vertical controller mimarisi: gamma outer-loop → normalized
+  elevator command → native pitch FCS; CAS outer-loop → normalized dry
+  throttle command → engine. Direct surface forcing yoktur.
+- **J5A: PASS.** 0/3000/5000/6000 m üzerinde straight ve `±20°` bank
+  left/right level-turn metodolojisi, her nokta üç cold-start ile doğrulandı.
+  `±20°` yalnız modest sanity target'tır; turn capability limiti değildir.
+- Turn controller mimarisi: bank outer-loop → normalized aileron command →
+  native roll FCS; beta=0 outer-loop → normalized rudder command → native
+  yaw-rate/yaw-load FCS; level gamma ve CAS kanalları J4B'den reuse edilir.
+  Heading-rate command edilmez ve hiçbir surface position doğrudan dayatılmaz.
+- Turn radius'ın kalıcı ölçüm kaynağı JSBSim local-position trajectory'sidir.
+  `V²/(g tan(phi))` yalnız sanity cross-check'tir; lookup truth değildir.
+- J5A'da 12/12 point `VALID`, `UNKNOWN=0`, `INFEASIBLE=0`; J5B öncesi
+  blocker yoktur. Açık izleme konusu: daha yüksek banklarda beta-controller
+  command authority/clamp ayrımı korunmalı; controller clamp aircraft
+  inability olarak sınıflandırılmamalıdır.
+- Sonraki aşama, ayrıca başlatıldığında, J5B sustained level-turn capability
+  characterization'dır. J5A minimum radius/rate lookup, coupled turn,
+  derating veya planner integration üretmedi.
+
 ## Ortam
 
 Python 3.14, rasterio 1.5.1, numpy 2.5.2, pyproj 3.8.0, shapely 2.1.2.

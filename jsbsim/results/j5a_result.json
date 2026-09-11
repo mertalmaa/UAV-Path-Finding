@@ -1,0 +1,30 @@
+{
+  "altitude_count": 4,
+  "j5a_pass": true,
+  "j5b_blocker": null,
+  "maneuver_count": 3,
+  "parent_j4b_provenance_id": "j4b-9fa3129fabfcda51c7a7",
+  "point_count": 12,
+  "provenance_id": "j5a-1b8f02a2379f4eb9204e",
+  "run_count": 36,
+  "runtime_wall_s": 4.030579400001443,
+  "scope_guards": {
+    "climbing_descending_turn": false,
+    "derating": false,
+    "full_turn_capability_sweep": false,
+    "level_turn_sanity_only": true,
+    "lookup_generation": false,
+    "macro_primitives": false,
+    "maximum_turn_rate_capability": false,
+    "minimum_turn_radius_lookup": false,
+    "planner_integration": false,
+    "representative_altitudes_only": true,
+    "speed_added_to_planner_state": false,
+    "three_d_safety_box": false
+  },
+  "status_counts": {
+    "INFEASIBLE": 0,
+    "UNKNOWN": 0,
+    "VALID": 12
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "decision": "single_nominal_cas_selected",
+  "j3_pass": true,
+  "selected_nominal_cas_kts": 305.0,
+  "selection_method": "maximize_minimum_normalized_observed_margin",
+  "winning_margin_components": {
+    "alpha_command_reduction_clearance": 0.9291846632872062,
+    "control_surface_reserve": 0.9472407933678872,
+    "dry_throttle_two_sided_reserve": 0.4123648001476119,
+    "lower_speed_schedule_clearance": 0.21957557565157004,
+    "mach_schedule_clearance": 0.269678323404648
+  },
+  "winning_minimum_normalized_observed_margin": 0.21957557565157004
+}

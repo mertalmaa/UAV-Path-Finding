@@ -1,0 +1,298 @@
+{
+  "classification_semantics_self_test": {
+    "confirmed_unsustainable": "INFEASIBLE",
+    "reliable": "VALID",
+    "trim_or_setup_failure": "UNKNOWN"
+  },
+  "j2_pass": true,
+  "provenance_id": "j2-c25dabb783f4ac1ffdef",
+  "reference_configuration_id": "f16_j2_baseline_v1",
+  "repeatability": {
+    "1500m": {
+      "metrics": {
+        "actual_altitude_msl_m": {
+          "maximum_relative_deviation": 1.5147898236551803e-16,
+          "mean": 1501.0245770900449,
+          "passed": true,
+          "values": [
+            1501.024577090045,
+            1501.024577090045,
+            1501.024577090045
+          ]
+        },
+        "actual_kcas": {
+          "maximum_relative_deviation": 0.0,
+          "mean": 334.8968394778659,
+          "passed": true,
+          "values": [
+            334.8968394778659,
+            334.8968394778659,
+            334.8968394778659
+          ]
+        },
+        "alpha_deg": {
+          "maximum_relative_deviation": 0.0,
+          "mean": 1.2423570597857359,
+          "passed": true,
+          "values": [
+            1.2423570597857359,
+            1.2423570597857359,
+            1.2423570597857359
+          ]
+        },
+        "load_factor_nz": {
+          "maximum_relative_deviation": 0.0,
+          "mean": 0.996348776143718,
+          "passed": true,
+          "values": [
+            0.996348776143718,
+            0.996348776143718,
+            0.996348776143718
+          ]
+        },
+        "mach": {
+          "maximum_relative_deviation": 0.0,
+          "mean": 0.5510221079984008,
+          "passed": true,
+          "values": [
+            0.5510221079984008,
+            0.5510221079984008,
+            0.5510221079984008
+          ]
+        },
+        "tas_mps": {
+          "maximum_relative_deviation": 0.0,
+          "mean": 184.3081794551446,
+          "passed": true,
+          "values": [
+            184.3081794551446,
+            184.3081794551446,
+            184.3081794551446
+          ]
+        },
+        "throttle_pos_norm": {
+          "maximum_relative_deviation": 0.0,
+          "mean": 0.5078482561743775,
+          "passed": true,
+          "values": [
+            0.5078482561743775,
+            0.5078482561743775,
+            0.5078482561743775
+          ]
+        },
+        "weight_lbs": {
+          "maximum_relative_deviation": 0.0,
+          "mean": 20630.0,
+          "passed": true,
+          "values": [
+            20630.0,
+            20630.0,
+            20630.0
+          ]
+        }
+      },
+      "passed": true,
+      "tolerance_relative": 0.01
+    },
+    "5000m": {
+      "metrics": {
+        "actual_altitude_msl_m": {
+          "maximum_relative_deviation": 0.0,
+          "mean": 5001.426181499954,
+          "passed": true,
+          "values": [
+            5001.426181499954,
+            5001.426181499954,
+            5001.426181499954
+          ]
+        },
+        "actual_kcas": {
+          "maximum_relative_deviation": 0.0,
+          "mean": 334.8844499536985,
+          "passed": true,
+          "values": [
+            334.8844499536985,
+            334.8844499536985,
+            334.8844499536985
+          ]
+        },
+        "alpha_deg": {
+          "maximum_relative_deviation": 0.0,
+          "mean": 1.3540588468141495,
+          "passed": true,
+          "values": [
+            1.3540588468141495,
+            1.3540588468141495,
+            1.3540588468141495
+          ]
+        },
+        "load_factor_nz": {
+          "maximum_relative_deviation": 0.0,
+          "mean": 0.9951163570517535,
+          "passed": true,
+          "values": [
+            0.9951163570517535,
+            0.9951163570517535,
+            0.9951163570517535
+          ]
+        },
+        "mach": {
+          "maximum_relative_deviation": 1.641494772569869e-16,
+          "mean": 0.6763488030406754,
+          "passed": true,
+          "values": [
+            0.6763488030406755,
+            0.6763488030406755,
+            0.6763488030406755
+          ]
+        },
+        "tas_mps": {
+          "maximum_relative_deviation": 0.0,
+          "mean": 216.7962803070128,
+          "passed": true,
+          "values": [
+            216.7962803070128,
+            216.7962803070128,
+            216.7962803070128
+          ]
+        },
+        "throttle_pos_norm": {
+          "maximum_relative_deviation": 0.0,
+          "mean": 0.5982368830672091,
+          "passed": true,
+          "values": [
+            0.5982368830672091,
+            0.5982368830672091,
+            0.5982368830672091
+          ]
+        },
+        "weight_lbs": {
+          "maximum_relative_deviation": 0.0,
+          "mean": 20630.0,
+          "passed": true,
+          "values": [
+            20630.0,
+            20630.0,
+            20630.0
+          ]
+        }
+      },
+      "passed": true,
+      "tolerance_relative": 0.01
+    },
+    "6000m": {
+      "metrics": {
+        "actual_altitude_msl_m": {
+          "maximum_relative_deviation": 0.0,
+          "mean": 6001.595999065634,
+          "passed": true,
+          "values": [
+            6001.595999065634,
+            6001.595999065634,
+            6001.595999065634
+          ]
+        },
+        "actual_kcas": {
+          "maximum_relative_deviation": 0.0,
+          "mean": 334.8750205387986,
+          "passed": true,
+          "values": [
+            334.8750205387986,
+            334.8750205387986,
+            334.8750205387986
+          ]
+        },
+        "alpha_deg": {
+          "maximum_relative_deviation": 0.0,
+          "mean": 1.3990265275422347,
+          "passed": true,
+          "values": [
+            1.3990265275422347,
+            1.3990265275422347,
+            1.3990265275422347
+          ]
+        },
+        "load_factor_nz": {
+          "maximum_relative_deviation": 1.1160645984183376e-16,
+          "mean": 0.994765917849684,
+          "passed": true,
+          "values": [
+            0.9947659178496842,
+            0.9947659178496842,
+            0.9947659178496842
+          ]
+        },
+        "mach": {
+          "maximum_relative_deviation": 1.5453058707278208e-16,
+          "mean": 0.7184487198655723,
+          "passed": true,
+          "values": [
+            0.7184487198655722,
+            0.7184487198655722,
+            0.7184487198655722
+          ]
+        },
+        "tas_mps": {
+          "maximum_relative_deviation": 0.0,
+          "mean": 227.34929725728617,
+          "passed": true,
+          "values": [
+            227.34929725728617,
+            227.34929725728617,
+            227.34929725728617
+          ]
+        },
+        "throttle_pos_norm": {
+          "maximum_relative_deviation": 0.0,
+          "mean": 0.627238489054841,
+          "passed": true,
+          "values": [
+            0.627238489054841,
+            0.627238489054841,
+            0.627238489054841
+          ]
+        },
+        "weight_lbs": {
+          "maximum_relative_deviation": 0.0,
+          "mean": 20630.0,
+          "passed": true,
+          "values": [
+            20630.0,
+            20630.0,
+            20630.0
+          ]
+        }
+      },
+      "passed": true,
+      "tolerance_relative": 0.01
+    }
+  },
+  "run_count": 9,
+  "sanity_speed": {
+    "gamma_deg": 0.0,
+    "installed_package_contains_airborne_f16_trim_example": false,
+    "representative_altitudes_msl_m": [
+      1500.0,
+      5000.0,
+      6000.0
+    ],
+    "role": "sanity_only_not_nominal_speed_selection",
+    "source": "upstream_jsbsim_f16_trim_regression_example",
+    "speed_type": "KCAS",
+    "speed_value": 335.0
+  },
+  "scope_guards": {
+    "climb_descent_characterization_performed": false,
+    "derating_applied": false,
+    "lookup_created": false,
+    "nominal_cas_sweep_performed": false,
+    "planner_integration_performed": false,
+    "turn_characterization_performed": false
+  },
+  "stage": "J2_JSBSim_F16_provenance_and_baseline_sanity",
+  "status_counts": {
+    "INFEASIBLE": 0,
+    "UNKNOWN": 0,
+    "VALID": 9
+  }
+}

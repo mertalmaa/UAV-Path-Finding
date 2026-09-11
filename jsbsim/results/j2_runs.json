@@ -1,0 +1,4016 @@
+[
+  {
+    "actual_speed": {
+      "initialized_value": 334.9760273417368,
+      "measurement_max_value": 334.9719593697606,
+      "measurement_mean_value": 334.8968394778659,
+      "measurement_min_value": 334.8079584485408,
+      "type": "KCAS"
+    },
+    "checks": {
+      "afterburner_off": true,
+      "cas_tracking": true,
+      "control_surface_usage": true,
+      "engine_running": true,
+      "external_tanks_empty": true,
+      "finite_outputs": true,
+      "fixed_fuel": true,
+      "fixed_weight": true,
+      "gamma_tracking": true,
+      "gear_up": true,
+      "initialized_altitude_within_1m": true,
+      "initialized_speed_within_acceptance": true,
+      "measurement_window_complete": true,
+      "native_fcs": true,
+      "settled_within_allowance": true,
+      "speedbrake_closed": true,
+      "trim_succeeded": true,
+      "zero_wind": true
+    },
+    "confirmed_unsustainable": false,
+    "final_configuration": {
+      "aircraft_model": "f16",
+      "cg_in": [
+        -191.8917111003393,
+        0.0,
+        -3.574406204556471
+      ],
+      "fbw_override": 0.0,
+      "gear_command_norm": 0.0,
+      "gear_position_norm": 0.0,
+      "mass_kg": 9357.610464086632,
+      "speedbrake_command_norm": 0.0,
+      "speedbrake_position_norm": 0.0,
+      "tank_contents_lbs": [
+        1500.0,
+        1500.0,
+        0.0,
+        0.0
+      ],
+      "turbulence_type": 0.0,
+      "weight_lbs": 20630.0
+    },
+    "initialized": {
+      "alpha_deg": 0.01151687357074898,
+      "altitude_msl_m": 1500.0000013656736,
+      "beta_deg": 6.9985304960565616e-09,
+      "cg_x_in": -191.8917111003393,
+      "cg_y_in": 0.0,
+      "cg_z_in": -3.574406204556471,
+      "elapsed_s": 0.0,
+      "elevator_pos_norm": 0.008866422962639633,
+      "engine_n1": 40.0,
+      "engine_n2": 53.0,
+      "engine_running_flag": 1.0,
+      "engine_seized": 0.0,
+      "engine_stalled": 0.0,
+      "engine_thrust_lbs": -905.1784038176517,
+      "fbw_override": 0.0,
+      "flap_pos_norm": 0.0,
+      "gamma_deg": -0.011502983048373803,
+      "gear_pos_norm": 0.0,
+      "kcas": 334.9760273417368,
+      "left_aileron_pos_norm": 0.0,
+      "load_factor_nx": -0.15975301013142013,
+      "load_factor_ny": 0.0,
+      "load_factor_nz": 0.5434212870279945,
+      "mach": 0.5511187872238171,
+      "p_deg_s": -3.859217960662519e-16,
+      "q_deg_s": -0.114290603541345,
+      "r_deg_s": 1.106133538567316e-19,
+      "right_aileron_pos_norm": 0.0,
+      "rudder_pos_norm": 0.0,
+      "sim_time_s": 0.008333333333333333,
+      "speedbrake_pos_norm": 0.0,
+      "tas_mps": 184.34272083621875,
+      "throttle_cmd_norm": 0.0,
+      "throttle_pos_norm": 0.0,
+      "total_fuel_lbs": 3000.0,
+      "weight_lbs": 20630.0,
+      "wind_down_fps": 0.0,
+      "wind_east_fps": 0.0,
+      "wind_north_fps": 0.0
+    },
+    "loaded_model": {
+      "aircraft_path": "C:/Users/PC_10004_YD26/AppData/Local/Python/pythoncore-3.14-64/Lib/site-packages/jsbsim/aircraft/f16",
+      "model_id": "f16"
+    },
+    "measurement": {
+      "alpha_deg": {
+        "delta": 0.0017877230879763673,
+        "end": 1.2433327398411942,
+        "max": 1.2433327398411942,
+        "mean": 1.2423570597857359,
+        "min": 1.2415450167532178,
+        "start": 1.2415450167532178
+      },
+      "altitude_msl_m": {
+        "delta": 1.7207373225421634,
+        "end": 1501.9814606657983,
+        "max": 1501.9814606657983,
+        "mean": 1501.024577090045,
+        "min": 1500.2607233432561,
+        "start": 1500.2607233432561
+      },
+      "beta_deg": {
+        "delta": 1.1536929974534063e-06,
+        "end": 1.22889853537592e-06,
+        "max": 1.22889853537592e-06,
+        "mean": 5.343185619416776e-07,
+        "min": 7.520553792251366e-08,
+        "start": 7.520553792251366e-08
+      },
+      "cg_x_in": {
+        "delta": 0.0,
+        "end": -191.8917111003393,
+        "max": -191.8917111003393,
+        "mean": -191.8917111003393,
+        "min": -191.8917111003393,
+        "start": -191.8917111003393
+      },
+      "cg_y_in": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "cg_z_in": {
+        "delta": 0.0,
+        "end": -3.574406204556471,
+        "max": -3.574406204556471,
+        "mean": -3.5744062045564715,
+        "min": -3.574406204556471,
+        "start": -3.574406204556471
+      },
+      "elevator_pos_norm": {
+        "delta": -1.6705401895689143e-06,
+        "end": -0.04598073798949853,
+        "max": -0.045979067449308963,
+        "mean": -0.04597982824989851,
+        "min": -0.04598073798949853,
+        "start": -0.045979067449308963
+      },
+      "engine_n1": {
+        "delta": 0.0,
+        "end": 70.47089537046264,
+        "max": 70.47089537046264,
+        "mean": 70.47089537046264,
+        "min": 70.47089537046264,
+        "start": 70.47089537046264
+      },
+      "engine_n2": {
+        "delta": 0.0,
+        "end": 76.86886804019574,
+        "max": 76.86886804019574,
+        "mean": 76.86886804019574,
+        "min": 76.86886804019574,
+        "start": 76.86886804019574
+      },
+      "engine_running_flag": {
+        "delta": 0.0,
+        "end": 1.0,
+        "max": 1.0,
+        "mean": 1.0,
+        "min": 1.0,
+        "start": 1.0
+      },
+      "engine_seized": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "engine_stalled": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "engine_thrust_lbs": {
+        "delta": 0.4311848899301367,
+        "end": 3102.1900665941253,
+        "max": 3102.1900665941253,
+        "mean": 3101.966550582024,
+        "min": 3101.758881704195,
+        "start": 3101.758881704195
+      },
+      "fbw_override": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "flap_pos_norm": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "gamma_deg": {
+        "delta": 0.017846148273704218,
+        "end": 0.03366908876013756,
+        "max": 0.03366908876013756,
+        "mean": 0.02674601524785815,
+        "min": 0.01582294048643334,
+        "start": 0.01582294048643334
+      },
+      "gear_pos_norm": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "kcas": {
+        "delta": -0.1640009212198379,
+        "end": 334.8079584485408,
+        "max": 334.9719593697606,
+        "mean": 334.8968394778659,
+        "min": 334.8079584485408,
+        "start": 334.9719593697606
+      },
+      "left_aileron_pos_norm": {
+        "delta": 3.059139361492568e-08,
+        "end": 3.2480905391688686e-08,
+        "max": 3.2480905391688686e-08,
+        "mean": 1.4035637633553671e-08,
+        "min": 1.8895117767630058e-09,
+        "start": 1.8895117767630058e-09
+      },
+      "load_factor_nx": {
+        "delta": 0.00015345589705875393,
+        "end": 0.02177359232525377,
+        "max": 0.02177359232525377,
+        "mean": 0.021690863535036842,
+        "min": 0.021620136428195016,
+        "start": 0.021620136428195016
+      },
+      "load_factor_ny": {
+        "delta": -8.137615869118371e-08,
+        "end": -8.668423391891311e-08,
+        "max": -5.308075227729406e-09,
+        "mean": -3.770005135339125e-08,
+        "min": -8.668423391891311e-08,
+        "start": -5.308075227729406e-09
+      },
+      "load_factor_nz": {
+        "delta": -0.00038990788579651436,
+        "end": 0.9961394067332648,
+        "max": 0.9965293146190614,
+        "mean": 0.996348776143718,
+        "min": 0.9961394067332648,
+        "start": 0.9965293146190614
+      },
+      "mach": {
+        "delta": -0.00021285139270155184,
+        "end": 0.5509075136156416,
+        "max": 0.5511203650083432,
+        "mean": 0.5510221079984008,
+        "min": 0.5509075136156416,
+        "start": 0.5511203650083432
+      },
+      "p_deg_s": {
+        "delta": -1.837019428571391e-06,
+        "end": -1.960708537037834e-06,
+        "max": -1.2368910846644303e-07,
+        "mean": -8.532013938179594e-07,
+        "min": -1.960708537037834e-06,
+        "start": -1.2368910846644303e-07
+      },
+      "q_deg_s": {
+        "delta": -0.001127988577883736,
+        "end": -0.0013013915843698447,
+        "max": -0.00017340300648610856,
+        "mean": -0.0006849951792955682,
+        "min": -0.0013013915843698447,
+        "start": -0.00017340300648610856
+      },
+      "r_deg_s": {
+        "delta": 1.0080906013107468e-06,
+        "end": 1.0716084158129288e-06,
+        "max": 1.0716084158129288e-06,
+        "mean": 4.646499229000824e-07,
+        "min": 6.351781450218203e-08,
+        "start": 6.351781450218203e-08
+      },
+      "right_aileron_pos_norm": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "rudder_pos_norm": {
+        "delta": 1.8336804923193035e-07,
+        "end": 1.9528505331379844e-07,
+        "max": 1.9528505331379844e-07,
+        "mean": 8.486843654935106e-08,
+        "min": 1.1917004081868103e-08,
+        "start": 1.1917004081868103e-08
+      },
+      "speedbrake_pos_norm": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "tas_mps": {
+        "delta": -0.0748959177522579,
+        "end": 184.267791864711,
+        "max": 184.34268778246326,
+        "mean": 184.3081794551446,
+        "min": 184.267791864711,
+        "start": 184.34268778246326
+      },
+      "throttle_cmd_norm": {
+        "delta": 0.0,
+        "end": 0.2539241280871887,
+        "max": 0.2539241280871887,
+        "mean": 0.2539241280871887,
+        "min": 0.2539241280871887,
+        "start": 0.2539241280871887
+      },
+      "throttle_pos_norm": {
+        "delta": 0.0,
+        "end": 0.5078482561743775,
+        "max": 0.5078482561743775,
+        "mean": 0.5078482561743775,
+        "min": 0.5078482561743775,
+        "start": 0.5078482561743775
+      },
+      "total_fuel_lbs": {
+        "delta": 0.0,
+        "end": 3000.0,
+        "max": 3000.0,
+        "mean": 3000.0,
+        "min": 3000.0,
+        "start": 3000.0
+      },
+      "weight_lbs": {
+        "delta": 0.0,
+        "end": 20630.0,
+        "max": 20630.0,
+        "mean": 20630.0,
+        "min": 20630.0,
+        "start": 20630.0
+      },
+      "wind_down_fps": {
+        "delta": 0.0,
+        "end": 4.196932892648254e-15,
+        "max": 4.196932892648254e-15,
+        "mean": 4.196932892648254e-15,
+        "min": 4.196932892648254e-15,
+        "start": 4.196932892648254e-15
+      },
+      "wind_east_fps": {
+        "delta": 0.0,
+        "end": 5.5511151024462674e-17,
+        "max": 5.5511151024462674e-17,
+        "mean": 5.5511151024462674e-17,
+        "min": 5.5511151024462674e-17,
+        "start": 5.5511151024462674e-17
+      },
+      "wind_north_fps": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      }
+    },
+    "provenance_id": "j2-c25dabb783f4ac1ffdef",
+    "reference_configuration_after_trim": {
+      "aircraft_model": "f16",
+      "cg_in": [
+        -191.8917111003393,
+        0.0,
+        -3.574406204556471
+      ],
+      "fbw_override": 0.0,
+      "gear_command_norm": 0.0,
+      "gear_position_norm": 0.0,
+      "mass_kg": 9357.610464086632,
+      "speedbrake_command_norm": 0.0,
+      "speedbrake_position_norm": 0.0,
+      "tank_contents_lbs": [
+        1500.0,
+        1500.0,
+        0.0,
+        0.0
+      ],
+      "turbulence_type": 0.0,
+      "weight_lbs": 20630.0
+    },
+    "repeat_index": 1,
+    "requested": {
+      "altitude_msl_m": 1500.0,
+      "gamma_deg": 0.0,
+      "speed_type": "KCAS",
+      "speed_value": 335.0
+    },
+    "run_id": "level-1500m-r1",
+    "settling_and_measurement": {
+      "measurement_duration_s": 20.0,
+      "measurement_sample_count": 2401,
+      "measurement_start_s": 10.0,
+      "replay_duration_s": 30.0,
+      "settled_at_s": 0.008333333333333333
+    },
+    "status": "VALID",
+    "status_reasons": [],
+    "tracking": {
+      "maximum_cas_relative_error": 0.000573258362564855,
+      "maximum_gamma_absolute_error_deg": 0.03366908876013756,
+      "maximum_normalized_control_surface_usage": 0.04598073798949853
+    },
+    "trim": {
+      "error": null,
+      "mode": "full",
+      "succeeded": true,
+      "trim_completed_property": 1.0
+    }
+  },
+  {
+    "actual_speed": {
+      "initialized_value": 334.9760273417368,
+      "measurement_max_value": 334.9719593697606,
+      "measurement_mean_value": 334.8968394778659,
+      "measurement_min_value": 334.8079584485408,
+      "type": "KCAS"
+    },
+    "checks": {
+      "afterburner_off": true,
+      "cas_tracking": true,
+      "control_surface_usage": true,
+      "engine_running": true,
+      "external_tanks_empty": true,
+      "finite_outputs": true,
+      "fixed_fuel": true,
+      "fixed_weight": true,
+      "gamma_tracking": true,
+      "gear_up": true,
+      "initialized_altitude_within_1m": true,
+      "initialized_speed_within_acceptance": true,
+      "measurement_window_complete": true,
+      "native_fcs": true,
+      "settled_within_allowance": true,
+      "speedbrake_closed": true,
+      "trim_succeeded": true,
+      "zero_wind": true
+    },
+    "confirmed_unsustainable": false,
+    "final_configuration": {
+      "aircraft_model": "f16",
+      "cg_in": [
+        -191.8917111003393,
+        0.0,
+        -3.574406204556471
+      ],
+      "fbw_override": 0.0,
+      "gear_command_norm": 0.0,
+      "gear_position_norm": 0.0,
+      "mass_kg": 9357.610464086632,
+      "speedbrake_command_norm": 0.0,
+      "speedbrake_position_norm": 0.0,
+      "tank_contents_lbs": [
+        1500.0,
+        1500.0,
+        0.0,
+        0.0
+      ],
+      "turbulence_type": 0.0,
+      "weight_lbs": 20630.0
+    },
+    "initialized": {
+      "alpha_deg": 0.01151687357074898,
+      "altitude_msl_m": 1500.0000013656736,
+      "beta_deg": 6.9985304960565616e-09,
+      "cg_x_in": -191.8917111003393,
+      "cg_y_in": 0.0,
+      "cg_z_in": -3.574406204556471,
+      "elapsed_s": 0.0,
+      "elevator_pos_norm": 0.008866422962639633,
+      "engine_n1": 40.0,
+      "engine_n2": 53.0,
+      "engine_running_flag": 1.0,
+      "engine_seized": 0.0,
+      "engine_stalled": 0.0,
+      "engine_thrust_lbs": -905.1784038176517,
+      "fbw_override": 0.0,
+      "flap_pos_norm": 0.0,
+      "gamma_deg": -0.011502983048373803,
+      "gear_pos_norm": 0.0,
+      "kcas": 334.9760273417368,
+      "left_aileron_pos_norm": 0.0,
+      "load_factor_nx": -0.15975301013142013,
+      "load_factor_ny": 0.0,
+      "load_factor_nz": 0.5434212870279945,
+      "mach": 0.5511187872238171,
+      "p_deg_s": -3.859217960662519e-16,
+      "q_deg_s": -0.114290603541345,
+      "r_deg_s": 1.106133538567316e-19,
+      "right_aileron_pos_norm": 0.0,
+      "rudder_pos_norm": 0.0,
+      "sim_time_s": 0.008333333333333333,
+      "speedbrake_pos_norm": 0.0,
+      "tas_mps": 184.34272083621875,
+      "throttle_cmd_norm": 0.0,
+      "throttle_pos_norm": 0.0,
+      "total_fuel_lbs": 3000.0,
+      "weight_lbs": 20630.0,
+      "wind_down_fps": 0.0,
+      "wind_east_fps": 0.0,
+      "wind_north_fps": 0.0
+    },
+    "loaded_model": {
+      "aircraft_path": "C:/Users/PC_10004_YD26/AppData/Local/Python/pythoncore-3.14-64/Lib/site-packages/jsbsim/aircraft/f16",
+      "model_id": "f16"
+    },
+    "measurement": {
+      "alpha_deg": {
+        "delta": 0.0017877230879763673,
+        "end": 1.2433327398411942,
+        "max": 1.2433327398411942,
+        "mean": 1.2423570597857359,
+        "min": 1.2415450167532178,
+        "start": 1.2415450167532178
+      },
+      "altitude_msl_m": {
+        "delta": 1.7207373225421634,
+        "end": 1501.9814606657983,
+        "max": 1501.9814606657983,
+        "mean": 1501.024577090045,
+        "min": 1500.2607233432561,
+        "start": 1500.2607233432561
+      },
+      "beta_deg": {
+        "delta": 1.1536929974534063e-06,
+        "end": 1.22889853537592e-06,
+        "max": 1.22889853537592e-06,
+        "mean": 5.343185619416776e-07,
+        "min": 7.520553792251366e-08,
+        "start": 7.520553792251366e-08
+      },
+      "cg_x_in": {
+        "delta": 0.0,
+        "end": -191.8917111003393,
+        "max": -191.8917111003393,
+        "mean": -191.8917111003393,
+        "min": -191.8917111003393,
+        "start": -191.8917111003393
+      },
+      "cg_y_in": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "cg_z_in": {
+        "delta": 0.0,
+        "end": -3.574406204556471,
+        "max": -3.574406204556471,
+        "mean": -3.5744062045564715,
+        "min": -3.574406204556471,
+        "start": -3.574406204556471
+      },
+      "elevator_pos_norm": {
+        "delta": -1.6705401895689143e-06,
+        "end": -0.04598073798949853,
+        "max": -0.045979067449308963,
+        "mean": -0.04597982824989851,
+        "min": -0.04598073798949853,
+        "start": -0.045979067449308963
+      },
+      "engine_n1": {
+        "delta": 0.0,
+        "end": 70.47089537046264,
+        "max": 70.47089537046264,
+        "mean": 70.47089537046264,
+        "min": 70.47089537046264,
+        "start": 70.47089537046264
+      },
+      "engine_n2": {
+        "delta": 0.0,
+        "end": 76.86886804019574,
+        "max": 76.86886804019574,
+        "mean": 76.86886804019574,
+        "min": 76.86886804019574,
+        "start": 76.86886804019574
+      },
+      "engine_running_flag": {
+        "delta": 0.0,
+        "end": 1.0,
+        "max": 1.0,
+        "mean": 1.0,
+        "min": 1.0,
+        "start": 1.0
+      },
+      "engine_seized": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "engine_stalled": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "engine_thrust_lbs": {
+        "delta": 0.4311848899301367,
+        "end": 3102.1900665941253,
+        "max": 3102.1900665941253,
+        "mean": 3101.966550582024,
+        "min": 3101.758881704195,
+        "start": 3101.758881704195
+      },
+      "fbw_override": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "flap_pos_norm": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "gamma_deg": {
+        "delta": 0.017846148273704218,
+        "end": 0.03366908876013756,
+        "max": 0.03366908876013756,
+        "mean": 0.02674601524785815,
+        "min": 0.01582294048643334,
+        "start": 0.01582294048643334
+      },
+      "gear_pos_norm": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "kcas": {
+        "delta": -0.1640009212198379,
+        "end": 334.8079584485408,
+        "max": 334.9719593697606,
+        "mean": 334.8968394778659,
+        "min": 334.8079584485408,
+        "start": 334.9719593697606
+      },
+      "left_aileron_pos_norm": {
+        "delta": 3.059139361492568e-08,
+        "end": 3.2480905391688686e-08,
+        "max": 3.2480905391688686e-08,
+        "mean": 1.4035637633553671e-08,
+        "min": 1.8895117767630058e-09,
+        "start": 1.8895117767630058e-09
+      },
+      "load_factor_nx": {
+        "delta": 0.00015345589705875393,
+        "end": 0.02177359232525377,
+        "max": 0.02177359232525377,
+        "mean": 0.021690863535036842,
+        "min": 0.021620136428195016,
+        "start": 0.021620136428195016
+      },
+      "load_factor_ny": {
+        "delta": -8.137615869118371e-08,
+        "end": -8.668423391891311e-08,
+        "max": -5.308075227729406e-09,
+        "mean": -3.770005135339125e-08,
+        "min": -8.668423391891311e-08,
+        "start": -5.308075227729406e-09
+      },
+      "load_factor_nz": {
+        "delta": -0.00038990788579651436,
+        "end": 0.9961394067332648,
+        "max": 0.9965293146190614,
+        "mean": 0.996348776143718,
+        "min": 0.9961394067332648,
+        "start": 0.9965293146190614
+      },
+      "mach": {
+        "delta": -0.00021285139270155184,
+        "end": 0.5509075136156416,
+        "max": 0.5511203650083432,
+        "mean": 0.5510221079984008,
+        "min": 0.5509075136156416,
+        "start": 0.5511203650083432
+      },
+      "p_deg_s": {
+        "delta": -1.837019428571391e-06,
+        "end": -1.960708537037834e-06,
+        "max": -1.2368910846644303e-07,
+        "mean": -8.532013938179594e-07,
+        "min": -1.960708537037834e-06,
+        "start": -1.2368910846644303e-07
+      },
+      "q_deg_s": {
+        "delta": -0.001127988577883736,
+        "end": -0.0013013915843698447,
+        "max": -0.00017340300648610856,
+        "mean": -0.0006849951792955682,
+        "min": -0.0013013915843698447,
+        "start": -0.00017340300648610856
+      },
+      "r_deg_s": {
+        "delta": 1.0080906013107468e-06,
+        "end": 1.0716084158129288e-06,
+        "max": 1.0716084158129288e-06,
+        "mean": 4.646499229000824e-07,
+        "min": 6.351781450218203e-08,
+        "start": 6.351781450218203e-08
+      },
+      "right_aileron_pos_norm": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "rudder_pos_norm": {
+        "delta": 1.8336804923193035e-07,
+        "end": 1.9528505331379844e-07,
+        "max": 1.9528505331379844e-07,
+        "mean": 8.486843654935106e-08,
+        "min": 1.1917004081868103e-08,
+        "start": 1.1917004081868103e-08
+      },
+      "speedbrake_pos_norm": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "tas_mps": {
+        "delta": -0.0748959177522579,
+        "end": 184.267791864711,
+        "max": 184.34268778246326,
+        "mean": 184.3081794551446,
+        "min": 184.267791864711,
+        "start": 184.34268778246326
+      },
+      "throttle_cmd_norm": {
+        "delta": 0.0,
+        "end": 0.2539241280871887,
+        "max": 0.2539241280871887,
+        "mean": 0.2539241280871887,
+        "min": 0.2539241280871887,
+        "start": 0.2539241280871887
+      },
+      "throttle_pos_norm": {
+        "delta": 0.0,
+        "end": 0.5078482561743775,
+        "max": 0.5078482561743775,
+        "mean": 0.5078482561743775,
+        "min": 0.5078482561743775,
+        "start": 0.5078482561743775
+      },
+      "total_fuel_lbs": {
+        "delta": 0.0,
+        "end": 3000.0,
+        "max": 3000.0,
+        "mean": 3000.0,
+        "min": 3000.0,
+        "start": 3000.0
+      },
+      "weight_lbs": {
+        "delta": 0.0,
+        "end": 20630.0,
+        "max": 20630.0,
+        "mean": 20630.0,
+        "min": 20630.0,
+        "start": 20630.0
+      },
+      "wind_down_fps": {
+        "delta": 0.0,
+        "end": 4.196932892648254e-15,
+        "max": 4.196932892648254e-15,
+        "mean": 4.196932892648254e-15,
+        "min": 4.196932892648254e-15,
+        "start": 4.196932892648254e-15
+      },
+      "wind_east_fps": {
+        "delta": 0.0,
+        "end": 5.5511151024462674e-17,
+        "max": 5.5511151024462674e-17,
+        "mean": 5.5511151024462674e-17,
+        "min": 5.5511151024462674e-17,
+        "start": 5.5511151024462674e-17
+      },
+      "wind_north_fps": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      }
+    },
+    "provenance_id": "j2-c25dabb783f4ac1ffdef",
+    "reference_configuration_after_trim": {
+      "aircraft_model": "f16",
+      "cg_in": [
+        -191.8917111003393,
+        0.0,
+        -3.574406204556471
+      ],
+      "fbw_override": 0.0,
+      "gear_command_norm": 0.0,
+      "gear_position_norm": 0.0,
+      "mass_kg": 9357.610464086632,
+      "speedbrake_command_norm": 0.0,
+      "speedbrake_position_norm": 0.0,
+      "tank_contents_lbs": [
+        1500.0,
+        1500.0,
+        0.0,
+        0.0
+      ],
+      "turbulence_type": 0.0,
+      "weight_lbs": 20630.0
+    },
+    "repeat_index": 2,
+    "requested": {
+      "altitude_msl_m": 1500.0,
+      "gamma_deg": 0.0,
+      "speed_type": "KCAS",
+      "speed_value": 335.0
+    },
+    "run_id": "level-1500m-r2",
+    "settling_and_measurement": {
+      "measurement_duration_s": 20.0,
+      "measurement_sample_count": 2401,
+      "measurement_start_s": 10.0,
+      "replay_duration_s": 30.0,
+      "settled_at_s": 0.008333333333333333
+    },
+    "status": "VALID",
+    "status_reasons": [],
+    "tracking": {
+      "maximum_cas_relative_error": 0.000573258362564855,
+      "maximum_gamma_absolute_error_deg": 0.03366908876013756,
+      "maximum_normalized_control_surface_usage": 0.04598073798949853
+    },
+    "trim": {
+      "error": null,
+      "mode": "full",
+      "succeeded": true,
+      "trim_completed_property": 1.0
+    }
+  },
+  {
+    "actual_speed": {
+      "initialized_value": 334.9760273417368,
+      "measurement_max_value": 334.9719593697606,
+      "measurement_mean_value": 334.8968394778659,
+      "measurement_min_value": 334.8079584485408,
+      "type": "KCAS"
+    },
+    "checks": {
+      "afterburner_off": true,
+      "cas_tracking": true,
+      "control_surface_usage": true,
+      "engine_running": true,
+      "external_tanks_empty": true,
+      "finite_outputs": true,
+      "fixed_fuel": true,
+      "fixed_weight": true,
+      "gamma_tracking": true,
+      "gear_up": true,
+      "initialized_altitude_within_1m": true,
+      "initialized_speed_within_acceptance": true,
+      "measurement_window_complete": true,
+      "native_fcs": true,
+      "settled_within_allowance": true,
+      "speedbrake_closed": true,
+      "trim_succeeded": true,
+      "zero_wind": true
+    },
+    "confirmed_unsustainable": false,
+    "final_configuration": {
+      "aircraft_model": "f16",
+      "cg_in": [
+        -191.8917111003393,
+        0.0,
+        -3.574406204556471
+      ],
+      "fbw_override": 0.0,
+      "gear_command_norm": 0.0,
+      "gear_position_norm": 0.0,
+      "mass_kg": 9357.610464086632,
+      "speedbrake_command_norm": 0.0,
+      "speedbrake_position_norm": 0.0,
+      "tank_contents_lbs": [
+        1500.0,
+        1500.0,
+        0.0,
+        0.0
+      ],
+      "turbulence_type": 0.0,
+      "weight_lbs": 20630.0
+    },
+    "initialized": {
+      "alpha_deg": 0.01151687357074898,
+      "altitude_msl_m": 1500.0000013656736,
+      "beta_deg": 6.9985304960565616e-09,
+      "cg_x_in": -191.8917111003393,
+      "cg_y_in": 0.0,
+      "cg_z_in": -3.574406204556471,
+      "elapsed_s": 0.0,
+      "elevator_pos_norm": 0.008866422962639633,
+      "engine_n1": 40.0,
+      "engine_n2": 53.0,
+      "engine_running_flag": 1.0,
+      "engine_seized": 0.0,
+      "engine_stalled": 0.0,
+      "engine_thrust_lbs": -905.1784038176517,
+      "fbw_override": 0.0,
+      "flap_pos_norm": 0.0,
+      "gamma_deg": -0.011502983048373803,
+      "gear_pos_norm": 0.0,
+      "kcas": 334.9760273417368,
+      "left_aileron_pos_norm": 0.0,
+      "load_factor_nx": -0.15975301013142013,
+      "load_factor_ny": 0.0,
+      "load_factor_nz": 0.5434212870279945,
+      "mach": 0.5511187872238171,
+      "p_deg_s": -3.859217960662519e-16,
+      "q_deg_s": -0.114290603541345,
+      "r_deg_s": 1.106133538567316e-19,
+      "right_aileron_pos_norm": 0.0,
+      "rudder_pos_norm": 0.0,
+      "sim_time_s": 0.008333333333333333,
+      "speedbrake_pos_norm": 0.0,
+      "tas_mps": 184.34272083621875,
+      "throttle_cmd_norm": 0.0,
+      "throttle_pos_norm": 0.0,
+      "total_fuel_lbs": 3000.0,
+      "weight_lbs": 20630.0,
+      "wind_down_fps": 0.0,
+      "wind_east_fps": 0.0,
+      "wind_north_fps": 0.0
+    },
+    "loaded_model": {
+      "aircraft_path": "C:/Users/PC_10004_YD26/AppData/Local/Python/pythoncore-3.14-64/Lib/site-packages/jsbsim/aircraft/f16",
+      "model_id": "f16"
+    },
+    "measurement": {
+      "alpha_deg": {
+        "delta": 0.0017877230879763673,
+        "end": 1.2433327398411942,
+        "max": 1.2433327398411942,
+        "mean": 1.2423570597857359,
+        "min": 1.2415450167532178,
+        "start": 1.2415450167532178
+      },
+      "altitude_msl_m": {
+        "delta": 1.7207373225421634,
+        "end": 1501.9814606657983,
+        "max": 1501.9814606657983,
+        "mean": 1501.024577090045,
+        "min": 1500.2607233432561,
+        "start": 1500.2607233432561
+      },
+      "beta_deg": {
+        "delta": 1.1536929974534063e-06,
+        "end": 1.22889853537592e-06,
+        "max": 1.22889853537592e-06,
+        "mean": 5.343185619416776e-07,
+        "min": 7.520553792251366e-08,
+        "start": 7.520553792251366e-08
+      },
+      "cg_x_in": {
+        "delta": 0.0,
+        "end": -191.8917111003393,
+        "max": -191.8917111003393,
+        "mean": -191.8917111003393,
+        "min": -191.8917111003393,
+        "start": -191.8917111003393
+      },
+      "cg_y_in": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "cg_z_in": {
+        "delta": 0.0,
+        "end": -3.574406204556471,
+        "max": -3.574406204556471,
+        "mean": -3.5744062045564715,
+        "min": -3.574406204556471,
+        "start": -3.574406204556471
+      },
+      "elevator_pos_norm": {
+        "delta": -1.6705401895689143e-06,
+        "end": -0.04598073798949853,
+        "max": -0.045979067449308963,
+        "mean": -0.04597982824989851,
+        "min": -0.04598073798949853,
+        "start": -0.045979067449308963
+      },
+      "engine_n1": {
+        "delta": 0.0,
+        "end": 70.47089537046264,
+        "max": 70.47089537046264,
+        "mean": 70.47089537046264,
+        "min": 70.47089537046264,
+        "start": 70.47089537046264
+      },
+      "engine_n2": {
+        "delta": 0.0,
+        "end": 76.86886804019574,
+        "max": 76.86886804019574,
+        "mean": 76.86886804019574,
+        "min": 76.86886804019574,
+        "start": 76.86886804019574
+      },
+      "engine_running_flag": {
+        "delta": 0.0,
+        "end": 1.0,
+        "max": 1.0,
+        "mean": 1.0,
+        "min": 1.0,
+        "start": 1.0
+      },
+      "engine_seized": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "engine_stalled": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "engine_thrust_lbs": {
+        "delta": 0.4311848899301367,
+        "end": 3102.1900665941253,
+        "max": 3102.1900665941253,
+        "mean": 3101.966550582024,
+        "min": 3101.758881704195,
+        "start": 3101.758881704195
+      },
+      "fbw_override": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "flap_pos_norm": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "gamma_deg": {
+        "delta": 0.017846148273704218,
+        "end": 0.03366908876013756,
+        "max": 0.03366908876013756,
+        "mean": 0.02674601524785815,
+        "min": 0.01582294048643334,
+        "start": 0.01582294048643334
+      },
+      "gear_pos_norm": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "kcas": {
+        "delta": -0.1640009212198379,
+        "end": 334.8079584485408,
+        "max": 334.9719593697606,
+        "mean": 334.8968394778659,
+        "min": 334.8079584485408,
+        "start": 334.9719593697606
+      },
+      "left_aileron_pos_norm": {
+        "delta": 3.059139361492568e-08,
+        "end": 3.2480905391688686e-08,
+        "max": 3.2480905391688686e-08,
+        "mean": 1.4035637633553671e-08,
+        "min": 1.8895117767630058e-09,
+        "start": 1.8895117767630058e-09
+      },
+      "load_factor_nx": {
+        "delta": 0.00015345589705875393,
+        "end": 0.02177359232525377,
+        "max": 0.02177359232525377,
+        "mean": 0.021690863535036842,
+        "min": 0.021620136428195016,
+        "start": 0.021620136428195016
+      },
+      "load_factor_ny": {
+        "delta": -8.137615869118371e-08,
+        "end": -8.668423391891311e-08,
+        "max": -5.308075227729406e-09,
+        "mean": -3.770005135339125e-08,
+        "min": -8.668423391891311e-08,
+        "start": -5.308075227729406e-09
+      },
+      "load_factor_nz": {
+        "delta": -0.00038990788579651436,
+        "end": 0.9961394067332648,
+        "max": 0.9965293146190614,
+        "mean": 0.996348776143718,
+        "min": 0.9961394067332648,
+        "start": 0.9965293146190614
+      },
+      "mach": {
+        "delta": -0.00021285139270155184,
+        "end": 0.5509075136156416,
+        "max": 0.5511203650083432,
+        "mean": 0.5510221079984008,
+        "min": 0.5509075136156416,
+        "start": 0.5511203650083432
+      },
+      "p_deg_s": {
+        "delta": -1.837019428571391e-06,
+        "end": -1.960708537037834e-06,
+        "max": -1.2368910846644303e-07,
+        "mean": -8.532013938179594e-07,
+        "min": -1.960708537037834e-06,
+        "start": -1.2368910846644303e-07
+      },
+      "q_deg_s": {
+        "delta": -0.001127988577883736,
+        "end": -0.0013013915843698447,
+        "max": -0.00017340300648610856,
+        "mean": -0.0006849951792955682,
+        "min": -0.0013013915843698447,
+        "start": -0.00017340300648610856
+      },
+      "r_deg_s": {
+        "delta": 1.0080906013107468e-06,
+        "end": 1.0716084158129288e-06,
+        "max": 1.0716084158129288e-06,
+        "mean": 4.646499229000824e-07,
+        "min": 6.351781450218203e-08,
+        "start": 6.351781450218203e-08
+      },
+      "right_aileron_pos_norm": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "rudder_pos_norm": {
+        "delta": 1.8336804923193035e-07,
+        "end": 1.9528505331379844e-07,
+        "max": 1.9528505331379844e-07,
+        "mean": 8.486843654935106e-08,
+        "min": 1.1917004081868103e-08,
+        "start": 1.1917004081868103e-08
+      },
+      "speedbrake_pos_norm": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "tas_mps": {
+        "delta": -0.0748959177522579,
+        "end": 184.267791864711,
+        "max": 184.34268778246326,
+        "mean": 184.3081794551446,
+        "min": 184.267791864711,
+        "start": 184.34268778246326
+      },
+      "throttle_cmd_norm": {
+        "delta": 0.0,
+        "end": 0.2539241280871887,
+        "max": 0.2539241280871887,
+        "mean": 0.2539241280871887,
+        "min": 0.2539241280871887,
+        "start": 0.2539241280871887
+      },
+      "throttle_pos_norm": {
+        "delta": 0.0,
+        "end": 0.5078482561743775,
+        "max": 0.5078482561743775,
+        "mean": 0.5078482561743775,
+        "min": 0.5078482561743775,
+        "start": 0.5078482561743775
+      },
+      "total_fuel_lbs": {
+        "delta": 0.0,
+        "end": 3000.0,
+        "max": 3000.0,
+        "mean": 3000.0,
+        "min": 3000.0,
+        "start": 3000.0
+      },
+      "weight_lbs": {
+        "delta": 0.0,
+        "end": 20630.0,
+        "max": 20630.0,
+        "mean": 20630.0,
+        "min": 20630.0,
+        "start": 20630.0
+      },
+      "wind_down_fps": {
+        "delta": 0.0,
+        "end": 4.196932892648254e-15,
+        "max": 4.196932892648254e-15,
+        "mean": 4.196932892648254e-15,
+        "min": 4.196932892648254e-15,
+        "start": 4.196932892648254e-15
+      },
+      "wind_east_fps": {
+        "delta": 0.0,
+        "end": 5.5511151024462674e-17,
+        "max": 5.5511151024462674e-17,
+        "mean": 5.5511151024462674e-17,
+        "min": 5.5511151024462674e-17,
+        "start": 5.5511151024462674e-17
+      },
+      "wind_north_fps": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      }
+    },
+    "provenance_id": "j2-c25dabb783f4ac1ffdef",
+    "reference_configuration_after_trim": {
+      "aircraft_model": "f16",
+      "cg_in": [
+        -191.8917111003393,
+        0.0,
+        -3.574406204556471
+      ],
+      "fbw_override": 0.0,
+      "gear_command_norm": 0.0,
+      "gear_position_norm": 0.0,
+      "mass_kg": 9357.610464086632,
+      "speedbrake_command_norm": 0.0,
+      "speedbrake_position_norm": 0.0,
+      "tank_contents_lbs": [
+        1500.0,
+        1500.0,
+        0.0,
+        0.0
+      ],
+      "turbulence_type": 0.0,
+      "weight_lbs": 20630.0
+    },
+    "repeat_index": 3,
+    "requested": {
+      "altitude_msl_m": 1500.0,
+      "gamma_deg": 0.0,
+      "speed_type": "KCAS",
+      "speed_value": 335.0
+    },
+    "run_id": "level-1500m-r3",
+    "settling_and_measurement": {
+      "measurement_duration_s": 20.0,
+      "measurement_sample_count": 2401,
+      "measurement_start_s": 10.0,
+      "replay_duration_s": 30.0,
+      "settled_at_s": 0.008333333333333333
+    },
+    "status": "VALID",
+    "status_reasons": [],
+    "tracking": {
+      "maximum_cas_relative_error": 0.000573258362564855,
+      "maximum_gamma_absolute_error_deg": 0.03366908876013756,
+      "maximum_normalized_control_surface_usage": 0.04598073798949853
+    },
+    "trim": {
+      "error": null,
+      "mode": "full",
+      "succeeded": true,
+      "trim_completed_property": 1.0
+    }
+  },
+  {
+    "actual_speed": {
+      "initialized_value": 334.9775879751552,
+      "measurement_max_value": 334.96901955375284,
+      "measurement_mean_value": 334.8844499536985,
+      "measurement_min_value": 334.7831964936298,
+      "type": "KCAS"
+    },
+    "checks": {
+      "afterburner_off": true,
+      "cas_tracking": true,
+      "control_surface_usage": true,
+      "engine_running": true,
+      "external_tanks_empty": true,
+      "finite_outputs": true,
+      "fixed_fuel": true,
+      "fixed_weight": true,
+      "gamma_tracking": true,
+      "gear_up": true,
+      "initialized_altitude_within_1m": true,
+      "initialized_speed_within_acceptance": true,
+      "measurement_window_complete": true,
+      "native_fcs": true,
+      "settled_within_allowance": true,
+      "speedbrake_closed": true,
+      "trim_succeeded": true,
+      "zero_wind": true
+    },
+    "confirmed_unsustainable": false,
+    "final_configuration": {
+      "aircraft_model": "f16",
+      "cg_in": [
+        -191.8917111003393,
+        0.0,
+        -3.574406204556471
+      ],
+      "fbw_override": 0.0,
+      "gear_command_norm": 0.0,
+      "gear_position_norm": 0.0,
+      "mass_kg": 9357.610464086632,
+      "speedbrake_command_norm": 0.0,
+      "speedbrake_position_norm": 0.0,
+      "tank_contents_lbs": [
+        1500.0,
+        1500.0,
+        0.0,
+        0.0
+      ],
+      "turbulence_type": 0.0,
+      "weight_lbs": 20630.0
+    },
+    "initialized": {
+      "alpha_deg": 0.010201481454974763,
+      "altitude_msl_m": 5000.000001435006,
+      "beta_deg": 6.199197962237219e-09,
+      "cg_x_in": -191.8917111003393,
+      "cg_y_in": 0.0,
+      "cg_z_in": -3.574406204556471,
+      "elapsed_s": 0.0,
+      "elevator_pos_norm": 0.008763434082328079,
+      "engine_n1": 40.0,
+      "engine_n2": 53.0,
+      "engine_running_flag": 1.0,
+      "engine_seized": 0.0,
+      "engine_stalled": 0.0,
+      "engine_thrust_lbs": -1201.6111609452107,
+      "fbw_override": 0.0,
+      "flap_pos_norm": 0.0,
+      "gamma_deg": -0.010185151392010271,
+      "gear_pos_norm": 0.0,
+      "kcas": 334.9775879751552,
+      "left_aileron_pos_norm": 0.0,
+      "load_factor_nx": -0.1698370125458519,
+      "load_factor_ny": 0.0,
+      "load_factor_nz": 0.5233068103786856,
+      "mach": 0.6764708262452529,
+      "p_deg_s": -3.859217960662519e-16,
+      "q_deg_s": -0.10923830246752692,
+      "r_deg_s": 1.106133538567316e-19,
+      "right_aileron_pos_norm": 0.0,
+      "rudder_pos_norm": 0.0,
+      "sim_time_s": 0.008333333333333333,
+      "speedbrake_pos_norm": 0.0,
+      "tas_mps": 216.83931819939568,
+      "throttle_cmd_norm": 0.0,
+      "throttle_pos_norm": 0.0,
+      "total_fuel_lbs": 3000.0,
+      "weight_lbs": 20630.0,
+      "wind_down_fps": 0.0,
+      "wind_east_fps": 0.0,
+      "wind_north_fps": 0.0
+    },
+    "loaded_model": {
+      "aircraft_path": "C:/Users/PC_10004_YD26/AppData/Local/Python/pythoncore-3.14-64/Lib/site-packages/jsbsim/aircraft/f16",
+      "model_id": "f16"
+    },
+    "measurement": {
+      "alpha_deg": {
+        "delta": 0.0017307521045539787,
+        "end": 1.3550106963785047,
+        "max": 1.3550106963785047,
+        "mean": 1.3540588468141495,
+        "min": 1.3532799442739507,
+        "start": 1.3532799442739507
+      },
+      "altitude_msl_m": {
+        "delta": 2.4024417842392722,
+        "end": 5002.764009644366,
+        "max": 5002.764009644366,
+        "mean": 5001.426181499954,
+        "min": 5000.361567860126,
+        "start": 5000.361567860126
+      },
+      "beta_deg": {
+        "delta": 2.9102436383307793e-06,
+        "end": 3.0265352678399885e-06,
+        "max": 3.0265352678399885e-06,
+        "mean": 1.1541691939701488e-06,
+        "min": 1.1629162950920917e-07,
+        "start": 1.1629162950920917e-07
+      },
+      "cg_x_in": {
+        "delta": 0.0,
+        "end": -191.8917111003393,
+        "max": -191.8917111003393,
+        "mean": -191.8917111003393,
+        "min": -191.8917111003393,
+        "start": -191.8917111003393
+      },
+      "cg_y_in": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "cg_z_in": {
+        "delta": 0.0,
+        "end": -3.574406204556471,
+        "max": -3.574406204556471,
+        "mean": -3.5744062045564715,
+        "min": -3.574406204556471,
+        "start": -3.574406204556471
+      },
+      "elevator_pos_norm": {
+        "delta": -1.0168738296172097e-05,
+        "end": -0.04241418606916255,
+        "max": -0.04240401733086638,
+        "mean": -0.04240870796464309,
+        "min": -0.04241418606916255,
+        "start": -0.04240401733086638
+      },
+      "engine_n1": {
+        "delta": 0.0,
+        "end": 75.89421298403255,
+        "max": 75.89421298403255,
+        "mean": 75.89421298403255,
+        "min": 75.89421298403255,
+        "start": 75.89421298403255
+      },
+      "engine_n2": {
+        "delta": 0.0,
+        "end": 81.11713350415883,
+        "max": 81.11713350415883,
+        "mean": 81.11713350415883,
+        "min": 81.11713350415883,
+        "start": 81.11713350415883
+      },
+      "engine_running_flag": {
+        "delta": 0.0,
+        "end": 1.0,
+        "max": 1.0,
+        "mean": 1.0,
+        "min": 1.0,
+        "start": 1.0
+      },
+      "engine_seized": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "engine_stalled": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "engine_thrust_lbs": {
+        "delta": 0.4239172939542186,
+        "end": 3019.014523806014,
+        "max": 3019.014523806014,
+        "mean": 3018.7955854901115,
+        "min": 3018.59060651206,
+        "start": 3018.59060651206
+      },
+      "fbw_override": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "flap_pos_norm": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "gamma_deg": {
+        "delta": 0.021460559995939325,
+        "end": 0.040140525379977914,
+        "max": 0.040140525379977914,
+        "mean": 0.0317461286645728,
+        "min": 0.01867996538403859,
+        "start": 0.01867996538403859
+      },
+      "gear_pos_norm": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "kcas": {
+        "delta": -0.18582306012302752,
+        "end": 334.7831964936298,
+        "max": 334.96901955375284,
+        "mean": 334.8844499536985,
+        "min": 334.7831964936298,
+        "start": 334.96901955375284
+      },
+      "left_aileron_pos_norm": {
+        "delta": -4.752782835607595e-09,
+        "end": -5.011074833628053e-09,
+        "max": -2.5829199802045853e-10,
+        "mean": -1.9859287698131603e-09,
+        "min": -5.011074833628053e-09,
+        "start": -2.5829199802045853e-10
+      },
+      "load_factor_nx": {
+        "delta": 0.00016083603891971915,
+        "end": 0.023699593462488962,
+        "max": 0.023699593462488962,
+        "mean": 0.02361243420571438,
+        "min": 0.023538757423569243,
+        "start": 0.023538757423569243
+      },
+      "load_factor_ny": {
+        "delta": -2.238245195582031e-07,
+        "end": -2.3276002363559812e-07,
+        "max": -8.935504077395012e-09,
+        "mean": -8.877553441759872e-08,
+        "min": -2.3276002363559812e-07,
+        "start": -8.935504077395012e-09
+      },
+      "load_factor_nz": {
+        "delta": -0.000535205457010135,
+        "end": 0.9948270748275148,
+        "max": 0.9953622802845249,
+        "mean": 0.9951163570517535,
+        "min": 0.9948270748275148,
+        "start": 0.9953622802845249
+      },
+      "mach": {
+        "delta": -0.00026145282148726245,
+        "end": 0.6762074995554048,
+        "max": 0.6764689523768921,
+        "mean": 0.6763488030406755,
+        "min": 0.6762074995554048,
+        "start": 0.6764689523768921
+      },
+      "p_deg_s": {
+        "delta": 2.854565959378163e-07,
+        "end": 2.9072617449400195e-07,
+        "max": 2.9072617449400195e-07,
+        "mean": 1.0905271620943567e-07,
+        "min": 5.269578556185678e-09,
+        "start": 5.269578556185678e-09
+      },
+      "q_deg_s": {
+        "delta": -0.0013237396349269574,
+        "end": -0.0015255069644710094,
+        "max": -0.00020176732954405198,
+        "mean": -0.0007998292596243898,
+        "min": -0.0015255069644710094,
+        "start": -0.00020176732954405198
+      },
+      "r_deg_s": {
+        "delta": 1.879621042395689e-06,
+        "end": 1.952681537211731e-06,
+        "max": 1.952681537211731e-06,
+        "mean": 7.433330983585616e-07,
+        "min": 7.306049481604192e-08,
+        "start": 7.306049481604192e-08
+      },
+      "right_aileron_pos_norm": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "rudder_pos_norm": {
+        "delta": 3.3996443870626146e-07,
+        "end": 3.5355344214914157e-07,
+        "max": 3.5355344214914157e-07,
+        "mean": 1.3479884269703294e-07,
+        "min": 1.3589003442880131e-08,
+        "start": 1.3589003442880131e-08
+      },
+      "speedbrake_pos_norm": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "tas_mps": {
+        "delta": -0.09041608814308688,
+        "end": 216.7473064199717,
+        "max": 216.83772250811478,
+        "mean": 216.7962803070128,
+        "min": 216.7473064199717,
+        "start": 216.83772250811478
+      },
+      "throttle_cmd_norm": {
+        "delta": 0.0,
+        "end": 0.29911844153360456,
+        "max": 0.29911844153360456,
+        "mean": 0.29911844153360456,
+        "min": 0.29911844153360456,
+        "start": 0.29911844153360456
+      },
+      "throttle_pos_norm": {
+        "delta": 0.0,
+        "end": 0.5982368830672091,
+        "max": 0.5982368830672091,
+        "mean": 0.5982368830672091,
+        "min": 0.5982368830672091,
+        "start": 0.5982368830672091
+      },
+      "total_fuel_lbs": {
+        "delta": 0.0,
+        "end": 3000.0,
+        "max": 3000.0,
+        "mean": 3000.0,
+        "min": 3000.0,
+        "start": 3000.0
+      },
+      "weight_lbs": {
+        "delta": 0.0,
+        "end": 20630.0,
+        "max": 20630.0,
+        "mean": 20630.0,
+        "min": 20630.0,
+        "start": 20630.0
+      },
+      "wind_down_fps": {
+        "delta": 0.0,
+        "end": 7.704821729553779e-15,
+        "max": 7.704821729553779e-15,
+        "mean": 7.704821729553779e-15,
+        "min": 7.704821729553779e-15,
+        "start": 7.704821729553779e-15
+      },
+      "wind_east_fps": {
+        "delta": 0.0,
+        "end": -1.5543122338548337e-15,
+        "max": -1.5543122338548337e-15,
+        "mean": -1.5543122338548337e-15,
+        "min": -1.5543122338548337e-15,
+        "start": -1.5543122338548337e-15
+      },
+      "wind_north_fps": {
+        "delta": 0.0,
+        "end": 9.094947017729282e-13,
+        "max": 9.094947017729282e-13,
+        "mean": 9.094947017729282e-13,
+        "min": 9.094947017729282e-13,
+        "start": 9.094947017729282e-13
+      }
+    },
+    "provenance_id": "j2-c25dabb783f4ac1ffdef",
+    "reference_configuration_after_trim": {
+      "aircraft_model": "f16",
+      "cg_in": [
+        -191.8917111003393,
+        0.0,
+        -3.574406204556471
+      ],
+      "fbw_override": 0.0,
+      "gear_command_norm": 0.0,
+      "gear_position_norm": 0.0,
+      "mass_kg": 9357.610464086632,
+      "speedbrake_command_norm": 0.0,
+      "speedbrake_position_norm": 0.0,
+      "tank_contents_lbs": [
+        1500.0,
+        1500.0,
+        0.0,
+        0.0
+      ],
+      "turbulence_type": 0.0,
+      "weight_lbs": 20630.0
+    },
+    "repeat_index": 1,
+    "requested": {
+      "altitude_msl_m": 5000.0,
+      "gamma_deg": 0.0,
+      "speed_type": "KCAS",
+      "speed_value": 335.0
+    },
+    "run_id": "level-5000m-r1",
+    "settling_and_measurement": {
+      "measurement_duration_s": 20.0,
+      "measurement_sample_count": 2401,
+      "measurement_start_s": 10.0,
+      "replay_duration_s": 30.0,
+      "settled_at_s": 0.008333333333333333
+    },
+    "status": "VALID",
+    "status_reasons": [],
+    "tracking": {
+      "maximum_cas_relative_error": 0.0006471746458811452,
+      "maximum_gamma_absolute_error_deg": 0.040140525379977914,
+      "maximum_normalized_control_surface_usage": 0.04241418606916255
+    },
+    "trim": {
+      "error": null,
+      "mode": "full",
+      "succeeded": true,
+      "trim_completed_property": 1.0
+    }
+  },
+  {
+    "actual_speed": {
+      "initialized_value": 334.9775879751552,
+      "measurement_max_value": 334.96901955375284,
+      "measurement_mean_value": 334.8844499536985,
+      "measurement_min_value": 334.7831964936298,
+      "type": "KCAS"
+    },
+    "checks": {
+      "afterburner_off": true,
+      "cas_tracking": true,
+      "control_surface_usage": true,
+      "engine_running": true,
+      "external_tanks_empty": true,
+      "finite_outputs": true,
+      "fixed_fuel": true,
+      "fixed_weight": true,
+      "gamma_tracking": true,
+      "gear_up": true,
+      "initialized_altitude_within_1m": true,
+      "initialized_speed_within_acceptance": true,
+      "measurement_window_complete": true,
+      "native_fcs": true,
+      "settled_within_allowance": true,
+      "speedbrake_closed": true,
+      "trim_succeeded": true,
+      "zero_wind": true
+    },
+    "confirmed_unsustainable": false,
+    "final_configuration": {
+      "aircraft_model": "f16",
+      "cg_in": [
+        -191.8917111003393,
+        0.0,
+        -3.574406204556471
+      ],
+      "fbw_override": 0.0,
+      "gear_command_norm": 0.0,
+      "gear_position_norm": 0.0,
+      "mass_kg": 9357.610464086632,
+      "speedbrake_command_norm": 0.0,
+      "speedbrake_position_norm": 0.0,
+      "tank_contents_lbs": [
+        1500.0,
+        1500.0,
+        0.0,
+        0.0
+      ],
+      "turbulence_type": 0.0,
+      "weight_lbs": 20630.0
+    },
+    "initialized": {
+      "alpha_deg": 0.010201481454974763,
+      "altitude_msl_m": 5000.000001435006,
+      "beta_deg": 6.199197962237219e-09,
+      "cg_x_in": -191.8917111003393,
+      "cg_y_in": 0.0,
+      "cg_z_in": -3.574406204556471,
+      "elapsed_s": 0.0,
+      "elevator_pos_norm": 0.008763434082328079,
+      "engine_n1": 40.0,
+      "engine_n2": 53.0,
+      "engine_running_flag": 1.0,
+      "engine_seized": 0.0,
+      "engine_stalled": 0.0,
+      "engine_thrust_lbs": -1201.6111609452107,
+      "fbw_override": 0.0,
+      "flap_pos_norm": 0.0,
+      "gamma_deg": -0.010185151392010271,
+      "gear_pos_norm": 0.0,
+      "kcas": 334.9775879751552,
+      "left_aileron_pos_norm": 0.0,
+      "load_factor_nx": -0.1698370125458519,
+      "load_factor_ny": 0.0,
+      "load_factor_nz": 0.5233068103786856,
+      "mach": 0.6764708262452529,
+      "p_deg_s": -3.859217960662519e-16,
+      "q_deg_s": -0.10923830246752692,
+      "r_deg_s": 1.106133538567316e-19,
+      "right_aileron_pos_norm": 0.0,
+      "rudder_pos_norm": 0.0,
+      "sim_time_s": 0.008333333333333333,
+      "speedbrake_pos_norm": 0.0,
+      "tas_mps": 216.83931819939568,
+      "throttle_cmd_norm": 0.0,
+      "throttle_pos_norm": 0.0,
+      "total_fuel_lbs": 3000.0,
+      "weight_lbs": 20630.0,
+      "wind_down_fps": 0.0,
+      "wind_east_fps": 0.0,
+      "wind_north_fps": 0.0
+    },
+    "loaded_model": {
+      "aircraft_path": "C:/Users/PC_10004_YD26/AppData/Local/Python/pythoncore-3.14-64/Lib/site-packages/jsbsim/aircraft/f16",
+      "model_id": "f16"
+    },
+    "measurement": {
+      "alpha_deg": {
+        "delta": 0.0017307521045539787,
+        "end": 1.3550106963785047,
+        "max": 1.3550106963785047,
+        "mean": 1.3540588468141495,
+        "min": 1.3532799442739507,
+        "start": 1.3532799442739507
+      },
+      "altitude_msl_m": {
+        "delta": 2.4024417842392722,
+        "end": 5002.764009644366,
+        "max": 5002.764009644366,
+        "mean": 5001.426181499954,
+        "min": 5000.361567860126,
+        "start": 5000.361567860126
+      },
+      "beta_deg": {
+        "delta": 2.9102436383307793e-06,
+        "end": 3.0265352678399885e-06,
+        "max": 3.0265352678399885e-06,
+        "mean": 1.1541691939701488e-06,
+        "min": 1.1629162950920917e-07,
+        "start": 1.1629162950920917e-07
+      },
+      "cg_x_in": {
+        "delta": 0.0,
+        "end": -191.8917111003393,
+        "max": -191.8917111003393,
+        "mean": -191.8917111003393,
+        "min": -191.8917111003393,
+        "start": -191.8917111003393
+      },
+      "cg_y_in": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "cg_z_in": {
+        "delta": 0.0,
+        "end": -3.574406204556471,
+        "max": -3.574406204556471,
+        "mean": -3.5744062045564715,
+        "min": -3.574406204556471,
+        "start": -3.574406204556471
+      },
+      "elevator_pos_norm": {
+        "delta": -1.0168738296172097e-05,
+        "end": -0.04241418606916255,
+        "max": -0.04240401733086638,
+        "mean": -0.04240870796464309,
+        "min": -0.04241418606916255,
+        "start": -0.04240401733086638
+      },
+      "engine_n1": {
+        "delta": 0.0,
+        "end": 75.89421298403255,
+        "max": 75.89421298403255,
+        "mean": 75.89421298403255,
+        "min": 75.89421298403255,
+        "start": 75.89421298403255
+      },
+      "engine_n2": {
+        "delta": 0.0,
+        "end": 81.11713350415883,
+        "max": 81.11713350415883,
+        "mean": 81.11713350415883,
+        "min": 81.11713350415883,
+        "start": 81.11713350415883
+      },
+      "engine_running_flag": {
+        "delta": 0.0,
+        "end": 1.0,
+        "max": 1.0,
+        "mean": 1.0,
+        "min": 1.0,
+        "start": 1.0
+      },
+      "engine_seized": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "engine_stalled": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "engine_thrust_lbs": {
+        "delta": 0.4239172939542186,
+        "end": 3019.014523806014,
+        "max": 3019.014523806014,
+        "mean": 3018.7955854901115,
+        "min": 3018.59060651206,
+        "start": 3018.59060651206
+      },
+      "fbw_override": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "flap_pos_norm": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "gamma_deg": {
+        "delta": 0.021460559995939325,
+        "end": 0.040140525379977914,
+        "max": 0.040140525379977914,
+        "mean": 0.0317461286645728,
+        "min": 0.01867996538403859,
+        "start": 0.01867996538403859
+      },
+      "gear_pos_norm": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "kcas": {
+        "delta": -0.18582306012302752,
+        "end": 334.7831964936298,
+        "max": 334.96901955375284,
+        "mean": 334.8844499536985,
+        "min": 334.7831964936298,
+        "start": 334.96901955375284
+      },
+      "left_aileron_pos_norm": {
+        "delta": -4.752782835607595e-09,
+        "end": -5.011074833628053e-09,
+        "max": -2.5829199802045853e-10,
+        "mean": -1.9859287698131603e-09,
+        "min": -5.011074833628053e-09,
+        "start": -2.5829199802045853e-10
+      },
+      "load_factor_nx": {
+        "delta": 0.00016083603891971915,
+        "end": 0.023699593462488962,
+        "max": 0.023699593462488962,
+        "mean": 0.02361243420571438,
+        "min": 0.023538757423569243,
+        "start": 0.023538757423569243
+      },
+      "load_factor_ny": {
+        "delta": -2.238245195582031e-07,
+        "end": -2.3276002363559812e-07,
+        "max": -8.935504077395012e-09,
+        "mean": -8.877553441759872e-08,
+        "min": -2.3276002363559812e-07,
+        "start": -8.935504077395012e-09
+      },
+      "load_factor_nz": {
+        "delta": -0.000535205457010135,
+        "end": 0.9948270748275148,
+        "max": 0.9953622802845249,
+        "mean": 0.9951163570517535,
+        "min": 0.9948270748275148,
+        "start": 0.9953622802845249
+      },
+      "mach": {
+        "delta": -0.00026145282148726245,
+        "end": 0.6762074995554048,
+        "max": 0.6764689523768921,
+        "mean": 0.6763488030406755,
+        "min": 0.6762074995554048,
+        "start": 0.6764689523768921
+      },
+      "p_deg_s": {
+        "delta": 2.854565959378163e-07,
+        "end": 2.9072617449400195e-07,
+        "max": 2.9072617449400195e-07,
+        "mean": 1.0905271620943567e-07,
+        "min": 5.269578556185678e-09,
+        "start": 5.269578556185678e-09
+      },
+      "q_deg_s": {
+        "delta": -0.0013237396349269574,
+        "end": -0.0015255069644710094,
+        "max": -0.00020176732954405198,
+        "mean": -0.0007998292596243898,
+        "min": -0.0015255069644710094,
+        "start": -0.00020176732954405198
+      },
+      "r_deg_s": {
+        "delta": 1.879621042395689e-06,
+        "end": 1.952681537211731e-06,
+        "max": 1.952681537211731e-06,
+        "mean": 7.433330983585616e-07,
+        "min": 7.306049481604192e-08,
+        "start": 7.306049481604192e-08
+      },
+      "right_aileron_pos_norm": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "rudder_pos_norm": {
+        "delta": 3.3996443870626146e-07,
+        "end": 3.5355344214914157e-07,
+        "max": 3.5355344214914157e-07,
+        "mean": 1.3479884269703294e-07,
+        "min": 1.3589003442880131e-08,
+        "start": 1.3589003442880131e-08
+      },
+      "speedbrake_pos_norm": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "tas_mps": {
+        "delta": -0.09041608814308688,
+        "end": 216.7473064199717,
+        "max": 216.83772250811478,
+        "mean": 216.7962803070128,
+        "min": 216.7473064199717,
+        "start": 216.83772250811478
+      },
+      "throttle_cmd_norm": {
+        "delta": 0.0,
+        "end": 0.29911844153360456,
+        "max": 0.29911844153360456,
+        "mean": 0.29911844153360456,
+        "min": 0.29911844153360456,
+        "start": 0.29911844153360456
+      },
+      "throttle_pos_norm": {
+        "delta": 0.0,
+        "end": 0.5982368830672091,
+        "max": 0.5982368830672091,
+        "mean": 0.5982368830672091,
+        "min": 0.5982368830672091,
+        "start": 0.5982368830672091
+      },
+      "total_fuel_lbs": {
+        "delta": 0.0,
+        "end": 3000.0,
+        "max": 3000.0,
+        "mean": 3000.0,
+        "min": 3000.0,
+        "start": 3000.0
+      },
+      "weight_lbs": {
+        "delta": 0.0,
+        "end": 20630.0,
+        "max": 20630.0,
+        "mean": 20630.0,
+        "min": 20630.0,
+        "start": 20630.0
+      },
+      "wind_down_fps": {
+        "delta": 0.0,
+        "end": 7.704821729553779e-15,
+        "max": 7.704821729553779e-15,
+        "mean": 7.704821729553779e-15,
+        "min": 7.704821729553779e-15,
+        "start": 7.704821729553779e-15
+      },
+      "wind_east_fps": {
+        "delta": 0.0,
+        "end": -1.5543122338548337e-15,
+        "max": -1.5543122338548337e-15,
+        "mean": -1.5543122338548337e-15,
+        "min": -1.5543122338548337e-15,
+        "start": -1.5543122338548337e-15
+      },
+      "wind_north_fps": {
+        "delta": 0.0,
+        "end": 9.094947017729282e-13,
+        "max": 9.094947017729282e-13,
+        "mean": 9.094947017729282e-13,
+        "min": 9.094947017729282e-13,
+        "start": 9.094947017729282e-13
+      }
+    },
+    "provenance_id": "j2-c25dabb783f4ac1ffdef",
+    "reference_configuration_after_trim": {
+      "aircraft_model": "f16",
+      "cg_in": [
+        -191.8917111003393,
+        0.0,
+        -3.574406204556471
+      ],
+      "fbw_override": 0.0,
+      "gear_command_norm": 0.0,
+      "gear_position_norm": 0.0,
+      "mass_kg": 9357.610464086632,
+      "speedbrake_command_norm": 0.0,
+      "speedbrake_position_norm": 0.0,
+      "tank_contents_lbs": [
+        1500.0,
+        1500.0,
+        0.0,
+        0.0
+      ],
+      "turbulence_type": 0.0,
+      "weight_lbs": 20630.0
+    },
+    "repeat_index": 2,
+    "requested": {
+      "altitude_msl_m": 5000.0,
+      "gamma_deg": 0.0,
+      "speed_type": "KCAS",
+      "speed_value": 335.0
+    },
+    "run_id": "level-5000m-r2",
+    "settling_and_measurement": {
+      "measurement_duration_s": 20.0,
+      "measurement_sample_count": 2401,
+      "measurement_start_s": 10.0,
+      "replay_duration_s": 30.0,
+      "settled_at_s": 0.008333333333333333
+    },
+    "status": "VALID",
+    "status_reasons": [],
+    "tracking": {
+      "maximum_cas_relative_error": 0.0006471746458811452,
+      "maximum_gamma_absolute_error_deg": 0.040140525379977914,
+      "maximum_normalized_control_surface_usage": 0.04241418606916255
+    },
+    "trim": {
+      "error": null,
+      "mode": "full",
+      "succeeded": true,
+      "trim_completed_property": 1.0
+    }
+  },
+  {
+    "actual_speed": {
+      "initialized_value": 334.9775879751552,
+      "measurement_max_value": 334.96901955375284,
+      "measurement_mean_value": 334.8844499536985,
+      "measurement_min_value": 334.7831964936298,
+      "type": "KCAS"
+    },
+    "checks": {
+      "afterburner_off": true,
+      "cas_tracking": true,
+      "control_surface_usage": true,
+      "engine_running": true,
+      "external_tanks_empty": true,
+      "finite_outputs": true,
+      "fixed_fuel": true,
+      "fixed_weight": true,
+      "gamma_tracking": true,
+      "gear_up": true,
+      "initialized_altitude_within_1m": true,
+      "initialized_speed_within_acceptance": true,
+      "measurement_window_complete": true,
+      "native_fcs": true,
+      "settled_within_allowance": true,
+      "speedbrake_closed": true,
+      "trim_succeeded": true,
+      "zero_wind": true
+    },
+    "confirmed_unsustainable": false,
+    "final_configuration": {
+      "aircraft_model": "f16",
+      "cg_in": [
+        -191.8917111003393,
+        0.0,
+        -3.574406204556471
+      ],
+      "fbw_override": 0.0,
+      "gear_command_norm": 0.0,
+      "gear_position_norm": 0.0,
+      "mass_kg": 9357.610464086632,
+      "speedbrake_command_norm": 0.0,
+      "speedbrake_position_norm": 0.0,
+      "tank_contents_lbs": [
+        1500.0,
+        1500.0,
+        0.0,
+        0.0
+      ],
+      "turbulence_type": 0.0,
+      "weight_lbs": 20630.0
+    },
+    "initialized": {
+      "alpha_deg": 0.010201481454974763,
+      "altitude_msl_m": 5000.000001435006,
+      "beta_deg": 6.199197962237219e-09,
+      "cg_x_in": -191.8917111003393,
+      "cg_y_in": 0.0,
+      "cg_z_in": -3.574406204556471,
+      "elapsed_s": 0.0,
+      "elevator_pos_norm": 0.008763434082328079,
+      "engine_n1": 40.0,
+      "engine_n2": 53.0,
+      "engine_running_flag": 1.0,
+      "engine_seized": 0.0,
+      "engine_stalled": 0.0,
+      "engine_thrust_lbs": -1201.6111609452107,
+      "fbw_override": 0.0,
+      "flap_pos_norm": 0.0,
+      "gamma_deg": -0.010185151392010271,
+      "gear_pos_norm": 0.0,
+      "kcas": 334.9775879751552,
+      "left_aileron_pos_norm": 0.0,
+      "load_factor_nx": -0.1698370125458519,
+      "load_factor_ny": 0.0,
+      "load_factor_nz": 0.5233068103786856,
+      "mach": 0.6764708262452529,
+      "p_deg_s": -3.859217960662519e-16,
+      "q_deg_s": -0.10923830246752692,
+      "r_deg_s": 1.106133538567316e-19,
+      "right_aileron_pos_norm": 0.0,
+      "rudder_pos_norm": 0.0,
+      "sim_time_s": 0.008333333333333333,
+      "speedbrake_pos_norm": 0.0,
+      "tas_mps": 216.83931819939568,
+      "throttle_cmd_norm": 0.0,
+      "throttle_pos_norm": 0.0,
+      "total_fuel_lbs": 3000.0,
+      "weight_lbs": 20630.0,
+      "wind_down_fps": 0.0,
+      "wind_east_fps": 0.0,
+      "wind_north_fps": 0.0
+    },
+    "loaded_model": {
+      "aircraft_path": "C:/Users/PC_10004_YD26/AppData/Local/Python/pythoncore-3.14-64/Lib/site-packages/jsbsim/aircraft/f16",
+      "model_id": "f16"
+    },
+    "measurement": {
+      "alpha_deg": {
+        "delta": 0.0017307521045539787,
+        "end": 1.3550106963785047,
+        "max": 1.3550106963785047,
+        "mean": 1.3540588468141495,
+        "min": 1.3532799442739507,
+        "start": 1.3532799442739507
+      },
+      "altitude_msl_m": {
+        "delta": 2.4024417842392722,
+        "end": 5002.764009644366,
+        "max": 5002.764009644366,
+        "mean": 5001.426181499954,
+        "min": 5000.361567860126,
+        "start": 5000.361567860126
+      },
+      "beta_deg": {
+        "delta": 2.9102436383307793e-06,
+        "end": 3.0265352678399885e-06,
+        "max": 3.0265352678399885e-06,
+        "mean": 1.1541691939701488e-06,
+        "min": 1.1629162950920917e-07,
+        "start": 1.1629162950920917e-07
+      },
+      "cg_x_in": {
+        "delta": 0.0,
+        "end": -191.8917111003393,
+        "max": -191.8917111003393,
+        "mean": -191.8917111003393,
+        "min": -191.8917111003393,
+        "start": -191.8917111003393
+      },
+      "cg_y_in": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "cg_z_in": {
+        "delta": 0.0,
+        "end": -3.574406204556471,
+        "max": -3.574406204556471,
+        "mean": -3.5744062045564715,
+        "min": -3.574406204556471,
+        "start": -3.574406204556471
+      },
+      "elevator_pos_norm": {
+        "delta": -1.0168738296172097e-05,
+        "end": -0.04241418606916255,
+        "max": -0.04240401733086638,
+        "mean": -0.04240870796464309,
+        "min": -0.04241418606916255,
+        "start": -0.04240401733086638
+      },
+      "engine_n1": {
+        "delta": 0.0,
+        "end": 75.89421298403255,
+        "max": 75.89421298403255,
+        "mean": 75.89421298403255,
+        "min": 75.89421298403255,
+        "start": 75.89421298403255
+      },
+      "engine_n2": {
+        "delta": 0.0,
+        "end": 81.11713350415883,
+        "max": 81.11713350415883,
+        "mean": 81.11713350415883,
+        "min": 81.11713350415883,
+        "start": 81.11713350415883
+      },
+      "engine_running_flag": {
+        "delta": 0.0,
+        "end": 1.0,
+        "max": 1.0,
+        "mean": 1.0,
+        "min": 1.0,
+        "start": 1.0
+      },
+      "engine_seized": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "engine_stalled": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "engine_thrust_lbs": {
+        "delta": 0.4239172939542186,
+        "end": 3019.014523806014,
+        "max": 3019.014523806014,
+        "mean": 3018.7955854901115,
+        "min": 3018.59060651206,
+        "start": 3018.59060651206
+      },
+      "fbw_override": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "flap_pos_norm": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "gamma_deg": {
+        "delta": 0.021460559995939325,
+        "end": 0.040140525379977914,
+        "max": 0.040140525379977914,
+        "mean": 0.0317461286645728,
+        "min": 0.01867996538403859,
+        "start": 0.01867996538403859
+      },
+      "gear_pos_norm": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "kcas": {
+        "delta": -0.18582306012302752,
+        "end": 334.7831964936298,
+        "max": 334.96901955375284,
+        "mean": 334.8844499536985,
+        "min": 334.7831964936298,
+        "start": 334.96901955375284
+      },
+      "left_aileron_pos_norm": {
+        "delta": -4.752782835607595e-09,
+        "end": -5.011074833628053e-09,
+        "max": -2.5829199802045853e-10,
+        "mean": -1.9859287698131603e-09,
+        "min": -5.011074833628053e-09,
+        "start": -2.5829199802045853e-10
+      },
+      "load_factor_nx": {
+        "delta": 0.00016083603891971915,
+        "end": 0.023699593462488962,
+        "max": 0.023699593462488962,
+        "mean": 0.02361243420571438,
+        "min": 0.023538757423569243,
+        "start": 0.023538757423569243
+      },
+      "load_factor_ny": {
+        "delta": -2.238245195582031e-07,
+        "end": -2.3276002363559812e-07,
+        "max": -8.935504077395012e-09,
+        "mean": -8.877553441759872e-08,
+        "min": -2.3276002363559812e-07,
+        "start": -8.935504077395012e-09
+      },
+      "load_factor_nz": {
+        "delta": -0.000535205457010135,
+        "end": 0.9948270748275148,
+        "max": 0.9953622802845249,
+        "mean": 0.9951163570517535,
+        "min": 0.9948270748275148,
+        "start": 0.9953622802845249
+      },
+      "mach": {
+        "delta": -0.00026145282148726245,
+        "end": 0.6762074995554048,
+        "max": 0.6764689523768921,
+        "mean": 0.6763488030406755,
+        "min": 0.6762074995554048,
+        "start": 0.6764689523768921
+      },
+      "p_deg_s": {
+        "delta": 2.854565959378163e-07,
+        "end": 2.9072617449400195e-07,
+        "max": 2.9072617449400195e-07,
+        "mean": 1.0905271620943567e-07,
+        "min": 5.269578556185678e-09,
+        "start": 5.269578556185678e-09
+      },
+      "q_deg_s": {
+        "delta": -0.0013237396349269574,
+        "end": -0.0015255069644710094,
+        "max": -0.00020176732954405198,
+        "mean": -0.0007998292596243898,
+        "min": -0.0015255069644710094,
+        "start": -0.00020176732954405198
+      },
+      "r_deg_s": {
+        "delta": 1.879621042395689e-06,
+        "end": 1.952681537211731e-06,
+        "max": 1.952681537211731e-06,
+        "mean": 7.433330983585616e-07,
+        "min": 7.306049481604192e-08,
+        "start": 7.306049481604192e-08
+      },
+      "right_aileron_pos_norm": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "rudder_pos_norm": {
+        "delta": 3.3996443870626146e-07,
+        "end": 3.5355344214914157e-07,
+        "max": 3.5355344214914157e-07,
+        "mean": 1.3479884269703294e-07,
+        "min": 1.3589003442880131e-08,
+        "start": 1.3589003442880131e-08
+      },
+      "speedbrake_pos_norm": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "tas_mps": {
+        "delta": -0.09041608814308688,
+        "end": 216.7473064199717,
+        "max": 216.83772250811478,
+        "mean": 216.7962803070128,
+        "min": 216.7473064199717,
+        "start": 216.83772250811478
+      },
+      "throttle_cmd_norm": {
+        "delta": 0.0,
+        "end": 0.29911844153360456,
+        "max": 0.29911844153360456,
+        "mean": 0.29911844153360456,
+        "min": 0.29911844153360456,
+        "start": 0.29911844153360456
+      },
+      "throttle_pos_norm": {
+        "delta": 0.0,
+        "end": 0.5982368830672091,
+        "max": 0.5982368830672091,
+        "mean": 0.5982368830672091,
+        "min": 0.5982368830672091,
+        "start": 0.5982368830672091
+      },
+      "total_fuel_lbs": {
+        "delta": 0.0,
+        "end": 3000.0,
+        "max": 3000.0,
+        "mean": 3000.0,
+        "min": 3000.0,
+        "start": 3000.0
+      },
+      "weight_lbs": {
+        "delta": 0.0,
+        "end": 20630.0,
+        "max": 20630.0,
+        "mean": 20630.0,
+        "min": 20630.0,
+        "start": 20630.0
+      },
+      "wind_down_fps": {
+        "delta": 0.0,
+        "end": 7.704821729553779e-15,
+        "max": 7.704821729553779e-15,
+        "mean": 7.704821729553779e-15,
+        "min": 7.704821729553779e-15,
+        "start": 7.704821729553779e-15
+      },
+      "wind_east_fps": {
+        "delta": 0.0,
+        "end": -1.5543122338548337e-15,
+        "max": -1.5543122338548337e-15,
+        "mean": -1.5543122338548337e-15,
+        "min": -1.5543122338548337e-15,
+        "start": -1.5543122338548337e-15
+      },
+      "wind_north_fps": {
+        "delta": 0.0,
+        "end": 9.094947017729282e-13,
+        "max": 9.094947017729282e-13,
+        "mean": 9.094947017729282e-13,
+        "min": 9.094947017729282e-13,
+        "start": 9.094947017729282e-13
+      }
+    },
+    "provenance_id": "j2-c25dabb783f4ac1ffdef",
+    "reference_configuration_after_trim": {
+      "aircraft_model": "f16",
+      "cg_in": [
+        -191.8917111003393,
+        0.0,
+        -3.574406204556471
+      ],
+      "fbw_override": 0.0,
+      "gear_command_norm": 0.0,
+      "gear_position_norm": 0.0,
+      "mass_kg": 9357.610464086632,
+      "speedbrake_command_norm": 0.0,
+      "speedbrake_position_norm": 0.0,
+      "tank_contents_lbs": [
+        1500.0,
+        1500.0,
+        0.0,
+        0.0
+      ],
+      "turbulence_type": 0.0,
+      "weight_lbs": 20630.0
+    },
+    "repeat_index": 3,
+    "requested": {
+      "altitude_msl_m": 5000.0,
+      "gamma_deg": 0.0,
+      "speed_type": "KCAS",
+      "speed_value": 335.0
+    },
+    "run_id": "level-5000m-r3",
+    "settling_and_measurement": {
+      "measurement_duration_s": 20.0,
+      "measurement_sample_count": 2401,
+      "measurement_start_s": 10.0,
+      "replay_duration_s": 30.0,
+      "settled_at_s": 0.008333333333333333
+    },
+    "status": "VALID",
+    "status_reasons": [],
+    "tracking": {
+      "maximum_cas_relative_error": 0.0006471746458811452,
+      "maximum_gamma_absolute_error_deg": 0.040140525379977914,
+      "maximum_normalized_control_surface_usage": 0.04241418606916255
+    },
+    "trim": {
+      "error": null,
+      "mode": "full",
+      "succeeded": true,
+      "trim_completed_property": 1.0
+    }
+  },
+  {
+    "actual_speed": {
+      "initialized_value": 334.97809940140826,
+      "measurement_max_value": 334.96612146182804,
+      "measurement_mean_value": 334.8750205387986,
+      "measurement_min_value": 334.76523318467554,
+      "type": "KCAS"
+    },
+    "checks": {
+      "afterburner_off": true,
+      "cas_tracking": true,
+      "control_surface_usage": true,
+      "engine_running": true,
+      "external_tanks_empty": true,
+      "finite_outputs": true,
+      "fixed_fuel": true,
+      "fixed_weight": true,
+      "gamma_tracking": true,
+      "gear_up": true,
+      "initialized_altitude_within_1m": true,
+      "initialized_speed_within_acceptance": true,
+      "measurement_window_complete": true,
+      "native_fcs": true,
+      "settled_within_allowance": true,
+      "speedbrake_closed": true,
+      "trim_succeeded": true,
+      "zero_wind": true
+    },
+    "confirmed_unsustainable": false,
+    "final_configuration": {
+      "aircraft_model": "f16",
+      "cg_in": [
+        -191.8917111003393,
+        0.0,
+        -3.574406204556471
+      ],
+      "fbw_override": 0.0,
+      "gear_command_norm": 0.0,
+      "gear_position_norm": 0.0,
+      "mass_kg": 9357.610464086632,
+      "speedbrake_command_norm": 0.0,
+      "speedbrake_position_norm": 0.0,
+      "tank_contents_lbs": [
+        1500.0,
+        1500.0,
+        0.0,
+        0.0
+      ],
+      "turbulence_type": 0.0,
+      "weight_lbs": 20630.0
+    },
+    "initialized": {
+      "alpha_deg": 0.009874510084171792,
+      "altitude_msl_m": 6000.000001461303,
+      "beta_deg": 6.000505228819866e-09,
+      "cg_x_in": -191.8917111003393,
+      "cg_y_in": 0.0,
+      "cg_z_in": -3.574406204556471,
+      "elapsed_s": 0.0,
+      "elevator_pos_norm": 0.00872504219798236,
+      "engine_n1": 40.0,
+      "engine_n2": 53.0,
+      "engine_running_flag": 1.0,
+      "engine_seized": 0.0,
+      "engine_stalled": 0.0,
+      "engine_thrust_lbs": -1276.6353334718283,
+      "fbw_override": 0.0,
+      "flap_pos_norm": 0.0,
+      "gamma_deg": -0.009857387585872419,
+      "gear_pos_norm": 0.0,
+      "kcas": 334.97809940140826,
+      "left_aileron_pos_norm": 0.0,
+      "load_factor_nx": -0.17188699522589207,
+      "load_factor_ny": 0.0,
+      "load_factor_nz": 0.5158676306894912,
+      "mach": 0.7185879046360854,
+      "p_deg_s": -3.859217960662519e-16,
+      "q_deg_s": -0.10745603717921313,
+      "r_deg_s": 1.106133538567316e-19,
+      "right_aileron_pos_norm": 0.0,
+      "rudder_pos_norm": 0.0,
+      "sim_time_s": 0.008333333333333333,
+      "speedbrake_pos_norm": 0.0,
+      "tas_mps": 227.39806584512823,
+      "throttle_cmd_norm": 0.0,
+      "throttle_pos_norm": 0.0,
+      "total_fuel_lbs": 3000.0,
+      "weight_lbs": 20630.0,
+      "wind_down_fps": 0.0,
+      "wind_east_fps": 0.0,
+      "wind_north_fps": 0.0
+    },
+    "loaded_model": {
+      "aircraft_path": "C:/Users/PC_10004_YD26/AppData/Local/Python/pythoncore-3.14-64/Lib/site-packages/jsbsim/aircraft/f16",
+      "model_id": "f16"
+    },
+    "measurement": {
+      "alpha_deg": {
+        "delta": 0.0018593362328442886,
+        "end": 1.4000526041502843,
+        "max": 1.4000526041502843,
+        "mean": 1.3990265275422347,
+        "min": 1.39819326791744,
+        "start": 1.39819326791744
+      },
+      "altitude_msl_m": {
+        "delta": 2.694892075887765,
+        "end": 6003.098986278481,
+        "max": 6003.098986278481,
+        "mean": 6001.595999065634,
+        "min": 6000.404094202593,
+        "start": 6000.404094202593
+      },
+      "beta_deg": {
+        "delta": 5.315461535062475e-06,
+        "end": 5.393785371593323e-06,
+        "max": 5.393785371593323e-06,
+        "mean": 1.7308531071312129e-06,
+        "min": 7.832383653084847e-08,
+        "start": 7.832383653084847e-08
+      },
+      "cg_x_in": {
+        "delta": 0.0,
+        "end": -191.8917111003393,
+        "max": -191.8917111003393,
+        "mean": -191.8917111003393,
+        "min": -191.8917111003393,
+        "start": -191.8917111003393
+      },
+      "cg_y_in": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "cg_z_in": {
+        "delta": 0.0,
+        "end": -3.574406204556471,
+        "max": -3.574406204556471,
+        "mean": -3.5744062045564715,
+        "min": -3.574406204556471,
+        "start": -3.574406204556471
+      },
+      "elevator_pos_norm": {
+        "delta": -9.204157713015026e-06,
+        "end": -0.04021514784167831,
+        "max": -0.040205943683965295,
+        "mean": -0.04021020631128553,
+        "min": -0.04021514784167831,
+        "start": -0.040205943683965295
+      },
+      "engine_n1": {
+        "delta": 0.0,
+        "end": 77.63430934329045,
+        "max": 77.63430934329045,
+        "mean": 77.63430934329045,
+        "min": 77.63430934329045,
+        "start": 77.63430934329045
+      },
+      "engine_n2": {
+        "delta": 0.0,
+        "end": 82.48020898557753,
+        "max": 82.48020898557753,
+        "mean": 82.48020898557753,
+        "min": 82.48020898557753,
+        "start": 82.48020898557753
+      },
+      "engine_running_flag": {
+        "delta": 0.0,
+        "end": 1.0,
+        "max": 1.0,
+        "mean": 1.0,
+        "min": 1.0,
+        "start": 1.0
+      },
+      "engine_seized": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "engine_stalled": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "engine_thrust_lbs": {
+        "delta": 0.24515855241088502,
+        "end": 2985.053987508549,
+        "max": 2985.053987508549,
+        "mean": 2984.9335897493693,
+        "min": 2984.8088289561383,
+        "start": 2984.8088289561383
+      },
+      "fbw_override": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "flap_pos_norm": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "gamma_deg": {
+        "delta": 0.023304133272641022,
+        "end": 0.043195434119962926,
+        "max": 0.043195434119962926,
+        "mean": 0.03395772691420369,
+        "min": 0.019891300847321904,
+        "start": 0.019891300847321904
+      },
+      "gear_pos_norm": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "kcas": {
+        "delta": -0.2008882771525009,
+        "end": 334.76523318467554,
+        "max": 334.96612146182804,
+        "mean": 334.8750205387986,
+        "min": 334.76523318467554,
+        "start": 334.96612146182804
+      },
+      "left_aileron_pos_norm": {
+        "delta": -1.1712267654388038e-07,
+        "end": -1.1885824648515532e-07,
+        "max": -1.735569941274944e-09,
+        "mean": -3.814885927485515e-08,
+        "min": -1.1885824648515532e-07,
+        "start": -1.735569941274944e-09
+      },
+      "load_factor_nx": {
+        "delta": 0.00016089324008372943,
+        "end": 0.024464325725101717,
+        "max": 0.024464325725101717,
+        "mean": 0.024376933920880927,
+        "min": 0.024303432485017987,
+        "start": 0.024303432485017987
+      },
+      "load_factor_ny": {
+        "delta": -4.1303833882413823e-07,
+        "end": -4.1909661816336375e-07,
+        "max": -6.058279339225536e-09,
+        "mean": -1.3446281944068047e-07,
+        "min": -4.1909661816336375e-07,
+        "start": -6.058279339225536e-09
+      },
+      "load_factor_nz": {
+        "delta": -0.0005805916189624005,
+        "end": 0.994451248409591,
+        "max": 0.9950318400285534,
+        "mean": 0.9947659178496842,
+        "min": 0.994451248409591,
+        "start": 0.9950318400285534
+      },
+      "mach": {
+        "delta": -0.00028942957207078734,
+        "end": 0.7182918536055742,
+        "max": 0.718581283177645,
+        "mean": 0.7184487198655722,
+        "min": 0.7182918536055742,
+        "start": 0.718581283177645
+      },
+      "p_deg_s": {
+        "delta": 7.03676141006575e-06,
+        "end": 7.128792790035474e-06,
+        "max": 7.128792790035474e-06,
+        "mean": 2.2801555124236217e-06,
+        "min": 9.203137996972471e-08,
+        "start": 9.203137996972471e-08
+      },
+      "q_deg_s": {
+        "delta": -0.0013656123781397632,
+        "end": -0.0015469840517312796,
+        "max": -0.0001813716735915164,
+        "mean": -0.0007962707111981366,
+        "min": -0.0015469840517312796,
+        "start": -0.0001813716735915164
+      },
+      "r_deg_s": {
+        "delta": 3.100627223142611e-06,
+        "end": 3.144591055155122e-06,
+        "max": 3.144591055155122e-06,
+        "mean": 1.008610715592866e-06,
+        "min": 4.396383201251101e-08,
+        "start": 4.396383201251101e-08
+      },
+      "right_aileron_pos_norm": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "rudder_pos_norm": {
+        "delta": 5.595778442686692e-07,
+        "end": 5.678938981209202e-07,
+        "max": 5.678938981209202e-07,
+        "mean": 1.823829389244257e-07,
+        "min": 8.316053852251014e-09,
+        "start": 8.316053852251014e-09
+      },
+      "speedbrake_pos_norm": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "tas_mps": {
+        "delta": -0.09956427353068875,
+        "end": 227.2952100024374,
+        "max": 227.39477427596808,
+        "mean": 227.34929725728617,
+        "min": 227.2952100024374,
+        "start": 227.39477427596808
+      },
+      "throttle_cmd_norm": {
+        "delta": 0.0,
+        "end": 0.3136192445274205,
+        "max": 0.3136192445274205,
+        "mean": 0.3136192445274205,
+        "min": 0.3136192445274205,
+        "start": 0.3136192445274205
+      },
+      "throttle_pos_norm": {
+        "delta": 0.0,
+        "end": 0.627238489054841,
+        "max": 0.627238489054841,
+        "mean": 0.627238489054841,
+        "min": 0.627238489054841,
+        "start": 0.627238489054841
+      },
+      "total_fuel_lbs": {
+        "delta": 0.0,
+        "end": 3000.0,
+        "max": 3000.0,
+        "mean": 3000.0,
+        "min": 3000.0,
+        "start": 3000.0
+      },
+      "weight_lbs": {
+        "delta": 0.0,
+        "end": 20630.0,
+        "max": 20630.0,
+        "mean": 20630.0,
+        "min": 20630.0,
+        "start": 20630.0
+      },
+      "wind_down_fps": {
+        "delta": 0.0,
+        "end": 3.334744376795491e-14,
+        "max": 3.334744376795491e-14,
+        "mean": 3.334744376795491e-14,
+        "min": 3.334744376795491e-14,
+        "start": 3.334744376795491e-14
+      },
+      "wind_east_fps": {
+        "delta": 0.0,
+        "end": -1.9428902939212046e-15,
+        "max": -1.9428902939212046e-15,
+        "mean": -1.9428902939212046e-15,
+        "min": -1.9428902939212046e-15,
+        "start": -1.9428902939212046e-15
+      },
+      "wind_north_fps": {
+        "delta": 0.0,
+        "end": -7.958078640513122e-13,
+        "max": -7.958078640513122e-13,
+        "mean": -7.958078640513122e-13,
+        "min": -7.958078640513122e-13,
+        "start": -7.958078640513122e-13
+      }
+    },
+    "provenance_id": "j2-c25dabb783f4ac1ffdef",
+    "reference_configuration_after_trim": {
+      "aircraft_model": "f16",
+      "cg_in": [
+        -191.8917111003393,
+        0.0,
+        -3.574406204556471
+      ],
+      "fbw_override": 0.0,
+      "gear_command_norm": 0.0,
+      "gear_position_norm": 0.0,
+      "mass_kg": 9357.610464086632,
+      "speedbrake_command_norm": 0.0,
+      "speedbrake_position_norm": 0.0,
+      "tank_contents_lbs": [
+        1500.0,
+        1500.0,
+        0.0,
+        0.0
+      ],
+      "turbulence_type": 0.0,
+      "weight_lbs": 20630.0
+    },
+    "repeat_index": 1,
+    "requested": {
+      "altitude_msl_m": 6000.0,
+      "gamma_deg": 0.0,
+      "speed_type": "KCAS",
+      "speed_value": 335.0
+    },
+    "run_id": "level-6000m-r1",
+    "settling_and_measurement": {
+      "measurement_duration_s": 20.0,
+      "measurement_sample_count": 2401,
+      "measurement_start_s": 10.0,
+      "replay_duration_s": 30.0,
+      "settled_at_s": 0.008333333333333333
+    },
+    "status": "VALID",
+    "status_reasons": [],
+    "tracking": {
+      "maximum_cas_relative_error": 0.0007007964636551124,
+      "maximum_gamma_absolute_error_deg": 0.043195434119962926,
+      "maximum_normalized_control_surface_usage": 0.04021514784167831
+    },
+    "trim": {
+      "error": null,
+      "mode": "full",
+      "succeeded": true,
+      "trim_completed_property": 1.0
+    }
+  },
+  {
+    "actual_speed": {
+      "initialized_value": 334.97809940140826,
+      "measurement_max_value": 334.96612146182804,
+      "measurement_mean_value": 334.8750205387986,
+      "measurement_min_value": 334.76523318467554,
+      "type": "KCAS"
+    },
+    "checks": {
+      "afterburner_off": true,
+      "cas_tracking": true,
+      "control_surface_usage": true,
+      "engine_running": true,
+      "external_tanks_empty": true,
+      "finite_outputs": true,
+      "fixed_fuel": true,
+      "fixed_weight": true,
+      "gamma_tracking": true,
+      "gear_up": true,
+      "initialized_altitude_within_1m": true,
+      "initialized_speed_within_acceptance": true,
+      "measurement_window_complete": true,
+      "native_fcs": true,
+      "settled_within_allowance": true,
+      "speedbrake_closed": true,
+      "trim_succeeded": true,
+      "zero_wind": true
+    },
+    "confirmed_unsustainable": false,
+    "final_configuration": {
+      "aircraft_model": "f16",
+      "cg_in": [
+        -191.8917111003393,
+        0.0,
+        -3.574406204556471
+      ],
+      "fbw_override": 0.0,
+      "gear_command_norm": 0.0,
+      "gear_position_norm": 0.0,
+      "mass_kg": 9357.610464086632,
+      "speedbrake_command_norm": 0.0,
+      "speedbrake_position_norm": 0.0,
+      "tank_contents_lbs": [
+        1500.0,
+        1500.0,
+        0.0,
+        0.0
+      ],
+      "turbulence_type": 0.0,
+      "weight_lbs": 20630.0
+    },
+    "initialized": {
+      "alpha_deg": 0.009874510084171792,
+      "altitude_msl_m": 6000.000001461303,
+      "beta_deg": 6.000505228819866e-09,
+      "cg_x_in": -191.8917111003393,
+      "cg_y_in": 0.0,
+      "cg_z_in": -3.574406204556471,
+      "elapsed_s": 0.0,
+      "elevator_pos_norm": 0.00872504219798236,
+      "engine_n1": 40.0,
+      "engine_n2": 53.0,
+      "engine_running_flag": 1.0,
+      "engine_seized": 0.0,
+      "engine_stalled": 0.0,
+      "engine_thrust_lbs": -1276.6353334718283,
+      "fbw_override": 0.0,
+      "flap_pos_norm": 0.0,
+      "gamma_deg": -0.009857387585872419,
+      "gear_pos_norm": 0.0,
+      "kcas": 334.97809940140826,
+      "left_aileron_pos_norm": 0.0,
+      "load_factor_nx": -0.17188699522589207,
+      "load_factor_ny": 0.0,
+      "load_factor_nz": 0.5158676306894912,
+      "mach": 0.7185879046360854,
+      "p_deg_s": -3.859217960662519e-16,
+      "q_deg_s": -0.10745603717921313,
+      "r_deg_s": 1.106133538567316e-19,
+      "right_aileron_pos_norm": 0.0,
+      "rudder_pos_norm": 0.0,
+      "sim_time_s": 0.008333333333333333,
+      "speedbrake_pos_norm": 0.0,
+      "tas_mps": 227.39806584512823,
+      "throttle_cmd_norm": 0.0,
+      "throttle_pos_norm": 0.0,
+      "total_fuel_lbs": 3000.0,
+      "weight_lbs": 20630.0,
+      "wind_down_fps": 0.0,
+      "wind_east_fps": 0.0,
+      "wind_north_fps": 0.0
+    },
+    "loaded_model": {
+      "aircraft_path": "C:/Users/PC_10004_YD26/AppData/Local/Python/pythoncore-3.14-64/Lib/site-packages/jsbsim/aircraft/f16",
+      "model_id": "f16"
+    },
+    "measurement": {
+      "alpha_deg": {
+        "delta": 0.0018593362328442886,
+        "end": 1.4000526041502843,
+        "max": 1.4000526041502843,
+        "mean": 1.3990265275422347,
+        "min": 1.39819326791744,
+        "start": 1.39819326791744
+      },
+      "altitude_msl_m": {
+        "delta": 2.694892075887765,
+        "end": 6003.098986278481,
+        "max": 6003.098986278481,
+        "mean": 6001.595999065634,
+        "min": 6000.404094202593,
+        "start": 6000.404094202593
+      },
+      "beta_deg": {
+        "delta": 5.315461535062475e-06,
+        "end": 5.393785371593323e-06,
+        "max": 5.393785371593323e-06,
+        "mean": 1.7308531071312129e-06,
+        "min": 7.832383653084847e-08,
+        "start": 7.832383653084847e-08
+      },
+      "cg_x_in": {
+        "delta": 0.0,
+        "end": -191.8917111003393,
+        "max": -191.8917111003393,
+        "mean": -191.8917111003393,
+        "min": -191.8917111003393,
+        "start": -191.8917111003393
+      },
+      "cg_y_in": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "cg_z_in": {
+        "delta": 0.0,
+        "end": -3.574406204556471,
+        "max": -3.574406204556471,
+        "mean": -3.5744062045564715,
+        "min": -3.574406204556471,
+        "start": -3.574406204556471
+      },
+      "elevator_pos_norm": {
+        "delta": -9.204157713015026e-06,
+        "end": -0.04021514784167831,
+        "max": -0.040205943683965295,
+        "mean": -0.04021020631128553,
+        "min": -0.04021514784167831,
+        "start": -0.040205943683965295
+      },
+      "engine_n1": {
+        "delta": 0.0,
+        "end": 77.63430934329045,
+        "max": 77.63430934329045,
+        "mean": 77.63430934329045,
+        "min": 77.63430934329045,
+        "start": 77.63430934329045
+      },
+      "engine_n2": {
+        "delta": 0.0,
+        "end": 82.48020898557753,
+        "max": 82.48020898557753,
+        "mean": 82.48020898557753,
+        "min": 82.48020898557753,
+        "start": 82.48020898557753
+      },
+      "engine_running_flag": {
+        "delta": 0.0,
+        "end": 1.0,
+        "max": 1.0,
+        "mean": 1.0,
+        "min": 1.0,
+        "start": 1.0
+      },
+      "engine_seized": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "engine_stalled": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "engine_thrust_lbs": {
+        "delta": 0.24515855241088502,
+        "end": 2985.053987508549,
+        "max": 2985.053987508549,
+        "mean": 2984.9335897493693,
+        "min": 2984.8088289561383,
+        "start": 2984.8088289561383
+      },
+      "fbw_override": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "flap_pos_norm": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "gamma_deg": {
+        "delta": 0.023304133272641022,
+        "end": 0.043195434119962926,
+        "max": 0.043195434119962926,
+        "mean": 0.03395772691420369,
+        "min": 0.019891300847321904,
+        "start": 0.019891300847321904
+      },
+      "gear_pos_norm": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "kcas": {
+        "delta": -0.2008882771525009,
+        "end": 334.76523318467554,
+        "max": 334.96612146182804,
+        "mean": 334.8750205387986,
+        "min": 334.76523318467554,
+        "start": 334.96612146182804
+      },
+      "left_aileron_pos_norm": {
+        "delta": -1.1712267654388038e-07,
+        "end": -1.1885824648515532e-07,
+        "max": -1.735569941274944e-09,
+        "mean": -3.814885927485515e-08,
+        "min": -1.1885824648515532e-07,
+        "start": -1.735569941274944e-09
+      },
+      "load_factor_nx": {
+        "delta": 0.00016089324008372943,
+        "end": 0.024464325725101717,
+        "max": 0.024464325725101717,
+        "mean": 0.024376933920880927,
+        "min": 0.024303432485017987,
+        "start": 0.024303432485017987
+      },
+      "load_factor_ny": {
+        "delta": -4.1303833882413823e-07,
+        "end": -4.1909661816336375e-07,
+        "max": -6.058279339225536e-09,
+        "mean": -1.3446281944068047e-07,
+        "min": -4.1909661816336375e-07,
+        "start": -6.058279339225536e-09
+      },
+      "load_factor_nz": {
+        "delta": -0.0005805916189624005,
+        "end": 0.994451248409591,
+        "max": 0.9950318400285534,
+        "mean": 0.9947659178496842,
+        "min": 0.994451248409591,
+        "start": 0.9950318400285534
+      },
+      "mach": {
+        "delta": -0.00028942957207078734,
+        "end": 0.7182918536055742,
+        "max": 0.718581283177645,
+        "mean": 0.7184487198655722,
+        "min": 0.7182918536055742,
+        "start": 0.718581283177645
+      },
+      "p_deg_s": {
+        "delta": 7.03676141006575e-06,
+        "end": 7.128792790035474e-06,
+        "max": 7.128792790035474e-06,
+        "mean": 2.2801555124236217e-06,
+        "min": 9.203137996972471e-08,
+        "start": 9.203137996972471e-08
+      },
+      "q_deg_s": {
+        "delta": -0.0013656123781397632,
+        "end": -0.0015469840517312796,
+        "max": -0.0001813716735915164,
+        "mean": -0.0007962707111981366,
+        "min": -0.0015469840517312796,
+        "start": -0.0001813716735915164
+      },
+      "r_deg_s": {
+        "delta": 3.100627223142611e-06,
+        "end": 3.144591055155122e-06,
+        "max": 3.144591055155122e-06,
+        "mean": 1.008610715592866e-06,
+        "min": 4.396383201251101e-08,
+        "start": 4.396383201251101e-08
+      },
+      "right_aileron_pos_norm": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "rudder_pos_norm": {
+        "delta": 5.595778442686692e-07,
+        "end": 5.678938981209202e-07,
+        "max": 5.678938981209202e-07,
+        "mean": 1.823829389244257e-07,
+        "min": 8.316053852251014e-09,
+        "start": 8.316053852251014e-09
+      },
+      "speedbrake_pos_norm": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "tas_mps": {
+        "delta": -0.09956427353068875,
+        "end": 227.2952100024374,
+        "max": 227.39477427596808,
+        "mean": 227.34929725728617,
+        "min": 227.2952100024374,
+        "start": 227.39477427596808
+      },
+      "throttle_cmd_norm": {
+        "delta": 0.0,
+        "end": 0.3136192445274205,
+        "max": 0.3136192445274205,
+        "mean": 0.3136192445274205,
+        "min": 0.3136192445274205,
+        "start": 0.3136192445274205
+      },
+      "throttle_pos_norm": {
+        "delta": 0.0,
+        "end": 0.627238489054841,
+        "max": 0.627238489054841,
+        "mean": 0.627238489054841,
+        "min": 0.627238489054841,
+        "start": 0.627238489054841
+      },
+      "total_fuel_lbs": {
+        "delta": 0.0,
+        "end": 3000.0,
+        "max": 3000.0,
+        "mean": 3000.0,
+        "min": 3000.0,
+        "start": 3000.0
+      },
+      "weight_lbs": {
+        "delta": 0.0,
+        "end": 20630.0,
+        "max": 20630.0,
+        "mean": 20630.0,
+        "min": 20630.0,
+        "start": 20630.0
+      },
+      "wind_down_fps": {
+        "delta": 0.0,
+        "end": 3.334744376795491e-14,
+        "max": 3.334744376795491e-14,
+        "mean": 3.334744376795491e-14,
+        "min": 3.334744376795491e-14,
+        "start": 3.334744376795491e-14
+      },
+      "wind_east_fps": {
+        "delta": 0.0,
+        "end": -1.9428902939212046e-15,
+        "max": -1.9428902939212046e-15,
+        "mean": -1.9428902939212046e-15,
+        "min": -1.9428902939212046e-15,
+        "start": -1.9428902939212046e-15
+      },
+      "wind_north_fps": {
+        "delta": 0.0,
+        "end": -7.958078640513122e-13,
+        "max": -7.958078640513122e-13,
+        "mean": -7.958078640513122e-13,
+        "min": -7.958078640513122e-13,
+        "start": -7.958078640513122e-13
+      }
+    },
+    "provenance_id": "j2-c25dabb783f4ac1ffdef",
+    "reference_configuration_after_trim": {
+      "aircraft_model": "f16",
+      "cg_in": [
+        -191.8917111003393,
+        0.0,
+        -3.574406204556471
+      ],
+      "fbw_override": 0.0,
+      "gear_command_norm": 0.0,
+      "gear_position_norm": 0.0,
+      "mass_kg": 9357.610464086632,
+      "speedbrake_command_norm": 0.0,
+      "speedbrake_position_norm": 0.0,
+      "tank_contents_lbs": [
+        1500.0,
+        1500.0,
+        0.0,
+        0.0
+      ],
+      "turbulence_type": 0.0,
+      "weight_lbs": 20630.0
+    },
+    "repeat_index": 2,
+    "requested": {
+      "altitude_msl_m": 6000.0,
+      "gamma_deg": 0.0,
+      "speed_type": "KCAS",
+      "speed_value": 335.0
+    },
+    "run_id": "level-6000m-r2",
+    "settling_and_measurement": {
+      "measurement_duration_s": 20.0,
+      "measurement_sample_count": 2401,
+      "measurement_start_s": 10.0,
+      "replay_duration_s": 30.0,
+      "settled_at_s": 0.008333333333333333
+    },
+    "status": "VALID",
+    "status_reasons": [],
+    "tracking": {
+      "maximum_cas_relative_error": 0.0007007964636551124,
+      "maximum_gamma_absolute_error_deg": 0.043195434119962926,
+      "maximum_normalized_control_surface_usage": 0.04021514784167831
+    },
+    "trim": {
+      "error": null,
+      "mode": "full",
+      "succeeded": true,
+      "trim_completed_property": 1.0
+    }
+  },
+  {
+    "actual_speed": {
+      "initialized_value": 334.97809940140826,
+      "measurement_max_value": 334.96612146182804,
+      "measurement_mean_value": 334.8750205387986,
+      "measurement_min_value": 334.76523318467554,
+      "type": "KCAS"
+    },
+    "checks": {
+      "afterburner_off": true,
+      "cas_tracking": true,
+      "control_surface_usage": true,
+      "engine_running": true,
+      "external_tanks_empty": true,
+      "finite_outputs": true,
+      "fixed_fuel": true,
+      "fixed_weight": true,
+      "gamma_tracking": true,
+      "gear_up": true,
+      "initialized_altitude_within_1m": true,
+      "initialized_speed_within_acceptance": true,
+      "measurement_window_complete": true,
+      "native_fcs": true,
+      "settled_within_allowance": true,
+      "speedbrake_closed": true,
+      "trim_succeeded": true,
+      "zero_wind": true
+    },
+    "confirmed_unsustainable": false,
+    "final_configuration": {
+      "aircraft_model": "f16",
+      "cg_in": [
+        -191.8917111003393,
+        0.0,
+        -3.574406204556471
+      ],
+      "fbw_override": 0.0,
+      "gear_command_norm": 0.0,
+      "gear_position_norm": 0.0,
+      "mass_kg": 9357.610464086632,
+      "speedbrake_command_norm": 0.0,
+      "speedbrake_position_norm": 0.0,
+      "tank_contents_lbs": [
+        1500.0,
+        1500.0,
+        0.0,
+        0.0
+      ],
+      "turbulence_type": 0.0,
+      "weight_lbs": 20630.0
+    },
+    "initialized": {
+      "alpha_deg": 0.009874510084171792,
+      "altitude_msl_m": 6000.000001461303,
+      "beta_deg": 6.000505228819866e-09,
+      "cg_x_in": -191.8917111003393,
+      "cg_y_in": 0.0,
+      "cg_z_in": -3.574406204556471,
+      "elapsed_s": 0.0,
+      "elevator_pos_norm": 0.00872504219798236,
+      "engine_n1": 40.0,
+      "engine_n2": 53.0,
+      "engine_running_flag": 1.0,
+      "engine_seized": 0.0,
+      "engine_stalled": 0.0,
+      "engine_thrust_lbs": -1276.6353334718283,
+      "fbw_override": 0.0,
+      "flap_pos_norm": 0.0,
+      "gamma_deg": -0.009857387585872419,
+      "gear_pos_norm": 0.0,
+      "kcas": 334.97809940140826,
+      "left_aileron_pos_norm": 0.0,
+      "load_factor_nx": -0.17188699522589207,
+      "load_factor_ny": 0.0,
+      "load_factor_nz": 0.5158676306894912,
+      "mach": 0.7185879046360854,
+      "p_deg_s": -3.859217960662519e-16,
+      "q_deg_s": -0.10745603717921313,
+      "r_deg_s": 1.106133538567316e-19,
+      "right_aileron_pos_norm": 0.0,
+      "rudder_pos_norm": 0.0,
+      "sim_time_s": 0.008333333333333333,
+      "speedbrake_pos_norm": 0.0,
+      "tas_mps": 227.39806584512823,
+      "throttle_cmd_norm": 0.0,
+      "throttle_pos_norm": 0.0,
+      "total_fuel_lbs": 3000.0,
+      "weight_lbs": 20630.0,
+      "wind_down_fps": 0.0,
+      "wind_east_fps": 0.0,
+      "wind_north_fps": 0.0
+    },
+    "loaded_model": {
+      "aircraft_path": "C:/Users/PC_10004_YD26/AppData/Local/Python/pythoncore-3.14-64/Lib/site-packages/jsbsim/aircraft/f16",
+      "model_id": "f16"
+    },
+    "measurement": {
+      "alpha_deg": {
+        "delta": 0.0018593362328442886,
+        "end": 1.4000526041502843,
+        "max": 1.4000526041502843,
+        "mean": 1.3990265275422347,
+        "min": 1.39819326791744,
+        "start": 1.39819326791744
+      },
+      "altitude_msl_m": {
+        "delta": 2.694892075887765,
+        "end": 6003.098986278481,
+        "max": 6003.098986278481,
+        "mean": 6001.595999065634,
+        "min": 6000.404094202593,
+        "start": 6000.404094202593
+      },
+      "beta_deg": {
+        "delta": 5.315461535062475e-06,
+        "end": 5.393785371593323e-06,
+        "max": 5.393785371593323e-06,
+        "mean": 1.7308531071312129e-06,
+        "min": 7.832383653084847e-08,
+        "start": 7.832383653084847e-08
+      },
+      "cg_x_in": {
+        "delta": 0.0,
+        "end": -191.8917111003393,
+        "max": -191.8917111003393,
+        "mean": -191.8917111003393,
+        "min": -191.8917111003393,
+        "start": -191.8917111003393
+      },
+      "cg_y_in": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "cg_z_in": {
+        "delta": 0.0,
+        "end": -3.574406204556471,
+        "max": -3.574406204556471,
+        "mean": -3.5744062045564715,
+        "min": -3.574406204556471,
+        "start": -3.574406204556471
+      },
+      "elevator_pos_norm": {
+        "delta": -9.204157713015026e-06,
+        "end": -0.04021514784167831,
+        "max": -0.040205943683965295,
+        "mean": -0.04021020631128553,
+        "min": -0.04021514784167831,
+        "start": -0.040205943683965295
+      },
+      "engine_n1": {
+        "delta": 0.0,
+        "end": 77.63430934329045,
+        "max": 77.63430934329045,
+        "mean": 77.63430934329045,
+        "min": 77.63430934329045,
+        "start": 77.63430934329045
+      },
+      "engine_n2": {
+        "delta": 0.0,
+        "end": 82.48020898557753,
+        "max": 82.48020898557753,
+        "mean": 82.48020898557753,
+        "min": 82.48020898557753,
+        "start": 82.48020898557753
+      },
+      "engine_running_flag": {
+        "delta": 0.0,
+        "end": 1.0,
+        "max": 1.0,
+        "mean": 1.0,
+        "min": 1.0,
+        "start": 1.0
+      },
+      "engine_seized": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "engine_stalled": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "engine_thrust_lbs": {
+        "delta": 0.24515855241088502,
+        "end": 2985.053987508549,
+        "max": 2985.053987508549,
+        "mean": 2984.9335897493693,
+        "min": 2984.8088289561383,
+        "start": 2984.8088289561383
+      },
+      "fbw_override": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "flap_pos_norm": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "gamma_deg": {
+        "delta": 0.023304133272641022,
+        "end": 0.043195434119962926,
+        "max": 0.043195434119962926,
+        "mean": 0.03395772691420369,
+        "min": 0.019891300847321904,
+        "start": 0.019891300847321904
+      },
+      "gear_pos_norm": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "kcas": {
+        "delta": -0.2008882771525009,
+        "end": 334.76523318467554,
+        "max": 334.96612146182804,
+        "mean": 334.8750205387986,
+        "min": 334.76523318467554,
+        "start": 334.96612146182804
+      },
+      "left_aileron_pos_norm": {
+        "delta": -1.1712267654388038e-07,
+        "end": -1.1885824648515532e-07,
+        "max": -1.735569941274944e-09,
+        "mean": -3.814885927485515e-08,
+        "min": -1.1885824648515532e-07,
+        "start": -1.735569941274944e-09
+      },
+      "load_factor_nx": {
+        "delta": 0.00016089324008372943,
+        "end": 0.024464325725101717,
+        "max": 0.024464325725101717,
+        "mean": 0.024376933920880927,
+        "min": 0.024303432485017987,
+        "start": 0.024303432485017987
+      },
+      "load_factor_ny": {
+        "delta": -4.1303833882413823e-07,
+        "end": -4.1909661816336375e-07,
+        "max": -6.058279339225536e-09,
+        "mean": -1.3446281944068047e-07,
+        "min": -4.1909661816336375e-07,
+        "start": -6.058279339225536e-09
+      },
+      "load_factor_nz": {
+        "delta": -0.0005805916189624005,
+        "end": 0.994451248409591,
+        "max": 0.9950318400285534,
+        "mean": 0.9947659178496842,
+        "min": 0.994451248409591,
+        "start": 0.9950318400285534
+      },
+      "mach": {
+        "delta": -0.00028942957207078734,
+        "end": 0.7182918536055742,
+        "max": 0.718581283177645,
+        "mean": 0.7184487198655722,
+        "min": 0.7182918536055742,
+        "start": 0.718581283177645
+      },
+      "p_deg_s": {
+        "delta": 7.03676141006575e-06,
+        "end": 7.128792790035474e-06,
+        "max": 7.128792790035474e-06,
+        "mean": 2.2801555124236217e-06,
+        "min": 9.203137996972471e-08,
+        "start": 9.203137996972471e-08
+      },
+      "q_deg_s": {
+        "delta": -0.0013656123781397632,
+        "end": -0.0015469840517312796,
+        "max": -0.0001813716735915164,
+        "mean": -0.0007962707111981366,
+        "min": -0.0015469840517312796,
+        "start": -0.0001813716735915164
+      },
+      "r_deg_s": {
+        "delta": 3.100627223142611e-06,
+        "end": 3.144591055155122e-06,
+        "max": 3.144591055155122e-06,
+        "mean": 1.008610715592866e-06,
+        "min": 4.396383201251101e-08,
+        "start": 4.396383201251101e-08
+      },
+      "right_aileron_pos_norm": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "rudder_pos_norm": {
+        "delta": 5.595778442686692e-07,
+        "end": 5.678938981209202e-07,
+        "max": 5.678938981209202e-07,
+        "mean": 1.823829389244257e-07,
+        "min": 8.316053852251014e-09,
+        "start": 8.316053852251014e-09
+      },
+      "speedbrake_pos_norm": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "tas_mps": {
+        "delta": -0.09956427353068875,
+        "end": 227.2952100024374,
+        "max": 227.39477427596808,
+        "mean": 227.34929725728617,
+        "min": 227.2952100024374,
+        "start": 227.39477427596808
+      },
+      "throttle_cmd_norm": {
+        "delta": 0.0,
+        "end": 0.3136192445274205,
+        "max": 0.3136192445274205,
+        "mean": 0.3136192445274205,
+        "min": 0.3136192445274205,
+        "start": 0.3136192445274205
+      },
+      "throttle_pos_norm": {
+        "delta": 0.0,
+        "end": 0.627238489054841,
+        "max": 0.627238489054841,
+        "mean": 0.627238489054841,
+        "min": 0.627238489054841,
+        "start": 0.627238489054841
+      },
+      "total_fuel_lbs": {
+        "delta": 0.0,
+        "end": 3000.0,
+        "max": 3000.0,
+        "mean": 3000.0,
+        "min": 3000.0,
+        "start": 3000.0
+      },
+      "weight_lbs": {
+        "delta": 0.0,
+        "end": 20630.0,
+        "max": 20630.0,
+        "mean": 20630.0,
+        "min": 20630.0,
+        "start": 20630.0
+      },
+      "wind_down_fps": {
+        "delta": 0.0,
+        "end": 3.334744376795491e-14,
+        "max": 3.334744376795491e-14,
+        "mean": 3.334744376795491e-14,
+        "min": 3.334744376795491e-14,
+        "start": 3.334744376795491e-14
+      },
+      "wind_east_fps": {
+        "delta": 0.0,
+        "end": -1.9428902939212046e-15,
+        "max": -1.9428902939212046e-15,
+        "mean": -1.9428902939212046e-15,
+        "min": -1.9428902939212046e-15,
+        "start": -1.9428902939212046e-15
+      },
+      "wind_north_fps": {
+        "delta": 0.0,
+        "end": -7.958078640513122e-13,
+        "max": -7.958078640513122e-13,
+        "mean": -7.958078640513122e-13,
+        "min": -7.958078640513122e-13,
+        "start": -7.958078640513122e-13
+      }
+    },
+    "provenance_id": "j2-c25dabb783f4ac1ffdef",
+    "reference_configuration_after_trim": {
+      "aircraft_model": "f16",
+      "cg_in": [
+        -191.8917111003393,
+        0.0,
+        -3.574406204556471
+      ],
+      "fbw_override": 0.0,
+      "gear_command_norm": 0.0,
+      "gear_position_norm": 0.0,
+      "mass_kg": 9357.610464086632,
+      "speedbrake_command_norm": 0.0,
+      "speedbrake_position_norm": 0.0,
+      "tank_contents_lbs": [
+        1500.0,
+        1500.0,
+        0.0,
+        0.0
+      ],
+      "turbulence_type": 0.0,
+      "weight_lbs": 20630.0
+    },
+    "repeat_index": 3,
+    "requested": {
+      "altitude_msl_m": 6000.0,
+      "gamma_deg": 0.0,
+      "speed_type": "KCAS",
+      "speed_value": 335.0
+    },
+    "run_id": "level-6000m-r3",
+    "settling_and_measurement": {
+      "measurement_duration_s": 20.0,
+      "measurement_sample_count": 2401,
+      "measurement_start_s": 10.0,
+      "replay_duration_s": 30.0,
+      "settled_at_s": 0.008333333333333333
+    },
+    "status": "VALID",
+    "status_reasons": [],
+    "tracking": {
+      "maximum_cas_relative_error": 0.0007007964636551124,
+      "maximum_gamma_absolute_error_deg": 0.043195434119962926,
+      "maximum_normalized_control_surface_usage": 0.04021514784167831
+    },
+    "trim": {
+      "error": null,
+      "mode": "full",
+      "succeeded": true,
+      "trim_completed_property": 1.0
+    }
+  }
+]

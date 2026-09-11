@@ -1,0 +1,242 @@
+contract:
+  id: f16_offline_characterization
+  version: 1.1-j3.1-domain-extension
+  status: J1_FROZEN_DOMAIN_AMENDED_J3_1
+  scope: offline_only
+  planner_files_may_change: false
+  jsbsim_allowed_in_node_expansion: false
+  jsbsim_executed_during_j1: false
+
+reference_aircraft:
+  jsbsim_model: f16
+  interpretation: prototype_reference_only
+  production_calibrated: false
+  jsbsim_version: pending_j2
+  model_hash: pending_j2
+  engine_hash: pending_j2
+
+planning_contract:
+  nominal_start_altitude_msl_m: 4000.0
+  maximum_altitude_msl_m: 6000.0
+  minimum_altitude_policy: terrain_msl_plus_min_agl
+  minimum_agl_m: 100.0
+  speed_is_search_state: false
+  heading_is_search_state_in_current_version: false
+  intended_future_state: [x, y, z_msl, heading]
+
+supported_characterization_altitude_domain:
+  altitude_reference: MSL
+  scope: reusable_prototype_aircraft_domain
+  domain_revision: J3_1
+  previous_domain:
+    floor_msl_m: 1500.0
+    ceiling_msl_m: 6000.0
+    status: preserved_not_invalidated
+    derivation: current_prototype_planning_region
+  historical_prototype_region_measurement:
+    dem_path: working_dem/aladaglar_N37_E035_utm36n_max.tif
+    roi_size_m: 10000.0
+    terrain_minimum_msl_m: 1697.698364
+    minimum_agl_m: 100.0
+    minimum_required_msl_m: 1797.698364
+  extension_reason: >-
+    Future planning regions may contain substantially lower terrain;
+    characterization cost is still small at this stage, so the reusable
+    prototype aircraft domain is extended to 0–6000 m before maneuver
+    envelope generation begins.
+  floor_policy: explicit_reusable_prototype_aircraft_domain_floor
+  floor_msl_m: 0.0
+  ceiling_msl_m: 6000.0
+  initial_altitude_spacing_m: 500.0
+  midpoint_holdout_spacing_m: 250.0
+  midpoint_holdouts_used_for_lookup_fitting: false
+  refinement_spacing_m: 250.0
+  refinement_scope: local_interval_only
+  refinement_trigger: midpoint_holdout_detects_non_conservative_lookup
+  grid_anchor_msl_m: 0.0
+  main_grid_msl_m: [0.0, 500.0, 1000.0, 1500.0, 2000.0, 2500.0, 3000.0, 3500.0, 4000.0, 4500.0, 5000.0, 5500.0, 6000.0]
+  j3_1_new_midpoint_holdouts_msl_m: [250.0, 750.0, 1250.0]
+  out_of_domain_policy: reject_no_extrapolation
+  aircraft_lookup_is_bound_to_prototype_region: false
+  recalculate_or_extend_when_planning_region_changes: true
+
+fixed_test_context:
+  reference_speed_type: CAS
+  reference_speed_value_kcas: 305.0
+  reference_speed_selected_by: J3
+  reference_speed_revalidated_by: J3_1
+  atmosphere: US_Standard
+  wind: disabled
+  gust: disabled
+  turbulence: disabled
+  mass_kg: pending_j2
+  cg: pending_j2
+  fuel_configuration: pending_j2
+  landing_gear: up
+  speedbrake: closed
+  external_stores: none
+  fcs_mode: native_no_override
+  afterburner: prohibited
+
+lookup:
+  index: [altitude_band_id, maneuver_id]
+  feasible_entries_require_status: VALID
+  envelope_boundary_evidence_statuses: [VALID, INFEASIBLE]
+  required_online_fields:
+    - feasible
+    - v_tas_mps
+    - gamma_min_deg
+    - gamma_max_deg
+    - capability_value_kind
+  heading_phase_fields:
+    - kappa_1pm
+    - path_length_m
+    - duration_s
+    - geometry_ref
+  capability_value_kind_allowed: [raw, derated]
+  raw_and_derated_values_must_be_separate: true
+  unknown_may_prune_capability: false
+  forbidden_online_fields:
+    - angle_of_attack_history
+    - sideslip_history
+    - load_factor_history
+    - throttle_history
+    - control_surface_history
+    - angular_rate_history
+    - raw_6dof_state_history
+
+primitive_boundary_condition:
+  initial: stable_nominal_condition_wings_level
+  final: stable_nominal_condition_wings_level
+  instantaneous_bank_change_allowed: false
+
+characterization_result:
+  allowed_statuses: [VALID, INFEASIBLE, UNKNOWN]
+  statuses_are_mutually_exclusive: true
+  semantics:
+    VALID:
+      reliable_measurement: true
+      acceptance_profile_satisfied: true
+      may_create_feasible_lookup_entry: true
+      may_inform_capability_boundary: true
+    INFEASIBLE:
+      reliable_measurement: true
+      condition_confirmed_unsustainable: true
+      may_create_feasible_lookup_entry: false
+      may_inform_capability_boundary: true
+    UNKNOWN:
+      reliable_measurement: false
+      may_create_feasible_lookup_entry: false
+      may_inform_capability_boundary: false
+      may_prune_planner_capability: false
+      required_action: retest_or_review_target_or_tolerance
+
+infeasible_boundary_semantics:
+  infeasible_point_is_exact_capability_limit: false
+  valid_then_infeasible_brackets_boundary: true
+  example:
+    valid_target_deg: 7.0
+    infeasible_target_deg: 8.0
+    conclusion: capability_boundary_is_strictly_between_targets
+  narrow_boundary_with: sweep_or_local_refinement
+  unknown_may_bound_capability: false
+
+fidelity:
+  objective: conservative_kinematic_equivalence
+  exact_trajectory_match_required: false
+  optimistic_false_positive_allowed: false
+  measurement_tolerances_are_planner_maneuver_limits: false
+  acceptance_profile_name: PROVISIONAL_PROTOTYPE_ACCEPTANCE_PROFILE
+  acceptance_profile:
+    cold_start_repetitions: 3
+    steady_measurement_window_s: 20.0
+    maximum_settling_replay_allowance_s: 30.0
+    cas_tracking_relative: 0.02
+    gamma_tracking_deg: 0.5
+    sustained_curvature_stability_relative: 0.05
+    normalized_control_surface_usage_max: 0.90
+    throttle_policy: maneuver_specific
+    throttle_uses_generic_control_surface_limit: false
+    key_metric_repeatability_relative_approx: 0.01
+  tolerance_profile_status: locked_provisional_for_j1
+
+capability_values:
+  raw_capability:
+    retained: true
+    meaning: accepted_measured_envelope_before_derating
+  derated_capability:
+    retained_separately: true
+    value: pending_post_characterization_decision
+    decision_stage: J3_J4_after_data_review
+  fixed_derating_fraction: null
+  apply_derating_during_j1: false
+
+characterization_workflow:
+  first_validation_gate:
+    purpose: validate_measurement_harness_not_complete_aircraft_envelope
+    scope:
+      - steady_level_straight_flight
+      - straight_climb
+      - straight_descent
+    must_demonstrate:
+      - fresh_cold_start_reset
+      - trim
+      - nominal_speed_handling
+      - altitude_initialization
+      - settling_detection
+      - measurement_window
+      - unit_and_sign_conventions
+      - three_status_classification
+      - repeatability
+      - logging_and_schema
+    full_batch_blocked_until_gate_passes: true
+  full_batch_after_validation_pass:
+    split_into_unnecessary_micro_stages: false
+    altitude_coverage: supported_characterization_altitude_domain
+    maneuver_families:
+      straight:
+        - level
+        - climb_sweep
+        - descent_sweep
+      level_turns:
+        directions: [left, right]
+        sweeps: [sustained_curvature, sustained_radius]
+      coupled_turns:
+        - climbing_left_turn
+        - climbing_right_turn
+        - descending_left_turn
+        - descending_right_turn
+  macro_primitive_characterization:
+    separate_after_sustained_batch: true
+    reason: produces_transient_geometry
+    phases: [roll_in, sustained_arc, roll_out]
+    boundary_condition: wings_level_start_and_end
+
+common_test_record_schema:
+  required_fields:
+    - altitude_msl_m
+    - maneuver_family
+    - requested_target
+    - measured_values
+    - status
+    - raw_capability
+    - derated_capability
+    - diagnostics
+    - provenance
+  status_allowed: [VALID, INFEASIBLE, UNKNOWN]
+  derated_capability_initial_value: null
+
+altitude_band_crossing:
+  provisional_policy: split_at_every_band_boundary
+  status: to_be_locked_before_lookup_integration
+
+j1_exit_criteria:
+  altitude_band_size_locked: true
+  fidelity_profile_locked: true
+  characterization_status_semantics_locked: true
+  derating_policy_locked: true
+  supported_characterization_altitude_domain_locked: true
+  initial_validation_gate_scope_locked: true
+  full_batch_scope_locked: true
+  initial_maneuver_scope_locked: true
+  all_j1_decisions_closed: true
