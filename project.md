@@ -4048,6 +4048,308 @@ PRIMARY DECISION: CONFIRMED
 AIRCRAFT SELECTION REALLY FROZEN: YES
 READY TO RETURN TO PATH PLANNER: YES
 
+## Step U5.2 — Finalist General Validation / Final Aircraft Freeze
+
+**Two-finalist scope:** Yalnız `c172p` ve `DHC6` karşılaştırıldı. U5'in
+finalistlere ait 70 point/210 cold-start run'ı reuse edildi; aynı exact test
+yeniden çalıştırılmadı. Eksik kritik coverage için toplam 46 point/138 run
+eklendi: nominal hızda 1000/2000/4000 m straight (6), 1000/4000 m `±20°`
+level turn direct-radius reference (8), iki aircraft için LOW=1000,
+MID=4000, HIGH=5500, EXTREME-HIGH=6000 m'de `bank ±20° × Vz ±2.5 m/s`
+representative combined turns (32). Full U5 rerun, 30°/4.5 m/s combined
+sweep, DHC6 70 m/s extension veya boundary araştırması yapılmadı.
+
+**Altitude/speed coverage:** `c172p @ 40 m/s` ve `DHC6 @ 60 m/s`,
+0/1000/2000/3000/4000/5000/5500/6000 m nominal straight anchor'larının
+tamamında raw VALID, actual-stable ve repeatable'dır. Multiple-speed evidence
+0/3000 m U5 grid'inden gelir: c172p'nin general good region'ı 40/50 m/s,
+DHC6'nın doğal region'ı 60 m/s'dir. c172p sekiz anchor'da straight-USABLE;
+DHC6 6000 m'de yaklaşık 0.992 throttle nedeniyle raw VALID olsa da MARGINAL
+power-margin olarak yorumlanır.
+
+**Turn/combined-3D gözlemi:** c172p `±20°` level-turn radius'u test edilen
+span'da yaklaşık 454–851 m, DHC6'nınki 1018–1839 m'dir. Combined descending
+turn actual-stable sayıları c172p `8/8`, DHC6 `7/8`; radius level-turn'e yakın
+kalmıştır. Combined climbing turn actual-stable sayıları c172p `3/8`, DHC6
+`5/8` olsa da iki aircraft da 5500/6000 m'de iki yönlü climbing turn'ü
+doğrulamamıştır. Bu nedenle level turn + straight climb'ın climbing turn
+usability'sini otomatik garanti etmediği kalıcı fiziksel bulgudur.
+
+**Controller ve power:** Bütün yeni point'ler üç cold-start'ta repeatable;
+oscillation/control-command variation düşüktür. Sınır controller tuning değil,
+climbing turn sırasında propulsion/throttle clamp'tir. c172p straight throttle
+5000/5500/6000 m'de yaklaşık 0.802/0.825/0.849; DHC6
+0.941/0.970/0.992'dur. DHC6 daha yüksek actual climb verebilse de high-alt
+iki-yön combined advantage göstermez; twin-engine/turboprop interface ve
+yaklaşık iki kat turn geometry taşır. Yeni PID/gain tuning yapılmadı.
+
+**FINAL PRIMARY = `c172p`; FINAL BACKUP = `DHC6`.** Nominal primary context
+sabit `40 m/s IAS`'tır; speed planner state dimension değildir. c172p eşit
+stability/repeatability yanında daha UAV-like hız, daha küçük turn geometry,
+daha geniş power reserve ve daha düşük model complexity ile best practical
+tradeoff'tur. DHC6 güçlü fakat daha karmaşık backup'tır.
+
+**Domain ayrımı / known limit:** 5000/5500 m, separate straight + level-turn +
+straight-vertical screen için tested usable region'dır. Representative
+combined-3D planner-safe altitude region henüz **YOKTUR**; özellikle
+5500/6000 m combined climb LUT/holdout/derating aşamasının açık girdisidir.
+U5.2 raw representative validation'dır, full envelope veya planner-safe LUT
+değildir.
+
+**AIRCRAFT SELECTION CLOSED.** Yeni ciddi blocking evidence olmadıkça başka
+aircraft denenmeyecektir. Sonraki çalışma yalnız frozen
+`c172p @ 40 m/s + stock FCS + frozen outer-loop + c172p production mixture`
+stack'i için compact raw characterization/LUT, representative combined 3D,
+holdout/interpolation validation, robustness ve planner-safe derating'dir.
+U5.2 bu sonraki aşamayı başlatmadı. Kanıt: `jsbsim/U5_2_REPORT.md`, provenance
+`u5.2-461c0b881c6c070c2a5b`.
+
+STEP U5.2: PASS
+PRIMARY AIRCRAFT: c172p
+BACKUP AIRCRAFT: DHC6
+AIRCRAFT SELECTION FINALLY CLOSED: YES
+READY FOR SELECTED-AIRCRAFT LUT: YES
+
+## Step U6A — C172P Core Raw LUT
+
+Final primary aircraft `c172p`, nominal `40 m/s IAS` ve current validated
+planner altitude domain `0–5500 m MSL` olarak korunur. U6A yalnız bağımsız core
+capability characterization yaptı: straight/level, ayrı sol-sağ level turn ve
+straight climb/descent. Same-stack U5/U5.2 verisinden 19 benzersiz point reuse
+edildi; eksik grid için 161 point/483 cold-start run üretildi. 12 straight
+anchor'ın tamamı VALID/stable; canonical RAW LUT'ta 84 turn ve 108 vertical row
+vardır.
+
+Straight throttle 0–5500 m boyunca yaklaşık `0.602 → 0.825` yükselirken actual
+IAS `39.91–39.98 m/s` kalır. Bütün `±20/±30°` level turn hedefleri actual-stable
+ve repeatable'dır; `±20°` measured radius yaklaşık `410/454 m` (sol/sağ, 0 m)
+değerinden `732/805 m`'ye (5500 m) büyür. Strict descent bütün altitude'larda
+`−2 m/s`'yi doğrular. Strict climb yalnız 2000–4500 m'de `+2 m/s` VALID'dir;
+5000 m'de pozitif strict VALID yoktur, 5500 m `+2` actual response stable olsa
+da full-throttle/speed-retention nedeniyle INFEASIBLE'dır. UNKNOWN hiçbir yerde
+INFEASIBLE'a eşitlenmedi ve stable actual response strict status'tan ayrı tutuldu.
+
+Canonical artifact `jsbsim/results/c172p_core_aircraft_lut_raw.json` yalnız RAW
+characterization'dır: planner-safe, interpolated veya derated değildir; 6000 m
+ya da true service ceiling iddiası içermez. Climbing/descending turn ve combined
+3D çalıştırılmadı; bunlar next stage `U6B — Combined 3D Maneuver Validation`'a
+bırakıldı. U6B henüz başlatılmadı. Kanıt: `jsbsim/U6A_REPORT.md`, provenance
+`u6a-bce6d9cac10c00089ec6`.
+
+STEP U6A: PASS
+C172P CORE RAW LUT READY: YES
+CURRENT DOMAIN: 0–5500 m @ nominal 40 m/s IAS
+READY FOR U6B: YES
+
+## Step U6B — C172P Combined 3D Maneuver Validation
+
+U6B, bağımsız U6A level-turn ve straight-vertical capability'lerinin combined
+climbing/descending turn sonucunu otomatik garanti etmediğini representative
+noktalarda doğruladı. Frozen `c172p @ 40 m/s` stack ile
+`1000/2500/4000/5000/5500 m × bank ±20° × Vz ±2.5 m/s` primary grid'i
+tamamlandı. Exact U5.2 verisinden 12 point reuse edildi; 2500/5000 m primary ve
+yalnız 1000 m `±20° × ±4 m/s` second-severity seti için 12 yeni point/36
+cold-start run üretildi. Full combined Cartesian sweep yapılmadı.
+
+Climbing-turn sonucu 1000/2500 m'de MARGINAL, 4000 m'de UNUSABLE, 5000 m'de
+MARGINAL, 5500 m'de UNUSABLE'dır. 5000 m iki yön actual-stable olsa da full
+throttle ve strict INFEASIBLE; 5500 m'de full throttle'a IAS/Vz retention ve
+settling kaybı eklenir. Descending turns bütün primary gridde actual-stable;
+1000/2500 m MARGINAL, 4000/5000/5500 m USABLE'dır. Descending combined/level
+radius ratio `0.981–1.022` ile geometry'yi iyi korur. Climbing radius 2500/4000
+m'de level reference'a yakındır, 5000/5500 m'de power-limited hedef bozulmasıyla
+daralır. 1000 m sol climb'taki measured-radius outlier theory cross-check'i
+geçmediği için raw diagnostic olarak korunur.
+
+Primary `±2.5 m/s` için U6A'da exact vertical target olmadığından interpolation
+yapılmadı ve exact Vz retention ratio `null` bırakıldı; `±2/±3` raw brackets
+kaydedildi. Exact `±4 m/s` reference bulunan 1000 m severity setinde combined /
+straight Vz retention climb için `0.987–1.013`, descent için `1.030` ölçüldü.
+Canonical U6A LUT değişmedi; ayrı raw artifact
+`jsbsim/results/c172p_combined_3d_raw.json` planner-ready/interpolated/derated
+değildir.
+
+Kalıcı planner ilkesi: **DIRECTLY INFEASIBLE != UNREACHABLE**. Bir combined
+climb hücresi unusable olsa bile sequential straight climb + level turn, ters
+sıra veya daha uzun rota mümkün olabilir. Next stage `U6.1 — Holdout /
+Interpolation Validation`'dır ve henüz başlatılmadı. Kanıt:
+`jsbsim/U6B_REPORT.md`, provenance `u6b-854000e38112874e90eb`.
+
+STEP U6B: PASS
+COMBINED 3D RAW DATA READY: YES
+READY FOR U6.1 HOLDOUT VALIDATION: YES
+
+## Step U6.1 — C172P Holdout / Interpolation Validation
+
+U6A core ve U6B combined raw anchor'ları arasında unseen midpoint JSBSim
+holdout validation tamamlandı. Core holdout altitude'ları
+`250/1250/2250/3250/4250/5250 m`, combined holdout altitude'ları
+`1750/3250/4500/5250 m`'dir. Prediction'lar run öncesi aynı target/direction
+komşu anchor'larından donduruldu; toplam 46 core + 16 combined = 62 point/186
+cold-start run çalıştırıldı. Status categorical kaldı ve interpolate edilmedi.
+
+Straight interpolation güçlüdür: throttle MAE/max `0.000054/0.000151`, IAS MAE
+yaklaşık `0.0001 m/s`. Direction-separated `±20°` level-turn radius MAE sol/sağ
+yaklaşık `0.216/0.244 m` (`~%0.039` mean relative); interpolation supported'dır.
+Sampled `±30°` LIMITED'dır: `−30° @ 1250 m` measured-radius error `89.0 m`
+olurken turn-rate prediction yakın kalır. Vertical actual-Vz MAE climb/descent
+için `0.0008/0.0002 m/s`'dir; continuous response iyi olsa da `+2` strict status
+değişimleri nedeniyle high-altitude climb capability interpolate edilmez.
+
+Combined descending-turn interpolation stable'dır: radius MAE `1.44 m`, Vz MAE
+`0.0005 m/s`; direction-separated continuous interpolation supported. Combined
+climb radius/Vz MAE `3.51 m / 0.0035 m/s` olmasına rağmen categorical capability
+high altitude'da lineer değildir. 4500 m iki yön strict INFEASIBLE/full-throttle
+ama actual-stable MARGINAL; 5250 m iki yön strict INFEASIBLE, sol UNUSABLE ve
+sağ actual-stable MARGINAL'dir. Bu yüzden combined climb 1000–4000 LIMITED,
+4000–5500 UNSUPPORTED ve conservative/discrete treatment gerektirir.
+
+1000 m left-climb radius audit'i stored ground-track change'in `+247.277°`
+dalında kalıp eşdeğer `−112.723°` course wrap'ını kullanmadığını gösterdi.
+Stored `194.82 m` yerine aynı arc ile audited `427.36 m`, theory error
+`%57.75 → %7.31` olur. Sonuç measurement outlier'dır, physical left/right
+asymmetry değildir. U6B raw row değiştirilmedi; raw radius interpolation'dan
+çıkarılıp audited değer yalnız validation metadata'sında kullanıldı.
+
+Suitability: straight ve `±20°` level turn supported; `±30°`, `−3` descent,
+low/mid climbs ve combined climb ≤4000 limited; straight/combined high-alt climb
+4000–5500 unsupported. Henüz derating, planner-safe LUT veya planner integration
+yapılmadı. Next stage `U6.2 — Robustness + Planner-Safe Derating` ve henüz
+başlatılmadı. Kanıt: `jsbsim/U6_1_REPORT.md`, provenance
+`u6.1-73c7d2c4ba52ca611cc0`.
+
+STEP U6.1: PASS
+CORE INTERPOLATION VALIDATED: PARTIAL
+COMBINED INTERPOLATION VALIDATED: PARTIAL
+OUTLIER RESOLVED: YES
+READY FOR U6.2 PLANNER-SAFE DERATING: YES
+
+## Step U6.2 — C172P Robustness + Planner-Safe Derating
+
+U6A raw core LUT, U6B combined-3D raw evidence ve U6.1 holdout sonuçlarından
+yalnız türetilmiş bir planner-safe `c172p` profili üretildi; yeni JSBSim sweep
+veya run yapılmadı. Geçerli domain `0–5500 m @ 40 m/s IAS` olarak kaldı.
+Canonical artifact `jsbsim/results/c172p_aircraft_profile_planner_safe.json`,
+aircraft/controller kimliği ve provenance'ı metadata'da taşıyan, başka aircraft
+profilleriyle değiştirilebilir genel capability/query şemasını kullanır.
+
+Derating sabit/keyfi bir yüzdeye dayanmaz. Direction-separated `±20°` level-turn
+radius'larına aynı yönün en kötü U6.1 holdout mutlak hatası ve cold-start spread'i
+eklenmiştir (LEFT `+0.284 m`, RIGHT `+0.334 m`); safe radius hiçbir anchor'da raw
+radius'tan küçük değildir. `±30°` geometry LIMITED evidence nedeniyle ilk safe
+profilde kapalıdır. Straight climb `+2 m/s` yalnız `0–4500 m` AVAILABLE,
+`5000–5500 m` UNAVAILABLE'dır. Straight descent `−3 m/s`, tüm raw anchor ve
+holdout'larda actual-stable/repeatable ve saturation-free olduğundan açık UNKNOWN
+review kaydıyla `0–5500 m` AVAILABLE'dır. Bu UNKNOWN→safe promotion genel bir
+status gevşetmesi değil, yalnız belgelenmiş aileye özgü evidence kararıdır.
+
+Combined climbing turn, high-altitude power/stability geçişi ve categorical
+interpolation belirsizliği nedeniyle ilk profilde tamamen UNAVAILABLE bırakıldı.
+Direction-separated `±20°`, `−2.5 m/s` combined descending turn yalnız
+`3500–5500 m` AVAILABLE'dır; alt sınır 3250 m holdout ile 4000 m anchor'ın iki
+yönde usable evidence'ından sonraki profil grid seviyesine muhafazakâr yuvarlandı.
+Profil sorguları AVAILABLE / UNAVAILABLE / OUT_OF_DOMAIN ayrımını açık yapar;
+straight, level_turn, straight_climb, straight_descent, climbing_turn ve
+descending_turn ailelerinin tamamı şemada bulunur.
+
+U6.1'de teşhis edilen course-change wrap hatası yeni derived measurement
+pipeline'ında shortest signed angle/unwrap ile düzeltildi. `+247.277°` ölçümü
+`−112.723°` eşdeğerine çevrilerek radius `194.82 → 427.36 m` olur; regression
+testi bunu ve left-turn işaretini kilitler. Tarihsel U6B raw satırı değiştirilmedi.
+U5–U6.1 source hash'leri öncesi/sonrası aynıdır. Production search, heading
+state, motion primitives, planner grid ve AircraftProfile integration bu
+stage'de değiştirilmedi; sonraki adım yalnız AircraftProfile integration'dır,
+ALG-1 başlatılmadı. Kanıt: `jsbsim/U6_2_REPORT.md`, provenance
+`u6.2-2a36f7e78b747ec099a8`.
+
+STEP U6.2: PASS
+PLANNER-SAFE PROFILE READY: YES
+MEASUREMENT PIPELINE FIXED: YES
+AIRCRAFT-SWAPPABLE PROFILE: YES
+READY FOR AIRCRAFTPROFILE INTEGRATION: YES
+
+## Step U6.2.1 — Full Altitude-Dependent Aircraft Capability Profile Fix
+
+Kalıcı mimari karar: AircraftProfile yalnız birkaç global kinematik/capability
+sabiti taşımaz. Her validated `0:500:5500 m` canonical altitude anchor'ında,
+aircraft-specific measured response ile bundan ayrı planner-safe capability
+saklanır. Ana lookup anahtarı `altitude + maneuver family + direction/command
+context`'tir. Intermediate altitude treatment yalnız U6.1 suitability map'ine
+göre SUPPORTED linear, LIMITED conservative veya UNSUPPORTED/unavailable olur.
+
+U6.2 audit'inde global safe climb `+2`, descent `−3` ve combined descent `−2.5
+m/s` simplification'ları bulundu ve kaldırıldı. Nominal `40 m/s IAS` yalnız
+planner context olarak kalır; actual IAS ve retention her altitude/maneuver
+satırında ayrıdır. Straight satırları IAS/TAS/Vz, throttle/RPM/power/margin,
+attitude/aero ve stability evidence'ını taşır. `±20°` turn geometry ve rate
+altitude + LEFT/RIGHT dependent kalır; `±30°` UNAVAILABLE olsa da raw measured
+response silinmez.
+
+Climb profili her anchor'da local measured maximum ile local `+2` response'tan
+validation error düşülerek türetilen safe capability'yi ayrı taşır. 4000 m
+measured `+3.159`, safe `+2.153 m/s`; 5000 m measured `+2.859 m/s` korunmasına
+rağmen availability UNAVAILABLE ve safe value null'dır. Descent measured maximum
+3000–5000 m'de yaklaşık `−4.22…−4.25 m/s`'ye ulaşır; safe response raw maximum
+değil, local reviewed `−3` response'un error-derated değeridir.
+
+Combined climb tamamen UNAVAILABLE kalır fakat 1000–5500 m local measured veya
+validated-interpolated response taşır; 0/500 m extrapolate edilmez. Combined
+descent yalnız 3500–5500 m AVAILABLE ve safe radius/rate/Vz her altitude/yön için
+ayrıdır. Measured value varlığı availability anlamına gelmez. Historical U6.2
+v1 dahil hiçbir source artifact değiştirilmedi; yeni JSBSim run yapılmadı.
+
+Yeni canonical artifact
+`jsbsim/results/c172p_aircraft_profile_planner_safe_v2.json`, executable ve
+aircraft-neutral query interface `jsbsim/aircraft_capability_profile.py`'dır.
+Production planner/search integration, heading ve primitives başlatılmadı.
+Kanıt: `jsbsim/U6_2_1_REPORT.md`, provenance
+`u6.2.1-bed6f2ed0cc76cd5efc6`.
+
+STEP U6.2.1: PASS
+FULL ALTITUDE-DEPENDENT PROFILE: YES
+GLOBAL AIRCRAFT CAPABILITY CONSTANTS REMOVED: YES
+MEASURED + SAFE VALUES PRESERVED: YES
+AIRCRAFT-SWAPPABLE: YES
+READY FOR AIRCRAFTPROFILE INTEGRATION: YES
+
+## Step U6.2.2 — Tested Planner-Safe Envelope Extraction
+
+Kalıcı vertical envelope kararı: planner-safe capability tek bir preferred
+command response'undan türetilmez. Her canonical `0:500:5500 m` altitude için
+U6A'nın bütün `−5/−4/−3/−2/0/+2/+3/+4/+5 m/s` tested grid'i audit edilir ve
+actual-stable + repeatable + settled + IAS error `≤5%` + throttle `<0.98` +
+saturation-free + controller-unlimited + non-INFEASIBLE şartlarını geçen en
+yüksek command family seçilir. UNKNOWN yalnız numeric sağlık şartlarını geçip
+kalan neden acceptance/tracking olduğunda explicit reviewed metadata ile
+planner-safe'e alınabilir.
+
+Sonuç climb safe command envelope'u altitude ile `+4` (0–1500), `+3`
+(2000–3000), `+2 m/s` (3500–4500), ardından UNAVAILABLE (5000–5500) şeklindedir.
+Safe actual Vz local measured response'tan U6.1 error kadar sıfıra doğru derate
+edilir. `+5`, power/saturation boundary; 1500 `+5.14`, 3000 `+4.15` ve 3500
+`+3.99 m/s` gibi boundary/non-monotonic measured maxima korunmuş fakat safe
+maximum yapılmamıştır.
+
+Descent safe command `−3 m/s` (0–2500), reviewed `−4 m/s` (3000–5000), tekrar
+`−3 m/s` (5500) olur. `−4` seçimi yalnız contiguous altitude bandında stable,
+repeatable, IAS-healthy ve saturation-free evidence'a dayanır; `−5` veya kararsız
+`−4` rows promote edilmez. Exact U6.1 holdout'u olmayan `±4` family için nearest
+validated `±3` error proxy'si ve komşu-altitude consistency birlikte zorunludur.
+
+Straight, `±20/±30°` LEFT/RIGHT turn ve combined capability v2 yapıları deep
+equality ile korundu; combined climb açılmadı, combined descent genişletilmedi.
+Yeni canonical artifact
+`jsbsim/results/c172p_aircraft_profile_planner_safe_v3.json`'dır. 96 nonzero
+vertical raw row audit edildi; yeni JSBSim run yapılmadı ve U6A–U6.2.1 source
+artifact hash'leri değişmedi. Production integration/sonraki stage başlamadı.
+Kanıt: `jsbsim/U6_2_2_REPORT.md`, provenance
+`u6.2.2-b8e1351477e87cc148e9`.
+
+STEP U6.2.2: PASS
+FULL TESTED SAFE ENVELOPE EXTRACTED: YES
+VERTICAL SAFE VALUES COMMAND-CONSTANT-INDEPENDENT: YES
+READY FOR AIRCRAFTPROFILE INTEGRATION: YES
+
 ## Step PERF-0 — Search Performance Baseline + Budget Contract
 
 **Kalıcı final değerlendirme ilkesi:** proje başarısı üç eksende ölçülür —
@@ -4103,3 +4405,76 @@ not edilmiştir.
 
 STEP PERF-0: PASS
 BASELINE READY FOR FUTURE SEARCH COMPARISON: YES
+
+## Step ALG-1 — Planner-Safe AircraftProfile Integration (V3)
+
+**Canonical production source (kalıcı karar):** `jsbsim/results/
+c172p_aircraft_profile_planner_safe_v3.json` ("V3") artık `planner/
+aircraft_profile.py`'nin kabul ettiği TEK production kaynağı.
+`schema_version=3`, `profile_stage="tested_planner_safe_envelope"`,
+`planner_ready=true`. ALG-0'da speküle edilen şema (`lut_stage`, flat
+`turn_table`/`vertical_table`) gerçek artifact ile eşleşmediği için
+loader'ın şema katmanı tamamen V3'e göre yeniden yazıldı; ALG-0'ın
+mimarisi (exception hierarchy, fail-fast sıralaması, RAW reddi, SI-only
+units) korundu.
+
+**AircraftProfile aircraft-neutral query contract:** `straight_query
+(altitude_m)`, `turn_query(altitude_m, direction, bank_deg)`,
+`vertical_query(altitude_m, mode)`, `combined_query(altitude_m,
+direction, mode)` — dördü de tek bir generic `ManeuverQueryResult`
+(`AVAILABLE`/`UNAVAILABLE`/`OUT_OF_DOMAIN`) döndürüyor.
+`planner_safe`/`measured` alanları artifact'ın kendi row'undan
+DEĞİŞTİRİLMEDEN pass-through ediliyor — kodda hiçbir yerde `if
+aircraft_id == "c172p"` yok (artifact'ın kendi `interface_contract.
+aircraft_specific_planner_branching_forbidden=true` beyanı literal
+olarak uygulanıyor). Bu, sentetik ikinci-aircraft fixture testiyle
+doğrulandı: aynı loader/query kodu, `test_aircraft` kimlikli farklı bir
+V3-şemalı profili, hiçbir c172p'ye özel dal olmadan yükleyip sorguladı.
+
+**Exact/intermediate altitude davranışı:** Exact canonical grid noktası
+→ row'un kendi verisi değişmeden döner. Intermediate altitude →
+family'nin kendi `query_policy.safe_interpolation`'ına göre: `LINEAR`
+(sabit bank'te sürekli fiziksel büyüklükler için, iki bracket'ın
+planner_safe alanlarını blend eder), `CONSERVATIVE_ENDPOINT` (command
+family altitude ile basamaklı değiştiğinde), `NONE` (interpolation
+desteklenmiyor → UNAVAILABLE). Availability HİÇBİR yönde interpolate
+edilmiyor — bir ara nokta yalnız HER İKİ bracket AVAILABLE ise VE
+family'nin kendi `availability_interpolation_blocked_ranges_m`'i
+dışındaysa AVAILABLE sayılıyor.
+
+**Bulunan gerçek tasarım problemi ve çözümü:** CONSERVATIVE_ENDPOINT
+için "hep alt irtifa" veya "hep üst irtifa" kuralı YANLIŞ — c172p'nin
+descent command family'si irtifa ile monoton DEĞİL (12 canonical
+anchor'da -3,-3,-3,-3,-3,-3,-4,-4,-4,-4,-4,-3 m/s). Doğru, hâlâ tamamen
+generic kural: iki bracket row'un ortak `*_command_mps` sonekli
+planner_safe alanını KARŞILAŞTIR, mutlak değeri KÜÇÜK olanı seç (climb
+1500→2000, descent 2500→3000, descent 5000→5500 geçişlerinin üçünde de
+doğrulandı).
+
+**Measured vs planner-safe ayrımı (kritik test case, gerçek veriyle
+doğrulandı):** 5000m'de `measured.maximum_observed_stable_climb_vz_mps
+≈ 2.86 m/s` ama `availability=UNAVAILABLE`, `planner_safe=null`.
+`vertical_query(5000, "CLIMB")` doğru şekilde UNAVAILABLE döndürüyor —
+measured değer hiçbir zaman safe değer yerine kullanılmıyor.
+
+**RAW artifact'lar production'da reddediliyor:** `planner_ready`/
+`profile_stage` kontrolü, herhangi bir başka şema alanı talep etmeden
+ÖNCE yapılıyor (RAW artifact'ların `profile_stage` alanı hiç yok) —
+üç gerçek RAW artifact (`aircraft_lut_raw.json`, `c172p_core_aircraft_
+lut_raw.json`, `c172p_combined_3d_raw.json`) ve eski v1/v2 planner-safe
+artifact'lar (farklı `profile_stage` string'i taşıdıkları için) hepsi
+`LutNotPlannerSafeError` ile reddedildi.
+
+**Search entegrasyonu YOK (bilinçli):** `planner/aircraft_profile.py`
+hâlâ hiçbir search dosyası (`astar.py`, `primitives.py`, `corridor.py`,
+`candidate_z.py`, `terrain_cache.py`) tarafından import edilmiyor.
+Search davranışı bu stage'de hiç değişmedi.
+
+**Sonraki adım:** 60m aircraft-aware grid re-gate (bu stage'in konusu
+değil, henüz başlatılmadı).
+
+STEP ALG-1: PASS
+V3 PROFILE INTEGRATED: YES
+AIRCRAFT-NEUTRAL LOADER: YES
+SEARCH UNCHANGED: YES
+READY FOR 60M AIRCRAFT-AWARE GRID RE-GATE: YES
