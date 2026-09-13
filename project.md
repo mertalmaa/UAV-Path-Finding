@@ -4708,3 +4708,68 @@ EXACT MISSION ALTITUDES REPRESENTABLE: YES
 SPARSE/LAZY REPRESENTATION ACTIVE: YES
 SEARCH ALGORITHM UNCHANGED: YES
 READY FOR HEADING-1: YES
+
+**DÜZELTME (Step REP-1.1'de):** Yukarıdaki "READY FOR HEADING-1: YES"
+kararı REP-1.1'de tekrar gözden geçirildi ve **NO** olarak düzeltildi —
+Z-authority sorusu tam kapanmadan HEADING-1'e geçilmeyecek (aşağıya
+bakın). Bu satır tarihsel kayıt olarak korunuyor, ama artık geçerli
+karar değil.
+
+## Step REP-1.1 — Remove Regular Z-Lattice Dependency + Remove Web/UI Layer
+
+**Amaç:** REP-1'in PARTIAL bıraktığı mismatch'i (regular z_step lattice
+hâlâ production Z source-of-truth) tamamen kapatmak + web/UI layer'ı
+kaldırmak. 10/20/40 karşılaştırması yok, yeni z_step seçimi yok.
+
+**Web/UI kaldırıldı:** `webapp/server.py`, `webapp/static/index.html`,
+`.claude/launch.json` (tek girişi artık dangling uvicorn referansıydı)
+silindi. Dependency audit: webapp yalnız sıradan `planner/` modüllerini
+tüketiyordu — hiçbir planner kodu bu yüzden silinmedi.
+
+**`is_representable()` continuous hale getirildi:** REP-1'in ladder-
+alignment şartı (`z_msl` global z_step_m lattice'inde olmalı) kaldırıldı
+— bu hiçbir zaman gerçek bir CandidateZ kısıtı değildi, yalnız
+primitives.py'nin fixed `±z_step_m` arithmetic'inin EMERGENT bir
+özelliğiydi (o arithmetic'in ürettiği HER değer zaten lattice üzerinde).
+Yeni kural: `floor_for(row,col) <= z_msl <= ceiling` (continuous) VEYA
+exact mission event. Gerçek terrain'de (Mission A/B/C) sıfır etki —
+bit-birebir REP-1 sayılarıyla aynı (expanded=461/1635/22570) — beklenen
+ve doğrulanmış sonuç.
+
+**Hâlâ kapanmayan (dürüstçe raporlandı):** Successor altitude DEĞERİ
+hâlâ `planner/astar.py`'nin `z0 + k*z_step_m` arithmetic'inden geliyor
+— `is_representable()` bunu sadece KAPIDA kontrol ediyor, ÜRETMİYOR.
+`planner/primitives.py`'nin `dz_m`'i hâlâ fixed `±z_step_m`.
+`CanonicalState.z_index` hâlâ int, global lattice'e anchored. Tam
+kapatmak için İKİ yol var, ikisi de bu stage'in kendi kısıtlarıyla
+çelişiyor: (a) primitive endpoint geometrisini yeniden tasarlamak —
+bu stage'de aircraft-aware primitive yazmak YASAK; (b)
+`state_to_xyz`/`msl_to_z_index`/`z_index_to_msl`'i (ve `planner/
+astar.py` içindeki ~16 internal call site'ını, artı bunları doğrudan
+çağıran her external script'i) per-mission altitude reference ile
+thread etmek — A*'nin g-score/closed-set exactness'ini riske eden,
+geniş blast-radius'lu bir değişiklik, ayrı bir redesign stage'i olmadan
+güvenli değil.
+
+**State identity doğrulandı (varsayılmadı):** 6/6 test PASS —
+deterministic equality/hashing, 1000 adımlık accumulation'da SIFIR
+floating drift, off-lattice altitude sessizce yanlış snap OLMUYOR
+(ValueError ile loud fail), duplicate collapse, deterministic ordering.
+
+**Testler:** `scripts/validate_rep11.py` — 9 grup, ALL PASS.
+
+**Sonraki adım:** HEADING-1 DEĞİL. Z-authority sorusu (§5,
+REP11_REPORT.md) tam kapanmadan başlamayacak — hangi yolun (primitive
+redesign mi, altitude-reference threading mi) seçileceği kullanıcı
+kararı, burada varsayılmadı.
+
+STEP REP-1.1: PARTIAL
+WEB/UI REMOVED: YES
+CANDIDATE-Z SINGLE PRODUCTION Z AUTHORITY: NO
+CANDIDATE-Z.GENERATE PRODUCTION-USED: NO
+REGULAR Z-STEP REPRESENTATION REMOVED: NO
+FIXED-STEP PRIMITIVE DEPENDENCY REMOVED: NO
+STABLE ALTITUDE STATE IDENTITY: YES
+EXACT MISSION ALTITUDES SUPPORTED: PARTIAL (query-level yes, state-level no)
+GENUINELY SPARSE/LAZY: YES
+READY FOR HEADING-1: NO
