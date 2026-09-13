@@ -1,0 +1,14 @@
+{
+  "questions": {
+    "1_current_candidate_z_representation": "It is not a vestigial quantization helper -- it IS the entire production Z representation. Every search state's altitude is exactly z_index * config.z_step_m.",
+    "2_regular_base_lattice_role": "Still present and IS the production state space -- not a legacy artifact, not superseded by CandidateZGenerator.generate().",
+    "3_aircraft_motion_changes_candidatez_or_only_edge_feasibility": "Only edge feasibility (decision A).",
+    "4_search_history_independent_motion_events_needed": false,
+    "5_residual_vertical_progress_state_needed": false,
+    "6_representable_vs_physically_reachable_closed": true,
+    "7_mission_exact_altitude_bridge_policy_clear": true,
+    "8_terrain_floor_conservative": true,
+    "9_heading_aware_primitives_can_use_contract_directly": true
+  },
+  "final_status": "PASS"
+}

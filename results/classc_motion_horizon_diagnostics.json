@@ -1,0 +1,157 @@
+{
+  "z_step_m": 20.0,
+  "nominal_ias_context_mps": 40.0,
+  "real_floor_delta_distribution_m": {
+    "min": -20.0,
+    "max": 560.0,
+    "n": 400,
+    "all_multiples_of_z_step": true
+  },
+  "representative_delta_z_m": [
+    180,
+    240,
+    280,
+    320,
+    350,
+    380,
+    414,
+    440
+  ],
+  "diagnostics": [
+    {
+      "delta_z_m": 20.0,
+      "climb": {
+        "availability": "AVAILABLE",
+        "safe_vz_mps": 2.145858050144244,
+        "min_duration_s": 9.320280993729108,
+        "approx_min_horizontal_distance_m": 372.8112397491643
+      },
+      "descent": {
+        "availability": "AVAILABLE",
+        "safe_vz_mps": -4.218137762266384,
+        "min_duration_s": 4.7414288312039625,
+        "approx_min_horizontal_distance_m": 189.6571532481585
+      }
+    },
+    {
+      "delta_z_m": 180,
+      "climb": {
+        "availability": "AVAILABLE",
+        "safe_vz_mps": 2.145858050144244,
+        "min_duration_s": 83.88252894356198,
+        "approx_min_horizontal_distance_m": 3355.301157742479
+      },
+      "descent": {
+        "availability": "AVAILABLE",
+        "safe_vz_mps": -4.218137762266384,
+        "min_duration_s": 42.67285948083567,
+        "approx_min_horizontal_distance_m": 1706.9143792334266
+      }
+    },
+    {
+      "delta_z_m": 240,
+      "climb": {
+        "availability": "AVAILABLE",
+        "safe_vz_mps": 2.145858050144244,
+        "min_duration_s": 111.84337192474929,
+        "approx_min_horizontal_distance_m": 4473.734876989972
+      },
+      "descent": {
+        "availability": "AVAILABLE",
+        "safe_vz_mps": -4.218137762266384,
+        "min_duration_s": 56.897145974447554,
+        "approx_min_horizontal_distance_m": 2275.885838977902
+      }
+    },
+    {
+      "delta_z_m": 280,
+      "climb": {
+        "availability": "AVAILABLE",
+        "safe_vz_mps": 2.145858050144244,
+        "min_duration_s": 130.4839339122075,
+        "approx_min_horizontal_distance_m": 5219.3573564883
+      },
+      "descent": {
+        "availability": "AVAILABLE",
+        "safe_vz_mps": -4.218137762266384,
+        "min_duration_s": 66.38000363685548,
+        "approx_min_horizontal_distance_m": 2655.200145474219
+      }
+    },
+    {
+      "delta_z_m": 320,
+      "climb": {
+        "availability": "AVAILABLE",
+        "safe_vz_mps": 2.145858050144244,
+        "min_duration_s": 149.12449589966573,
+        "approx_min_horizontal_distance_m": 5964.979835986629
+      },
+      "descent": {
+        "availability": "AVAILABLE",
+        "safe_vz_mps": -4.218137762266384,
+        "min_duration_s": 75.8628612992634,
+        "approx_min_horizontal_distance_m": 3034.514451970536
+      }
+    },
+    {
+      "delta_z_m": 350,
+      "climb": {
+        "availability": "AVAILABLE",
+        "safe_vz_mps": 2.145858050144244,
+        "min_duration_s": 163.1049173902594,
+        "approx_min_horizontal_distance_m": 6524.196695610376
+      },
+      "descent": {
+        "availability": "AVAILABLE",
+        "safe_vz_mps": -4.218137762266384,
+        "min_duration_s": 82.97500454606936,
+        "approx_min_horizontal_distance_m": 3319.0001818427745
+      }
+    },
+    {
+      "delta_z_m": 380,
+      "climb": {
+        "availability": "AVAILABLE",
+        "safe_vz_mps": 2.145858050144244,
+        "min_duration_s": 177.08533888085304,
+        "approx_min_horizontal_distance_m": 7083.413555234121
+      },
+      "descent": {
+        "availability": "AVAILABLE",
+        "safe_vz_mps": -4.218137762266384,
+        "min_duration_s": 90.0871477928753,
+        "approx_min_horizontal_distance_m": 3603.4859117150118
+      }
+    },
+    {
+      "delta_z_m": 414,
+      "climb": {
+        "availability": "AVAILABLE",
+        "safe_vz_mps": 2.145858050144244,
+        "min_duration_s": 192.92981657019254,
+        "approx_min_horizontal_distance_m": 7717.192662807702
+      },
+      "descent": {
+        "availability": "AVAILABLE",
+        "safe_vz_mps": -4.218137762266384,
+        "min_duration_s": 98.14757680592203,
+        "approx_min_horizontal_distance_m": 3925.903072236881
+      }
+    },
+    {
+      "delta_z_m": 440,
+      "climb": {
+        "availability": "AVAILABLE",
+        "safe_vz_mps": 2.145858050144244,
+        "min_duration_s": 205.04618186204038,
+        "approx_min_horizontal_distance_m": 8201.847274481615
+      },
+      "descent": {
+        "availability": "AVAILABLE",
+        "safe_vz_mps": -4.218137762266384,
+        "min_duration_s": 104.31143428648718,
+        "approx_min_horizontal_distance_m": 4172.457371459487
+      }
+    }
+  ]
+}

@@ -1,0 +1,125 @@
+{
+  "altitudes_tested": [
+    500.0,
+    1500.0,
+    2500.0,
+    3500.0,
+    4500.0,
+    5000.0,
+    5500.0
+  ],
+  "rows": [
+    {
+      "altitude_m": 500.0,
+      "mode": "CLIMB",
+      "availability": "AVAILABLE",
+      "safe_vz_mps": 4.213105147610916,
+      "altitude_resolution": "EXACT",
+      "reason_unavailable": null
+    },
+    {
+      "altitude_m": 500.0,
+      "mode": "DESCENT",
+      "availability": "AVAILABLE",
+      "safe_vz_mps": -3.230026388842873,
+      "altitude_resolution": "EXACT",
+      "reason_unavailable": null
+    },
+    {
+      "altitude_m": 1500.0,
+      "mode": "CLIMB",
+      "availability": "AVAILABLE",
+      "safe_vz_mps": 4.25128710035162,
+      "altitude_resolution": "EXACT",
+      "reason_unavailable": null
+    },
+    {
+      "altitude_m": 1500.0,
+      "mode": "DESCENT",
+      "availability": "AVAILABLE",
+      "safe_vz_mps": -3.233560920293746,
+      "altitude_resolution": "EXACT",
+      "reason_unavailable": null
+    },
+    {
+      "altitude_m": 2500.0,
+      "mode": "CLIMB",
+      "availability": "AVAILABLE",
+      "safe_vz_mps": 3.1933630460141265,
+      "altitude_resolution": "EXACT",
+      "reason_unavailable": null
+    },
+    {
+      "altitude_m": 2500.0,
+      "mode": "DESCENT",
+      "availability": "AVAILABLE",
+      "safe_vz_mps": -3.2309493227258326,
+      "altitude_resolution": "EXACT",
+      "reason_unavailable": null
+    },
+    {
+      "altitude_m": 3500.0,
+      "mode": "CLIMB",
+      "availability": "AVAILABLE",
+      "safe_vz_mps": 2.145858050144244,
+      "altitude_resolution": "EXACT",
+      "reason_unavailable": null
+    },
+    {
+      "altitude_m": 3500.0,
+      "mode": "DESCENT",
+      "availability": "AVAILABLE",
+      "safe_vz_mps": -4.228716254240256,
+      "altitude_resolution": "EXACT",
+      "reason_unavailable": null
+    },
+    {
+      "altitude_m": 4500.0,
+      "mode": "CLIMB",
+      "availability": "AVAILABLE",
+      "safe_vz_mps": 2.1638253044836144,
+      "altitude_resolution": "EXACT",
+      "reason_unavailable": null
+    },
+    {
+      "altitude_m": 4500.0,
+      "mode": "DESCENT",
+      "availability": "AVAILABLE",
+      "safe_vz_mps": -4.245936000150822,
+      "altitude_resolution": "EXACT",
+      "reason_unavailable": null
+    },
+    {
+      "altitude_m": 5000.0,
+      "mode": "CLIMB",
+      "availability": "UNAVAILABLE",
+      "safe_vz_mps": null,
+      "altitude_resolution": "EXACT",
+      "reason_unavailable": "no_positive_command_passed_all_checks"
+    },
+    {
+      "altitude_m": 5000.0,
+      "mode": "DESCENT",
+      "availability": "AVAILABLE",
+      "safe_vz_mps": -4.252262408458536,
+      "altitude_resolution": "EXACT",
+      "reason_unavailable": null
+    },
+    {
+      "altitude_m": 5500.0,
+      "mode": "CLIMB",
+      "availability": "UNAVAILABLE",
+      "safe_vz_mps": null,
+      "altitude_resolution": "EXACT",
+      "reason_unavailable": "no_positive_command_passed_all_checks"
+    },
+    {
+      "altitude_m": 5500.0,
+      "mode": "DESCENT",
+      "availability": "AVAILABLE",
+      "safe_vz_mps": -3.225898786722491,
+      "altitude_resolution": "EXACT",
+      "reason_unavailable": null
+    }
+  ]
+}
