@@ -4542,3 +4542,92 @@ STEP GRID-1: PASS
 90M ROLE: GLOBAL/OPTIONAL METADATA ONLY
 SEARCH UNCHANGED: YES
 READY FOR CLASS-C: YES
+
+## Step CLASS-C — CandidateZ + Physical Vertical-Motion Bridge Closure
+
+**Amaç:** Z-step yeniden seçmek DEĞİL — mevcut CandidateZ representation
+ile gerçek aircraft vertical capability arasındaki eksik bağlantıyı
+kapatmak. 10/20/40m Z-step karşılaştırması yapılmadı, yeni final z_step
+seçilmedi.
+
+**Kritik audit bulgusu (kalıcı kayıt):** Production search Z state'i
+HÂLÂ düz, regüler `z_step_m` lattice'idir (`planner/astar.py`:
+`new_z_msl = new_z_index * config.z_step_m`; her primitive'in `dz_m`'i
+tam olarak `±config.z_step_m`). `CandidateZGenerator.floor_for()`
+production'da (Step 3E) SADECE bu lattice'in üzerinde bir efficiency
+prefilter olarak kullanılıyor. `CandidateZGenerator.generate()` (Step
+3A/3B'nin tasarladığı gerçek CLASS A/B/C sparse candidate SET) production
+kodunda HİÇ çağrılmıyor — tek çağıran izole bir Step 3B unit-test
+scripti. Sonuç: bu stage'e kadar, kod tabanında hiçbir yer bir Z
+transition'ının gerektirdiği dikey hızı gerçek aircraft capability'sine
+karşı kontrol etmiyordu.
+
+**Yeni production modülü:** `planner/vertical_motion.py` —
+`evaluate_vertical_motion(source_altitude_m, target_altitude_m,
+motion_duration_s, aircraft_profile)`. Saf fonksiyonel (instance state
+yok, history yok), `AircraftProfile.vertical_query()`'den canlı okuma
+(`planner_safe.{climb,descent}_vz_mps`, hiçbir sayı hard-code edilmedi).
+Dönüş: `FEASIBLE` / `PHYSICALLY_UNAVAILABLE` / `OUT_OF_PROFILE_DOMAIN` /
+`INVALID_DURATION`. **Search'e bağlanmadı** — `planner/astar.py`'nin
+successor generation'ı hiç değişmedi; bu gelecekteki bir primitive'in
+çağıracağı bir contract.
+
+**Kalıcı kavramsal ayrım (üç kavram):**
+- **REPRESENTABILITY** — hangi altitude'lar planner state olarak var
+  olabilir. Tamamen `planner/candidate_z.py` + `planner/astar.py`'nin işi.
+- **PHYSICAL REACHABILITY** — aircraft belirli motion duration içinde
+  fiziksel olarak oraya ulaşabilir mi. `evaluate_vertical_motion()`'ın işi.
+- **INSTANTIATION** — representable bir state gerçekten bu search run'ında
+  yaratıldı mı. Tamamen `planner/astar.py`'nin işi (open/closed sets).
+
+**REPRESENTABLE ENDPOINT != FEASIBLE EDGE** kapatıldı: aynı endpoint çifti
+(4500m→4520m), kısa duration → PHYSICALLY_UNAVAILABLE, yeterli duration →
+FEASIBLE (test edildi).
+
+**Aircraft/motion event kararı: A.** Aircraft/motion bilgisi CandidateZ'ye
+YENİ altitude candidate EKLEMİYOR — yalnız zaten representable iki
+endpoint arasındaki edge feasibility'sini belirliyor. Bu, audit'in kendi
+bulgusuyla (CLASS C zaten production'da kullanılmıyor) ve CandidateZ'nin
+search-history-independent kalması kuralıyla tutarlı tek karar.
+
+**NO RESIDUAL VERTICAL-PROGRESS STATE:** Gerekli değil. Kalıcı ilke:
+gelecekteki bir vertical-motion primitive'i, iki representable endpoint
+arasındaki TAM transition'ı kendi içinde taşımalı (gereken her ne kadar
+duration/horizontal distance olursa olsun) — bir sonraki primitive'in
+önceki "kısmi ilerlemeyi" hatırlamasına asla gerek kalmamalı.
+
+**Gerçek V3 vertical capability (canlı sorgulandı, hard-code edilmedi):**
+5000/5500m climb UNAVAILABLE (ALG-1'in kaydettiği envelope ile birebir
+aynı); descent -3/-4/-3 non-monoton family progression yeniden
+doğrulandı — bu kez `vertical_motion.py`'ın kendi çağrı yolundan.
+
+**Motion-horizon diagnostic (gerçek gözlemlenen Δz, 20m varsayılmadı):**
+Tek primitive hop'u hep tam `±z_step_m` (20m). Ama `floor_for()`'ın
+gerçek terrain-driven floor farkları (Step 3D/3E/GRID-1'in kendi mission
+penceresi reuse edildi) **-20m ile +560m arası**, hep z_step_m'nin katı.
+Bu, tek bir grid hop'unun gerçek terrain floor sıçramalarını
+kapsamadığını, gelecekteki bir primitive'in kendi duration/path-length
+mantığına ihtiyaç duyacağını gösteriyor — bir grid kuralı değil, saf
+fiziksel ölçek diagnostiği.
+
+**Mission exact altitude / terrain floor:** `planner/candidate_z.py`
+DEĞİŞTİRİLMEDİ. `floor_for()` hâlâ hiçbir zaman optimistic downward
+snapping yapmıyor. Off-lattice mission altitude'ların bugün
+`msl_to_z_index(allow_snap=False)` ile RAISE ettiği (sessizce yanlış
+snap etmek yerine güvenli ama eksik) **FOLLOW-UP olarak kaydedildi,
+düzeltilmedi**.
+
+**Testler:** `scripts/validate_classc.py` — 12 grup, ALL PASS. 10 sentetik
+transition contract testi (A-I) ALL PASS.
+
+**Sonraki adım:** HEADING-1 — Heading Discretization Design (60m XY +
+CandidateZ contract + V3 turn radius/rate + bu stage'in vertical motion
+contract'ı birlikte kullanılacak), sonra aircraft-aware motion primitives.
+
+STEP CLASS-C: PASS
+CURRENT CANDIDATE-Z CONTRACT UNDERSTOOD: YES
+REPRESENTATION / PHYSICAL MOTION DECOUPLED: YES
+DETERMINISTIC CANDIDATE-Z: YES
+RESIDUAL VERTICAL HISTORY REQUIRED: NO
+SEARCH UNCHANGED: YES
+READY FOR HEADING-1: YES
