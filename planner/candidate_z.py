@@ -222,3 +222,44 @@ class CandidateZGenerator:
         self.stats.call_count += 1
         self.stats.times_s.append(perf_counter() - t0)
         return result
+
+    def is_representable(self, row: int, col: int, z_msl: float, z_tol: float = 1e-6) -> bool:
+        """Step REP-1: the unified representability predicate generate()
+        was designed to describe, usable as a direct membership test
+        against arithmetic-derived successor altitudes (generate()'s own
+        return value is a 2-4 element boundary-EVENT set -- floor,
+        ceiling, start/goal -- deliberately too sparse to double as that
+        test, since every interior ladder rung strictly between floor and
+        ceiling is never one of those events; see project.md "Step REP-1"
+        for the full audit).
+
+        True iff z_msl is:
+          CLASS A: on the z_step_m ladder (anchored at MSL 0, the same
+            global convention _index_to_msl already uses -- an audited,
+            rejected alternative was anchoring per-mission at start_z_msl,
+            which would make an off-lattice start exact but ripples into
+            every state_to_xyz caller repo-wide for an ambiguous payoff;
+            see project.md) AND floor_for(row,col) <= z_msl <=
+            mission.ceiling_msl, OR
+          CLASS B: z_msl exactly equals this mission's start or goal
+            altitude, AT that specific mission-designated cell (an exact,
+            possibly off-lattice mission event). Currently unreachable by
+            any producer of CanonicalState in this repo (z_index is
+            int-typed, so an off-lattice float can never BE a state) --
+            kept as the correct, forward-compatible hook for when that
+            constraint is lifted, not dead code for its own sake.
+
+        Pure membership test: never derives or caches a new candidate,
+        same determinism/no-history guarantee as floor_for()."""
+        if (row, col) == self.mission.start_rowcol and math.isclose(z_msl, self.mission.start_z_msl, abs_tol=z_tol):
+            return True
+        if (row, col) == self.mission.goal_rowcol and math.isclose(z_msl, self.mission.goal_z_msl, abs_tol=z_tol):
+            return True
+        floor = self.floor_for(row, col)
+        if floor is None:
+            return False
+        if z_msl < floor - z_tol or z_msl > self.mission.ceiling_msl + z_tol:
+            return False
+        z_step = self.mission.z_step_m
+        nearest_rung = round(z_msl / z_step) * z_step
+        return abs(z_msl - nearest_rung) < z_tol

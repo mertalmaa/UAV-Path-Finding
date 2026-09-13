@@ -715,21 +715,25 @@ def _generate_neighbors(
     caller supplies one (no separate mode flag; presence of a generator
     IS the sparse/lazy behavior -- Step CLEAN-1 removed the
     representation_mode enum, since it only ever selected between "ignore
-    this" and "use this"). When given, a candidate successor whose new_z_msl is below
-    candidate_z_generator.floor_for(new_row, new_col) -- the cheap,
-    O(1), cache-backed CLASS-A terrain+min_agl floor for that cell -- is
+    this" and "use this"). When given, a candidate successor whose
+    new_z_msl fails candidate_z_generator.is_representable(new_row,
+    new_col, new_z_msl) -- the cheap, O(1), cache-backed CandidateZ
+    representability authority (Step REP-1): CLASS-A terrain+min_agl
+    floor through the mission ceiling, on the z_step_m ladder, OR an
+    exact CLASS-B mission start/goal altitude at that specific cell -- is
     rejected ("below_terrain_floor_sparse") BEFORE the (possibly cached)
     evaluate_primitive() call. This is a PURE EFFICIENCY prefilter, never
-    a safety decision: floor_for() computes the exact same terrain+
-    min_agl formula evaluate_agl()'s own below_min_agl check would reject
-    the START endpoint on anyway (both ceil the same true-floor to the
-    same z_step grid), so this can only reject a candidate early that
-    evaluate_primitive() would also have rejected -- it can never accept
-    one evaluate_primitive() would reject (evaluate_primitive() still
-    runs, unchanged, on everything that clears this prefilter, and is
-    still the sole safety authority for mid-primitive terrain/AGL/angle
-    checks a single endpoint floor can't see), and it never changes which
-    path is found, only how many evaluate_primitive() calls get made.
+    a safety decision: is_representable()'s CLASS-A branch computes the
+    exact same terrain+min_agl formula evaluate_agl()'s own
+    below_min_agl check would reject the START endpoint on anyway (both
+    ceil the same true-floor to the same z_step grid), so this can only
+    reject a candidate early that evaluate_primitive() would also have
+    rejected -- it can never accept one evaluate_primitive() would
+    reject (evaluate_primitive() still runs, unchanged, on everything
+    that clears this prefilter, and is still the sole safety authority
+    for mid-primitive terrain/AGL/angle checks a single endpoint check
+    can't see), and it never changes which path is found, only how many
+    evaluate_primitive() calls get made.
 
     Returns (accepted, rejected_reason_counts, generated_count, rejected_count,
     corridor_reject_count, z_corridor_reject_count).
@@ -778,8 +782,14 @@ def _generate_neighbors(
             continue
 
         if candidate_z_generator is not None:
-            floor = candidate_z_generator.floor_for(new_row, new_col)
-            if floor is None or new_z_msl < floor - 1e-9:
+            # Step REP-1: is_representable() is the unified CandidateZ authority (terrain
+            # floor + mission ceiling + exact mission-event recognition) -- see its own
+            # docstring and project.md "Step REP-1" for why it supersedes a floor-only
+            # check without replacing the z_step_m lattice itself. Rejection reason name
+            # kept as "below_terrain_floor_sparse" for backward compatibility with
+            # existing regression scripts that read this key -- terrain floor remains the
+            # dominant real-world rejection cause even though the check is now broader.
+            if not candidate_z_generator.is_representable(new_row, new_col, new_z_msl):
                 rejected += 1
                 rejected_counts["below_terrain_floor_sparse"] = rejected_counts.get("below_terrain_floor_sparse", 0) + 1
                 continue

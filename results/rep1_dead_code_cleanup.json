@@ -1,0 +1,23 @@
+{
+  "candidatez_generate_and_motioncontext": {
+    "production_used": false,
+    "removed": false,
+    "reason": "CandidateZGenerator.generate()/MotionContext/GeneratorStats are not called by any production (planner/, webapp/) code path, before or after Step REP-1 -- confirmed. However scripts/step3b_sparse_lazy_z_prototype.py and scripts/step3c_persistent_terrain_cache.py (both historical, already-passed validation scripts) import these names directly FROM planner/candidate_z.py (moved there verbatim in Step 3E) and would break (ImportError/AttributeError) if removed. Per the standing project rule that historical validation scripts stay RUNNABLE, not just their recorded results preserved, these are kept -- this is not 'belki laz\u0131m olur' hoarding: it is a named, tested, historically load-bearing API whose production role is now clarified (not the live successor-generation path) rather than deleted out from under scripts that still import it."
+  },
+  "z_step_m_config_field": {
+    "production_used": true,
+    "removed": false,
+    "reason": "Genuinely required, multiple independent roles: (1) planner/primitives.py derives every climb/descent primitive's dz_m directly from it; (2) planner/astar.py's CanonicalState z_index IS z_index*z_step_m -- the production search state space; (3) planner/coarse_astar.py's separate coarse lattice also derives from it; (4) CandidateZGenerator.is_representable() (new, Step REP-1) uses it as the ladder-alignment spacing for its CLASS-A check. Not 'only for an obsolete lattice' -- removing it would break primitive generation, both search layers, and the new representability predicate. No rename performed either (Section 8's 'don't rename just to preserve legacy' applies in reverse here: the name still accurately describes its role)."
+  },
+  "webapp_server_missing_candidatez": {
+    "production_used": false,
+    "removed": "N/A -- not code to remove, a gap to disclose",
+    "reason": "webapp/server.py (the one live interactive production tool) never constructed a CandidateZGenerator or passed one to astar_search/ara_star_search/coarse_astar_search, before OR after Step REP-1. Wiring the (now more capable) is_representable() prefilter into the live webapp would be a real, additional efficiency win (proven safety-neutral by Step 3E/CLEAN-1's own regression: floor_for()-based prefiltering never changes which path is found) -- but doing so safely requires building/attaching a persistent-cache-backed store per request and was not exercised by this stage's own regression harness. Flagged as a FOLLOW-UP, not implemented here to avoid an under-tested change to the one live interactive tool."
+  },
+  "coarse_astar_missing_candidatez": {
+    "production_used": false,
+    "removed": "N/A -- pre-existing scope boundary",
+    "reason": "planner/coarse_astar.py has never imported CandidateZGenerator at all (not just unused -- structurally absent). Extending the coarse search with the same prefilter is a parallel, plausible future improvement but touches a second search implementation this stage's explicit scope (Section 21: 'A*, ARA*, ... coarse search ... mant\u0131\u011f\u0131 de\u011fi\u015fmeyecek') did not authorize touching. Disclosed, not implemented."
+  },
+  "other_dead_code_found": "None. No stale imports, no orphaned helper functions, no legacy config options beyond z_step_m (which is required, see above) were found during this audit."
+}
