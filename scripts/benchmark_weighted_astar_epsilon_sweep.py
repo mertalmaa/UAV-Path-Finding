@@ -6,18 +6,22 @@ changes this stage -- benchmark parameters only, reusing Stage 25's exact
 astar_search(...) call shape unchanged.
 
 Same coordinates/aircraft/w_MSL/settings as Stage 25: START row=48,col=276
-GOAL row=264,col=276 AIRCRAFT_MSL=3760, dominance OFF, cache ON, msl_lower
-_bound_heuristic ON, vertical_reachability_heuristic OFF, incumbent_pruning
-ON with the same validated direct-216-edge-level-chain incumbent
-(cost~=21829.82), 30,000-expansion cap, no retry. epsilon=1.5's own result
-is NOT re-run -- Stage 25's recorded numbers (project.md) are the reference.
+GOAL row=264,col=276 AIRCRAFT_MSL=3760, cache ON, msl_lower_bound_heuristic
+ON, vertical_reachability_heuristic OFF, incumbent_pruning ON with the same
+validated direct-216-edge-level-chain incumbent (cost~=21829.82),
+30,000-expansion cap, no retry. epsilon=1.5's own result is NOT re-run --
+Stage 25's recorded numbers (project.md) are the reference.
+
+Step CLEAN-1.1: rewired for the xyz-only architecture, kept as an ongoing
+real-terrain regression scenario. No dominance pruning or reversal cost
+any more -- both were removed entirely by Step CLEAN-1.
 """
 import dataclasses
 import math
 import time
 
 from planner.astar import (
-    _path_altitude_metrics, _path_min_observed_agl, _path_vertical_reversal_metrics,
+    _path_altitude_metrics, _path_min_observed_agl,
     astar_search, msl_to_z_index, validate_and_cost_path,
 )
 from planner.config import DEFAULT_CONFIG
@@ -51,7 +55,7 @@ def run_one(epsilon, cfg, primitives, tq, start, goal, min_search, max_search, i
     result = astar_search(
         start, goal, tq, min_search_altitude_msl=min_search, max_search_altitude_msl=max_search,
         config=cfg, primitives=primitives, max_expansions=MAX_EXPANSIONS,
-        use_primitive_cache=True, use_dominance_pruning=False,
+        use_primitive_cache=True,
         use_msl_lower_bound_heuristic=True, use_vertical_reachability_heuristic=False,
         use_incumbent_pruning=True, initial_incumbent_cost=incumbent_cost, initial_incumbent_path=incumbent_path,
         epsilon_search=epsilon, target_suboptimality=TARGET_SUBOPTIMALITY,
@@ -100,7 +104,6 @@ def run_one(epsilon, cfg, primitives, tq, start, goal, min_search, max_search, i
         # be trusted for the "first solution found, certificate not yet done" case.
         alt_metrics = _path_altitude_metrics(report_path, tq, cfg)
         min_agl = _path_min_observed_agl(report_path, primitives, tq, cfg)
-        reversal_metrics = _path_vertical_reversal_metrics(report_path, primitives, cfg)
         profile = compute_vertical_profile_metrics(report_path, primitives, tq, cfg)
         decomp = decompose_cost(report_path, primitives, tq, cfg)
         safety = verify_path_safety(report_path, primitives, tq, cfg)
@@ -110,9 +113,8 @@ def run_one(epsilon, cfg, primitives, tq, start, goal, min_search, max_search, i
         print(f"  geometric_path_length={alt_metrics['geometric_path_length']:.1f}  "
               f"avg_MSL={alt_metrics['average_aircraft_msl']:.1f} min_MSL={alt_metrics['minimum_aircraft_msl']:.1f} "
               f"min_AGL={min_agl:.1f}")
-        print(f"  total_climb={alt_metrics['total_climb_m']:.1f} total_descent={alt_metrics['total_descent_m']:.1f} "
-              f"reversal_count={reversal_metrics['total_vertical_reversal_count']}")
-        print(f"  cost decomposition: G={decomp['G']:.1f} M={decomp['M']:.1f} R={decomp['R']:.2f}")
+        print(f"  total_climb={alt_metrics['total_climb_m']:.1f} total_descent={alt_metrics['total_descent_m']:.1f}")
+        print(f"  cost decomposition: G={decomp['G']:.1f} M={decomp['M']:.1f}")
         print(f"  last_climb_start_distance_m={last_climb}")
         print(f"  SAFETY CHECK: {'PASS' if safety['ok'] else 'FAIL -- ' + safety.get('reason', '')} "
               f"(min_agl={safety.get('min_agl', 'n/a')}, max_primitive_angle={safety.get('max_angle_deg', 'n/a')})")
@@ -139,7 +141,7 @@ def main() -> None:
 
     print(f"search bounds: min={min_search} max={max_search} "
           f"({(max_search - min_search) / cfg.z_step_m:.0f} z-steps)")
-    print(f"w_MSL={W_MSL}, target_suboptimality={TARGET_SUBOPTIMALITY}, dominance_pruning=OFF, "
+    print(f"w_MSL={W_MSL}, target_suboptimality={TARGET_SUBOPTIMALITY}, "
           f"incumbent_pruning=ON, cache=ON, cap={MAX_EXPANSIONS} (2 runs, no retry)")
     print()
 

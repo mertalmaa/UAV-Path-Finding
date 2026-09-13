@@ -1,15 +1,18 @@
-"""Stage 25: real 6.48km Aladagalar benchmark -- Weighted A* (epsilon_search
-=1.5) + certified 5%-bounded-suboptimal termination (target_suboptimality=
-1.05), ONE main run, 30,000-expansion cap, no retry.
+"""Stage 25 (Step CLEAN-1.1: rewired for the xyz-only architecture): real
+6.48km Aladagalar benchmark -- Weighted A* (epsilon_search=1.5) +
+certified 5%-bounded-suboptimal termination (target_suboptimality=1.05),
+ONE main run, 30,000-expansion cap, no retry. Kept as an ongoing
+real-terrain regression scenario for weighted A*'s bounded-suboptimality
+certificate.
 
 Same coordinates/aircraft/w_MSL as Stage 19-24: START row=48,col=276 GOAL
 row=264,col=276 AIRCRAFT_MSL=3760, distance=6480.0m. Initial incumbent: the
 same validated direct 216-edge level chain used in Stage 24
 (cost~=21829.82, re-validated here, not assumed).
 
-Settings: dominance_pruning=OFF (per spec -- isolate weighted A*'s own
-effect), cache ON, msl_lower_bound_heuristic ON, vertical_reachability
-_heuristic OFF, 3-bucket state, current 10 deg primitives, min_agl_m=200.
+Settings: cache ON, msl_lower_bound_heuristic ON, vertical_reachability
+_heuristic OFF, current 10 deg primitives, min_agl_m=200. No dominance
+pruning or reversal cost -- both were removed entirely by Step CLEAN-1.
 """
 import dataclasses
 import math
@@ -51,7 +54,7 @@ def main() -> None:
     print(f"search bounds: min={min_search} max={max_search} "
           f"({(max_search - min_search) / cfg.z_step_m:.0f} z-steps)")
     print(f"w_MSL={W_MSL}, epsilon_search={EPSILON_SEARCH}, target_suboptimality={TARGET_SUBOPTIMALITY}, "
-          f"dominance_pruning=OFF, incumbent_pruning=ON, cache=ON, msl_lower_bound_heuristic=ON, "
+          f"incumbent_pruning=ON, cache=ON, msl_lower_bound_heuristic=ON, "
           f"vertical_reachability_heuristic=OFF, cap={MAX_EXPANSIONS} (1 run, no retry)")
     print()
 
@@ -68,7 +71,7 @@ def main() -> None:
     result = astar_search(
         start, goal, tq, min_search_altitude_msl=min_search, max_search_altitude_msl=max_search,
         config=cfg, primitives=primitives, max_expansions=MAX_EXPANSIONS,
-        use_primitive_cache=True, use_dominance_pruning=False,
+        use_primitive_cache=True,
         use_msl_lower_bound_heuristic=True, use_vertical_reachability_heuristic=False,
         use_incumbent_pruning=True, initial_incumbent_cost=incumbent_cost, initial_incumbent_path=direct_level_path,
         epsilon_search=EPSILON_SEARCH, target_suboptimality=TARGET_SUBOPTIMALITY,
@@ -119,10 +122,8 @@ def main() -> None:
         print(f"  geometric_path_length={result.geometric_path_length:.1f}")
         print(f"  avg_MSL={result.average_aircraft_msl:.1f} min_MSL={result.minimum_aircraft_msl:.1f} "
               f"max_MSL={result.maximum_aircraft_msl:.1f} min_AGL={result.minimum_observed_agl:.1f}")
-        print(f"  total_climb={result.total_climb_m:.1f} total_descent={result.total_descent_m:.1f} "
-              f"reversal_count={result.total_vertical_reversal_count} "
-              f"total_reversal_penalty={result.total_reversal_penalty:.3f}")
-        print(f"  cost decomposition: G={decomp['G']:.1f} M={decomp['M']:.1f} R={decomp['R']:.2f}")
+        print(f"  total_climb={result.total_climb_m:.1f} total_descent={result.total_descent_m:.1f}")
+        print(f"  cost decomposition: G={decomp['G']:.1f} M={decomp['M']:.1f}")
         print(f"  first_descent_distance_m={profile['first_descent_distance_m']}")
         print(f"  low_msl_dwell_distance_m={profile['low_msl_dwell_distance_m']:.1f} "
               f"({profile['low_msl_dwell_distance_m'] / 1000:.2f} km) ratio={profile['low_msl_dwell_ratio']:.3f}")

@@ -1,4 +1,6 @@
-"""Stage 28: Cost Function Validation / Route Ranking Test.
+"""Stage 28 (Step CLEAN-1.1: rewired for the xyz-only architecture): Cost
+Function Validation / Route Ranking Test, kept as an ongoing cost-ranking
+sanity regression.
 
 Pure diagnostic. NO search, NO tuning, NO formula/weight change. Six candidate
 routes over the SAME real 6.48km Aladaglar corridor (start row=48,col=276 ->
@@ -8,13 +10,15 @@ existing 24-primitive set, and evaluated with the exact production safety +
 cost authorities:
 
     validate_and_cost_path()  -- per-edge evaluate_primitive() safety +
-                                  compute_edge_cost() via the real
-                                  (vertical_trend, trend_age_bucket) state
-                                  machine (_next_trend_and_bucket) -- never a
-                                  separate/approximate formula.
-    decompose_cost()          -- G/M/R breakdown using the SAME
-                                  _altitude_scaled / _path_vertical_reversal_metrics
-                                  helpers the search itself uses.
+                                  compute_edge_cost() -- a pure function of
+                                  (primitive, altitude, config) since Step
+                                  CLEAN-1, never a separate/approximate
+                                  formula.
+    decompose_cost()          -- G/M breakdown using the SAME
+                                  _altitude_scaled helper the search itself
+                                  uses. There is no R (reversal) term any
+                                  more -- Step CLEAN-1 removed reversal cost
+                                  entirely.
 
 The ONE exception to "no astar_search()" is candidate B (SHALLOW VALLEY):
 per the spec's own preference, this re-runs Stage 26's exact epsilon=1.10
@@ -27,7 +31,7 @@ import dataclasses
 import math
 
 from planner.astar import (
-    _path_vertical_reversal_metrics, astar_search, msl_to_z_index,
+    astar_search, msl_to_z_index,
     validate_and_cost_path,
 )
 from planner.config import DEFAULT_CONFIG
@@ -155,7 +159,7 @@ def get_stage26_eps110_path(cfg, primitives, tq, start, goal, min_search, max_se
     result = astar_search(
         start, goal, tq, min_search_altitude_msl=min_search, max_search_altitude_msl=max_search,
         config=cfg, primitives=primitives, max_expansions=30_000,
-        use_primitive_cache=True, use_dominance_pruning=False,
+        use_primitive_cache=True,
         use_msl_lower_bound_heuristic=True, use_vertical_reachability_heuristic=False,
         use_incumbent_pruning=True, initial_incumbent_cost=incumbent_cost,
         initial_incumbent_path=direct_level_path,
@@ -177,9 +181,8 @@ def evaluate_candidate(label, path, primitives, tq, cfg):
         return None
 
     decomp = decompose_cost(path, primitives, tq, cfg)
-    recombined = decomp["G"] + cfg.msl_cost_weight * decomp["M"] + decomp["R"]
+    recombined = decomp["G"] + cfg.msl_cost_weight * decomp["M"]
     profile = compute_vertical_profile_metrics(path, primitives, tq, cfg)
-    rev = _path_vertical_reversal_metrics(path, primitives, cfg)
     safety = verify_path_safety(path, primitives, tq, cfg)
     last_climb = last_climb_start_distance(path, primitives, cfg)
 
@@ -189,15 +192,13 @@ def evaluate_candidate(label, path, primitives, tq, cfg):
         "total_cost": prod_cost,
         "recombined_cost": recombined,
         "match": abs(prod_cost - recombined) < 1e-6,
-        "G": decomp["G"], "M": decomp["M"], "R": decomp["R"],
+        "G": decomp["G"], "M": decomp["M"],
         "geom_len": profile["total_horizontal_distance_m"] if profile else float("nan"),
         "avg_msl": None,
         "min_msl": profile["min_path_msl"] if profile else float("nan"),
         "max_msl": None,
         "total_climb": None,
         "total_descent": None,
-        "reversals": rev["total_vertical_reversal_count"],
-        "reversal_penalty": rev["total_reversal_penalty"],
         "low_dwell_ratio": profile["low_msl_dwell_ratio"] if profile else float("nan"),
         "low_dwell_dist": profile["low_msl_dwell_distance_m"] if profile else float("nan"),
         "first_descent_m": profile["first_descent_distance_m"] if profile else None,
@@ -218,14 +219,13 @@ def evaluate_candidate(label, path, primitives, tq, cfg):
     print(f"\n### {label} ###")
     print(f"  SAFETY: {'PASS' if safety['ok'] else 'FAIL -- ' + safety.get('reason','')} "
           f"(min_AGL={row['min_agl']:.1f}m, max_flight_path_angle={row['max_angle_deg']:.2f} deg)")
-    print(f"  TOTAL COST (production) = {prod_cost:.2f}   |  G + w*M + R = {recombined:.2f}  "
+    print(f"  TOTAL COST (production) = {prod_cost:.2f}   |  G + w*M = {recombined:.2f}  "
           f"(match={row['match']})")
     print(f"  decomposition: G(geometric)={decomp['G']:.2f}  M(MSL, raw)={decomp['M']:.4f}  "
-          f"w*M={cfg.msl_cost_weight*decomp['M']:.2f}  R(reversal)={decomp['R']:.2f}")
+          f"w*M={cfg.msl_cost_weight*decomp['M']:.2f}")
     print(f"  geometric_path_length={row['geom_len']:.1f}m  avg_MSL={row['avg_msl']:.1f}  "
           f"min_MSL={row['min_msl']:.1f}  max_MSL={row['max_msl']:.1f}")
-    print(f"  total_climb={row['total_climb']:.1f}m  total_descent={row['total_descent']:.1f}m  "
-          f"vertical_reversals={row['reversals']}  reversal_penalty={row['reversal_penalty']:.2f}")
+    print(f"  total_climb={row['total_climb']:.1f}m  total_descent={row['total_descent']:.1f}m")
     print(f"  low_MSL_dwell_distance={row['low_dwell_dist']:.1f}m  ratio={row['low_dwell_ratio']:.3f}  "
           f"first_descent_at={row['first_descent_m']}m  last_climb_start_at={row['last_climb_start_m']}m")
 
@@ -278,19 +278,18 @@ def main() -> None:
             results[label] = r
 
     print("\n\n=== SUMMARY TABLE ===")
-    cols = ["label", "total_cost", "G", "M", "R", "geom_len", "min_msl", "avg_msl",
-            "climb", "descent", "reversals", "rev_pen", "min_agl", "max_ang", "dwell_ratio"]
-    widths = {"label": 20, "total_cost": 11, "G": 9, "M": 8, "R": 8, "geom_len": 9, "min_msl": 8,
-              "avg_msl": 8, "climb": 7, "descent": 8, "reversals": 6, "rev_pen": 8, "min_agl": 8,
+    cols = ["label", "total_cost", "G", "M", "geom_len", "min_msl", "avg_msl",
+            "climb", "descent", "min_agl", "max_ang", "dwell_ratio"]
+    widths = {"label": 20, "total_cost": 11, "G": 9, "M": 8, "geom_len": 9, "min_msl": 8,
+              "avg_msl": 8, "climb": 7, "descent": 8, "min_agl": 8,
               "max_ang": 8, "dwell_ratio": 11}
     print("".join(f"{c:>{widths[c]}}" for c in cols))
     for label, r in results.items():
         vals = {
             "label": label, "total_cost": f"{r['total_cost']:.2f}", "G": f"{r['G']:.1f}",
-            "M": f"{r['M']:.3f}", "R": f"{r['R']:.2f}", "geom_len": f"{r['geom_len']:.1f}",
+            "M": f"{r['M']:.3f}", "geom_len": f"{r['geom_len']:.1f}",
             "min_msl": f"{r['min_msl']:.1f}", "avg_msl": f"{r['avg_msl']:.1f}",
             "climb": f"{r['total_climb']:.1f}", "descent": f"{r['total_descent']:.1f}",
-            "reversals": r["reversals"], "rev_pen": f"{r['reversal_penalty']:.2f}",
             "min_agl": f"{r['min_agl']:.1f}", "max_ang": f"{r['max_angle_deg']:.2f}",
             "dwell_ratio": f"{r['low_dwell_ratio']:.3f}",
         }
@@ -306,8 +305,8 @@ def main() -> None:
     if "C_EARLY_DEEP_VALLEY" in results and "D_LATE_DESCENT" in results:
         c, d = results["C_EARLY_DEEP_VALLEY"], results["D_LATE_DESCENT"]
         print("\n=== C (early) vs D (late) ===")
-        print(f"  C total_cost={c['total_cost']:.2f}  G={c['G']:.1f} M={c['M']:.3f} R={c['R']:.2f}")
-        print(f"  D total_cost={d['total_cost']:.2f}  G={d['G']:.1f} M={d['M']:.3f} R={d['R']:.2f}")
+        print(f"  C total_cost={c['total_cost']:.2f}  G={c['G']:.1f} M={c['M']:.3f}")
+        print(f"  D total_cost={d['total_cost']:.2f}  G={d['G']:.1f} M={d['M']:.3f}")
         print(f"  same G: {abs(c['G']-d['G'])<1e-6}  same total_climb/descent: "
               f"{abs(c['total_climb']-d['total_climb'])<1e-6 and abs(c['total_descent']-d['total_descent'])<1e-6}  "
               f"same min_MSL: {abs(c['min_msl']-d['min_msl'])<1e-6}")
@@ -318,9 +317,11 @@ def main() -> None:
         c, e = results["C_EARLY_DEEP_VALLEY"], results["E_ROLLER_COASTER"]
         print("\n=== C (smooth) vs E (roller-coaster) ===")
         print(f"  C: total_climb={c['total_climb']:.1f} total_descent={c['total_descent']:.1f} "
-              f"reversals={c['reversals']} reversal_penalty={c['reversal_penalty']:.2f} total_cost={c['total_cost']:.2f}")
+              f"total_cost={c['total_cost']:.2f}")
         print(f"  E: total_climb={e['total_climb']:.1f} total_descent={e['total_descent']:.1f} "
-              f"reversals={e['reversals']} reversal_penalty={e['reversal_penalty']:.2f} total_cost={e['total_cost']:.2f}")
+              f"total_cost={e['total_cost']:.2f}  "
+              f"(no reversal-cost term any more -- Step CLEAN-1; any cost difference from C is now purely "
+              f"the altitude (M) term, driven by E's higher average MSL, not reversal count)")
 
     if "C_EARLY_DEEP_VALLEY" in results and "F_LONG_DETOUR" in results:
         c, f = results["C_EARLY_DEEP_VALLEY"], results["F_LONG_DETOUR"]

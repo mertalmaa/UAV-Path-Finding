@@ -1,8 +1,12 @@
-"""Stage 19: 6.48 km real-terrain HIGH -> VALLEY -> HIGH benchmark.
+"""Stage 19 (Step CLEAN-1.1: rewired for the xyz-only architecture):
+6.48 km real-terrain HIGH -> VALLEY -> HIGH benchmark, kept as an ongoing
+real-terrain regression scenario.
 
 No architecture change. Same production system as Stage 17/18: primitive
-cache, MSL-aware admissible heuristic, spacing-sensitive reversal model,
-z_step=20m, max climb/descent angle=10 deg, min_agl_m=200 (all unchanged).
+cache, MSL-aware admissible heuristic, z_step=20m, max climb/descent
+angle=10 deg, min_agl_m=200 (all unchanged). There is no reversal cost or
+dominance pruning any more (Step CLEAN-1 removed both) -- a single run
+replaces the old dominance ON/OFF comparison.
 w_MSL=0.63 for this run only (config default is NOT changed).
 
 Coordinates (planner 10x10km ROI row/col, verified against the real DEM
@@ -11,9 +15,6 @@ before any search was attempted):
     GOAL  row=264, col=276  terrain~3539.5m
     straight-line horizontal distance = 6480.0m (exact)
     intervening terrain: min=3036.3m max=3556.8m mean=3207.8m, 0 NoData
-
-Runs dominance pruning both OFF (per the written spec) and ON (requested
-ad hoc), for comparison.
 """
 import dataclasses
 import math
@@ -75,21 +76,17 @@ def verify_path_safety(path, primitives, terrain, config) -> dict:
     return {"ok": True, "min_agl": min_agl, "max_angle_deg": max_angle}
 
 
-def run_one(label, use_dominance, cfg, primitives, tq, start, goal, min_search, max_search, max_expansions):
+def run_one(label, cfg, primitives, tq, start, goal, min_search, max_search, max_expansions):
     t0 = time.perf_counter()
     result = astar_search(start, goal, tq, min_search_altitude_msl=min_search, max_search_altitude_msl=max_search,
                            config=cfg, primitives=primitives, max_expansions=max_expansions,
-                           use_primitive_cache=True, use_dominance_pruning=use_dominance,
-                           use_msl_lower_bound_heuristic=True)
+                           use_primitive_cache=True, use_msl_lower_bound_heuristic=True)
     wall = time.perf_counter() - t0
 
-    print(f"=== {label} (dominance={'ON' if use_dominance else 'OFF'}) ===")
+    print(f"=== {label} ===")
     print(f"  status={result.status} wall={wall:.2f}s runtime={result.runtime_s:.2f}s "
           f"expanded={result.expanded_nodes} max_open={result.max_open_size} "
           f"cache_hit_rate={result.primitive_cache_hit_rate:.3f} multiplier={result.heuristic_cost_multiplier:.4f}")
-    if use_dominance:
-        print(f"  dominance: checks={result.dominance_checks} pruned={result.dominance_pruned_candidates} "
-              f"pop_skipped={result.dominated_heap_pops_skipped} max_frontier={result.max_dominance_frontier_size}")
     if result.runtime_s > 30.0 or result.status == "search_limit_reached":
         print(f"  !! FLAG: runtime={result.runtime_s:.1f}s status={result.status}")
 
@@ -105,12 +102,9 @@ def run_one(label, use_dominance, cfg, primitives, tq, start, goal, min_search, 
     print(f"  geometric_path_length={result.geometric_path_length:.1f} total_cost={result.total_cost:.2f}")
     print(f"  avg_MSL={result.average_aircraft_msl:.1f} min_MSL={result.minimum_aircraft_msl:.1f} "
           f"max_MSL={result.maximum_aircraft_msl:.1f} min_AGL={result.minimum_observed_agl:.1f}")
-    print(f"  total_climb={result.total_climb_m:.1f} total_descent={result.total_descent_m:.1f} "
-          f"reversal_count={result.total_vertical_reversal_count} "
-          f"penalized_reversals={result.penalized_reversal_count} "
-          f"total_reversal_penalty={result.total_reversal_penalty:.3f}")
-    print(f"  cost decomposition: G={decomp['G']:.1f} M={decomp['M']:.1f} R={decomp['R']:.2f}  "
-          f"(G+w*M+R={decomp['G'] + W_MSL * decomp['M'] + decomp['R']:.2f} vs total_cost={result.total_cost:.2f})")
+    print(f"  total_climb={result.total_climb_m:.1f} total_descent={result.total_descent_m:.1f}")
+    print(f"  cost decomposition: G={decomp['G']:.1f} M={decomp['M']:.1f}  "
+          f"(G+w*M={decomp['G'] + W_MSL * decomp['M']:.2f} vs total_cost={result.total_cost:.2f})")
     print(f"  first_descent_distance_m={profile['first_descent_distance_m']}")
     print(f"  deepest_point_distance_from_start_m={profile['deepest_point_distance_from_start_m']:.1f}")
     print(f"  descent_depth_m={AIRCRAFT_MSL - result.minimum_aircraft_msl:.1f}")
@@ -173,8 +167,7 @@ def main() -> None:
           f"min_agl_m={cfg.min_agl_m}")
     print()
 
-    run_one("Long valley benchmark", False, cfg, primitives, tq, start, goal, min_search, max_search, 30_000)
-    run_one("Long valley benchmark", True, cfg, primitives, tq, start, goal, min_search, max_search, 30_000)
+    run_one("Long valley benchmark", cfg, primitives, tq, start, goal, min_search, max_search, 30_000)
 
 
 if __name__ == "__main__":

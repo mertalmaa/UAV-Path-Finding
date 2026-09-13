@@ -1,10 +1,13 @@
-"""Stage 33: the ONE real 6.48km Aladaglar benchmark run with the new Safe
-Goal Region (70x70x50m box: +/-35m XY, +/-25m Z) enabled, on top of the
-Stage 32 normalized-cost baseline (unchanged): cost_mode="normalized",
+"""Stage 33 (Step CLEAN-1.1: rewired for the xyz-only architecture): the
+ONE real 6.48km Aladaglar benchmark run with the new Safe Goal Region
+(70x70x50m box: +/-35m XY, +/-25m Z) enabled, on top of the Stage 32
+normalized-cost baseline (unchanged): cost_mode="normalized",
 altitude_reference_msl=3240, H_scale=1000, w_altitude=1.25, w_distance=1.0,
-w_reversal=1.0, epsilon_search=1.10, target_suboptimality=1.05, dominance
-OFF, primitive cache ON, incumbent pruning ON. Single run, 30,000-expansion
-cap, NO retry.
+epsilon_search=1.10, target_suboptimality=1.05, primitive cache ON,
+incumbent pruning ON. Single run, 30,000-expansion cap, NO retry. Kept as
+an ongoing real-terrain regression scenario for goal-region tolerance.
+No dominance pruning or reversal cost any more -- both were removed
+entirely by Step CLEAN-1.
 
 Hypothesis being tested: does the search actually get close to the exact
 goal state but just miss the single discretized cell, so a small tolerance
@@ -15,7 +18,7 @@ import math
 import time
 
 from planner.astar import (
-    _path_altitude_metrics, _path_min_observed_agl, _path_vertical_reversal_metrics,
+    _path_altitude_metrics, _path_min_observed_agl,
     astar_search, compute_distance_reference, msl_to_z_index, state_to_xyz, validate_and_cost_path,
 )
 from planner.config import DEFAULT_CONFIG
@@ -33,7 +36,6 @@ ALTITUDE_REFERENCE_MSL = 3240.0
 NORMALIZED_ALTITUDE_SCALE_M = 1000.0
 NORMALIZED_W_ALTITUDE = 1.25
 NORMALIZED_W_DISTANCE = 1.0
-NORMALIZED_W_REVERSAL = 1.0
 MAX_EXPANSIONS = 30_000
 EPSILON_SEARCH = 1.10
 TARGET_SUBOPTIMALITY = 1.05
@@ -56,7 +58,6 @@ def main() -> None:
         normalized_altitude_scale_m=NORMALIZED_ALTITUDE_SCALE_M,
         normalized_w_distance=NORMALIZED_W_DISTANCE,
         normalized_w_altitude=NORMALIZED_W_ALTITUDE,
-        normalized_w_reversal=NORMALIZED_W_REVERSAL,
         goal_tolerance_xy_m=GOAL_TOLERANCE_XY_M,
         goal_tolerance_z_m=GOAL_TOLERANCE_Z_M,
     )
@@ -80,9 +81,9 @@ def main() -> None:
     print(f"  goal_tolerance_xy_m={GOAL_TOLERANCE_XY_M}  goal_tolerance_z_m={GOAL_TOLERANCE_Z_M}")
     print(f"  D_ref={d_ref:.4f}m  altitude_reference_msl={ALTITUDE_REFERENCE_MSL}  "
           f"H_scale={NORMALIZED_ALTITUDE_SCALE_M}  w_altitude={NORMALIZED_W_ALTITUDE}  "
-          f"w_distance={NORMALIZED_W_DISTANCE}  w_reversal={NORMALIZED_W_REVERSAL}")
+          f"w_distance={NORMALIZED_W_DISTANCE}")
     print(f"  search bounds=[{min_search},{max_search}]  epsilon_search={EPSILON_SEARCH}  "
-          f"target_suboptimality={TARGET_SUBOPTIMALITY}  dominance=OFF  cache=ON  incumbent_pruning=ON\n")
+          f"target_suboptimality={TARGET_SUBOPTIMALITY}  cache=ON  incumbent_pruning=ON\n")
 
     direct_level_path = build_direct_level(z0)
     ok, incumbent_cost = validate_and_cost_path(direct_level_path, primitives, tq, cfg, d_ref)
@@ -96,7 +97,7 @@ def main() -> None:
     result = astar_search(
         start, goal, tq, min_search_altitude_msl=min_search, max_search_altitude_msl=max_search,
         config=cfg, primitives=primitives, max_expansions=MAX_EXPANSIONS,
-        use_primitive_cache=True, use_dominance_pruning=False,
+        use_primitive_cache=True,
         use_msl_lower_bound_heuristic=True, use_vertical_reachability_heuristic=False,
         use_incumbent_pruning=True, initial_incumbent_cost=incumbent_cost,
         initial_incumbent_path=direct_level_path,
@@ -150,7 +151,6 @@ def main() -> None:
     if report_path:
         alt_metrics = _path_altitude_metrics(report_path, tq, cfg)
         min_agl = _path_min_observed_agl(report_path, primitives, tq, cfg)
-        reversal_metrics = _path_vertical_reversal_metrics(report_path, primitives, cfg)
         profile = compute_vertical_profile_metrics(report_path, primitives, tq, cfg)
         safety = verify_path_safety(report_path, primitives, tq, cfg)
         last_climb = last_climb_start_distance(report_path, primitives, cfg)
@@ -174,8 +174,7 @@ def main() -> None:
         print(f"  geometric_path_length={alt_metrics['geometric_path_length']:.1f}m")
         print(f"  avg_MSL={alt_metrics['average_aircraft_msl']:.1f}  min_MSL={alt_metrics['minimum_aircraft_msl']:.1f}  "
               f"max_MSL={alt_metrics['maximum_aircraft_msl']:.1f}  min_AGL={min_agl:.1f}")
-        print(f"  total_climb={alt_metrics['total_climb_m']:.1f}  total_descent={alt_metrics['total_descent_m']:.1f}  "
-              f"reversal_count={reversal_metrics['total_vertical_reversal_count']}")
+        print(f"  total_climb={alt_metrics['total_climb_m']:.1f}  total_descent={alt_metrics['total_descent_m']:.1f}")
         print(f"  first_descent_at={profile['first_descent_distance_m']}m  "
               f"last_climb_start_distance_m={last_climb}")
         print(f"  SAFETY CHECK: {'PASS' if safety['ok'] else 'FAIL -- ' + safety.get('reason', '')}  "

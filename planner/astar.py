@@ -286,7 +286,7 @@ def _heuristic(
     minimal path: h = normalized_w_distance * D3D / distance_reference_m.
     This is a valid admissible+consistent lower bound because the true
     normalized edge cost is always >= w_distance*dC_distance (the altitude
-    and reversal terms are non-negative -- see _compute_edge_cost_normalized),
+    term is non-negative -- see _compute_edge_cost_normalized),
     and sum(dC_distance) over any path from n to goal >= D3D(n,goal)/D_ref
     by the ordinary Euclidean triangle inequality. The legacy
     cost_multiplier / min_possible_msl / vertical-reachability machinery
@@ -368,8 +368,7 @@ def _forward_vertical_reachability_heuristic(
     h_forward(n) is the minimum over all such candidates, h_forward(n) <=
     c + h_forward(n') directly.
 
-    Ignores reversal_penalty entirely (it's always >= 0, so dropping it
-    only loosens, never breaks, the bound) and does no terrain sampling.
+    Does no terrain sampling.
     """
     if config.max_descent_angle_deg is None:
         return 0.0  # no known rate limit to exploit -- 0 is still a trivially valid (if weak) lower bound

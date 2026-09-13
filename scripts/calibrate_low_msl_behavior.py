@@ -1,9 +1,12 @@
-"""Stage 18: w_MSL calibration + vertical path profile analysis.
+"""Stage 18 (Step CLEAN-1.1: rewired for the xyz-only architecture):
+w_MSL calibration + vertical path profile analysis, kept as an ongoing
+real-terrain regression scenario for the legacy cost mode.
 
 Pure analysis -- no architecture change. Current system used exactly as-is:
-primitive cache ON, MSL-aware admissible heuristic ON, dominance pruning
-OFF (isolate this stage's effect), spacing-sensitive reversal model
-unchanged, min AGL / 10 deg limits unchanged, cost formula unchanged.
+primitive cache ON, MSL-aware admissible heuristic ON, min AGL / 10 deg
+limits unchanged, cost formula unchanged. There is no reversal-cost or
+dominance-pruning dimension to isolate any more (Step CLEAN-1 removed
+both).
 
 Tests w_MSL in {0.25 (baseline), 0.32 (conservative), 0.63 (balanced),
 1.01 (aggressive)} -- these are Stage 13's analytical break-even-derived
@@ -12,7 +15,7 @@ candidates, re-labelled per this stage's own naming.
 For every resulting path: standard metrics (already in SearchResult) +
 new vertical-profile metrics (first_descent_distance_m,
 deepest_point_distance_from_start_m, low_msl_dwell_distance_m/_ratio,
-distance_below_start_minus_20m) + a G/M/R cost decomposition computed
+distance_below_start_minus_20m) + a G/M cost decomposition computed
 from the SAME production functions the search itself uses (never a
 separate approximate formula).
 """
@@ -24,7 +27,7 @@ import numpy as np
 from affine import Affine
 
 from planner.astar import (
-    _altitude_scaled, _path_altitude_metrics, _path_vertical_reversal_metrics,
+    _altitude_scaled, _path_altitude_metrics,
     astar_search, msl_to_z_index, state_to_xyz,
 )
 from planner.config import DEFAULT_CONFIG
@@ -103,12 +106,13 @@ def compute_vertical_profile_metrics(path, primitives, terrain, config):
 
 
 def decompose_cost(path, primitives, terrain, config):
-    """G/M/R using the exact production functions -- G and R are already
-    computed by the search's own helpers; M is the one piece not already
-    exposed as a standalone total, computed here with _altitude_scaled
-    (the same function compute_edge_cost calls), not a separate formula."""
+    """G/M using the exact production functions -- G is already computed
+    by the search's own helpers; M is the one piece not already exposed
+    as a standalone total, computed here with _altitude_scaled (the same
+    function compute_edge_cost calls), not a separate formula. There is
+    no R (reversal) term any more -- Step CLEAN-1 removed reversal cost
+    entirely, so total_cost == G + w_MSL*M exactly."""
     alt_metrics = _path_altitude_metrics(path, terrain, config)
-    rev_metrics = _path_vertical_reversal_metrics(path, primitives, config)
 
     by_delta = {(p.drow, p.dcol, round(p.dz_m / config.z_step_m)): p for p in primitives}
     xyz = [state_to_xyz(s, terrain, config) for s in path]
@@ -119,7 +123,7 @@ def decompose_cost(path, primitives, terrain, config):
         mean_alt = (xyz[i][2] + xyz[i + 1][2]) / 2.0
         M += geometric_cost * _altitude_scaled(mean_alt, config)
 
-    return {"G": alt_metrics["geometric_path_length"], "M": M, "R": rev_metrics["total_reversal_penalty"]}
+    return {"G": alt_metrics["geometric_path_length"], "M": M}
 
 
 def ascii_profile(profile_metrics, total_horizontal) -> str:
@@ -146,12 +150,9 @@ def report(label, w_msl, result, profile_metrics, decomp) -> dict:
         "min_agl": round(result.minimum_observed_agl, 2) if result.success else None,
         "climb": round(result.total_climb_m, 2) if result.success else None,
         "descent": round(result.total_descent_m, 2) if result.success else None,
-        "reversals": result.total_vertical_reversal_count,
-        "reversal_penalty": round(result.total_reversal_penalty, 3) if result.success else None,
         "multiplier": round(result.heuristic_cost_multiplier, 4),
         "G": round(decomp["G"], 2) if decomp else None,
         "M": round(decomp["M"], 2) if decomp else None,
-        "R": round(decomp["R"], 2) if decomp else None,
         "first_descent_m": round(profile_metrics["first_descent_distance_m"], 1)
                             if profile_metrics and profile_metrics["first_descent_distance_m"] is not None else None,
         "deepest_at_m": round(profile_metrics["deepest_point_distance_from_start_m"], 1) if profile_metrics else None,
@@ -163,10 +164,9 @@ def report(label, w_msl, result, profile_metrics, decomp) -> dict:
     if result.success:
         print(f"    geom_len={row['geom_len']} total_cost={row['total_cost']} avg_MSL={row['avg_msl']} "
               f"min_MSL={row['min_msl']} max_MSL={row['max_msl']} min_AGL={row['min_agl']}")
-        print(f"    climb={row['climb']} descent={row['descent']} reversals={row['reversals']} "
-              f"reversal_penalty={row['reversal_penalty']}")
-        print(f"    G={row['G']} M={row['M']} R={row['R']}  (G+w*M+R = "
-              f"{row['G'] + w_msl * row['M'] + row['R']:.2f} vs total_cost={row['total_cost']})")
+        print(f"    climb={row['climb']} descent={row['descent']}")
+        print(f"    G={row['G']} M={row['M']}  (G+w*M = "
+              f"{row['G'] + w_msl * row['M']:.2f} vs total_cost={row['total_cost']})")
         print(f"    first_descent_m={row['first_descent_m']} deepest_at_m={row['deepest_at_m']} "
               f"low_dwell_ratio={row['low_dwell_ratio']} below_start-20m_m={row['below_start20_m']}")
     if result.runtime_s > 15.0 or result.status == "search_limit_reached":
@@ -189,7 +189,7 @@ def synthetic_scenario(cfg, primitives) -> list:
         c = dataclasses.replace(cfg, msl_cost_weight=w_msl)
         result = astar_search(start, goal, tq, min_search_altitude_msl=1300.0, max_search_altitude_msl=1400.0,
                                config=c, primitives=primitives, max_expansions=100_000,
-                               use_primitive_cache=True, use_dominance_pruning=False,
+                               use_primitive_cache=True,
                                use_msl_lower_bound_heuristic=True)
         profile = compute_vertical_profile_metrics(result.path, primitives, tq, c) if result.success else None
         decomp = decompose_cost(result.path, primitives, tq, c) if result.success else None
@@ -220,7 +220,7 @@ def real_aladaglar_scenario(cfg, primitives) -> list:
         t0 = time.perf_counter()
         result = astar_search(start, goal, tq, min_search_altitude_msl=min_search, max_search_altitude_msl=max_search,
                                config=c, primitives=primitives, max_expansions=30_000,
-                               use_primitive_cache=True, use_dominance_pruning=False,
+                               use_primitive_cache=True,
                                use_msl_lower_bound_heuristic=True)
         wall = time.perf_counter() - t0
         profile = compute_vertical_profile_metrics(result.path, primitives, tq, c) if result.success else None
@@ -237,10 +237,10 @@ def real_aladaglar_scenario(cfg, primitives) -> list:
 def print_table(rows, title) -> None:
     print(f"=== {title} ===")
     cols = ["w_MSL", "label", "status", "runtime_s", "expanded", "geom_len", "total_cost", "avg_msl",
-            "min_msl", "first_descent_m", "low_dwell_ratio", "climb", "descent", "reversals", "min_agl"]
+            "min_msl", "first_descent_m", "low_dwell_ratio", "climb", "descent", "min_agl"]
     widths = {"w_MSL": 7, "label": 13, "status": 18, "runtime_s": 9, "expanded": 9, "geom_len": 9,
               "total_cost": 11, "avg_msl": 8, "min_msl": 8, "first_descent_m": 14, "low_dwell_ratio": 15,
-              "climb": 7, "descent": 8, "reversals": 10, "min_agl": 8}
+              "climb": 7, "descent": 8, "min_agl": 8}
     print("".join(f"{c:>{widths[c]}}" for c in cols))
     for row in rows:
         print("".join(f"{str(row.get(c, '')):>{widths[c]}}" for c in cols))

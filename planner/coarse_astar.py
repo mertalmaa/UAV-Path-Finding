@@ -230,7 +230,6 @@ def compute_coarse_edge_cost(
         altitude_scale_m=altitude_scale_m,
         w_distance=w_distance,
         w_altitude=w_altitude,
-        w_smoothness=0.0,
     )
     components = policy.edge_components(
         math.hypot(primitive.horizontal_distance_m, primitive.dz_m),

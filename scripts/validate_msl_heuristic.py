@@ -5,10 +5,9 @@ is a single GLOBAL constant (computed once per search, from the cheapest
 MSL this search could possibly ever fly at) such that no valid edge can
 ever cost less than geometric_cost * minimum_cost_multiplier. Admissible
 and consistent for the same reason the old plain-Euclidean heuristic was
-(triangle inequality), given non-negative msl_cost_weight,
-vertical_reversal_cost_weight, and a positive msl_scale_m -- verified
-below, and checked defensively at runtime (falls back to multiplier=1.0
-otherwise).
+(triangle inequality), given non-negative msl_cost_weight and a positive
+msl_scale_m -- verified below, and checked defensively at runtime (falls
+back to multiplier=1.0 otherwise).
 
 9)  _min_possible_aircraft_msl unit tests (the exact spec examples).
 10) numeric heuristic test: new_h >= old_h, equal when w_MSL=0 or
