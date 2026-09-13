@@ -4631,3 +4631,80 @@ DETERMINISTIC CANDIDATE-Z: YES
 RESIDUAL VERTICAL HISTORY REQUIRED: NO
 SEARCH UNCHANGED: YES
 READY FOR HEADING-1: YES
+
+## Step REP-1 — Production Sparse CandidateZ Integration + Legacy Z-Step Cleanup Audit
+
+**Amaç:** CLASS-C'nin ortaya çıkardığı mismatch'i (sparse CandidateZ altyapısı
+var ama production onu `.floor_for()`'un ötesinde kullanmıyor) kapatmak,
+VE gerekiyorsa artık gereksiz olan regular Z-step kodunu temizlemek.
+10/20/40m Z-step karşılaştırması yapılmadı, yeni z_step seçilmedi.
+
+**Kalıcı merkezi bulgu:** `CandidateZGenerator.generate()`'in kendi
+dönüş değeri (2-4 elemanlı boundary-event set: terrain floor, ceiling,
+exact start/goal) primitive-arithmetic-based stepping için successor
+membership testi olarak MİMARİ OLARAK UYGUNSUZ — floor ile ceiling
+arasındaki her ladder rung'u (gerçek multi-hop path'lerin asıl geçtiği
+yer, her primitive hop'u tam `±z_step_m`) generate()'in event set'inde
+HİÇ yok. Bu yüzden **regular z_step_m lattice, arama STATE SPACE'inin
+gerçekten gerekli bir parçası olarak kaldı** — CandidateZ'nin literal
+bir yeniden okumasıyla kaldırılabilecek eski bir katman değil. Kaldırmak
+ya neredeyse her meşru multi-hop climb/descent'i reddeder, ya da
+`z_index`'in float olmasını gerektirir (floating-point drift'in A*'nin
+g-score/closed-set dict'lerini sessizce bozma riski — gerçek bir
+optimality riski, stil tercihi değil).
+
+**Gerçekten kapanan şey:** `planner/candidate_z.py`'ye YENİ
+`CandidateZGenerator.is_representable(row, col, z_msl)` metodu eklendi —
+mevcut doğru altyapıdan (floor_for + MissionContext) inşa edildi, yeni
+bir candidate sistemi İCAT EDİLMEDİ. `planner/astar.py`'nin
+`_generate_neighbors`'ı artık eski floor-only check yerine BUNU
+çağırıyor — gerçek, doğrulanmış production entegrasyonu. CLASS-A
+(terrain floor→ceiling, ladder üzerinde) + CLASS-B (exact mission
+start/goal, o hücrede) birleştirildi. Provably safety-neutral: sadece
+`evaluate_primitive()`'in zaten reddedeceğini erken reddedebilir, asla
+onun kabul etmeyeceğini kabul edemez.
+
+**Exact mission altitude kapandı:** Off-lattice start/goal (örn.
+3251.37m) artık kendi hücresinde `is_representable()==True` — CLASS-C'nin
+açık bıraktığı boşluk, mevcut int-tipli `z_index` altında erişilebilir
+olduğu TEK durum (mission'ın kendi start/goal state'i) için kapatıldı.
+
+**Regresyon:** Mission A/B/C, `is_representable()` sonrası, REP-1
+ÖNCESİNDEKİ sayılarla bit-birebir aynı (expanded=461/1635/22570,
+cost=3179.61/4972.03/6750.06, safe=True, raw_dem_reads=0) — sıfır
+regresyon. 8/8 representability testi (A-H) PASS.
+
+**Dead-code kararları:** `CandidateZGenerator.generate()`/`MotionContext`
+KORUNDU — production'da kullanılmıyor ama `scripts/step3b`/`step3c`
+(historical, zaten geçmiş validation scriptleri) bunları hâlâ import
+ediyor; silmek onların replay edilebilirliğini kırardı — "belki lazım
+olur" hoarding değil, historical script'leri çalışır tutma kuralı.
+`config.z_step_m` KORUNDU — gerçekten çok-rollü gerekli (primitives.py,
+her iki search katmanı, yeni is_representable()'ın kendisi).
+
+**BLOCKER (açıkça raporlandı, sessizce çözülmedi):** Regular z_step_m
+lattice KALDIRILAMADI — bu yüzden bu stage **PARTIAL** olarak
+sınıflandırıldı (literal "obsolete dense Z representation removed"
+kriteri karşılanmadı), gerçek entegrasyon ilerlemesi her yerde
+doğrulanmış olsa da. Ayrıca: `webapp/server.py` (TEK gerçek canlı
+production aracı) hiçbir zaman `CandidateZGenerator` kullanmadı — bu
+stage'den ÖNCE de SONRA da — follow-up olarak işaretlendi, düzeltilmedi
+(under-tested bir canlı-araç değişikliği riski alınmadı).
+`planner/coarse_astar.py` da hiç `CandidateZGenerator` import etmiyor —
+ikinci bir search implementasyonu, bu stage'in kapsamı dışında.
+
+**Sonraki adım:** HEADING-1 — Heading Discretization Design. Bu stage'in
+PARTIAL bıraktığı lattice-vs-sparse sorusu heading tasarımından
+bağımsız (gelecekteki heading-aware primitive kendi geometri-tabanlı Z
+transition'ını CLASS-C'nin `evaluate_vertical_motion` contract'ı
+üzerinden tanımlayacak) — HEADING-1'i engellemiyor.
+
+STEP REP-1: PARTIAL
+PRODUCTION CANDIDATE-Z ACTIVE: YES (is_representable() olarak)
+CANDIDATE-Z IS SINGLE Z SOURCE OF TRUTH: NO (regular lattice hâlâ gerekli — bkz. blocker)
+OBSOLETE REGULAR Z REPRESENTATION REMOVED: NO (STILL_REQUIRED_WITH_REASON)
+UNNECESSARY Z-STEP DEPENDENCIES REMOVED: NO (STILL_REQUIRED_WITH_REASON — hepsi gerçekten gerekli)
+EXACT MISSION ALTITUDES REPRESENTABLE: YES
+SPARSE/LAZY REPRESENTATION ACTIVE: YES
+SEARCH ALGORITHM UNCHANGED: YES
+READY FOR HEADING-1: YES
