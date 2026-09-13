@@ -1,0 +1,347 @@
+{
+  "artifact_type": "SEARCH_PERFORMANCE_BASELINE",
+  "schema_version": 1,
+  "git_commit": "b72859d405e010e25a47b1ba015b4de061a31e03",
+  "config_hash": {
+    "default_config_30m_long_valley_cases": "e0b590325c3407bd",
+    "mission_config_60m_coarse_ABC_cases": "b3596fdcef5006db"
+  },
+  "watchdogs_s": {
+    "small": 30.0,
+    "normal": 60.0,
+    "long": 120.0,
+    "note": "development watchdog values only -- NOT a final performance target"
+  },
+  "future_comparison_labels_note": "Every test record's own 'labels' block is the authoritative per-test snapshot. This baseline overall: STATE=(x,y,z), HEADING=OFF, AIRCRAFT-AWARE PRIMITIVES=OFF, AIRCRAFT LUT=OFF, HARD CORRIDOR=ON (full-pipeline case only; the plain astar_search cases don't use a corridor at all), SEARCH GUIDANCE=CURRENT, PRODUCTION SEARCH=ARA* (full-pipeline case) / astar_search (Mission A/B/C and plain long-valley cases). A future run is expected to flip these to (x,y,z,heading), aircraft LUT ON, aircraft primitives ON, hard corridor OFF, new search guidance, and be compared against this artifact test-by-test.",
+  "missions": {
+    "A_easy_open": {
+      "name": "A_easy_open",
+      "labels": {
+        "state": "(x,y,z)",
+        "heading": false,
+        "aircraft_aware_primitives": false,
+        "aircraft_lut": false,
+        "hard_corridor": false,
+        "search_guidance": "CURRENT",
+        "production_search": "astar_search"
+      },
+      "timing": {
+        "preprocessing_time_s": 1.00000761449337e-07,
+        "search_time_s": 3.3415792000014335,
+        "path_validation_time_s": 0.013054899987764657,
+        "total_pipeline_time_s": 3.3546341999899596
+      },
+      "correctness": {
+        "status": "success",
+        "termination_reason": "FOUND",
+        "path_found": true,
+        "safety_pass": true,
+        "min_agl_m": 101.684814453125,
+        "goal_error_xy_m": 0.0,
+        "goal_error_z_m": 0.0
+      },
+      "quality": {
+        "node_count": 20,
+        "geometric_path_length_m": 1731.6916534484876,
+        "min_msl": 3260.0,
+        "max_msl": 3380.0,
+        "avg_msl": 3344.5253858606593,
+        "total_climb_m": 120.0,
+        "total_descent_m": 40.0,
+        "path_cost": 3179.61332730886
+      },
+      "performance": {
+        "expanded": 461,
+        "generated": 11040,
+        "max_open_size": 1296,
+        "cache_hits": 0,
+        "cache_misses": 8445,
+        "cache_hit_rate": 0.0,
+        "actual_evaluate_primitive_calls": 8445,
+        "candidate_z_calls": 0
+      }
+    },
+    "B_relief_affected": {
+      "name": "B_relief_affected",
+      "labels": {
+        "state": "(x,y,z)",
+        "heading": false,
+        "aircraft_aware_primitives": false,
+        "aircraft_lut": false,
+        "hard_corridor": false,
+        "search_guidance": "CURRENT",
+        "production_search": "astar_search"
+      },
+      "timing": {
+        "preprocessing_time_s": 5.00003807246685e-07,
+        "search_time_s": 14.004443700017873,
+        "path_validation_time_s": 0.01903429999947548,
+        "total_pipeline_time_s": 14.023478500021156
+      },
+      "correctness": {
+        "status": "success",
+        "termination_reason": "FOUND",
+        "path_found": true,
+        "safety_pass": true,
+        "min_agl_m": 100.052001953125,
+        "goal_error_xy_m": 0.0,
+        "goal_error_z_m": 0.0
+      },
+      "quality": {
+        "node_count": 25,
+        "geometric_path_length_m": 2672.6081311973617,
+        "min_msl": 3260.0,
+        "max_msl": 3580.0,
+        "avg_msl": 3441.459456007633,
+        "total_climb_m": 320.0,
+        "total_descent_m": 0.0,
+        "path_cost": 4972.026262525374
+      },
+      "performance": {
+        "expanded": 1635,
+        "generated": 39216,
+        "max_open_size": 2550,
+        "cache_hits": 0,
+        "cache_misses": 31889,
+        "cache_hit_rate": 0.0,
+        "actual_evaluate_primitive_calls": 31889,
+        "candidate_z_calls": 0
+      }
+    },
+    "C_z_matters": {
+      "name": "C_z_matters",
+      "labels": {
+        "state": "(x,y,z)",
+        "heading": false,
+        "aircraft_aware_primitives": false,
+        "aircraft_lut": false,
+        "hard_corridor": false,
+        "search_guidance": "CURRENT",
+        "production_search": "astar_search"
+      },
+      "timing": {
+        "preprocessing_time_s": 2.00001522898674e-07,
+        "search_time_s": 210.802677700005,
+        "path_validation_time_s": 0.01879440003540367,
+        "total_pipeline_time_s": 210.82147230004193
+      },
+      "correctness": {
+        "status": "success",
+        "termination_reason": "FOUND",
+        "path_found": true,
+        "safety_pass": true,
+        "min_agl_m": 100.037353515625,
+        "goal_error_xy_m": 0.0,
+        "goal_error_z_m": 0.0
+      },
+      "quality": {
+        "node_count": 31,
+        "geometric_path_length_m": 3588.002267572965,
+        "min_msl": 3240.0,
+        "max_msl": 3820.0,
+        "avg_msl": 3525.150504737065,
+        "total_climb_m": 580.0,
+        "total_descent_m": 0.0,
+        "path_cost": 6750.064268706111
+      },
+      "performance": {
+        "expanded": 22570,
+        "generated": 541656,
+        "max_open_size": 17181,
+        "cache_hits": 0,
+        "cache_misses": 507932,
+        "cache_hit_rate": 0.0,
+        "actual_evaluate_primitive_calls": 507932,
+        "candidate_z_calls": 0
+      }
+    }
+  },
+  "long_valley_astar": {
+    "name": "long_valley_6.48km_astar",
+    "labels": {
+      "state": "(x,y,z)",
+      "heading": false,
+      "aircraft_aware_primitives": false,
+      "aircraft_lut": false,
+      "hard_corridor": false,
+      "search_guidance": "CURRENT",
+      "production_search": "astar_search"
+    },
+    "timing": {
+      "preprocessing_time_s": 0.006869399978313595,
+      "search_time_s": 24.253905799996573,
+      "path_validation_time_s": 1.4999532140791416e-06,
+      "total_pipeline_time_s": 24.2607766999281
+    },
+    "correctness": {
+      "status": "search_limit_reached",
+      "termination_reason": "EXPANSION_LIMIT",
+      "path_found": false,
+      "safety_pass": null,
+      "min_agl_m": null,
+      "goal_error_xy_m": null,
+      "goal_error_z_m": null
+    },
+    "quality": {
+      "node_count": 0,
+      "path_cost": NaN,
+      "geometric_path_length_m": null,
+      "min_msl": null,
+      "max_msl": null,
+      "total_climb_m": null,
+      "total_descent_m": null
+    },
+    "performance": {
+      "expanded": 30000,
+      "generated": 719976,
+      "max_open_size": 47458,
+      "cache_hits": 666072,
+      "cache_misses": 53896,
+      "cache_hit_rate": 0.9251411173829948,
+      "actual_evaluate_primitive_calls": 53896
+    }
+  },
+  "long_valley_full_pipeline": {
+    "name": "long_valley_6.48km_full_pipeline",
+    "labels": {
+      "state": "(x,y,z)",
+      "heading": false,
+      "aircraft_aware_primitives": false,
+      "aircraft_lut": false,
+      "hard_corridor": true,
+      "search_guidance": "CURRENT",
+      "production_search": "ara_star_search"
+    },
+    "timing": {
+      "preprocessing_time_s": 0.008210800006054342,
+      "coarse_guidance_time_s": 4.611439699947368,
+      "corridor_time_s": 0.19345979997888207,
+      "fine_precompute_time_s": 25.30266520002624,
+      "search_time_s": 14.037840400007553,
+      "path_validation_time_s": 0.035462900006677955,
+      "total_pipeline_time_s": 44.189078799972776
+    },
+    "correctness": {
+      "termination_reason": "EXPANSION_LIMIT",
+      "path_found": true,
+      "safety_pass": true,
+      "min_agl_m": 210.76375325520848,
+      "goal_error_xy_m": 0.0,
+      "goal_error_z_m": 0.0
+    },
+    "quality": {
+      "node_count": 109,
+      "geometric_path_length_m": 6539.589021814715,
+      "min_msl": 3540.0,
+      "max_msl": 3780.0,
+      "avg_msl": 3628.92938686148,
+      "total_climb_m": 360.0,
+      "total_descent_m": 360.0,
+      "path_cost": 1.5000597156698012
+    },
+    "performance": {
+      "total_expanded": 30000,
+      "corridor_cell_count": 4853,
+      "n_phases": 3,
+      "refinement_limit_reached": true,
+      "timeout_triggered": false
+    }
+  },
+  "budget_semantics_validation": {
+    "timeout_probe": {
+      "name": "timeout_probe",
+      "labels": {
+        "state": "(x,y,z)",
+        "heading": false,
+        "aircraft_aware_primitives": false,
+        "aircraft_lut": false,
+        "hard_corridor": false,
+        "search_guidance": "CURRENT",
+        "production_search": "astar_search"
+      },
+      "timing": {
+        "preprocessing_time_s": 2.00001522898674e-07,
+        "search_time_s": 0.0003007999621331692,
+        "path_validation_time_s": 2.00001522898674e-07,
+        "total_pipeline_time_s": 0.0003011999651789665
+      },
+      "correctness": {
+        "status": "timeout",
+        "termination_reason": "TIMEOUT",
+        "path_found": false,
+        "safety_pass": false,
+        "min_agl_m": null,
+        "goal_error_xy_m": null,
+        "goal_error_z_m": null
+      },
+      "quality": {
+        "node_count": 0,
+        "path_cost": NaN,
+        "geometric_path_length_m": null,
+        "min_msl": null,
+        "max_msl": null,
+        "total_climb_m": null,
+        "total_descent_m": null
+      },
+      "performance": {
+        "expanded": 0,
+        "generated": 0,
+        "max_open_size": 1,
+        "cache_hits": 0,
+        "cache_misses": 0,
+        "cache_hit_rate": NaN,
+        "actual_evaluate_primitive_calls": 0,
+        "candidate_z_calls": 0
+      }
+    },
+    "expansion_limit_probe": {
+      "name": "expansion_limit_probe",
+      "labels": {
+        "state": "(x,y,z)",
+        "heading": false,
+        "aircraft_aware_primitives": false,
+        "aircraft_lut": false,
+        "hard_corridor": false,
+        "search_guidance": "CURRENT",
+        "production_search": "astar_search"
+      },
+      "timing": {
+        "preprocessing_time_s": 1.00000761449337e-07,
+        "search_time_s": 0.0002531000063754618,
+        "path_validation_time_s": 2.00001522898674e-07,
+        "total_pipeline_time_s": 0.00025340000865980983
+      },
+      "correctness": {
+        "status": "search_limit_reached",
+        "termination_reason": "EXPANSION_LIMIT",
+        "path_found": false,
+        "safety_pass": false,
+        "min_agl_m": null,
+        "goal_error_xy_m": null,
+        "goal_error_z_m": null
+      },
+      "quality": {
+        "node_count": 0,
+        "path_cost": NaN,
+        "geometric_path_length_m": null,
+        "min_msl": null,
+        "max_msl": null,
+        "total_climb_m": null,
+        "total_descent_m": null
+      },
+      "performance": {
+        "expanded": 1,
+        "generated": 0,
+        "max_open_size": 1,
+        "cache_hits": 0,
+        "cache_misses": 0,
+        "cache_hit_rate": NaN,
+        "actual_evaluate_primitive_calls": 0,
+        "candidate_z_calls": 0
+      }
+    },
+    "timeout_semantics_ok": true,
+    "expansion_limit_semantics_ok": true
+  },
+  "git_dirty": true
+}

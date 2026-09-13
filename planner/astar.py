@@ -171,10 +171,30 @@ def _state_in_goal_region(
 # Search result
 # --------------------------------------------------------------------------
 
+# Step PERF-0: canonical termination-reason taxonomy, shared by astar_search
+# and ara_star_search. TIMEOUT/EXPANSION_LIMIT are budget cutoffs (this
+# call's own watchdog, not a claim about the goal) -- see project.md
+# "Step PERF-0" for the full TIMEOUT != UNREACHABLE / EXPANSION_LIMIT !=
+# UNREACHABLE / DIRECTLY INFEASIBLE != UNREACHABLE contract.
+_TERMINATION_REASON_BY_STATUS = {
+    "success": "FOUND",
+    "no_path": "NO_PATH",
+    "search_limit_reached": "EXPANSION_LIMIT",
+    "timeout": "TIMEOUT",
+}
+
 @dataclass(frozen=True)
 class SearchResult:
     success: bool
-    status: str  # "success" | "no_path" | "search_limit_reached"
+    status: str  # "success" | "no_path" | "search_limit_reached" | "timeout"
+    # Step PERF-0: same information as `status`, normalized to the canonical
+    # FOUND/NO_PATH/EXPANSION_LIMIT/TIMEOUT taxonomy used across the whole
+    # planner (see _TERMINATION_REASON_BY_STATUS). Prefer this field in new
+    # code; `status` stays for existing callers. TIMEOUT and EXPANSION_LIMIT
+    # are budget cutoffs, never a claim that the goal is unreachable -- only
+    # NO_PATH (open_heap exhausted, no incumbent) is a genuine negative
+    # result within the given search bounds.
+    termination_reason: str
     path: List[CanonicalState]
     total_cost: float  # sum of weighted edge costs -- what A* actually minimized (== "total_weighted_cost")
     expanded_nodes: int
@@ -916,6 +936,7 @@ def astar_search(
     config: PlannerConfig = DEFAULT_CONFIG,
     primitives: Optional[List[MotionPrimitive]] = None,
     max_expansions: Optional[int] = None,
+    max_search_time_s: Optional[float] = None,
     use_primitive_cache: bool = True,
     use_msl_lower_bound_heuristic: bool = True,
     use_vertical_reachability_heuristic: bool = True,
@@ -939,6 +960,23 @@ def astar_search(
     min_search_altitude_msl / max_search_altitude_msl bound the prototype
     search space -- they are NOT an aircraft flight ceiling. A neighbor
     outside this range is never generated.
+
+    max_search_time_s (default None, Step PERF-0): a wall-clock budget on
+    this call's ONLINE search loop only -- measured from the first
+    instruction inside this function, so it never includes whatever the
+    caller did to build `terrain`/`primitives`/a corridor/a
+    CandidateZGenerator before calling this. Checked once per outer loop
+    iteration (so it also catches a run that is spinning on incumbent-skip
+    "continue"s without incrementing expanded_nodes, not just one that is
+    genuinely expanding). None (the default) means no time budget --
+    reproduces pre-Step-PERF-0 behavior exactly. This is a development/
+    regression watchdog, not a claim about acceptable production search
+    latency -- see project.md "Step PERF-0". A budget firing sets
+    status="timeout" / termination_reason="TIMEOUT" -- this NEVER means
+    the goal is unreachable, only that this call's budget ran out; the
+    same is true of max_expansions -> "search_limit_reached"/
+    "EXPANSION_LIMIT". Only "no_path"/"NO_PATH" (open_heap exhausted with
+    no incumbent) is a genuine negative result within the given bounds.
 
     use_primitive_cache (default True): cache evaluate_primitive() results
     by physical (row, col, z_index, primitive_id) for the lifetime of this
@@ -1196,6 +1234,10 @@ def astar_search(
     goal_state: Optional[CanonicalState] = None
 
     while open_heap:
+        if max_search_time_s is not None and (time.perf_counter() - t0) >= max_search_time_s:
+            status = "timeout"
+            break
+
         max_open_size = max(max_open_size, len(open_heap))
         f_weighted_current, _, current, f_lb_current = heapq.heappop(open_heap)
 
@@ -1367,6 +1409,7 @@ def astar_search(
     return SearchResult(
         success=(status == "success"),
         status=status,
+        termination_reason=_TERMINATION_REASON_BY_STATUS[status],
         path=path,
         total_cost=total_cost,
         expanded_nodes=expanded_nodes,
@@ -1463,6 +1506,15 @@ class ARAPhaseResult:
 class ARASearchResult:
     path_found: bool  # True iff any incumbent (complete, safe -- goal-region-reaching) path was ever found
     refinement_limit_reached: bool  # True iff the cumulative 30k cap stopped the run before the schedule finished
+    timeout_triggered: bool  # True iff max_search_time_s stopped the run before the schedule finished
+    # Step PERF-0: FOUND (schedule completed naturally, WITH an incumbent) |
+    # NO_PATH (schedule completed naturally, no incumbent ever found) |
+    # EXPANSION_LIMIT | TIMEOUT. The last two are budget cutoffs, checked
+    # BEFORE path_found -- a partial incumbent found before a cutoff is
+    # still visible via path_found/final_incumbent_* (see docstring), but
+    # termination_reason stays TIMEOUT/EXPANSION_LIMIT rather than being
+    # reported as a clean FOUND, and NEITHER means the goal is unreachable.
+    termination_reason: str
     first_incumbent_cost: float
     first_incumbent_expanded: int
     first_incumbent_runtime_s: float
@@ -1484,6 +1536,7 @@ def ara_star_search(
     primitives: Optional[List[MotionPrimitive]] = None,
     epsilon_schedule: Tuple[float, ...] = (1.7, 1.5, 1.3, 1.1),
     max_expansions_cumulative: int = 30_000,
+    max_search_time_s: Optional[float] = None,
     corridor_mask: Optional[np.ndarray] = None,
     z_guide_grid: Optional[np.ndarray] = None,
     z_guide_tolerance_m: Optional[float] = None,
@@ -1545,6 +1598,19 @@ def ara_star_search(
     reflects whatever incumbent already stands (independent of whether any
     phase's ImprovePath, or the schedule itself, ever completed).
 
+    max_search_time_s (default None, Step PERF-0): a wall-clock budget on
+    this call's ONLINE search loop only, across every phase combined --
+    same semantics as astar_search's own max_search_time_s (measured from
+    this function's own t0, checked once per inner-loop iteration so a
+    spin on stale/closed heap entries can't evade it either). None (the
+    default) means no time budget -- reproduces pre-Step-PERF-0 behavior
+    exactly. Firing this sets termination_reason="TIMEOUT", exactly like
+    hitting max_expansions_cumulative sets "EXPANSION_LIMIT" -- NEITHER
+    means the goal is unreachable, only that this call's budget ran out;
+    path_found/final_incumbent_* still report whatever partial anytime
+    result exists (see ARASearchResult.termination_reason's own docstring
+    for why that is reported separately from "found cleanly").
+
     diagnostic_lower_bound (per phase) = min(g(s)+h(s)) over every state
     currently in OPEN or INCONS (the active, unresolved frontier) at that
     phase's end -- reported ONLY as a diagnostic anytime-quality ratio, never
@@ -1596,6 +1662,7 @@ def ara_star_search(
     expanded_nodes = 0
     refinement_limit_reached = False
     budget_hit = False
+    timeout_hit = False
     phases: List[ARAPhaseResult] = []
 
     def h_of(s: CanonicalState) -> float:
@@ -1620,6 +1687,10 @@ def ara_star_search(
 
         phase_complete = False
         while heap:
+            if max_search_time_s is not None and (time.perf_counter() - t0) >= max_search_time_s:
+                timeout_hit = True
+                break
+
             f_w_top, _, s_top, _ = heap[0]
             if s_top in closed_this_phase:
                 heapq.heappop(heap)
@@ -1676,7 +1747,9 @@ def ara_star_search(
                         h_val = h_of(neighbor)
                         heapq.heappush(heap, (tentative_g + epsilon * h_val, next(counter), neighbor, tentative_g + h_val))
 
-        if budget_hit:
+        if timeout_hit:
+            pass  # reported via termination_reason="TIMEOUT" below -- not refinement_limit_reached
+        elif budget_hit:
             refinement_limit_reached = True
         elif not heap:
             phase_complete = True  # OPEN exhausted -- nothing left could ever beat the incumbent
@@ -1732,7 +1805,7 @@ def ara_star_search(
             incumbent_path=phase_path if incumbent_state is not None else [],
         ))
 
-        if budget_hit:
+        if budget_hit or timeout_hit:
             break
 
     total_runtime_s = time.perf_counter() - t0
@@ -1740,9 +1813,20 @@ def ara_star_search(
         list(incumbent_path_snapshot) if incumbent_state is not None else []
     )
 
+    if timeout_hit:
+        ara_termination_reason = "TIMEOUT"
+    elif refinement_limit_reached:
+        ara_termination_reason = "EXPANSION_LIMIT"
+    elif incumbent_cost < math.inf:
+        ara_termination_reason = "FOUND"
+    else:
+        ara_termination_reason = "NO_PATH"
+
     return ARASearchResult(
         path_found=incumbent_cost < math.inf,
         refinement_limit_reached=refinement_limit_reached,
+        timeout_triggered=timeout_hit,
+        termination_reason=ara_termination_reason,
         first_incumbent_cost=first_incumbent_cost,
         first_incumbent_expanded=first_incumbent_expanded,
         first_incumbent_runtime_s=first_incumbent_runtime_s,
