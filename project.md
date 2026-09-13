@@ -3010,11 +3010,587 @@ DEĞİŞTİRİLMEDEN tekrar çalıştırıldı.
   blocker yoktur. Açık izleme konusu: daha yüksek banklarda beta-controller
   command authority/clamp ayrımı korunmalı; controller clamp aircraft
   inability olarak sınıflandırılmamalıdır.
-- Sonraki aşama, ayrıca başlatıldığında, J5B sustained level-turn capability
-  characterization'dır. J5A minimum radius/rate lookup, coupled turn,
-  derating veya planner integration üretmedi.
+- J5A tamamlandığı anda kaydedilen “sonraki aşama J5B” önerisi aşağıdaki U0
+  pivot kararıyla **superseded** edilmiştir. F-16 J5B çalıştırılmayacaktır. J5A
+  minimum radius/rate lookup, coupled turn, derating veya planner integration
+  üretmedi.
 
 ## Ortam
 
 Python 3.14, rasterio 1.5.1, numpy 2.5.2, pyproj 3.8.0, shapely 2.1.2.
 Proje artık git repo (main branch).
+
+## JSBSim UAV Pivot — Step U0 kalıcı kararları (2026-09-13)
+
+- **F-16 primary reference statüsünden çıkarıldı.** J1–J5A raporları, testleri,
+  config'leri ve sonuçları silinmedi; yalnız methodology/regression reference
+  olarak korunuyor.
+- **F-16 J5B cancelled/frozen.** F-16 sustained-turn envelope veya başka yeni
+  F-16 capability sweep'i çalıştırılmayacak.
+- Yeni reference, gerçek TB2 iddiası taşımayan **generic TB2-like fixed-wing UAV
+  operational profile**'dır:
+  - IAS range: `35–50 m/s`
+  - nominal IAS: `40 m/s`
+  - maximum planner bank: `|phi| <= 25°`
+  - maximum planner vertical speed: `|Vz| <= 5 m/s`
+- `±25°` bank ve `±5 m/s` vertical speed **raw aircraft physical capability
+  limitleri değildir**. Bunlar planner'ın aşmayacağı operational constraint'lerdir;
+  seçilen aircraft daha fazlasını yapabiliyor olabilir.
+- Kurulu JSBSim 1.3.1 aircraft setinde birebir TB2 modeli yoktur. Başka bir model
+  yeniden adlandırılıp TB2 sayılmayacak; exact TB2 aerodynamic/capability claim
+  yapılmayacaktır.
+- **Primary candidate: `DHC6`.** Native low-speed/STOL twin-turboprop model ve
+  conventional FCS, 40 m/s ile ±5 m/s gate'leri için en dengeli hazır başlangıçtır.
+  Bu capability kanıtı değildir. Model XML'indeki 74 kt max-weight stall girdisi
+  nedeniyle 35 m/s ve 35 m/s + 25° bank U1'in açık fail-fast riskidir.
+- **Backup candidate: `c182`.** Daha basit light single-engine conventional model;
+  hız bandı için makul fallback'tir. `+5 m/s` climb, özellikle representative
+  altitude'larda, ölçülmeden kabul edilmez.
+- J1–J5A'dan provenance, cold-start repeat, `VALID / INFEASIBLE / UNKNOWN`,
+  IAS/CAS-bank-vertical-speed tracking, saturation diagnostics, trajectory'den
+  turn-rate/radius ölçümü ve independent validation genericleştirilerek reuse
+  edilecektir. F-16 model/engine/mass/305-KCAS/FBW/afterburner/controller gain
+  varsayımları reuse edilmez.
+- Kalıcı planner ilkesi: **DIRECTLY INFEASIBLE != UNREACHABLE**. İleride aircraft
+  verisi speed context, bank-limited turn geometry, measured turn rate/radius ve
+  vertical-speed-limited climb/descent geometry sağlamalıdır; U0'da heading-aware
+  planner veya orbit/loiter implement edilmedi.
+- Bir sonraki aşama yalnız **U1 minimal UAV sanity validation** olacaktır:
+  straight-level 40 m/s, 35/40/50 m/s speed sanity, ±25° level-turn sanity,
+  ±5 m/s climb/descent sanity ve representative-altitude checks. U0'da bu uçuş
+  sweep'i başlatılmadı, controller tune edilmedi ve planner koduna dokunulmadı.
+- Ayrıntılı gate raporu: `jsbsim/U0_REPORT.md`; frozen seçim kaydı:
+  `jsbsim/u0_aircraft_selection.yaml`.
+
+## JSBSim UAV Profile — Step U1 kalıcı sonuçları (2026-09-13)
+
+- **U1 model-suitability gate: PASS; current aircraft status: INCONCLUSIVE.**
+  PASS, bir aircraft'ın kabul edildiği veya full characterization'ın bittiği
+  anlamına gelmez; fail-fast model-selection sürecinin doğru işletildiğini gösterir.
+- Frozen primary fixture: `1000 m MSL`, synthetic terrain `-1000 m MSL`, US
+  Standard atmosphere, zero wind/gust/turbulence, clean flap, fixed/deployed gear,
+  DHC6 model-default `10114.2 lb` weight ve iki tankta `892.1 lb` frozen fuel.
+- **IAS measurement contract:** ayrı instrument/position-error modeli olmadığı
+  için `ias_mps := velocities/vc-kts × 0.5144444444444445` ideal IAS proxy olarak
+  kullanılır. Source CAS ayrıca kaydedilir; TAS `velocities/vt-fps` üzerinden ayrı
+  telemetridir ve IAS/CAS ile karıştırılmaz.
+- **DHC6 REJECTED_FOR_PROFILE.** 35 m/s straight-level point'i üç cold-start'ta
+  built-in `wdot` trim failure verdi. Bounded generic feedback altında final 20 s
+  boyunca throttle `0.0` iken actual IAS `43.036 m/s`, Vz `-4.248 m/s` oldu;
+  stall indicator `0`, elevator measurement-window clamp yoktu. Sonuç repeatable
+  model/fixture mismatch'tir; raw DHC6 physical minimum-speed/capability claim'i
+  değildir. Fail-fast gereği DHC6 turn ve vertical testleri çalıştırılmadı.
+- **c182 BACKUP_INCONCLUSIVE.** Yalnız dört fail-fast point, her biri üç cold-start
+  ile çalıştırıldı. 35/40 m/s straight ve 35 m/s +25° turn noktaları tracking
+  gate'lerini tamamen kapatmadı (`UNKNOWN`). 40 m/s +5 m/s climb'da actual Vz
+  `+5.325 m/s` iken IAS `37.502 m/s`'ye düştü ve throttle `1.0` oldu; simultaneous
+  target `INFEASIBLE`/power-limited negative evidence olarak kaydedildi. c182
+  promising backup ilan edilmedi.
+- Operational `35–50 m/s IAS`, `|phi| <= 25°`, `|Vz| <= 5 m/s` sınırları raw
+  aircraft physical limits değildir. Ayrım korunmuştur; maximum bank, stall veya
+  climb/descent capability sweep yapılmadı.
+- Tek frozen generic bounded controller kullanıldı; F-16 gain'leri kopyalanmadı,
+  gain optimization/tuning yapılmadı. Yalnız twin-engine throttle mirroring ve
+  turbine/piston engine-state property discovery interface adaptation'ları yapıldı.
+- Full altitude/full characterization, lookup, planner, heading ve orbit/loiter
+  çalışmaları başlatılmadı. F-16 J5B frozen kalır.
+- Ayrıntılar: `jsbsim/U1_REPORT.md`, config/harness
+  `jsbsim/u1_profile_validation_configuration.yaml` ve
+  `jsbsim/u1_profile_validation.py`, raw artifacts `jsbsim/results/u1_*.json`.
+
+## Roadmap Step 3E — production sparse/lazy representation integration (2026-09-13)
+
+**Sonuç: PARTIAL.** Representation katmanının kendisi (TerrainCache +
+CandidateZGenerator + floor prefilter) production `planner/astar.py`'ye
+feature flag arkasında doğru ve regresyonsuz biçimde bağlandı -- ama bu
+entegrasyon testi, temsilden bağımsız, gerçek ve önemli yeni bir bulgu
+ortaya çıkardı: Mission C, production search'ün augmented (trend/bucket)
+state'i altında 30k expansion cap'inde çözülemedi (legacy VE sparse_lazy'de
+BİREBİR AYNI şekilde) -- bu representation loss değil, PASS kriterinin
+"B ve C production'da path bulmalı" maddesini teknik olarak karşılamıyor.
+
+**Production kod değişiklikleri (yeni dosya + 3 mevcut dosyada küçük, izole ek):**
+- `planner/candidate_z.py` (**YENİ dosya**) -- `TerrainMetadata`,
+  `TerrainMetadataStore`, `MissionContext`, `MotionContext`,
+  `GeneratorStats`, `CandidateZGenerator` Step 3B'den DEĞİŞTİRİLMEDEN
+  taşındı (tek doğru kaynak artık burası; `scripts/step3b_sparse_lazy_z_
+  prototype.py` bunları şimdi buradan import ediyor, yeniden tanımlamıyor).
+  Yeni `CacheBackedTerrainMetadataStore`: Step 3D'nin `FACTOR60`'a
+  sabitlenmiş `CacheBacked60mStore`'unun genelleştirilmiş hali (herhangi
+  bir cache'lenmiş pooling factor), `.get()` arayüzü aynı, `raw_dem_reads`
+  yapısal olarak 0'da sabit.
+- `planner/terrain_cache.py` -- yeni `build_terrain_query_from_cache(cache,
+  fine_roi, factor)`: Step 3D'nin factor=2'ye özel `build_coarse60_
+  terrainquery_from_cache`'inin genelleştirilmiş hali, gerçek bir
+  `TerrainQuery` döndürüyor (evaluate_primitive/evaluate_agl/evaluate_
+  transition hiç değişmeden reuse edilebiliyor).
+- `planner/config.py` -- yeni `representation_mode: str = "legacy"`
+  (default DEĞİŞMEDİ; `"sparse_lazy"` opsiyonel).
+- `planner/astar.py` -- `_generate_neighbors()`/`astar_search()`'e yeni
+  opsiyonel `candidate_z_generator` parametresi. `representation_mode ==
+  "sparse_lazy"` iken, her aday successor `evaluate_primitive()`'den (veya
+  primitive cache'den) ÖNCE `candidate_z_generator.floor_for(new_row,
+  new_col)` ile ucuz bir per-cell floor kontrolünden geçiyor -- floor'un
+  altındaysa `"below_terrain_floor_sparse"` ile erken reddediliyor. Bu SAF
+  bir verimlilik prefiltre'si, güvenlik kararı DEĞİL: floor_for() zaten
+  evaluate_agl()'nin kendi terrain+min_agl formülünü kullanıyor (aynı
+  z_step ladder'a ceil), yani evaluate_primitive()'in zaten reddedeceği
+  bir adayı erken reddetmekten başka bir şey yapamıyor -- hiçbir zaman
+  evaluate_primitive()'in kabul etmeyeceği bir şeyi kabul edemiyor, ve
+  hangi path'in bulunduğunu asla değiştiremiyor (bkz. aşağıdaki A/B/C
+  bit-exact kanıtı). `astar_search()` artık `representation_mode==
+  "sparse_lazy"` iken `candidate_z_generator=None` verilirse `ValueError`
+  fırlatıyor (sessiz legacy fallback yok). `SearchResult`'a `representation_
+  mode` alanı eklendi (raporlama amaçlı, salt gözlemsel).
+- `ara_star_search()` (ARA*) bu adımda HİÇ DOKUNULMADI -- `candidate_z_
+  generator` yalnız temel `astar_search()`'e bağlandı, kapsam bilinçli
+  olarak dar tutuldu.
+
+**Legacy regresyon (bit-exact PASS):** Stage 24 (`validate_incumbent_
+pruning.py`: `cost=2717.84`, `expanded=679/494/679/494`) ve Stage 25
+(`validate_weighted_astar.py`: `C*=2424.1952`, `expanded=1308`, certified
+`ratio=1.0000<=1.05`) project.md'deki kayıtlı sayılarla BİREBİR eşleşti;
+ayrıca `validate_goal_region.py`, `validate_astar_corridor.py`, `validate_
+astar_3d_corridor.py`, `validate_fine_precompute.py` de ALL PASS --
+`_generate_neighbors()`'a eklenen yeni blok, dokunulan hiçbir mevcut
+alt-sistemi bozmadı.
+
+**Step 3B/3D/3D.1 kendi script'leri, refactor sonrası yeniden çalıştırıldı,
+hepsi bit-exact PASS:** Step 3B'nin kendi self-assessment'ı (tüm PASS
+maddeleri) değişmeden tekrarlandı. Step 3D (tolerance'sız) ve Step 3D.1
+(production tolerance'lı) ikisi de instantiated/expanded/generated
+sayılarında **birebir aynı** sonuç verdi (B: 641/297/7104, C: 3535/2519/
+60432, A: 48370/48370/1160880) -- yani `CacheBacked60mStore` ->
+`CacheBackedTerrainMetadataStore(cache, FACTOR60)` geçişi ve sınıfların
+`planner/candidate_z.py`'ye taşınması davranışı hiç değiştirmedi. Search
+süreleri bu rerun'larda çok daha yüksek çıktı (ör. Mission A: 252s ->
+526s/986s) -- bu, aynı anda birden fazla ağır Python süreci (bu oturumun
+kendi paralel Step 3E koşusu + bu makinedeki başka bir eşzamanlı oturumun
+JSBSim işi) çalışırken ölçülen bir CPU-contention artefaktıdır (Stage 24'ün
+kendi wall-clock confound'una benzer), gerçek bir kod regresyonu değildir
+-- instantiated/expanded/generated sayıları zaten bit-exact.
+
+**Step 3E'nin kendi production entegrasyon testi** (`scripts/
+step3e_production_representation_integration.py`) -- Step 3D'nin AYNI 3
+mission'ı (`objective_mission_setup`, değiştirilmeden), ama artık bespoke
+`lazy_search()` yerine GERÇEK `planner.astar.astar_search()` ile, iki
+`representation_mode` altında (terrain kaynağı DIŞINDA hiçbir search
+ayarı değişmedi):
+
+```
+mission            legacy(exp/runtime)      sparse_lazy(exp/runtime)   below_floor_rejects
+A_easy_open        946 / 14.13s              946 / 11.36s               4,806
+B_relief_affected  4,329 / 50.69s            4,329 / 39.96s             19,141
+C_z_matters        30,000(cap) / 204.36s     30,000(cap) / 102.05s      57,227
+```
+
+**Kritik doğrulama**: A ve B'de `legacy` ile `sparse_lazy` **bit-exact aynı
+path/cost** buldu (A: `cost=3179.61`, B: `cost=4972.03`, ikisinde de
+`expanded` birebir aynı) -- floor prefilter hangi path'in bulunduğunu hiç
+değiştirmedi. C'de İKİSİ DE 30k cap'te AYNI `expanded=30000`/`max_open=
+21172` ile durdu -- yani prefilter, arama BAŞARISIZ olduğunda bile
+davranışı değiştirmedi, sadece `evaluate_primitive()` çağrı sayısını
+azalttı (A: -2,259, B: -6,543, C: -16,866 çağrı), bu da ölçülen wall-clock
+kazancını (%20-50 arası, en büyük kazanç en çok reddin olduğu C'de)
+açıklıyor -- bu MEKANİZMAYA dayalı bir açıklamadır, "state-space küçüldü
+= otomatik hızlandı" genellemesi değildir. `raw_dem_reads=0` üç mission'da
+da doğrulandı (cache-backed array zaten belleğe tek seferde yükleniyor;
+LEGACY modda da `load_roi()` sonrası hiç disk erişimi yok -- iki modun
+gerçek farkı search sırasında değil, MISSION SETUP'ta: `build_coarse_dem()`
+her seferinde 0.007s'de fine array'i yeniden max-pool ederken, cache yolu
+`load_terrain_cache()` ile 0.055s'de hazır array'i okuyor -- bu ölçekte
+fark küçük, ama tekrarlanan mission'lar için preprocessing'i sıfıra
+indiriyor).
+
+**ÖNEMLİ/BEKLENMEDİK BULGU -- Mission A gerçek search'te BAŞARILI, Mission
+C BAŞARISIZ (Step 3D/3D.1'in tam tersi örüntüsü):** Step 3D/3D.1'in kendi
+bespoke `lazy_search()`'ü (salt XY-heuristic, `(row,col,z)` state, trend/
+bucket yok) Mission A'da 48,370 state tüketip BAŞARISIZ olmuş, B/C'de
+kolayca BAŞARILI olmuştu. Gerçek production `astar_search()` (MSL-aware +
+vertical-reachability heuristic, dominance pruning, augmented `(row,col,
+z_index,trend,bucket)` state) ile TAM TERSİ oldu: **A artık sadece 946
+expansion'da BAŞARILI** (production'ın çok daha güçlü heuristiği, Step
+3D'nin toy harness'inin çözemediği şeyi kolayca çözüyor -- bu Step 3D/
+3D.1'in kendi teşhisini doğruluyor: A'nın FAIL'i temsil kaybı değil, o
+spesifik basit harness'in zayıflığıydı). Ama **C artık 30k cap'te
+BAŞARISIZ** (augmented state'in trend/bucket boyutu, sadece `(row,col,z)`
+tutan harness'in hiç görmediği bir state-space büyümesi yaratıyor -- bu,
+Stage 19-32 boyunca 6.48km Aladağlar ölçeğinde defalarca gözlenen "vertical-
+trend/reversal augmented-state search explosion" örüntüsünün AYNISI, şimdi
+çok daha küçük (60m/20x20 pencere) bir gerçek terrain'de de ortaya
+çıkıyor). **Bu sparse_lazy'nin bir kusuru DEĞİL** -- legacy modda da
+BİREBİR AYNI şekilde (aynı expanded/max_open) başarısız oluyor, yani
+sorumlu representation değil, production search'ün kendi state
+mimarisidir.
+
+**Metodolojik kısıt (dürüstçe not edilmeli)**: bu testte Step 3D'nin
+kendi `region_rows/region_cols` (20x20 pencere) XY kısıtlaması
+UYGULANMADI -- `astar_search()`'in böyle bir parametresi yok (en yakın
+eşdeğeri `corridor_mask`, bu adımın kapsamı dışında bırakıldı). Yani
+search, cache'in kapsadığı TÜM 166x166 coarse ROI'yi görebiliyordu, sadece
+Step 3D'nin dar penceresini değil -- bu, hem A'nın kolay başarısının hem
+C'nin başarısızlığının bir kısmını açıklıyor olabilir (daha geniş alan =
+daha fazla dolaşma seçeneği ama aynı zamanda daha büyük state-space).
+Step 3D/3D.1'in mutlak sayılarıyla bu yüzden birebir/adil bir "önce/sonra"
+karşılaştırması YAPILAMAZ -- yalnız BU testin kendi içindeki legacy-vs-
+sparse_lazy karşılaştırması (aynı kapsam, iki moddan farklı) geçerlidir.
+
+**Independent validator**: A/B için `validate_path_safety()` (production,
+değiştirilmeden) her iki modda da `True` döndü, `min_agl`/`max_angle`
+production `_path_min_observed_agl`/`_path_vertical_reversal_metrics` ile
+tutarlı. C için path olmadığından doğrulama yapılamadı.
+
+**CLASS-C motion event'leri, 60m XY, primitive placeholder statüsü**:
+DEĞİŞMEDİ -- hepsi hâlâ unresolved/provisional/placeholder, bu adımda
+implement edilmedi.
+
+**Açık sorunlar / sonraki adım için not**:
+- Mission C'nin production search'te başarısız olması, PASS kriterinin
+  harfi harfine karşılanmadığı anlamına geliyor -- ama kök neden
+  representation değil, ÖNCEDEN BİLİNEN augmented-state search-explosion
+  paterni (Stage 19-32). Search/guidance/cost bu adımda BİLİNÇLİ OLARAK
+  DEĞİŞTİRİLMEDİ.
+- Mission A/B/C'nin production `astar_search()` altında Step 3D'nin dar
+  penceresiyle (corridor_mask ile) tekrar koşulması, temiz bir önce/sonra
+  karşılaştırması isteniyorsa ayrı bir adımın konusu olabilir -- bu turda
+  yapılmadı.
+- `ara_star_search()`'e `candidate_z_generator` entegrasyonu yapılmadı,
+  kapsam dışı bırakıldı.
+
+Scriptler: `scripts/step3e_production_representation_integration.py`
+(yeni), `scripts/step3b_sparse_lazy_z_prototype.py` / `scripts/
+step3d_real_terrain_integration.py` / `scripts/step3d1_goal_tolerance_
+regression.py` (import refactor, davranış değişmedi). Sonraki adım
+(heading-aware `(x,y,z,heading)` entegrasyonuna geçmek mi, yoksa önce
+Mission C'nin search-explosion bulgusunu ayrıca ele almak mı) bu turda
+BAŞLATILMADI, karar kullanıcıda.
+
+## Roadmap Step 3E.1 — augmented state ablation: trend/bucket vs xyz-only (2026-09-13)
+
+**Sonuç: PASS. STATE DECISION: AUGMENTED_MEMORY_STILL_REQUIRED.** Hiçbir
+yeni mekanizma implement edilmedi -- ablation için gereken HER ŞEY zaten
+production'da mevcuttu (`freeze_history=True`, Stage 37.2; düz dikdörtgen
+`corridor_mask`, Stage 37). Bu adım sadece Step 3D'nin TAM 20x20 60m
+penceresinde, Step 3E'nin `representation_mode="sparse_lazy"` altyapısıyla,
+bu iki mevcut mekanizmayı BİRLİKTE, adil bir A/B testine soktu.
+
+**trend audit**: `vertical_trend ∈ {-1,0,+1}` -- standing dikey yön (descent/
+none/climb). `_vertical_mode()` her primitive'i sınıflandırır, `_next_trend_
+and_bucket()` durumu ilerletir. State key'de olma nedeni SAF DP-optimality:
+aynı fiziksel `(row,col,z_index)`'e farklı standing trend'lerle ulaşan iki
+yol, AYNI bir sonraki primitive için FARKLI reversal maliyeti öder --
+trend state'te tutulmazsa, g-value'lar çakışır ve ucuz-gelecek olan
+history'nin bilgisi sessizce kaybolur (optimality bug, sadece verimsizlik
+değil). Yalnız `compute_edge_cost`'un reversal terimini etkiler;
+`evaluate_primitive`/`evaluate_agl`/`evaluate_transition` (tüm güvenlik
+kararları) trend'i hiç parametre olarak almaz -- **hard physical constraint
+DEĞİL, saf soft-cost bookkeeping.**
+
+**bucket audit**: `trend_age_bucket ∈ {SHORT,MEDIUM,MATURE}` (Stage 22) --
+standing trend'in ne kadar (yatay mesafe) sürdüğünün kaba ölçüsü.
+`_REVERSAL_FACTOR_BY_BUCKET` (1.0/0.5/0.0) reversal'ın MİKTARINI belirler
+(uzun süren bir trend'den reversal ucuz/bedava, kısa-aralıklı zigzag tam
+cezalı). Aynı DP-optimality gerekçesiyle state'te -- aynı `(row,col,z_index,
+trend)`'e farklı bucket'la ulaşan yollar aynı sonraki primitive için farklı
+reversal maliyeti öder. Yalnız reversal teriminin BÜYÜKLÜĞÜNÜ etkiler, hiçbir
+safety kararını etkilemez -- **hard constraint DEĞİL, saf bookkeeping.**
+
+**xyz-only'de ne kaybediliyor**: HARD SAFETY hiçbir şey kaybetmiyor (kanıtlı,
+aşağıya bkz). Kaybedilen, Stage 12/14/22'den beri var olan ve Stage 28-32'de
+mission-behavior kriteri olarak yeniden doğrulanmış ("gereksiz vertical
+zigzag yapma") **SOFT MISSION-COST tercihidir**: `freeze_history=True`
+reversal terimini HER ZAMAN 0.0'a sabitliyor (`disable_reversal_cost=True`)
+-- yani zigzag yapan bir rota, aynı net irtifa değişimini düzgün tek bir
+climb/descent ile yapan bir rotayla TAM AYNI maliyeti alıyor. Bu HİPOTEZ
+değil, zaten Stage 37.4'te 6.48km ölçeğinde ÖLÇÜLMÜŞ bir bulgu: freeze_
+history=True ile bulunan gerçek path 30 reversal içeriyordu, 29'u <300m
+aralıklı ("roller-coaster" karakter), ve reversal cost=0 olduğu için hiç
+cezalandırılmadı.
+
+**Exact test window**: Step 3D'nin `[73,93)x[73,93)` (20x20, 400 hücre)
+penceresi, `corridor_mask` (Stage 37'nin düz XY prefiltresi, YENİ bir
+corridor/topology çözümü değil -- salt dikdörtgen kısıtlama) ile production
+`astar_search()`'e uygulandı. `representation_mode="sparse_lazy"` (Step 3E)
+HER İKİ modda da sabit; tek değişken `freeze_history` (False=CURRENT_
+AUGMENTED, True=XYZ_ONLY_EXPERIMENTAL).
+
+**Mission karşılaştırması** (aynı terrain/cache/primitives/cost/heuristic/
+goal-tolerance/expansion-cap=30,000):
+
+```
+mission            mode                   success  expanded  max_open  reversals  safe
+A_easy_open        CURRENT_AUGMENTED      False    30,000    3,780     n/a        n/a
+A_easy_open        XYZ_ONLY_EXPERIMENTAL  False    30,000    1,569     n/a        n/a
+B_relief_affected  CURRENT_AUGMENTED      True     603       816       0          True
+B_relief_affected  XYZ_ONLY_EXPERIMENTAL  True     292       409       0          True
+C_z_matters        CURRENT_AUGMENTED      True     7,905     4,081     0          True
+C_z_matters        XYZ_ONLY_EXPERIMENTAL  True     2,557     1,730     0          True
+```
+
+**Mission C -- Step 3E'nin kendi açık sorusu artık ÇÖZÜLDÜ**: doğru
+(Step 3D'nin) pencereye sınırlandırılınca Mission C HER İKİ modda da
+BAŞARILI (Step 3E'nin raporladığı 30k-cap FAIL, unrestricted 166x166
+alanı aramaktan kaynaklanıyormuş -- augmented state'in kendisi Mission
+C'yi engellemiyor, sadece xyz-only'ye göre %67.6 daha fazla expansion
+gerektiriyor: 7,905 vs 2,557, `avg_history_states_per_xyz=3.09` ile
+tutarlı). **Mission B**: ikisi de başarılı, xyz-only %51.6 daha az
+expansion (603->292). **Her iki mission'da da BULUNAN PATH BİREBİR AYNI**
+(B: `cost=5176.5180`, C: `cost=6750.0643`, ikisinde de path_len ve 0
+reversal identik) -- bu spesifik pencerede optimal güvenli rota zaten
+reversal-siz olduğu için, trend/bucket'ın kaldırılması path KALİTESİNİ
+hiç değiştirmedi, sadece verimliliği artırdı.
+
+**Mission A -- xyz-only Mission A'yı KURTARMIYOR**: her iki modda da 30k
+cap'te başarısız. Önemli ayrım: `unique_expanded_xyz` augmented modda
+8,216 iken xyz-only modda 30,000 (tanım gereği, `avg_history_states_per_
+xyz=1.0`) -- yani xyz-only, AYNI 30k bütçeyle fiziksel olarak 3.65x daha
+geniş bir alanı tarıyor ama yine de çözüm bulamıyor. Bu, Mission A'nın
+zorluğunun state-mimarisinden değil, Step 3D'nin ORİJİNAL teşhisinden
+(pencere içi gerçek bir terrain tümseğinin ~3480m floor gerektirmesi,
+start/goal 3260/3340m'nin çok üzerinde) kaynaklandığını DOĞRULUYOR --
+augmented/xyz-only ayrımı bu darboğazı çözmüyor.
+
+**Independent safety validation**: B ve C için `validate_path_safety()`
+(production, değiştirilmeden) HER İKİ modda da `True`; `min_agl`=100.05m/
+100.04m, `max_angle`=9.46° -- iki mod arasında BİREBİR aynı. A için path
+yok, doğrulama yapılamadı.
+
+**Kritik sorulara net cevaplar**:
+1. trend gerekli mi? Hard safety için HAYIR (evaluate_primitive hiç
+   kullanmıyor); reversal-cost DOĞRULUĞU için (o özelliği istiyorsak) EVET.
+2. bucket gerekli mi? Aynı cevap -- reversal MİKTARININ doğruluğu için EVET,
+   hard safety için HAYIR.
+3. biri kaldırılabilir mi? Teknik olarak ayrı ayrı denenmedi (bu adım
+   ikisini BİRLİKTE test etti, `freeze_history` tasarımı gereği); ikisi
+   birlikte kaldırılınca reversal terimi anlamsızlaşıyor zaten (0'a
+   sabitleniyor), bu yüzden "sadece birini kaldırmak" ayrı bir tasarım
+   gerektirir, bu adımda test edilmedi.
+4. ikisi kaldırılırsa safety/correctness bozuluyor mu? HARD SAFETY
+   bozulmuyor (kanıtlı). MISSION-COST correctness (smoothness preference)
+   yapısal olarak kayboluyor (reversal cost hep 0) -- bu Stage 37.4'te
+   GERÇEK bir roller-coaster olarak zaten gözlemlenmiş bir kayıp.
+5. Mission C search explosion ne kadar azalıyor? DOĞRU pencerede Mission C
+   zaten patlamıyor (her iki modda da başarılı) -- azalma %67.6 (7,905->
+   2,557), explosion'dan success'e bir sıçrama DEĞİL, verimlilik kazancı.
+6. xyz-only heading için temiz taban olabilir mi? Hard-safety ve
+   verimlilik açısından EVET; ama smoothness-preference'in YERİNE HİÇBİR
+   ŞEY KONULMADAN bırakılması demek -- bu yüzden "temiz" değil, "eksik"
+   bir taban.
+
+**STATE DECISION gerekçesi**: xyz-only'nin hard safety'yi bozmadığı ve
+verimliliği artırdığı bu adımda yeniden kanıtlandı. Ama trend/bucket'ın
+kaldırdığı smoothness/reversal-önleme tercihi HİÇBİR mekanizmayla telafi
+edilmiyor -- Stage 38.x zaten bu ödünü (roller-coaster kabul edilerek)
+sessizce üstlenmiş durumda. Heading eklenmeden önce ya (a) bu ödün
+bilinçli/kalıcı bir karar olarak açıkça kabul edilmeli, ya da (b) trend/
+bucket'ın tam 5-tuple'ı yerine DAHA KOMPAKT bir smoothness-farkındalı
+temsil tasarlanmalı -- production trend/bucket kodu SİLİNMEDİ, `planner/
+astar.py`'ye bu adımda hiçbir yeni satır eklenmedi.
+
+**Kalıcı gereksinim (korunuyor)**: **DIRECTLY INFEASIBLE != UNREACHABLE**
+-- Mission A'nın bu pencerede/bu exact-goal-altitude ile başarısız olması,
+hedefin gerçekten ulaşılamaz olduğu anlamına gelmez; daha büyük bir arama
+alanı, farklı bir rota veya (ileride) dönerek/tur atarak irtifa kazanma
+gibi bir mekanizma bunu çözebilir -- bu adımda böyle bir mekanizma
+implement edilmedi.
+
+**Future target state**: `(x, y, z, heading)` -- SADECE trend/bucket'ın
+smoothness-rolü için kompakt bir karşılık bulunduktan/kabul edildikten
+SONRA. Bu adımda heading implement edilmedi.
+
+Scriptler: `scripts/step3e1_augmented_state_ablation.py` (yeni). `planner/
+astar.py`'ye hiçbir değişiklik yapılmadı (mevcut `freeze_history`/
+`corridor_mask` reuse edildi). Sonraki adım (kompakt smoothness-temsili
+tasarımı mı, yoksa ödünü kabul edip doğrudan heading'e mi geçmek) bu
+turda BAŞLATILMADI, karar kullanıcıda.
+
+## STEP U2 — automated stock-aircraft candidate screening (2026-09-13)
+
+**Sonuç: PASS — NO SUITABLE STOCK JSBSIM MODEL.** Kurulu JSBSim 1.3.1
+inventory'sindeki 60 aircraft modelinin tamamı ana XML metadata/configuration
+üzerinden sınıflandırıldı. Non-fixed-wing, glider/propulsion-incompatible,
+spacecraft/lifting-body, jet/high-speed tactical, airliner/large transport ve
+bariz special-configuration modelleri ile U1'de sonuçlanmış DHC6/c182 dahil
+49 model `REJECT_STATIC` oldu. Statik olarak keyfi biçimde elenmeyen 11 powered
+fixed-wing aday (`c172p`, `c172r`, `c172x`, `c310`, `Camel`, `dr1`, `J3Cub`,
+`L17`, `L410`, `OV10`, `pa28`) dynamic fail-fast taramaya alındı.
+
+**Frozen methodology:** operational profile değişmedi: IAS 35–50 m/s, nominal
+IAS 40 m/s, planner `|phi| <= 25°`, planner `|Vz| <= 5 m/s`. Bunlar raw
+aircraft physical maximum/minimum değerleri değildir. Fixture 1000 m MSL,
+standard atmosphere, zero wind, clean configuration, frozen makul mass/fuel/CG,
+40 s replay/20 s steady window ve her point için üç cold start olarak sabitlendi.
+U1'in tek generic bounded IAS/Vz/bank/beta controller'ı aynı gain/acceptance ile
+reuse edildi; model başına veya run sonrası tuning yapılmadı. Yalnız engine
+property/start mapping, multi-engine throttle broadcast, tank/pointmass/gear
+initialization ve eksik/nonstandard stock telemetry için raporlanmış küçük
+interface normalization'ları uygulandı. Stock aircraft XML'leri değiştirilmedi.
+
+**Fail-fast sonuç/counts:** 11/11 static survivor dynamic test edildi; 17 point,
+51 cold-start replay çalıştı. c172r ve J3Cub hem 40 hem 35 m/s straight-level
+speed gate'ini geçti; diğer dokuz aday `REJECT_DYNAMIC_SPEED` oldu. c172r
+`40 m/s +5 m/s` climb'da actual IAS 38.413 m/s, actual Vz +5.313 m/s ve
+throttle 1.0; J3Cub actual IAS 32.104 m/s, Vz +3.440 m/s ve throttle 1.0 verdi.
+İki sonuç da üç tekrarda power-limited `REJECT_DYNAMIC_CLIMB` oldu. Climb-pass
+sıfır olduğu için ±25° turn gate çalıştırılmadı; turn-pass ve ranking sıfırdır.
+PRIMARY/BACKUP seçilmedi. Recorded U2 runtime 9.153 s'dir; tüm çalıştırılan
+point'ler repeatability/fixture checks'i geçti ve unresolved interface UNKNOWN
+kalmadı.
+
+**Karar/blocker:** sistematik screening stock inventory'de frozen operational
+profile'ın tüm gate'lerini doğal olarak geçen model olmadığını gösterdi. Bu U2
+FAIL değildir ve başka fixture/denetleyici altında mutlak aircraft capability
+iddiası değildir. Kabul edilmiş current aircraft hâlâ yoktur. Olası sonraki
+mimari karar için girdi, planner'ın generic kinematic/aircraft profile ile
+devam etmesi ve JSBSim'in optional/final validation workstream olmasıdır; bu
+mimari U2 içinde uygulanmadı ve planner koduna dokunulmadı.
+
+Detaylı rapor: `jsbsim/U2_REPORT.md`; frozen config/harness:
+`jsbsim/u2_candidate_screening_configuration.yaml` ve
+`jsbsim/u2_candidate_screening.py`; raw/provenance artifacts:
+`jsbsim/results/u2_*.json`.
+
+## STEP U3 — JSBSim stock aircraft selection for LUT + final replay (2026-09-13)
+
+**Sonuç: PASS. PRIMARY `c172r`; BACKUP `c172p`.** U2'nin exact `35/40 m/s`,
+`+5 m/s Vz` ve `±25° bank` fail-fast aircraft-selection gate yaklaşımı terk
+edildi. Hocanın yaklaşık `35–50 m/s`, `|bank| <= 25°`, `|Vz| <= 5 m/s`
+değerleri preferred regime'dir; hard gate veya physical limit değildir. Yeni
+policy aircraft-driven'dır: planner, seçilen stock aircraft/control stack'inin
+sonraki stage'de ölçülecek gerçek ve doğrulanmış envelope'una uyacaktır.
+
+U2'nin 60-model inventory'si tekrar discovery yapılmadan reuse edildi. Altı ciddi
+stock fixed-wing aday (`c172r`, `c172p`, `c172x`, `c182`, `DHC6`, `J3Cub`) aynı
+1000 m MSL/standard-atmosphere/zero-wind/clean fixture mantığı, aynı frozen
+generic bounded IAS/Vz/bank/β outer-loop, 40 s replay/20 s measurement window ve
+üç cold-start ile karşılaştırıldı: 24 point/72 replay. Model başına PID tuning,
+stock aircraft/aerodynamic/propulsion/mass/inertia XML değişikliği yapılmadı.
+Tüm adaylar finite, saturation-free ve repeatable U3 sanity davranışı verdi;
+strict U1 full-window sonuçlarında `c172r` 3/4, `c172p` 2/4 VALID verdi ve düşük
+physical surface kullanımıyla ilk iki sırayı aldı.
+
+**Kalıcı control-stack contract:** LUT generation ve final path replay aynı
+stack'i kullanacaktır:
+
+`planner maneuver command → frozen U3 minimal IAS/Vz/bank/β outer loop → c172r
+normalized stock FCS inputs/surface mapping → JSBSim c172r dynamics`.
+
+Başka controller ile LUT üretip başka controller ile final replay yapmak yasaktır;
+stack değişirse characterization yeniden yapılır. `c172x` native roll/heading ve
+altitude autopilot içerir, fakat doğrudan sustained-bank command ve uygulanmış
+airspeed/throttle channel sunmadığı için seçilen ortak stack'te kapalıdır.
+
+İlk planner hedef state'i `(x,y,z,heading)` olarak kalır. Speed ilk aşamada state
+dimension değil, yaklaşık 40 m/s IAS fixed/nominal `c172r` context'idir. Sonraki
+LUT planı `(altitude,speed_context,bank_command)` → turn rate/radius/Nz/validity
+ve `(altitude,speed_context,climb_descent_command)` → Vz/gamma/speed-retention/
+validity boyutlarındadır. Full LUT sweep, planner değişikliği ve final path replay
+bu stage'de BAŞLATILMADI. Custom aircraft ve ArduPilot şimdilik kullanılmaz.
+
+Detaylı rapor: `jsbsim/U3_REPORT.md`; frozen config/harness:
+`jsbsim/u3_aircraft_selection_configuration.yaml` ve
+`jsbsim/u3_aircraft_selection.py`; raw audit/telemetry/provenance artifacts:
+`jsbsim/results/u3_*.json`.
+
+## Step CLEAN-1 — Full Planner Architecture Cleanup (heading öncesi temel temizlik)
+
+**Amaç ve kapsam:** Yeni özellik eklenmedi. Stage 12-38 arasında birikmiş
+trend/bucket/reversal/dominance/freeze_history/representation_mode
+mekanizmaları ve bunlara bağlı script/test duplikasyonları tek, sade,
+production mimariye indirildi. Gerekçe: Step 3E.1'de ölçülen sonuç
+(`[[step-3e1-augmented-state-ablation|xyz-only ablation]]`) trend/bucket'ın
+hard safety'ye hiç etkisi olmadığını, sadece soft reversal-cost
+bookkeeping olduğunu doğrulamıştı; production state artık bu bookkeeping'i
+taşımıyor.
+
+**PRODUCTION STATE (kalıcı karar):** arama state'i artık kesinlikle düz
+`(row, col, z_index)` 3-tuple. `vertical_trend`, `trend_age_bucket` (ve
+Stage 22 öncesi `trend_age_units`), bunlara bağlı dominance-pruning
+(Stage 16), `freeze_history` deneysel bayrağı (Stage 37.2) ve bunların
+kullandığı TÜM state-key/g-score/closed/open/parent-reconstruction
+mantığı `planner/astar.py` içinden tamamen silindi. **Trend/bucket bir
+daha, başka bir isim altında hidden history state olarak geri
+GETİRİLMEYECEK.** İleride zigzag/roller-coaster sorun olursa çözüm
+aircraft-aware motion primitive / fiziksel climb-descent geometrisi /
+maneuver continuity / heading-aware transition cost üzerinden aranacak,
+history-dimension'lı bir state'e dönülmeyecek.
+
+**Reversal/smoothness cost kaldırıldı:** `vertical_reversal_cost_weight`,
+`reversal_relax_distance_m`, `trend_age_unit_m`, `normalized_w_reversal`
+config alanları ve `CostComponents.smoothness` / `MissionPolicy.w_smoothness`
+tamamen silindi. Bu bilinçli bir davranış değişikliği: **eski path/cost ile
+yeni path/cost'un birebir eşleşmesi ZORUNLU DEĞİL** (kullanıcı kararı);
+onun yerine hard safety, terrain clearance, climb/descent geçiş geçerliliği
+ve doğru path bulunması doğrulandı (aşağıda).
+
+**Legacy/sparse-lazy representation flag'i kaldırıldı:** Step 3E'de eklenen
+`representation_mode` ("legacy"/"sparse_lazy") config enum'ı silindi;
+artık `astar_search()`'e `candidate_z_generator` argümanının verilip
+verilmemesi TEK BAŞINA modu belirliyor (`_generate_neighbors` içindeki
+floor-prefilter `candidate_z_generator is not None` şartına bağlı).
+Production tek path: `planner/terrain_cache.py` (TerrainCache) +
+`planner/candidate_z.py` (CandidateZGenerator) sparse/lazy Z — bunlar
+zaten Step 3E'den beri tek kaynak (script-local duplicate yoktu, silinecek
+bir şey çıkmadı).
+
+**Corridor kodu (planner/corridor.py, coarse_astar.py, fine_precompute.py):
+BU STAGE'DE DOKUNULMADI, karar ERTELENDİ.** Bu dosyalar önceki
+"Planlanan mimari yön değişikliği" kaydının (yukarıda, Adaptive
+Resolution + Tube Emekliliği) açık koruması altında ("Corridor kodu
+SİLİNMİYOR, regression/fallback için feature flag arkasında tutulacak").
+Step CLEAN-1'in "belki lazım olur silme" karşıtı ilkesiyle potansiyel
+çelişki var; unilateral silme yapılmadı, kullanıcı onayı bekleniyor.
+
+**Mission B/C regresyon sonucu (`scripts/step3e_production_representation_integration.py`,
+Step 3D/3E'nin 20x20 pencereli 3 mission'ı ile):** B_relief_affected ve
+C_z_matters ikisi de PASS — path bulundu, `validate_path_safety` PASS,
+min_AGL sırasıyla 100.1m / 100.0m (>= 100m gereksinimi), legacy vs
+sparse_lazy terrain-source ile birebir aynı path/cost/expanded,
+sparse_lazy tarafında `raw_dem_reads=0` doğrulandı. Beklenmedik ama
+olumlu yan etki: A_easy_open (Step 3D'de augmented state ile 48,370
+state tükenip FAIL vermişti) artık bu çalıştırmada da PASS — bilinçli bir
+hedef değildi, xyz-only state-uzayının küçülmesinin doğal sonucu; bu
+stage'de Mission A'yı çözmek için heuristic/guidance/cost'a HİÇBİR
+değişiklik yapılmadı.
+
+**Test/script temizliği:** trend/bucket/dominance/reversal/freeze_history'e
+özel 13 script silindi (`validate_trend_bucket.py`,
+`validate_bucket_dominance.py`, `validate_dominance_pruning.py`,
+`benchmark_bucket_dominance_real.py`, `benchmark_trend_bucket_real.py`,
+`validate_astar_history_free.py`, `benchmark_history_free_epsilon_sweep.py`,
+`benchmark_history_free_fine_real.py`, `validate_reversal_cost.py`,
+`validate_reversal_spacing.py`, `validate_free_reversal.py`,
+`validate_vertical_cost.py`, `benchmark_incumbent_dominance_real.py`) —
+tümü silinmeden önce yalnızca silinen mimariyi test ettiği doğrulandı.
+9 script yeni mimariye göre düzeltildi ve ALL PASS doğrulandı
+(`validate_incumbent_pruning`, `validate_goal_region`,
+`validate_astar_corridor`, `validate_astar_3d_corridor`,
+`validate_msl_heuristic`, `validate_vertical_reachability_heuristic`,
+`validate_weighted_astar`, `validate_primitive_cache`,
+`step3e_production_representation_integration`). `webapp/server.py` de
+düzeltildi (artık var olmayan `normalized_w_reversal` config alanını
+geçiyordu) — production tool olduğu için deferred listeye alınmadı,
+doğrudan düzeltildi ve import+init doğrulandı.
+
+**Bilinen teknik borç (bilinçli olarak bu stage'de ERTELENDİ, gizlenmedi):**
+Stage 28-32 (cost calibration/ranking) ve Stage 38 (ARA*/corridor-fine)
+ailesinden 23 script hâlâ silinen alanlara referans veriyor ve
+çalışmıyor (tam liste git geçmişinde/oturum kaydında). Bunlar cost-tuning
+ve ARA* guidance deneyleri — bu stage'in "cost tuning yapma" kısıtıyla
+örtüştüğü için düzeltilmedi. `scripts/validate_astar.py`'deki A/B
+testlerinin beklenen cost değerleri (300.0 / 121.655) bu cleanup'tan
+ÖNCE de yanlıştı (MSL altitude-cost teriminin eklenmesinden bu yana stale
+kalmış, git stash ile HEAD'de de aynı FAIL doğrulandı) — bu stage'in
+kapsamı dışında, düzeltilmedi.
+
+**Sonuç:** `planner/astar.py` 792 satır küçüldü (net -540 satır bu dosyada).
+Production search state: **(row, col, z)**. Heading eklemek için temiz
+temel hazır: gelecek hedef state = **(row, col, z, heading)** +
+fiziksel turn/motion model; **DIRECTLY INFEASIBLE != UNREACHABLE** kalıcı
+ilke olarak korunacak (bir hedefe düz hat infeasible diye "unreachable"
+denmeyecek, uzun rota/dönüş/orbit/climbing-spiral ile ulaşılabilirlik
+araştırılacak).
+
+STEP CLEAN-1: PASS
+CLEAN BASE READY FOR HEADING: YES
+PRODUCTION STATE: (row, col, z)
