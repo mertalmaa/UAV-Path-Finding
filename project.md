@@ -3492,6 +3492,56 @@ Detaylı rapor: `jsbsim/U3_REPORT.md`; frozen config/harness:
 `jsbsim/u3_aircraft_selection.py`; raw audit/telemetry/provenance artifacts:
 `jsbsim/results/u3_*.json`.
 
+## STEP U4 — c172r raw aircraft LUT characterization (2026-09-13)
+
+**Sonuç: PASS. RAW LUT READY FOR HOLDOUT VALIDATION: YES.** U3 PRIMARY `c172r`
+ve aynı frozen stack korundu: maneuver command → frozen U3 IAS/Vz/bank/β
+outer-loop → c172r normalized stock FCS → JSBSim. PID/gain/clamp/beta target,
+1968 lb mass, 168 lb frozen fuel, CG, full-rich mixture, clean flap/fixed gear,
+US Standard atmosphere, zero wind, `dt=0.01 s`, 40 s replay, 20 s measurement
+window ve üç cold-start değişmedi. Stock aircraft/aero/propulsion XML'i tune
+edilmedi.
+
+Nominal characterization context'i 40 m/s IAS'tır; speed planner state dimension
+değildir. Main altitude grid `0:500:5000 m MSL`, optional straight-only probes
+5500/6000 m'dir. Her main altitude önce straight-level gate aldı. Gate 0–2500 m
+için VALID oldu ve yalnız bu altı altitude'da turn/vertical sweep çalıştı;
+3000–5000 m'de fail-fast gereği sweep açılmadı. 5500/6000 m'de de turn/vertical
+sweep yapılmadı.
+
+3000 m ve üstünde built-in trim başarısız olduktan sonra trim-corrupted object
+atıldı ve fresh untrimmed cold-start tekrarlandı; frozen full-rich fixture altında
+engine state/RPM/thrust yine sıfıra indi. Bu altitudes exact frozen stack için
+INFEASIBLE/unsupported observation'dır, true c172r service ceiling veya physical
+limit iddiası değildir.
+
+Turn grid `0,±10,±15,±20,±25°`, vertical grid
+`-5,-4,-3,-2,0,+2,+3,+4,+5 m/s` olarak çalıştı. Canonical raw artifact
+`jsbsim/results/aircraft_lut_raw.json` 54 turn ve 54 vertical row içerir; left ve
+right ayrı tutuldu, theory radius yalnız diagnostic'tir ve planner radius truth'u
+VALID row'lardaki measured JSBSim radius'tur. 109 point/327 cold-start çalıştı;
+tüm point'ler repeatable, tüm VALID row'lar measurement window öncesi settled'dır.
+Başlıca failure class'ları controller-limited, speed-retention, power-limited ve
+frozen-fixture engine-not-sustained/other'dır. Largest tested VALID grid value
+true maximum capability değildir.
+
+Raw LUT henüz interpolated, derated veya planner-ready değildir. Planner koduna,
+heading/state/motion representation'a ve final replay'e dokunulmadı. F-16'dan
+yalnız 500 m grid, cold-start repeat, three-state status, straight fail-fast,
+measured-output, saturation, provenance, repeatability ve tested-boundary
+metodolojisi reuse edildi; hiçbir F-16 capability/controller değeri taşınmadı.
+
+U4.1 planı `250,750,1250,...,4750 m` holdout grid'inde main-grid interpolation
+ile independent JSBSim measurement farkını ölçmektir; holdout'lar U4'te
+çalıştırılmadı. LUT generation ve ilerideki final path replay aynı frozen
+`c172r + U3 controller/FCS` stack'ini kullanmaya devam edecektir.
+
+Detaylı rapor: `jsbsim/U4_REPORT.md`; frozen config/harness:
+`jsbsim/u4_raw_lut_configuration.yaml` ve
+`jsbsim/u4_raw_lut_characterization.py`; canonical raw LUT ve provenance/run/
+point/trace artifacts: `jsbsim/results/aircraft_lut_raw.json` ve
+`jsbsim/results/u4_*.json`.
+
 ## Step CLEAN-1 — Full Planner Architecture Cleanup (heading öncesi temel temizlik)
 
 **Amaç ve kapsam:** Yeni özellik eklenmedi. Stage 12-38 arasında birikmiş
@@ -3681,3 +3731,46 @@ yok; sonraki adım doğrudan heading.
 
 STEP CLEAN-1.1: PASS
 REPO CLEAN FOR HEADING: YES
+
+## Step ALG-0 — Aircraft LUT Interface Contract
+
+**Amaç:** LUT değerlerini planner'a entegre etmek DEĞİL — ileride
+planner-safe aircraft LUT geldiğinde okunacağı tek, temiz interface'i
+hazırlamak. Search davranışı DEĞİŞMEDİ; `planner/aircraft_profile.py`
+hiçbir search dosyası tarafından import edilmiyor.
+
+**Kalıcı karar — aircraft LUT abstraction'ı planner'dan ayrı:**
+`planner/aircraft_profile.py` içinde `AircraftProfile` (`turn_query()`,
+`vertical_query()`) + `load_aircraft_profile()`/`load_aircraft_profile_
+from_dict()` loader'ı. Planner hiçbir zaman LUT dosyasının iç yapısını
+veya JSBSim property isimlerini doğrudan görmeyecek — tek erişim yolu bu
+interface.
+
+**RAW LUT production planner'da KULLANILMAYACAK:** `jsbsim/results/
+aircraft_lut_raw.json` (U4 çıktısı, `artifact_type=RAW_AIRCRAFT_LUT`,
+`planner_ready=false`) gibi bir RAW characterization artifact,
+`lut_stage="raw"` işaretli olduğu için loader tarafından
+`LutNotPlannerSafeError` ile KOŞULSUZ reddediliyor — fail-fast, sessiz
+kabul yok. Planner-safe LUT (`lut_stage="planner_safe"`) U4.1/U4.2
+(validation/interpolation/derating) sonrası gelecek; bu stage o
+dönüşümü YAPMADI, sadece sonucunun uyması gereken kontratı tanımladı.
+
+**Provenance zorunlu:** Aynı `aircraft_id` (=`c172r`) VE aynı
+`controller_stack_id` (frozen maneuver-target → U3 IAS/Vz/bank/β
+outer-loop → c172r stock FCS stack'i) taşımayan bir LUT reddedilir
+(`LutProvenanceError`). `controller_stack_id` şu an bir hash değil,
+placeholder bir etiket (`c172r-stock-fcs-frozen-outer-loop-v1`) — gerçek
+hash JSBSim tarafında tanımlanınca tek satırlık güncelleme yeterli
+olacak, tasarım değişmeyecek.
+
+**Gelecek hedef state:** `(x, y, z, heading)` + aircraft-aware motion
+(straight/left turn/right turn/climb/descent/climbing turn) — bu stage
+bunları implement ETMEDİ, sadece bunların bir gün çağıracağı query
+kontratını (`turn_query`/`vertical_query`, exact-grid, status=VALID/
+INFEASIBLE/UNKNOWN, SI units) sabitledi. Kalıcı ilke korunuyor:
+**DIRECTLY INFEASIBLE != UNREACHABLE** — bir maneuver'ın tek bir exact
+grid noktasında INFEASIBLE olması hedefin unreachable olduğu anlamına
+gelmez.
+
+STEP ALG-0: PASS
+READY TO CONSUME FUTURE PLANNER-SAFE LUT: YES
