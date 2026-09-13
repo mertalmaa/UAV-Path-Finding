@@ -3594,3 +3594,90 @@ araştırılacak).
 STEP CLEAN-1: PASS
 CLEAN BASE READY FOR HEADING: YES
 PRODUCTION STATE: (row, col, z)
+
+## Step CLEAN-1.1 — Final Dead-Code / Legacy Sweep
+
+**Amaç:** Step CLEAN-1'de bilinçli olarak ertelenen iki açık soru
+kapatıldı: (a) 23 stale scriptin tamamı için kesin karar, (b) corridor/
+coarse_astar/fine_precompute/ARA*'ın production disposition'ı. Yeni
+özellik eklenmedi.
+
+**Final production search yolu (kalıcı karar):** İki gerçek giriş
+noktası var, ikisi de AYNI paylaşılan çekirdek üzerinde çalışıyor
+(`_generate_neighbors`, `compute_edge_cost`, primitive cache, safety):
+`astar_search()` (tek-atış, exact/weighted A* — testler ve
+regresyonlarda kullanılan kanonik arama) ve `ara_star_search()` (anytime
+çok-fazlı ARA* — gerçek `webapp/server.py`'nin fine-search fazında
+kullandığı production giriş noktası, `webapp/server.py:272`). İkisi de
+duplicate implementasyon DEĞİL: ARA*, `astar_search`'ün kullandığı aynı
+neighbor-generation/cost/safety altyapısını tekrar kullanan bir
+wrapper'dır. Tek çekirdek, iki giriş noktası — biri anlık/regresyon
+için, diğeri interaktif "iyi-yeterli-hızlı" gerçek kullanım için.
+
+**Corridor/coarse_astar/fine_precompute — KALDIRILMADI, gerçekten
+production.** Denetim: `webapp/server.py` (repodaki TEK gerçek
+production tüketici) şu tam zinciri kullanıyor: Terrain → `coarse_astar_
+search` (90m coarse guide path) → `build_xy_corridor_mask` + `build_z_
+guide_grid` (`planner/corridor.py`, fine-resolution corridor/kılavuz) →
+`precompute_fine_corridor_primitive_safety` (`planner/fine_precompute.py`,
+corridor içi primitive safety cache) → `ara_star_search` (corridor+z-
+guide+fine_precompute'a bağlı production fine search) → `validate_path_
+safety`. Ayrıca `planner/astar.py`'nin kendisi de `fine_precomputed_
+primitive_validity`'yi lazy-import ediyor — fine_precompute çekirdek
+aramanın kendisine dokunuyor, sadece webapp'e özel değil. **Sonuç:** bu
+üç modül eski "hard corridor" fikrinin ölü kalıntısı değil, büyük-alan
+aramayı hesaplanabilir kılan AKTİF search-scoping katmanı — TerrainCache/
+CandidateZ (state-representation katmanı) ile ÇAKIŞMIYOR, onu
+TAMAMLIYOR. Önceki "Planlanan mimari yön değişikliği" kaydındaki koruma
+("Corridor kodu SİLİNMİYOR") gereksiz ihtiyat değil, doğru tespit
+çıktı — bu denetim onu teyit etti, ertelemedi.
+
+**Gerçek bug bulundu ve düzeltildi:** `planner/coarse_astar.py`'nin
+`compute_coarse_edge_cost()`'u hâlâ `MissionPolicy(..., w_smoothness=
+0.0)` inşa ediyordu — Step CLEAN-1'in sildiği bir alan. Bu fonksiyon
+gerçek production yolunun üzerinde (`webapp/server.py`'nin coarse-guide
+fazı) — `cost_mode="normalized"` ile ilk gerçek kullanımda crash
+verecekti. Düzeltildi (`w_smoothness=0.0,` satırı kaldırıldı), doğrudan
+unit-call ile ve `scripts/validate_coarse_astar.py`'nin tam 6.48km
+gerçek coarse benchmark'ıyla doğrulandı: SUCCESS, 30m fine replay'de 0
+safety violation.
+
+**23 stale script — kesin karar:** 17'si SİLİNDİ (yalnız silinen trend/
+bucket/dominance mimarisini yeniden inşa ediyorlardı veya bulguları
+zaten project.md'de kayıtlı tek-seferlik Stage 28-32/38 kalibrasyon/ARA*
+deneyleriydi — hiçbiri kalıcı regresyon değeri taşımıyordu, bağımlılık
+grafiği doğrulanarak silindi). 6'sı YENİDEN YAZILDI ve gerçek Aladağlar
+terraininde uçtan uca doğrulandı (weighted-A* bounded-suboptimality,
+goal-region tolerance, cost-ranking sanity hâlâ geçerli production
+senaryoları): `benchmark_goal_region_real.py`, `benchmark_long_valley.py`,
+`benchmark_weighted_astar_real.py`, `benchmark_weighted_astar_epsilon_
+sweep.py`, `calibrate_low_msl_behavior.py`, `validate_cost_function_
+ranking.py` — bunlarda G/M/R cost decomposition'daki R (reversal) terimi
+tamamen kaldırıldı (artık total_cost == G + w*M, her adayda doğrulandı),
+dominance/freeze_history/reversal kwarg'ları temizlendi.
+
+**Stale comment/docstring temizliği:** `planner/astar.py` içinde artık
+var olmayan `vertical_reversal_cost_weight`/`reversal_penalty`'ye atıf
+yapan 2 proof-docstring cümlesi düzeltildi (heuristic admissibility
+proof'ları hâlâ doğru, sadece silinen terime referans kalmıştı).
+Tam repo taraması (planner/, webapp/, scripts/) yapıldı; `cost_mode=
+"legacy"` gibi hâlâ geçerli/aktif "legacy" isimlendirmeleri (silinmiş
+kavram DEĞİL, gerçek ikinci bir cost modu) bilinçli olarak dokunulmadan
+bırakıldı.
+
+**Final production mimarisi (bu denetimle netleşti):**
+Terrain (ROI+TerrainQuery) → `coarse_astar_search` (90m coarse guide,
+plain (row,col,z) state, Stage 35'ten beri zaten trend/bucket'sızdı) →
+`planner.corridor` (fine XY+Z corridor/guide mask) → `planner.fine_
+precompute` (corridor-scoped primitive safety cache) → `ara_star_search`
+(production fine search — plain (row,col,z) state, sparse/lazy
+TerrainCache+CandidateZ ile) → `validate_path_safety` (bağımsız
+validator). Test/regresyon yolu için: `astar_search()` (aynı çekirdek,
+tek-atış).
+
+**Kalan teknik borç:** Yok — Step CLEAN-1'in bıraktığı 23 stale
+scriptin tamamı kapatıldı (17 silindi, 6 düzeltildi). Bilinen açık konu
+yok; sonraki adım doğrudan heading.
+
+STEP CLEAN-1.1: PASS
+REPO CLEAN FOR HEADING: YES
