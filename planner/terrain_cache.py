@@ -43,6 +43,7 @@ from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
 import numpy as np
+from affine import Affine
 
 from planner.coarse import build_coarse_terrain_stats
 from planner.roi import ROIData
@@ -235,6 +236,42 @@ class TerrainCache:
 
     def relief(self, factor: int, row: int, col: int) -> float:
         return float(self._coarse_array("relief", factor)[row, col])
+
+
+def build_terrain_query_from_cache(cache: TerrainCache, fine_roi: ROIData, factor: int) -> TerrainQuery:
+    """Roadmap Step 3E: a real TerrainQuery backed by this cache's
+    max_elevation array for `factor`, instead of a fresh load_roi()/
+    build_coarse_dem() derivation -- so evaluate_primitive()/evaluate_agl()/
+    evaluate_transition() can be reused completely UNCHANGED downstream (they
+    only ever see a TerrainQuery, never know or care where its elevation
+    array came from). Generalizes scripts/step3d_real_terrain_integration.py's
+    build_coarse60_terrainquery_from_cache (which hard-coded factor=2/60m) to
+    any pooling factor already present in this cache.
+
+    factor=1 uses the cache's native fine_elevation array (transform/
+    resolution unchanged from fine_roi). factor>1 derives the coarse
+    transform the same trivial way planner.coarse's own (private) coarse
+    transform helper does: pixel scale multiplied by the factor, origin
+    unchanged -- not importing that private helper, just replicating its
+    already-documented formula against the cached array's own shape.
+    """
+    if factor not in cache.available_factors and factor != 1:
+        raise ValueError(f"factor={factor} not present in this cache (available: {cache.available_factors})")
+    t = fine_roi.transform
+    if factor == 1:
+        elevation = cache._arrays["fine_elevation"]
+        transform = t
+        resolution = fine_roi.resolution
+    else:
+        elevation = cache._arrays[f"max_elevation_f{factor}"]
+        transform = Affine(t.a * factor, t.b, t.c, t.d, t.e * factor, t.f)
+        resolution = (t.a * factor, abs(t.e) * factor)
+    roi = ROIData(
+        elevation=elevation, transform=transform, crs=fine_roi.crs,
+        width=elevation.shape[1], height=elevation.shape[0],
+        bounds=fine_roi.bounds, resolution=resolution, nodata=fine_roi.nodata,
+    )
+    return TerrainQuery(roi)
 
 
 def load_terrain_cache(

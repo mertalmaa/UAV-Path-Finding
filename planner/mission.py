@@ -14,11 +14,10 @@ from dataclasses import dataclass
 class CostComponents:
     distance: float
     altitude: float
-    smoothness: float = 0.0
 
     @property
     def total(self) -> float:
-        return self.distance + self.altitude + self.smoothness
+        return self.distance + self.altitude
 
 
 @dataclass(frozen=True)
@@ -34,12 +33,11 @@ class MissionPolicy:
     altitude_scale_m: float = 1000.0
     w_distance: float = 1.0
     w_altitude: float = 1.25
-    w_smoothness: float = 1.0
 
     def __post_init__(self) -> None:
         if self.altitude_scale_m <= 0.0:
             raise ValueError("altitude_scale_m must be positive")
-        if min(self.w_distance, self.w_altitude, self.w_smoothness) < 0.0:
+        if min(self.w_distance, self.w_altitude) < 0.0:
             raise ValueError("mission objective weights must be non-negative")
 
     def edge_components(
@@ -48,24 +46,19 @@ class MissionPolicy:
         start_aircraft_msl: float,
         end_aircraft_msl: float,
         distance_reference_m: float,
-        smoothness_raw_m: float = 0.0,
     ) -> CostComponents:
         if geometric_length_m < 0.0:
             raise ValueError("geometric_length_m must be non-negative")
         if distance_reference_m <= 0.0:
             raise ValueError("distance_reference_m must be positive")
-        if smoothness_raw_m < 0.0:
-            raise ValueError("smoothness_raw_m must be non-negative")
 
         d_distance = geometric_length_m / distance_reference_m
         mean_msl = (start_aircraft_msl + end_aircraft_msl) / 2.0
         excess_msl = max(0.0, mean_msl - self.altitude_reference_msl)
         d_altitude = d_distance * excess_msl / self.altitude_scale_m
-        d_smoothness = smoothness_raw_m / distance_reference_m
         return CostComponents(
             distance=self.w_distance * d_distance,
             altitude=self.w_altitude * d_altitude,
-            smoothness=self.w_smoothness * d_smoothness,
         )
 
 
@@ -93,5 +86,4 @@ def mission_policy_from_config(config) -> MissionPolicy:
         altitude_scale_m=config.normalized_altitude_scale_m,
         w_distance=config.normalized_w_distance,
         w_altitude=config.normalized_w_altitude,
-        w_smoothness=config.normalized_w_reversal,
     )

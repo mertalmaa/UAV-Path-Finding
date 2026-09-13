@@ -47,7 +47,6 @@ ALTITUDE_REFERENCE_MSL = 3240.0
 NORMALIZED_ALTITUDE_SCALE_M = 1000.0
 NORMALIZED_W_ALTITUDE = 1.25
 NORMALIZED_W_DISTANCE = 1.0
-NORMALIZED_W_REVERSAL = 1.0
 GOAL_TOLERANCE_XY_M = 35.0
 GOAL_TOLERANCE_Z_M = 25.0
 CORRIDOR_XY_HALF_WIDTH_M = 300.0
@@ -67,7 +66,6 @@ FINE_CFG = dataclasses.replace(
     normalized_altitude_scale_m=NORMALIZED_ALTITUDE_SCALE_M,
     normalized_w_distance=NORMALIZED_W_DISTANCE,
     normalized_w_altitude=NORMALIZED_W_ALTITUDE,
-    normalized_w_reversal=NORMALIZED_W_REVERSAL,
     goal_tolerance_xy_m=GOAL_TOLERANCE_XY_M,
     goal_tolerance_z_m=GOAL_TOLERANCE_Z_M,
 )

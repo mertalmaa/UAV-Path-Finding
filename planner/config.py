@@ -58,33 +58,6 @@ class PlannerConfig:
     msl_reference_m: float = 0.0  # TEST/TUNING PARAMETER, not a real requirement
     msl_scale_m: float = 1000.0  # TEST/TUNING PARAMETER, not a real requirement
 
-    # How strongly the A* edge cost penalizes a vertical-DIRECTION REVERSAL
-    # (climb->descent or descent->climb), SCALED by how long the standing
-    # trend had been running (see reversal_relax_distance_m below and
-    # planner/astar.py _next_trend_and_age). A continuous climb or
-    # continuous descent pays nothing here, no matter how long -- only
-    # flip-flopping does, and a reversal after a long, stable trend costs
-    # little to nothing. Replaces the earlier abs(delta_z)-per-primitive
-    # penalty (and the even earlier "first reversal is free" special case)
-    # -- neither is part of the production cost anymore. This is NOT a
-    # real aircraft energy model -- just a TEST/TUNING PARAMETER for a
-    # zigzag/smoothness preference.
-    vertical_reversal_cost_weight: float = 1.0  # TEST/TUNING PARAMETER, not a real requirement
-
-    # Horizontal distance a vertical trend (continuous climb or descent,
-    # level moves included) must have run for before a reversal away from
-    # it is completely free. Below this, the reversal cost is scaled down
-    # linearly (see _next_trend_and_age). A prototype smoothness knob, not
-    # a real aircraft/mission requirement.
-    reversal_relax_distance_m: float = 300.0  # TEST/TUNING PARAMETER, not a real requirement
-
-    # Discretization granularity for the trend-age carried in the search
-    # state (row,col,z_index,vertical_trend,trend_age_units) -- an
-    # implementation/state-space detail, not a behavior preference to tune.
-    # trend_age_units is capped at ceil(reversal_relax_distance_m /
-    # trend_age_unit_m) so the augmented state stays a small bounded integer.
-    trend_age_unit_m: float = 30.0
-
     # --- Cost model selection (Stage 32) ---
     # "legacy": the Stage 1-31 production formula, kept bit-for-bit unchanged
     # (compute_edge_cost's legacy branch). "normalized": the dimensionless
@@ -112,13 +85,12 @@ class PlannerConfig:
     # calibration candidate, not a sourced physical value.
     normalized_altitude_scale_m: float = 1000.0
     # Component weights for the normalized cost: dC_total = w_distance*
-    # dC_distance + w_altitude*dC_altitude + w_reversal*dC_reversal. All
-    # TEST/TUNING PARAMETERS, not sourced physical/mission values.
+    # dC_distance + w_altitude*dC_altitude. Both TEST/TUNING PARAMETERS,
+    # not sourced physical/mission values.
     normalized_w_distance: float = 1.0
     # Production mission-policy candidate. Normalized mode remains explicit;
     # this does not alter legacy-mode callers.
     normalized_w_altitude: float = 1.25
-    normalized_w_reversal: float = 1.0
 
     # --- Safe goal region (Stage 33) -- production feature, opt-in. ---
     # A state counts as "at goal" if its physical position is within this
@@ -133,6 +105,13 @@ class PlannerConfig:
     # regardless of tolerance.
     goal_tolerance_xy_m: float = 0.0
     goal_tolerance_z_m: float = 0.0
+
+    # Note (Step CLEAN-1): the sparse/lazy Z representation (Roadmap Step 3E,
+    # planner/candidate_z.py) has no config flag -- astar_search() simply
+    # accepts an optional candidate_z_generator argument; passing one IS the
+    # "sparse_lazy" behavior, passing None IS the old "legacy" behavior. There
+    # used to be a representation_mode enum selecting between the two; it was
+    # removed because it only ever gated that same single boolean.
 
 
 DEFAULT_CONFIG = PlannerConfig()
