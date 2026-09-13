@@ -4478,3 +4478,67 @@ V3 PROFILE INTEGRATED: YES
 AIRCRAFT-NEUTRAL LOADER: YES
 SEARCH UNCHANGED: YES
 READY FOR 60M AIRCRAFT-AWARE GRID RE-GATE: YES
+
+## Step GRID-1 — Aircraft-Aware 30/60/90m Grid Re-Gate
+
+**Amaç:** Step 2E-2F'nin provizyonel 60m kararı ("aircraft turn-radius
+verisi geldiğinde tekrar gate edilecek") artık gerçek V3 aircraft
+geometry ile yeniden değerlendirildi. Search/heading/primitive kodu
+DEĞİŞMEDİ — bu saf bir geometry/representation diagnostiği.
+
+**Kritik ayrım (kalıcı ilke):** grid resolution != aircraft motion
+length != turn radius. "60m grid kullanmak", "uçak 60m radius ile döner"
+anlamına gelmiyor — grid yalnız spatial representation scale'i; her
+turn-radius sayısı `AircraftProfile.turn_query()`'den canlı okundu, test
+kodunda hiçbir yerde hard-code edilmedi.
+
+**Test edilen:** 30/60/90m XY spacing, gerçek c172p V3 geometrisi
+(guaranteed ±20° bank, LEFT/RIGHT ayrı, 6 temsili irtifa: 0/1000/2500/
+4000/4500/5500m). Radius aralığı 410.2m (0m LEFT) — 805.7m (5500m
+RIGHT); radius/60m oranı 6.8–13.4 hücre genişliğinde (her irtifada
+grid'in çok üzerinde).
+
+**Arc representation error:** Sürekli dairesel yay (20/45/90° heading
+değişimi) ile 30/60/90m grid-snap edilmiş temsili karşılaştırıldı.
+Endpoint quantization hatası spacing ile ~lineer büyüyor (60m ≈ 30m'nin
+2 katı, 90m ≈ 3-4 katı), ama mutlak terimde en kötü 90m durumu bile
+(~50m) en küçük turn diameter'ının (~820m) küçük bir yüzdesi.
+
+**Terrain-aware sonuç (Step 2E/2F'nin kendi 5 objektif penceresi
+reuse edildi, yeniden seçilmedi):** MAX-pooling invariant'ı gerçek turn
+arc footprint'lerinde de doğrulandı — **0 UNSAFE-OPTIMISM** (Step 2B'nin
+düz-kenar P2 ispatı, eğrisel geometriye genelleşti). En kötü ekstra
+conservative blocking TAMAMEN terrain-driven: tek bir extreme
+high-relief hücresinde (282m relief, ROI'nin en yüksek-relief hücresi)
+60m VE 90m'de aynı ~194m ekstra blocking — aircraft geometrisinden veya
+60-vs-90 seçiminden bağımsız, gerçek bir sarp kayalık. Diğer 4/5
+pencerede 60m'nin ekstra blocking'i küçük (tek haneli-~22m) ve 90m'den
+tutarlı biçimde daha az.
+
+**Representation cost:** 30m=110,889 hücre, 60m=27,556, 90m=12,321 —
+Step 2E/2F'nin tarihsel sayılarıyla birebir (aynı terrain source,
+yeniden inşa edilmedi).
+
+**KALICI KARAR:** **A) 60M DEFAULT CONFIRMED — 30M LOCAL REFINEMENT —
+90M GLOBAL/OPTIONAL METADATA.** Önceki provizyonel terrain-only karar,
+şimdi gerçek aircraft turn-arc geometrisi altında teyit edildi —
+değişmedi. Detaylı rapor: `GRID1_REPORT.md`; artifact'lar: `results/
+grid1_*.json`; script: `scripts/grid1_aircraft_aware_regate.py`;
+testler: `scripts/validate_grid1.py` (7 grup, ALL PASS).
+
+**Kapsam dışı bırakılanlar (bilinçli):** Z representation spacing
+(`z_step_m`) ve aircraft physical vertical motion arasındaki coupling bu
+stage'de ÇÖZÜLMEDİ — bu CLASS-C'nin işi. Hard corridor production
+zincirine dokunulmadı. Heading/motion primitive implementasyonu
+yapılmadı.
+
+**Sonraki adım:** CLASS-C — Motion Representation Closure (Z spacing vs
+aircraft vertical motion ayrımı), sonra heading discretization →
+aircraft-aware primitives.
+
+STEP GRID-1: PASS
+60M DEFAULT: CONFIRMED
+30M ROLE: LOCAL REFINEMENT (fine resolution, unchanged)
+90M ROLE: GLOBAL/OPTIONAL METADATA ONLY
+SEARCH UNCHANGED: YES
+READY FOR CLASS-C: YES
