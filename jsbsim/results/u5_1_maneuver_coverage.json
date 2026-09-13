@@ -1,0 +1,266 @@
+{
+  "artifact_type": "U5_1_EXISTING_MANEUVER_COVERAGE",
+  "exact_targets_are_not_hard_selection_gates": true,
+  "provenance_id": "u5.1-d706a368635d7cb66217",
+  "regions": [
+    {
+      "aircraft": "c172p",
+      "altitude_m": 5000.0,
+      "ias_mps": 40.0,
+      "not_tested_reason": null,
+      "turns": [
+        {
+          "actual_bank_deg": -31.71627232597996,
+          "actual_stable_response": true,
+          "raw_strict_status": "UNKNOWN",
+          "repeatable": true,
+          "target": -30.0,
+          "trajectory": {
+            "measured_radius_m": 313.0614525086001,
+            "turn_rate_coefficient_of_variation": 0.037599916322571154,
+            "turn_rate_deg_s": -6.7610853256297245
+          }
+        },
+        {
+          "actual_bank_deg": -21.2277429058127,
+          "actual_stable_response": true,
+          "raw_strict_status": "UNKNOWN",
+          "repeatable": true,
+          "target": -20.0,
+          "trajectory": {
+            "measured_radius_m": 692.7989553805568,
+            "turn_rate_coefficient_of_variation": 0.026452802000257115,
+            "turn_rate_deg_s": -4.232948343206066
+          }
+        },
+        {
+          "actual_bank_deg": 19.7792358800673,
+          "actual_stable_response": true,
+          "raw_strict_status": "VALID",
+          "repeatable": true,
+          "target": 20.0,
+          "trajectory": {
+            "measured_radius_m": 762.6275131609323,
+            "turn_rate_coefficient_of_variation": 0.0028237100959278526,
+            "turn_rate_deg_s": 3.8606900739233203
+          }
+        },
+        {
+          "actual_bank_deg": 29.91886075111437,
+          "actual_stable_response": true,
+          "raw_strict_status": "VALID",
+          "repeatable": true,
+          "target": 30.0,
+          "trajectory": {
+            "measured_radius_m": 473.4499037531362,
+            "turn_rate_coefficient_of_variation": 0.0032881326659248175,
+            "turn_rate_deg_s": 6.19310944284646
+          }
+        }
+      ],
+      "vertical": [
+        {
+          "actual_stable_response": false,
+          "actual_vertical_speed_mps": -4.730586416939966,
+          "raw_strict_status": "UNKNOWN",
+          "repeatable": true,
+          "target": -4.5
+        },
+        {
+          "actual_stable_response": true,
+          "actual_vertical_speed_mps": -2.6944925103677186,
+          "raw_strict_status": "VALID",
+          "repeatable": true,
+          "target": -2.5
+        },
+        {
+          "actual_stable_response": true,
+          "actual_vertical_speed_mps": 2.506774097727635,
+          "raw_strict_status": "INFEASIBLE",
+          "repeatable": true,
+          "target": 2.5
+        },
+        {
+          "actual_stable_response": false,
+          "actual_vertical_speed_mps": 3.649606382037724,
+          "raw_strict_status": "INFEASIBLE",
+          "repeatable": true,
+          "target": 4.5
+        }
+      ]
+    },
+    {
+      "aircraft": "c172p",
+      "altitude_m": 5500.0,
+      "ias_mps": 40.0,
+      "not_tested_reason": null,
+      "turns": [
+        {
+          "actual_bank_deg": -31.691807813215444,
+          "actual_stable_response": true,
+          "raw_strict_status": "UNKNOWN",
+          "repeatable": true,
+          "target": -30.0,
+          "trajectory": {
+            "measured_radius_m": 305.77075805274154,
+            "turn_rate_coefficient_of_variation": 0.0355729877816797,
+            "turn_rate_deg_s": -6.587042147646696
+          }
+        },
+        {
+          "actual_bank_deg": -21.205544078533443,
+          "actual_stable_response": true,
+          "raw_strict_status": "UNKNOWN",
+          "repeatable": true,
+          "target": -20.0,
+          "trajectory": {
+            "measured_radius_m": 731.5766381981515,
+            "turn_rate_coefficient_of_variation": 0.0253429268391616,
+            "turn_rate_deg_s": -4.118034942154172
+          }
+        },
+        {
+          "actual_bank_deg": 19.762892614726525,
+          "actual_stable_response": true,
+          "raw_strict_status": "VALID",
+          "repeatable": true,
+          "target": 20.0,
+          "trajectory": {
+            "measured_radius_m": 805.3258658655201,
+            "turn_rate_coefficient_of_variation": 0.0030604402484416767,
+            "turn_rate_deg_s": 3.7557410377521045
+          }
+        },
+        {
+          "actual_bank_deg": 29.887739418061056,
+          "actual_stable_response": true,
+          "raw_strict_status": "VALID",
+          "repeatable": true,
+          "target": 30.0,
+          "trajectory": {
+            "measured_radius_m": 499.6311874226979,
+            "turn_rate_coefficient_of_variation": 0.002929665396234287,
+            "turn_rate_deg_s": 6.026279634867509
+          }
+        }
+      ],
+      "vertical": [
+        {
+          "actual_stable_response": false,
+          "actual_vertical_speed_mps": -4.7417053984624,
+          "raw_strict_status": "UNKNOWN",
+          "repeatable": true,
+          "target": -4.5
+        },
+        {
+          "actual_stable_response": true,
+          "actual_vertical_speed_mps": -2.6940863602999543,
+          "raw_strict_status": "VALID",
+          "repeatable": true,
+          "target": -2.5
+        },
+        {
+          "actual_stable_response": true,
+          "actual_vertical_speed_mps": 2.366923906763004,
+          "raw_strict_status": "INFEASIBLE",
+          "repeatable": true,
+          "target": 2.5
+        },
+        {
+          "actual_stable_response": false,
+          "actual_vertical_speed_mps": 3.3573465032537193,
+          "raw_strict_status": "INFEASIBLE",
+          "repeatable": true,
+          "target": 4.5
+        }
+      ]
+    },
+    {
+      "aircraft": "c172p",
+      "altitude_m": 6000.0,
+      "ias_mps": 40.0,
+      "not_tested_reason": null,
+      "turns": [
+        {
+          "actual_bank_deg": -31.70977968597445,
+          "actual_stable_response": true,
+          "raw_strict_status": "UNKNOWN",
+          "repeatable": true,
+          "target": -30.0,
+          "trajectory": {
+            "measured_radius_m": 299.3924698261014,
+            "turn_rate_coefficient_of_variation": 0.027424219747430156,
+            "turn_rate_deg_s": -6.450466206088412
+          }
+        },
+        {
+          "actual_bank_deg": -21.18532925869835,
+          "actual_stable_response": true,
+          "raw_strict_status": "UNKNOWN",
+          "repeatable": true,
+          "target": -20.0,
+          "trajectory": {
+            "measured_radius_m": 772.6451162226217,
+            "turn_rate_coefficient_of_variation": 0.023944566185493645,
+            "turn_rate_deg_s": -4.006371808446355
+          }
+        },
+        {
+          "actual_bank_deg": 19.74735504126246,
+          "actual_stable_response": true,
+          "raw_strict_status": "VALID",
+          "repeatable": true,
+          "target": 20.0,
+          "trajectory": {
+            "measured_radius_m": 850.7601976155482,
+            "turn_rate_coefficient_of_variation": 0.0033039455134714047,
+            "turn_rate_deg_s": 3.6530663890622974
+          }
+        },
+        {
+          "actual_bank_deg": 29.8563215862962,
+          "actual_stable_response": true,
+          "raw_strict_status": "VALID",
+          "repeatable": true,
+          "target": 30.0,
+          "trajectory": {
+            "measured_radius_m": 526.7577545566426,
+            "turn_rate_coefficient_of_variation": 0.002298269001885144,
+            "turn_rate_deg_s": 5.867308266987389
+          }
+        }
+      ],
+      "vertical": [
+        {
+          "actual_stable_response": false,
+          "actual_vertical_speed_mps": -4.750847962966642,
+          "raw_strict_status": "UNKNOWN",
+          "repeatable": true,
+          "target": -4.5
+        },
+        {
+          "actual_stable_response": true,
+          "actual_vertical_speed_mps": -2.6949607967505265,
+          "raw_strict_status": "VALID",
+          "repeatable": true,
+          "target": -2.5
+        },
+        {
+          "actual_stable_response": false,
+          "actual_vertical_speed_mps": 2.2262868678474015,
+          "raw_strict_status": "INFEASIBLE",
+          "repeatable": true,
+          "target": 2.5
+        },
+        {
+          "actual_stable_response": false,
+          "actual_vertical_speed_mps": 3.0023086979102893,
+          "raw_strict_status": "INFEASIBLE",
+          "repeatable": true,
+          "target": 4.5
+        }
+      ]
+    }
+  ],
+  "schema_version": 1
+}

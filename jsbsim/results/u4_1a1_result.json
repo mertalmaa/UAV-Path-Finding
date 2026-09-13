@@ -1,0 +1,20 @@
+{
+  "controller_tuning_performed": false,
+  "derating_performed": false,
+  "executed_new_cold_start_runs": 54,
+  "executed_new_points": 18,
+  "holdout_validation_started": false,
+  "interpolation_performed": false,
+  "planner_modified": false,
+  "provenance_id": "u4.1a1-8cf09fffc2ee0e692d7e",
+  "raw_u4_lut_unchanged": true,
+  "refined_rows": 42,
+  "representative_altitude_count": 3,
+  "reused_u4_points": 24,
+  "runtime_s": 10.572415600006934,
+  "step": "U4.1A.1",
+  "step_status": "PASS",
+  "stock_xml_modified": false,
+  "true_physical_maximum_extracted": false,
+  "vertical_capability_sufficiently_refined_for_holdout_stage": true
+}

@@ -1,0 +1,30 @@
+{
+  "aircraft_selection_closed": true,
+  "artifact_type": "FINAL_AIRCRAFT_SELECTION_FREEZE",
+  "backup_aircraft": "DHC6",
+  "primary_aircraft": "c172p",
+  "primary_high_altitude_usable_region_m": [
+    5000.0,
+    5500.0
+  ],
+  "primary_major_limitation": "highest_candidate_missing_climb",
+  "provenance_id": "u5-4135baabef4a403315e5",
+  "reopen_only_for_new_blocking_evidence": true,
+  "same_stack_required_for_lut_and_final_replay": true,
+  "schema_version": 1,
+  "selected_nominal_speed_policy": {
+    "nominal_ias_mps": 40.0,
+    "speed_is_planner_state_dimension": false,
+    "type": "fixed_nominal_ias_context"
+  },
+  "selected_stack": {
+    "aircraft": "c172p",
+    "gain_tuning_performed": false,
+    "mixture_formula": "clip(atmosphere/P-psf / 2117.0, 0.0, 1.0)",
+    "mixture_mode": "production_pressure_ratio_v1",
+    "mixture_policy_id": "c172p-production-mixture-pressure-ratio-v1",
+    "mixture_update_cadence": "after engine start and before every simulation frame",
+    "outer_loop": "unchanged_U1_U3_bounded_IAS_Vz_bank_beta_architecture",
+    "stock_fcs": true
+  }
+}

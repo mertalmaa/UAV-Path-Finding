@@ -1,0 +1,103 @@
+schema_version: 1
+configuration_id: u3_aircraft_driven_selection_v1
+parent_inventory: results/u2_inventory.json
+
+scope:
+  stock_inventory_only: true
+  reuse_u2_inventory: true
+  cheap_dynamic_comparison_only: true
+  controller_optimization: false
+  aircraft_xml_modification: false
+  full_capability_envelope: false
+  full_lut_generation: false
+  planner_modification: false
+  final_path_replay_implementation: false
+
+selection_policy:
+  preferred_speed_regime_mps: [35.0, 50.0]
+  preferred_maximum_absolute_bank_deg: 25.0
+  preferred_maximum_absolute_vertical_speed_mps: 5.0
+  preferred_values_are_hard_gates: false
+  primary_criterion: minimum_tuning_stable_measurable_repeatable_control
+  maximum_serious_candidates: 6
+
+simulation:
+  timestep_s: 0.01
+  replay_duration_s: 40.0
+  steady_measurement_window_s: 20.0
+  target_ramp_s: 8.0
+  cold_start_repetitions: 3
+
+controller:
+  source: u1_profile_validation.py
+  policy: one_frozen_generic_bounded_outer_loop_no_aircraft_specific_gain_tuning
+  selected_stack_contract: planner_maneuver_command_to_u3_outer_loop_to_stock_fcs_to_jsbsim
+  c172x_bundled_autopilots_enabled: false
+
+# Candidate targets are characterization working points, not acceptance gates or
+# claimed limits. Vertical targets deliberately remain moderate.
+candidates:
+  c172r:
+    nominal_ias_mps: 40.0
+    bank_deg: 20.0
+    climb_mps: 2.5
+    descent_mps: -2.5
+    fixture_source: u2
+  c172x:
+    nominal_ias_mps: 40.0
+    bank_deg: 20.0
+    climb_mps: 2.5
+    descent_mps: -2.5
+    fixture_source: u2
+  c172p:
+    nominal_ias_mps: 40.0
+    bank_deg: 20.0
+    climb_mps: 2.5
+    descent_mps: -2.5
+    fixture_source: u2
+  c182:
+    nominal_ias_mps: 40.0
+    bank_deg: 20.0
+    climb_mps: 3.0
+    descent_mps: -3.0
+    fixture_source: u1_backup
+  DHC6:
+    nominal_ias_mps: 50.0
+    bank_deg: 20.0
+    climb_mps: 3.0
+    descent_mps: -3.0
+    fixture_source: u1_primary
+  J3Cub:
+    nominal_ias_mps: 35.0
+    bank_deg: 20.0
+    climb_mps: 2.0
+    descent_mps: -2.0
+    fixture_source: u2
+
+ranking:
+  score_range: [0, 5]
+  fields:
+    - control_quality
+    - speed_proximity
+    - turn_quality
+    - vertical_quality
+    - tuning_burden
+    - model_simplicity
+    - repeatability
+  priority_order:
+    - control_quality
+    - repeatability
+    - tuning_burden
+    - turn_quality
+    - vertical_quality
+    - speed_proximity
+    - model_simplicity
+
+future_lut_plan:
+  planner_state: [x, y, z, heading]
+  speed_role: fixed_nominal_aircraft_context
+  turn_dimensions: [altitude, speed_context, bank_command]
+  turn_outputs: [measured_turn_rate, measured_turn_radius, nz, validity]
+  vertical_dimensions: [altitude, speed_context, climb_descent_command]
+  vertical_outputs: [measured_vz, gamma, speed_retention, validity]
+

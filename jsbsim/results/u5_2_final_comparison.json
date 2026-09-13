@@ -1,0 +1,114 @@
+{
+  "aircraft_selection_finally_closed": true,
+  "artifact_type": "U5_2_FINALIST_COMPARISON",
+  "backup_aircraft": "DHC6",
+  "combined_3d_planner_safe_altitude_region_m": [],
+  "combined_3d_region_note": "raw representative screen only; neither finalist validated bidirectional climbing turns at 5500/6000 m",
+  "nominal_ias_context_mps": 40.0,
+  "primary_aircraft": "c172p",
+  "provenance_id": "u5.2-461c0b881c6c070c2a5b",
+  "rows": [
+    {
+      "aircraft": "c172p",
+      "combined_all_direction_actual_stable_altitudes_m": [
+        1000
+      ],
+      "combined_all_direction_strict_usable_altitudes_m": [],
+      "combined_climbing_turn_actual_stable_count": 3,
+      "combined_climbing_turn_test_count": 8,
+      "combined_descending_turn_actual_stable_count": 8,
+      "combined_descending_turn_test_count": 8,
+      "combined_marginal_count": 4,
+      "combined_unusable_count": 5,
+      "combined_usable_count": 7,
+      "controller_stability_score_u5": 5,
+      "high_altitude_straight_propulsion": {
+        "5000": {
+          "engines": [
+            {
+              "index": 0,
+              "power_hp": 68.7707865104161,
+              "propeller_rpm": 2335.0390070037984,
+              "throttle_norm": 0.8017298926246431
+            }
+          ]
+        },
+        "5500": {
+          "engines": [
+            {
+              "index": 0,
+              "power_hp": 70.48526943967015,
+              "propeller_rpm": 2397.428454149608,
+              "throttle_norm": 0.8245527808202402
+            }
+          ]
+        },
+        "6000": {
+          "engines": [
+            {
+              "index": 0,
+              "power_hp": 72.23607084743101,
+              "propeller_rpm": 2461.9773563343715,
+              "throttle_norm": 0.8488509592965002
+            }
+          ]
+        }
+      },
+      "high_altitude_straight_throttle_norm": {
+        "5000": 0.8017298926246431,
+        "5500": 0.8245527808202402,
+        "6000": 0.8488509592965002
+      },
+      "minimum_tuning_score_u5": 5,
+      "model_complexity": "single_engine_piston_low",
+      "nominal_speed_mps": 40.0,
+      "nominal_straight_all_altitude_anchors_actual_stable": true,
+      "reference_speed_evidence_mps": [
+        30,
+        40,
+        50,
+        60
+      ],
+      "repeatability_score_u5": 5,
+      "tested_altitude_coverage_m": [
+        0,
+        1000,
+        2000,
+        3000,
+        4000,
+        5000,
+        5500,
+        6000
+      ],
+      "u5_usable_altitude_region_m": [
+        5000.0,
+        5500.0
+      ],
+      "uav_like_character_score_u5": 5
+    }
+  ],
+  "schema_version": 1,
+  "selection_priority_order": [
+    "stability",
+    "control_quality",
+    "repeatability",
+    "altitude_speed_coverage",
+    "basic_3d_maneuverability",
+    "minimum_tuning",
+    "uav_like_fixed_wing_character",
+    "mentor_numeric_proximity"
+  ],
+  "tested_separate_maneuver_usable_altitude_region_m": [
+    5000.0,
+    5500.0
+  ],
+  "why_primary_won": [
+    "equal_repeatability_and_controller_stability",
+    "nominal_speed_is_more_uav_like",
+    "smaller_turn_geometry",
+    "larger_high_altitude_power_margin",
+    "lower_single_engine_model_complexity",
+    "neither_finalist_provides_a_validated_high_altitude_bidirectional_combined_climb_advantage",
+    "c172p_has_complete_actual_stable_combined_responses_at_the_low_representative_region"
+  ]
+}

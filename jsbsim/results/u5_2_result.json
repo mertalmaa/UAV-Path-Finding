@@ -1,0 +1,31 @@
+{
+  "aircraft_selection_finally_closed": true,
+  "aircraft_xml_modified": false,
+  "backup_aircraft": "DHC6",
+  "combined_3d_planner_safe_altitude_region_m": [],
+  "controller_tuning_performed": false,
+  "existing_finalist_points_reused": 70,
+  "existing_finalist_runs_reused": 210,
+  "full_lut_generated": false,
+  "full_u5_rerun_performed": false,
+  "new_aircraft_added": false,
+  "new_cold_start_runs_executed": 138,
+  "new_combined_3d_points": 32,
+  "new_level_turn_points": 8,
+  "new_points_executed": 46,
+  "new_straight_points": 6,
+  "next_stage_started": false,
+  "nominal_ias_context_mps": 40.0,
+  "planner_or_search_modified": false,
+  "primary_aircraft": "c172p",
+  "provenance_id": "u5.2-461c0b881c6c070c2a5b",
+  "ready_for_selected_aircraft_lut": true,
+  "runtime_s": 30.999991499993484,
+  "source_artifacts_unchanged": true,
+  "step": "U5.2",
+  "step_status": "PASS",
+  "tested_separate_maneuver_usable_altitude_region_m": [
+    5000.0,
+    5500.0
+  ]
+}

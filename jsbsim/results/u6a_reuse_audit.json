@@ -1,0 +1,215 @@
+{
+  "aircraft_id": "c172p",
+  "artifact_type": "U6A_SAME_STACK_REUSE_AUDIT",
+  "atmosphere_configuration": {
+    "atmosphere": "US_Standard",
+    "delta_temperature_R": 0.0,
+    "gust_down_fps": 0.0,
+    "gust_east_fps": 0.0,
+    "gust_north_fps": 0.0,
+    "turbulence_type": 0,
+    "wind_down_fps": 0.0,
+    "wind_east_fps": 0.0,
+    "wind_north_fps": 0.0
+  },
+  "controller_configuration": {
+    "bank": {
+      "command_max_norm": 0.7,
+      "command_min_norm": -0.7,
+      "integral_limit_deg_s": 100.0,
+      "ki_cmd_per_deg_s": 0.001,
+      "kp_cmd_per_deg": 0.02
+    },
+    "beta": {
+      "command_max_norm": 0.5,
+      "command_min_norm": -0.5,
+      "integral_limit_deg_s": 50.0,
+      "ki_cmd_per_deg_s": 0.002,
+      "kp_cmd_per_deg": 0.08,
+      "target_deg": 0.0
+    },
+    "ias": {
+      "command_max_norm": 1.0,
+      "command_min_norm": 0.0,
+      "integral_limit_m": 40.0,
+      "ki_cmd_per_m": 0.01,
+      "kp_cmd_per_mps": 0.06
+    },
+    "interface_adaptation": "trim_engine_0_throttle_is_mirrored_to_all_engines",
+    "policy": "one_frozen_generic_bounded_outer_loop_no_aircraft_specific_gain_tuning",
+    "trim_policy": "built_in_trim_is_initialization_aid_not_validity_requirement",
+    "vertical_speed": {
+      "command_max_norm": 0.65,
+      "command_min_norm": -0.65,
+      "integral_limit_m": 30.0,
+      "ki_cmd_per_m": -0.006,
+      "kp_cmd_per_mps": -0.045
+    }
+  },
+  "controller_policy": "one_frozen_generic_bounded_outer_loop_no_aircraft_specific_gain_tuning",
+  "equivalent": true,
+  "fixture_configuration": {
+    "atmosphere": "US_Standard",
+    "delta_temperature_R": 0.0,
+    "engine_count": 1,
+    "engine_state_property": "engine-rpm",
+    "expected_total_fuel_lbs": 185.0,
+    "expected_weight_lbs": 1865.0,
+    "feather_command_norm": 0.0,
+    "flap_command_norm": 0.0,
+    "flap_position_norm": 0.0,
+    "fuel_frozen": true,
+    "gear_configuration": "fixed_deployed",
+    "generic_uav_profile_score": 0.75,
+    "gust_down_fps": 0.0,
+    "gust_east_fps": 0.0,
+    "gust_north_fps": 0.0,
+    "initial_symmetric_throttle_command_norm": 0.5,
+    "mixture_command_norm": 1.0,
+    "model_simplicity_score": 0.9,
+    "native_model_quality_score": 0.85,
+    "pointmass_weights_lbs": [
+      180.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "propeller_advance_command_norm": 1.0,
+    "propeller_state_required": true,
+    "representative_altitude_msl_m": 0.0,
+    "synthetic_terrain_elevation_msl_m": -1000.0,
+    "tank_contents_lbs": [
+      92.5,
+      92.5
+    ],
+    "turbulence_type": 0,
+    "wind_down_fps": 0.0,
+    "wind_east_fps": 0.0,
+    "wind_north_fps": 0.0
+  },
+  "fixture_observed": {
+    "cg_x_in": 42.00536193029491,
+    "cg_y_in": -1.3512064343163541,
+    "cg_z_in": 37.565147453083114,
+    "total_fuel_lbs": 185.0,
+    "weight_lbs": 1865.0
+  },
+  "initialization_modes_observed": [
+    "built_in_level_trim_then_feedback",
+    "untrimmed_ic_then_bounded_feedback"
+  ],
+  "measurement_contract": {
+    "acceptance": {
+      "bank_tracking_absolute_deg": 1.5,
+      "beta_absolute_deg": 5.0,
+      "cold_start_repeatability_relative": 0.01,
+      "command_boundary_epsilon_norm": 1e-06,
+      "ias_tracking_relative": 0.02,
+      "level_vertical_speed_absolute_mps": 0.35,
+      "normalized_surface_usage_max": 0.9,
+      "stall_indicator_max": 0.0,
+      "theory_radius_relative_difference_max": 0.15,
+      "throttle_position_severe_boundary_norm": 0.99,
+      "turn_rate_coefficient_of_variation_max": 0.05,
+      "vertical_speed_tracking_absolute_mps": 0.5,
+      "zero_wind_residual_fps": 1e-09
+    },
+    "ias": "velocities/vc-kts * 0.5144444444444445",
+    "steady_window_s": 20.0,
+    "tas": "velocities/vt-fps * 0.3048"
+  },
+  "mixture_formula": "clip(atmosphere/P-psf / 2117.0, 0.0, 1.0)",
+  "mixture_policy_id": "c172p-production-mixture-pressure-ratio-v1",
+  "nominal_ias_mps": 40.0,
+  "provenance_id": "u6a-832359fb856fa34d1c0c",
+  "reused_sources": [
+    {
+      "source_point_id": "u5-h0m-c172p-straight-40-+0",
+      "source_stage": "U5"
+    },
+    {
+      "source_point_id": "u5-h3000m-c172p-straight-40-+0",
+      "source_stage": "U5"
+    },
+    {
+      "source_point_id": "u5-h5000m-c172p-straight-40-+0",
+      "source_stage": "U5"
+    },
+    {
+      "source_point_id": "u5-h5000m-c172p-turn-40-+20",
+      "source_stage": "U5"
+    },
+    {
+      "source_point_id": "u5-h5000m-c172p-turn-40-+30",
+      "source_stage": "U5"
+    },
+    {
+      "source_point_id": "u5-h5000m-c172p-turn-40--20",
+      "source_stage": "U5"
+    },
+    {
+      "source_point_id": "u5-h5000m-c172p-turn-40--30",
+      "source_stage": "U5"
+    },
+    {
+      "source_point_id": "u5-h5500m-c172p-straight-40-+0",
+      "source_stage": "U5"
+    },
+    {
+      "source_point_id": "u5-h5500m-c172p-turn-40-+20",
+      "source_stage": "U5"
+    },
+    {
+      "source_point_id": "u5-h5500m-c172p-turn-40-+30",
+      "source_stage": "U5"
+    },
+    {
+      "source_point_id": "u5-h5500m-c172p-turn-40--20",
+      "source_stage": "U5"
+    },
+    {
+      "source_point_id": "u5-h5500m-c172p-turn-40--30",
+      "source_stage": "U5"
+    },
+    {
+      "source_point_id": "u5.2-h1000m-c172p-straight-40-+0",
+      "source_stage": "U5.2"
+    },
+    {
+      "source_point_id": "u5.2-h1000m-c172p-turn-40-+20",
+      "source_stage": "U5.2"
+    },
+    {
+      "source_point_id": "u5.2-h1000m-c172p-turn-40--20",
+      "source_stage": "U5.2"
+    },
+    {
+      "source_point_id": "u5.2-h2000m-c172p-straight-40-+0",
+      "source_stage": "U5.2"
+    },
+    {
+      "source_point_id": "u5.2-h4000m-c172p-straight-40-+0",
+      "source_stage": "U5.2"
+    },
+    {
+      "source_point_id": "u5.2-h4000m-c172p-turn-40-+20",
+      "source_stage": "U5.2"
+    },
+    {
+      "source_point_id": "u5.2-h4000m-c172p-turn-40--20",
+      "source_stage": "U5.2"
+    }
+  ],
+  "reused_unique_source_point_count": 19,
+  "schema_version": 1,
+  "simulation": {
+    "cold_start_repetitions": 3,
+    "replay_duration_s": 40.0,
+    "steady_measurement_window_s": 20.0,
+    "target_ramp_s": 8.0,
+    "timestep_s": 0.01
+  },
+  "stock_fcs_identity": "FCS: c172",
+  "u5_2_noncombined_points_use_u5_runner": true
+}

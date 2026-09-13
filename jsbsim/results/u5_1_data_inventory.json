@@ -1,0 +1,121 @@
+{
+  "all_run_ids_unique": true,
+  "artifact_type": "U5_1_EXISTING_DATA_INVENTORY",
+  "candidate_count": 8,
+  "coverage": [
+    {
+      "aircraft": "c172p",
+      "executed_cold_start_run_count": 105,
+      "executed_grid": [
+        {
+          "altitude_m": 0.0,
+          "ias_mps": 30.0,
+          "maneuvers": [
+            "straight"
+          ]
+        },
+        {
+          "altitude_m": 0.0,
+          "ias_mps": 40.0,
+          "maneuvers": [
+            "straight"
+          ]
+        },
+        {
+          "altitude_m": 0.0,
+          "ias_mps": 50.0,
+          "maneuvers": [
+            "straight"
+          ]
+        },
+        {
+          "altitude_m": 0.0,
+          "ias_mps": 60.0,
+          "maneuvers": [
+            "straight"
+          ]
+        },
+        {
+          "altitude_m": 3000.0,
+          "ias_mps": 30.0,
+          "maneuvers": [
+            "straight"
+          ]
+        },
+        {
+          "altitude_m": 3000.0,
+          "ias_mps": 40.0,
+          "maneuvers": [
+            "straight"
+          ]
+        },
+        {
+          "altitude_m": 3000.0,
+          "ias_mps": 50.0,
+          "maneuvers": [
+            "straight"
+          ]
+        },
+        {
+          "altitude_m": 3000.0,
+          "ias_mps": 60.0,
+          "maneuvers": [
+            "straight"
+          ]
+        },
+        {
+          "altitude_m": 5000.0,
+          "ias_mps": 40.0,
+          "maneuvers": [
+            "straight",
+            "turn",
+            "vertical"
+          ]
+        },
+        {
+          "altitude_m": 5500.0,
+          "ias_mps": 40.0,
+          "maneuvers": [
+            "straight",
+            "turn",
+            "vertical"
+          ]
+        },
+        {
+          "altitude_m": 6000.0,
+          "ias_mps": 40.0,
+          "maneuvers": [
+            "straight",
+            "turn",
+            "vertical"
+          ]
+        }
+      ],
+      "executed_point_count": 35,
+      "tested_altitudes_m": [
+        0.0,
+        3000.0,
+        5000.0,
+        5500.0,
+        6000.0
+      ],
+      "tested_ias_mps": [
+        30.0,
+        40.0,
+        50.0,
+        60.0
+      ]
+    }
+  ],
+  "executed_cold_start_run_count": 567,
+  "executed_point_count": 189,
+  "ideal_levels_missing_from_all_u5_data_m": [
+    1000,
+    2000,
+    4000
+  ],
+  "new_simulation_runs": 0,
+  "parent_u5_provenance_id": "u5-4135baabef4a403315e5",
+  "provenance_id": "u5.1-d706a368635d7cb66217",
+  "schema_version": 1
+}

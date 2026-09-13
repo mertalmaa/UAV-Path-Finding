@@ -1,0 +1,45 @@
+schema_version: 1
+configuration_id: c172r_u4_1a_boundary_sanity_v1
+parent_stage: U4
+parent_u4_provenance_id: u4-379dfe5f9edc6deb0b35
+parent_raw_lut: results/aircraft_lut_raw.json
+parent_raw_lut_sha256: 6a2181f13438691c990237d5a5593ca591b0cb9bff1aad54868f7e36380ec548
+
+scope:
+  boundary_sanity_only: true
+  full_envelope_extraction: false
+  planner_limit_selection: false
+  interpolation: false
+  derating: false
+  holdout_execution: false
+  planner_integration: false
+  controller_tuning: false
+  stock_xml_modification: false
+
+aircraft: c172r
+nominal_ias_mps: 40.0
+representative_altitudes_m: [0, 1000, 2000]
+include_optional_2500_m_existing_edge_audit: true
+
+turn:
+  existing_edge_bank_magnitude_deg: 25.0
+  outward_sequence_deg: [30.0, 35.0]
+  optional_single_point_deg: 40.0
+  optional_condition: run_only_if_35_deg_is_VALID
+  stop_at_first_non_valid: true
+  directions_kept_separate: true
+
+vertical:
+  existing_edge_vz_magnitude_mps: 5.0
+  climb_outward_sequence_mps: [6.0, 7.0]
+  descent_outward_sequence_mps: [-6.0, -7.0]
+  probe_only_if_existing_signed_edge_is_VALID: true
+  stop_at_first_non_valid: true
+
+status_contract:
+  statuses: [VALID, INFEASIBLE, UNKNOWN]
+  unknown_is_infeasible: false
+  controller_limited_is_physical_maximum: false
+  characterization_envelope_is_planner_safe_envelope: false
+  true_physical_maximum_claimed: false
+

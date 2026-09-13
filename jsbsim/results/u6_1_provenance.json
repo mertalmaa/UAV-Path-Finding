@@ -1,0 +1,167 @@
+{
+  "aircraft_id": "c172p",
+  "artifact_type": "U6_1_PROVENANCE",
+  "atmosphere": {
+    "atmosphere": "US_Standard",
+    "delta_temperature_R": 0.0,
+    "gust_down_fps": 0.0,
+    "gust_east_fps": 0.0,
+    "gust_north_fps": 0.0,
+    "turbulence_type": 0,
+    "wind_down_fps": 0.0,
+    "wind_east_fps": 0.0,
+    "wind_north_fps": 0.0
+  },
+  "controller_stack_id": "c172p-stock-fcs-frozen-u1-u3-outer-loop-production-mixture-v1",
+  "current_domain_m": [
+    0.0,
+    5500.0
+  ],
+  "fcs": {
+    "accepted_command_level": "normalized elevator/aileron/rudder/throttle commands",
+    "altitude_or_vertical_control": false,
+    "autopilot_files": [],
+    "conventional_mapping_detected": true,
+    "dependency_closure": [
+      {
+        "path": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\c172p\\c172p.xml",
+        "sha256": "0af58c613f7bca7e1d85f4b2e178a4d7b0b14dda6d5f79b38c571d9911187aa4"
+      },
+      {
+        "path": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\engine\\eng_io320.xml",
+        "sha256": "0cedc1e356a7a572a175f351a4abb952ba91081219a37dc7192bce3a2181d8c6"
+      },
+      {
+        "path": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\engine\\prop_75in2f.xml",
+        "sha256": "6481edf1da940fdea5358913d226c3e25d3e6b8209b4805370258a9a65ca7403"
+      }
+    ],
+    "direct_surface_forcing_required": false,
+    "flight_control_declared": true,
+    "flight_control_name": "FCS: c172",
+    "main_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\c172p\\c172p.xml",
+    "main_xml_sha256": "0af58c613f7bca7e1d85f4b2e178a4d7b0b14dda6d5f79b38c571d9911187aa4",
+    "model": "c172p",
+    "native_fcs_type": "conventional_command_to_surface_mapping",
+    "native_high_level_control": false,
+    "outer_loop_requirement": "minimal bank/Vz/IAS/beta outer loop required above normalized stock FCS inputs",
+    "pitch_stabilization": false,
+    "roll_stabilization": false,
+    "system_files": [],
+    "throttle_or_speed_control": false,
+    "yaw_or_rudder_coordination": false
+  },
+  "files": {
+    "configuration": {
+      "path": "C:\\Users\\merta\\Desktop\\UAV-Path-Finding\\jsbsim\\u6_1_holdout_interpolation_configuration.yaml",
+      "sha256": "5f99b6f4ecd7cbad52a1f1d8715e11d102348dbdb157f86e32a8b318175932ad"
+    },
+    "harness": {
+      "path": "C:\\Users\\merta\\Desktop\\UAV-Path-Finding\\jsbsim\\u6_1_holdout_interpolation_validation.py",
+      "sha256": "d158ecd9a86228071ddf4bdc6285757e0ceb2b71d55a7b83e8e690a98156eb46"
+    }
+  },
+  "fixture_mass_fuel_cg": {
+    "configuration": {
+      "atmosphere": "US_Standard",
+      "delta_temperature_R": 0.0,
+      "engine_count": 1,
+      "engine_state_property": "engine-rpm",
+      "expected_total_fuel_lbs": 185.0,
+      "expected_weight_lbs": 1865.0,
+      "feather_command_norm": 0.0,
+      "flap_command_norm": 0.0,
+      "flap_position_norm": 0.0,
+      "fuel_frozen": true,
+      "gear_configuration": "fixed_deployed",
+      "generic_uav_profile_score": 0.75,
+      "gust_down_fps": 0.0,
+      "gust_east_fps": 0.0,
+      "gust_north_fps": 0.0,
+      "initial_symmetric_throttle_command_norm": 0.5,
+      "mixture_command_norm": 1.0,
+      "model_simplicity_score": 0.9,
+      "native_model_quality_score": 0.85,
+      "pointmass_weights_lbs": [
+        180.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "propeller_advance_command_norm": 1.0,
+      "propeller_state_required": true,
+      "representative_altitude_msl_m": 0.0,
+      "synthetic_terrain_elevation_msl_m": -1000.0,
+      "tank_contents_lbs": [
+        92.5,
+        92.5
+      ],
+      "turbulence_type": 0,
+      "wind_down_fps": 0.0,
+      "wind_east_fps": 0.0,
+      "wind_north_fps": 0.0
+    },
+    "observed": {
+      "cg_x_in": 42.00536193029491,
+      "cg_y_in": -1.3512064343163541,
+      "cg_z_in": 37.565147453083114,
+      "total_fuel_lbs": 185.0,
+      "weight_lbs": 1865.0
+    }
+  },
+  "generated_at_utc": "2026-09-13T16:07:26.308918+00:00",
+  "initialization_modes": [
+    "built_in_level_trim_then_feedback",
+    "untrimmed_ic_then_bounded_feedback"
+  ],
+  "jsbsim_compiled_version": "1.3.1 [GitHub build 1837/commit 3b25f25e49b42d0489c04ac805674fc1450ca579] May 17 2026 14:28:34",
+  "jsbsim_python_package_version": "1.3.1",
+  "mixture_policy_id": "c172p-production-mixture-pressure-ratio-v1",
+  "nominal_ias_mps": 40.0,
+  "platform": "Windows-11-10.0.26200-SP0",
+  "provenance_id": "u6.1-73c7d2c4ba52ca611cc0",
+  "python_version": "3.14.7 (tags/v3.14.7:823f032, Aug  5 2026, 10:51:32) [MSC v.1944 64 bit (AMD64)]",
+  "repository_git_commit": "dca3f6653b5665227b7df95bb60cd526929ec5f5",
+  "schema_version": 1,
+  "source_artifacts_unchanged": true,
+  "source_hashes_after": {
+    "u5_1_provenance": "19a16511a52430d10afae0c247286b9349640c747bd80172fc1952966ed94967",
+    "u5_1_result": "5abbba328d6c6ef783c6b6826f38c8649edeb866ff3fc6dc642809bc7c4544a5",
+    "u5_2_provenance": "cb128874eaad15ce16cbffc6016a3bdd1188b72255a8c02717e43f4da98b15e4",
+    "u5_2_result": "727403179c3ba0f5afa21b6642d56586061e260142317ad15f4119328073d6e8",
+    "u5_2_runs": "e04eeec1b44dd7f1e8e4d5c8fb640f70ed8f118f737905a47b4f1655c075a14a",
+    "u5_provenance": "d1499f1925cd8f2118d94a65a0e78265d0c07c3dd011cbd89bcc5571f2f63b81",
+    "u5_result": "e41f8ed85c9373415eed231c23fd243003894c8744cf9e487dd18ce92ab0a86d",
+    "u6a_lut": "865a297c3e9f6e3fbe2997a2edb85a80a5392f425be471669e59afe90209c808",
+    "u6a_provenance": "e04e5d01581970545faaa98d9932e0c90772d7d95adcf98f9fe89d9a8858580a",
+    "u6a_result": "36cb6fa5ddbf208c0d946501151a4c2b34c02d9dc8595657cc67c365321aef9d",
+    "u6b_points": "80e8d3a1029bb08af3157b36c3852d4c833260fe33e838b9c223d03bf82431b8",
+    "u6b_provenance": "603a41e474a5a1017c5349627fab802af58705957723fab79cfd3202bccbd787",
+    "u6b_raw": "a1f3da9dc2245f8765e22d6d6cb5202b94f98fbfb96ccd8b326a6550fed8438a",
+    "u6b_result": "949d8c349fb90dbd70a80aef18482b32ec9768c4262c72c659f6e4f9f452607b",
+    "u6b_reuse": "d6e2288f47aa08cbcc716cb8366fa91c9a8fa63a5006eaece4de55b9280e5410",
+    "u6b_runs": "ec7b20226410ed12515bcf1175488df42dc472a378a7be66d89b3bf0b65183ea",
+    "u6b_summary": "390680a11e35fb26a05a7253c40881d0ac732a29ab4e6c1f7b33a37766fb8b6d"
+  },
+  "source_hashes_before": {
+    "u5_1_provenance": "19a16511a52430d10afae0c247286b9349640c747bd80172fc1952966ed94967",
+    "u5_1_result": "5abbba328d6c6ef783c6b6826f38c8649edeb866ff3fc6dc642809bc7c4544a5",
+    "u5_2_provenance": "cb128874eaad15ce16cbffc6016a3bdd1188b72255a8c02717e43f4da98b15e4",
+    "u5_2_result": "727403179c3ba0f5afa21b6642d56586061e260142317ad15f4119328073d6e8",
+    "u5_2_runs": "e04eeec1b44dd7f1e8e4d5c8fb640f70ed8f118f737905a47b4f1655c075a14a",
+    "u5_provenance": "d1499f1925cd8f2118d94a65a0e78265d0c07c3dd011cbd89bcc5571f2f63b81",
+    "u5_result": "e41f8ed85c9373415eed231c23fd243003894c8744cf9e487dd18ce92ab0a86d",
+    "u6a_lut": "865a297c3e9f6e3fbe2997a2edb85a80a5392f425be471669e59afe90209c808",
+    "u6a_provenance": "e04e5d01581970545faaa98d9932e0c90772d7d95adcf98f9fe89d9a8858580a",
+    "u6a_result": "36cb6fa5ddbf208c0d946501151a4c2b34c02d9dc8595657cc67c365321aef9d",
+    "u6b_points": "80e8d3a1029bb08af3157b36c3852d4c833260fe33e838b9c223d03bf82431b8",
+    "u6b_provenance": "603a41e474a5a1017c5349627fab802af58705957723fab79cfd3202bccbd787",
+    "u6b_raw": "a1f3da9dc2245f8765e22d6d6cb5202b94f98fbfb96ccd8b326a6550fed8438a",
+    "u6b_result": "949d8c349fb90dbd70a80aef18482b32ec9768c4262c72c659f6e4f9f452607b",
+    "u6b_reuse": "d6e2288f47aa08cbcc716cb8366fa91c9a8fa63a5006eaece4de55b9280e5410",
+    "u6b_runs": "ec7b20226410ed12515bcf1175488df42dc472a378a7be66d89b3bf0b65183ea",
+    "u6b_summary": "390680a11e35fb26a05a7253c40881d0ac732a29ab4e6c1f7b33a37766fb8b6d"
+  },
+  "timestep_s": 0.01
+}

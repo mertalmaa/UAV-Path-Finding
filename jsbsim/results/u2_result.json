@@ -1,0 +1,163 @@
+{
+  "aircraft_xml_modified": false,
+  "controller_tuning_performed": false,
+  "counts": {
+    "climb_gate_passed": 0,
+    "dynamically_tested": 11,
+    "executed_cold_start_runs": 51,
+    "executed_points": 17,
+    "inventory": 60,
+    "speed_gate_passed": 2,
+    "static_kept": 11,
+    "static_rejected": 49,
+    "turn_gate_passed": 0
+  },
+  "current_aircraft_status": "NO SUITABLE STOCK JSBSIM MODEL",
+  "full_characterization_performed": false,
+  "gate_passers": {
+    "climb": [],
+    "speed": [
+      "c172r",
+      "J3Cub"
+    ],
+    "turn": []
+  },
+  "interface_adaptations": [
+    "U1 scalar trim throttle broadcast to every engine",
+    "per-candidate piston engine-rpm or turbine n1 state property",
+    "per-candidate tank and pointmass property lists",
+    "retractable-aircraft gear command/position initialized clean",
+    "post-trim engine-start command reasserted for stock models whose failed trim stops propulsion",
+    "dr1 missing FlightGear pushback input properties initialized to inactive zero values",
+    "pa28 stock magneto/starter startup and radian-to-normalized surface telemetry mapping",
+    "L410 nonstandard and direct-thrust OV10 inapplicable propeller-rpm checks omitted while n1 remains checked"
+  ],
+  "missing_configured_candidates": [],
+  "model_results": [
+    {
+      "dynamic_status": "REJECT_DYNAMIC_SPEED",
+      "failed_gate": "speed",
+      "model": "c172p",
+      "point_ids": [
+        [
+          "u2-c172p-straight-40-+0-r1",
+          "u2-c172p-straight-40-+0-r2",
+          "u2-c172p-straight-40-+0-r3"
+        ],
+        [
+          "u2-c172p-straight-35-+0-r1",
+          "u2-c172p-straight-35-+0-r2",
+          "u2-c172p-straight-35-+0-r3"
+        ]
+      ],
+      "runtime_s": 0.5886572999879718
+    },
+    {
+      "dynamic_status": "REJECT_DYNAMIC_SPEED",
+      "failed_gate": "speed",
+      "model": "c310",
+      "point_ids": [
+        [
+          "u2-c310-straight-40-+0-r1",
+          "u2-c310-straight-40-+0-r2",
+          "u2-c310-straight-40-+0-r3"
+        ]
+      ],
+      "runtime_s": 0.5608775999862701
+    },
+    {
+      "dynamic_status": "REJECT_DYNAMIC_SPEED",
+      "failed_gate": "speed",
+      "model": "Camel",
+      "point_ids": [
+        [
+          "u2-Camel-straight-40-+0-r1",
+          "u2-Camel-straight-40-+0-r2",
+          "u2-Camel-straight-40-+0-r3"
+        ]
+      ],
+      "runtime_s": 0.4914299999945797
+    },
+    {
+      "dynamic_status": "REJECT_DYNAMIC_SPEED",
+      "failed_gate": "speed",
+      "model": "dr1",
+      "point_ids": [
+        [
+          "u2-dr1-straight-40-+0-r1",
+          "u2-dr1-straight-40-+0-r2",
+          "u2-dr1-straight-40-+0-r3"
+        ]
+      ],
+      "runtime_s": 0.3365588000160642
+    },
+    {
+      "dynamic_status": "REJECT_DYNAMIC_SPEED",
+      "failed_gate": "speed",
+      "model": "L17",
+      "point_ids": [
+        [
+          "u2-L17-straight-40-+0-r1",
+          "u2-L17-straight-40-+0-r2",
+          "u2-L17-straight-40-+0-r3"
+        ],
+        [
+          "u2-L17-straight-35-+0-r1",
+          "u2-L17-straight-35-+0-r2",
+          "u2-L17-straight-35-+0-r3"
+        ]
+      ],
+      "runtime_s": 1.1358449999825098
+    },
+    {
+      "dynamic_status": "REJECT_DYNAMIC_SPEED",
+      "failed_gate": "speed",
+      "model": "L410",
+      "point_ids": [
+        [
+          "u2-L410-straight-40-+0-r1",
+          "u2-L410-straight-40-+0-r2",
+          "u2-L410-straight-40-+0-r3"
+        ]
+      ],
+      "runtime_s": 2.5787523000035435
+    },
+    {
+      "dynamic_status": "REJECT_DYNAMIC_SPEED",
+      "failed_gate": "speed",
+      "model": "OV10",
+      "point_ids": [
+        [
+          "u2-OV10-straight-40-+0-r1",
+          "u2-OV10-straight-40-+0-r2",
+          "u2-OV10-straight-40-+0-r3"
+        ]
+      ],
+      "runtime_s": 0.3304433999583125
+    },
+    {
+      "dynamic_status": "REJECT_DYNAMIC_SPEED",
+      "failed_gate": "speed",
+      "model": "pa28",
+      "point_ids": [
+        [
+          "u2-pa28-straight-40-+0-r1",
+          "u2-pa28-straight-40-+0-r2",
+          "u2-pa28-straight-40-+0-r3"
+        ]
+      ],
+      "runtime_s": 0.6759180999943055
+    }
+  ],
+  "next_stage_started": false,
+  "no_suitable_stock_model": true,
+  "planner_modified": false,
+  "profile_changed": false,
+  "ranking": [],
+  "runtime_s": 9.15293559996644,
+  "selected": [],
+  "step": "U2",
+  "step_pass": true,
+  "step_status": "PASS",
+  "unconfigured_kept_models": []
+}

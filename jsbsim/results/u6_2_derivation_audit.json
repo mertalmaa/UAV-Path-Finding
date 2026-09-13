@@ -1,0 +1,80 @@
+{
+  "artifact_type": "U6_2_DERIVATION_AUDIT",
+  "combined_climb_policy": {
+    "available_altitude_band_m": null,
+    "policy": "DISABLED_FIRST_PLANNER_SAFE_PROFILE"
+  },
+  "combined_descent_policy": {
+    "availability_boundary_basis": "3250_holdout_and_4000_anchor_both_direction_strict_usable_round_up_to_next_profile_grid",
+    "available_altitude_band_m": [
+      3500,
+      5500
+    ],
+    "safe_target_mps": -2.5,
+    "unavailable_altitude_band_m": [
+      0,
+      3000
+    ]
+  },
+  "combined_descent_radius_allowance_m": {
+    "LEFT": 2.234295820273246,
+    "RIGHT": 2.3726016286351523
+  },
+  "methodology": {
+    "arbitrary_fixed_safety_factor": false,
+    "full_throttle_normal_primitive": false,
+    "raw_unknown_silent_promotion": false,
+    "turn_uncertainty_allowance": "direction_specific_max_holdout_absolute_radius_error",
+    "uncertainty_sources": [
+      "cold_start_repeatability",
+      "direction_specific_holdout_max_absolute_error",
+      "interpolation_suitability",
+      "saturation_and_power_reserve",
+      "IAS_retention",
+      "settling",
+      "raw_status_and_failure_reason",
+      "measurement_diagnostics"
+    ],
+    "vertical_uncertainty_allowance": "target_specific_max_holdout_absolute_vz_error"
+  },
+  "no_arbitrary_safety_factor": true,
+  "no_new_jsbsim_runs": true,
+  "provenance_id": "u6.2-2a36f7e78b747ec099a8",
+  "safe_climb_boundary_evidence": {
+    "availability_boundary_basis": "last_strict_valid_power_reserve_anchor_4500_then_5000_speed_failure_at_0_99_throttle",
+    "available_altitude_band_m": [
+      0,
+      4500
+    ],
+    "safe_target_mps": 2,
+    "unavailable_altitude_band_m": [
+      5000,
+      5500
+    ]
+  },
+  "safe_descent_evidence": {
+    "available_altitude_band_m": [
+      0,
+      5500
+    ],
+    "reviewed_unknown_basis": "all_12_anchors_and_6_holdouts_actual_stable_repeatable_without_saturation",
+    "safe_target_mps": -3
+  },
+  "schema_version": 1,
+  "turn_allowance_m": {
+    "LEFT": 0.28395297866018154,
+    "RIGHT": 0.3338138594750717
+  },
+  "turn_rate_allowance_deg_s": {
+    "LEFT": 0.0005405678578780382,
+    "RIGHT": 0.0003067156254461523
+  },
+  "turn_repeatability_spread_m": {
+    "LEFT": 0.0,
+    "RIGHT": 0.0
+  },
+  "vertical_error_allowance_mps": {
+    "climb_plus2_mps": 0.002305021790760975,
+    "descent_minus3_mps": 0.0014700626213737245
+  }
+}

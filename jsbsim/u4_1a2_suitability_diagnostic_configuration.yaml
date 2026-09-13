@@ -1,0 +1,49 @@
+schema_version: 1
+configuration_id: c172r_u4_1a2_suitability_diagnostic_v1
+parent_stage: U4.1A.1
+parent_u4_provenance_id: u4-379dfe5f9edc6deb0b35
+parent_raw_lut: results/aircraft_lut_raw.json
+parent_raw_lut_sha256: 6a2181f13438691c990237d5a5593ca591b0cb9bff1aad54868f7e36380ec548
+parent_u4_1a_artifact: results/u4_1a_boundary_sanity.json
+parent_u4_1a_sha256: 40be48f8c425fd07e10354d0cd1b5a663326dc2feadc3713b106ff81b671cd4e
+parent_u4_1a1_artifact: results/u4_1a1_vertical_refinement.json
+parent_u4_1a1_sha256: eb989731195c616efb37d566bf57246298de8f9a975bf8e5c6424e59dbe90805
+
+scope:
+  diagnostic_only: true
+  planner_lut_generation: false
+  planner_integration: false
+  interpolation: false
+  derating: false
+  heading_addition: false
+  search_modification: false
+  controller_tuning: false
+  stock_xml_modification: false
+  acceptance_threshold_modification: false
+  aircraft_auto_switch: false
+  holdout_execution: false
+
+vertical_unknown_audit:
+  source_artifact: results/u4_1a1_vertical_refinement.json
+  representative_reruns_required: false
+  rerun_decision_basis: complete_three_cold_start_repeatable_telemetry_is_sufficient
+  near_target_mean_vz_error_uses_existing_u1_tolerance_mps: 0.50
+  retained_ias_interpretation_range_mps: [35.0, 50.0]
+
+high_altitude:
+  baseline_altitudes_m: [2500, 3000, 3500]
+  optional_root_cause_altitude_m: 4000
+  nominal_ias_mps: 40.0
+  repetitions: 3
+  mixture_only_diagnostic_altitudes_m: [3000, 3500, 4000]
+  mixture_only_policy: local_stock_c172x_standard_pressure_ratio_reference
+  mixture_formula: mixture_cmd_equals_atmosphere_P_psf_divided_by_2117
+  production_stack_changed: false
+
+status_contract:
+  statuses: [VALID, INFEASIBLE, UNKNOWN]
+  unknown_is_infeasible: false
+  diagnostic_valid_is_production_stack_valid: false
+  true_service_ceiling_claimed: false
+
+suitability_choices: [CONTINUE, REVIEW, REJECT]

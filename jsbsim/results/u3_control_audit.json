@@ -1,0 +1,36 @@
+[
+  {
+    "accepted_command_level": "normalized elevator/aileron/rudder/throttle commands",
+    "altitude_or_vertical_control": false,
+    "autopilot_files": [],
+    "conventional_mapping_detected": true,
+    "dependency_closure": [
+      {
+        "path": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\c172p\\c172p.xml",
+        "sha256": "0af58c613f7bca7e1d85f4b2e178a4d7b0b14dda6d5f79b38c571d9911187aa4"
+      },
+      {
+        "path": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\engine\\eng_io320.xml",
+        "sha256": "0cedc1e356a7a572a175f351a4abb952ba91081219a37dc7192bce3a2181d8c6"
+      },
+      {
+        "path": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\engine\\prop_75in2f.xml",
+        "sha256": "6481edf1da940fdea5358913d226c3e25d3e6b8209b4805370258a9a65ca7403"
+      }
+    ],
+    "direct_surface_forcing_required": false,
+    "flight_control_declared": true,
+    "flight_control_name": "FCS: c172",
+    "main_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\c172p\\c172p.xml",
+    "main_xml_sha256": "0af58c613f7bca7e1d85f4b2e178a4d7b0b14dda6d5f79b38c571d9911187aa4",
+    "model": "c172p",
+    "native_fcs_type": "conventional_command_to_surface_mapping",
+    "native_high_level_control": false,
+    "outer_loop_requirement": "minimal bank/Vz/IAS/beta outer loop required above normalized stock FCS inputs",
+    "pitch_stabilization": false,
+    "roll_stabilization": false,
+    "system_files": [],
+    "throttle_or_speed_control": false,
+    "yaw_or_rudder_coordination": false
+  }
+]

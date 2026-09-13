@@ -79,10 +79,25 @@ def test_a(cfg, primitives) -> bool:
                            config=cfg, primitives=primitives)
     report_metrics("A", result)
 
+    # REPAIR (2026-09-13): the old hardcoded 300.0 (10 cells * 30m, pure
+    # geometric distance) predates config.msl_cost_weight being turned on
+    # by default (see planner/astar.py compute_edge_cost: legacy edge_cost
+    # = geometric_cost * (1 + msl_cost_weight * altitude_scaled)). At
+    # DEFAULT_CONFIG.msl_cost_weight=0.25 the real total_cost is higher
+    # than pure geometric distance; this was flagged as a known-stale,
+    # still-failing assertion in project.md "Step CLEAN-1.1" and left
+    # unfixed there as out of scope. Fixed here by deriving the expected
+    # cost from the same formula instead of a second hardcoded constant.
+    horizontal_total_m = (goal[1] - start[1]) * cfg.xy_resolution_m
+    altitude_scaled = max(0.0, (1300.0 - cfg.msl_reference_m) / cfg.msl_scale_m)
+    expected_cost = horizontal_total_m * (1.0 + cfg.msl_cost_weight * altitude_scaled)
+
     ok = result.success and result.path[0] == start and result.path[-1] == goal
     ok = ok and all(s[2] == z_idx for s in result.path)  # pure level: z never changes
-    ok = ok and abs(result.total_cost - 300.0) < 1e-6  # 10 cells * 30m, straight east
+    ok = ok and abs(result.total_cost - expected_cost) < 1e-6
     ok = ok and verify_path_edges(result.path, primitives, tq, cfg)
+
+    print(f"  expected level-path cost={expected_cost:.3f}")
 
     print(f"  PASS" if ok else "  FAIL")
     return ok
@@ -103,7 +118,16 @@ def test_b(cfg, primitives) -> bool:
                            config=cfg, primitives=primitives)
     report_metrics("B", result)
 
-    expected_cost = math.sqrt(climb_e.horizontal_distance_m ** 2 + climb_e.dz_m ** 2)
+    # REPAIR (2026-09-13): same root cause as test_a -- this used to compare
+    # against the pure geometric hop cost (sqrt(dx^2+dz^2)), which was only
+    # correct while msl_cost_weight==0.0. Now multiplied by the same
+    # (1 + msl_cost_weight * altitude_scaled) factor compute_edge_cost()
+    # actually applies, evaluated at the edge's mean MSL altitude.
+    geometric_cost = math.sqrt(climb_e.horizontal_distance_m ** 2 + climb_e.dz_m ** 2)
+    mean_altitude_msl = 1300.0 + climb_e.dz_m / 2.0
+    altitude_scaled = max(0.0, (mean_altitude_msl - cfg.msl_reference_m) / cfg.msl_scale_m)
+    expected_cost = geometric_cost * (1.0 + cfg.msl_cost_weight * altitude_scaled)
+
     ok = result.success and result.path[0] == start and result.path[-1] == goal
     ok = ok and len(result.path) == 2  # reached in exactly one primitive hop
     ok = ok and abs(result.total_cost - expected_cost) < 1e-6

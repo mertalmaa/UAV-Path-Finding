@@ -1,0 +1,15 @@
+{
+  "artifact_type": "U5_2_EXISTING_DATA_REUSE",
+  "duplicate_existing_points_executed": 0,
+  "finalist_points_reused": 70,
+  "finalist_runs_reused": 210,
+  "provenance_id": "u5.2-461c0b881c6c070c2a5b",
+  "reused_maneuver_types": [
+    "straight",
+    "turn",
+    "vertical"
+  ],
+  "schema_version": 1,
+  "u5_total_points_available": 189,
+  "u5_total_runs_available": 567
+}

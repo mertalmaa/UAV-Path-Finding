@@ -1,0 +1,75 @@
+{
+  "all_observations_match": true,
+  "decision": "Adopt the stock-c172x pressure-ratio behavior as a c172r harness policy; do not edit stock XML and do not use an altitude lookup table.",
+  "frozen_policy": {
+    "altitude_lookup_table_used": false,
+    "clip_lower_norm": 0.0,
+    "clip_upper_norm": 1.0,
+    "command_property": "fcs/mixture-cmd-norm",
+    "formula": "clip(atmosphere/P-psf / 2117.0, 0.0, 1.0)",
+    "history_dependent": false,
+    "input_property": "atmosphere/P-psf",
+    "input_quantity": "ambient static pressure",
+    "input_units": "psf",
+    "output_units": "normalized",
+    "policy_id": "c172r-production-mixture-pressure-ratio-v1",
+    "position_property": "fcs/mixture-pos-norm",
+    "reference_pressure_psf": 2117.0,
+    "required_consumers": [
+      "raw_lut_generation",
+      "final_replay"
+    ],
+    "stateful": false,
+    "update_cadence": "after engine-start initialization and before every simulation frame"
+  },
+  "jsbsim_property_semantics": {
+    "command": "fcs/mixture-cmd-norm is the normalized pilot/FCS mixture command",
+    "position": "fcs/mixture-pos-norm is the normalized position consumed by piston propulsion",
+    "production_application": "command and position are both written because stock c172r declares no mixture actuator/dynamic system"
+  },
+  "local_stock_model_audit": {
+    "c172r_has_automatic_mixture_system": false,
+    "c172r_path": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\c172r\\c172r.xml",
+    "c172r_sha256": "9d6233236fd55b078336f200a556d66d051d9a7f367f3ecfc314f374c5e8a4c9",
+    "c172x_reference_lines": "automatic mixture table maps atmosphere/P-psf: 0->0.0 and 2117->1.0, output fcs/mixture-cmd-norm",
+    "c172x_reference_path": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\c172x\\c172x.xml",
+    "c172x_reference_sha256": "b736f4b7560d5aab4d2a69026798be1d369b2b2bb5ddcf627aebfd441ba71840",
+    "engine": "engIO360C naturally aspirated piston, 180 hp",
+    "propeller": "prop_Clark_Y7570 fixed pitch 21.6 deg"
+  },
+  "same_policy_required_for_final_replay": true,
+  "u4_1a2_diagnostic_execution": {
+    "clipping": "none in the diagnostic helper",
+    "formula": "atmosphere/P-psf / 2117.0",
+    "initialization": "the computed value replaced fixture mixture_command_norm before run_ic; after engine-start initialization the diagnostic wrapper explicitly wrote both fcs/mixture-cmd-norm and fcs/mixture-pos-norm",
+    "input_sampling": "once from a target-altitude c172r run_ic pressure probe",
+    "replay_update_frequency": "no explicit per-frame recomputation; the target-altitude command remained fixed",
+    "source_harness": "C:\\Users\\merta\\Desktop\\UAV-Path-Finding\\jsbsim\\u4_1a2_suitability_diagnostic.py"
+  },
+  "u4_1a2_observations": [
+    {
+      "absolute_difference": 0.0,
+      "altitude_m": 3000.0,
+      "formula_command_norm": 0.6917888209056536,
+      "matches_exact_formula_within_1e-12": true,
+      "observed_command_norm": 0.6917888209056536,
+      "pressure_psf": 1464.5169338572687
+    },
+    {
+      "absolute_difference": 0.0,
+      "altitude_m": 3500.0,
+      "formula_command_norm": 0.6489642682416012,
+      "matches_exact_formula_within_1e-12": true,
+      "observed_command_norm": 0.6489642682416012,
+      "pressure_psf": 1373.8573558674698
+    },
+    {
+      "absolute_difference": 0.0,
+      "altitude_m": 4000.0,
+      "formula_command_norm": 0.6083183113936061,
+      "matches_exact_formula_within_1e-12": true,
+      "observed_command_norm": 0.6083183113936061,
+      "pressure_psf": 1287.809865220264
+    }
+  ]
+}

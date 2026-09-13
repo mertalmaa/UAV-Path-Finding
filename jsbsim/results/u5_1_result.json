@@ -1,0 +1,30 @@
+{
+  "aircraft_selection_really_frozen": true,
+  "aircraft_xml_modified": false,
+  "backup_aircraft": "DHC6",
+  "backup_decision": "CONFIRMED",
+  "candidate_count": 8,
+  "controller_tuning_performed": false,
+  "dense_0_to_6000_envelope_available": false,
+  "full_lut_generated": false,
+  "full_u5_rerun_performed": false,
+  "missing_noncritical_comparison_altitudes_m": [
+    1000,
+    2000,
+    4000
+  ],
+  "new_simulation_runs": 0,
+  "next_stage_started": false,
+  "planner_or_search_modified": false,
+  "primary_aircraft": "c172p",
+  "primary_decision": "CONFIRMED",
+  "provenance_id": "u5.1-d706a368635d7cb66217",
+  "ready_to_return_to_path_planner": true,
+  "selected_nominal_ias_mps": 40.0,
+  "selection_confirmation_coverage_sufficient": true,
+  "source_artifacts_unchanged": true,
+  "source_cold_start_runs_reused": 567,
+  "source_operating_points_reused": 189,
+  "step": "U5.1",
+  "step_status": "PASS"
+}

@@ -1,7 +1,15 @@
 """Stage 11: mini re-tuning of msl_cost_weight under the new fixed-scale
 MSL normalization (Stage 10). No new cost terms, no formula changes --
-vertical_cost_weight is held fixed at 1.0, only msl_cost_weight varies
-over a small, deliberately narrow set: 0.0, 0.025, 0.05, 0.10.
+msl_cost_weight varies over a small, deliberately narrow set: 0.0, 0.025,
+0.05, 0.10.
+
+REPAIR (2026-09-13): this script also used to fix a second, now-nonexistent
+`vertical_cost_weight` field via dataclasses.replace(), which raised
+TypeError on every run (that field predates the current cost model and was
+removed before it; Step CLEAN-1/CLEAN-1.1's dead-code sweeps only covered
+Stage 12-38, so this Stage 11 script was never revisited). Fixed by
+dropping the vertical_cost_weight argument -- the msl_cost_weight sweep
+itself is unaffected.
 
 Same real Aladaglar ROI scenario as Stages 9 and 10 (row=80, cols 90-128,
 prototype cruise altitude derived from this segment's own terrain +
@@ -25,7 +33,6 @@ from planner.roi import load_roi
 from planner.terrain import TerrainQuery
 
 MSL_WEIGHTS = (0.0, 0.025, 0.05, 0.10)
-VERTICAL_WEIGHT = 1.0
 CSV_PATH = "retuning_results.csv"
 
 
@@ -46,7 +53,7 @@ def main() -> None:
     z0 = msl_to_z_index(cruise_msl, cfg)
     start, goal = (row_idx, c_start, z0), (row_idx, c_goal, z0)
 
-    print("=== Stage 11: mini re-tuning of msl_cost_weight (vertical_cost_weight fixed at 1.0) ===")
+    print("=== Stage 11: mini re-tuning of msl_cost_weight ===")
     print(f"Real Aladaglar ROI, row={row_idx}, col {c_start}->{c_goal} "
           f"({(c_goal - c_start) * cfg.xy_resolution_m:.0f}m), segment terrain "
           f"min={seg_min:.1f}m max={seg_max:.1f}m")
@@ -58,7 +65,7 @@ def main() -> None:
     rows = []
     all_safe = True
     for w_msl in MSL_WEIGHTS:
-        c = dataclasses.replace(cfg, msl_cost_weight=w_msl, vertical_cost_weight=VERTICAL_WEIGHT)
+        c = dataclasses.replace(cfg, msl_cost_weight=w_msl)
         t0 = time.perf_counter()
         r = astar_search(start, goal, tq, min_search_altitude_msl=min_search, max_search_altitude_msl=max_search,
                           config=c, primitives=primitives, max_expansions=150_000)

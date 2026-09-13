@@ -1,0 +1,323 @@
+{
+  "actual_stable_response_contract": {
+    "bank_mean_error_max_deg": 3.0,
+    "engine_health_required": true,
+    "ias_mean_relative_error_max": 0.05,
+    "ias_retention_min": 0.9,
+    "measurement_bank_std_max_deg": 1.0,
+    "measurement_ias_std_max_mps": 0.5,
+    "measurement_vertical_speed_std_max_mps": 0.5,
+    "minimum_meaningful_turn_bank_deg": 15.0,
+    "minimum_meaningful_vertical_response_mps": 0.75,
+    "normalized_surface_usage_max": 0.9,
+    "repeatability_required": true,
+    "settling_deadline_s": 30.0,
+    "straight_vertical_speed_abs_max_mps": 0.75,
+    "strict_u1_status_is_only_one_input": true,
+    "unknown_is_infeasible": false,
+    "vertical_mean_error_max_mps": 0.8
+  },
+  "artifact_type": "U5_PRACTICAL_AIRCRAFT_COMPARISON",
+  "freeze": {
+    "aircraft_selection_closed": true,
+    "artifact_type": "FINAL_AIRCRAFT_SELECTION_FREEZE",
+    "backup_aircraft": "DHC6",
+    "primary_aircraft": "c172p",
+    "primary_high_altitude_usable_region_m": [
+      5000.0,
+      5500.0
+    ],
+    "primary_major_limitation": "highest_candidate_missing_climb",
+    "provenance_id": "u5-4135baabef4a403315e5",
+    "reopen_only_for_new_blocking_evidence": true,
+    "same_stack_required_for_lut_and_final_replay": true,
+    "schema_version": 1,
+    "selected_nominal_speed_policy": {
+      "nominal_ias_mps": 40.0,
+      "speed_is_planner_state_dimension": false,
+      "type": "fixed_nominal_ias_context"
+    },
+    "selected_stack": {
+      "aircraft": "c172p",
+      "gain_tuning_performed": false,
+      "mixture_formula": "clip(atmosphere/P-psf / 2117.0, 0.0, 1.0)",
+      "mixture_mode": "production_pressure_ratio_v1",
+      "mixture_policy_id": "c172p-production-mixture-pressure-ratio-v1",
+      "mixture_update_cadence": "after engine start and before every simulation frame",
+      "outer_loop": "unchanged_U1_U3_bounded_IAS_Vz_bank_beta_architecture",
+      "stock_fcs": true
+    }
+  },
+  "provenance_id": "u5-4135baabef4a403315e5",
+  "ranking": [
+    {
+      "all_repeatable": true,
+      "early_rejected": false,
+      "gain_tuning_performed": false,
+      "high_altitude": [
+        {
+          "actual_climb_responses_mps": [
+            2.506774097727635,
+            3.649606382037724
+          ],
+          "actual_descent_responses_mps": [
+            -4.730586416939966,
+            -2.6944925103677186
+          ],
+          "altitude_m": 5000.0,
+          "repeatable": true,
+          "requirements": {
+            "climb": true,
+            "descent": true,
+            "engine": true,
+            "straight": true,
+            "turn_left": true,
+            "turn_right": true
+          },
+          "saturation_point_count": 2,
+          "stable_turn_targets_deg": [
+            -20.0,
+            20.0,
+            -30.0,
+            30.0
+          ],
+          "stable_vertical_targets_mps": [
+            -2.5,
+            2.5
+          ],
+          "straight_actual_ias_mps": 39.974084146830336,
+          "straight_strict_status": "VALID",
+          "straight_throttle_norm": 0.8017298926246431,
+          "strict_status_counts": {
+            "INFEASIBLE": 2,
+            "UNKNOWN": 3,
+            "VALID": 4
+          },
+          "usable": true
+        },
+        {
+          "actual_climb_responses_mps": [
+            2.366923906763004,
+            3.3573465032537193
+          ],
+          "actual_descent_responses_mps": [
+            -4.7417053984624,
+            -2.6940863602999543
+          ],
+          "altitude_m": 5500.0,
+          "repeatable": true,
+          "requirements": {
+            "climb": true,
+            "descent": true,
+            "engine": true,
+            "straight": true,
+            "turn_left": true,
+            "turn_right": true
+          },
+          "saturation_point_count": 2,
+          "stable_turn_targets_deg": [
+            -20.0,
+            20.0,
+            -30.0,
+            30.0
+          ],
+          "stable_vertical_targets_mps": [
+            -2.5,
+            2.5
+          ],
+          "straight_actual_ias_mps": 39.97514527830122,
+          "straight_strict_status": "VALID",
+          "straight_throttle_norm": 0.8245527808202402,
+          "strict_status_counts": {
+            "INFEASIBLE": 2,
+            "UNKNOWN": 3,
+            "VALID": 4
+          },
+          "usable": true
+        },
+        {
+          "actual_climb_responses_mps": [
+            2.2262868678474015,
+            3.0023086979102893
+          ],
+          "actual_descent_responses_mps": [
+            -4.750847962966642,
+            -2.6949607967505265
+          ],
+          "altitude_m": 6000.0,
+          "repeatable": true,
+          "requirements": {
+            "climb": false,
+            "descent": true,
+            "engine": true,
+            "straight": true,
+            "turn_left": true,
+            "turn_right": true
+          },
+          "saturation_point_count": 2,
+          "stable_turn_targets_deg": [
+            -20.0,
+            20.0,
+            -30.0,
+            30.0
+          ],
+          "stable_vertical_targets_mps": [
+            -2.5
+          ],
+          "straight_actual_ias_mps": 39.975350023230696,
+          "straight_strict_status": "VALID",
+          "straight_throttle_norm": 0.8488509592965002,
+          "strict_status_counts": {
+            "INFEASIBLE": 2,
+            "UNKNOWN": 3,
+            "VALID": 4
+          },
+          "usable": false
+        }
+      ],
+      "highest_tested_usable_altitude_m": 5500.0,
+      "interface_or_startup_complexity": 0,
+      "low_altitude_stability": true,
+      "major_limitation": "highest_candidate_missing_climb",
+      "model": "c172p",
+      "rank": 1,
+      "scores": {
+        "control_quality_and_stability": 5,
+        "high_altitude_usability": 4,
+        "mentor_reference_proximity": 5,
+        "minimum_tuning_burden": 5,
+        "reasonable_turn_climb_descent": 5,
+        "repeatability": 5,
+        "uav_like_speed_and_behavior": 5
+      },
+      "selected_speed_mps": 40.0,
+      "selection": "PRIMARY"
+    },
+    {
+      "all_repeatable": false,
+      "early_rejected": false,
+      "gain_tuning_performed": false,
+      "high_altitude": [
+        {
+          "actual_climb_responses_mps": [],
+          "actual_descent_responses_mps": [],
+          "altitude_m": 5000.0,
+          "repeatable": true,
+          "requirements": {
+            "climb": false,
+            "descent": false,
+            "engine": true,
+            "straight": false,
+            "turn_left": false,
+            "turn_right": false
+          },
+          "saturation_point_count": 1,
+          "stable_turn_targets_deg": [],
+          "stable_vertical_targets_mps": [],
+          "straight_actual_ias_mps": 42.70411010579837,
+          "straight_strict_status": "INFEASIBLE",
+          "straight_throttle_norm": 1.0,
+          "strict_status_counts": {
+            "INFEASIBLE": 1
+          },
+          "usable": false
+        },
+        {
+          "actual_climb_responses_mps": [],
+          "actual_descent_responses_mps": [],
+          "altitude_m": 5500.0,
+          "repeatable": true,
+          "requirements": {
+            "climb": false,
+            "descent": false,
+            "engine": true,
+            "straight": false,
+            "turn_left": false,
+            "turn_right": false
+          },
+          "saturation_point_count": 1,
+          "stable_turn_targets_deg": [],
+          "stable_vertical_targets_mps": [],
+          "straight_actual_ias_mps": 41.87299165648954,
+          "straight_strict_status": "INFEASIBLE",
+          "straight_throttle_norm": 1.0,
+          "strict_status_counts": {
+            "INFEASIBLE": 1
+          },
+          "usable": false
+        },
+        {
+          "actual_climb_responses_mps": [],
+          "actual_descent_responses_mps": [],
+          "altitude_m": 6000.0,
+          "repeatable": true,
+          "requirements": {
+            "climb": false,
+            "descent": false,
+            "engine": true,
+            "straight": false,
+            "turn_left": false,
+            "turn_right": false
+          },
+          "saturation_point_count": 1,
+          "stable_turn_targets_deg": [],
+          "stable_vertical_targets_mps": [],
+          "straight_actual_ias_mps": 41.23644933294253,
+          "straight_strict_status": "INFEASIBLE",
+          "straight_throttle_norm": 1.0,
+          "strict_status_counts": {
+            "INFEASIBLE": 1
+          },
+          "usable": false
+        }
+      ],
+      "highest_tested_usable_altitude_m": null,
+      "interface_or_startup_complexity": 2,
+      "low_altitude_stability": true,
+      "major_limitation": "highest_candidate_missing_straight_turn_left_turn_right_climb_descent",
+      "model": "pa28",
+      "rank": 7,
+      "scores": {
+        "control_quality_and_stability": 3,
+        "high_altitude_usability": 1,
+        "mentor_reference_proximity": 5,
+        "minimum_tuning_burden": 3,
+        "reasonable_turn_climb_descent": 1,
+        "repeatability": 1,
+        "uav_like_speed_and_behavior": 5
+      },
+      "selected_speed_mps": 50.0,
+      "selection": null
+    },
+    {
+      "early_rejected": true,
+      "high_altitude": [],
+      "major_limitation": "no_actual_stable_speed_at_both_0_and_3000_m",
+      "model": "c310",
+      "rank": 8,
+      "scores": {
+        "control_quality_and_stability": 0,
+        "high_altitude_usability": 0,
+        "mentor_reference_proximity": 0,
+        "minimum_tuning_burden": 0,
+        "reasonable_turn_climb_descent": 0,
+        "repeatability": 0,
+        "uav_like_speed_and_behavior": 0
+      },
+      "selected_speed_mps": null,
+      "selection": null
+    }
+  ],
+  "schema_version": 1,
+  "selection_is_not_boolean_valid_count": true,
+  "selection_priority": [
+    "control_quality_and_stability",
+    "repeatability",
+    "high_altitude_usability",
+    "minimum_tuning_burden",
+    "reasonable_turn_climb_descent",
+    "uav_like_speed_and_behavior",
+    "mentor_reference_proximity"
+  ],
+  "strict_status_semantics_preserved": true
+}

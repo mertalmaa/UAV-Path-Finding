@@ -1,1 +1,9 @@
 copernicus_glo30_turkey/
+
+# Python artifacts (not previously ignored -- added during 2026-09-13 repo audit)
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/

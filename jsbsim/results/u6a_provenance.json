@@ -1,0 +1,189 @@
+{
+  "aircraft_id": "c172p",
+  "altitude_domain_m": [
+    0.0,
+    5500.0
+  ],
+  "artifact_type": "U6A_PROVENANCE",
+  "atmosphere": {
+    "atmosphere": "US_Standard",
+    "delta_temperature_R": 0.0,
+    "gust_down_fps": 0.0,
+    "gust_east_fps": 0.0,
+    "gust_north_fps": 0.0,
+    "turbulence_type": 0,
+    "wind_down_fps": 0.0,
+    "wind_east_fps": 0.0,
+    "wind_north_fps": 0.0
+  },
+  "controller_stack_id": "c172p-stock-fcs-frozen-u1-u3-outer-loop-production-mixture-v1",
+  "fcs": {
+    "accepted_command_level": "normalized elevator/aileron/rudder/throttle commands",
+    "altitude_or_vertical_control": false,
+    "autopilot_files": [],
+    "conventional_mapping_detected": true,
+    "dependency_closure": [
+      {
+        "path": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\c172p\\c172p.xml",
+        "sha256": "0af58c613f7bca7e1d85f4b2e178a4d7b0b14dda6d5f79b38c571d9911187aa4"
+      },
+      {
+        "path": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\engine\\eng_io320.xml",
+        "sha256": "0cedc1e356a7a572a175f351a4abb952ba91081219a37dc7192bce3a2181d8c6"
+      },
+      {
+        "path": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\engine\\prop_75in2f.xml",
+        "sha256": "6481edf1da940fdea5358913d226c3e25d3e6b8209b4805370258a9a65ca7403"
+      }
+    ],
+    "direct_surface_forcing_required": false,
+    "flight_control_declared": true,
+    "flight_control_name": "FCS: c172",
+    "main_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\c172p\\c172p.xml",
+    "main_xml_sha256": "0af58c613f7bca7e1d85f4b2e178a4d7b0b14dda6d5f79b38c571d9911187aa4",
+    "model": "c172p",
+    "native_fcs_type": "conventional_command_to_surface_mapping",
+    "native_high_level_control": false,
+    "outer_loop_requirement": "minimal bank/Vz/IAS/beta outer loop required above normalized stock FCS inputs",
+    "pitch_stabilization": false,
+    "roll_stabilization": false,
+    "system_files": [],
+    "throttle_or_speed_control": false,
+    "yaw_or_rudder_coordination": false
+  },
+  "files": {
+    "configuration": {
+      "path": "C:\\Users\\merta\\Desktop\\UAV-Path-Finding\\jsbsim\\u6a_c172p_core_raw_lut_configuration.yaml",
+      "sha256": "44a674c5c2246c8394955579b90971809a48a820c3384638326bcef87055edf6"
+    },
+    "harness": {
+      "path": "C:\\Users\\merta\\Desktop\\UAV-Path-Finding\\jsbsim\\u6a_c172p_core_raw_lut.py",
+      "sha256": "ed2c171ee06d1401eab47e0900f0e9eb3f8192facc1477742713a1e64de4d8c7"
+    },
+    "u1_configuration": {
+      "path": "C:\\Users\\merta\\Desktop\\UAV-Path-Finding\\jsbsim\\u1_profile_validation_configuration.yaml",
+      "sha256": "9ccac9fba160535052d8fe396218454953e611cc320f5b25f89d4dcedc21ef9a"
+    },
+    "u1_harness": {
+      "path": "C:\\Users\\merta\\Desktop\\UAV-Path-Finding\\jsbsim\\u1_profile_validation.py",
+      "sha256": "9bb4f5d3e0e1da696a5152c427605e213ce61c5df5e8aa58cbe9729219beb00b"
+    },
+    "u2_configuration": {
+      "path": "C:\\Users\\merta\\Desktop\\UAV-Path-Finding\\jsbsim\\u2_candidate_screening_configuration.yaml",
+      "sha256": "acbb881951c8d2eb31b1be1d21c01ddc919f91124d3822b94f855ffe976eae79"
+    },
+    "u3_configuration": {
+      "path": "C:\\Users\\merta\\Desktop\\UAV-Path-Finding\\jsbsim\\u3_aircraft_selection_configuration.yaml",
+      "sha256": "e915b711e8996a283cc264232cd7a3d8d6aea31d033c17ad1a460f0e8461e96e"
+    },
+    "u5_configuration": {
+      "path": "C:\\Users\\merta\\Desktop\\UAV-Path-Finding\\jsbsim\\u5_practical_aircraft_rescreen_configuration.yaml",
+      "sha256": "a055e37cdd7f315b63cf8a991cc37ebf701630be8c9cfabad80fc53694fd2b38"
+    },
+    "u5_harness": {
+      "path": "C:\\Users\\merta\\Desktop\\UAV-Path-Finding\\jsbsim\\u5_practical_aircraft_rescreen.py",
+      "sha256": "22440f94c4b69759a46f935581897b9db36810efca116ebf28b7545b967b9b87"
+    }
+  },
+  "fixture_mass_fuel_cg": {
+    "configuration": {
+      "atmosphere": "US_Standard",
+      "delta_temperature_R": 0.0,
+      "engine_count": 1,
+      "engine_state_property": "engine-rpm",
+      "expected_total_fuel_lbs": 185.0,
+      "expected_weight_lbs": 1865.0,
+      "feather_command_norm": 0.0,
+      "flap_command_norm": 0.0,
+      "flap_position_norm": 0.0,
+      "fuel_frozen": true,
+      "gear_configuration": "fixed_deployed",
+      "generic_uav_profile_score": 0.75,
+      "gust_down_fps": 0.0,
+      "gust_east_fps": 0.0,
+      "gust_north_fps": 0.0,
+      "initial_symmetric_throttle_command_norm": 0.5,
+      "mixture_command_norm": 1.0,
+      "model_simplicity_score": 0.9,
+      "native_model_quality_score": 0.85,
+      "pointmass_weights_lbs": [
+        180.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "propeller_advance_command_norm": 1.0,
+      "propeller_state_required": true,
+      "representative_altitude_msl_m": 0.0,
+      "synthetic_terrain_elevation_msl_m": -1000.0,
+      "tank_contents_lbs": [
+        92.5,
+        92.5
+      ],
+      "turbulence_type": 0,
+      "wind_down_fps": 0.0,
+      "wind_east_fps": 0.0,
+      "wind_north_fps": 0.0
+    },
+    "observed": {
+      "cg_x_in": 42.00536193029491,
+      "cg_y_in": -1.3512064343163541,
+      "cg_z_in": 37.565147453083114,
+      "total_fuel_lbs": 185.0,
+      "weight_lbs": 1865.0
+    }
+  },
+  "generated_at_utc": "2026-09-13T20:35:55.870231+00:00",
+  "historical_sources_unchanged": true,
+  "initialization_modes": [
+    "built_in_level_trim_then_feedback",
+    "untrimmed_ic_then_bounded_feedback"
+  ],
+  "jsbsim_compiled_version": "1.3.1 [GitHub build 1837/commit 3b25f25e49b42d0489c04ac805674fc1450ca579] May 17 2026 14:28:34",
+  "jsbsim_python_package_version": "1.3.1",
+  "mixture_policy_id": "c172p-production-mixture-pressure-ratio-v1",
+  "nominal_ias_mps": 40.0,
+  "platform": "Windows-11-10.0.26200-SP0",
+  "provenance_id": "u6a-832359fb856fa34d1c0c",
+  "python_version": "3.14.7 (tags/v3.14.7:823f032, Aug  5 2026, 10:51:32) [MSC v.1944 64 bit (AMD64)]",
+  "repository_git_commit": "138706017e7f4f5df635a6a40e55727145283d56",
+  "schema_version": 1,
+  "source_hashes_after": {
+    "u5_1_altitude_speed_maps": "9785e5c12c646af393eb4159eca417328b4a2be9a2b73bf2a351fecf8eec459b",
+    "u5_1_cross_aircraft_comparison": "a8a3df37c546d5db1a29adf066739adf33f2cf04704730ce910c777ba336a72c",
+    "u5_1_data_inventory": "a35112eeec75da061b49c97dc37b164d2d44709a32be0cd3153fe8c2908c70db",
+    "u5_1_decision_recheck": "0d195130963d9e4e21c311f56c9df2cf8e8aee7283074c5006841fb493bafb3f",
+    "u5_1_envelope_summaries": "734402e4c564201fe5a64eb5a5ae14a9ea8fc50443046be521f58693ec757ec4",
+    "u5_1_maneuver_coverage": "544d637e45ed780883fe2522faabee3ca90117f6ada2038c3fe49414eddf35b1",
+    "u5_1_provenance": "19a16511a52430d10afae0c247286b9349640c747bd80172fc1952966ed94967",
+    "u5_1_result": "5abbba328d6c6ef783c6b6826f38c8649edeb866ff3fc6dc642809bc7c4544a5",
+    "u5_2_points": "c388a0132737ed16535713ac7080c5d7832d3a3882c05ed45aa4388ae6c582af",
+    "u5_2_provenance": "cb128874eaad15ce16cbffc6016a3bdd1188b72255a8c02717e43f4da98b15e4",
+    "u5_2_result": "727403179c3ba0f5afa21b6642d56586061e260142317ad15f4119328073d6e8",
+    "u5_2_runs": "b548ec1d341e0a59e85c908782a8669682be975b5e513e8096abdfbf7eedce23",
+    "u5_points": "0aee71c0c90227ad85f58f6efd314b2b5e4076decec173d630b553bb4b01d4db",
+    "u5_provenance": "207bc0c6e79377f9086a3d14ea2c401ba3ec3c6951c1fa9e881b970619062ca4",
+    "u5_result": "e41f8ed85c9373415eed231c23fd243003894c8744cf9e487dd18ce92ab0a86d",
+    "u5_runs": "ca5eb148ec8be29600be9b84a369ccd38cff329c9803d8e63b0865aa29d8d64f"
+  },
+  "source_hashes_before": {
+    "u5_1_altitude_speed_maps": "9785e5c12c646af393eb4159eca417328b4a2be9a2b73bf2a351fecf8eec459b",
+    "u5_1_cross_aircraft_comparison": "a8a3df37c546d5db1a29adf066739adf33f2cf04704730ce910c777ba336a72c",
+    "u5_1_data_inventory": "a35112eeec75da061b49c97dc37b164d2d44709a32be0cd3153fe8c2908c70db",
+    "u5_1_decision_recheck": "0d195130963d9e4e21c311f56c9df2cf8e8aee7283074c5006841fb493bafb3f",
+    "u5_1_envelope_summaries": "734402e4c564201fe5a64eb5a5ae14a9ea8fc50443046be521f58693ec757ec4",
+    "u5_1_maneuver_coverage": "544d637e45ed780883fe2522faabee3ca90117f6ada2038c3fe49414eddf35b1",
+    "u5_1_provenance": "19a16511a52430d10afae0c247286b9349640c747bd80172fc1952966ed94967",
+    "u5_1_result": "5abbba328d6c6ef783c6b6826f38c8649edeb866ff3fc6dc642809bc7c4544a5",
+    "u5_2_points": "c388a0132737ed16535713ac7080c5d7832d3a3882c05ed45aa4388ae6c582af",
+    "u5_2_provenance": "cb128874eaad15ce16cbffc6016a3bdd1188b72255a8c02717e43f4da98b15e4",
+    "u5_2_result": "727403179c3ba0f5afa21b6642d56586061e260142317ad15f4119328073d6e8",
+    "u5_2_runs": "b548ec1d341e0a59e85c908782a8669682be975b5e513e8096abdfbf7eedce23",
+    "u5_points": "0aee71c0c90227ad85f58f6efd314b2b5e4076decec173d630b553bb4b01d4db",
+    "u5_provenance": "207bc0c6e79377f9086a3d14ea2c401ba3ec3c6951c1fa9e881b970619062ca4",
+    "u5_result": "e41f8ed85c9373415eed231c23fd243003894c8744cf9e487dd18ce92ab0a86d",
+    "u5_runs": "ca5eb148ec8be29600be9b84a369ccd38cff329c9803d8e63b0865aa29d8d64f"
+  },
+  "timestep_s": 0.01
+}

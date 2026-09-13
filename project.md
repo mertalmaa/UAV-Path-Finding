@@ -4773,3 +4773,219 @@ STABLE ALTITUDE STATE IDENTITY: YES
 EXACT MISSION ALTITUDES SUPPORTED: PARTIAL (query-level yes, state-level no)
 GENUINELY SPARSE/LAZY: YES
 READY FOR HEADING-1: NO
+
+## Step REP-1.2A — Remove Fixed Z-Step Assumption From Primitives Only
+
+**Amaç:** REP-1.1'in bıraktığı iki bloker yolundan (a) primitive endpoint
+geometrisini yeniden tasarlamak — bunun ilk, küçük ve kontrollü adımı.
+CandidateZ production migration YOK (REP-1.2B'nin işi), z_step/z_index
+repo genelinde silme YOK (REP-1.2C'nin işi).
+
+**Bulgu:** `planner/primitives.py`'nin `evaluate_primitive()` ve
+`primitive_endpoint()` fonksiyonları zaten temelde representation-neutral'dı
+— ikisi de `MotionPrimitive.dz_m`'i düz bir float delta olarak kullanıyor,
+`z_step_m`/`z_index`'e hiç dokunmuyordu. Fixed-step varsayımı yalnız TEK bir
+noktada gömülüydü: `build_primitive_set()` içindeki `dz = sign *
+config.z_step_m` satırı — climb/descent primitive'in shape'ini üretirken
+delta'yı config'in global lattice step'inden türetiyordu.
+
+**Değişiklik:** Climb/descent primitive üretim mantığı
+`_climb_descent_primitive(direction, delta_altitude_m, config)` adlı TEK bir
+core fonksiyona çıkarıldı — bu fonksiyon `delta_altitude_m`'i keyfi bir float
+olarak alır, `z_step_m`'e hiç bakmaz. Yeni public giriş noktası
+`primitive_for_target_altitude(direction, source_altitude_m,
+target_altitude_m, config)` bu core'u `target - source` delta'sıyla çağırır
+— off-lattice endpoint'ler (örn. 4127→4163) sorunsuz çalışır, hiçbir
+lattice'e snap yok. `build_primitive_set()` (regular-lattice search state
+representasyonunun hâlâ ihtiyaç duyduğu, DEĞİŞTİRİLMEYEN caller) artık aynı
+core'u `+-config.z_step_m` delta'sıyla çağıran bir CALLER'dır — kendi ayrı
+geometri implementasyonu yok. Dual implementation (legacy + yeni) YOK; tek
+core, iki caller (biri sabit step isteyen legacy, biri keyfi delta isteyen
+yeni).
+
+**Davranış korundu:** `build_primitive_set()` çıktısı bit-birebir öncekiyle
+aynı (24 primitive, N climb dz=+20.0, N descent dz=-20.0) —
+`scripts/validate_primitives.py` değişiklik olmadan ALL PASS. `planner/
+astar.py` ve `planner/coarse_astar.py` hiç değiştirilmedi, sıfır caller
+adaptasyonu gerekti (ikisi de zaten `build_primitive_set()`'i olduğu gibi
+çağırıyor).
+
+**Hâlâ kapanmayan:** `CanonicalState.z_index` hâlâ int, hâlâ global
+`z_step_m` lattice'ine anchored; `planner/astar.py`'nin successor
+arithmetic'i (`z0 + k*z_step_m`) hâlâ değişmedi — bu stage yalnız
+primitive'in KENDİ shape-üretim mantığını z_step'ten bağımsızlaştırdı,
+search'ün hangi delta'ları talep ettiğini DEĞİL. CandidateZ hâlâ
+production successor kaynağı değil (REP-1.2B'nin işi).
+
+**Testler:** `scripts/validate_rep12a.py` — 9 sentetik test (A-I), ALL
+PASS. `scripts/validate_primitives.py` regresyonsuz ALL PASS. Mission
+A/B/C ÇALIŞTIRILMADI (gerekmedi — geometri-seviyeli refactor).
+
+**Markdown audit:** Kök dizindeki `.md` dosyaları (`CLASSC_REPORT.md`,
+`GRID1_REPORT.md`, `REP1_REPORT.md`, `REP11_REPORT.md`) incelendi — hiçbiri
+kaldırılmış bir sistemi güncelmiş gibi sunmuyor, hiçbiri artık var olmayan
+davranışı current gibi anlatmıyor; hepsi kendi stage'inin doğru tarihsel
+kaydı. Silinen YOK. `jsbsim/*.md` bu session'ın scope'u dışında (paralel
+JSBSim session'ın sahipliğinde) — dokunulmadı.
+
+**Sonraki adım:** REP-1.2B — CandidateZ'yi production altitude successor
+kaynağı yapmak. Bu stage'de B'ye veya C'ye geçilmedi.
+
+STEP REP-1.2A: PASS
+FIXED Z-STEP PRIMITIVE DEPENDENCY REMOVED: YES (primitive core'da; build_primitive_set hâlâ caller-boundary'de +-z_step_m talep ediyor, bilinçli ve dokümante)
+Z_INDEX ±1 PRIMITIVE ASSUMPTION REMOVED: YES (hiç var olmamıştı)
+REPRESENTATION-NEUTRAL ALTITUDE ENDPOINT: YES
+OLD/NEW DUAL PRIMITIVE IMPLEMENTATION: NO
+SEARCH ARCHITECTURE UNCHANGED: YES
+CANDIDATE-Z PRODUCTION MIGRATION STARTED: NO
+MISSION C EXECUTED: NO
+READY FOR REP-1.2B: YES
+
+## Step REP-1.2B — CandidateZ as Production Altitude Successor Source
+
+**Amaç:** `planner/astar.py`'nin fine-search successor'larını artık
+`z_index + round(dz_m/z_step_m)` yerine `CandidateZGenerator.generate()`'den
+üretmek. Global legacy cleanup YOK (REP-1.2C'nin işi).
+
+**Mimari (uygulandı):** `candidate_z_generator` verildiğinde
+`_generate_neighbors()` artık `_generate_candidate_z_neighbors()`'a
+delege ediyor — eski `z_index` aritmetiği bu path'te YOK (kod, docstring
+hariç, doğrulandı: `scripts/validate_rep12b.py` testi H). Her 8 yönde
+hedef hücre TEK grid adımı (destinasyon, delta'dan bağımsız — böylece
+"hangi hücreye gidiyoruz" ile "CandidateZ o hücrede ne öneriyor" arasında
+circular bağımlılık oluşmuyor). Denenen hedef irtifalar: mevcut irtifa
+(seviye) + `generate(dest_row,dest_col)`'un döndürdüğü olaylar (CLASS A
+floor/ceiling + o hücre start/goal ise CLASS B). Her aday,
+`primitive_for_single_step_target_altitude()` (yeni, REP-1.2A'nın
+auto-lengthening `primitive_for_target_altitude()`'ından farklı — TEK
+grid adımı sabit, delta o adımda mümkün değilse None) ile gerçek primitive
+geometrisine çevriliyor, sonra `is_representable()` + `evaluate_primitive()`
+ile her zamanki gibi doğrulanıyor. Branching sınırlı kaldı (~24
+aday/expansion, eski sabit 24-primitive kümesiyle aynı mertebe).
+
+**State identity:** `CanonicalState`'in TİPİ değişmedi (hâlâ 3 int) ama
+`candidate_z_generator` modunda üçüncü eleman artık `encode_candidate_
+altitude()`/`decode_candidate_altitude()` (mikrometre hassasiyetinde,
+lattice-bağımsız) ile kodlanıyor — `msl_to_z_index`/`z_index_to_msl` ve
+onlara bağlı ~15 script'in DAVRANIŞI DEĞİŞMEDİ (global fonksiyonlar
+dokunulmadı; sadece `state_to_xyz` ve `astar_search`'ün ~10 iç çağrı
+noktası candidate_z_generator'ı opsiyonel bir mod-seçici olarak alacak
+şekilde genişletildi, default None ile eski davranış korunur).
+
+**Synthetic testler:** `scripts/validate_rep12b.py` — 11 test (A-K) + tek
+sentetik A* run, ALL PASS: deterministic, off-lattice start/goal state,
+non-z_step_m dz, terrain-floor violation reddi, is_representable() hem
+generate()'den hem dışarıdan sorgulanabiliyor.
+
+**Real terrain sonucu (dürüstçe raporlanıyor): Mission A ve B NO_PATH.**
+Kök neden bir bug değil — Step CLASS-C'nin zaten disclosed ettiği boşluğun
+somut sonucu: `generate()` yalnız CLASS A (floor/ceiling) + CLASS B
+(start/goal) event'lerini döndürüyor; CLASS C (motion-derived ara irtifa
+event'leri) hâlâ boş (`MotionContext.provisional_events` hep `frozenset()`).
+Tek-grid-adımı mimarisiyle birleşince: gerçek Aladağlar terrain'inde
+irtifa farkı (start→goal, veya ara hücrelerin floor'u) tek adımın açı
+bütçesini (60m hücrede 10°→~10.6m) sıkça aşıyor, ve "seviye" (mevcut
+irtifayı koru) de hedef hücrenin floor/ceiling'i dışına düşünce
+reddediliyor — sonuç: bazı yönlerde hiçbir successor üretilemiyor.
+Kontrollü bir sanity check (aynı irtifa, 3 hücre uzaktaki hedef) bunu
+doğruladı: yumuşak eğimli yönlerde "seviye" hareketi 8+ ardışık hücre
+boyunca çalışıyor (mekanizma doğru), dik yönlerde ilk hücrede tıkanıyor
+(gerçek terrain kısıtı). Bu, YENİ bir mimari icat ederek (ör. "bu adımda
+ulaşılabilecek maksimum irtifa" gibi bir candidate) etrafından
+dolaşılmadı — talimat gereği (`keyfi heuristic uydurma`, `büyük yeni
+architecture yazma`) bu CLASS-C'nin kendi işi.
+
+**Sonraki adım:** REP-1.2C'ye GEÇİLMEDİ — Mission A/B "safe" PASS kriteri
+karşılanmadı. CLASS-C'nin gerçek implementasyonu (veya bu stage'in
+footprint kararının ayrı bir revize stage'i) olmadan REP-1.2B tam
+kapanmıyor.
+
+STEP REP-1.2B: PARTIAL
+CANDIDATE-Z.GENERATE PRODUCTION-USED: YES
+CANDIDATE-Z IS ALTITUDE SUCCESSOR SOURCE: YES
+REGULAR Z-STEP SUCCESSOR ARITHMETIC REMOVED: YES (candidate_z_generator path'inde; legacy path dokunulmadı, kasıtlı)
+OFF-LATTICE MISSION ALTITUDES ARE TRUE STATES: YES
+MISSION C EXECUTED: NO
+READY FOR REP-1.2C: NO
+
+## Step REP-1.2B.1 — Multi-Cell Vertical Motion Horizon Bridge
+
+**Amaç:** REP-1.2B'nin real-terrain'de NO_PATH ile sonuçlanmasının kök
+nedenini (tek-grid-adımı açı bütçesi, terrain'in gerçek eğim değişimini
+sıkça aşıyor) CandidateZ migrasyonunu GERİ ALMADAN kapatmak.
+
+**Doğrulanan kök neden (Section 3 audit):** Gerçek Mission A dead-end
+örneği — source (73,73) alt=3260m, SE diagonal komşu (74,74)'ün floor'u
+3280m (yalnız +20m fark), ama diagonal tek-adım mesafesi (84.85m @60m
+grid) ve config'in 10° açı limitiyle tek adımda ancak ~15m kazanılabiliyor
+→ `angle_infeasible_single_step` ile reddediliyor. Bu, gerçek terrain'in
+CandidateZ'nin sparse floor/ceiling event'leri arasındaki mesafeyi
+sıkça tek-adımın fiziksel bütçesinden büyük yapması — bug değil, ölçülmüş
+gerçek terrain kısıtı.
+
+**Çözüm (mimari):** `_generate_candidate_z_neighbors()`'a, mevcut tek-adım
+mekanizmasının (REP-1.2B, DEĞİŞTİRİLMEDİ) ÜSTÜNE, opsiyonel bir
+`aircraft_profile` verildiğinde aktif olan İKİNCİ, ek bir mekanizma
+eklendi: her yön için N=2'den başlayarak (N=1 zaten denendi) artan bir
+ufuk (horizon) boyunca — o N hücre uzaklıktaki hedef hücrenin KENDİ
+`generate()` event'lerini (floor/ceiling/start-goal) deneyerek — İLK
+(en küçük) N'i bulur ki bu N'de en az bir aday, uçağın GERÇEK yerel
+planner-safe dikey hızıyla (`planner/vertical_motion.
+derive_minimum_horizontal_distance_m` + `evaluate_vertical_motion` —
+V3 AircraftProfile'dan, sabit/global açı değil) mümkün olsun. Bulunca N
+büyütmeyi durdurur (deterministic minimum horizon, Section 8). Hiçbir
+global 10°/+2/-3 m/s sabiti "fiziksel gerçek" olarak kullanılmadı —
+her sorgu `aircraft_profile.vertical_query()` üzerinden, o irtifada.
+
+**Primitive contract:** `planner/primitives.py`'ye
+`primitive_for_target_altitude_over_horizon(direction, source, target,
+n_cells, config)` eklendi — REP-1.2A'nın aynı `_endpoint_geometry_valid`
+core'unu reuse ediyor (dual implementation yok); `n_cells=1` REP-1.2B'nin
+`primitive_for_single_step_target_altitude()` ile birebir aynı geometriyi
+üretir.
+
+**Terrain safety:** Çok-hücreli primitive de `evaluate_primitive()`'in
+mevcut sampling mantığından geçiyor (`config.primitive_sample_spacing_m`
+aralıklarla) — yol boyunca (yalnız endpoint'te değil) terrain/AGL
+kontrolü otomatik olarak devam ediyor, ayrı bir shortcut YAZILMADI.
+
+**No residual state:** Her aday bağımsız, tam bir (source,target,n_cells)
+üçlüsü olarak değerlendiriliyor; hiçbir "residual_climb"/"trend" state
+eklenmedi (Section 9 doğrulandı — `scripts/validate_rep12b1.py` test I).
+
+**Sentetik testler:** `scripts/validate_rep12b1.py` — A-K (11 test), ALL
+PASS: büyük delta tek-adımda reddediliyor + çok-hücreli ufukta kabul
+ediliyor, muhafazakar minimum ufuk (bir eksik hücre reddediliyor, tam
+hücre kabul ediliyor), 5000m'de UNAVAILABLE hiçbir ufukla kurtarılamıyor,
+descent yerel irtifaya göre farklı ufuk kullanıyor, ara terrain (ridge)
+kinematik olarak mümkün bir geçişi hâlâ reddedebiliyor, z_step_m/z_index
+kodda hiç yok.
+
+**Gerçek terrain sonucu:** Mission A dead-end noktasında REP-1.2B 4
+successor üretirken REP-1.2B.1 (aircraft_profile ile) 5. üretti — YENİ
+successor: KUZEY yönünde 7 hücre (420m) ufukla floor(66,73)=3240m'e iniş
+(gerekli Vz≈1.9 m/s « yerel güvenli ~3.2 m/s, FEASIBLE). Tam Mission A
+koşusu: **SUCCESS, safety=PASS, min_agl=100.07m, goal_error=0.0/0.0m**,
+expanded=1429, generated=42156, 22.5s. Mission B: 300s watchdog'da
+**TIMEOUT** (expanded=22249, generated=644235) — bu bir bütçe kesintisi
+(TIMEOUT ≠ UNREACHABLE), Mission B'nin daha büyük mesafe+irtifa farkının
+(320m vs Mission A'nın 80m) çok daha fazla expansion gerektirmesinden
+kaynaklanıyor; per-expansion süre A/B arasında tutarlı (~14-16ms),
+patlama (branching explosion) YOK — bu bir performans/ölçek sorunu,
+doğruluk sorunu değil.
+
+**Sonraki adım:** REP-1.2C'ye ve HEADING-1'e GEÇİLMEDİ — Mission B
+PASS kriteri (300s içinde) karşılanmadı. Horizon-arama döngüsünün
+per-expansion maliyetinin optimize edilmesi (cost tuning DEĞİL, saf
+performans) ayrı bir stage'in işi olabilir.
+
+STEP REP-1.2B.1: PARTIAL
+CANDIDATE-Z MIGRATION RETAINED: YES
+MULTI-CELL VERTICAL MOTION HORIZON: YES
+AIRCRAFT-AWARE PHYSICAL FEASIBILITY: YES
+RESIDUAL VERTICAL HISTORY: NO
+MISSION A: PASS
+MISSION B: FAIL (300s watchdog TIMEOUT, bütçe kesintisi — UNREACHABLE değil)
+MISSION C EXECUTED: NO
+READY FOR REP-1.2C: NO
+READY FOR HEADING-1: NO

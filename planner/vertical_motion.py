@@ -96,6 +96,74 @@ class VerticalMotionResult:
     metadata: Mapping[str, Any] = field(default_factory=dict)
 
 
+@dataclass(frozen=True)
+class SafeVerticalRateResult:
+    """Response from query_safe_vertical_rate() -- the single place that
+    reads a mode's planner-safe rate off an AircraftProfile, shared by
+    evaluate_vertical_motion() and derive_minimum_horizontal_distance_m()
+    (Step REP-1.2B.1) so there is exactly one lookup, not two drifting
+    copies of the same `f"{mode.lower()}_vz_mps"` key access."""
+    safe_vz_mps: Optional[float]  # None iff availability != "AVAILABLE"
+    availability: str
+    reason_unavailable: Optional[str]
+
+
+def query_safe_vertical_rate(aircraft_profile, altitude_m: float, mode: str) -> SafeVerticalRateResult:
+    """AVAILABLE iff aircraft_profile reports this mode as AVAILABLE at
+    altitude_m; PHYSICALLY_UNAVAILABLE/OUT_OF_DOMAIN otherwise, with
+    safe_vz_mps=None -- callers must not treat a longer motion duration as
+    a way to make an unavailable maneuver available (see module docstring
+    and project.md "Step REP-1.2B.1")."""
+    q = aircraft_profile.vertical_query(altitude_m, mode)
+    if q.availability != "AVAILABLE":
+        return SafeVerticalRateResult(safe_vz_mps=None, availability=q.availability, reason_unavailable=q.reason_unavailable)
+    key = f"{mode.lower()}_vz_mps"
+    if key not in q.planner_safe:
+        raise ValueError(
+            f"AVAILABLE {mode} row at altitude_m={altitude_m} has no {key!r} in planner_safe "
+            f"({sorted(q.planner_safe)}) -- schema/profile mismatch, not a physical-unavailability result"
+        )
+    return SafeVerticalRateResult(safe_vz_mps=q.planner_safe[key], availability="AVAILABLE", reason_unavailable=None)
+
+
+def derive_minimum_horizontal_distance_m(
+    source_altitude_m: float,
+    target_altitude_m: float,
+    aircraft_profile,
+) -> Optional[float]:
+    """Step REP-1.2B.1: the minimum horizontal distance, flown at the
+    profile's own domain-declared nominal_ias_context_mps, an aircraft
+    would need to complete this altitude change at its LOCAL planner-safe
+    vertical rate (queried at source_altitude_m, same policy as
+    evaluate_vertical_motion). Returns 0.0 for a ~zero delta_z (no vertical
+    motion needed), and None if the climb/descent is PHYSICALLY_UNAVAILABLE
+    (or OUT_OF_DOMAIN) at source_altitude_m -- per Step CLASS-C's contract,
+    a longer horizon/duration can never make an unavailable maneuver
+    available, so this deliberately does not return a distance in that
+    case rather than one that would silently be infinite.
+
+    This is a SIZING helper only (deterministic, no search/history) --
+    the actual FEASIBILITY verdict for whatever horizon a caller ultimately
+    picks (e.g. after rounding up to a whole number of grid cells) must
+    still come from calling evaluate_vertical_motion() on that concrete
+    (distance, duration) pair -- this function does not replace it, and
+    the two share their rate lookup via query_safe_vertical_rate() so
+    there is exactly one place that reads a profile's safe rate.
+    """
+    delta_z = target_altitude_m - source_altitude_m
+    if abs(delta_z) < 1e-9:
+        return 0.0
+    mode = "CLIMB" if delta_z > 0.0 else "DESCENT"
+    rate = query_safe_vertical_rate(aircraft_profile, source_altitude_m, mode)
+    # DESCENT's planner_safe rate is stored as a NEGATIVE number (e.g. -3.2 m/s, matching
+    # descent_vz_mps's own sign convention in the V3 schema) -- compare/divide by MAGNITUDE,
+    # never assume a positive safe_vz_mps regardless of mode.
+    if rate.safe_vz_mps is None or abs(rate.safe_vz_mps) <= 0.0:
+        return None
+    min_duration_s = abs(delta_z) / abs(rate.safe_vz_mps)
+    return min_duration_s * aircraft_profile.manifest.nominal_ias_context_mps
+
+
 def evaluate_vertical_motion(
     source_altitude_m: float,
     target_altitude_m: float,
@@ -151,27 +219,20 @@ def evaluate_vertical_motion(
     required_vz = delta_z / motion_duration_s
     mode = "CLIMB" if delta_z > 0.0 else "DESCENT"
 
-    q = aircraft_profile.vertical_query(source_altitude_m, mode)
+    rate = query_safe_vertical_rate(aircraft_profile, source_altitude_m, mode)
 
-    if q.availability == "OUT_OF_DOMAIN":
+    if rate.availability == "OUT_OF_DOMAIN":
         return VerticalMotionResult(
             status="OUT_OF_PROFILE_DOMAIN", required_vz_mps=required_vz, safe_vz_mps=None, delta_z_m=delta_z,
             duration_s=motion_duration_s, availability="OUT_OF_DOMAIN", query_altitude_m=source_altitude_m,
         )
-    if q.availability != "AVAILABLE":
+    if rate.safe_vz_mps is None:
         return VerticalMotionResult(
             status="PHYSICALLY_UNAVAILABLE", required_vz_mps=required_vz, safe_vz_mps=None, delta_z_m=delta_z,
-            duration_s=motion_duration_s, availability=q.availability, query_altitude_m=source_altitude_m,
-            metadata={"reason_unavailable": q.reason_unavailable},
+            duration_s=motion_duration_s, availability=rate.availability, query_altitude_m=source_altitude_m,
+            metadata={"reason_unavailable": rate.reason_unavailable},
         )
-
-    key = f"{mode.lower()}_vz_mps"
-    if key not in q.planner_safe:
-        raise ValueError(
-            f"AVAILABLE {mode} row at altitude_m={source_altitude_m} has no {key!r} in planner_safe "
-            f"({sorted(q.planner_safe)}) -- schema/profile mismatch, not a physical-unavailability result"
-        )
-    safe_vz = q.planner_safe[key]
+    safe_vz = rate.safe_vz_mps
 
     feasible = (required_vz <= safe_vz + _VZ_TOLERANCE_MPS) if mode == "CLIMB" \
         else (abs(required_vz) <= abs(safe_vz) + _VZ_TOLERANCE_MPS)
@@ -179,5 +240,5 @@ def evaluate_vertical_motion(
     return VerticalMotionResult(
         status="FEASIBLE" if feasible else "PHYSICALLY_UNAVAILABLE",
         required_vz_mps=required_vz, safe_vz_mps=safe_vz, delta_z_m=delta_z,
-        duration_s=motion_duration_s, availability=q.availability, query_altitude_m=source_altitude_m,
+        duration_s=motion_duration_s, availability=rate.availability, query_altitude_m=source_altitude_m,
     )

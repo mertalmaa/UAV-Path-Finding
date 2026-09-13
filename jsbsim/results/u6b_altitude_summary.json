@@ -1,0 +1,245 @@
+{
+  "provenance_id": "u6b-854000e38112874e90eb",
+  "rows": [
+    {
+      "altitude_m": 1000.0,
+      "climbing_turn": {
+        "actual_stable_count": 2,
+        "actual_vz_range_mps": [
+          2.6085094278699503,
+          2.685480232991963
+        ],
+        "ias_range_mps": [
+          40.03979690655523,
+          40.055282492290615
+        ],
+        "interpretation": "MARGINAL",
+        "radius_ratio_range": [
+          0.4292125740938093,
+          1.0205440325221948
+        ],
+        "strict_valid_count": 1,
+        "throttle_range": [
+          0.7867057025778422,
+          0.791304084745145
+        ]
+      },
+      "descending_turn": {
+        "actual_stable_count": 2,
+        "actual_vz_range_mps": [
+          -2.8203637259816197,
+          -2.820000305806911
+        ],
+        "ias_range_mps": [
+          39.87566402955872,
+          40.002026937384684
+        ],
+        "interpretation": "MARGINAL",
+        "radius_ratio_range": [
+          0.9872227932396785,
+          1.0224113877566414
+        ],
+        "strict_valid_count": 0,
+        "throttle_range": [
+          0.3655947077338486,
+          0.3725893552386288
+        ]
+      },
+      "directly_infeasible_implies_unreachable": false,
+      "planner_safe": false,
+      "region": "LOW"
+    },
+    {
+      "altitude_m": 2500.0,
+      "climbing_turn": {
+        "actual_stable_count": 2,
+        "actual_vz_range_mps": [
+          2.6174216970556925,
+          2.6865543220529937
+        ],
+        "ias_range_mps": [
+          40.079575127923206,
+          40.09510969215088
+        ],
+        "interpretation": "MARGINAL",
+        "radius_ratio_range": [
+          1.0181356911062265,
+          1.0222691793464658
+        ],
+        "strict_valid_count": 1,
+        "throttle_range": [
+          0.8416135474789389,
+          0.8465951286379823
+        ]
+      },
+      "descending_turn": {
+        "actual_stable_count": 2,
+        "actual_vz_range_mps": [
+          -2.792559076421204,
+          -2.7874676408196097
+        ],
+        "ias_range_mps": [
+          39.83441496818871,
+          39.951061239752036
+        ],
+        "interpretation": "MARGINAL",
+        "radius_ratio_range": [
+          0.9832934634286299,
+          1.0120508278167344
+        ],
+        "strict_valid_count": 1,
+        "throttle_range": [
+          0.4673489576147589,
+          0.47490621797747873
+        ]
+      },
+      "directly_infeasible_implies_unreachable": false,
+      "planner_safe": false,
+      "region": "LOW_MID"
+    },
+    {
+      "altitude_m": 4000.0,
+      "climbing_turn": {
+        "actual_stable_count": 1,
+        "actual_vz_range_mps": [
+          2.6728850002805777,
+          2.7101236040814043
+        ],
+        "ias_range_mps": [
+          39.82570676712525,
+          39.9874976765763
+        ],
+        "interpretation": "UNUSABLE",
+        "radius_ratio_range": [
+          0.993938209110222,
+          1.0205096506485243
+        ],
+        "strict_valid_count": 0,
+        "throttle_range": [
+          0.9536596255003232,
+          0.979832022462159
+        ]
+      },
+      "descending_turn": {
+        "actual_stable_count": 2,
+        "actual_vz_range_mps": [
+          -2.7690135526500606,
+          -2.7595432157776103
+        ],
+        "ias_range_mps": [
+          39.81700077496677,
+          39.92260940674257
+        ],
+        "interpretation": "USABLE",
+        "radius_ratio_range": [
+          0.9813381138006415,
+          1.005480452683708
+        ],
+        "strict_valid_count": 2,
+        "throttle_range": [
+          0.5617541887354954,
+          0.5695169159514636
+        ]
+      },
+      "directly_infeasible_implies_unreachable": false,
+      "planner_safe": false,
+      "region": "MID_HIGH"
+    },
+    {
+      "altitude_m": 5000.0,
+      "climbing_turn": {
+        "actual_stable_count": 2,
+        "actual_vz_range_mps": [
+          2.3830720297060566,
+          2.383112325654873
+        ],
+        "ias_range_mps": [
+          37.62965207971364,
+          37.88378229989664
+        ],
+        "interpretation": "MARGINAL",
+        "radius_ratio_range": [
+          0.8735593133389461,
+          0.9194911292012816
+        ],
+        "strict_valid_count": 0,
+        "throttle_range": [
+          1.0,
+          1.0
+        ]
+      },
+      "descending_turn": {
+        "actual_stable_count": 2,
+        "actual_vz_range_mps": [
+          -2.758099494217261,
+          -2.746058634561845
+        ],
+        "ias_range_mps": [
+          39.818608058102384,
+          39.9173054752241
+        ],
+        "interpretation": "USABLE",
+        "radius_ratio_range": [
+          0.9811007188895645,
+          1.0037009804425767
+        ],
+        "strict_valid_count": 2,
+        "throttle_range": [
+          0.6206298677700773,
+          0.6283928762495924
+        ]
+      },
+      "directly_infeasible_implies_unreachable": false,
+      "planner_safe": false,
+      "region": "HIGH"
+    },
+    {
+      "altitude_m": 5500.0,
+      "climbing_turn": {
+        "actual_stable_count": 0,
+        "actual_vz_range_mps": [
+          2.206351062690561,
+          2.2259701615139744
+        ],
+        "ias_range_mps": [
+          36.530035457773636,
+          36.77176456199962
+        ],
+        "interpretation": "UNUSABLE",
+        "radius_ratio_range": [
+          0.8161321704319885,
+          0.8679227875856559
+        ],
+        "strict_valid_count": 0,
+        "throttle_range": [
+          1.0,
+          1.0
+        ]
+      },
+      "descending_turn": {
+        "actual_stable_count": 2,
+        "actual_vz_range_mps": [
+          -2.754906116370582,
+          -2.7417835715958794
+        ],
+        "ias_range_mps": [
+          39.82416834377696,
+          39.91994419221586
+        ],
+        "interpretation": "USABLE",
+        "radius_ratio_range": [
+          0.9813493548160821,
+          1.0037836963861624
+        ],
+        "strict_valid_count": 2,
+        "throttle_range": [
+          0.6487967084539452,
+          0.6565364099704641
+        ]
+      },
+      "directly_infeasible_implies_unreachable": false,
+      "planner_safe": false,
+      "region": "CURRENT_MAX_DOMAIN"
+    }
+  ]
+}

@@ -1,0 +1,1312 @@
+[
+  {
+    "description": "Models a Boeing 737.",
+    "empty_weight_lbs": 83000.0,
+    "engine_count": 2,
+    "engine_files": [
+      "CFM56",
+      "CFM56"
+    ],
+    "fdm_config_name": "737",
+    "flight_control_name": "FCS: 737",
+    "model": "737",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\737\\737.xml",
+    "model_xml_sha256": "1ac0bde51e3665306ebdc70f7920748aaf1b58a0f5443b63eed400dbf92be338",
+    "static_decision": "REJECT_STATIC",
+    "static_group": "airliner_or_large_transport",
+    "static_reason": "size_speed_or_mission_configuration_obviously_mismatched_to_profile",
+    "system_files": [],
+    "tank_count": 3,
+    "thruster_files": [
+      "direct",
+      "direct"
+    ]
+  },
+  {
+    "description": "Flight Dynamics Model for the Boeing 787-8",
+    "empty_weight_lbs": 239200.0,
+    "engine_count": 2,
+    "engine_files": [
+      "trent_1000",
+      "trent_1000"
+    ],
+    "fdm_config_name": "787-8",
+    "flight_control_name": "FCS: 787-8",
+    "model": "787-8",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\787-8\\787-8.xml",
+    "model_xml_sha256": "addb1f90f8175c9e826d5baad7de6289dd6e4404182d3de20487038228d21089",
+    "static_decision": "REJECT_STATIC",
+    "static_group": "airliner_or_large_transport",
+    "static_reason": "size_speed_or_mission_configuration_obviously_mismatched_to_profile",
+    "system_files": [],
+    "tank_count": 3,
+    "thruster_files": [
+      "direct",
+      "direct"
+    ]
+  },
+  {
+    "description": "Airbus A320",
+    "empty_weight_lbs": 111000.0,
+    "engine_count": 2,
+    "engine_files": [
+      "CFM56_5",
+      "CFM56_5"
+    ],
+    "fdm_config_name": "A320-200",
+    "flight_control_name": "FCS: A320",
+    "model": "A320",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\A320\\A320.xml",
+    "model_xml_sha256": "a159391b479bc0adafe0b912647a4d34070dbde4f13cd9408ba6806e60f61d9b",
+    "static_decision": "REJECT_STATIC",
+    "static_group": "airliner_or_large_transport",
+    "static_reason": "size_speed_or_mission_configuration_obviously_mismatched_to_profile",
+    "system_files": [],
+    "tank_count": 2,
+    "thruster_files": [
+      "direct",
+      "direct"
+    ]
+  },
+  {
+    "description": "Models a A-4.",
+    "empty_weight_lbs": 10250.0,
+    "engine_count": 1,
+    "engine_files": [
+      "J52"
+    ],
+    "fdm_config_name": "A-4",
+    "flight_control_name": "FCS: A-4",
+    "model": "A4",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\A4\\A4.xml",
+    "model_xml_sha256": "ff38cca247abecdb8f333849f9eae6835305ad45e333770601070fc652d2e994",
+    "static_decision": "REJECT_STATIC",
+    "static_group": "jet_or_high_speed_tactical",
+    "static_reason": "jet_or_high_speed_tactical_configuration_mismatched_to_35_50_mps_profile",
+    "system_files": [],
+    "tank_count": 1,
+    "thruster_files": [
+      "direct"
+    ]
+  },
+  {
+    "description": "Models a Bell209/AH1S helicopter.",
+    "empty_weight_lbs": 8500.0,
+    "engine_count": 2,
+    "engine_files": [
+      "electric_1500hp",
+      "electric_1hp_dummy"
+    ],
+    "fdm_config_name": "ah1s-jsbsim",
+    "flight_control_name": "ah1s fcs",
+    "model": "ah1s",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\ah1s\\ah1s.xml",
+    "model_xml_sha256": "9534329bfd106230f9bbb4df551b1f3c4bff1f4c8b2e66c865e98dfd108a5448",
+    "static_decision": "REJECT_STATIC",
+    "static_group": "non_fixed_wing",
+    "static_reason": "non_fixed_wing_or_buoyant_ballistic_configuration",
+    "system_files": [
+      "rpm_governor",
+      "rotor_control",
+      "afcs",
+      "steady_flight_data",
+      "trim_control",
+      null
+    ],
+    "tank_count": 2,
+    "thruster_files": [
+      "ah1s_rotor",
+      "ah1s_tail_rotor"
+    ]
+  },
+  {
+    "description": "Models a Boeing B-17G.",
+    "empty_weight_lbs": 36100.0,
+    "engine_count": 4,
+    "engine_files": [
+      "R-1820-97",
+      "R-1820-97",
+      "R-1820-97",
+      "R-1820-97"
+    ],
+    "fdm_config_name": "Boeing B-17G",
+    "flight_control_name": "FCS: Boeing B-17G",
+    "model": "B17",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\B17\\B17.xml",
+    "model_xml_sha256": "a6d546ec85e5677dae14f3425e67007d2d312c7442c8a9b63a864f61882a15f6",
+    "static_decision": "REJECT_STATIC",
+    "static_group": "airliner_or_large_transport",
+    "static_reason": "size_speed_or_mission_configuration_obviously_mismatched_to_profile",
+    "system_files": [],
+    "tank_count": 24,
+    "thruster_files": [
+      "propHS139v",
+      "propHS139v",
+      "propHS139v",
+      "propHS139v"
+    ]
+  },
+  {
+    "description": "Boeing 747",
+    "empty_weight_lbs": 523816.0,
+    "engine_count": 4,
+    "engine_files": [
+      "GE-CF6-80C2-B1F",
+      "GE-CF6-80C2-B1F",
+      "GE-CF6-80C2-B1F",
+      "GE-CF6-80C2-B1F"
+    ],
+    "fdm_config_name": "B747-400",
+    "flight_control_name": "FCS: B747",
+    "model": "B747",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\B747\\B747.xml",
+    "model_xml_sha256": "da5c74608dc7a53402270efa150083316d87018726ea25c66a2f30be05e484a9",
+    "static_decision": "REJECT_STATIC",
+    "static_group": "airliner_or_large_transport",
+    "static_reason": "size_speed_or_mission_configuration_obviously_mismatched_to_profile",
+    "system_files": [],
+    "tank_count": 5,
+    "thruster_files": [
+      "direct",
+      "direct",
+      "direct",
+      "direct"
+    ]
+  },
+  {
+    "description": "Test file",
+    "empty_weight_lbs": 20000.0,
+    "engine_count": 0,
+    "engine_files": [],
+    "fdm_config_name": "BALL",
+    "flight_control_name": "FGFCS",
+    "model": "ball",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\ball\\ball.xml",
+    "model_xml_sha256": "6e8dc031b5b039d41e0a414f306bfde6edcae9245deeaa2f2914425e1d3509bd",
+    "static_decision": "REJECT_STATIC",
+    "static_group": "non_fixed_wing",
+    "static_reason": "non_fixed_wing_or_buoyant_ballistic_configuration",
+    "system_files": [],
+    "tank_count": 0,
+    "thruster_files": []
+  },
+  {
+    "description": "Test file",
+    "empty_weight_lbs": 20000.0,
+    "engine_count": 0,
+    "engine_files": [],
+    "fdm_config_name": "BALLX",
+    "flight_control_name": "FGFCS",
+    "model": "ballx",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\ballx\\ballx.xml",
+    "model_xml_sha256": "ccbca3a9b378624b4098661e77cb6b8d88f6d0143da19fbbc673eb3a3afa2d3c",
+    "static_decision": "REJECT_STATIC",
+    "static_group": "non_fixed_wing",
+    "static_reason": "non_fixed_wing_or_buoyant_ballistic_configuration",
+    "system_files": [],
+    "tank_count": 0,
+    "thruster_files": []
+  },
+  {
+    "description": null,
+    "empty_weight_lbs": null,
+    "engine_count": 0,
+    "engine_files": [],
+    "fdm_config_name": null,
+    "flight_control_name": null,
+    "model": "blank",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\blank\\blank.xml",
+    "model_xml_sha256": "88d2a5e7d6ebe08e24bb78eee62fadaada2b11a8635807a22ba155c221403486",
+    "static_decision": "REJECT_STATIC",
+    "static_group": "incompatible_special_configuration",
+    "static_reason": "placeholder_vtol_dummy_or_historically_too_slow_special_configuration",
+    "system_files": [],
+    "tank_count": 0,
+    "thruster_files": []
+  },
+  {
+    "description": "Boeing314A",
+    "empty_weight_lbs": 48400.0,
+    "engine_count": 4,
+    "engine_files": [
+      "WrightGR-2600",
+      "WrightGR-2600",
+      "WrightGR-2600",
+      "WrightGR-2600"
+    ],
+    "fdm_config_name": "Boeing314A",
+    "flight_control_name": "FCS: Boeing314A",
+    "model": "Boeing314",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\Boeing314\\Boeing314.xml",
+    "model_xml_sha256": "c1a1647b613c4c968d23b950b2534e080118844c754c56b96dbb3835201e120f",
+    "static_decision": "REJECT_STATIC",
+    "static_group": "airliner_or_large_transport",
+    "static_reason": "size_speed_or_mission_configuration_obviously_mismatched_to_profile",
+    "system_files": [
+      null
+    ],
+    "tank_count": 7,
+    "thruster_files": [
+      "HamiltonStd6243A-3",
+      "HamiltonStd6243A-3",
+      "HamiltonStd6243A-3",
+      "HamiltonStd6243A-3"
+    ]
+  },
+  {
+    "description": "Models a Lockheed C-130 Hercules.",
+    "empty_weight_lbs": 105000.0,
+    "engine_count": 4,
+    "engine_files": [
+      "t56",
+      "t56",
+      "t56",
+      "t56"
+    ],
+    "fdm_config_name": "C130",
+    "flight_control_name": "FCS: C130",
+    "model": "C130",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\C130\\C130.xml",
+    "model_xml_sha256": "88c2cd5a3da01fdd3390c6337e46ab22d84b10e6c1cbb15166e7a1bfcdedcee1",
+    "static_decision": "REJECT_STATIC",
+    "static_group": "airliner_or_large_transport",
+    "static_reason": "size_speed_or_mission_configuration_obviously_mismatched_to_profile",
+    "system_files": [],
+    "tank_count": 5,
+    "thruster_files": [
+      "t56_prop",
+      "t56_prop",
+      "t56_prop",
+      "t56_prop"
+    ]
+  },
+  {
+    "description": "Cessna C-172",
+    "empty_weight_lbs": 1500.0,
+    "engine_count": 1,
+    "engine_files": [
+      "eng_io320"
+    ],
+    "fdm_config_name": "c172",
+    "flight_control_name": "FCS: c172",
+    "model": "c172p",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\c172p\\c172p.xml",
+    "model_xml_sha256": "0af58c613f7bca7e1d85f4b2e178a4d7b0b14dda6d5f79b38c571d9911187aa4",
+    "static_decision": "KEEP",
+    "static_group": "configured_dynamic_candidate",
+    "static_reason": "powered_fixed_wing_and_not_excluded_by_available_static_metadata",
+    "system_files": [],
+    "tank_count": 2,
+    "thruster_files": [
+      "prop_75in2f"
+    ]
+  },
+  {
+    "description": "Models a C310 light twin. The airplane has a wingspan of 35.98 feet, wing area of 178 square feet, an aspect ratio of 7.3, and an M.A.C. of 5 feet based on projection of the outboard leading edge of the wing through the fuselage. The wing airfoil section is a modified NACA 64(2)A215 airfoil with the trailing edge cusp faired out. The wing has 5 degrees of dihedral, no twist, and is at 2 degrees positive incidence with respect to the fuselage reference line. Thrust axes are parallel to the reference line. The horizontal tail is all-movable, with a deflection range of 4 to -14 degrees. Control deflection range for the ailerons is 14 to -18 degrees. Normal rudder deflection range is +/-27 degrees.",
+    "empty_weight_lbs": 2950.0,
+    "engine_count": 2,
+    "engine_files": [
+      "engIO470D",
+      "engIO470D"
+    ],
+    "fdm_config_name": "Cessna 310 Light Twin General Aviation Aircraft",
+    "flight_control_name": "Cessna 310",
+    "model": "c310",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\c310\\c310.xml",
+    "model_xml_sha256": "9db38b94a1359cf529a3c986e0a7746bf8f89f1019660be032667ea7f6613c69",
+    "static_decision": "KEEP",
+    "static_group": "configured_dynamic_candidate",
+    "static_reason": "powered_fixed_wing_and_not_excluded_by_available_static_metadata",
+    "system_files": [
+      "GNCUtilities"
+    ],
+    "tank_count": 4,
+    "thruster_files": [
+      "propC10v",
+      "propC10v"
+    ]
+  },
+  {
+    "description": "Sopwith Camel with Weapons, matches available data for climb, max speed, general handling",
+    "empty_weight_lbs": 1210.0,
+    "engine_count": 1,
+    "engine_files": [
+      "Clerget9B"
+    ],
+    "fdm_config_name": "Sopwith Camel",
+    "flight_control_name": "FCS: Camel",
+    "model": "Camel",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\Camel\\Camel.xml",
+    "model_xml_sha256": "5a943180be3bc7305b4fb4c40d562f09a4fc968161f40942c79faa198631bd01",
+    "static_decision": "KEEP",
+    "static_group": "configured_dynamic_candidate",
+    "static_reason": "powered_fixed_wing_and_not_excluded_by_available_static_metadata",
+    "system_files": [
+      "crash-detect",
+      "automixture"
+    ],
+    "tank_count": 2,
+    "thruster_files": [
+      "CamelProp"
+    ]
+  },
+  {
+    "description": "Aerospatiale/British Aerospace Concorde",
+    "empty_weight_lbs": 173500.0,
+    "engine_count": 4,
+    "engine_files": [
+      "Olympus593Mrk610",
+      "Olympus593Mrk610",
+      "Olympus593Mrk610",
+      "Olympus593Mrk610"
+    ],
+    "fdm_config_name": "Aerospatiale/BAC Concorde",
+    "flight_control_name": "Concorde",
+    "model": "Concorde",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\Concorde\\Concorde.xml",
+    "model_xml_sha256": "c2475bf0c4a1c69216855d5b7a3c684ea595679ed09dbbbf10f7783ed5e244fb",
+    "static_decision": "REJECT_STATIC",
+    "static_group": "airliner_or_large_transport",
+    "static_reason": "size_speed_or_mission_configuration_obviously_mismatched_to_profile",
+    "system_files": [
+      null,
+      null
+    ],
+    "tank_count": 17,
+    "thruster_files": [
+      "direct",
+      "direct",
+      "direct",
+      "direct"
+    ]
+  },
+  {
+    "description": "Models a Fokker Dr.1.",
+    "empty_weight_lbs": 895.0,
+    "engine_count": 1,
+    "engine_files": [
+      "Oberursel-UrII"
+    ],
+    "fdm_config_name": "Fokker Dr.1",
+    "flight_control_name": "FCS: Fokker Dr.1",
+    "model": "dr1",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\dr1\\dr1.xml",
+    "model_xml_sha256": "bd394cb162b91e4a11e97e2fbf490e1d5a9ddb0feeed4f5a4c8cf237cedc22f8",
+    "static_decision": "KEEP",
+    "static_group": "configured_dynamic_candidate",
+    "static_reason": "powered_fixed_wing_and_not_excluded_by_available_static_metadata",
+    "system_files": [
+      "pushback"
+    ],
+    "tank_count": 1,
+    "thruster_files": [
+      "Dr1_propeller"
+    ]
+  },
+  {
+    "description": "Models an F-104C",
+    "empty_weight_lbs": 12760.0,
+    "engine_count": 1,
+    "engine_files": [
+      "J79-GE-11A"
+    ],
+    "fdm_config_name": "F-104C",
+    "flight_control_name": "FCS",
+    "model": "f104",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\f104\\f104.xml",
+    "model_xml_sha256": "70e6f07c8db4ac8e5cc7ebb0b9340c2618ababe008ce97a48eb4da70436fd804",
+    "static_decision": "REJECT_STATIC",
+    "static_group": "jet_or_high_speed_tactical",
+    "static_reason": "jet_or_high_speed_tactical_configuration_mismatched_to_35_50_mps_profile",
+    "system_files": [
+      "armament",
+      "beacon",
+      "BLC",
+      "canopy",
+      "chute",
+      "crash-detect",
+      "FCS-pitch",
+      "FCS-roll",
+      "FCS-yaw",
+      "flaps",
+      "gear",
+      "NWS",
+      "radar",
+      "speedbrakes",
+      "tailhook"
+    ],
+    "tank_count": 3,
+    "thruster_files": [
+      "direct"
+    ]
+  },
+  {
+    "description": "McDonnell Douglas F-15 Eagle",
+    "empty_weight_lbs": 28000.0,
+    "engine_count": 2,
+    "engine_files": [
+      "F100-PW-229",
+      "F100-PW-229"
+    ],
+    "fdm_config_name": "f15",
+    "flight_control_name": "FCS: f15",
+    "model": "f15",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\f15\\f15.xml",
+    "model_xml_sha256": "19c6d2f82705489410a835dacc8d08be88149d321e00822c338f4676046e8c87",
+    "static_decision": "REJECT_STATIC",
+    "static_group": "jet_or_high_speed_tactical",
+    "static_reason": "jet_or_high_speed_tactical_configuration_mismatched_to_35_50_mps_profile",
+    "system_files": [],
+    "tank_count": 2,
+    "thruster_files": [
+      "direct",
+      "direct"
+    ]
+  },
+  {
+    "description": "Models an F-22A Raptor",
+    "empty_weight_lbs": 43430.0,
+    "engine_count": 2,
+    "engine_files": [
+      "F119-PW-1",
+      "F119-PW-1"
+    ],
+    "fdm_config_name": "General Dynamics F-22A",
+    "flight_control_name": "F-22 FC",
+    "model": "f22",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\f22\\f22.xml",
+    "model_xml_sha256": "93b85e4364c6cd97bc4d39444b666936b2f97491babf1cac3fffed1cebbdeb22",
+    "static_decision": "REJECT_STATIC",
+    "static_group": "jet_or_high_speed_tactical",
+    "static_reason": "jet_or_high_speed_tactical_configuration_mismatched_to_35_50_mps_profile",
+    "system_files": [],
+    "tank_count": 2,
+    "thruster_files": [
+      "direct",
+      "direct"
+    ]
+  },
+  {
+    "description": null,
+    "empty_weight_lbs": null,
+    "engine_count": 0,
+    "engine_files": [],
+    "fdm_config_name": "F450",
+    "flight_control_name": null,
+    "model": "F450",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\F450\\F450.xml",
+    "model_xml_sha256": "ed23086b7bb872a45ea849961a1871207584cc19c687e771e5a89d5d9834918f",
+    "static_decision": "REJECT_STATIC",
+    "static_group": "non_fixed_wing",
+    "static_reason": "non_fixed_wing_or_buoyant_ballistic_configuration",
+    "system_files": [
+      "Effectors.xml",
+      "SensorImu.xml",
+      "SensorBaro.xml",
+      "SensorGps.xml"
+    ],
+    "tank_count": 0,
+    "thruster_files": []
+  },
+  {
+    "description": "Models a F4N.",
+    "empty_weight_lbs": 28000.0,
+    "engine_count": 2,
+    "engine_files": [
+      "J79-GE-11A",
+      "J79-GE-11A"
+    ],
+    "fdm_config_name": "F4N",
+    "flight_control_name": null,
+    "model": "F4N",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\F4N\\F4N.xml",
+    "model_xml_sha256": "7c90297faa2b8eb6d2e21e646c96aff4dce1f8b7bc2b1fa047d05d834e562a4a",
+    "static_decision": "REJECT_STATIC",
+    "static_group": "jet_or_high_speed_tactical",
+    "static_reason": "jet_or_high_speed_tactical_configuration_mismatched_to_35_50_mps_profile",
+    "system_files": [
+      "holdback",
+      "hook",
+      "catapult",
+      "BLC",
+      "gear",
+      "flaps",
+      "speedbrakes",
+      "FCS-pitch",
+      "FCS-roll",
+      "FCS-yaw",
+      "NWS"
+    ],
+    "tank_count": 1,
+    "thruster_files": [
+      "direct",
+      "direct"
+    ]
+  },
+  {
+    "description": "Models a Lockheed F-80C",
+    "empty_weight_lbs": 8240.0,
+    "engine_count": 1,
+    "engine_files": [
+      "J33-A-35"
+    ],
+    "fdm_config_name": "F80C",
+    "flight_control_name": "FCS: F80C",
+    "model": "F80C",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\F80C\\F80C.xml",
+    "model_xml_sha256": "8c79d679b446360503a0daa78a291889f6304a8e76b622a452659f0b8eb19390",
+    "static_decision": "REJECT_STATIC",
+    "static_group": "jet_or_high_speed_tactical",
+    "static_reason": "jet_or_high_speed_tactical_configuration_mismatched_to_35_50_mps_profile",
+    "system_files": [],
+    "tank_count": 1,
+    "thruster_files": [
+      "direct"
+    ]
+  },
+  {
+    "description": "Fokker-100 commercial airliner",
+    "empty_weight_lbs": 54217.0,
+    "engine_count": 2,
+    "engine_files": [
+      "Tay-620",
+      "Tay-620"
+    ],
+    "fdm_config_name": "Fokker-100",
+    "flight_control_name": "FCS: Fokker-100",
+    "model": "fokker100",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\fokker100\\fokker100.xml",
+    "model_xml_sha256": "8f149e025b505305847b2729c7ce51255e3693922d9ebacd2a57aff0ef83acef",
+    "static_decision": "REJECT_STATIC",
+    "static_group": "airliner_or_large_transport",
+    "static_reason": "size_speed_or_mission_configuration_obviously_mismatched_to_profile",
+    "system_files": [
+      "pushback"
+    ],
+    "tank_count": 2,
+    "thruster_files": [
+      "direct",
+      "direct"
+    ]
+  },
+  {
+    "description": "Fokker 50 commercial turboprop airliner",
+    "empty_weight_lbs": 29700.0,
+    "engine_count": 2,
+    "engine_files": [
+      "PW125BX",
+      "PW125BX"
+    ],
+    "fdm_config_name": "fokker50",
+    "flight_control_name": "Fokker50",
+    "model": "fokker50",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\fokker50\\fokker50.xml",
+    "model_xml_sha256": "dd6507d48e51e27423c89af29a036ae7e8c797add03df115bdbc2e4132932a89",
+    "static_decision": "REJECT_STATIC",
+    "static_group": "airliner_or_large_transport",
+    "static_reason": "size_speed_or_mission_configuration_obviously_mismatched_to_profile",
+    "system_files": [
+      null
+    ],
+    "tank_count": 2,
+    "thruster_files": [
+      "dowty-rotol-aero",
+      "dowty-rotol-aero"
+    ]
+  },
+  {
+    "description": "File created with Aeromatic Based on Moellemi, M., Jafer, S., Towhidnejad, M. \"Flight Dynamics Model of Bombardier Global 5000 Aircraft\", AIAA Modeling and Simulation Technologies Conference, 13-17 June 2016, Washington D.C., AIAA 2016-3525, DOI: 10.2514/6.2016-3525 Models a global5000 Mods: included feed=2 in the engine to use tank 2 included important outputs adjusted CL and CD tables to match theoretical Polar Drag curve by considering e=0.83 and k=0.03453 and FAA TC 18-7 modified by Guilherme Lima da Silva ATS aerohermalsolutions.co aerospace@ats4i.com May 2021 File: global5000.xml Inputs: name: global5000 type: two-engine transonic transport max weight: 87700 lb wing span: 93 ft length: 96.9 ft wing area: 1022 sq-ft gear type: tricycle castering: retractable?: yes # engines: 2 engine type: turbine engine layout: aft fuselage yaw damper? yes Outputs: wing loading: 85.81 lb/sq-ft payload: 15172.1 lbs CL-alpha: 4.4 per radian CL-0: 0.2 CL-max: 1.2 CD-0: 0.02 K: 0.043",
+    "empty_weight_lbs": 48235.0,
+    "engine_count": 2,
+    "engine_files": [
+      "BR710",
+      "BR710"
+    ],
+    "fdm_config_name": "global5000",
+    "flight_control_name": "FCS: global5000",
+    "model": "global5000",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\global5000\\global5000.xml",
+    "model_xml_sha256": "e5b1e5ed68bc3f132b79f1304ad530e922dcc115fd0c692758c4bafe9ed1f43b",
+    "static_decision": "REJECT_STATIC",
+    "static_group": "airliner_or_large_transport",
+    "static_reason": "size_speed_or_mission_configuration_obviously_mismatched_to_profile",
+    "system_files": [
+      "GNCUtilities",
+      "Autopilot"
+    ],
+    "tank_count": 3,
+    "thruster_files": [
+      "direct",
+      "direct"
+    ]
+  },
+  {
+    "description": "Rough model of the DIRECT Jupiter-246 Lunar Crew Launch Vehicle Configuration. FOR EDUCATIONAL PURPOSES ONLY. This model is not sanctioned by nor is it a work of the DIRECT Launcher team.",
+    "empty_weight_lbs": null,
+    "engine_count": 12,
+    "engine_files": [
+      "SRB",
+      "SRB",
+      "SSME",
+      "SSME",
+      "SSME",
+      "SSME",
+      "RL10",
+      "RL10",
+      "RL10",
+      "RL10",
+      "RL10",
+      "RL10"
+    ],
+    "fdm_config_name": "Jupiter-246 - Lunar Crew Launch Vehicle Configuration",
+    "flight_control_name": null,
+    "model": "J246",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\J246\\J246.xml",
+    "model_xml_sha256": "c2b10d89db28d50b94d3c995c5690a75c42c0d30405df9373dac4a72949e47a1",
+    "static_decision": "REJECT_STATIC",
+    "static_group": "spacecraft_or_experimental_lifting_body",
+    "static_reason": "spacecraft_or_rocket_lifting_body_configuration",
+    "system_files": [
+      "J246GuidanceExecutive.xml",
+      "J246ControlSystem.xml",
+      "J246FirstStageEffectors.xml",
+      "J246SecondStageEffectors.xml"
+    ],
+    "tank_count": 6,
+    "thruster_files": [
+      "SRB_nozzle",
+      "SRB_nozzle",
+      "SSME_nozzle",
+      "SSME_nozzle",
+      "SSME_nozzle",
+      "SSME_nozzle",
+      "RL10_nozzle",
+      "RL10_nozzle",
+      "RL10_nozzle",
+      "RL10_nozzle",
+      "RL10_nozzle",
+      "RL10_nozzle"
+    ]
+  },
+  {
+    "description": "Navion general aviation aircraft",
+    "empty_weight_lbs": 2750.0,
+    "engine_count": 1,
+    "engine_files": [
+      "engIO470D"
+    ],
+    "fdm_config_name": "Navion",
+    "flight_control_name": "FCS: Navion",
+    "model": "L17",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\L17\\L17.xml",
+    "model_xml_sha256": "4472cb86623b4fc6529381a270f09d722d52d352428787d93610d349aa23ccbf",
+    "static_decision": "KEEP",
+    "static_group": "configured_dynamic_candidate",
+    "static_reason": "powered_fixed_wing_and_not_excluded_by_available_static_metadata",
+    "system_files": [],
+    "tank_count": 2,
+    "thruster_files": [
+      "prop_75in2f"
+    ]
+  },
+  {
+    "description": "Czech Republic LET 410 Light Twin",
+    "empty_weight_lbs": 8467.0,
+    "engine_count": 2,
+    "engine_files": [
+      "engtm601",
+      "engtm601"
+    ],
+    "fdm_config_name": "Czech Republic LET 410 Light Twin",
+    "flight_control_name": "FCS: l410",
+    "model": "L410",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\L410\\L410.xml",
+    "model_xml_sha256": "f14615e924609f23c025592f2d1d66ce8c75c13b82e70b61a0ad04fc17c76cee",
+    "static_decision": "KEEP",
+    "static_group": "configured_dynamic_candidate",
+    "static_reason": "powered_fixed_wing_and_not_excluded_by_available_static_metadata",
+    "system_files": [],
+    "tank_count": 2,
+    "thruster_files": [
+      "vrtule2",
+      "vrtule2"
+    ]
+  },
+  {
+    "description": "McDonnell Douglas MD-11",
+    "empty_weight_lbs": 378300.0,
+    "engine_count": 3,
+    "engine_files": [
+      "CF6-80C2",
+      "CF6-80C2",
+      "CF6-80C2"
+    ],
+    "fdm_config_name": "MD11",
+    "flight_control_name": "FCS: MD11",
+    "model": "MD11",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\MD11\\MD11.xml",
+    "model_xml_sha256": "8addf6e948beaa287813107175cbaa31a50cd96cb9f63805c9e225906b8bffc2",
+    "static_decision": "REJECT_STATIC",
+    "static_group": "airliner_or_large_transport",
+    "static_reason": "size_speed_or_mission_configuration_obviously_mismatched_to_profile",
+    "system_files": [],
+    "tank_count": 4,
+    "thruster_files": [
+      "direct",
+      "direct",
+      "direct"
+    ]
+  },
+  {
+    "description": "Model SGS glider",
+    "empty_weight_lbs": 11.07,
+    "engine_count": 0,
+    "engine_files": [],
+    "fdm_config_name": "sgstest",
+    "flight_control_name": "SGS-mini",
+    "model": "minisgs",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\minisgs\\minisgs.xml",
+    "model_xml_sha256": "78f6fb0c37b2df93e27a7f229f424e88651ecf65ead29604bf2748c8e7edc35c",
+    "static_decision": "REJECT_STATIC",
+    "static_group": "glider_or_unpowered",
+    "static_reason": "propulsion_requirement_incompatible",
+    "system_files": [],
+    "tank_count": 0,
+    "thruster_files": []
+  },
+  {
+    "description": "Mk-82",
+    "empty_weight_lbs": 500.0,
+    "engine_count": 0,
+    "engine_files": [],
+    "fdm_config_name": "MK-82",
+    "flight_control_name": "FCS: MK-82 FCS",
+    "model": "mk82",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\mk82\\mk82.xml",
+    "model_xml_sha256": "01fa24a9281838529dae30a65b994101d4189234bd9ae19e177b25fabebeb541",
+    "static_decision": "REJECT_STATIC",
+    "static_group": "non_fixed_wing",
+    "static_reason": "non_fixed_wing_or_buoyant_ballistic_configuration",
+    "system_files": [],
+    "tank_count": 0,
+    "thruster_files": []
+  },
+  {
+    "description": "OV-10 Bronco",
+    "empty_weight_lbs": 8640.0,
+    "engine_count": 2,
+    "engine_files": [
+      "T76",
+      "T76"
+    ],
+    "fdm_config_name": "OV10 Bronco",
+    "flight_control_name": "FCS: OV10",
+    "model": "OV10",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\OV10\\OV10.xml",
+    "model_xml_sha256": "64026c94ac3a953ffcc2d953b13c44c5d250825c1d7b51b2e3f9c780ace72c3a",
+    "static_decision": "KEEP",
+    "static_group": "configured_dynamic_candidate",
+    "static_reason": "powered_fixed_wing_and_not_excluded_by_available_static_metadata",
+    "system_files": [],
+    "tank_count": 10,
+    "thruster_files": [
+      "direct",
+      "direct"
+    ]
+  },
+  {
+    "description": "Advanced model of P-51D fighter (Beta)",
+    "empty_weight_lbs": 7125.0,
+    "engine_count": 1,
+    "engine_files": [
+      "Packard-V-1650-7"
+    ],
+    "fdm_config_name": "P-51D (JSBSim)",
+    "flight_control_name": "FCS: P51D",
+    "model": "p51d",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\p51d\\p51d.xml",
+    "model_xml_sha256": "cb6835a38fe40db873b2f77d298cbc01700aefc86b19b3c7eda68be726e89da0",
+    "static_decision": "REJECT_STATIC",
+    "static_group": "jet_or_high_speed_tactical",
+    "static_reason": "jet_or_high_speed_tactical_configuration_mismatched_to_35_50_mps_profile",
+    "system_files": [
+      "propulsion",
+      "autothrottle",
+      "mixture-control",
+      "alpha-buffet",
+      "crash-detect",
+      "electrical",
+      "compressability",
+      "weapons-weight"
+    ],
+    "tank_count": 5,
+    "thruster_files": [
+      "P51prop"
+    ]
+  },
+  {
+    "description": "Piper PA-28 general aviation aircraft",
+    "empty_weight_lbs": 1650.0,
+    "engine_count": 1,
+    "engine_files": [
+      "engIO360C"
+    ],
+    "fdm_config_name": "PA28-180",
+    "flight_control_name": "FCS: PA28-180",
+    "model": "pa28",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\pa28\\pa28.xml",
+    "model_xml_sha256": "fe8dc2bf299dba99e14420a0dfe01465ddc10130d8142db720e1df3ceffba88b",
+    "static_decision": "KEEP",
+    "static_group": "configured_dynamic_candidate",
+    "static_reason": "powered_fixed_wing_and_not_excluded_by_available_static_metadata",
+    "system_files": [],
+    "tank_count": 1,
+    "thruster_files": [
+      "propC8v"
+    ]
+  },
+  {
+    "description": "(Powered) Paraglider",
+    "empty_weight_lbs": 10.0,
+    "engine_count": 1,
+    "engine_files": [
+      "Polini_THOR80"
+    ],
+    "fdm_config_name": "paraglider",
+    "flight_control_name": "FCS: paraglider_FCS",
+    "model": "paraglider",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\paraglider\\paraglider.xml",
+    "model_xml_sha256": "81c0ec3234ebf4ad04f23ec5708a4e2adc1ae12b785a8d0bcf56c2efced55e0a",
+    "static_decision": "REJECT_STATIC",
+    "static_group": "non_fixed_wing",
+    "static_reason": "non_fixed_wing_or_buoyant_ballistic_configuration",
+    "system_files": [
+      "Controls.xml"
+    ],
+    "tank_count": 1,
+    "thruster_files": [
+      "DT_Propeller"
+    ]
+  },
+  {
+    "description": "Models a PC-7.",
+    "empty_weight_lbs": 2932.65,
+    "engine_count": 1,
+    "engine_files": [
+      "PT6A"
+    ],
+    "fdm_config_name": "PC-7",
+    "flight_control_name": "FCS: PC-7",
+    "model": "pc7",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\pc7\\pc7.xml",
+    "model_xml_sha256": "3dc90c1be908206d3aef87e706fb2cf053850ffc12b9fc4d83e0f52428755038",
+    "static_decision": "REJECT_STATIC",
+    "static_group": "metadata_speed_mismatch",
+    "static_reason": "declared_or_configuration_implied_clean_minimum_speed_above_35_mps",
+    "system_files": [
+      "Conventional Controls.xml",
+      "Landing Gear.xml",
+      "Flaps.xml"
+    ],
+    "tank_count": 2,
+    "thruster_files": [
+      "Propeller"
+    ]
+  },
+  {
+    "description": "Models a Pogo.",
+    "empty_weight_lbs": 11700.0,
+    "engine_count": 1,
+    "engine_files": [
+      "YT40-A-16"
+    ],
+    "fdm_config_name": "Pogo",
+    "flight_control_name": "FCS: Pogo",
+    "model": "pogo-jsbsim",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\pogo-jsbsim\\pogo-jsbsim.xml",
+    "model_xml_sha256": "06af053ebe0dd37aa2fd370d7d4a7a4b5302f58d24dffb585f39e4bf4b7ba04d",
+    "static_decision": "REJECT_STATIC",
+    "static_group": "incompatible_special_configuration",
+    "static_reason": "placeholder_vtol_dummy_or_historically_too_slow_special_configuration",
+    "system_files": [],
+    "tank_count": 2,
+    "thruster_files": [
+      "Pogo_prop"
+    ]
+  },
+  {
+    "description": "Models a Pterosaur.",
+    "empty_weight_lbs": 187.26,
+    "engine_count": 1,
+    "engine_files": [
+      "dummy"
+    ],
+    "fdm_config_name": "Pterosaur",
+    "flight_control_name": "FCS: Pterosaur",
+    "model": "Pterosaur",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\Pterosaur\\Pterosaur.xml",
+    "model_xml_sha256": "eda73aa8365d9cff4f3e06885ebca8cef83b52d3ed71d6016f5140531058563e",
+    "static_decision": "REJECT_STATIC",
+    "static_group": "incompatible_special_configuration",
+    "static_reason": "placeholder_vtol_dummy_or_historically_too_slow_special_configuration",
+    "system_files": [
+      "Ornithopter Controls.xml",
+      "Landing Gear.xml",
+      "Wing Motion.xml"
+    ],
+    "tank_count": 0,
+    "thruster_files": [
+      "direct"
+    ]
+  },
+  {
+    "description": "SGS Glider",
+    "empty_weight_lbs": 710.0,
+    "engine_count": 0,
+    "engine_files": [],
+    "fdm_config_name": "sgstest",
+    "flight_control_name": "FCS: c172",
+    "model": "SGS",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\SGS\\SGS.xml",
+    "model_xml_sha256": "374c2b9cfe2d4b570e77512c9dfd5a1d55e46f7ded05e4430d603e919a8395f3",
+    "static_decision": "REJECT_STATIC",
+    "static_group": "glider_or_unpowered",
+    "static_reason": "propulsion_requirement_incompatible",
+    "system_files": [],
+    "tank_count": 0,
+    "thruster_files": []
+  },
+  {
+    "description": "SGS-126 glider",
+    "empty_weight_lbs": 445.0,
+    "engine_count": 0,
+    "engine_files": [],
+    "fdm_config_name": "sgs126",
+    "flight_control_name": "FCS: sgs126",
+    "model": "sgs126",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\sgs126\\sgs126.xml",
+    "model_xml_sha256": "5ed59fe8fdcf0aa980e3c675cdf4b42d76c84a80e5c718a9e3e120dd3f62d108",
+    "static_decision": "REJECT_STATIC",
+    "static_group": "glider_or_unpowered",
+    "static_reason": "propulsion_requirement_incompatible",
+    "system_files": [],
+    "tank_count": 0,
+    "thruster_files": []
+  },
+  {
+    "description": "SGS-233 glider",
+    "empty_weight_lbs": 610.0,
+    "engine_count": 0,
+    "engine_files": [],
+    "fdm_config_name": "sgs233",
+    "flight_control_name": "FCS: sgs233",
+    "model": "sgs233",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\sgs233\\sgs233.xml",
+    "model_xml_sha256": "37cea20ce0675db6bf30ffa14e934da0bbf83e522d593a94849adc828c041715",
+    "static_decision": "REJECT_STATIC",
+    "static_group": "glider_or_unpowered",
+    "static_reason": "propulsion_requirement_incompatible",
+    "system_files": [],
+    "tank_count": 0,
+    "thruster_files": []
+  },
+  {
+    "description": "Models a Short S.23 flying boat.",
+    "empty_weight_lbs": 27528.0,
+    "engine_count": 4,
+    "engine_files": [
+      "eng_PegasusXc",
+      "eng_PegasusXc",
+      "eng_PegasusXc",
+      "eng_PegasusXc"
+    ],
+    "fdm_config_name": "Short S.23",
+    "flight_control_name": "FCS: Short S.23",
+    "model": "Short_S23",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\Short_S23\\Short_S23.xml",
+    "model_xml_sha256": "b4ba55cceeaca5057bacfb59b510bf3bdc8e9ea19efbd007904700ab2439282f",
+    "static_decision": "REJECT_STATIC",
+    "static_group": "airliner_or_large_transport",
+    "static_reason": "size_speed_or_mission_configuration_obviously_mismatched_to_profile",
+    "system_files": [
+      "hydrodynamics",
+      "hydrodynamic-planing-floats",
+      "Short_S23-hydrodynamics",
+      "sperry-a2-autopilot",
+      "take-off-ap",
+      "engines",
+      "fuel-system",
+      "electrical",
+      "flaps"
+    ],
+    "tank_count": 12,
+    "thruster_files": [
+      "prop_deHavilland5000",
+      "prop_deHavilland5000",
+      "prop_deHavilland5000",
+      "prop_deHavilland5000"
+    ]
+  },
+  {
+    "description": "Space Shuttle",
+    "empty_weight_lbs": 231300.0,
+    "engine_count": 0,
+    "engine_files": [],
+    "fdm_config_name": "Space Shuttle",
+    "flight_control_name": "X-15 SAS",
+    "model": "Shuttle",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\Shuttle\\Shuttle.xml",
+    "model_xml_sha256": "938d9c6d4bbda5d47087e01ac338a8506b186e29ac639c561f6c10d7e5093b26",
+    "static_decision": "REJECT_STATIC",
+    "static_group": "spacecraft_or_experimental_lifting_body",
+    "static_reason": "spacecraft_or_rocket_lifting_body_configuration",
+    "system_files": [],
+    "tank_count": 0,
+    "thruster_files": []
+  },
+  {
+    "description": "Submarine Scout Zero class airship for JSBSim.",
+    "empty_weight_lbs": 1617.090693126077,
+    "engine_count": 1,
+    "engine_files": [
+      "eng_RRhawk"
+    ],
+    "fdm_config_name": "SubmarineScout",
+    "flight_control_name": "Aerodynamic controls",
+    "model": "Submarine_Scout",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\Submarine_Scout\\Submarine_Scout.xml",
+    "model_xml_sha256": "c795c5adddc827b104b0e768410d79dfcfb815a013971c339fd4202cb61401c8",
+    "static_decision": "REJECT_STATIC",
+    "static_group": "non_fixed_wing",
+    "static_reason": "non_fixed_wing_or_buoyant_ballistic_configuration",
+    "system_files": [
+      null,
+      "Submarine_Scout_crew_ap",
+      "air-and-gas-control",
+      null,
+      "visual-reference-point-extensions",
+      null,
+      null,
+      "airship_added_mass"
+    ],
+    "tank_count": 2,
+    "thruster_files": [
+      "prop_SSZ"
+    ]
+  },
+  {
+    "description": "T-37 trainer",
+    "empty_weight_lbs": 4056.0,
+    "engine_count": 2,
+    "engine_files": [
+      "J69-T25",
+      "J69-T25"
+    ],
+    "fdm_config_name": "T37",
+    "flight_control_name": "FCS: T37",
+    "model": "T37",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\T37\\T37.xml",
+    "model_xml_sha256": "24b3ab90063e62a6b5e6ba969e43b9ed9ccc980d32fcb213a765c331025a57e9",
+    "static_decision": "REJECT_STATIC",
+    "static_group": "jet_or_high_speed_tactical",
+    "static_reason": "jet_or_high_speed_tactical_configuration_mismatched_to_35_50_mps_profile",
+    "system_files": [],
+    "tank_count": 2,
+    "thruster_files": [
+      "direct",
+      "direct"
+    ]
+  },
+  {
+    "description": "Models a Northrop T-38",
+    "empty_weight_lbs": 7574.0,
+    "engine_count": 2,
+    "engine_files": [
+      "J85-GE-5",
+      "J85-GE-5"
+    ],
+    "fdm_config_name": "T38",
+    "flight_control_name": "FCS: T38-FCS",
+    "model": "T38",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\T38\\T38.xml",
+    "model_xml_sha256": "3cb59fc46cef473b8b89c591651faf67f1e05954cb98db297d121fc8e58368b0",
+    "static_decision": "REJECT_STATIC",
+    "static_group": "jet_or_high_speed_tactical",
+    "static_reason": "jet_or_high_speed_tactical_configuration_mismatched_to_35_50_mps_profile",
+    "system_files": [],
+    "tank_count": 2,
+    "thruster_files": [
+      "direct",
+      "direct"
+    ]
+  },
+  {
+    "description": "T-6 Texan trainer",
+    "empty_weight_lbs": 5000.0,
+    "engine_count": 1,
+    "engine_files": [
+      "PT6A-68"
+    ],
+    "fdm_config_name": "T62",
+    "flight_control_name": "FCS: t62-fcs",
+    "model": "t6texan2",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\t6texan2\\t6texan2.xml",
+    "model_xml_sha256": "93e66a368324391d6b3c7d7254052772427919e3ddfa57b1defceb978729feae",
+    "static_decision": "REJECT_STATIC",
+    "static_group": "metadata_speed_mismatch",
+    "static_reason": "declared_or_configuration_implied_clean_minimum_speed_above_35_mps",
+    "system_files": [],
+    "tank_count": 2,
+    "thruster_files": [
+      "direct"
+    ]
+  },
+  {
+    "description": "Models a 6-foot weather balloon.",
+    "empty_weight_lbs": 1.7636980974790206,
+    "engine_count": 0,
+    "engine_files": [],
+    "fdm_config_name": "Weather Balloon",
+    "flight_control_name": "FCS: Sounding Balloon",
+    "model": "weather-balloon",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\weather-balloon\\weather-balloon.xml",
+    "model_xml_sha256": "d18c047e57a3ba5466e4990fa28d5498931fdf8823fc98f531c4ab770c7a8a4b",
+    "static_decision": "REJECT_STATIC",
+    "static_group": "non_fixed_wing",
+    "static_reason": "non_fixed_wing_or_buoyant_ballistic_configuration",
+    "system_files": [],
+    "tank_count": 0,
+    "thruster_files": []
+  },
+  {
+    "description": "Models the 1903 Wright Flyer.",
+    "empty_weight_lbs": 435.0,
+    "engine_count": 1,
+    "engine_files": [
+      "wright1903_engine"
+    ],
+    "fdm_config_name": "wrightFlyer1903",
+    "flight_control_name": "FCS: unnamed",
+    "model": "wrightFlyer1903",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\wrightFlyer1903\\wrightFlyer1903.xml",
+    "model_xml_sha256": "928035c648d7cd2ef1becd4f6661a384c643abc5ef9b81cb4446412d3a255f64",
+    "static_decision": "REJECT_STATIC",
+    "static_group": "incompatible_special_configuration",
+    "static_reason": "placeholder_vtol_dummy_or_historically_too_slow_special_configuration",
+    "system_files": [],
+    "tank_count": 1,
+    "thruster_files": [
+      "wright1903_propellers"
+    ]
+  },
+  {
+    "description": "Models the X-15 hypersonic research aircraft",
+    "empty_weight_lbs": 14560.0,
+    "engine_count": 1,
+    "engine_files": [
+      "XLR99"
+    ],
+    "fdm_config_name": "North American X-15",
+    "flight_control_name": "X-15",
+    "model": "X15",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\X15\\X15.xml",
+    "model_xml_sha256": "d1b13422428164d19ffa9621821df07b9de7c3844e9d2895f51abbc3108a26d6",
+    "static_decision": "REJECT_STATIC",
+    "static_group": "spacecraft_or_experimental_lifting_body",
+    "static_reason": "spacecraft_or_rocket_lifting_body_configuration",
+    "system_files": [],
+    "tank_count": 3,
+    "thruster_files": [
+      "xlr99_nozzle"
+    ]
+  },
+  {
+    "description": "X-24B research aircraft",
+    "empty_weight_lbs": 8500.0,
+    "engine_count": 1,
+    "engine_files": [
+      "XLR99"
+    ],
+    "fdm_config_name": "X-24B",
+    "flight_control_name": "FCS: X-15 SAS",
+    "model": "x24b",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\x24b\\x24b.xml",
+    "model_xml_sha256": "bc23037e654e46972d08766f6f506f39ed81440411a1ba3d2b5348e5296d74eb",
+    "static_decision": "REJECT_STATIC",
+    "static_group": "spacecraft_or_experimental_lifting_body",
+    "static_reason": "spacecraft_or_rocket_lifting_body_configuration",
+    "system_files": [],
+    "tank_count": 2,
+    "thruster_files": [
+      "xlr99_nozzle"
+    ]
+  },
+  {
+    "description": "XB-70 bomber flight model approximation",
+    "empty_weight_lbs": 300000.0,
+    "engine_count": 6,
+    "engine_files": [
+      "YJ93-GE-3",
+      "YJ93-GE-3",
+      "YJ93-GE-3",
+      "YJ93-GE-3",
+      "YJ93-GE-3",
+      "YJ93-GE-3"
+    ],
+    "fdm_config_name": "XB-70",
+    "flight_control_name": "FCS: XB-70",
+    "model": "XB-70",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\XB-70\\XB-70.xml",
+    "model_xml_sha256": "c82939f0ac7f5c6218802d9d17361312ec0eed07554f19a10ab9110ab2ebeda9",
+    "static_decision": "REJECT_STATIC",
+    "static_group": "jet_or_high_speed_tactical",
+    "static_reason": "jet_or_high_speed_tactical_configuration_mismatched_to_35_50_mps_profile",
+    "system_files": [],
+    "tank_count": 7,
+    "thruster_files": [
+      "direct",
+      "direct",
+      "direct",
+      "direct",
+      "direct",
+      "direct"
+    ]
+  },
+  {
+    "description": "JSBSim model of a NT-07 airship.",
+    "empty_weight_lbs": 3306.9339327731636,
+    "engine_count": 4,
+    "engine_files": [
+      "engIO360C",
+      "engIO360C",
+      "engIO360C",
+      "electric147kW"
+    ],
+    "fdm_config_name": "NT07",
+    "flight_control_name": "NT FCS",
+    "model": "ZLT-NT",
+    "model_xml": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\ZLT-NT\\ZLT-NT.xml",
+    "model_xml_sha256": "dbf5583ce6ec5914064ea33918d290e86f4c562f32180a57bc9d39815d7ea30d",
+    "static_decision": "REJECT_STATIC",
+    "static_group": "non_fixed_wing",
+    "static_reason": "non_fixed_wing_or_buoyant_ballistic_configuration",
+    "system_files": [
+      "air-and-gas-control",
+      null,
+      null,
+      "instrumentation",
+      "engine-control",
+      "visual-reference-point-extensions",
+      "airship-mooring",
+      null,
+      "airship_added_mass"
+    ],
+    "tank_count": 3,
+    "thruster_files": [
+      "propHO-V373-D",
+      "propHO-V373-D",
+      "propHO-V373-D",
+      "prop_Clark_Y7570"
+    ]
+  }
+]

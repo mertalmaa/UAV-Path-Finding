@@ -1,0 +1,579 @@
+{
+  "aircraft": [
+    {
+      "aircraft": "c172p",
+      "matrix": [
+        {
+          "altitude_m": 0.0,
+          "cells": [
+            {
+              "actual_ias_mps": 29.674458493899582,
+              "actual_stable_response": true,
+              "classification": "MARGINAL",
+              "classification_reasons": [
+                "strict_status_UNKNOWN"
+              ],
+              "controller_saturation": {
+                "aileron": false,
+                "elevator": false,
+                "rudder": false,
+                "throttle": false
+              },
+              "engine_healthy": true,
+              "ias_mps": 30.0,
+              "raw_strict_status": "UNKNOWN",
+              "repeatable": true,
+              "settled_all_repeats": true,
+              "throttle_norm": 0.6491074014714051
+            },
+            {
+              "actual_ias_mps": 39.91076733215219,
+              "actual_stable_response": true,
+              "classification": "USABLE",
+              "classification_reasons": [],
+              "controller_saturation": {
+                "aileron": false,
+                "elevator": false,
+                "rudder": false,
+                "throttle": false
+              },
+              "engine_healthy": true,
+              "ias_mps": 40.0,
+              "raw_strict_status": "VALID",
+              "repeatable": true,
+              "settled_all_repeats": true,
+              "throttle_norm": 0.6022641716871457
+            },
+            {
+              "actual_ias_mps": 49.98341235404546,
+              "actual_stable_response": true,
+              "classification": "USABLE",
+              "classification_reasons": [],
+              "controller_saturation": {
+                "aileron": false,
+                "elevator": false,
+                "rudder": false,
+                "throttle": false
+              },
+              "engine_healthy": true,
+              "ias_mps": 50.0,
+              "raw_strict_status": "VALID",
+              "repeatable": true,
+              "settled_all_repeats": true,
+              "throttle_norm": 0.6791381868045518
+            },
+            {
+              "actual_ias_mps": 59.993497656498256,
+              "actual_stable_response": true,
+              "classification": "USABLE",
+              "classification_reasons": [],
+              "controller_saturation": {
+                "aileron": false,
+                "elevator": false,
+                "rudder": false,
+                "throttle": false
+              },
+              "engine_healthy": true,
+              "ias_mps": 60.0,
+              "raw_strict_status": "VALID",
+              "repeatable": true,
+              "settled_all_repeats": true,
+              "throttle_norm": 0.7749883021830214
+            }
+          ]
+        },
+        {
+          "altitude_m": 1000.0,
+          "cells": [
+            {
+              "actual_ias_mps": null,
+              "actual_stable_response": null,
+              "classification": "NOT_TESTED",
+              "classification_reasons": [
+                "no_exact_u5_straight_point"
+              ],
+              "controller_saturation": null,
+              "engine_healthy": null,
+              "ias_mps": 30.0,
+              "raw_strict_status": null,
+              "repeatable": null,
+              "settled_all_repeats": null,
+              "throttle_norm": null
+            },
+            {
+              "actual_ias_mps": null,
+              "actual_stable_response": null,
+              "classification": "NOT_TESTED",
+              "classification_reasons": [
+                "no_exact_u5_straight_point"
+              ],
+              "controller_saturation": null,
+              "engine_healthy": null,
+              "ias_mps": 40.0,
+              "raw_strict_status": null,
+              "repeatable": null,
+              "settled_all_repeats": null,
+              "throttle_norm": null
+            },
+            {
+              "actual_ias_mps": null,
+              "actual_stable_response": null,
+              "classification": "NOT_TESTED",
+              "classification_reasons": [
+                "no_exact_u5_straight_point"
+              ],
+              "controller_saturation": null,
+              "engine_healthy": null,
+              "ias_mps": 50.0,
+              "raw_strict_status": null,
+              "repeatable": null,
+              "settled_all_repeats": null,
+              "throttle_norm": null
+            },
+            {
+              "actual_ias_mps": null,
+              "actual_stable_response": null,
+              "classification": "NOT_TESTED",
+              "classification_reasons": [
+                "no_exact_u5_straight_point"
+              ],
+              "controller_saturation": null,
+              "engine_healthy": null,
+              "ias_mps": 60.0,
+              "raw_strict_status": null,
+              "repeatable": null,
+              "settled_all_repeats": null,
+              "throttle_norm": null
+            }
+          ]
+        },
+        {
+          "altitude_m": 2000.0,
+          "cells": [
+            {
+              "actual_ias_mps": null,
+              "actual_stable_response": null,
+              "classification": "NOT_TESTED",
+              "classification_reasons": [
+                "no_exact_u5_straight_point"
+              ],
+              "controller_saturation": null,
+              "engine_healthy": null,
+              "ias_mps": 30.0,
+              "raw_strict_status": null,
+              "repeatable": null,
+              "settled_all_repeats": null,
+              "throttle_norm": null
+            },
+            {
+              "actual_ias_mps": null,
+              "actual_stable_response": null,
+              "classification": "NOT_TESTED",
+              "classification_reasons": [
+                "no_exact_u5_straight_point"
+              ],
+              "controller_saturation": null,
+              "engine_healthy": null,
+              "ias_mps": 40.0,
+              "raw_strict_status": null,
+              "repeatable": null,
+              "settled_all_repeats": null,
+              "throttle_norm": null
+            },
+            {
+              "actual_ias_mps": null,
+              "actual_stable_response": null,
+              "classification": "NOT_TESTED",
+              "classification_reasons": [
+                "no_exact_u5_straight_point"
+              ],
+              "controller_saturation": null,
+              "engine_healthy": null,
+              "ias_mps": 50.0,
+              "raw_strict_status": null,
+              "repeatable": null,
+              "settled_all_repeats": null,
+              "throttle_norm": null
+            },
+            {
+              "actual_ias_mps": null,
+              "actual_stable_response": null,
+              "classification": "NOT_TESTED",
+              "classification_reasons": [
+                "no_exact_u5_straight_point"
+              ],
+              "controller_saturation": null,
+              "engine_healthy": null,
+              "ias_mps": 60.0,
+              "raw_strict_status": null,
+              "repeatable": null,
+              "settled_all_repeats": null,
+              "throttle_norm": null
+            }
+          ]
+        },
+        {
+          "altitude_m": 3000.0,
+          "cells": [
+            {
+              "actual_ias_mps": 29.852743233696547,
+              "actual_stable_response": true,
+              "classification": "MARGINAL",
+              "classification_reasons": [
+                "strict_status_UNKNOWN"
+              ],
+              "controller_saturation": {
+                "aileron": false,
+                "elevator": false,
+                "rudder": false,
+                "throttle": false
+              },
+              "engine_healthy": true,
+              "ias_mps": 30.0,
+              "raw_strict_status": "UNKNOWN",
+              "repeatable": true,
+              "settled_all_repeats": true,
+              "throttle_norm": 0.7563208828997819
+            },
+            {
+              "actual_ias_mps": 39.959771376026524,
+              "actual_stable_response": true,
+              "classification": "USABLE",
+              "classification_reasons": [],
+              "controller_saturation": {
+                "aileron": false,
+                "elevator": false,
+                "rudder": false,
+                "throttle": false
+              },
+              "engine_healthy": true,
+              "ias_mps": 40.0,
+              "raw_strict_status": "VALID",
+              "repeatable": true,
+              "settled_all_repeats": true,
+              "throttle_norm": 0.7181884233300556
+            },
+            {
+              "actual_ias_mps": 49.99747654937608,
+              "actual_stable_response": true,
+              "classification": "USABLE",
+              "classification_reasons": [],
+              "controller_saturation": {
+                "aileron": false,
+                "elevator": false,
+                "rudder": false,
+                "throttle": false
+              },
+              "engine_healthy": true,
+              "ias_mps": 50.0,
+              "raw_strict_status": "VALID",
+              "repeatable": true,
+              "settled_all_repeats": true,
+              "throttle_norm": 0.79253092000216
+            },
+            {
+              "actual_ias_mps": 56.509734209338625,
+              "actual_stable_response": false,
+              "classification": "UNUSABLE",
+              "classification_reasons": [
+                "actual_stable_response_contract_failed"
+              ],
+              "controller_saturation": {
+                "aileron": false,
+                "elevator": false,
+                "rudder": false,
+                "throttle": true
+              },
+              "engine_healthy": true,
+              "ias_mps": 60.0,
+              "raw_strict_status": "INFEASIBLE",
+              "repeatable": true,
+              "settled_all_repeats": false,
+              "throttle_norm": 1.0
+            }
+          ]
+        },
+        {
+          "altitude_m": 4000.0,
+          "cells": [
+            {
+              "actual_ias_mps": null,
+              "actual_stable_response": null,
+              "classification": "NOT_TESTED",
+              "classification_reasons": [
+                "no_exact_u5_straight_point"
+              ],
+              "controller_saturation": null,
+              "engine_healthy": null,
+              "ias_mps": 30.0,
+              "raw_strict_status": null,
+              "repeatable": null,
+              "settled_all_repeats": null,
+              "throttle_norm": null
+            },
+            {
+              "actual_ias_mps": null,
+              "actual_stable_response": null,
+              "classification": "NOT_TESTED",
+              "classification_reasons": [
+                "no_exact_u5_straight_point"
+              ],
+              "controller_saturation": null,
+              "engine_healthy": null,
+              "ias_mps": 40.0,
+              "raw_strict_status": null,
+              "repeatable": null,
+              "settled_all_repeats": null,
+              "throttle_norm": null
+            },
+            {
+              "actual_ias_mps": null,
+              "actual_stable_response": null,
+              "classification": "NOT_TESTED",
+              "classification_reasons": [
+                "no_exact_u5_straight_point"
+              ],
+              "controller_saturation": null,
+              "engine_healthy": null,
+              "ias_mps": 50.0,
+              "raw_strict_status": null,
+              "repeatable": null,
+              "settled_all_repeats": null,
+              "throttle_norm": null
+            },
+            {
+              "actual_ias_mps": null,
+              "actual_stable_response": null,
+              "classification": "NOT_TESTED",
+              "classification_reasons": [
+                "no_exact_u5_straight_point"
+              ],
+              "controller_saturation": null,
+              "engine_healthy": null,
+              "ias_mps": 60.0,
+              "raw_strict_status": null,
+              "repeatable": null,
+              "settled_all_repeats": null,
+              "throttle_norm": null
+            }
+          ]
+        },
+        {
+          "altitude_m": 5000.0,
+          "cells": [
+            {
+              "actual_ias_mps": null,
+              "actual_stable_response": null,
+              "classification": "NOT_TESTED",
+              "classification_reasons": [
+                "no_exact_u5_straight_point"
+              ],
+              "controller_saturation": null,
+              "engine_healthy": null,
+              "ias_mps": 30.0,
+              "raw_strict_status": null,
+              "repeatable": null,
+              "settled_all_repeats": null,
+              "throttle_norm": null
+            },
+            {
+              "actual_ias_mps": 39.974084146830336,
+              "actual_stable_response": true,
+              "classification": "USABLE",
+              "classification_reasons": [],
+              "controller_saturation": {
+                "aileron": false,
+                "elevator": false,
+                "rudder": false,
+                "throttle": false
+              },
+              "engine_healthy": true,
+              "ias_mps": 40.0,
+              "raw_strict_status": "VALID",
+              "repeatable": true,
+              "settled_all_repeats": true,
+              "throttle_norm": 0.8017298926246431
+            },
+            {
+              "actual_ias_mps": null,
+              "actual_stable_response": null,
+              "classification": "NOT_TESTED",
+              "classification_reasons": [
+                "no_exact_u5_straight_point"
+              ],
+              "controller_saturation": null,
+              "engine_healthy": null,
+              "ias_mps": 50.0,
+              "raw_strict_status": null,
+              "repeatable": null,
+              "settled_all_repeats": null,
+              "throttle_norm": null
+            },
+            {
+              "actual_ias_mps": null,
+              "actual_stable_response": null,
+              "classification": "NOT_TESTED",
+              "classification_reasons": [
+                "no_exact_u5_straight_point"
+              ],
+              "controller_saturation": null,
+              "engine_healthy": null,
+              "ias_mps": 60.0,
+              "raw_strict_status": null,
+              "repeatable": null,
+              "settled_all_repeats": null,
+              "throttle_norm": null
+            }
+          ]
+        },
+        {
+          "altitude_m": 5500.0,
+          "cells": [
+            {
+              "actual_ias_mps": null,
+              "actual_stable_response": null,
+              "classification": "NOT_TESTED",
+              "classification_reasons": [
+                "no_exact_u5_straight_point"
+              ],
+              "controller_saturation": null,
+              "engine_healthy": null,
+              "ias_mps": 30.0,
+              "raw_strict_status": null,
+              "repeatable": null,
+              "settled_all_repeats": null,
+              "throttle_norm": null
+            },
+            {
+              "actual_ias_mps": 39.97514527830122,
+              "actual_stable_response": true,
+              "classification": "USABLE",
+              "classification_reasons": [],
+              "controller_saturation": {
+                "aileron": false,
+                "elevator": false,
+                "rudder": false,
+                "throttle": false
+              },
+              "engine_healthy": true,
+              "ias_mps": 40.0,
+              "raw_strict_status": "VALID",
+              "repeatable": true,
+              "settled_all_repeats": true,
+              "throttle_norm": 0.8245527808202402
+            },
+            {
+              "actual_ias_mps": null,
+              "actual_stable_response": null,
+              "classification": "NOT_TESTED",
+              "classification_reasons": [
+                "no_exact_u5_straight_point"
+              ],
+              "controller_saturation": null,
+              "engine_healthy": null,
+              "ias_mps": 50.0,
+              "raw_strict_status": null,
+              "repeatable": null,
+              "settled_all_repeats": null,
+              "throttle_norm": null
+            },
+            {
+              "actual_ias_mps": null,
+              "actual_stable_response": null,
+              "classification": "NOT_TESTED",
+              "classification_reasons": [
+                "no_exact_u5_straight_point"
+              ],
+              "controller_saturation": null,
+              "engine_healthy": null,
+              "ias_mps": 60.0,
+              "raw_strict_status": null,
+              "repeatable": null,
+              "settled_all_repeats": null,
+              "throttle_norm": null
+            }
+          ]
+        },
+        {
+          "altitude_m": 6000.0,
+          "cells": [
+            {
+              "actual_ias_mps": null,
+              "actual_stable_response": null,
+              "classification": "NOT_TESTED",
+              "classification_reasons": [
+                "no_exact_u5_straight_point"
+              ],
+              "controller_saturation": null,
+              "engine_healthy": null,
+              "ias_mps": 30.0,
+              "raw_strict_status": null,
+              "repeatable": null,
+              "settled_all_repeats": null,
+              "throttle_norm": null
+            },
+            {
+              "actual_ias_mps": 39.975350023230696,
+              "actual_stable_response": true,
+              "classification": "USABLE",
+              "classification_reasons": [],
+              "controller_saturation": {
+                "aileron": false,
+                "elevator": false,
+                "rudder": false,
+                "throttle": false
+              },
+              "engine_healthy": true,
+              "ias_mps": 40.0,
+              "raw_strict_status": "VALID",
+              "repeatable": true,
+              "settled_all_repeats": true,
+              "throttle_norm": 0.8488509592965002
+            },
+            {
+              "actual_ias_mps": null,
+              "actual_stable_response": null,
+              "classification": "NOT_TESTED",
+              "classification_reasons": [
+                "no_exact_u5_straight_point"
+              ],
+              "controller_saturation": null,
+              "engine_healthy": null,
+              "ias_mps": 50.0,
+              "raw_strict_status": null,
+              "repeatable": null,
+              "settled_all_repeats": null,
+              "throttle_norm": null
+            },
+            {
+              "actual_ias_mps": null,
+              "actual_stable_response": null,
+              "classification": "NOT_TESTED",
+              "classification_reasons": [
+                "no_exact_u5_straight_point"
+              ],
+              "controller_saturation": null,
+              "engine_healthy": null,
+              "ias_mps": 60.0,
+              "raw_strict_status": null,
+              "repeatable": null,
+              "settled_all_repeats": null,
+              "throttle_norm": null
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "artifact_type": "U5_1_ALTITUDE_IAS_USABILITY_MAPS",
+  "classification_contract": {
+    "MARGINAL": "actual stable response with strict UNKNOWN/INFEASIBLE, controller saturation, or low power margin",
+    "NOT_TESTED": "no U5 straight point exists at the exact altitude and IAS",
+    "UNUSABLE": "tested but actual stable response contract failed",
+    "USABLE": "actual stable response, strict VALID, no controller saturation, and throttle below caution threshold",
+    "throttle_caution_threshold_norm": 0.98
+  },
+  "provenance_id": "u5.1-d706a368635d7cb66217",
+  "raw_status_semantics_retained": true,
+  "schema_version": 1
+}

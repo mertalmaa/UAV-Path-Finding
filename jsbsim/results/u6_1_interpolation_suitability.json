@@ -1,0 +1,219 @@
+{
+  "aircraft_id": "c172p",
+  "artifact_type": "U6_1_INTERPOLATION_SUITABILITY",
+  "derated": false,
+  "labels": [
+    {
+      "evidence": {
+        "count": 6,
+        "dataset": "CORE",
+        "family": "straight",
+        "max_absolute_error": 0.0001508131252612177,
+        "max_relative_error_pct": 0.018550416134486512,
+        "mean_absolute_error": 5.377180728031542e-05,
+        "mean_relative_error_pct": 0.007041694799652343,
+        "median_absolute_error": 3.70684565954571e-05,
+        "p90_relative_error_pct": 0.01432994001430964,
+        "variable": "throttle"
+      },
+      "label": "INTERPOLATION_SUPPORTED",
+      "maneuver_region": "straight_0_5500",
+      "reason": "smooth_midpoint_errors_and_no_topology_discontinuity"
+    },
+    {
+      "evidence": {
+        "count": 18,
+        "dataset": "CORE",
+        "family": "level_turn",
+        "max_absolute_error": 89.00304025295924,
+        "max_relative_error_pct": 20.097870997192967,
+        "mean_absolute_error": 5.15167670180005,
+        "mean_relative_error_pct": 1.1588069823429585,
+        "median_absolute_error": 0.21248250667031243,
+        "p90_relative_error_pct": 0.07737782718741931,
+        "variable": "turn_radius_m"
+      },
+      "label": "INTERPOLATION_SUPPORTED",
+      "maneuver_region": "level_turn_pm20_0_5500",
+      "reason": "direction_separated_midpoint_geometry_remains_consistent"
+    },
+    {
+      "evidence": {
+        "count": 18,
+        "dataset": "CORE",
+        "family": "level_turn",
+        "max_absolute_error": 89.00304025295924,
+        "max_relative_error_pct": 20.097870997192967,
+        "mean_absolute_error": 5.15167670180005,
+        "mean_relative_error_pct": 1.1588069823429585,
+        "median_absolute_error": 0.21248250667031243,
+        "p90_relative_error_pct": 0.07737782718741931,
+        "variable": "turn_radius_m"
+      },
+      "label": "LIMITED",
+      "maneuver_region": "level_turn_pm30_sampled",
+      "reason": "sparse_severity_sample_and_known_directional_nonmonotonic_raw_geometry"
+    },
+    {
+      "evidence": {
+        "count": 12,
+        "dataset": "CORE",
+        "family": "descent",
+        "max_absolute_error": 0.0014700626213737245,
+        "max_relative_error_pct": 0.04554655498659338,
+        "mean_absolute_error": 0.00024172201711606758,
+        "mean_relative_error_pct": 0.008941754074811988,
+        "median_absolute_error": 7.84742382198278e-05,
+        "p90_relative_error_pct": 0.03058168702714593,
+        "variable": "actual_vz_mps"
+      },
+      "label": "INTERPOLATION_SUPPORTED",
+      "maneuver_region": "straight_descent_minus2_0_5500",
+      "reason": "continuous_response_without_physical_midpoint_discontinuity"
+    },
+    {
+      "evidence": {
+        "count": 12,
+        "dataset": "CORE",
+        "family": "descent",
+        "max_absolute_error": 0.0014700626213737245,
+        "max_relative_error_pct": 0.04554655498659338,
+        "mean_absolute_error": 0.00024172201711606758,
+        "mean_relative_error_pct": 0.008941754074811988,
+        "median_absolute_error": 7.84742382198278e-05,
+        "p90_relative_error_pct": 0.03058168702714593,
+        "variable": "actual_vz_mps"
+      },
+      "label": "LIMITED",
+      "maneuver_region": "straight_descent_minus3_0_5500",
+      "reason": "continuous_metrics_predictable_but_categorical_acceptance_varies"
+    },
+    {
+      "evidence": {
+        "count": 10,
+        "dataset": "CORE",
+        "family": "climb",
+        "max_absolute_error": 0.003011953202224138,
+        "max_relative_error_pct": 0.11104849283409063,
+        "mean_absolute_error": 0.0007842831117429672,
+        "mean_relative_error_pct": 0.03034750050487537,
+        "median_absolute_error": 0.0002998655548611673,
+        "p90_relative_error_pct": 0.09502346029837085,
+        "variable": "actual_vz_mps"
+      },
+      "label": "LIMITED",
+      "maneuver_region": "straight_climb_plus2_0_4000",
+      "reason": "continuous_response_small_error_but_strict_status_is_not_interpolable"
+    },
+    {
+      "evidence": {
+        "count": 10,
+        "dataset": "CORE",
+        "family": "climb",
+        "max_absolute_error": 0.003011953202224138,
+        "max_relative_error_pct": 0.11104849283409063,
+        "mean_absolute_error": 0.0007842831117429672,
+        "mean_relative_error_pct": 0.03034750050487537,
+        "median_absolute_error": 0.0002998655548611673,
+        "p90_relative_error_pct": 0.09502346029837085,
+        "variable": "actual_vz_mps"
+      },
+      "label": "UNSUPPORTED",
+      "maneuver_region": "straight_climb_plus2_4000_5500",
+      "reason": "power_boundary_and_status_transition_require_discrete_treatment"
+    },
+    {
+      "evidence": {
+        "count": 10,
+        "dataset": "CORE",
+        "family": "climb",
+        "max_absolute_error": 0.003011953202224138,
+        "max_relative_error_pct": 0.11104849283409063,
+        "mean_absolute_error": 0.0007842831117429672,
+        "mean_relative_error_pct": 0.03034750050487537,
+        "median_absolute_error": 0.0002998655548611673,
+        "p90_relative_error_pct": 0.09502346029837085,
+        "variable": "actual_vz_mps"
+      },
+      "label": "LIMITED",
+      "maneuver_region": "straight_climb_plus3_sampled_to_3250",
+      "reason": "boundary_adjacent_nonmonotonic_raw_response"
+    },
+    {
+      "evidence": {
+        "count": 8,
+        "dataset": "COMBINED",
+        "family": "descending_turn",
+        "max_absolute_error": 2.3726016286351523,
+        "max_relative_error_pct": 0.38605660380487616,
+        "mean_absolute_error": 1.4400307602181712,
+        "mean_relative_error_pct": 0.24320000891821586,
+        "median_absolute_error": 1.5282994015720703,
+        "p90_relative_error_pct": 0.3830710718131833,
+        "variable": "turn_radius_m"
+      },
+      "label": "INTERPOLATION_SUPPORTED",
+      "maneuver_region": "combined_descending_turn_1000_5500",
+      "reason": "direction_separated_radius_and_response_are_continuous_at_holdouts"
+    },
+    {
+      "evidence": {
+        "count": 8,
+        "dataset": "COMBINED",
+        "family": "climbing_turn",
+        "max_absolute_error": 15.575515078723868,
+        "max_relative_error_pct": 3.1199558520966426,
+        "mean_absolute_error": 3.5100565636515526,
+        "mean_relative_error_pct": 0.6442850528248321,
+        "median_absolute_error": 1.4681687606266678,
+        "p90_relative_error_pct": 1.5369042019527503,
+        "variable": "turn_radius_m"
+      },
+      "label": "LIMITED",
+      "maneuver_region": "combined_climbing_turn_1000_2500",
+      "reason": "1000m_raw_left_radius_excluded_and_audited_correction_required"
+    },
+    {
+      "evidence": {
+        "count": 8,
+        "dataset": "COMBINED",
+        "family": "climbing_turn",
+        "max_absolute_error": 0.009494088293329206,
+        "max_relative_error_pct": 0.3602168321249194,
+        "mean_absolute_error": 0.0034579684176130887,
+        "mean_relative_error_pct": 0.13332347064298616,
+        "median_absolute_error": 0.002889616999991018,
+        "p90_relative_error_pct": 0.27937808738797903,
+        "variable": "actual_vz_mps"
+      },
+      "label": "LIMITED",
+      "maneuver_region": "combined_climbing_turn_2500_4000",
+      "reason": "approaching_power_and_direction_specific_stability_transition"
+    },
+    {
+      "evidence": {
+        "count": 8,
+        "dataset": "COMBINED",
+        "family": "climbing_turn",
+        "max_absolute_error": 0.009494088293329206,
+        "max_relative_error_pct": 0.3602168321249194,
+        "mean_absolute_error": 0.0034579684176130887,
+        "mean_relative_error_pct": 0.13332347064298616,
+        "median_absolute_error": 0.002889616999991018,
+        "p90_relative_error_pct": 0.27937808738797903,
+        "variable": "actual_vz_mps"
+      },
+      "label": "UNSUPPORTED",
+      "maneuver_region": "combined_climbing_turn_4000_5500",
+      "reason": "nonmonotonic_categorical_behavior_and_high_altitude_power_settling_transition"
+    }
+  ],
+  "nominal_ias_mps": 40.0,
+  "planner_safe": false,
+  "predictions_frozen_at_utc": "2026-09-13T16:05:20.631316+00:00",
+  "predictions_generated_before_execution": true,
+  "provenance_id": "u6.1-73c7d2c4ba52ca611cc0",
+  "schema_version": 1,
+  "status_interpolated": false,
+  "threshold_policy": "NO_ARBITRARY_NUMERIC_SAFETY_THRESHOLD"
+}

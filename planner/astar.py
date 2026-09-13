@@ -63,11 +63,28 @@ import numpy as np
 from planner.candidate_z import CandidateZGenerator
 from planner.config import DEFAULT_CONFIG, PlannerConfig
 from planner.mission import mission_policy_from_config
-from planner.primitives import MotionPrimitive, Point3, PrimitiveEvalResult, build_primitive_set, evaluate_primitive
+from planner.primitives import (
+    DIRECTIONS,
+    MotionPrimitive,
+    Point3,
+    PrimitiveEvalResult,
+    build_primitive_set,
+    evaluate_primitive,
+    primitive_for_single_step_target_altitude,
+    primitive_for_target_altitude_over_horizon,
+)
 from planner.terrain import TerrainQuery
+from planner.vertical_motion import derive_minimum_horizontal_distance_m, evaluate_vertical_motion
 
 CanonicalState = Tuple[int, int, int]  # (row, col, z_index) -- THE search state (Step CLEAN-1); also
 # what start/goal/path/came_from/g_score are keyed by -- there is no separate augmented form anymore.
+# Step REP-1.2B: when a search call supplies a CandidateZGenerator, the third element is NOT a
+# z_step_m-ladder index -- see encode_candidate_altitude()/decode_candidate_altitude() below. It is
+# still a plain int (hashable/orderable exactly like before), so heap/closed-set/came_from all work
+# unchanged; only its DECODING differs, and only internally, only on that opt-in code path. Every
+# external script that never passes a candidate_z_generator gets the exact original z_index meaning,
+# unchanged -- see project.md "Step REP-1.2B" for why a global redefinition was rejected (it would
+# have silently changed the meaning of hand-built states in ~15 existing scripts).
 # (row, col, z_index, primitive_id) -- physical feasibility cache key. Whether a primitive is
 # physically safe from a given (row,col,z) never depends on how the aircraft got there (see
 # evaluate_primitive() -- it only ever looks at terrain, AGL, and the primitive's own geometry).
@@ -78,6 +95,30 @@ PrimitiveId = Tuple[int, int, float, str]  # (drow, dcol, dz_m, primitive_type) 
 # --------------------------------------------------------------------------
 # State <-> altitude conversion. Snapping is always explicit, never silent.
 # --------------------------------------------------------------------------
+
+# Step REP-1.2B: fine-grained, lattice-independent altitude encoding for CandidateZ-driven search
+# states -- a SEPARATE pair from msl_to_z_index/z_index_to_msl below (which remain byte-for-byte
+# unchanged, still the z_step_m-ladder formula every existing external script constructs states
+# with). Micrometre precision is exact for any real aircraft altitude (float64 represents integers
+# up to 2**53 exactly, and altitudes in this planner never approach 1e9 micrometres from a
+# reasonable MSL origin), so this is a pure canonicalization -- no lattice alignment required, no
+# accumulated drift (always derived fresh from a float via round(), never by adding integer deltas).
+_CANDIDATE_Z_SCALE = 1_000_000.0  # micrometres
+
+
+def encode_candidate_altitude(z_msl: float) -> int:
+    """MSL altitude -> a stable, hashable, deterministic CandidateZ state key.
+
+    Unlike msl_to_z_index(), this never raises and never snaps to any
+    lattice -- any real z_msl (including an off-lattice exact mission
+    start/goal altitude) round-trips through this and decode_candidate_
+    altitude() to itself (to micrometre precision)."""
+    return round(z_msl * _CANDIDATE_Z_SCALE)
+
+
+def decode_candidate_altitude(z_key: int) -> float:
+    return z_key / _CANDIDATE_Z_SCALE
+
 
 def msl_to_z_index(z_msl: float, config: PlannerConfig = DEFAULT_CONFIG, allow_snap: bool = False) -> int:
     """MSL altitude -> z_index on the z_step_m grid.
@@ -101,14 +142,32 @@ def z_index_to_msl(z_index: int, config: PlannerConfig = DEFAULT_CONFIG) -> floa
     return z_index * config.z_step_m
 
 
-def state_to_xyz(state: CanonicalState, terrain: TerrainQuery, config: PlannerConfig = DEFAULT_CONFIG) -> Point3:
-    row, col, z_index = state
+def state_to_xyz(
+    state: CanonicalState,
+    terrain: TerrainQuery,
+    config: PlannerConfig = DEFAULT_CONFIG,
+    candidate_z_generator: Optional[CandidateZGenerator] = None,
+) -> Point3:
+    """Step REP-1.2B: candidate_z_generator is used ONLY to select which
+    decoding formula applies to this state's z-component -- its OWN
+    behavior (generate/is_representable) is never consulted here. Passing
+    None (the default, unchanged for every existing caller) decodes via the
+    original z_step_m-ladder formula; passing the SAME generator a search
+    call used internally decodes via decode_candidate_altitude() instead.
+    A state must always be decoded with whichever mode produced it."""
+    row, col, z_key = state
     x, y = terrain.rowcol_to_xy(row, col)
-    return (x, y, z_index_to_msl(z_index, config))
+    z_msl = decode_candidate_altitude(z_key) if candidate_z_generator is not None else z_index_to_msl(z_key, config)
+    return (x, y, z_msl)
 
 
-def path_to_xyz(path: List[CanonicalState], terrain: TerrainQuery, config: PlannerConfig = DEFAULT_CONFIG) -> List[Point3]:
-    return [state_to_xyz(s, terrain, config) for s in path]
+def path_to_xyz(
+    path: List[CanonicalState],
+    terrain: TerrainQuery,
+    config: PlannerConfig = DEFAULT_CONFIG,
+    candidate_z_generator: Optional[CandidateZGenerator] = None,
+) -> List[Point3]:
+    return [state_to_xyz(s, terrain, config, candidate_z_generator) for s in path]
 
 
 def _distance_to_goal_box(
@@ -139,6 +198,7 @@ def _state_in_goal_region(
     goal: CanonicalState,
     terrain: TerrainQuery,
     config: PlannerConfig,
+    candidate_z_generator: Optional[CandidateZGenerator] = None,
 ) -> bool:
     """Stage 33: is `state`'s physical position within the goal tolerance
     box around `goal`? Metric x/y come from the terrain's real affine
@@ -158,8 +218,8 @@ def _state_in_goal_region(
     """
     if config.goal_tolerance_xy_m == 0.0 and config.goal_tolerance_z_m == 0.0:
         return state == goal
-    x1, y1, z1 = state_to_xyz(state, terrain, config)
-    x2, y2, z2 = state_to_xyz(goal, terrain, config)
+    x1, y1, z1 = state_to_xyz(state, terrain, config, candidate_z_generator)
+    x2, y2, z2 = state_to_xyz(goal, terrain, config, candidate_z_generator)
     return (
         abs(x1 - x2) <= config.goal_tolerance_xy_m
         and abs(y1 - y2) <= config.goal_tolerance_xy_m
@@ -283,6 +343,7 @@ def _heuristic(
     min_possible_msl: Optional[float] = None,
     use_vertical_reachability: bool = False,
     distance_reference_m: Optional[float] = None,
+    candidate_z_generator: Optional[CandidateZGenerator] = None,
 ) -> float:
     """h = max(h_global, h_forward) -- both individually admissible and
     consistent lower bounds on the true remaining cost, so their max is
@@ -322,8 +383,8 @@ def _heuristic(
     (0.0 once inside), and reduces bit-for-bit to the plain center distance
     when both tolerances are 0.0, so this is the correct D3D unconditionally.
     """
-    x1, y1, z1 = state_to_xyz(current, terrain, config)
-    x2, y2, z2 = state_to_xyz(goal, terrain, config)
+    x1, y1, z1 = state_to_xyz(current, terrain, config, candidate_z_generator)
+    x2, y2, z2 = state_to_xyz(goal, terrain, config, candidate_z_generator)
     d3d = _distance_to_goal_box(x1, y1, z1, x2, y2, z2, config.goal_tolerance_xy_m, config.goal_tolerance_z_m)
 
     if config.cost_mode == "normalized":
@@ -497,6 +558,7 @@ def compute_distance_reference(
     goal: CanonicalState,
     terrain: TerrainQuery,
     config: PlannerConfig = DEFAULT_CONFIG,
+    candidate_z_generator: Optional[CandidateZGenerator] = None,
 ) -> float:
     """D_ref for normalized cost mode (project.md "Stage 32"): the
     straight-line 3D distance between start and goal, computed ONCE per
@@ -504,8 +566,8 @@ def compute_distance_reference(
     loop). Every edge's normalized distance/altitude contribution is a
     ratio against this single constant -- independent of which path is
     actually flown."""
-    x1, y1, z1 = state_to_xyz(start, terrain, config)
-    x2, y2, z2 = state_to_xyz(goal, terrain, config)
+    x1, y1, z1 = state_to_xyz(start, terrain, config, candidate_z_generator)
+    x2, y2, z2 = state_to_xyz(goal, terrain, config, candidate_z_generator)
     return math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2 + (z2 - z1) ** 2)
 
 
@@ -592,14 +654,36 @@ def validate_path_safety(
     primitives: List[MotionPrimitive],
     terrain: TerrainQuery,
     config: PlannerConfig = DEFAULT_CONFIG,
+    candidate_z_generator: Optional[CandidateZGenerator] = None,
 ) -> bool:
-    """Safety-only path validation; performs no costing or optimization."""
+    """Safety-only path validation; performs no costing or optimization.
+
+    candidate_z_generator (Step REP-1.2B): a CandidateZ-driven path's edges
+    are not necessarily in the fixed `primitives` list (see _path_min_
+    observed_agl's docstring) -- when given, the exact primitive used is
+    rebuilt directly from each edge's own two states, the same way
+    _generate_neighbors produced it, instead of a by_delta lookup."""
     if len(path) < 2:
         return False
     by_delta = {(p.drow, p.dcol, round(p.dz_m / config.z_step_m)): p for p in primitives}
     for s1, s2 in zip(path, path[1:]):
-        prim = by_delta.get((s2[0] - s1[0], s2[1] - s1[1], s2[2] - s1[2]))
-        if prim is None or not evaluate_primitive(state_to_xyz(s1, terrain, config), prim, terrain, config).valid:
+        if candidate_z_generator is not None:
+            r1, c1, _ = s1
+            r2, c2, _ = s2
+            z1_msl = state_to_xyz(s1, terrain, config, candidate_z_generator)[2]
+            z2_msl = state_to_xyz(s2, terrain, config, candidate_z_generator)[2]
+            direction = _direction_for_unit_delta(r2 - r1, c2 - c1)
+            # Step REP-1.2B.1: n_cells generalizes REP-1.2B's implicit "always 1" --
+            # primitive_for_target_altitude_over_horizon(..., n_cells=1, ...) reduces to
+            # exactly primitive_for_single_step_target_altitude()'s geometry, so this is
+            # not a separate reconstruction path for the two stages, just the general form.
+            n_cells = max(abs(r2 - r1), abs(c2 - c1))
+            prim = primitive_for_target_altitude_over_horizon(direction, z1_msl, z2_msl, n_cells, config)
+            start_xyz = (*terrain.rowcol_to_xy(r1, c1), z1_msl)
+        else:
+            prim = by_delta.get((s2[0] - s1[0], s2[1] - s1[1], s2[2] - s1[2]))
+            start_xyz = state_to_xyz(s1, terrain, config)
+        if prim is None or not evaluate_primitive(start_xyz, prim, terrain, config).valid:
             return False
     return True
 
@@ -650,6 +734,29 @@ def _primitive_id(primitive: MotionPrimitive) -> PrimitiveId:
     return (primitive.drow, primitive.dcol, primitive.dz_m, primitive.primitive_type)
 
 
+_DIRECTION_BY_UNIT_DELTA: Dict[Tuple[int, int], str] = {v: k for k, v in DIRECTIONS.items()}
+
+
+def _direction_for_unit_delta(drow: int, dcol: int) -> str:
+    """Reverse-lookup for the CandidateZ-driven successor path.
+
+    Step REP-1.2B: every edge was exactly one grid cell, so (drow, dcol)
+    was already one of the 8 unit direction vectors.
+
+    Step REP-1.2B.1: a vertical-changing edge may now span multiple cells
+    (see primitive_for_target_altitude_over_horizon) -- but always a whole-
+    number multiple of one of the 8 unit vectors (every primitive this
+    module builds is a straight line in exactly one of those 8 compass
+    directions, never a diagonal-of-a-diagonal), so reducing to
+    (sign(drow), sign(dcol)) recovers the direction regardless of
+    magnitude."""
+    unit = (0 if drow == 0 else (1 if drow > 0 else -1), 0 if dcol == 0 else (1 if dcol > 0 else -1))
+    try:
+        return _DIRECTION_BY_UNIT_DELTA[unit]
+    except KeyError:
+        raise ValueError(f"({drow},{dcol}) does not reduce to one of the 8 unit step directions")
+
+
 def _generate_neighbors(
     state: CanonicalState,
     primitives: List[MotionPrimitive],
@@ -665,6 +772,7 @@ def _generate_neighbors(
     z_guide_tolerance_m: Optional[float] = None,
     fine_precompute: Optional["FinePrecomputeResult"] = None,
     candidate_z_generator: Optional[CandidateZGenerator] = None,
+    aircraft_profile=None,
 ):
     """current -> primitive -> candidate -> bounds -> XY corridor -> Z guide tube ->
     altitude bounds -> sparse/lazy floor prefilter -> evaluate_primitive (or cache) -> neighbor.
@@ -710,35 +818,34 @@ def _generate_neighbors(
     superseded that role). None (the default) reproduces the pre-Stage-
     38.1 behavior exactly.
 
-    candidate_z_generator (Roadmap Step 3E, default None): a
-    planner.candidate_z.CandidateZGenerator -- consulted whenever the
-    caller supplies one (no separate mode flag; presence of a generator
-    IS the sparse/lazy behavior -- Step CLEAN-1 removed the
-    representation_mode enum, since it only ever selected between "ignore
-    this" and "use this"). When given, a candidate successor whose
-    new_z_msl fails candidate_z_generator.is_representable(new_row,
-    new_col, new_z_msl) -- the cheap, O(1), cache-backed CandidateZ
-    representability authority (Step REP-1): CLASS-A terrain+min_agl
-    floor through the mission ceiling, on the z_step_m ladder, OR an
-    exact CLASS-B mission start/goal altitude at that specific cell -- is
-    rejected ("below_terrain_floor_sparse") BEFORE the (possibly cached)
-    evaluate_primitive() call. This is a PURE EFFICIENCY prefilter, never
-    a safety decision: is_representable()'s CLASS-A branch computes the
-    exact same terrain+min_agl formula evaluate_agl()'s own
-    below_min_agl check would reject the START endpoint on anyway (both
-    ceil the same true-floor to the same z_step grid), so this can only
-    reject a candidate early that evaluate_primitive() would also have
-    rejected -- it can never accept one evaluate_primitive() would
-    reject (evaluate_primitive() still runs, unchanged, on everything
-    that clears this prefilter, and is still the sole safety authority
-    for mid-primitive terrain/AGL/angle checks a single endpoint check
-    can't see), and it never changes which path is found, only how many
-    evaluate_primitive() calls get made.
+    candidate_z_generator (Roadmap Step 3E; Step REP-1.2B, default None): a
+    planner.candidate_z.CandidateZGenerator -- presence of a generator IS
+    the mode switch (Step CLEAN-1 removed the representation_mode enum).
+
+    Step REP-1.2B changed WHAT this mode switch does: it is no longer a
+    prefilter layered on top of the fixed z_step_m primitive list -- it is
+    now the ALTITUDE SUCCESSOR SOURCE. See _generate_candidate_z_neighbors()
+    below for the full new code path (used whenever candidate_z_generator is
+    not None) -- the fixed z_step_m arithmetic in THIS function (the `else`
+    branch right below) is untouched and still used by every caller that
+    does not supply a generator, exactly as before REP-1.2B.
+
+    fine_precompute is only consulted on the legacy (no candidate_z_
+    generator) path -- it is keyed by a fixed primitive list index, which
+    the CandidateZ path does not have (its primitives are built on demand,
+    per candidate altitude). Combining both is not supported this stage.
 
     Returns (accepted, rejected_reason_counts, generated_count, rejected_count,
     corridor_reject_count, z_corridor_reject_count).
     accepted is a list of (neighbor_state, edge_cost).
     """
+    if candidate_z_generator is not None:
+        return _generate_candidate_z_neighbors(
+            state, terrain, config, min_search_altitude_msl, max_search_altitude_msl,
+            primitive_cache, cache_stats, distance_reference_m, corridor_mask,
+            z_guide_grid, z_guide_tolerance_m, candidate_z_generator, aircraft_profile,
+        )
+
     row, col, z_index = state
     start_xyz = state_to_xyz(state, terrain, config)
 
@@ -781,19 +888,6 @@ def _generate_neighbors(
             rejected_counts["altitude_search_bounds"] = rejected_counts.get("altitude_search_bounds", 0) + 1
             continue
 
-        if candidate_z_generator is not None:
-            # Step REP-1: is_representable() is the unified CandidateZ authority (terrain
-            # floor + mission ceiling + exact mission-event recognition) -- see its own
-            # docstring and project.md "Step REP-1" for why it supersedes a floor-only
-            # check without replacing the z_step_m lattice itself. Rejection reason name
-            # kept as "below_terrain_floor_sparse" for backward compatibility with
-            # existing regression scripts that read this key -- terrain floor remains the
-            # dominant real-world rejection cause even though the check is now broader.
-            if not candidate_z_generator.is_representable(new_row, new_col, new_z_msl):
-                rejected += 1
-                rejected_counts["below_terrain_floor_sparse"] = rejected_counts.get("below_terrain_floor_sparse", 0) + 1
-                continue
-
         if fine_precompute is not None:
             from planner.fine_precompute import fine_precomputed_primitive_validity  # lazy: avoids import cycle
             valid, reason = fine_precomputed_primitive_validity(fine_precompute, row, col, prim_idx, start_xyz[2])
@@ -835,6 +929,225 @@ def _generate_neighbors(
     return accepted, rejected_counts, generated, rejected, corridor_reject_count, z_corridor_reject_count
 
 
+_MAX_VERTICAL_HORIZON_CELLS = 60  # Step REP-1.2B.1: practical sanity cap, see docstring below.
+
+
+def _generate_candidate_z_neighbors(
+    state: CanonicalState,
+    terrain: TerrainQuery,
+    config: PlannerConfig,
+    min_search_altitude_msl: float,
+    max_search_altitude_msl: float,
+    primitive_cache: Optional[Dict[PrimitiveCacheKey, PrimitiveEvalResult]],
+    cache_stats: Dict[str, int],
+    distance_reference_m: Optional[float],
+    corridor_mask: Optional[np.ndarray],
+    z_guide_grid: Optional[np.ndarray],
+    z_guide_tolerance_m: Optional[float],
+    candidate_z_generator: CandidateZGenerator,
+    aircraft_profile=None,
+):
+    """Step REP-1.2B: CandidateZGenerator IS the altitude successor source.
+    Step REP-1.2B.1 (aircraft_profile, default None): adds a MULTI-CELL
+    vertical-motion horizon on top of REP-1.2B's single-step mechanism --
+    see the module-level docstring note below and project.md "Step
+    REP-1.2B.1" for why the single-step-only version left real Mission A/B
+    unreachable.
+
+    BEFORE (Step REP-1/REP-1.1): new_z_index = z_index + round(dz_m /
+    z_step_m); new_z_msl = new_z_index * z_step_m -- a fixed lattice
+    arithmetic that generated the candidate altitude, with CandidateZ only
+    consulted AFTERWARD as an is_representable() prefilter/gate.
+
+    AFTER REP-1.2B: for each of the 8 directions, ONE grid-step candidates
+    are tried -- the current altitude (level) plus every value
+    candidate_z_generator.generate(new_row, new_col) returns for that
+    single-step DESTINATION cell -- via primitive_for_single_step_target_
+    altitude(). This block is UNCHANGED below (see _try_candidate_z_target)
+    and remains active even when aircraft_profile is None, reproducing
+    REP-1.2B's own behavior exactly in that case.
+
+    AFTER REP-1.2B.1 (aircraft_profile given): ADDITIONALLY, for each
+    direction, candidates sourced from candidate_z_generator.generate(row,
+    col) -- the CURRENT (source) cell, not the destination, since the
+    destination for a vertical-changing move is no longer fixed at one
+    cell -- are tried over a MULTI-CELL horizon whose length is derived
+    from the real AircraftProfile's local planner-safe climb/descent rate
+    (planner.vertical_motion.derive_minimum_horizontal_distance_m), never
+    a fixed/global angle or an invented cell count. This is additive: it
+    can only ADD successors the single-step mechanism missed (a climb/
+    descent too big for one grid step but achievable over more distance),
+    never remove or replace one the single-step mechanism already found --
+    see project.md "Step REP-1.2B.1" section 13's DIRECTLY INFEASIBLE !=
+    UNREACHABLE requirement.
+
+    Regular z_step_m arithmetic is not used anywhere in this function
+    (verified by scripts/validate_rep12b.py / validate_rep12b1.py's source
+    inspection tests).
+
+    Branching stays bounded: at most 1 (level) + |generate(dest)| (<=4) +
+    (aircraft_profile given) |generate(source)| (<=4, each with ONE
+    derived horizon, not a sweep over many) candidates per direction,
+    times 8 directions -- see _MAX_VERTICAL_HORIZON_CELLS for the one
+    practical sanity cap this stage adds (a defensive bound against a
+    pathologically small safe_vz producing an enormous horizon, never
+    part of the horizon DERIVATION rule itself).
+    """
+    row, col, z_key = state
+    start_altitude_msl = decode_candidate_altitude(z_key)
+    start_xy = terrain.rowcol_to_xy(row, col)
+    start_xyz = (start_xy[0], start_xy[1], start_altitude_msl)
+
+    accepted: List[Tuple[CanonicalState, float]] = []
+    rejected_counts: Dict[str, int] = {}
+    generated = 0
+    rejected = 0
+    corridor_reject_count = 0
+    z_corridor_reject_count = 0
+
+    def reject(reason: str) -> None:
+        nonlocal rejected
+        rejected += 1
+        rejected_counts[reason] = rejected_counts.get(reason, 0) + 1
+
+    def try_candidate(direction: str, dest_row: int, dest_col: int, target_altitude: float, prim) -> None:
+        """Shared validation/evaluation tail for one (direction, destination,
+        target_altitude, already-built primitive) candidate -- used by both
+        the REP-1.2B single-step block and the REP-1.2B.1 multi-cell block,
+        so there is exactly one prefilter/safety/cost/accept sequence, not
+        two drifting copies."""
+        nonlocal generated, corridor_reject_count, z_corridor_reject_count
+        generated += 1
+
+        if prim is None:
+            reject("angle_infeasible_for_horizon")
+            return
+
+        if not terrain.in_bounds_rowcol(dest_row, dest_col):
+            reject("out_of_bounds")
+            return
+
+        if corridor_mask is not None and not corridor_mask[dest_row, dest_col]:
+            corridor_reject_count += 1
+            reject("outside_corridor")
+            return
+
+        if z_guide_grid is not None and z_guide_tolerance_m is not None:
+            z_guide = z_guide_grid[dest_row, dest_col]
+            if abs(target_altitude - z_guide) > z_guide_tolerance_m:
+                z_corridor_reject_count += 1
+                reject("outside_z_guide_tube")
+                return
+
+        if not (min_search_altitude_msl <= target_altitude <= max_search_altitude_msl):
+            reject("altitude_search_bounds")
+            return
+
+        # Representability AT THE DESTINATION -- see planner/candidate_z.py's
+        # is_representable() docstring; the destination's own floor/ceiling
+        # may differ from wherever the candidate altitude was sourced from.
+        if not candidate_z_generator.is_representable(dest_row, dest_col, target_altitude):
+            reject("below_terrain_floor_sparse")
+            return
+
+        if primitive_cache is None:
+            eval_result = evaluate_primitive(start_xyz, prim, terrain, config)
+            cache_stats["actual_calls"] += 1
+        else:
+            cache_key: PrimitiveCacheKey = (row, col, z_key, _primitive_id(prim))
+            eval_result = primitive_cache.get(cache_key)
+            if eval_result is None:
+                cache_stats["misses"] += 1
+                eval_result = evaluate_primitive(start_xyz, prim, terrain, config)
+                cache_stats["actual_calls"] += 1
+                primitive_cache[cache_key] = eval_result
+            else:
+                cache_stats["hits"] += 1
+
+        if not eval_result.valid:
+            reject(eval_result.reason)
+            return
+
+        edge_cost = compute_edge_cost(prim, start_altitude_msl, config, distance_reference_m)
+        neighbor_state: CanonicalState = (dest_row, dest_col, encode_candidate_altitude(target_altitude))
+        accepted.append((neighbor_state, edge_cost))
+
+    for direction, (unit_drow, unit_dcol) in DIRECTIONS.items():
+        # -- REP-1.2B: single grid-step, destination-sourced candidates (unchanged) --
+        new_row = row + unit_drow
+        new_col = col + unit_dcol
+
+        if not terrain.in_bounds_rowcol(new_row, new_col):
+            generated += 1
+            reject("out_of_bounds")
+        elif corridor_mask is not None and not corridor_mask[new_row, new_col]:
+            generated += 1
+            corridor_reject_count += 1
+            reject("outside_corridor")
+        else:
+            single_step_candidates = {start_altitude_msl} | set(candidate_z_generator.generate(new_row, new_col))
+            for target_altitude in sorted(single_step_candidates):
+                prim = primitive_for_single_step_target_altitude(direction, start_altitude_msl, target_altitude, config)
+                if prim is None:
+                    generated += 1
+                    reject("angle_infeasible_single_step")
+                    continue
+                try_candidate(direction, new_row, new_col, target_altitude, prim)
+
+        # -- REP-1.2B.1: multi-cell, destination-sourced, aircraft-capability-derived horizon --
+        # Grows N (starting at 2 -- N=1 was already tried above) until the FIRST horizon at
+        # which at least one of that destination's own CandidateZ candidates becomes reachable
+        # at the aircraft's local planner-safe rate -- the deterministic MINIMUM horizon this
+        # direction needs (Section 8), not a fixed/arbitrary cell count. Stops growing as soon
+        # as one is found (Section 10 -- bounded, not "every candidate x every distance").
+        if aircraft_profile is None:
+            continue
+
+        step = math.hypot(unit_drow, unit_dcol) * config.xy_resolution_m
+        for n_cells in range(2, _MAX_VERTICAL_HORIZON_CELLS + 1):
+            dest_row = row + unit_drow * n_cells
+            dest_col = col + unit_dcol * n_cells
+            if not terrain.in_bounds_rowcol(dest_row, dest_col):
+                break  # farther N in this direction can only go further out of bounds
+
+            found_at_this_horizon = False
+            for target_altitude in sorted(set(candidate_z_generator.generate(dest_row, dest_col))):
+                if abs(target_altitude - start_altitude_msl) < 1e-9:
+                    continue  # no vertical motion needed -- already covered by "level" moves above
+
+                min_horizontal_m = derive_minimum_horizontal_distance_m(start_altitude_msl, target_altitude, aircraft_profile)
+                if min_horizontal_m is None:
+                    # PHYSICALLY_UNAVAILABLE / OUT_OF_DOMAIN at this altitude for this
+                    # maneuver's mode -- per Step CLASS-C, no horizon can rescue this
+                    # (Section 7/13). A DIFFERENT candidate (opposite sign of delta, a
+                    # different mode) at this same N may still be fine, so `continue`,
+                    # never `break`, out of this altitude-candidate loop.
+                    continue
+                required_n = max(1, math.ceil(min_horizontal_m / step - 1e-9))
+                if required_n > n_cells:
+                    continue  # this candidate needs more distance than N cells provides yet
+
+                prim = primitive_for_target_altitude_over_horizon(direction, start_altitude_msl, target_altitude, n_cells, config)
+                if prim is None:
+                    continue
+
+                # Authoritative aircraft-capability confirmation (Step CLASS-C contract) for
+                # the CONCRETE (distance, duration) this horizon actually produces --
+                # derive_minimum_horizontal_distance_m() above is a sizing helper only.
+                duration_s = prim.horizontal_distance_m / aircraft_profile.manifest.nominal_ias_context_mps
+                motion = evaluate_vertical_motion(start_altitude_msl, target_altitude, duration_s, aircraft_profile)
+                if motion.status != "FEASIBLE":
+                    continue
+
+                try_candidate(direction, dest_row, dest_col, target_altitude, prim)
+                found_at_this_horizon = True
+
+            if found_at_this_horizon:
+                break  # deterministic minimum horizon found for this direction -- stop growing N
+
+    return accepted, rejected_counts, generated, rejected, corridor_reject_count, z_corridor_reject_count
+
+
 def _reconstruct_path(came_from: Dict[CanonicalState, CanonicalState], start: CanonicalState, goal_state: CanonicalState) -> List[CanonicalState]:
     path = [goal_state]
     current = goal_state
@@ -845,7 +1158,12 @@ def _reconstruct_path(came_from: Dict[CanonicalState, CanonicalState], start: Ca
     return path
 
 
-def _path_altitude_metrics(path: List[CanonicalState], terrain: TerrainQuery, config: PlannerConfig) -> Dict[str, float]:
+def _path_altitude_metrics(
+    path: List[CanonicalState],
+    terrain: TerrainQuery,
+    config: PlannerConfig,
+    candidate_z_generator: Optional[CandidateZGenerator] = None,
+) -> Dict[str, float]:
     """Unweighted geometric length, MSL altitude stats, and climb/descent
     totals for a found path. Purely descriptive now -- not cost inputs.
 
@@ -854,7 +1172,7 @@ def _path_altitude_metrics(path: List[CanonicalState], terrain: TerrainQuery, co
     short high one -- otherwise sparse high-altitude waypoints could skew
     the average away from what was actually flown.
     """
-    xyz = [state_to_xyz(s, terrain, config) for s in path]
+    xyz = [state_to_xyz(s, terrain, config, candidate_z_generator) for s in path]
     altitudes = [p[2] for p in xyz]
 
     if len(xyz) < 2:
@@ -894,18 +1212,42 @@ def _path_min_observed_agl(
     primitives: List[MotionPrimitive],
     terrain: TerrainQuery,
     config: PlannerConfig,
+    candidate_z_generator: Optional[CandidateZGenerator] = None,
 ) -> float:
     """Re-derive the minimum AGL along a found path via evaluate_primitive()
-    on each edge -- reuses the existing safety validation, doesn't reimplement it."""
+    on each edge -- reuses the existing safety validation, doesn't reimplement it.
+
+    candidate_z_generator (Step REP-1.2B/REP-1.2B.1): a CandidateZ-driven
+    path's edges were not necessarily drawn from the fixed `primitives`
+    list (each edge's target altitude comes from CandidateZGenerator.
+    generate(), so its dz_m is generally NOT a multiple of config.z_step_m,
+    and Step REP-1.2B.1 edges may span multiple grid cells) -- the by_delta
+    lookup below cannot find them. In that case the exact primitive used is
+    rebuilt directly from the edge's own two states via
+    primitive_for_target_altitude_over_horizon() (n_cells derived from the
+    edge's own row/col delta magnitude), the same constructor _generate_
+    candidate_z_neighbors itself used to produce it -- not a separate/
+    approximate reconstruction.
+    """
     if len(path) < 2:
         return float("nan")
     by_delta = {(p.drow, p.dcol, round(p.dz_m / config.z_step_m)): p for p in primitives}
     min_agl = math.inf
-    for (r1, c1, z1), (r2, c2, z2) in zip(path, path[1:]):
-        prim = by_delta.get((r2 - r1, c2 - c1, z2 - z1))
+    for s1, s2 in zip(path, path[1:]):
+        r1, c1, _ = s1
+        r2, c2, _ = s2
+        if candidate_z_generator is not None:
+            z1_msl = state_to_xyz(s1, terrain, config, candidate_z_generator)[2]
+            z2_msl = state_to_xyz(s2, terrain, config, candidate_z_generator)[2]
+            direction = _direction_for_unit_delta(r2 - r1, c2 - c1)
+            n_cells = max(abs(r2 - r1), abs(c2 - c1))
+            prim = primitive_for_target_altitude_over_horizon(direction, z1_msl, z2_msl, n_cells, config)
+            start_xyz = (*terrain.rowcol_to_xy(r1, c1), z1_msl)
+        else:
+            prim = by_delta.get((r2 - r1, c2 - c1, s2[2] - s1[2]))
+            start_xyz = state_to_xyz(s1, terrain, config)
         if prim is None:
             continue  # shouldn't happen for a path this search produced
-        start_xyz = state_to_xyz((r1, c1, z1), terrain, config)
         result = evaluate_primitive(start_xyz, prim, terrain, config)
         min_agl = min(min_agl, result.min_agl_m)
     return min_agl if min_agl != math.inf else float("nan")
@@ -961,6 +1303,7 @@ def astar_search(
     external_primitive_cache: Optional[Dict[PrimitiveCacheKey, PrimitiveEvalResult]] = None,
     stop_on_first_solution: bool = False,
     candidate_z_generator: Optional[CandidateZGenerator] = None,
+    aircraft_profile=None,
 ) -> SearchResult:
     """3D A* from start to goal using only the existing safe motion primitives.
 
@@ -1161,6 +1504,16 @@ def astar_search(
     planner.terrain_cache.TerrainCache -- that choice is entirely the
     caller's, made when building `terrain` and this generator before
     calling astar_search().
+
+    aircraft_profile (default None, Step REP-1.2B.1): an optional
+    planner.aircraft_profile.AircraftProfile. Ignored entirely when
+    candidate_z_generator is None. When both are given, _generate_
+    candidate_z_neighbors() additionally tries a MULTI-CELL vertical-motion
+    horizon derived from this profile's real planner-safe climb/descent
+    rate (see that function's own docstring and planner.vertical_motion) --
+    purely ADDITIVE on top of REP-1.2B's single-grid-step mechanism, never
+    a replacement for it. None (the default) reproduces REP-1.2B's own
+    behavior exactly.
     """
     if primitives is None:
         primitives = build_primitive_set(config)
@@ -1199,7 +1552,8 @@ def astar_search(
     # Stage 32: D_ref, computed ONCE per search call (never per-edge/per-state),
     # only when cost_mode=="normalized" -- None (and unused) under "legacy".
     distance_reference_m = (
-        compute_distance_reference(start, goal, terrain, config) if config.cost_mode == "normalized" else None
+        compute_distance_reference(start, goal, terrain, config, candidate_z_generator)
+        if config.cost_mode == "normalized" else None
     )
 
     incumbent_cost = initial_incumbent_cost if use_incumbent_pruning else math.inf
@@ -1220,7 +1574,7 @@ def astar_search(
 
     # Stage 33: goal center in real UTM meters, computed once (never per-expansion),
     # for the closest-state-to-goal diagnostics below.
-    goal_x, goal_y, goal_z = state_to_xyz(goal, terrain, config)
+    goal_x, goal_y, goal_z = state_to_xyz(goal, terrain, config, candidate_z_generator)
     closest_distance_to_goal_region_m = math.inf
     closest_distance_to_goal_center_m = math.inf
     closest_state_to_goal: Optional[CanonicalState] = None
@@ -1230,7 +1584,7 @@ def astar_search(
     closed = set()
 
     h_start = _heuristic(start, goal, terrain, config, cost_multiplier, heuristic_min_msl,
-                          vertical_reachability_active, distance_reference_m)
+                          vertical_reachability_active, distance_reference_m, candidate_z_generator)
     start_counter = next(counter)
     open_heap = [(epsilon_search * h_start, start_counter, start, h_start)]
     lb_heap: List[Tuple[float, int, CanonicalState]] = [(h_start, start_counter, start)] if bounded_mode else []
@@ -1273,7 +1627,7 @@ def astar_search(
         closed.add(current)
         expanded_nodes += 1
 
-        x_c, y_c, z_c = state_to_xyz(current, terrain, config)
+        x_c, y_c, z_c = state_to_xyz(current, terrain, config, candidate_z_generator)
         region_dist = _distance_to_goal_box(x_c, y_c, z_c, goal_x, goal_y, goal_z,
                                              config.goal_tolerance_xy_m, config.goal_tolerance_z_m)
         if region_dist < closest_distance_to_goal_region_m:
@@ -1283,7 +1637,7 @@ def astar_search(
         if center_dist < closest_distance_to_goal_center_m:
             closest_distance_to_goal_center_m = center_dist
 
-        if _state_in_goal_region(current, goal, terrain, config):
+        if _state_in_goal_region(current, goal, terrain, config, candidate_z_generator):
             solution_cost = g_score[current]
             if first_solution_cost == math.inf:
                 first_solution_cost = solution_cost
@@ -1315,7 +1669,7 @@ def astar_search(
         neighbors, rej_counts, gen_count, rej_count, corridor_rej_count, z_corridor_rej_count = _generate_neighbors(
             current, primitives, terrain, config, min_search_altitude_msl, max_search_altitude_msl,
             primitive_cache, cache_stats, distance_reference_m, corridor_mask, z_guide_grid, z_guide_tolerance_m,
-            candidate_z_generator=candidate_z_generator,
+            candidate_z_generator=candidate_z_generator, aircraft_profile=aircraft_profile,
         )
         generated_neighbors += gen_count
         rejected_neighbors += rej_count
@@ -1341,7 +1695,8 @@ def astar_search(
                 came_from[neighbor_state] = current
 
                 h_val = _heuristic(neighbor_state, goal, terrain, config, cost_multiplier,
-                                    heuristic_min_msl, vertical_reachability_active, distance_reference_m)
+                                    heuristic_min_msl, vertical_reachability_active, distance_reference_m,
+                                    candidate_z_generator)
                 f_lb = tentative_g + h_val  # admissible, unweighted -- the ONLY value used for pruning/bounds
                 f_weighted = tentative_g + epsilon_search * h_val  # search ORDERING only, never a bound
                 if use_incumbent_pruning and f_lb >= incumbent_cost:
@@ -1394,8 +1749,8 @@ def astar_search(
     if status == "success" and goal_state is not None:
         path = _reconstruct_path(came_from, start, goal_state)
         total_cost = g_score[goal_state]
-        alt_metrics = _path_altitude_metrics(path, terrain, config)
-        min_observed_agl = _path_min_observed_agl(path, primitives, terrain, config)
+        alt_metrics = _path_altitude_metrics(path, terrain, config, candidate_z_generator)
+        min_observed_agl = _path_min_observed_agl(path, primitives, terrain, config, candidate_z_generator)
     elif status == "success" and goal_state is None:
         # The search proved the incumbent is (certifiably, or by exhaustion, or by
         # the exact-mode min-heap pop-order argument) at least as good as anything
@@ -1405,8 +1760,8 @@ def astar_search(
         # goal-pop(s) that updated it (see the loop above) otherwise.
         path = incumbent_path
         total_cost = incumbent_cost
-        alt_metrics = _path_altitude_metrics(path, terrain, config)
-        min_observed_agl = _path_min_observed_agl(path, primitives, terrain, config)
+        alt_metrics = _path_altitude_metrics(path, terrain, config, candidate_z_generator)
+        min_observed_agl = _path_min_observed_agl(path, primitives, terrain, config, candidate_z_generator)
     else:
         path = []
         total_cost = float("nan")

@@ -1,9 +1,16 @@
-"""Stage 9: cost tuning / sensitivity analysis for msl_cost_weight and
-vertical_cost_weight. No new cost terms, no formula changes -- this only
-runs the existing A* + cost model across a parameter grid and reports
-physically-interpretable metrics (NOT total_weighted_cost, which isn't
-comparable across different weights -- see module docstring notes below
-each table).
+"""Stage 9: cost tuning / sensitivity analysis for msl_cost_weight.
+
+REPAIR (2026-09-13): this script originally swept msl_cost_weight AND a
+second `vertical_cost_weight` config field. That field no longer exists on
+PlannerConfig (it predates the msl_reference_m/msl_scale_m fixed-scale MSL
+normalization and was dropped from the cost model before this repo's
+Step CLEAN-1/CLEAN-1.1 dead-code sweeps -- those sweeps only covered
+Stage 12-38, so this Stage 9 script was never revisited and every
+dataclasses.replace(..., vertical_cost_weight=...) call below had been
+raising TypeError: unexpected keyword argument). Fixed by dropping the
+vertical_cost_weight axis entirely -- what remains is a one-axis
+msl_cost_weight sweep, otherwise unchanged. No new cost terms, no formula
+changes to the actual A*/cost model.
 
 Scenario A: low-MSL trade-off (same corridor as the low-MSL stage) -- one
     single-step dive is available or not.
@@ -12,10 +19,8 @@ Scenario B: vertical-motion trade-off -- a wider altitude band (5 z-steps)
     a yes/no choice.
 Real ROI: same idea on the real 10x10 km Aladaglar DEM, in a spot with a
     genuine ~165 m valley the low-MSL preference can actually exploit.
-    Only 4 representative weight combinations -- the real DEM makes the
-    full 16-grid too slow for a prototype tuning pass (see note below).
 Section 9: search-altitude normalization sensitivity -- same physical
-    scenario, same weights, only min/max_search_altitude_msl changed.
+    scenario, same weight, only min/max_search_altitude_msl changed.
 
 This produces prototype tuning *candidates*, not a claimed-correct
 physical weight -- see the printed analysis at the end.
@@ -36,11 +41,10 @@ from planner.terrain import TerrainQuery
 
 NODATA = -9999.0
 MSL_WEIGHTS = (0.0, 0.25, 0.5, 1.0)
-VERTICAL_WEIGHTS = (0.0, 0.5, 1.0, 2.0)
 CSV_PATH = "tuning_results.csv"
 
 FIELDNAMES = [
-    "scenario", "msl_cost_weight", "vertical_cost_weight", "status", "runtime_ms",
+    "scenario", "msl_cost_weight", "status", "runtime_ms",
     "expanded_nodes", "path_state_count", "geometric_path_length_m", "total_weighted_cost",
     "average_msl_m", "minimum_msl_m", "maximum_msl_m", "total_climb_m", "total_descent_m",
     "total_vertical_motion_m", "minimum_observed_agl_m",
@@ -57,14 +61,14 @@ def make_roi(elevation: np.ndarray, nodata: float = NODATA, res: float = 30.0) -
     )
 
 
-def run_one(scenario, w_msl, w_vertical, start, goal, tq, min_alt, max_alt, primitives, base_cfg, max_expansions=None):
-    cfg = dataclasses.replace(base_cfg, msl_cost_weight=w_msl, vertical_cost_weight=w_vertical)
+def run_one(scenario, w_msl, start, goal, tq, min_alt, max_alt, primitives, base_cfg, max_expansions=None):
+    cfg = dataclasses.replace(base_cfg, msl_cost_weight=w_msl)
     t0 = time.perf_counter()
     r = astar_search(start, goal, tq, min_search_altitude_msl=min_alt, max_search_altitude_msl=max_alt,
                       config=cfg, primitives=primitives, max_expansions=max_expansions)
     runtime_ms = (time.perf_counter() - t0) * 1000.0
     row = {
-        "scenario": scenario, "msl_cost_weight": w_msl, "vertical_cost_weight": w_vertical,
+        "scenario": scenario, "msl_cost_weight": w_msl,
         "status": r.status, "runtime_ms": round(runtime_ms, 2),
         "expanded_nodes": r.expanded_nodes, "path_state_count": len(r.path),
         "geometric_path_length_m": round(r.geometric_path_length, 2) if r.success else "",
@@ -81,10 +85,10 @@ def run_one(scenario, w_msl, w_vertical, start, goal, tq, min_alt, max_alt, prim
 
 
 def print_table(rows) -> None:
-    cols = ["msl_cost_weight", "vertical_cost_weight", "status", "geometric_path_length_m",
+    cols = ["msl_cost_weight", "status", "geometric_path_length_m",
             "average_msl_m", "maximum_msl_m", "total_climb_m", "total_descent_m",
             "total_vertical_motion_m", "minimum_observed_agl_m", "expanded_nodes", "runtime_ms"]
-    widths = {"msl_cost_weight": 6, "vertical_cost_weight": 6, "status": 9, "geometric_path_length_m": 10,
+    widths = {"msl_cost_weight": 6, "status": 9, "geometric_path_length_m": 10,
               "average_msl_m": 9, "maximum_msl_m": 9, "total_climb_m": 7, "total_descent_m": 8,
               "total_vertical_motion_m": 9, "minimum_observed_agl_m": 8, "expanded_nodes": 9, "runtime_ms": 10}
     print("".join(f"{c:>{widths[c]}}" for c in cols))
@@ -103,14 +107,13 @@ def scenario_a(cfg, primitives, all_rows) -> bool:
     rows = []
     ok = True
     for w_msl in MSL_WEIGHTS:
-        for w_v in VERTICAL_WEIGHTS:
-            row = run_one("A_low_msl", w_msl, w_v, start, goal, tq, 1300.0, 1320.0, primitives, cfg)
-            rows.append(row)
-            all_rows.append(row)
-            if row["status"] == "success":
-                ok = ok and row["minimum_observed_agl_m"] >= cfg.min_agl_m - 1e-6
-            else:
-                ok = False
+        row = run_one("A_low_msl", w_msl, start, goal, tq, 1300.0, 1320.0, primitives, cfg)
+        rows.append(row)
+        all_rows.append(row)
+        if row["status"] == "success":
+            ok = ok and row["minimum_observed_agl_m"] >= cfg.min_agl_m - 1e-6
+        else:
+            ok = False
     print_table(rows)
     print(f"  all AGL safe (>= {cfg.min_agl_m}m): {ok}")
     return ok
@@ -128,15 +131,14 @@ def scenario_b(cfg, primitives, all_rows) -> bool:
     rows = []
     ok = True
     for w_msl in MSL_WEIGHTS:
-        for w_v in VERTICAL_WEIGHTS:
-            row = run_one("B_vertical", w_msl, w_v, start, goal, tq, 1300.0, 1400.0, primitives, cfg,
-                           max_expansions=100_000)
-            rows.append(row)
-            all_rows.append(row)
-            if row["status"] == "success":
-                ok = ok and row["minimum_observed_agl_m"] >= cfg.min_agl_m - 1e-6
-            else:
-                ok = False
+        row = run_one("B_vertical", w_msl, start, goal, tq, 1300.0, 1400.0, primitives, cfg,
+                       max_expansions=100_000)
+        rows.append(row)
+        all_rows.append(row)
+        if row["status"] == "success":
+            ok = ok and row["minimum_observed_agl_m"] >= cfg.min_agl_m - 1e-6
+        else:
+            ok = False
     print_table(rows)
     print(f"  all AGL safe (>= {cfg.min_agl_m}m): {ok}")
     return ok
@@ -166,11 +168,11 @@ def real_roi_scenario(cfg, primitives, all_rows) -> bool:
     print(f"  cruise_msl={cruise_msl:.0f}m, search bounds=[{min_search:.0f},{max_search:.0f}]m "
           f"(all z-grid aligned, {cfg.z_step_m}m step)")
 
-    combos = [(0.0, 0.0), (0.25, 1.0), (0.5, 1.0), (1.0, 2.0)]
+    combos = [0.0, 0.25, 0.5, 1.0]
     rows = []
     ok = True
-    for w_msl, w_v in combos:
-        row = run_one("C_real_roi", w_msl, w_v, start, goal, tq, min_search, max_search, primitives, cfg,
+    for w_msl in combos:
+        row = run_one("C_real_roi", w_msl, start, goal, tq, min_search, max_search, primitives, cfg,
                        max_expansions=50_000)
         rows.append(row)
         all_rows.append(row)
@@ -184,15 +186,29 @@ def real_roi_scenario(cfg, primitives, all_rows) -> bool:
 
 
 def normalization_sensitivity(cfg, primitives) -> bool:
+    # REPAIR (2026-09-13): this used to assert wide bounds DILUTE the MSL
+    # penalty relative to narrow bounds -- true only while altitude_scaled
+    # was derived from the search call's own min/max_search_altitude_msl
+    # (the Stage 30/31 "H_FLOOR" behavior). Stage 10 deliberately replaced
+    # that with a fixed msl_reference_m/msl_scale_m normalization that never
+    # reads search bounds at all (see planner/config.py), specifically to
+    # remove this dependence. Running this script now (previously impossible
+    # -- see module docstring) confirms that intent empirically: narrow and
+    # wide give byte-identical avg_msl/vertical_motion, only expanded-node
+    # count differs (wide simply explores more of the open state space).
+    # The assertion is inverted to check for that stability instead of the
+    # old, now-obsolete dilution behavior.
     print()
     print("=== Section 9: search-altitude normalization sensitivity (narrow vs wide) ===")
-    print("  Same physical start/goal/terrain/weights -- only min/max_search_altitude_msl differ.")
+    print("  Same physical start/goal/terrain/weight -- only min/max_search_altitude_msl differ.")
+    print("  Stage 10's fixed-scale MSL normalization does not read search bounds at all, so")
+    print("  narrow and wide are expected to produce the SAME cost-relevant metrics.")
     flat = np.full((3, 55), 1000.0)
     roi = make_roi(flat)
     tq = TerrainQuery(roi)
     z0 = msl_to_z_index(1400.0, cfg)
     start, goal = (1, 2, z0), (1, 52, z0)
-    c = dataclasses.replace(cfg, msl_cost_weight=0.25, vertical_cost_weight=1.0)
+    c = dataclasses.replace(cfg, msl_cost_weight=0.25)
 
     results = {}
     for label, lo, hi in (("narrow [1300,1400]", 1300.0, 1400.0), ("wide [1300,2400]", 1300.0, 2400.0)):
@@ -207,9 +223,9 @@ def normalization_sensitivity(cfg, primitives) -> bool:
 
     narrow, wide = results["narrow [1300,1400]"], results["wide [1300,2400]"]
     ok = narrow.success and wide.success
-    ok = ok and narrow.total_vertical_motion_m > wide.total_vertical_motion_m  # wide range dilutes the incentive
-    ok = ok and narrow.average_aircraft_msl < wide.average_aircraft_msl
-    print(f"  same physical altitude difference, weaker MSL-penalty effect under the wide range: {ok}")
+    ok = ok and abs(narrow.total_vertical_motion_m - wide.total_vertical_motion_m) < 1e-6
+    ok = ok and abs(narrow.average_aircraft_msl - wide.average_aircraft_msl) < 1e-6
+    print(f"  search-bound-independent MSL penalty confirmed (narrow == wide): {ok}")
     return ok
 
 

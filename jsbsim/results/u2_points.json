@@ -1,0 +1,210 @@
+[
+  {
+    "aircraft_model": "c172p",
+    "fixture_failure": false,
+    "gate": "speed",
+    "maneuver": "straight",
+    "measured": {
+      "aileron_cmd_norm": 0.05249801996076172,
+      "alpha_deg": 2.863455734664227,
+      "altitude_msl_m": 999.453592281871,
+      "beta_deg": 0.05285816712349772,
+      "cas_kts": 77.60366773464894,
+      "elevator_cmd_norm": -0.0011483187000806197,
+      "elevator_pos_norm": 0.03141556973694887,
+      "engine_0_throttle_pos_norm": 0.6229953198991864,
+      "gamma_deg": 0.06476380594224507,
+      "ias_mps": 39.92277573460273,
+      "left_aileron_pos_norm": 0.05248811634071371,
+      "maximum_surface_usage_norm": 0.054190355449683675,
+      "nz": 0.9960224514825587,
+      "right_aileron_pos_norm": 0.05248811634071371,
+      "roll_deg": -0.6432902593322614,
+      "rudder_cmd_norm": -0.006602415520083632,
+      "rudder_pos_norm": -0.006601169990923506,
+      "stall_indicator": 0.0,
+      "tas_mps": 41.89831928107487,
+      "vertical_speed_mps": 0.04739354221473214
+    },
+    "model_fixture_mismatch_evidence": false,
+    "repeatability": {
+      "metrics": {
+        "alpha_deg": {
+          "maximum_relative_deviation": 1.5508855418089332e-16,
+          "mean": 2.863455734664227,
+          "passed": true,
+          "values": [
+            2.8634557346642273,
+            2.8634557346642273,
+            2.8634557346642273
+          ]
+        },
+        "beta_deg": {
+          "maximum_relative_deviation": 0.0,
+          "mean": 0.05285816712349772,
+          "passed": true,
+          "values": [
+            0.05285816712349772,
+            0.05285816712349772,
+            0.05285816712349772
+          ]
+        },
+        "ias_mps": {
+          "maximum_relative_deviation": 0.0,
+          "mean": 39.92277573460273,
+          "passed": true,
+          "values": [
+            39.92277573460273,
+            39.92277573460273,
+            39.92277573460273
+          ]
+        },
+        "roll_deg": {
+          "maximum_relative_deviation": 0.0,
+          "mean": -0.6432902593322614,
+          "passed": true,
+          "values": [
+            -0.6432902593322614,
+            -0.6432902593322614,
+            -0.6432902593322614
+          ]
+        },
+        "vertical_speed_mps": {
+          "maximum_relative_deviation": 0.0,
+          "mean": 0.04739354221473214,
+          "passed": true,
+          "values": [
+            0.04739354221473214,
+            0.04739354221473214,
+            0.04739354221473214
+          ]
+        }
+      },
+      "passed": true
+    },
+    "requested": {
+      "bank_deg": 0.0,
+      "ias_mps": 40.0,
+      "vertical_speed_mps": 0.0
+    },
+    "run_status_reasons": [
+      [],
+      [],
+      []
+    ],
+    "run_statuses": [
+      "VALID",
+      "VALID",
+      "VALID"
+    ],
+    "runtime_s": 0.2984065000200644,
+    "status": "VALID"
+  },
+  {
+    "aircraft_model": "c172p",
+    "fixture_failure": false,
+    "gate": "speed",
+    "maneuver": "straight",
+    "measured": {
+      "aileron_cmd_norm": 0.07244491238357742,
+      "alpha_deg": 4.755820960011428,
+      "altitude_msl_m": 999.3782080784721,
+      "beta_deg": 0.09534005102018601,
+      "cas_kts": 67.8230464193938,
+      "elevator_cmd_norm": 1.9095685184898862e-05,
+      "elevator_pos_norm": -0.05710763070697603,
+      "engine_0_throttle_pos_norm": 0.6289138269864915,
+      "gamma_deg": 0.13043573093557667,
+      "ias_mps": 34.89118943575482,
+      "left_aileron_pos_norm": 0.07243124583220664,
+      "maximum_surface_usage_norm": 0.07594460843379527,
+      "nz": 0.9936509978210686,
+      "right_aileron_pos_norm": 0.07243124583220664,
+      "roll_deg": -0.8829207239652156,
+      "rudder_cmd_norm": -0.01200572635574223,
+      "rudder_pos_norm": -0.012003461505518993,
+      "stall_indicator": 0.0,
+      "tas_mps": 36.61949686398445,
+      "vertical_speed_mps": 0.08341002183757167
+    },
+    "model_fixture_mismatch_evidence": false,
+    "repeatability": {
+      "metrics": {
+        "alpha_deg": {
+          "maximum_relative_deviation": 0.0,
+          "mean": 4.755820960011428,
+          "passed": true,
+          "values": [
+            4.755820960011428,
+            4.755820960011428,
+            4.755820960011428
+          ]
+        },
+        "beta_deg": {
+          "maximum_relative_deviation": 1.3877787807814457e-17,
+          "mean": 0.09534005102018601,
+          "passed": true,
+          "values": [
+            0.09534005102018603,
+            0.09534005102018603,
+            0.09534005102018603
+          ]
+        },
+        "ias_mps": {
+          "maximum_relative_deviation": 0.0,
+          "mean": 34.89118943575482,
+          "passed": true,
+          "values": [
+            34.89118943575482,
+            34.89118943575482,
+            34.89118943575482
+          ]
+        },
+        "roll_deg": {
+          "maximum_relative_deviation": 0.0,
+          "mean": -0.8829207239652156,
+          "passed": true,
+          "values": [
+            -0.8829207239652156,
+            -0.8829207239652156,
+            -0.8829207239652156
+          ]
+        },
+        "vertical_speed_mps": {
+          "maximum_relative_deviation": 1.3877787807814457e-17,
+          "mean": 0.08341002183757167,
+          "passed": true,
+          "values": [
+            0.08341002183757165,
+            0.08341002183757165,
+            0.08341002183757165
+          ]
+        }
+      },
+      "passed": true
+    },
+    "requested": {
+      "bank_deg": 0.0,
+      "ias_mps": 35.0,
+      "vertical_speed_mps": 0.0
+    },
+    "run_status_reasons": [
+      [
+        "bank_tracking"
+      ],
+      [
+        "bank_tracking"
+      ],
+      [
+        "bank_tracking"
+      ]
+    ],
+    "run_statuses": [
+      "UNKNOWN",
+      "UNKNOWN",
+      "UNKNOWN"
+    ],
+    "runtime_s": 0.2841597000369802,
+    "status": "UNKNOWN"
+  }
+]

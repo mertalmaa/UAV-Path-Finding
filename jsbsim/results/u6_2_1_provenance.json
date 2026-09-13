@@ -1,0 +1,47 @@
+{
+  "artifact_type": "U6_2_1_PROVENANCE",
+  "files": {
+    "configuration": {
+      "path": "C:\\Users\\merta\\Desktop\\UAV-Path-Finding\\jsbsim\\u6_2_1_altitude_profile_configuration.yaml",
+      "sha256": "2f27850eff239ea9ffd97df053fbc869690fa1c4298c902a9cff9a34109313d1"
+    },
+    "derivation_harness": {
+      "path": "C:\\Users\\merta\\Desktop\\UAV-Path-Finding\\jsbsim\\u6_2_1_altitude_profile.py",
+      "sha256": "9a57e21acac81e4292710828e904d51220381194286a5ecfef71c405a1ad3d8a"
+    },
+    "query_interface": {
+      "path": "C:\\Users\\merta\\Desktop\\UAV-Path-Finding\\jsbsim\\aircraft_capability_profile.py",
+      "sha256": "087f044646cde59a7534ecf5fc4ccb44610c71362dfd917b34559bdcd8d844dc"
+    }
+  },
+  "generated_at_utc": "2026-09-13T17:10:11.745416+00:00",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "provenance_id": "u6.2.1-bed6f2ed0cc76cd5efc6",
+  "python_version": "3.14.7 (tags/v3.14.7:823f032, Aug  5 2026, 10:51:32) [MSC v.1944 64 bit (AMD64)]",
+  "schema_version": 1,
+  "source_artifacts_unchanged": true,
+  "source_hashes_after": {
+    "combined_holdouts": "23098a5da76306f12159a39f517153e96e176b502ce57df7e81e9de86e93640e",
+    "combined_raw": "a1f3da9dc2245f8765e22d6d6cb5202b94f98fbfb96ccd8b326a6550fed8438a",
+    "core_holdouts": "e572c110a18fa5fcbd0afd06c7524297b3bf53712e95abf8575d09856b64cc3d",
+    "core_raw": "865a297c3e9f6e3fbe2997a2edb85a80a5392f425be471669e59afe90209c808",
+    "interpolation_suitability": "80fdc434e2da2d21a600b39a7bdcd6f7e59a4ec7fd467e4fb774324d58d9a718",
+    "u6_2_derivation": "67dad2527d8e701153f8d51ce571beb2c6ab379addf4fe0e25c66994a1d77664",
+    "u6_2_measurement_fix": "05a81bcd03f100fbd54710e16b9b3806ff825e27db670b7df31d2ec85a383743",
+    "u6_2_profile": "7d1cb4ffb2b596ef99a31d5a98ec4dc53bc86cb1cda64362e8f10ef6a9ef8ca7",
+    "u6_2_provenance": "e72604f4e19b2c23138abab1e1fee2ba2e1f03c9bb67971c2ac6269f435754e9",
+    "u6_2_result": "85d23f0d43b38b3f4193bee3e4d592f3d667ae72481623c5f27ed8cb42416c18"
+  },
+  "source_hashes_before": {
+    "combined_holdouts": "23098a5da76306f12159a39f517153e96e176b502ce57df7e81e9de86e93640e",
+    "combined_raw": "a1f3da9dc2245f8765e22d6d6cb5202b94f98fbfb96ccd8b326a6550fed8438a",
+    "core_holdouts": "e572c110a18fa5fcbd0afd06c7524297b3bf53712e95abf8575d09856b64cc3d",
+    "core_raw": "865a297c3e9f6e3fbe2997a2edb85a80a5392f425be471669e59afe90209c808",
+    "interpolation_suitability": "80fdc434e2da2d21a600b39a7bdcd6f7e59a4ec7fd467e4fb774324d58d9a718",
+    "u6_2_derivation": "67dad2527d8e701153f8d51ce571beb2c6ab379addf4fe0e25c66994a1d77664",
+    "u6_2_measurement_fix": "05a81bcd03f100fbd54710e16b9b3806ff825e27db670b7df31d2ec85a383743",
+    "u6_2_profile": "7d1cb4ffb2b596ef99a31d5a98ec4dc53bc86cb1cda64362e8f10ef6a9ef8ca7",
+    "u6_2_provenance": "e72604f4e19b2c23138abab1e1fee2ba2e1f03c9bb67971c2ac6269f435754e9",
+    "u6_2_result": "85d23f0d43b38b3f4193bee3e4d592f3d667ae72481623c5f27ed8cb42416c18"
+  }
+}

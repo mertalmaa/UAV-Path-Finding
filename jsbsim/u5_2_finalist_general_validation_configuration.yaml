@@ -1,0 +1,116 @@
+schema_version: 1
+configuration_id: u5_2_finalist_general_validation_v1
+parent_u5_provenance_id: u5-4135baabef4a403315e5
+parent_u5_1_provenance_id: u5.1-d706a368635d7cb66217
+
+selection_philosophy:
+  mentor_values_are_hard_requirements: false
+  priority_order:
+    - stability
+    - control_quality
+    - repeatability
+    - altitude_speed_coverage
+    - basic_3d_maneuverability
+    - minimum_tuning
+    - uav_like_fixed_wing_character
+    - mentor_numeric_proximity
+
+finalists:
+  c172p:
+    nominal_ias_mps: 40
+    reference_speed_probes_mps: [30, 40, 50, 60]
+    fixture_source: u2
+    mixture_mode: production_pressure_ratio_v1
+    mixture_policy_id: c172p-production-mixture-pressure-ratio-v1
+  DHC6:
+    nominal_ias_mps: 60
+    reference_speed_probes_mps: [40, 50, 60, 70]
+    fixture_source: u1_primary
+    mixture_mode: turbine_full_command
+    mixture_policy_id: stock_turbine_full_command
+
+altitude_anchors_m: [0, 1000, 2000, 3000, 4000, 5000, 5500, 6000]
+
+new_straight_points:
+  c172p:
+    ias_mps: 40
+    altitudes_m: [1000, 2000, 4000]
+  DHC6:
+    ias_mps: 60
+    altitudes_m: [1000, 2000, 4000]
+
+new_level_turn_points_for_direct_radius_comparison:
+  altitudes_m: [1000, 4000]
+  bank_targets_deg: [-20, 20]
+  use_aircraft_nominal_speed: true
+
+combined_3d_validation:
+  representative_regions:
+    LOW: 1000
+    MID: 4000
+    HIGH: 5500
+    EXTREME_HIGH: 6000
+  bank_targets_deg: [-20, 20]
+  vertical_speed_targets_mps: [-2.5, 2.5]
+  use_aircraft_nominal_speed: true
+  full_target_cartesian_sweep: false
+  tested_subset_description: one moderate bank magnitude in both directions crossed with one moderate climb/descent magnitude
+
+simulation:
+  timestep_s: 0.01
+  replay_duration_s: 40.0
+  steady_measurement_window_s: 20.0
+  target_ramp_s: 8.0
+  cold_start_repetitions: 3
+
+actual_stable_combined_contract:
+  ias_retention_min: 0.90
+  bank_mean_error_max_deg: 3.0
+  vertical_mean_error_max_mps: 0.80
+  normalized_surface_usage_max: 0.90
+  measurement_ias_std_max_mps: 0.50
+  measurement_bank_std_max_deg: 1.00
+  measurement_vertical_speed_std_max_mps: 0.50
+  settling_deadline_s: 30.0
+  repeatability_required: true
+  engine_health_required: true
+  throttle_caution_threshold_norm: 0.98
+
+reuse_contract:
+  exact_aircraft_altitude_ias_maneuver_configuration_match_required: true
+  existing_level_straight_turn_vertical_data_reused: true
+  existing_u5_points_expected: 189
+  existing_u5_runs_expected: 567
+  duplicate_existing_simulation_forbidden: true
+
+scope:
+  finalist_models_only: true
+  new_aircraft_research: false
+  full_flight_envelope: false
+  service_ceiling_research: false
+  maximum_bank_search: false
+  fine_boundary_search: false
+  full_lut_generation: false
+  interpolation: false
+  derating: false
+  controller_tuning: false
+  custom_fcs: false
+  aircraft_xml_tuning: false
+  planner_integration: false
+  heading_implementation: false
+  search_code_changes: false
+  next_stage_started: false
+
+source_artifacts:
+  u5_phase1: results/u5_phase1_speed_screen.json
+  u5_high_altitude: results/u5_high_altitude_screen.json
+  u5_comparison: results/u5_candidate_comparison.json
+  u5_freeze: results/u5_aircraft_freeze.json
+  u5_points: results/u5_points.json
+  u5_runs: results/u5_runs.json
+  u5_provenance: results/u5_provenance.json
+  u5_result: results/u5_result.json
+  u5_1_maps: results/u5_1_altitude_speed_maps.json
+  u5_1_decision: results/u5_1_decision_recheck.json
+  u5_1_provenance: results/u5_1_provenance.json
+  u5_1_result: results/u5_1_result.json

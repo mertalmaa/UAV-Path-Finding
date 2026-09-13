@@ -1,0 +1,57 @@
+{
+  "aircraft_xml_modified": false,
+  "backup": "c172p",
+  "controller_gain_tuning_performed": false,
+  "executed_cold_start_runs": 72,
+  "executed_points": 24,
+  "final_replay_implemented": false,
+  "full_lut_started": false,
+  "inventory_count": 60,
+  "inventory_reused": "C:\\Users\\merta\\Desktop\\UAV-Path-Finding\\jsbsim\\results\\u2_inventory.json",
+  "planner_modified": false,
+  "primary": "c172r",
+  "ranking": [
+    {
+      "metrics": {
+        "all_four_logical_tests_clean": true,
+        "all_repeatable": true,
+        "clean_test_count": 4,
+        "maximum_surface_usage_norm": 0.0751807960944034,
+        "measurement_saturation_run_fraction": 0.0,
+        "nominal_speed_distance_from_preferred_band_mps": 0.0,
+        "numerical_stability": true,
+        "strict_u1_valid_count": 2,
+        "test_count": 4,
+        "turn_radius_m": 502.1031829066978,
+        "turn_rate_cv": 0.001085133485338391,
+        "turn_rate_deg_s": 4.773174853788674,
+        "vertical_tracking_mean_abs_error_mps": 0.1912834685160696
+      },
+      "model": "c172p",
+      "rank": 2,
+      "scores": {
+        "control_quality": 4,
+        "model_simplicity": 5,
+        "repeatability": 5,
+        "speed_proximity": 5,
+        "tuning_burden": 5,
+        "turn_quality": 5,
+        "vertical_quality": 5
+      },
+      "selection": "BACKUP",
+      "working_point": {
+        "bank_deg": 20.0,
+        "climb_mps": 2.5,
+        "descent_mps": -2.5,
+        "fixture_source": "u2",
+        "nominal_ias_mps": 40.0
+      }
+    }
+  ],
+  "runtime_s": 14.1032613000134,
+  "same_stack_lut_and_final_replay_required": true,
+  "selected_stack": "planner_maneuver_command_to_u3_outer_loop_to_stock_fcs_to_jsbsim",
+  "serious_candidate_count": 6,
+  "step": "U3",
+  "step_status": "PASS"
+}

@@ -1,0 +1,45 @@
+{
+  "artifact_type": "U5_2_PROVENANCE",
+  "configuration": {
+    "path": "C:\\Users\\merta\\Desktop\\UAV-Path-Finding\\jsbsim\\u5_2_finalist_general_validation_configuration.yaml",
+    "sha256": "983fb33164be081e06508ae94b35a0614ab4c566abe2a0ebc4381151269e46f5"
+  },
+  "generated_at_utc": "2026-09-13T15:02:28.837908+00:00",
+  "harness": {
+    "path": "C:\\Users\\merta\\Desktop\\UAV-Path-Finding\\jsbsim\\u5_2_finalist_general_validation.py",
+    "sha256": "702b6e5237a24aa12dff3af8a31090849844ab7fc95b87c9dd70bf402d849692"
+  },
+  "platform": "Windows-11-10.0.26200-SP0",
+  "provenance_id": "u5.2-461c0b881c6c070c2a5b",
+  "python_version": "3.14.7 (tags/v3.14.7:823f032, Aug  5 2026, 10:51:32) [MSC v.1944 64 bit (AMD64)]",
+  "schema_version": 1,
+  "source_artifacts_unchanged": true,
+  "source_hashes_after": {
+    "u5_1_decision": "0d195130963d9e4e21c311f56c9df2cf8e8aee7283074c5006841fb493bafb3f",
+    "u5_1_maps": "12025f42fbc2d4026080c967c79da996425d991941e0d2d31a31f3526278074c",
+    "u5_1_provenance": "19a16511a52430d10afae0c247286b9349640c747bd80172fc1952966ed94967",
+    "u5_1_result": "5abbba328d6c6ef783c6b6826f38c8649edeb866ff3fc6dc642809bc7c4544a5",
+    "u5_comparison": "a779d0e9328a9359f58bbb00bd55fdf681b29a1f2ba92a3c994e891998b04db7",
+    "u5_freeze": "78af489971362826d5424130e25c6372467864f53fe3bee7adee1806431c8779",
+    "u5_high_altitude": "94f1841dce2235f9c3b3cbec0b8c4e56110586f6cac23a20ad065d34d273e52f",
+    "u5_phase1": "101527d65f8123fe1b25a3980eb02033194557722c9ca13914e6482cbdd7408c",
+    "u5_points": "8e751cc2a176c35675ac7f9dadda837c41e01537d88831ee6508012b3a2b5437",
+    "u5_provenance": "d1499f1925cd8f2118d94a65a0e78265d0c07c3dd011cbd89bcc5571f2f63b81",
+    "u5_result": "e41f8ed85c9373415eed231c23fd243003894c8744cf9e487dd18ce92ab0a86d",
+    "u5_runs": "d49f21da4b5f0059378f620b8eebc9473027605fa8a14a3d1fbbdd9e9bcd5acd"
+  },
+  "source_hashes_before": {
+    "u5_1_decision": "0d195130963d9e4e21c311f56c9df2cf8e8aee7283074c5006841fb493bafb3f",
+    "u5_1_maps": "12025f42fbc2d4026080c967c79da996425d991941e0d2d31a31f3526278074c",
+    "u5_1_provenance": "19a16511a52430d10afae0c247286b9349640c747bd80172fc1952966ed94967",
+    "u5_1_result": "5abbba328d6c6ef783c6b6826f38c8649edeb866ff3fc6dc642809bc7c4544a5",
+    "u5_comparison": "a779d0e9328a9359f58bbb00bd55fdf681b29a1f2ba92a3c994e891998b04db7",
+    "u5_freeze": "78af489971362826d5424130e25c6372467864f53fe3bee7adee1806431c8779",
+    "u5_high_altitude": "94f1841dce2235f9c3b3cbec0b8c4e56110586f6cac23a20ad065d34d273e52f",
+    "u5_phase1": "101527d65f8123fe1b25a3980eb02033194557722c9ca13914e6482cbdd7408c",
+    "u5_points": "8e751cc2a176c35675ac7f9dadda837c41e01537d88831ee6508012b3a2b5437",
+    "u5_provenance": "d1499f1925cd8f2118d94a65a0e78265d0c07c3dd011cbd89bcc5571f2f63b81",
+    "u5_result": "e41f8ed85c9373415eed231c23fd243003894c8744cf9e487dd18ce92ab0a86d",
+    "u5_runs": "d49f21da4b5f0059378f620b8eebc9473027605fa8a14a3d1fbbdd9e9bcd5acd"
+  }
+}

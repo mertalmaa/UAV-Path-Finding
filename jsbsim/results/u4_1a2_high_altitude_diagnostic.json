@@ -1,0 +1,832 @@
+{
+  "aircraft_suitability": "CONTINUE",
+  "artifact_type": "HIGH_ALTITUDE_ROOT_CAUSE_DIAGNOSTIC",
+  "baseline_runs": [
+    {
+      "actual": {
+        "altitude_msl_m": 2499.685781821837,
+        "aoa_deg": 3.211037792515388,
+        "elevator_command_norm": -0.0015947288467026317,
+        "elevator_position_norm": 0.01231151227926803,
+        "ias_mps": 39.92798370768003,
+        "pitch_deg": 3.2188032173793366,
+        "throttle_norm": 0.9156655495800762,
+        "vertical_speed_mps": 0.006489011699534235
+      },
+      "altitude_m": 2500.0,
+      "controller_saturation_in_measurement": {
+        "aileron": false,
+        "elevator": false,
+        "rudder": false,
+        "throttle": false
+      },
+      "engine": {
+        "fuel_flow_gph_mean": 10.422387968563262,
+        "manifold_pressure_pa_mean": 69634.37133899443,
+        "mixture_command_max": 1.0,
+        "mixture_command_mean": 1.0,
+        "mixture_command_min": 1.0,
+        "mixture_position_mean": 1.0,
+        "power_hp_mean": 60.16683133428893,
+        "rpm_mean": 1954.1869254614448,
+        "rpm_min": 1943.986506564287,
+        "running_min": 1.0,
+        "thrust_lbs_mean": 187.2175749645046
+      },
+      "failed_checks": [],
+      "failure_class": null,
+      "matches_historical_u4_status": true,
+      "one_factor_changed": null,
+      "repeatability": {
+        "metrics": {
+          "engine_0_throttle_pos_norm": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.9156655495800762,
+            "passed": true,
+            "values": [
+              0.9156655495800762,
+              0.9156655495800762,
+              0.9156655495800762
+            ]
+          },
+          "ias_mps": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 39.92798370768003,
+            "passed": true,
+            "values": [
+              39.92798370768003,
+              39.92798370768003,
+              39.92798370768003
+            ]
+          },
+          "roll_deg": {
+            "maximum_relative_deviation": 0.0,
+            "mean": -0.6145780515264883,
+            "passed": true,
+            "values": [
+              -0.6145780515264883,
+              -0.6145780515264883,
+              -0.6145780515264883
+            ]
+          },
+          "vertical_speed_mps": {
+            "maximum_relative_deviation": 8.673617379884035e-19,
+            "mean": 0.006489011699534235,
+            "passed": true,
+            "values": [
+              0.006489011699534234,
+              0.006489011699534234,
+              0.006489011699534234
+            ]
+          }
+        },
+        "passed": true
+      },
+      "requested_mixture_command_norm": 1.0,
+      "run_ids": [
+        "u4.1a2-baseline-c172r-straight-40-+0-r1-h2500",
+        "u4.1a2-baseline-c172r-straight-40-+0-r2-h2500",
+        "u4.1a2-baseline-c172r-straight-40-+0-r3-h2500"
+      ],
+      "settling": {
+        "all_repeats_settled_before_measurement": true,
+        "maximum_settling_time_s": 11.8,
+        "per_repeat": [
+          {
+            "definition": "earliest_post_ramp_time_after_which_IAS_bank_Vz_remain_within_U1_tracking_bands",
+            "measurement_window_start_s": 20.0,
+            "settled_before_measurement_window": true,
+            "settling_time_s": 11.8
+          },
+          {
+            "definition": "earliest_post_ramp_time_after_which_IAS_bank_Vz_remain_within_U1_tracking_bands",
+            "measurement_window_start_s": 20.0,
+            "settled_before_measurement_window": true,
+            "settling_time_s": 11.8
+          },
+          {
+            "definition": "earliest_post_ramp_time_after_which_IAS_bank_Vz_remain_within_U1_tracking_bands",
+            "measurement_window_start_s": 20.0,
+            "settled_before_measurement_window": true,
+            "settling_time_s": 11.8
+          }
+        ]
+      },
+      "status": "VALID",
+      "status_reasons": [],
+      "trim": {
+        "all_succeeded": true,
+        "errors": [],
+        "fresh_untrimmed_fallback_used": false
+      },
+      "variant": "BASELINE"
+    },
+    {
+      "actual": {
+        "altitude_msl_m": 2929.787960080221,
+        "aoa_deg": 9.447664900324888,
+        "elevator_command_norm": -0.3672969954466138,
+        "elevator_position_norm": -0.3672277057878725,
+        "ias_mps": 28.8163832161399,
+        "pitch_deg": 2.26316585524672,
+        "throttle_norm": 1.0,
+        "vertical_speed_mps": -4.162960872148212
+      },
+      "altitude_m": 3000.0,
+      "controller_saturation_in_measurement": {
+        "aileron": false,
+        "elevator": false,
+        "rudder": false,
+        "throttle": true
+      },
+      "engine": {
+        "fuel_flow_gph_mean": 0.0,
+        "manifold_pressure_pa_mean": 71224.3331598146,
+        "mixture_command_max": 1.0,
+        "mixture_command_mean": 1.0,
+        "mixture_command_min": 1.0,
+        "mixture_position_mean": 1.0,
+        "power_hp_mean": -1.5,
+        "rpm_mean": 0.0,
+        "rpm_min": 0.0,
+        "running_min": 0.0,
+        "thrust_lbs_mean": 0.0
+      },
+      "failed_checks": [
+        "engine_0_propeller_rotating",
+        "engine_0_running",
+        "engine_0_state_positive",
+        "ias_tracking",
+        "outer_loop_not_clipped_in_measurement",
+        "vertical_speed_tracking"
+      ],
+      "failure_class": "other",
+      "matches_historical_u4_status": true,
+      "one_factor_changed": null,
+      "repeatability": {
+        "metrics": {
+          "engine_0_throttle_pos_norm": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 1.0,
+            "passed": true,
+            "values": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "ias_mps": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 28.8163832161399,
+            "passed": true,
+            "values": [
+              28.8163832161399,
+              28.8163832161399,
+              28.8163832161399
+            ]
+          },
+          "roll_deg": {
+            "maximum_relative_deviation": 0.0,
+            "mean": -1.016907313347427,
+            "passed": true,
+            "values": [
+              -1.016907313347427,
+              -1.016907313347427,
+              -1.016907313347427
+            ]
+          },
+          "vertical_speed_mps": {
+            "maximum_relative_deviation": 0.0,
+            "mean": -4.162960872148212,
+            "passed": true,
+            "values": [
+              -4.162960872148212,
+              -4.162960872148212,
+              -4.162960872148212
+            ]
+          }
+        },
+        "passed": true
+      },
+      "requested_mixture_command_norm": 1.0,
+      "run_ids": [
+        "u4.1a2-baseline-c172r-straight-40-+0-r1-h3000",
+        "u4.1a2-baseline-c172r-straight-40-+0-r2-h3000",
+        "u4.1a2-baseline-c172r-straight-40-+0-r3-h3000"
+      ],
+      "settling": {
+        "all_repeats_settled_before_measurement": false,
+        "maximum_settling_time_s": null,
+        "per_repeat": [
+          {
+            "definition": "earliest_post_ramp_time_after_which_IAS_bank_Vz_remain_within_U1_tracking_bands",
+            "measurement_window_start_s": 20.0,
+            "settled_before_measurement_window": false,
+            "settling_time_s": null
+          },
+          {
+            "definition": "earliest_post_ramp_time_after_which_IAS_bank_Vz_remain_within_U1_tracking_bands",
+            "measurement_window_start_s": 20.0,
+            "settled_before_measurement_window": false,
+            "settling_time_s": null
+          },
+          {
+            "definition": "earliest_post_ramp_time_after_which_IAS_bank_Vz_remain_within_U1_tracking_bands",
+            "measurement_window_start_s": 20.0,
+            "settled_before_measurement_window": false,
+            "settling_time_s": null
+          }
+        ]
+      },
+      "status": "INFEASIBLE",
+      "status_reasons": [
+        "engine_0_propeller_rotating",
+        "engine_0_running",
+        "engine_0_state_positive",
+        "engine_not_sustained_in_frozen_fixture",
+        "ias_tracking",
+        "outer_loop_not_clipped_in_measurement",
+        "vertical_speed_tracking"
+      ],
+      "trim": {
+        "all_succeeded": false,
+        "errors": [
+          "TrimFailureError: Trim Failed"
+        ],
+        "fresh_untrimmed_fallback_used": true
+      },
+      "variant": "BASELINE"
+    },
+    {
+      "actual": {
+        "altitude_msl_m": 3429.535458272039,
+        "aoa_deg": 9.499515293583187,
+        "elevator_command_norm": -0.3706255422000353,
+        "elevator_position_norm": -0.3705556246192812,
+        "ias_mps": 28.753257425873773,
+        "pitch_deg": 2.3562896597480227,
+        "throttle_norm": 1.0,
+        "vertical_speed_mps": -4.236986630834591
+      },
+      "altitude_m": 3500.0,
+      "controller_saturation_in_measurement": {
+        "aileron": false,
+        "elevator": false,
+        "rudder": false,
+        "throttle": true
+      },
+      "engine": {
+        "fuel_flow_gph_mean": 0.0,
+        "manifold_pressure_pa_mean": 66853.19271213893,
+        "mixture_command_max": 1.0,
+        "mixture_command_mean": 1.0,
+        "mixture_command_min": 1.0,
+        "mixture_position_mean": 1.0,
+        "power_hp_mean": -1.5,
+        "rpm_mean": 0.0,
+        "rpm_min": 0.0,
+        "running_min": 0.0,
+        "thrust_lbs_mean": 0.0
+      },
+      "failed_checks": [
+        "engine_0_propeller_rotating",
+        "engine_0_running",
+        "engine_0_state_positive",
+        "ias_tracking",
+        "outer_loop_not_clipped_in_measurement",
+        "vertical_speed_tracking"
+      ],
+      "failure_class": "other",
+      "matches_historical_u4_status": true,
+      "one_factor_changed": null,
+      "repeatability": {
+        "metrics": {
+          "engine_0_throttle_pos_norm": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 1.0,
+            "passed": true,
+            "values": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "ias_mps": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 28.753257425873773,
+            "passed": true,
+            "values": [
+              28.753257425873773,
+              28.753257425873773,
+              28.753257425873773
+            ]
+          },
+          "roll_deg": {
+            "maximum_relative_deviation": 0.0,
+            "mean": -1.0280712765675533,
+            "passed": true,
+            "values": [
+              -1.0280712765675533,
+              -1.0280712765675533,
+              -1.0280712765675533
+            ]
+          },
+          "vertical_speed_mps": {
+            "maximum_relative_deviation": 0.0,
+            "mean": -4.236986630834591,
+            "passed": true,
+            "values": [
+              -4.236986630834591,
+              -4.236986630834591,
+              -4.236986630834591
+            ]
+          }
+        },
+        "passed": true
+      },
+      "requested_mixture_command_norm": 1.0,
+      "run_ids": [
+        "u4.1a2-baseline-c172r-straight-40-+0-r1-h3500",
+        "u4.1a2-baseline-c172r-straight-40-+0-r2-h3500",
+        "u4.1a2-baseline-c172r-straight-40-+0-r3-h3500"
+      ],
+      "settling": {
+        "all_repeats_settled_before_measurement": false,
+        "maximum_settling_time_s": null,
+        "per_repeat": [
+          {
+            "definition": "earliest_post_ramp_time_after_which_IAS_bank_Vz_remain_within_U1_tracking_bands",
+            "measurement_window_start_s": 20.0,
+            "settled_before_measurement_window": false,
+            "settling_time_s": null
+          },
+          {
+            "definition": "earliest_post_ramp_time_after_which_IAS_bank_Vz_remain_within_U1_tracking_bands",
+            "measurement_window_start_s": 20.0,
+            "settled_before_measurement_window": false,
+            "settling_time_s": null
+          },
+          {
+            "definition": "earliest_post_ramp_time_after_which_IAS_bank_Vz_remain_within_U1_tracking_bands",
+            "measurement_window_start_s": 20.0,
+            "settled_before_measurement_window": false,
+            "settling_time_s": null
+          }
+        ]
+      },
+      "status": "INFEASIBLE",
+      "status_reasons": [
+        "engine_0_propeller_rotating",
+        "engine_0_running",
+        "engine_0_state_positive",
+        "engine_not_sustained_in_frozen_fixture",
+        "ias_tracking",
+        "outer_loop_not_clipped_in_measurement",
+        "vertical_speed_tracking"
+      ],
+      "trim": {
+        "all_succeeded": false,
+        "errors": [
+          "TrimFailureError: Trim Failed"
+        ],
+        "fresh_untrimmed_fallback_used": true
+      },
+      "variant": "BASELINE"
+    }
+  ],
+  "historical_artifact_hashes_after": {
+    "u4_1a": "40be48f8c425fd07e10354d0cd1b5a663326dc2feadc3713b106ff81b671cd4e",
+    "u4_1a1": "eb989731195c616efb37d566bf57246298de8f9a975bf8e5c6424e59dbe90805",
+    "u4_raw_lut": "6a2181f13438691c990237d5a5593ca591b0cb9bff1aad54868f7e36380ec548"
+  },
+  "historical_artifact_hashes_before": {
+    "u4_1a": "40be48f8c425fd07e10354d0cd1b5a663326dc2feadc3713b106ff81b671cd4e",
+    "u4_1a1": "eb989731195c616efb37d566bf57246298de8f9a975bf8e5c6424e59dbe90805",
+    "u4_raw_lut": "6a2181f13438691c990237d5a5593ca591b0cb9bff1aad54868f7e36380ec548"
+  },
+  "historical_artifacts_unchanged": true,
+  "mixture_only_diagnostic_runs": [
+    {
+      "actual": {
+        "altitude_msl_m": 2999.7284556938043,
+        "aoa_deg": 3.1969392906887344,
+        "elevator_command_norm": -0.00039487628561123714,
+        "elevator_position_norm": 0.013447249562599324,
+        "ias_mps": 39.969058213064784,
+        "pitch_deg": 3.230405691600573,
+        "throttle_norm": 0.780182136887411,
+        "vertical_speed_mps": 0.02745951410240308
+      },
+      "altitude_m": 3000.0,
+      "controller_saturation_in_measurement": {
+        "aileron": false,
+        "elevator": false,
+        "rudder": false,
+        "throttle": false
+      },
+      "engine": {
+        "fuel_flow_gph_mean": 5.709003906503972,
+        "manifold_pressure_pa_mean": 51276.122446157555,
+        "mixture_command_max": 0.6917888209056536,
+        "mixture_command_mean": 0.6917888209056536,
+        "mixture_command_min": 0.6917888209056536,
+        "mixture_position_mean": 0.6917888209056536,
+        "power_hp_mean": 62.275012648752444,
+        "rpm_mean": 2010.433635215023,
+        "rpm_min": 2004.3093340351593,
+        "running_min": 1.0,
+        "thrust_lbs_mean": 188.86426590815492
+      },
+      "failed_checks": [],
+      "failure_class": null,
+      "matches_historical_u4_status": false,
+      "one_factor_changed": "MIXTURE_HANDLING_ONLY",
+      "pressure_ratio_reference_denominator_psf": 2117.0,
+      "repeatability": {
+        "metrics": {
+          "engine_0_throttle_pos_norm": {
+            "maximum_relative_deviation": 1.4230305618819547e-16,
+            "mean": 0.780182136887411,
+            "passed": true,
+            "values": [
+              0.7801821368874109,
+              0.7801821368874109,
+              0.7801821368874109
+            ]
+          },
+          "ias_mps": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 39.969058213064784,
+            "passed": true,
+            "values": [
+              39.969058213064784,
+              39.969058213064784,
+              39.969058213064784
+            ]
+          },
+          "roll_deg": {
+            "maximum_relative_deviation": 0.0,
+            "mean": -0.6118651733470576,
+            "passed": true,
+            "values": [
+              -0.6118651733470576,
+              -0.6118651733470576,
+              -0.6118651733470576
+            ]
+          },
+          "vertical_speed_mps": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.02745951410240308,
+            "passed": true,
+            "values": [
+              0.02745951410240308,
+              0.02745951410240308,
+              0.02745951410240308
+            ]
+          }
+        },
+        "passed": true
+      },
+      "requested_mixture_command_norm": 0.6917888209056536,
+      "run_ids": [
+        "u4.1a2-mixture_only-c172r-straight-40-+0-r1-h3000",
+        "u4.1a2-mixture_only-c172r-straight-40-+0-r2-h3000",
+        "u4.1a2-mixture_only-c172r-straight-40-+0-r3-h3000"
+      ],
+      "settling": {
+        "all_repeats_settled_before_measurement": true,
+        "maximum_settling_time_s": 12.01,
+        "per_repeat": [
+          {
+            "definition": "earliest_post_ramp_time_after_which_IAS_bank_Vz_remain_within_U1_tracking_bands",
+            "measurement_window_start_s": 20.0,
+            "settled_before_measurement_window": true,
+            "settling_time_s": 12.01
+          },
+          {
+            "definition": "earliest_post_ramp_time_after_which_IAS_bank_Vz_remain_within_U1_tracking_bands",
+            "measurement_window_start_s": 20.0,
+            "settled_before_measurement_window": true,
+            "settling_time_s": 12.01
+          },
+          {
+            "definition": "earliest_post_ramp_time_after_which_IAS_bank_Vz_remain_within_U1_tracking_bands",
+            "measurement_window_start_s": 20.0,
+            "settled_before_measurement_window": true,
+            "settling_time_s": 12.01
+          }
+        ]
+      },
+      "standard_atmosphere_pressure_psf": 1464.5169338572687,
+      "status": "VALID",
+      "status_reasons": [],
+      "trim": {
+        "all_succeeded": true,
+        "errors": [],
+        "fresh_untrimmed_fallback_used": false
+      },
+      "variant": "MIXTURE_ONLY"
+    },
+    {
+      "actual": {
+        "altitude_msl_m": 3499.7579797586864,
+        "aoa_deg": 3.197438207725179,
+        "elevator_command_norm": -0.0003953738629105881,
+        "elevator_position_norm": 0.013374462987929735,
+        "ias_mps": 39.971330484164675,
+        "pitch_deg": 3.2252856271052637,
+        "throttle_norm": 0.8026372763612217,
+        "vertical_speed_mps": 0.023509878268427018
+      },
+      "altitude_m": 3500.0,
+      "controller_saturation_in_measurement": {
+        "aileron": false,
+        "elevator": false,
+        "rudder": false,
+        "throttle": false
+      },
+      "engine": {
+        "fuel_flow_gph_mean": 5.851799235344221,
+        "manifold_pressure_pa_mean": 50307.17037681878,
+        "mixture_command_max": 0.6489642682416012,
+        "mixture_command_mean": 0.6489642682416012,
+        "mixture_command_min": 0.6489642682416012,
+        "mixture_position_mean": 0.6489642682416012,
+        "power_hp_mean": 63.768645104987165,
+        "rpm_mean": 2061.847617040828,
+        "rpm_min": 2056.5569975511253,
+        "running_min": 1.0,
+        "thrust_lbs_mean": 188.47115790865803
+      },
+      "failed_checks": [],
+      "failure_class": null,
+      "matches_historical_u4_status": false,
+      "one_factor_changed": "MIXTURE_HANDLING_ONLY",
+      "pressure_ratio_reference_denominator_psf": 2117.0,
+      "repeatability": {
+        "metrics": {
+          "engine_0_throttle_pos_norm": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.8026372763612217,
+            "passed": true,
+            "values": [
+              0.8026372763612217,
+              0.8026372763612217,
+              0.8026372763612217
+            ]
+          },
+          "ias_mps": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 39.971330484164675,
+            "passed": true,
+            "values": [
+              39.971330484164675,
+              39.971330484164675,
+              39.971330484164675
+            ]
+          },
+          "roll_deg": {
+            "maximum_relative_deviation": 0.0,
+            "mean": -0.6087902793532693,
+            "passed": true,
+            "values": [
+              -0.6087902793532693,
+              -0.6087902793532693,
+              -0.6087902793532693
+            ]
+          },
+          "vertical_speed_mps": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.023509878268427018,
+            "passed": true,
+            "values": [
+              0.023509878268427018,
+              0.023509878268427018,
+              0.023509878268427018
+            ]
+          }
+        },
+        "passed": true
+      },
+      "requested_mixture_command_norm": 0.6489642682416012,
+      "run_ids": [
+        "u4.1a2-mixture_only-c172r-straight-40-+0-r1-h3500",
+        "u4.1a2-mixture_only-c172r-straight-40-+0-r2-h3500",
+        "u4.1a2-mixture_only-c172r-straight-40-+0-r3-h3500"
+      ],
+      "settling": {
+        "all_repeats_settled_before_measurement": true,
+        "maximum_settling_time_s": 11.85,
+        "per_repeat": [
+          {
+            "definition": "earliest_post_ramp_time_after_which_IAS_bank_Vz_remain_within_U1_tracking_bands",
+            "measurement_window_start_s": 20.0,
+            "settled_before_measurement_window": true,
+            "settling_time_s": 11.85
+          },
+          {
+            "definition": "earliest_post_ramp_time_after_which_IAS_bank_Vz_remain_within_U1_tracking_bands",
+            "measurement_window_start_s": 20.0,
+            "settled_before_measurement_window": true,
+            "settling_time_s": 11.85
+          },
+          {
+            "definition": "earliest_post_ramp_time_after_which_IAS_bank_Vz_remain_within_U1_tracking_bands",
+            "measurement_window_start_s": 20.0,
+            "settled_before_measurement_window": true,
+            "settling_time_s": 11.85
+          }
+        ]
+      },
+      "standard_atmosphere_pressure_psf": 1373.8573558674698,
+      "status": "VALID",
+      "status_reasons": [],
+      "trim": {
+        "all_succeeded": true,
+        "errors": [],
+        "fresh_untrimmed_fallback_used": false
+      },
+      "variant": "MIXTURE_ONLY"
+    },
+    {
+      "actual": {
+        "altitude_msl_m": 3999.7862962814706,
+        "aoa_deg": 3.1984127576155394,
+        "elevator_command_norm": -0.0004206225957928116,
+        "elevator_position_norm": 0.013265943426635812,
+        "ias_mps": 39.97274059990686,
+        "pitch_deg": 3.2204428027677516,
+        "throttle_norm": 0.8263141744490449,
+        "vertical_speed_mps": 0.019171223082584638
+      },
+      "altitude_m": 4000.0,
+      "controller_saturation_in_measurement": {
+        "aileron": false,
+        "elevator": false,
+        "rudder": false,
+        "throttle": false
+      },
+      "engine": {
+        "fuel_flow_gph_mean": 6.001589112315853,
+        "manifold_pressure_pa_mean": 49373.791832681025,
+        "mixture_command_max": 0.6083183113936061,
+        "mixture_command_mean": 0.6083183113936061,
+        "mixture_command_min": 0.6083183113936061,
+        "mixture_position_mean": 0.6083183113936061,
+        "power_hp_mean": 65.30499237808678,
+        "rpm_mean": 2115.088343844433,
+        "rpm_min": 2110.484784503199,
+        "running_min": 1.0,
+        "thrust_lbs_mean": 188.03998501985788
+      },
+      "failed_checks": [],
+      "failure_class": null,
+      "matches_historical_u4_status": false,
+      "one_factor_changed": "MIXTURE_HANDLING_ONLY",
+      "pressure_ratio_reference_denominator_psf": 2117.0,
+      "repeatability": {
+        "metrics": {
+          "engine_0_throttle_pos_norm": {
+            "maximum_relative_deviation": 1.3435846303440352e-16,
+            "mean": 0.8263141744490449,
+            "passed": true,
+            "values": [
+              0.8263141744490448,
+              0.8263141744490448,
+              0.8263141744490448
+            ]
+          },
+          "ias_mps": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 39.97274059990686,
+            "passed": true,
+            "values": [
+              39.97274059990686,
+              39.97274059990686,
+              39.97274059990686
+            ]
+          },
+          "roll_deg": {
+            "maximum_relative_deviation": 0.0,
+            "mean": -0.6057427337470981,
+            "passed": true,
+            "values": [
+              -0.6057427337470981,
+              -0.6057427337470981,
+              -0.6057427337470981
+            ]
+          },
+          "vertical_speed_mps": {
+            "maximum_relative_deviation": 0.0,
+            "mean": 0.019171223082584638,
+            "passed": true,
+            "values": [
+              0.019171223082584638,
+              0.019171223082584638,
+              0.019171223082584638
+            ]
+          }
+        },
+        "passed": true
+      },
+      "requested_mixture_command_norm": 0.6083183113936061,
+      "run_ids": [
+        "u4.1a2-mixture_only-c172r-straight-40-+0-r1-h4000",
+        "u4.1a2-mixture_only-c172r-straight-40-+0-r2-h4000",
+        "u4.1a2-mixture_only-c172r-straight-40-+0-r3-h4000"
+      ],
+      "settling": {
+        "all_repeats_settled_before_measurement": true,
+        "maximum_settling_time_s": 11.71,
+        "per_repeat": [
+          {
+            "definition": "earliest_post_ramp_time_after_which_IAS_bank_Vz_remain_within_U1_tracking_bands",
+            "measurement_window_start_s": 20.0,
+            "settled_before_measurement_window": true,
+            "settling_time_s": 11.71
+          },
+          {
+            "definition": "earliest_post_ramp_time_after_which_IAS_bank_Vz_remain_within_U1_tracking_bands",
+            "measurement_window_start_s": 20.0,
+            "settled_before_measurement_window": true,
+            "settling_time_s": 11.71
+          },
+          {
+            "definition": "earliest_post_ramp_time_after_which_IAS_bank_Vz_remain_within_U1_tracking_bands",
+            "measurement_window_start_s": 20.0,
+            "settled_before_measurement_window": true,
+            "settling_time_s": 11.71
+          }
+        ]
+      },
+      "standard_atmosphere_pressure_psf": 1287.809865220264,
+      "status": "VALID",
+      "status_reasons": [],
+      "trim": {
+        "all_succeeded": true,
+        "errors": [],
+        "fresh_untrimmed_fallback_used": false
+      },
+      "variant": "MIXTURE_ONLY"
+    }
+  ],
+  "next_blocker": "explicitly approve/freeze physically appropriate c172r mixture handling, then regenerate affected high-altitude raw characterization before interpolation holdouts",
+  "one_factor_at_a_time_contract": {
+    "aircraft_xml_changed": false,
+    "baseline_stack_modified": false,
+    "controller_changed": false,
+    "diagnostic_promoted_to_production": false,
+    "mixture_diagnostic_changed_only": [
+      "mixture command/position after engine-start initialization"
+    ],
+    "multiple_variables_changed_together": false,
+    "trim_algorithm_changed": false
+  },
+  "propulsion_mixture_model_audit": {
+    "aircraft_xml": {
+      "path": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\aircraft\\c172r\\c172r.xml",
+      "sha256": "9d6233236fd55b078336f200a556d66d051d9a7f367f3ecfc314f374c5e8a4c9"
+    },
+    "c172r_aircraft_xml_automatic_mixture_or_altitude_compensation": false,
+    "engine_file": "engIO360C",
+    "engine_name": "IO360C",
+    "engine_type": "piston_engine",
+    "engine_xml": {
+      "path": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\engine\\engIO360C.xml",
+      "sha256": "fb6bb746b2c9ec9851c16957c7db3134e034945cf010834c154756aa18efefef"
+    },
+    "idle_rpm": 550.0,
+    "implementation_interpretation": "c172r declares a naturally aspirated piston engine and fixed-pitch propeller; its aircraft XML has no automatic mixture/altitude-compensation system",
+    "maximum_hp": 180.0,
+    "maximum_rpm": 2700.0,
+    "maximum_throttle": 1.0,
+    "minimum_throttle": 0.1,
+    "mixture_command_and_position_properties_supported": true,
+    "propeller_blades": 2,
+    "propeller_diameter_in": 75.0,
+    "propeller_file": "prop_Clark_Y7570",
+    "propeller_is_fixed_pitch": true,
+    "propeller_max_pitch_deg": 21.6,
+    "propeller_min_pitch_deg": 21.6,
+    "propeller_name": "Simulated Clark Y Airfoil McCauley 7570 Propeller",
+    "propeller_xml": {
+      "path": "C:\\Users\\merta\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\jsbsim\\engine\\prop_Clark_Y7570.xml",
+      "sha256": "b8b071294196f5ab66b980aeae088ba0fec5d847506e77a2f0c6216d4a46ffb9"
+    },
+    "supercharger_or_turbo_declared": false
+  },
+  "provenance_id": "u4.1a2-19ed2bc154b74b0e5981",
+  "ready_for_u4_1b": false,
+  "root_cause": {
+    "aircraft_capability_limit_proven": false,
+    "baseline_reproduced": true,
+    "controller_primary_cause_rejected": true,
+    "interpretation": "The frozen baseline fails after failed trim even on a fresh untrimmed object, with engine RPM/power/fuel flow collapsing. Reasserting only an altitude-pressure-referenced mixture command preserves the same controller and makes 3000/3500 m straight gates valid; this isolates the baseline propulsion/mixture fixture.",
+    "mixture_only_4000_status": "VALID",
+    "mixture_only_resolves_3000_3500": true,
+    "primary_category": "ENGINE_MIXTURE_PROPULSION_FIXTURE",
+    "trim_initialization_only_explanation_rejected": true,
+    "true_service_ceiling_claimed": false
+  },
+  "schema_version": 1
+}

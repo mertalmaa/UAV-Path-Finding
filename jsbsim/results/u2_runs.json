@@ -1,0 +1,2330 @@
+[
+  {
+    "aircraft_limit_evidence": {
+      "idle_throttle_boundary": false,
+      "power_limited": false,
+      "repeatable_model_fixture_mismatch_candidate": false,
+      "stall_indicator": false,
+      "throttle_at_severe_boundary": false
+    },
+    "aircraft_model": "c172p",
+    "baseline_trim_throttle_norm": 0.6145085162781265,
+    "checks": {
+      "bank_tracking": true,
+      "beta_bounded": true,
+      "engine_0_propeller_rotating": true,
+      "engine_0_running": true,
+      "engine_0_state_positive": true,
+      "finite_outputs": true,
+      "flaps_frozen_clean": true,
+      "fuel_frozen": true,
+      "ias_tracking": true,
+      "measurement_window_complete": true,
+      "outer_loop_not_clipped_in_measurement": true,
+      "stall_indicator_clear": true,
+      "surface_usage_below_limit": true,
+      "vertical_speed_tracking": true,
+      "weight_frozen": true,
+      "zero_wind": true
+    },
+    "controller": {
+      "policy": "one_shot_generic_bounded_interface_controller_no_aircraft_specific_tuning",
+      "saturation_any_time": {
+        "aileron": false,
+        "elevator": false,
+        "rudder": false,
+        "throttle": false
+      },
+      "saturation_in_measurement": {
+        "aileron": false,
+        "elevator": false,
+        "rudder": false,
+        "throttle": false
+      }
+    },
+    "initialization_mode": "built_in_level_trim_then_feedback",
+    "maneuver": "straight",
+    "measurement": {
+      "aileron_cmd_norm": {
+        "delta": -0.0034058035332520595,
+        "end": 0.050794776720216844,
+        "max": 0.054200580253468904,
+        "mean": 0.05249801996076172,
+        "min": 0.050794776720216844,
+        "start": 0.054200580253468904
+      },
+      "alpha_deg": {
+        "delta": -0.1325451033864371,
+        "end": 2.8210546757105504,
+        "max": 2.9535997790969875,
+        "mean": 2.8634557346642273,
+        "min": 2.8210546757105504,
+        "start": 2.9535997790969875
+      },
+      "altitude_msl_m": {
+        "delta": 0.9482923341840888,
+        "end": 999.9717447855771,
+        "max": 999.9717447855771,
+        "mean": 999.453592281871,
+        "min": 999.0133036000282,
+        "start": 999.023452451393
+      },
+      "beta_deg": {
+        "delta": -0.006071531977689171,
+        "end": 0.04818114972086417,
+        "max": 0.05534512762421514,
+        "mean": 0.05285816712349772,
+        "min": 0.04818114972086417,
+        "start": 0.054252681698553344
+      },
+      "cas_kts": {
+        "delta": 0.7153376448212896,
+        "end": 77.84417951731683,
+        "max": 77.84417951731683,
+        "mean": 77.60366773464894,
+        "min": 77.12884187249554,
+        "start": 77.12884187249554
+      },
+      "cg_x_in": {
+        "delta": 0.0,
+        "end": 42.00536193029491,
+        "max": 42.00536193029491,
+        "mean": 42.00536193029491,
+        "min": 42.00536193029491,
+        "start": 42.00536193029491
+      },
+      "cg_y_in": {
+        "delta": 0.0,
+        "end": -1.3512064343163541,
+        "max": -1.3512064343163541,
+        "mean": -1.3512064343163541,
+        "min": -1.3512064343163541,
+        "start": -1.3512064343163541
+      },
+      "cg_z_in": {
+        "delta": 0.0,
+        "end": 37.565147453083114,
+        "max": 37.565147453083114,
+        "mean": 37.565147453083114,
+        "min": 37.565147453083114,
+        "start": 37.565147453083114
+      },
+      "commanded_bank_deg": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "commanded_vertical_speed_mps": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "east_m": {
+        "delta": 141.71855527839836,
+        "end": 200.91341811490003,
+        "max": 200.91341811490003,
+        "mean": 125.89376812650403,
+        "min": 59.19486283650168,
+        "start": 59.19486283650168
+      },
+      "elevator_cmd_norm": {
+        "delta": 0.008007707300826072,
+        "end": 0.0012223979957585443,
+        "max": 0.001229059943603043,
+        "mean": -0.0011483187000806197,
+        "min": -0.006785309305067527,
+        "start": -0.006785309305067527
+      },
+      "elevator_pos_norm": {
+        "delta": 0.00800619666688936,
+        "end": 0.03378583920301795,
+        "max": 0.03379249989410266,
+        "mean": 0.03141556973694887,
+        "min": 0.025779642536128588,
+        "start": 0.025779642536128588
+      },
+      "engine_0_propeller_rpm": {
+        "delta": -6.3274948711962224,
+        "end": 1898.8317847773596,
+        "max": 1919.3008388667267,
+        "mean": 1911.7966839811745,
+        "min": 1898.8317847773596,
+        "start": 1905.1592796485559
+      },
+      "engine_0_running": {
+        "delta": 0.0,
+        "end": 1.0,
+        "max": 1.0,
+        "mean": 1.0,
+        "min": 1.0,
+        "start": 1.0
+      },
+      "engine_0_state": {
+        "delta": -6.3274948711962224,
+        "end": 1898.8317847773596,
+        "max": 1919.3008388667267,
+        "mean": 1911.7966839811745,
+        "min": 1898.8317847773596,
+        "start": 1905.1592796485559
+      },
+      "engine_0_throttle_cmd_norm": {
+        "delta": -0.00664038313556381,
+        "end": 0.6170209969097037,
+        "max": 0.6265204608431354,
+        "mean": 0.6229953198991864,
+        "min": 0.6170209969097037,
+        "start": 0.6236613800452675
+      },
+      "engine_0_throttle_pos_norm": {
+        "delta": -0.00664038313556381,
+        "end": 0.6170209969097037,
+        "max": 0.6265204608431354,
+        "mean": 0.6229953198991864,
+        "min": 0.6170209969097037,
+        "start": 0.6236613800452675
+      },
+      "engine_0_thrust_lbs": {
+        "delta": -3.2579727517331776,
+        "end": 182.16089276277071,
+        "max": 188.64735210579948,
+        "mean": 186.28152918537168,
+        "min": 182.16089276277071,
+        "start": 185.4188655145039
+      },
+      "flap_pos_norm": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "gamma_deg": {
+        "delta": 0.07017212202849027,
+        "end": 0.042134283490462256,
+        "max": 0.09311334443073306,
+        "mean": 0.06476380594224507,
+        "min": -0.028037838538028017,
+        "start": -0.028037838538028017
+      },
+      "heading_deg": {
+        "delta": -3.3938409754453573,
+        "end": 348.803459047634,
+        "max": 352.1973000230794,
+        "mean": 350.1780300768153,
+        "min": 348.803459047634,
+        "start": 352.1973000230794
+      },
+      "heading_rate_deg_s": {
+        "delta": 0.19286051536581997,
+        "end": -0.08983981178791559,
+        "max": -0.08983981178791559,
+        "mean": -0.16965207802835383,
+        "min": -0.28270032715373555,
+        "start": -0.28270032715373555
+      },
+      "ias_mps": {
+        "delta": 0.36800147728028065,
+        "end": 40.04650568501966,
+        "max": 40.04650568501966,
+        "mean": 39.92277573460273,
+        "min": 39.67850420773938,
+        "start": 39.67850420773938
+      },
+      "left_aileron_pos_norm": {
+        "delta": -0.0034051610369412177,
+        "end": 0.05078519441274246,
+        "max": 0.054190355449683675,
+        "mean": 0.05248811634071371,
+        "min": 0.05078519441274246,
+        "start": 0.054190355449683675
+      },
+      "north_m": {
+        "delta": 825.6360053561795,
+        "end": 1663.8427862761744,
+        "max": 1663.8427862761744,
+        "mean": 1251.0586716875487,
+        "min": 838.2067809199949,
+        "start": 838.2067809199949
+      },
+      "nz": {
+        "delta": -0.0025945535345609505,
+        "end": 0.9954027170204757,
+        "max": 0.9979972705550366,
+        "mean": 0.9960224514825587,
+        "min": 0.99535191660153,
+        "start": 0.9979972705550366
+      },
+      "pitch_deg": {
+        "delta": -0.06105011349938305,
+        "end": 2.8628932856549794,
+        "max": 2.9640574946325637,
+        "mean": 2.9274115529241467,
+        "min": 2.8628932856549794,
+        "start": 2.9239433991543624
+      },
+      "right_aileron_pos_norm": {
+        "delta": -0.0034051610369412177,
+        "end": 0.05078519441274246,
+        "max": 0.054190355449683675,
+        "mean": 0.05248811634071371,
+        "min": 0.05078519441274246,
+        "start": 0.054190355449683675
+      },
+      "roll_deg": {
+        "delta": 0.8133719966231245,
+        "end": -0.304659748233664,
+        "max": -0.304659748233664,
+        "mean": -0.6432902593322614,
+        "min": -1.1180317448567885,
+        "start": -1.1180317448567885
+      },
+      "rudder_cmd_norm": {
+        "delta": -0.0016296257625625183,
+        "end": -0.007260771311896179,
+        "max": -0.005631145549333661,
+        "mean": -0.006602415520083632,
+        "min": -0.007260771311896179,
+        "start": -0.005631145549333661
+      },
+      "rudder_pos_norm": {
+        "delta": -0.0016293183377418322,
+        "end": -0.007259401585563981,
+        "max": -0.005630083247822149,
+        "mean": -0.006601169990923506,
+        "min": -0.007259401585563981,
+        "start": -0.005630083247822149
+      },
+      "stall_indicator": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "tas_mps": {
+        "delta": 0.3879840028887145,
+        "end": 42.029177711990606,
+        "max": 42.029177711990606,
+        "mean": 41.89831928107487,
+        "min": 41.64119370910189,
+        "start": 41.64119370910189
+      },
+      "total_fuel_lbs": {
+        "delta": 0.0,
+        "end": 185.0,
+        "max": 185.0,
+        "mean": 185.0,
+        "min": 185.0,
+        "start": 185.0
+      },
+      "vertical_speed_mps": {
+        "delta": 0.05128472242141742,
+        "end": 0.030907496924682216,
+        "max": 0.06813092094618531,
+        "mean": 0.04739354221473214,
+        "min": -0.0203772254967352,
+        "start": -0.0203772254967352
+      },
+      "weight_lbs": {
+        "delta": 0.0,
+        "end": 1865.0,
+        "max": 1865.0,
+        "mean": 1865.0,
+        "min": 1865.0,
+        "start": 1865.0
+      },
+      "wind_down_fps": {
+        "delta": 0.0,
+        "end": -2.144057907561489e-14,
+        "max": -2.144057907561489e-14,
+        "mean": -2.144057907561489e-14,
+        "min": -2.144057907561489e-14,
+        "start": -2.144057907561489e-14
+      },
+      "wind_east_fps": {
+        "delta": 0.0,
+        "end": -9.740472317609772e-16,
+        "max": -9.740472317609772e-16,
+        "mean": -9.740472317609772e-16,
+        "min": -9.740472317609772e-16,
+        "start": -9.740472317609772e-16
+      },
+      "wind_north_fps": {
+        "delta": 0.0,
+        "end": -2.5579538487363607e-13,
+        "max": -2.5579538487363607e-13,
+        "mean": -2.5579538487363607e-13,
+        "min": -2.5579538487363607e-13,
+        "start": -2.5579538487363607e-13
+      }
+    },
+    "provenance_id": "u2-718fd15ad88d108e531e",
+    "repeat_index": 1,
+    "requested": {
+      "bank_deg": 0.0,
+      "gamma_used_as_command": false,
+      "heading_rate_commanded": false,
+      "ias_mps": 40.0,
+      "vertical_speed_mps": 0.0
+    },
+    "run_id": "u2-c172p-straight-40-+0-r1",
+    "status": "VALID",
+    "status_reasons": [],
+    "trajectory": null,
+    "trim": {
+      "completed_property": 1.0,
+      "error": null,
+      "loaded_model_id": "c172p",
+      "succeeded": true
+    }
+  },
+  {
+    "aircraft_limit_evidence": {
+      "idle_throttle_boundary": false,
+      "power_limited": false,
+      "repeatable_model_fixture_mismatch_candidate": false,
+      "stall_indicator": false,
+      "throttle_at_severe_boundary": false
+    },
+    "aircraft_model": "c172p",
+    "baseline_trim_throttle_norm": 0.6145085162781265,
+    "checks": {
+      "bank_tracking": true,
+      "beta_bounded": true,
+      "engine_0_propeller_rotating": true,
+      "engine_0_running": true,
+      "engine_0_state_positive": true,
+      "finite_outputs": true,
+      "flaps_frozen_clean": true,
+      "fuel_frozen": true,
+      "ias_tracking": true,
+      "measurement_window_complete": true,
+      "outer_loop_not_clipped_in_measurement": true,
+      "stall_indicator_clear": true,
+      "surface_usage_below_limit": true,
+      "vertical_speed_tracking": true,
+      "weight_frozen": true,
+      "zero_wind": true
+    },
+    "controller": {
+      "policy": "one_shot_generic_bounded_interface_controller_no_aircraft_specific_tuning",
+      "saturation_any_time": {
+        "aileron": false,
+        "elevator": false,
+        "rudder": false,
+        "throttle": false
+      },
+      "saturation_in_measurement": {
+        "aileron": false,
+        "elevator": false,
+        "rudder": false,
+        "throttle": false
+      }
+    },
+    "initialization_mode": "built_in_level_trim_then_feedback",
+    "maneuver": "straight",
+    "measurement": {
+      "aileron_cmd_norm": {
+        "delta": -0.0034058035332520595,
+        "end": 0.050794776720216844,
+        "max": 0.054200580253468904,
+        "mean": 0.05249801996076172,
+        "min": 0.050794776720216844,
+        "start": 0.054200580253468904
+      },
+      "alpha_deg": {
+        "delta": -0.1325451033864371,
+        "end": 2.8210546757105504,
+        "max": 2.9535997790969875,
+        "mean": 2.8634557346642273,
+        "min": 2.8210546757105504,
+        "start": 2.9535997790969875
+      },
+      "altitude_msl_m": {
+        "delta": 0.9482923341840888,
+        "end": 999.9717447855771,
+        "max": 999.9717447855771,
+        "mean": 999.453592281871,
+        "min": 999.0133036000282,
+        "start": 999.023452451393
+      },
+      "beta_deg": {
+        "delta": -0.006071531977689171,
+        "end": 0.04818114972086417,
+        "max": 0.05534512762421514,
+        "mean": 0.05285816712349772,
+        "min": 0.04818114972086417,
+        "start": 0.054252681698553344
+      },
+      "cas_kts": {
+        "delta": 0.7153376448212896,
+        "end": 77.84417951731683,
+        "max": 77.84417951731683,
+        "mean": 77.60366773464894,
+        "min": 77.12884187249554,
+        "start": 77.12884187249554
+      },
+      "cg_x_in": {
+        "delta": 0.0,
+        "end": 42.00536193029491,
+        "max": 42.00536193029491,
+        "mean": 42.00536193029491,
+        "min": 42.00536193029491,
+        "start": 42.00536193029491
+      },
+      "cg_y_in": {
+        "delta": 0.0,
+        "end": -1.3512064343163541,
+        "max": -1.3512064343163541,
+        "mean": -1.3512064343163541,
+        "min": -1.3512064343163541,
+        "start": -1.3512064343163541
+      },
+      "cg_z_in": {
+        "delta": 0.0,
+        "end": 37.565147453083114,
+        "max": 37.565147453083114,
+        "mean": 37.565147453083114,
+        "min": 37.565147453083114,
+        "start": 37.565147453083114
+      },
+      "commanded_bank_deg": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "commanded_vertical_speed_mps": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "east_m": {
+        "delta": 141.71855527839836,
+        "end": 200.91341811490003,
+        "max": 200.91341811490003,
+        "mean": 125.89376812650403,
+        "min": 59.19486283650168,
+        "start": 59.19486283650168
+      },
+      "elevator_cmd_norm": {
+        "delta": 0.008007707300826072,
+        "end": 0.0012223979957585443,
+        "max": 0.001229059943603043,
+        "mean": -0.0011483187000806197,
+        "min": -0.006785309305067527,
+        "start": -0.006785309305067527
+      },
+      "elevator_pos_norm": {
+        "delta": 0.00800619666688936,
+        "end": 0.03378583920301795,
+        "max": 0.03379249989410266,
+        "mean": 0.03141556973694887,
+        "min": 0.025779642536128588,
+        "start": 0.025779642536128588
+      },
+      "engine_0_propeller_rpm": {
+        "delta": -6.3274948711962224,
+        "end": 1898.8317847773596,
+        "max": 1919.3008388667267,
+        "mean": 1911.7966839811745,
+        "min": 1898.8317847773596,
+        "start": 1905.1592796485559
+      },
+      "engine_0_running": {
+        "delta": 0.0,
+        "end": 1.0,
+        "max": 1.0,
+        "mean": 1.0,
+        "min": 1.0,
+        "start": 1.0
+      },
+      "engine_0_state": {
+        "delta": -6.3274948711962224,
+        "end": 1898.8317847773596,
+        "max": 1919.3008388667267,
+        "mean": 1911.7966839811745,
+        "min": 1898.8317847773596,
+        "start": 1905.1592796485559
+      },
+      "engine_0_throttle_cmd_norm": {
+        "delta": -0.00664038313556381,
+        "end": 0.6170209969097037,
+        "max": 0.6265204608431354,
+        "mean": 0.6229953198991864,
+        "min": 0.6170209969097037,
+        "start": 0.6236613800452675
+      },
+      "engine_0_throttle_pos_norm": {
+        "delta": -0.00664038313556381,
+        "end": 0.6170209969097037,
+        "max": 0.6265204608431354,
+        "mean": 0.6229953198991864,
+        "min": 0.6170209969097037,
+        "start": 0.6236613800452675
+      },
+      "engine_0_thrust_lbs": {
+        "delta": -3.2579727517331776,
+        "end": 182.16089276277071,
+        "max": 188.64735210579948,
+        "mean": 186.28152918537168,
+        "min": 182.16089276277071,
+        "start": 185.4188655145039
+      },
+      "flap_pos_norm": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "gamma_deg": {
+        "delta": 0.07017212202849027,
+        "end": 0.042134283490462256,
+        "max": 0.09311334443073306,
+        "mean": 0.06476380594224507,
+        "min": -0.028037838538028017,
+        "start": -0.028037838538028017
+      },
+      "heading_deg": {
+        "delta": -3.3938409754453573,
+        "end": 348.803459047634,
+        "max": 352.1973000230794,
+        "mean": 350.1780300768153,
+        "min": 348.803459047634,
+        "start": 352.1973000230794
+      },
+      "heading_rate_deg_s": {
+        "delta": 0.19286051536581997,
+        "end": -0.08983981178791559,
+        "max": -0.08983981178791559,
+        "mean": -0.16965207802835383,
+        "min": -0.28270032715373555,
+        "start": -0.28270032715373555
+      },
+      "ias_mps": {
+        "delta": 0.36800147728028065,
+        "end": 40.04650568501966,
+        "max": 40.04650568501966,
+        "mean": 39.92277573460273,
+        "min": 39.67850420773938,
+        "start": 39.67850420773938
+      },
+      "left_aileron_pos_norm": {
+        "delta": -0.0034051610369412177,
+        "end": 0.05078519441274246,
+        "max": 0.054190355449683675,
+        "mean": 0.05248811634071371,
+        "min": 0.05078519441274246,
+        "start": 0.054190355449683675
+      },
+      "north_m": {
+        "delta": 825.6360053561795,
+        "end": 1663.8427862761744,
+        "max": 1663.8427862761744,
+        "mean": 1251.0586716875487,
+        "min": 838.2067809199949,
+        "start": 838.2067809199949
+      },
+      "nz": {
+        "delta": -0.0025945535345609505,
+        "end": 0.9954027170204757,
+        "max": 0.9979972705550366,
+        "mean": 0.9960224514825587,
+        "min": 0.99535191660153,
+        "start": 0.9979972705550366
+      },
+      "pitch_deg": {
+        "delta": -0.06105011349938305,
+        "end": 2.8628932856549794,
+        "max": 2.9640574946325637,
+        "mean": 2.9274115529241467,
+        "min": 2.8628932856549794,
+        "start": 2.9239433991543624
+      },
+      "right_aileron_pos_norm": {
+        "delta": -0.0034051610369412177,
+        "end": 0.05078519441274246,
+        "max": 0.054190355449683675,
+        "mean": 0.05248811634071371,
+        "min": 0.05078519441274246,
+        "start": 0.054190355449683675
+      },
+      "roll_deg": {
+        "delta": 0.8133719966231245,
+        "end": -0.304659748233664,
+        "max": -0.304659748233664,
+        "mean": -0.6432902593322614,
+        "min": -1.1180317448567885,
+        "start": -1.1180317448567885
+      },
+      "rudder_cmd_norm": {
+        "delta": -0.0016296257625625183,
+        "end": -0.007260771311896179,
+        "max": -0.005631145549333661,
+        "mean": -0.006602415520083632,
+        "min": -0.007260771311896179,
+        "start": -0.005631145549333661
+      },
+      "rudder_pos_norm": {
+        "delta": -0.0016293183377418322,
+        "end": -0.007259401585563981,
+        "max": -0.005630083247822149,
+        "mean": -0.006601169990923506,
+        "min": -0.007259401585563981,
+        "start": -0.005630083247822149
+      },
+      "stall_indicator": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "tas_mps": {
+        "delta": 0.3879840028887145,
+        "end": 42.029177711990606,
+        "max": 42.029177711990606,
+        "mean": 41.89831928107487,
+        "min": 41.64119370910189,
+        "start": 41.64119370910189
+      },
+      "total_fuel_lbs": {
+        "delta": 0.0,
+        "end": 185.0,
+        "max": 185.0,
+        "mean": 185.0,
+        "min": 185.0,
+        "start": 185.0
+      },
+      "vertical_speed_mps": {
+        "delta": 0.05128472242141742,
+        "end": 0.030907496924682216,
+        "max": 0.06813092094618531,
+        "mean": 0.04739354221473214,
+        "min": -0.0203772254967352,
+        "start": -0.0203772254967352
+      },
+      "weight_lbs": {
+        "delta": 0.0,
+        "end": 1865.0,
+        "max": 1865.0,
+        "mean": 1865.0,
+        "min": 1865.0,
+        "start": 1865.0
+      },
+      "wind_down_fps": {
+        "delta": 0.0,
+        "end": -2.144057907561489e-14,
+        "max": -2.144057907561489e-14,
+        "mean": -2.144057907561489e-14,
+        "min": -2.144057907561489e-14,
+        "start": -2.144057907561489e-14
+      },
+      "wind_east_fps": {
+        "delta": 0.0,
+        "end": -9.740472317609772e-16,
+        "max": -9.740472317609772e-16,
+        "mean": -9.740472317609772e-16,
+        "min": -9.740472317609772e-16,
+        "start": -9.740472317609772e-16
+      },
+      "wind_north_fps": {
+        "delta": 0.0,
+        "end": -2.5579538487363607e-13,
+        "max": -2.5579538487363607e-13,
+        "mean": -2.5579538487363607e-13,
+        "min": -2.5579538487363607e-13,
+        "start": -2.5579538487363607e-13
+      }
+    },
+    "provenance_id": "u2-718fd15ad88d108e531e",
+    "repeat_index": 2,
+    "requested": {
+      "bank_deg": 0.0,
+      "gamma_used_as_command": false,
+      "heading_rate_commanded": false,
+      "ias_mps": 40.0,
+      "vertical_speed_mps": 0.0
+    },
+    "run_id": "u2-c172p-straight-40-+0-r2",
+    "status": "VALID",
+    "status_reasons": [],
+    "trajectory": null,
+    "trim": {
+      "completed_property": 1.0,
+      "error": null,
+      "loaded_model_id": "c172p",
+      "succeeded": true
+    }
+  },
+  {
+    "aircraft_limit_evidence": {
+      "idle_throttle_boundary": false,
+      "power_limited": false,
+      "repeatable_model_fixture_mismatch_candidate": false,
+      "stall_indicator": false,
+      "throttle_at_severe_boundary": false
+    },
+    "aircraft_model": "c172p",
+    "baseline_trim_throttle_norm": 0.6145085162781265,
+    "checks": {
+      "bank_tracking": true,
+      "beta_bounded": true,
+      "engine_0_propeller_rotating": true,
+      "engine_0_running": true,
+      "engine_0_state_positive": true,
+      "finite_outputs": true,
+      "flaps_frozen_clean": true,
+      "fuel_frozen": true,
+      "ias_tracking": true,
+      "measurement_window_complete": true,
+      "outer_loop_not_clipped_in_measurement": true,
+      "stall_indicator_clear": true,
+      "surface_usage_below_limit": true,
+      "vertical_speed_tracking": true,
+      "weight_frozen": true,
+      "zero_wind": true
+    },
+    "controller": {
+      "policy": "one_shot_generic_bounded_interface_controller_no_aircraft_specific_tuning",
+      "saturation_any_time": {
+        "aileron": false,
+        "elevator": false,
+        "rudder": false,
+        "throttle": false
+      },
+      "saturation_in_measurement": {
+        "aileron": false,
+        "elevator": false,
+        "rudder": false,
+        "throttle": false
+      }
+    },
+    "initialization_mode": "built_in_level_trim_then_feedback",
+    "maneuver": "straight",
+    "measurement": {
+      "aileron_cmd_norm": {
+        "delta": -0.0034058035332520595,
+        "end": 0.050794776720216844,
+        "max": 0.054200580253468904,
+        "mean": 0.05249801996076172,
+        "min": 0.050794776720216844,
+        "start": 0.054200580253468904
+      },
+      "alpha_deg": {
+        "delta": -0.1325451033864371,
+        "end": 2.8210546757105504,
+        "max": 2.9535997790969875,
+        "mean": 2.8634557346642273,
+        "min": 2.8210546757105504,
+        "start": 2.9535997790969875
+      },
+      "altitude_msl_m": {
+        "delta": 0.9482923341840888,
+        "end": 999.9717447855771,
+        "max": 999.9717447855771,
+        "mean": 999.453592281871,
+        "min": 999.0133036000282,
+        "start": 999.023452451393
+      },
+      "beta_deg": {
+        "delta": -0.006071531977689171,
+        "end": 0.04818114972086417,
+        "max": 0.05534512762421514,
+        "mean": 0.05285816712349772,
+        "min": 0.04818114972086417,
+        "start": 0.054252681698553344
+      },
+      "cas_kts": {
+        "delta": 0.7153376448212896,
+        "end": 77.84417951731683,
+        "max": 77.84417951731683,
+        "mean": 77.60366773464894,
+        "min": 77.12884187249554,
+        "start": 77.12884187249554
+      },
+      "cg_x_in": {
+        "delta": 0.0,
+        "end": 42.00536193029491,
+        "max": 42.00536193029491,
+        "mean": 42.00536193029491,
+        "min": 42.00536193029491,
+        "start": 42.00536193029491
+      },
+      "cg_y_in": {
+        "delta": 0.0,
+        "end": -1.3512064343163541,
+        "max": -1.3512064343163541,
+        "mean": -1.3512064343163541,
+        "min": -1.3512064343163541,
+        "start": -1.3512064343163541
+      },
+      "cg_z_in": {
+        "delta": 0.0,
+        "end": 37.565147453083114,
+        "max": 37.565147453083114,
+        "mean": 37.565147453083114,
+        "min": 37.565147453083114,
+        "start": 37.565147453083114
+      },
+      "commanded_bank_deg": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "commanded_vertical_speed_mps": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "east_m": {
+        "delta": 141.71855527839836,
+        "end": 200.91341811490003,
+        "max": 200.91341811490003,
+        "mean": 125.89376812650403,
+        "min": 59.19486283650168,
+        "start": 59.19486283650168
+      },
+      "elevator_cmd_norm": {
+        "delta": 0.008007707300826072,
+        "end": 0.0012223979957585443,
+        "max": 0.001229059943603043,
+        "mean": -0.0011483187000806197,
+        "min": -0.006785309305067527,
+        "start": -0.006785309305067527
+      },
+      "elevator_pos_norm": {
+        "delta": 0.00800619666688936,
+        "end": 0.03378583920301795,
+        "max": 0.03379249989410266,
+        "mean": 0.03141556973694887,
+        "min": 0.025779642536128588,
+        "start": 0.025779642536128588
+      },
+      "engine_0_propeller_rpm": {
+        "delta": -6.3274948711962224,
+        "end": 1898.8317847773596,
+        "max": 1919.3008388667267,
+        "mean": 1911.7966839811745,
+        "min": 1898.8317847773596,
+        "start": 1905.1592796485559
+      },
+      "engine_0_running": {
+        "delta": 0.0,
+        "end": 1.0,
+        "max": 1.0,
+        "mean": 1.0,
+        "min": 1.0,
+        "start": 1.0
+      },
+      "engine_0_state": {
+        "delta": -6.3274948711962224,
+        "end": 1898.8317847773596,
+        "max": 1919.3008388667267,
+        "mean": 1911.7966839811745,
+        "min": 1898.8317847773596,
+        "start": 1905.1592796485559
+      },
+      "engine_0_throttle_cmd_norm": {
+        "delta": -0.00664038313556381,
+        "end": 0.6170209969097037,
+        "max": 0.6265204608431354,
+        "mean": 0.6229953198991864,
+        "min": 0.6170209969097037,
+        "start": 0.6236613800452675
+      },
+      "engine_0_throttle_pos_norm": {
+        "delta": -0.00664038313556381,
+        "end": 0.6170209969097037,
+        "max": 0.6265204608431354,
+        "mean": 0.6229953198991864,
+        "min": 0.6170209969097037,
+        "start": 0.6236613800452675
+      },
+      "engine_0_thrust_lbs": {
+        "delta": -3.2579727517331776,
+        "end": 182.16089276277071,
+        "max": 188.64735210579948,
+        "mean": 186.28152918537168,
+        "min": 182.16089276277071,
+        "start": 185.4188655145039
+      },
+      "flap_pos_norm": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "gamma_deg": {
+        "delta": 0.07017212202849027,
+        "end": 0.042134283490462256,
+        "max": 0.09311334443073306,
+        "mean": 0.06476380594224507,
+        "min": -0.028037838538028017,
+        "start": -0.028037838538028017
+      },
+      "heading_deg": {
+        "delta": -3.3938409754453573,
+        "end": 348.803459047634,
+        "max": 352.1973000230794,
+        "mean": 350.1780300768153,
+        "min": 348.803459047634,
+        "start": 352.1973000230794
+      },
+      "heading_rate_deg_s": {
+        "delta": 0.19286051536581997,
+        "end": -0.08983981178791559,
+        "max": -0.08983981178791559,
+        "mean": -0.16965207802835383,
+        "min": -0.28270032715373555,
+        "start": -0.28270032715373555
+      },
+      "ias_mps": {
+        "delta": 0.36800147728028065,
+        "end": 40.04650568501966,
+        "max": 40.04650568501966,
+        "mean": 39.92277573460273,
+        "min": 39.67850420773938,
+        "start": 39.67850420773938
+      },
+      "left_aileron_pos_norm": {
+        "delta": -0.0034051610369412177,
+        "end": 0.05078519441274246,
+        "max": 0.054190355449683675,
+        "mean": 0.05248811634071371,
+        "min": 0.05078519441274246,
+        "start": 0.054190355449683675
+      },
+      "north_m": {
+        "delta": 825.6360053561795,
+        "end": 1663.8427862761744,
+        "max": 1663.8427862761744,
+        "mean": 1251.0586716875487,
+        "min": 838.2067809199949,
+        "start": 838.2067809199949
+      },
+      "nz": {
+        "delta": -0.0025945535345609505,
+        "end": 0.9954027170204757,
+        "max": 0.9979972705550366,
+        "mean": 0.9960224514825587,
+        "min": 0.99535191660153,
+        "start": 0.9979972705550366
+      },
+      "pitch_deg": {
+        "delta": -0.06105011349938305,
+        "end": 2.8628932856549794,
+        "max": 2.9640574946325637,
+        "mean": 2.9274115529241467,
+        "min": 2.8628932856549794,
+        "start": 2.9239433991543624
+      },
+      "right_aileron_pos_norm": {
+        "delta": -0.0034051610369412177,
+        "end": 0.05078519441274246,
+        "max": 0.054190355449683675,
+        "mean": 0.05248811634071371,
+        "min": 0.05078519441274246,
+        "start": 0.054190355449683675
+      },
+      "roll_deg": {
+        "delta": 0.8133719966231245,
+        "end": -0.304659748233664,
+        "max": -0.304659748233664,
+        "mean": -0.6432902593322614,
+        "min": -1.1180317448567885,
+        "start": -1.1180317448567885
+      },
+      "rudder_cmd_norm": {
+        "delta": -0.0016296257625625183,
+        "end": -0.007260771311896179,
+        "max": -0.005631145549333661,
+        "mean": -0.006602415520083632,
+        "min": -0.007260771311896179,
+        "start": -0.005631145549333661
+      },
+      "rudder_pos_norm": {
+        "delta": -0.0016293183377418322,
+        "end": -0.007259401585563981,
+        "max": -0.005630083247822149,
+        "mean": -0.006601169990923506,
+        "min": -0.007259401585563981,
+        "start": -0.005630083247822149
+      },
+      "stall_indicator": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "tas_mps": {
+        "delta": 0.3879840028887145,
+        "end": 42.029177711990606,
+        "max": 42.029177711990606,
+        "mean": 41.89831928107487,
+        "min": 41.64119370910189,
+        "start": 41.64119370910189
+      },
+      "total_fuel_lbs": {
+        "delta": 0.0,
+        "end": 185.0,
+        "max": 185.0,
+        "mean": 185.0,
+        "min": 185.0,
+        "start": 185.0
+      },
+      "vertical_speed_mps": {
+        "delta": 0.05128472242141742,
+        "end": 0.030907496924682216,
+        "max": 0.06813092094618531,
+        "mean": 0.04739354221473214,
+        "min": -0.0203772254967352,
+        "start": -0.0203772254967352
+      },
+      "weight_lbs": {
+        "delta": 0.0,
+        "end": 1865.0,
+        "max": 1865.0,
+        "mean": 1865.0,
+        "min": 1865.0,
+        "start": 1865.0
+      },
+      "wind_down_fps": {
+        "delta": 0.0,
+        "end": -2.144057907561489e-14,
+        "max": -2.144057907561489e-14,
+        "mean": -2.144057907561489e-14,
+        "min": -2.144057907561489e-14,
+        "start": -2.144057907561489e-14
+      },
+      "wind_east_fps": {
+        "delta": 0.0,
+        "end": -9.740472317609772e-16,
+        "max": -9.740472317609772e-16,
+        "mean": -9.740472317609772e-16,
+        "min": -9.740472317609772e-16,
+        "start": -9.740472317609772e-16
+      },
+      "wind_north_fps": {
+        "delta": 0.0,
+        "end": -2.5579538487363607e-13,
+        "max": -2.5579538487363607e-13,
+        "mean": -2.5579538487363607e-13,
+        "min": -2.5579538487363607e-13,
+        "start": -2.5579538487363607e-13
+      }
+    },
+    "provenance_id": "u2-718fd15ad88d108e531e",
+    "repeat_index": 3,
+    "requested": {
+      "bank_deg": 0.0,
+      "gamma_used_as_command": false,
+      "heading_rate_commanded": false,
+      "ias_mps": 40.0,
+      "vertical_speed_mps": 0.0
+    },
+    "run_id": "u2-c172p-straight-40-+0-r3",
+    "status": "VALID",
+    "status_reasons": [],
+    "trajectory": null,
+    "trim": {
+      "completed_property": 1.0,
+      "error": null,
+      "loaded_model_id": "c172p",
+      "succeeded": true
+    }
+  },
+  {
+    "aircraft_limit_evidence": {
+      "idle_throttle_boundary": false,
+      "power_limited": false,
+      "repeatable_model_fixture_mismatch_candidate": false,
+      "stall_indicator": false,
+      "throttle_at_severe_boundary": false
+    },
+    "aircraft_model": "c172p",
+    "baseline_trim_throttle_norm": 0.6142280902124257,
+    "checks": {
+      "bank_tracking": false,
+      "beta_bounded": true,
+      "engine_0_propeller_rotating": true,
+      "engine_0_running": true,
+      "engine_0_state_positive": true,
+      "finite_outputs": true,
+      "flaps_frozen_clean": true,
+      "fuel_frozen": true,
+      "ias_tracking": true,
+      "measurement_window_complete": true,
+      "outer_loop_not_clipped_in_measurement": true,
+      "stall_indicator_clear": true,
+      "surface_usage_below_limit": true,
+      "vertical_speed_tracking": true,
+      "weight_frozen": true,
+      "zero_wind": true
+    },
+    "controller": {
+      "policy": "one_shot_generic_bounded_interface_controller_no_aircraft_specific_tuning",
+      "saturation_any_time": {
+        "aileron": false,
+        "elevator": false,
+        "rudder": false,
+        "throttle": false
+      },
+      "saturation_in_measurement": {
+        "aileron": false,
+        "elevator": false,
+        "rudder": false,
+        "throttle": false
+      }
+    },
+    "initialization_mode": "built_in_level_trim_then_feedback",
+    "maneuver": "straight",
+    "measurement": {
+      "aileron_cmd_norm": {
+        "delta": -0.007920999779820262,
+        "end": 0.06794583487075583,
+        "max": 0.07595893789728261,
+        "mean": 0.07244491238357742,
+        "min": 0.06794583487075583,
+        "start": 0.07586683465057609
+      },
+      "alpha_deg": {
+        "delta": -0.2995659610727701,
+        "end": 4.650231949734308,
+        "max": 4.949797910807078,
+        "mean": 4.755820960011428,
+        "min": 4.649983241743462,
+        "start": 4.949797910807078
+      },
+      "altitude_msl_m": {
+        "delta": 1.6689176317245256,
+        "end": 1000.2294355664582,
+        "max": 1000.2294355664582,
+        "mean": 999.3782080784721,
+        "min": 998.5579637676448,
+        "start": 998.5605179347336
+      },
+      "beta_deg": {
+        "delta": -0.011894258259300086,
+        "end": 0.08456693297582532,
+        "max": 0.10076775090617228,
+        "mean": 0.09534005102018603,
+        "min": 0.08456693297582532,
+        "start": 0.09646119123512541
+      },
+      "cas_kts": {
+        "delta": 1.128985975847442,
+        "end": 68.2577337892989,
+        "max": 68.2577337892989,
+        "mean": 67.8230464193938,
+        "min": 67.12874781345145,
+        "start": 67.12874781345145
+      },
+      "cg_x_in": {
+        "delta": 0.0,
+        "end": 42.00536193029491,
+        "max": 42.00536193029491,
+        "mean": 42.00536193029491,
+        "min": 42.00536193029491,
+        "start": 42.00536193029491
+      },
+      "cg_y_in": {
+        "delta": 0.0,
+        "end": -1.3512064343163541,
+        "max": -1.3512064343163541,
+        "mean": -1.3512064343163541,
+        "min": -1.3512064343163541,
+        "start": -1.3512064343163541
+      },
+      "cg_z_in": {
+        "delta": 0.0,
+        "end": 37.565147453083114,
+        "max": 37.565147453083114,
+        "mean": 37.565147453083114,
+        "min": 37.565147453083114,
+        "start": 37.565147453083114
+      },
+      "commanded_bank_deg": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "commanded_vertical_speed_mps": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "east_m": {
+        "delta": 194.30760663732,
+        "end": 274.7016444800194,
+        "max": 274.7016444800194,
+        "mean": 171.7791212333109,
+        "min": 80.39403784269942,
+        "start": 80.39403784269942
+      },
+      "elevator_cmd_norm": {
+        "delta": 0.012216619329047444,
+        "end": 0.0030004860677250124,
+        "max": 0.003455921443765246,
+        "mean": 1.9095685184898862e-05,
+        "min": -0.009216133261322432,
+        "start": -0.009216133261322432
+      },
+      "elevator_pos_norm": {
+        "delta": 0.012214314694392707,
+        "end": -0.05412680275626832,
+        "max": -0.0536714532969717,
+        "mean": -0.05710763070697604,
+        "min": -0.06634111745066103,
+        "start": -0.06634111745066103
+      },
+      "engine_0_propeller_rpm": {
+        "delta": -11.90589714929547,
+        "end": 1864.921180869882,
+        "max": 1910.3566032635238,
+        "mean": 1893.7401479210796,
+        "min": 1864.921180869882,
+        "start": 1876.8270780191774
+      },
+      "engine_0_running": {
+        "delta": 0.0,
+        "end": 1.0,
+        "max": 1.0,
+        "mean": 1.0,
+        "min": 1.0,
+        "start": 1.0
+      },
+      "engine_0_state": {
+        "delta": -11.90589714929547,
+        "end": 1864.921180869882,
+        "max": 1910.3566032635238,
+        "mean": 1893.7401479210796,
+        "min": 1864.921180869882,
+        "start": 1876.8270780191774
+      },
+      "engine_0_throttle_cmd_norm": {
+        "delta": -0.013077696584121834,
+        "end": 0.6156156328588606,
+        "max": 0.6364786940788627,
+        "mean": 0.6289138269864915,
+        "min": 0.6156156328588606,
+        "start": 0.6286933294429824
+      },
+      "engine_0_throttle_pos_norm": {
+        "delta": -0.013077696584121834,
+        "end": 0.6156156328588606,
+        "max": 0.6364786940788627,
+        "mean": 0.6289138269864915,
+        "min": 0.6156156328588606,
+        "start": 0.6286933294429824
+      },
+      "engine_0_thrust_lbs": {
+        "delta": -5.714656157409792,
+        "end": 192.60781905796907,
+        "max": 206.89347202841356,
+        "mean": 201.71441340103496,
+        "min": 192.60781905796907,
+        "start": 198.32247521537886
+      },
+      "flap_pos_norm": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "gamma_deg": {
+        "delta": 0.07585708937438224,
+        "end": 0.05599066231014955,
+        "max": 0.19107858776559652,
+        "mean": 0.13043573093557667,
+        "min": -0.019866427064232688,
+        "start": -0.019866427064232688
+      },
+      "heading_deg": {
+        "delta": -5.3083834339775535,
+        "end": 342.3975525933598,
+        "max": 347.7059360273374,
+        "mean": 344.4462489604277,
+        "min": 342.3975525933598,
+        "start": 347.7059360273374
+      },
+      "heading_rate_deg_s": {
+        "delta": 0.34994638387234533,
+        "end": -0.11532232576100424,
+        "max": -0.11532232576100424,
+        "mean": -0.26534398393000724,
+        "min": -0.4652687096333496,
+        "start": -0.4652687096333496
+      },
+      "ias_mps": {
+        "delta": 0.5808005631304098,
+        "end": 35.11481193827266,
+        "max": 35.11481193827266,
+        "mean": 34.89118943575482,
+        "min": 34.53401137514225,
+        "start": 34.53401137514225
+      },
+      "left_aileron_pos_norm": {
+        "delta": -0.007919505503040325,
+        "end": 0.06793301705909535,
+        "max": 0.07594460843379527,
+        "mean": 0.07243124583220664,
+        "min": 0.06793301705909535,
+        "start": 0.07585252256213568
+      },
+      "north_m": {
+        "delta": 705.7406094602244,
+        "end": 1436.23772253188,
+        "max": 1436.23772253188,
+        "mean": 1083.7537897872783,
+        "min": 730.4971130716557,
+        "start": 730.4971130716557
+      },
+      "nz": {
+        "delta": -0.0039774903502570735,
+        "end": 0.9928424282166732,
+        "max": 0.9968199185669303,
+        "mean": 0.9936509978210686,
+        "min": 0.9925653169679762,
+        "start": 0.9968199185669303
+      },
+      "pitch_deg": {
+        "delta": -0.21963653841543707,
+        "end": 4.705665265051054,
+        "max": 4.991903334541721,
+        "mean": 4.884083911663504,
+        "min": 4.705665265051054,
+        "start": 4.925301803466491
+      },
+      "right_aileron_pos_norm": {
+        "delta": -0.007919505503040325,
+        "end": 0.06793301705909535,
+        "max": 0.07594460843379527,
+        "mean": 0.07243124583220664,
+        "min": 0.06793301705909535,
+        "start": 0.07585252256213568
+      },
+      "roll_deg": {
+        "delta": 1.2788299674604686,
+        "end": -0.32751662363348477,
+        "max": -0.32751662363348477,
+        "mean": -0.8829207239652156,
+        "min": -1.6063465910939534,
+        "start": -1.6063465910939534
+      },
+      "rudder_cmd_norm": {
+        "delta": -0.0028647401872906285,
+        "end": -0.012998840237952346,
+        "max": -0.010134100050661718,
+        "mean": -0.012005726355742232,
+        "min": -0.012998840237952346,
+        "start": -0.010134100050661718
+      },
+      "rudder_pos_norm": {
+        "delta": -0.0028641997612255613,
+        "end": -0.012996388039281279,
+        "max": -0.010132188278055718,
+        "mean": -0.012003461505518993,
+        "min": -0.012996388039281279,
+        "start": -0.010132188278055718
+      },
+      "stall_indicator": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "tas_mps": {
+        "delta": 0.6123528145003974,
+        "end": 36.85564714236403,
+        "max": 36.85564714236403,
+        "mean": 36.61949686398445,
+        "min": 36.24329432786363,
+        "start": 36.24329432786363
+      },
+      "total_fuel_lbs": {
+        "delta": 0.0,
+        "end": 185.0,
+        "max": 185.0,
+        "mean": 185.0,
+        "min": 185.0,
+        "start": 185.0
+      },
+      "vertical_speed_mps": {
+        "delta": 0.048582924217665815,
+        "end": 0.03601612165343614,
+        "max": 0.12212259973554074,
+        "mean": 0.08341002183757165,
+        "min": -0.012566802564229675,
+        "start": -0.012566802564229675
+      },
+      "weight_lbs": {
+        "delta": 0.0,
+        "end": 1865.0,
+        "max": 1865.0,
+        "mean": 1865.0,
+        "min": 1865.0,
+        "start": 1865.0
+      },
+      "wind_down_fps": {
+        "delta": 0.0,
+        "end": -4.5099012279661496e-14,
+        "max": -4.5099012279661496e-14,
+        "mean": -4.5099012279661496e-14,
+        "min": -4.5099012279661496e-14,
+        "start": -4.5099012279661496e-14
+      },
+      "wind_east_fps": {
+        "delta": 0.0,
+        "end": 5.585809592645319e-16,
+        "max": 5.585809592645319e-16,
+        "mean": 5.585809592645319e-16,
+        "min": 5.585809592645319e-16,
+        "start": 5.585809592645319e-16
+      },
+      "wind_north_fps": {
+        "delta": 0.0,
+        "end": -1.5631940186722204e-13,
+        "max": -1.5631940186722204e-13,
+        "mean": -1.5631940186722204e-13,
+        "min": -1.5631940186722204e-13,
+        "start": -1.5631940186722204e-13
+      }
+    },
+    "provenance_id": "u2-718fd15ad88d108e531e",
+    "repeat_index": 1,
+    "requested": {
+      "bank_deg": 0.0,
+      "gamma_used_as_command": false,
+      "heading_rate_commanded": false,
+      "ias_mps": 35.0,
+      "vertical_speed_mps": 0.0
+    },
+    "run_id": "u2-c172p-straight-35-+0-r1",
+    "status": "UNKNOWN",
+    "status_reasons": [
+      "bank_tracking"
+    ],
+    "trajectory": null,
+    "trim": {
+      "completed_property": 1.0,
+      "error": null,
+      "loaded_model_id": "c172p",
+      "succeeded": true
+    }
+  },
+  {
+    "aircraft_limit_evidence": {
+      "idle_throttle_boundary": false,
+      "power_limited": false,
+      "repeatable_model_fixture_mismatch_candidate": false,
+      "stall_indicator": false,
+      "throttle_at_severe_boundary": false
+    },
+    "aircraft_model": "c172p",
+    "baseline_trim_throttle_norm": 0.6142280902124257,
+    "checks": {
+      "bank_tracking": false,
+      "beta_bounded": true,
+      "engine_0_propeller_rotating": true,
+      "engine_0_running": true,
+      "engine_0_state_positive": true,
+      "finite_outputs": true,
+      "flaps_frozen_clean": true,
+      "fuel_frozen": true,
+      "ias_tracking": true,
+      "measurement_window_complete": true,
+      "outer_loop_not_clipped_in_measurement": true,
+      "stall_indicator_clear": true,
+      "surface_usage_below_limit": true,
+      "vertical_speed_tracking": true,
+      "weight_frozen": true,
+      "zero_wind": true
+    },
+    "controller": {
+      "policy": "one_shot_generic_bounded_interface_controller_no_aircraft_specific_tuning",
+      "saturation_any_time": {
+        "aileron": false,
+        "elevator": false,
+        "rudder": false,
+        "throttle": false
+      },
+      "saturation_in_measurement": {
+        "aileron": false,
+        "elevator": false,
+        "rudder": false,
+        "throttle": false
+      }
+    },
+    "initialization_mode": "built_in_level_trim_then_feedback",
+    "maneuver": "straight",
+    "measurement": {
+      "aileron_cmd_norm": {
+        "delta": -0.007920999779820262,
+        "end": 0.06794583487075583,
+        "max": 0.07595893789728261,
+        "mean": 0.07244491238357742,
+        "min": 0.06794583487075583,
+        "start": 0.07586683465057609
+      },
+      "alpha_deg": {
+        "delta": -0.2995659610727701,
+        "end": 4.650231949734308,
+        "max": 4.949797910807078,
+        "mean": 4.755820960011428,
+        "min": 4.649983241743462,
+        "start": 4.949797910807078
+      },
+      "altitude_msl_m": {
+        "delta": 1.6689176317245256,
+        "end": 1000.2294355664582,
+        "max": 1000.2294355664582,
+        "mean": 999.3782080784721,
+        "min": 998.5579637676448,
+        "start": 998.5605179347336
+      },
+      "beta_deg": {
+        "delta": -0.011894258259300086,
+        "end": 0.08456693297582532,
+        "max": 0.10076775090617228,
+        "mean": 0.09534005102018603,
+        "min": 0.08456693297582532,
+        "start": 0.09646119123512541
+      },
+      "cas_kts": {
+        "delta": 1.128985975847442,
+        "end": 68.2577337892989,
+        "max": 68.2577337892989,
+        "mean": 67.8230464193938,
+        "min": 67.12874781345145,
+        "start": 67.12874781345145
+      },
+      "cg_x_in": {
+        "delta": 0.0,
+        "end": 42.00536193029491,
+        "max": 42.00536193029491,
+        "mean": 42.00536193029491,
+        "min": 42.00536193029491,
+        "start": 42.00536193029491
+      },
+      "cg_y_in": {
+        "delta": 0.0,
+        "end": -1.3512064343163541,
+        "max": -1.3512064343163541,
+        "mean": -1.3512064343163541,
+        "min": -1.3512064343163541,
+        "start": -1.3512064343163541
+      },
+      "cg_z_in": {
+        "delta": 0.0,
+        "end": 37.565147453083114,
+        "max": 37.565147453083114,
+        "mean": 37.565147453083114,
+        "min": 37.565147453083114,
+        "start": 37.565147453083114
+      },
+      "commanded_bank_deg": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "commanded_vertical_speed_mps": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "east_m": {
+        "delta": 194.30760663732,
+        "end": 274.7016444800194,
+        "max": 274.7016444800194,
+        "mean": 171.7791212333109,
+        "min": 80.39403784269942,
+        "start": 80.39403784269942
+      },
+      "elevator_cmd_norm": {
+        "delta": 0.012216619329047444,
+        "end": 0.0030004860677250124,
+        "max": 0.003455921443765246,
+        "mean": 1.9095685184898862e-05,
+        "min": -0.009216133261322432,
+        "start": -0.009216133261322432
+      },
+      "elevator_pos_norm": {
+        "delta": 0.012214314694392707,
+        "end": -0.05412680275626832,
+        "max": -0.0536714532969717,
+        "mean": -0.05710763070697604,
+        "min": -0.06634111745066103,
+        "start": -0.06634111745066103
+      },
+      "engine_0_propeller_rpm": {
+        "delta": -11.90589714929547,
+        "end": 1864.921180869882,
+        "max": 1910.3566032635238,
+        "mean": 1893.7401479210796,
+        "min": 1864.921180869882,
+        "start": 1876.8270780191774
+      },
+      "engine_0_running": {
+        "delta": 0.0,
+        "end": 1.0,
+        "max": 1.0,
+        "mean": 1.0,
+        "min": 1.0,
+        "start": 1.0
+      },
+      "engine_0_state": {
+        "delta": -11.90589714929547,
+        "end": 1864.921180869882,
+        "max": 1910.3566032635238,
+        "mean": 1893.7401479210796,
+        "min": 1864.921180869882,
+        "start": 1876.8270780191774
+      },
+      "engine_0_throttle_cmd_norm": {
+        "delta": -0.013077696584121834,
+        "end": 0.6156156328588606,
+        "max": 0.6364786940788627,
+        "mean": 0.6289138269864915,
+        "min": 0.6156156328588606,
+        "start": 0.6286933294429824
+      },
+      "engine_0_throttle_pos_norm": {
+        "delta": -0.013077696584121834,
+        "end": 0.6156156328588606,
+        "max": 0.6364786940788627,
+        "mean": 0.6289138269864915,
+        "min": 0.6156156328588606,
+        "start": 0.6286933294429824
+      },
+      "engine_0_thrust_lbs": {
+        "delta": -5.714656157409792,
+        "end": 192.60781905796907,
+        "max": 206.89347202841356,
+        "mean": 201.71441340103496,
+        "min": 192.60781905796907,
+        "start": 198.32247521537886
+      },
+      "flap_pos_norm": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "gamma_deg": {
+        "delta": 0.07585708937438224,
+        "end": 0.05599066231014955,
+        "max": 0.19107858776559652,
+        "mean": 0.13043573093557667,
+        "min": -0.019866427064232688,
+        "start": -0.019866427064232688
+      },
+      "heading_deg": {
+        "delta": -5.3083834339775535,
+        "end": 342.3975525933598,
+        "max": 347.7059360273374,
+        "mean": 344.4462489604277,
+        "min": 342.3975525933598,
+        "start": 347.7059360273374
+      },
+      "heading_rate_deg_s": {
+        "delta": 0.34994638387234533,
+        "end": -0.11532232576100424,
+        "max": -0.11532232576100424,
+        "mean": -0.26534398393000724,
+        "min": -0.4652687096333496,
+        "start": -0.4652687096333496
+      },
+      "ias_mps": {
+        "delta": 0.5808005631304098,
+        "end": 35.11481193827266,
+        "max": 35.11481193827266,
+        "mean": 34.89118943575482,
+        "min": 34.53401137514225,
+        "start": 34.53401137514225
+      },
+      "left_aileron_pos_norm": {
+        "delta": -0.007919505503040325,
+        "end": 0.06793301705909535,
+        "max": 0.07594460843379527,
+        "mean": 0.07243124583220664,
+        "min": 0.06793301705909535,
+        "start": 0.07585252256213568
+      },
+      "north_m": {
+        "delta": 705.7406094602244,
+        "end": 1436.23772253188,
+        "max": 1436.23772253188,
+        "mean": 1083.7537897872783,
+        "min": 730.4971130716557,
+        "start": 730.4971130716557
+      },
+      "nz": {
+        "delta": -0.0039774903502570735,
+        "end": 0.9928424282166732,
+        "max": 0.9968199185669303,
+        "mean": 0.9936509978210686,
+        "min": 0.9925653169679762,
+        "start": 0.9968199185669303
+      },
+      "pitch_deg": {
+        "delta": -0.21963653841543707,
+        "end": 4.705665265051054,
+        "max": 4.991903334541721,
+        "mean": 4.884083911663504,
+        "min": 4.705665265051054,
+        "start": 4.925301803466491
+      },
+      "right_aileron_pos_norm": {
+        "delta": -0.007919505503040325,
+        "end": 0.06793301705909535,
+        "max": 0.07594460843379527,
+        "mean": 0.07243124583220664,
+        "min": 0.06793301705909535,
+        "start": 0.07585252256213568
+      },
+      "roll_deg": {
+        "delta": 1.2788299674604686,
+        "end": -0.32751662363348477,
+        "max": -0.32751662363348477,
+        "mean": -0.8829207239652156,
+        "min": -1.6063465910939534,
+        "start": -1.6063465910939534
+      },
+      "rudder_cmd_norm": {
+        "delta": -0.0028647401872906285,
+        "end": -0.012998840237952346,
+        "max": -0.010134100050661718,
+        "mean": -0.012005726355742232,
+        "min": -0.012998840237952346,
+        "start": -0.010134100050661718
+      },
+      "rudder_pos_norm": {
+        "delta": -0.0028641997612255613,
+        "end": -0.012996388039281279,
+        "max": -0.010132188278055718,
+        "mean": -0.012003461505518993,
+        "min": -0.012996388039281279,
+        "start": -0.010132188278055718
+      },
+      "stall_indicator": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "tas_mps": {
+        "delta": 0.6123528145003974,
+        "end": 36.85564714236403,
+        "max": 36.85564714236403,
+        "mean": 36.61949686398445,
+        "min": 36.24329432786363,
+        "start": 36.24329432786363
+      },
+      "total_fuel_lbs": {
+        "delta": 0.0,
+        "end": 185.0,
+        "max": 185.0,
+        "mean": 185.0,
+        "min": 185.0,
+        "start": 185.0
+      },
+      "vertical_speed_mps": {
+        "delta": 0.048582924217665815,
+        "end": 0.03601612165343614,
+        "max": 0.12212259973554074,
+        "mean": 0.08341002183757165,
+        "min": -0.012566802564229675,
+        "start": -0.012566802564229675
+      },
+      "weight_lbs": {
+        "delta": 0.0,
+        "end": 1865.0,
+        "max": 1865.0,
+        "mean": 1865.0,
+        "min": 1865.0,
+        "start": 1865.0
+      },
+      "wind_down_fps": {
+        "delta": 0.0,
+        "end": -4.5099012279661496e-14,
+        "max": -4.5099012279661496e-14,
+        "mean": -4.5099012279661496e-14,
+        "min": -4.5099012279661496e-14,
+        "start": -4.5099012279661496e-14
+      },
+      "wind_east_fps": {
+        "delta": 0.0,
+        "end": 5.585809592645319e-16,
+        "max": 5.585809592645319e-16,
+        "mean": 5.585809592645319e-16,
+        "min": 5.585809592645319e-16,
+        "start": 5.585809592645319e-16
+      },
+      "wind_north_fps": {
+        "delta": 0.0,
+        "end": -1.5631940186722204e-13,
+        "max": -1.5631940186722204e-13,
+        "mean": -1.5631940186722204e-13,
+        "min": -1.5631940186722204e-13,
+        "start": -1.5631940186722204e-13
+      }
+    },
+    "provenance_id": "u2-718fd15ad88d108e531e",
+    "repeat_index": 2,
+    "requested": {
+      "bank_deg": 0.0,
+      "gamma_used_as_command": false,
+      "heading_rate_commanded": false,
+      "ias_mps": 35.0,
+      "vertical_speed_mps": 0.0
+    },
+    "run_id": "u2-c172p-straight-35-+0-r2",
+    "status": "UNKNOWN",
+    "status_reasons": [
+      "bank_tracking"
+    ],
+    "trajectory": null,
+    "trim": {
+      "completed_property": 1.0,
+      "error": null,
+      "loaded_model_id": "c172p",
+      "succeeded": true
+    }
+  },
+  {
+    "aircraft_limit_evidence": {
+      "idle_throttle_boundary": false,
+      "power_limited": false,
+      "repeatable_model_fixture_mismatch_candidate": false,
+      "stall_indicator": false,
+      "throttle_at_severe_boundary": false
+    },
+    "aircraft_model": "c172p",
+    "baseline_trim_throttle_norm": 0.6142280902124257,
+    "checks": {
+      "bank_tracking": false,
+      "beta_bounded": true,
+      "engine_0_propeller_rotating": true,
+      "engine_0_running": true,
+      "engine_0_state_positive": true,
+      "finite_outputs": true,
+      "flaps_frozen_clean": true,
+      "fuel_frozen": true,
+      "ias_tracking": true,
+      "measurement_window_complete": true,
+      "outer_loop_not_clipped_in_measurement": true,
+      "stall_indicator_clear": true,
+      "surface_usage_below_limit": true,
+      "vertical_speed_tracking": true,
+      "weight_frozen": true,
+      "zero_wind": true
+    },
+    "controller": {
+      "policy": "one_shot_generic_bounded_interface_controller_no_aircraft_specific_tuning",
+      "saturation_any_time": {
+        "aileron": false,
+        "elevator": false,
+        "rudder": false,
+        "throttle": false
+      },
+      "saturation_in_measurement": {
+        "aileron": false,
+        "elevator": false,
+        "rudder": false,
+        "throttle": false
+      }
+    },
+    "initialization_mode": "built_in_level_trim_then_feedback",
+    "maneuver": "straight",
+    "measurement": {
+      "aileron_cmd_norm": {
+        "delta": -0.007920999779820262,
+        "end": 0.06794583487075583,
+        "max": 0.07595893789728261,
+        "mean": 0.07244491238357742,
+        "min": 0.06794583487075583,
+        "start": 0.07586683465057609
+      },
+      "alpha_deg": {
+        "delta": -0.2995659610727701,
+        "end": 4.650231949734308,
+        "max": 4.949797910807078,
+        "mean": 4.755820960011428,
+        "min": 4.649983241743462,
+        "start": 4.949797910807078
+      },
+      "altitude_msl_m": {
+        "delta": 1.6689176317245256,
+        "end": 1000.2294355664582,
+        "max": 1000.2294355664582,
+        "mean": 999.3782080784721,
+        "min": 998.5579637676448,
+        "start": 998.5605179347336
+      },
+      "beta_deg": {
+        "delta": -0.011894258259300086,
+        "end": 0.08456693297582532,
+        "max": 0.10076775090617228,
+        "mean": 0.09534005102018603,
+        "min": 0.08456693297582532,
+        "start": 0.09646119123512541
+      },
+      "cas_kts": {
+        "delta": 1.128985975847442,
+        "end": 68.2577337892989,
+        "max": 68.2577337892989,
+        "mean": 67.8230464193938,
+        "min": 67.12874781345145,
+        "start": 67.12874781345145
+      },
+      "cg_x_in": {
+        "delta": 0.0,
+        "end": 42.00536193029491,
+        "max": 42.00536193029491,
+        "mean": 42.00536193029491,
+        "min": 42.00536193029491,
+        "start": 42.00536193029491
+      },
+      "cg_y_in": {
+        "delta": 0.0,
+        "end": -1.3512064343163541,
+        "max": -1.3512064343163541,
+        "mean": -1.3512064343163541,
+        "min": -1.3512064343163541,
+        "start": -1.3512064343163541
+      },
+      "cg_z_in": {
+        "delta": 0.0,
+        "end": 37.565147453083114,
+        "max": 37.565147453083114,
+        "mean": 37.565147453083114,
+        "min": 37.565147453083114,
+        "start": 37.565147453083114
+      },
+      "commanded_bank_deg": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "commanded_vertical_speed_mps": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "east_m": {
+        "delta": 194.30760663732,
+        "end": 274.7016444800194,
+        "max": 274.7016444800194,
+        "mean": 171.7791212333109,
+        "min": 80.39403784269942,
+        "start": 80.39403784269942
+      },
+      "elevator_cmd_norm": {
+        "delta": 0.012216619329047444,
+        "end": 0.0030004860677250124,
+        "max": 0.003455921443765246,
+        "mean": 1.9095685184898862e-05,
+        "min": -0.009216133261322432,
+        "start": -0.009216133261322432
+      },
+      "elevator_pos_norm": {
+        "delta": 0.012214314694392707,
+        "end": -0.05412680275626832,
+        "max": -0.0536714532969717,
+        "mean": -0.05710763070697604,
+        "min": -0.06634111745066103,
+        "start": -0.06634111745066103
+      },
+      "engine_0_propeller_rpm": {
+        "delta": -11.90589714929547,
+        "end": 1864.921180869882,
+        "max": 1910.3566032635238,
+        "mean": 1893.7401479210796,
+        "min": 1864.921180869882,
+        "start": 1876.8270780191774
+      },
+      "engine_0_running": {
+        "delta": 0.0,
+        "end": 1.0,
+        "max": 1.0,
+        "mean": 1.0,
+        "min": 1.0,
+        "start": 1.0
+      },
+      "engine_0_state": {
+        "delta": -11.90589714929547,
+        "end": 1864.921180869882,
+        "max": 1910.3566032635238,
+        "mean": 1893.7401479210796,
+        "min": 1864.921180869882,
+        "start": 1876.8270780191774
+      },
+      "engine_0_throttle_cmd_norm": {
+        "delta": -0.013077696584121834,
+        "end": 0.6156156328588606,
+        "max": 0.6364786940788627,
+        "mean": 0.6289138269864915,
+        "min": 0.6156156328588606,
+        "start": 0.6286933294429824
+      },
+      "engine_0_throttle_pos_norm": {
+        "delta": -0.013077696584121834,
+        "end": 0.6156156328588606,
+        "max": 0.6364786940788627,
+        "mean": 0.6289138269864915,
+        "min": 0.6156156328588606,
+        "start": 0.6286933294429824
+      },
+      "engine_0_thrust_lbs": {
+        "delta": -5.714656157409792,
+        "end": 192.60781905796907,
+        "max": 206.89347202841356,
+        "mean": 201.71441340103496,
+        "min": 192.60781905796907,
+        "start": 198.32247521537886
+      },
+      "flap_pos_norm": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "gamma_deg": {
+        "delta": 0.07585708937438224,
+        "end": 0.05599066231014955,
+        "max": 0.19107858776559652,
+        "mean": 0.13043573093557667,
+        "min": -0.019866427064232688,
+        "start": -0.019866427064232688
+      },
+      "heading_deg": {
+        "delta": -5.3083834339775535,
+        "end": 342.3975525933598,
+        "max": 347.7059360273374,
+        "mean": 344.4462489604277,
+        "min": 342.3975525933598,
+        "start": 347.7059360273374
+      },
+      "heading_rate_deg_s": {
+        "delta": 0.34994638387234533,
+        "end": -0.11532232576100424,
+        "max": -0.11532232576100424,
+        "mean": -0.26534398393000724,
+        "min": -0.4652687096333496,
+        "start": -0.4652687096333496
+      },
+      "ias_mps": {
+        "delta": 0.5808005631304098,
+        "end": 35.11481193827266,
+        "max": 35.11481193827266,
+        "mean": 34.89118943575482,
+        "min": 34.53401137514225,
+        "start": 34.53401137514225
+      },
+      "left_aileron_pos_norm": {
+        "delta": -0.007919505503040325,
+        "end": 0.06793301705909535,
+        "max": 0.07594460843379527,
+        "mean": 0.07243124583220664,
+        "min": 0.06793301705909535,
+        "start": 0.07585252256213568
+      },
+      "north_m": {
+        "delta": 705.7406094602244,
+        "end": 1436.23772253188,
+        "max": 1436.23772253188,
+        "mean": 1083.7537897872783,
+        "min": 730.4971130716557,
+        "start": 730.4971130716557
+      },
+      "nz": {
+        "delta": -0.0039774903502570735,
+        "end": 0.9928424282166732,
+        "max": 0.9968199185669303,
+        "mean": 0.9936509978210686,
+        "min": 0.9925653169679762,
+        "start": 0.9968199185669303
+      },
+      "pitch_deg": {
+        "delta": -0.21963653841543707,
+        "end": 4.705665265051054,
+        "max": 4.991903334541721,
+        "mean": 4.884083911663504,
+        "min": 4.705665265051054,
+        "start": 4.925301803466491
+      },
+      "right_aileron_pos_norm": {
+        "delta": -0.007919505503040325,
+        "end": 0.06793301705909535,
+        "max": 0.07594460843379527,
+        "mean": 0.07243124583220664,
+        "min": 0.06793301705909535,
+        "start": 0.07585252256213568
+      },
+      "roll_deg": {
+        "delta": 1.2788299674604686,
+        "end": -0.32751662363348477,
+        "max": -0.32751662363348477,
+        "mean": -0.8829207239652156,
+        "min": -1.6063465910939534,
+        "start": -1.6063465910939534
+      },
+      "rudder_cmd_norm": {
+        "delta": -0.0028647401872906285,
+        "end": -0.012998840237952346,
+        "max": -0.010134100050661718,
+        "mean": -0.012005726355742232,
+        "min": -0.012998840237952346,
+        "start": -0.010134100050661718
+      },
+      "rudder_pos_norm": {
+        "delta": -0.0028641997612255613,
+        "end": -0.012996388039281279,
+        "max": -0.010132188278055718,
+        "mean": -0.012003461505518993,
+        "min": -0.012996388039281279,
+        "start": -0.010132188278055718
+      },
+      "stall_indicator": {
+        "delta": 0.0,
+        "end": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "start": 0.0
+      },
+      "tas_mps": {
+        "delta": 0.6123528145003974,
+        "end": 36.85564714236403,
+        "max": 36.85564714236403,
+        "mean": 36.61949686398445,
+        "min": 36.24329432786363,
+        "start": 36.24329432786363
+      },
+      "total_fuel_lbs": {
+        "delta": 0.0,
+        "end": 185.0,
+        "max": 185.0,
+        "mean": 185.0,
+        "min": 185.0,
+        "start": 185.0
+      },
+      "vertical_speed_mps": {
+        "delta": 0.048582924217665815,
+        "end": 0.03601612165343614,
+        "max": 0.12212259973554074,
+        "mean": 0.08341002183757165,
+        "min": -0.012566802564229675,
+        "start": -0.012566802564229675
+      },
+      "weight_lbs": {
+        "delta": 0.0,
+        "end": 1865.0,
+        "max": 1865.0,
+        "mean": 1865.0,
+        "min": 1865.0,
+        "start": 1865.0
+      },
+      "wind_down_fps": {
+        "delta": 0.0,
+        "end": -4.5099012279661496e-14,
+        "max": -4.5099012279661496e-14,
+        "mean": -4.5099012279661496e-14,
+        "min": -4.5099012279661496e-14,
+        "start": -4.5099012279661496e-14
+      },
+      "wind_east_fps": {
+        "delta": 0.0,
+        "end": 5.585809592645319e-16,
+        "max": 5.585809592645319e-16,
+        "mean": 5.585809592645319e-16,
+        "min": 5.585809592645319e-16,
+        "start": 5.585809592645319e-16
+      },
+      "wind_north_fps": {
+        "delta": 0.0,
+        "end": -1.5631940186722204e-13,
+        "max": -1.5631940186722204e-13,
+        "mean": -1.5631940186722204e-13,
+        "min": -1.5631940186722204e-13,
+        "start": -1.5631940186722204e-13
+      }
+    },
+    "provenance_id": "u2-718fd15ad88d108e531e",
+    "repeat_index": 3,
+    "requested": {
+      "bank_deg": 0.0,
+      "gamma_used_as_command": false,
+      "heading_rate_commanded": false,
+      "ias_mps": 35.0,
+      "vertical_speed_mps": 0.0
+    },
+    "run_id": "u2-c172p-straight-35-+0-r3",
+    "status": "UNKNOWN",
+    "status_reasons": [
+      "bank_tracking"
+    ],
+    "trajectory": null,
+    "trim": {
+      "completed_property": 1.0,
+      "error": null,
+      "loaded_model_id": "c172p",
+      "succeeded": true
+    }
+  }
+]

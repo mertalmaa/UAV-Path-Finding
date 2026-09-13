@@ -1,0 +1,47 @@
+{
+  "artifact_type": "U5_1_CROSS_AIRCRAFT_COMPARISON",
+  "provenance_id": "u5.1-d706a368635d7cb66217",
+  "rows": [
+    {
+      "aircraft": "c172p",
+      "climb_quality": "LIMITED",
+      "controller_stability_score": 5,
+      "descent_quality": "GOOD_WITH_LIMITED_REGIONS",
+      "general_actual_stable_speed_region_mps": [
+        30,
+        40,
+        50
+      ],
+      "general_good_speed_region_mps": [
+        40,
+        50
+      ],
+      "overall_rank": 1,
+      "repeatability": true,
+      "tested_altitude_range_m": [
+        0.0,
+        6000.0
+      ],
+      "tested_ias_range_mps": [
+        30.0,
+        60.0
+      ],
+      "tuning_effort_score_inverse": 5,
+      "turn_quality": "EXCELLENT_ALL_TESTED_RESPONSES_STABLE",
+      "uav_like_character_score": 5,
+      "usability_5000_m": "USABLE",
+      "usability_5500_m": "USABLE",
+      "usability_6000_m": "LIMITED"
+    }
+  ],
+  "schema_version": 1,
+  "selection_priority_order": [
+    "stability_and_control_quality",
+    "repeatability",
+    "usable_altitude_speed_coverage",
+    "minimum_tuning",
+    "reasonable_turn_climb_descent",
+    "uav_like_fixed_wing_character",
+    "mentor_numeric_proximity"
+  ]
+}

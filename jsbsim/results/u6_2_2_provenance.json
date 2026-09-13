@@ -1,0 +1,47 @@
+{
+  "artifact_type": "U6_2_2_PROVENANCE",
+  "files": {
+    "configuration": {
+      "path": "C:\\Users\\merta\\Desktop\\UAV-Path-Finding\\jsbsim\\u6_2_2_tested_safe_envelope_configuration.yaml",
+      "sha256": "e4989efeaa9e0350177b7a831b2af068636060f4ec80b92d2cf8f38c2be20d0d"
+    },
+    "derivation_harness": {
+      "path": "C:\\Users\\merta\\Desktop\\UAV-Path-Finding\\jsbsim\\u6_2_2_tested_safe_envelope.py",
+      "sha256": "1cfeb69294dcf38073c502beb2515a6eb86d18382a2a19c57affde6081d66235"
+    },
+    "query_interface": {
+      "path": "C:\\Users\\merta\\Desktop\\UAV-Path-Finding\\jsbsim\\tested_envelope_profile.py",
+      "sha256": "6d6ec932e456859b17a8cd95097a22c25c99124c180de197fc8e92bc63238f41"
+    }
+  },
+  "generated_at_utc": "2026-09-13T17:18:19.336038+00:00",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "provenance_id": "u6.2.2-b8e1351477e87cc148e9",
+  "python_version": "3.14.7 (tags/v3.14.7:823f032, Aug  5 2026, 10:51:32) [MSC v.1944 64 bit (AMD64)]",
+  "schema_version": 1,
+  "source_artifacts_unchanged": true,
+  "source_hashes_after": {
+    "combined_holdouts": "23098a5da76306f12159a39f517153e96e176b502ce57df7e81e9de86e93640e",
+    "combined_raw": "a1f3da9dc2245f8765e22d6d6cb5202b94f98fbfb96ccd8b326a6550fed8438a",
+    "core_holdouts": "e572c110a18fa5fcbd0afd06c7524297b3bf53712e95abf8575d09856b64cc3d",
+    "core_raw": "865a297c3e9f6e3fbe2997a2edb85a80a5392f425be471669e59afe90209c808",
+    "u6_2_1_altitude_audit": "81b4c808f2b863101493f6dc9a2f753c4987309e2e300e6a7b62a652df507714",
+    "u6_2_1_constant_audit": "e149c60559827e819955f1be7a03dfe0f3c47ddcf7128836f0b740283876ccf6",
+    "u6_2_1_profile": "1c00dbca425b31c0146592dbc4bdccd4c6cf3a1951556b2cc24dcab12e374da3",
+    "u6_2_1_provenance": "061528aae106d6380e09550f11b1076c1a0be52d07340c0917069577e3289c78",
+    "u6_2_1_result": "20689aa164086ecae8e787fa7a0b6daaea1baa4d7986bd1390c4c49db851bab9",
+    "u6_2_profile": "7d1cb4ffb2b596ef99a31d5a98ec4dc53bc86cb1cda64362e8f10ef6a9ef8ca7"
+  },
+  "source_hashes_before": {
+    "combined_holdouts": "23098a5da76306f12159a39f517153e96e176b502ce57df7e81e9de86e93640e",
+    "combined_raw": "a1f3da9dc2245f8765e22d6d6cb5202b94f98fbfb96ccd8b326a6550fed8438a",
+    "core_holdouts": "e572c110a18fa5fcbd0afd06c7524297b3bf53712e95abf8575d09856b64cc3d",
+    "core_raw": "865a297c3e9f6e3fbe2997a2edb85a80a5392f425be471669e59afe90209c808",
+    "u6_2_1_altitude_audit": "81b4c808f2b863101493f6dc9a2f753c4987309e2e300e6a7b62a652df507714",
+    "u6_2_1_constant_audit": "e149c60559827e819955f1be7a03dfe0f3c47ddcf7128836f0b740283876ccf6",
+    "u6_2_1_profile": "1c00dbca425b31c0146592dbc4bdccd4c6cf3a1951556b2cc24dcab12e374da3",
+    "u6_2_1_provenance": "061528aae106d6380e09550f11b1076c1a0be52d07340c0917069577e3289c78",
+    "u6_2_1_result": "20689aa164086ecae8e787fa7a0b6daaea1baa4d7986bd1390c4c49db851bab9",
+    "u6_2_profile": "7d1cb4ffb2b596ef99a31d5a98ec4dc53bc86cb1cda64362e8f10ef6a9ef8ca7"
+  }
+}

@@ -1,0 +1,97 @@
+schema_version: 1
+configuration_id: u5_practical_uav_like_aircraft_rescreen_v1
+parent_stage: U4.1A.3
+
+scope:
+  sparse_selection_screen_only: true
+  full_lut_generation: false
+  boundary_refinement: false
+  maximum_bank_search: false
+  service_ceiling_research: false
+  controller_gain_tuning: false
+  stock_xml_modification: false
+  planner_modification: false
+  interpolation: false
+  derating: false
+  heading_addition: false
+  final_replay_implementation: false
+
+selection_philosophy:
+  mentor_speed_reference_mps: [35.0, 50.0]
+  mentor_bank_reference_deg: 25.0
+  mentor_vertical_speed_reference_mps: 5.0
+  mentor_values_are_hard_gates: false
+  required_character: low_or_medium_speed_stable_predictable_non_aggressive_fixed_wing
+  priority_order:
+    - control_quality_and_stability
+    - repeatability
+    - high_altitude_usability
+    - minimum_tuning_burden
+    - reasonable_turn_climb_descent
+    - uav_like_speed_and_behavior
+    - mentor_reference_proximity
+
+candidates:
+  c172r: {fixture_source: u2, mixture_mode: production_pressure_ratio_v1, mixture_policy_id: c172r-production-mixture-pressure-ratio-v1, added_from_inventory: false}
+  c172p: {fixture_source: u2, mixture_mode: production_pressure_ratio_v1, mixture_policy_id: c172p-production-mixture-pressure-ratio-v1, added_from_inventory: false}
+  c172x: {fixture_source: u2, mixture_mode: stock_automatic, added_from_inventory: false}
+  c182: {fixture_source: u1_backup, mixture_mode: pressure_ratio_screening, added_from_inventory: false}
+  DHC6: {fixture_source: u1_primary, mixture_mode: turbine_full_command, added_from_inventory: false}
+  J3Cub: {fixture_source: u2, mixture_mode: pressure_ratio_screening, added_from_inventory: false}
+  pa28: {fixture_source: u2, mixture_mode: pressure_ratio_screening, added_from_inventory: true}
+  c310: {fixture_source: u2, mixture_mode: stock_automatic, added_from_inventory: true}
+
+phase1:
+  altitudes_m: [0, 3000]
+  initial_speed_probes_mps: [30, 40, 50, 60]
+  adaptive_extra_probe_low_mps: 25
+  adaptive_extra_probe_high_mps: 70
+  maximum_selected_speeds_per_aircraft: 1
+  early_reject_if_no_stable_speed_at_both_altitudes: true
+
+phase2:
+  altitudes_m: [5000, 5500, 6000]
+  turn_bank_targets_deg: [-20, 20, -30, 30]
+  vertical_speed_targets_mps: [-4.5, -2.5, 2.5, 4.5]
+  straight_first: true
+  skip_maneuvers_if_straight_actual_stability_unusable: true
+
+simulation:
+  timestep_s: 0.01
+  replay_duration_s: 40.0
+  steady_measurement_window_s: 20.0
+  target_ramp_s: 8.0
+  cold_start_repetitions: 3
+
+actual_stable_response_contract:
+  ias_mean_relative_error_max: 0.05
+  ias_retention_min: 0.90
+  straight_vertical_speed_abs_max_mps: 0.75
+  bank_mean_error_max_deg: 3.0
+  vertical_mean_error_max_mps: 0.80
+  minimum_meaningful_turn_bank_deg: 15.0
+  minimum_meaningful_vertical_response_mps: 0.75
+  normalized_surface_usage_max: 0.90
+  measurement_ias_std_max_mps: 0.50
+  measurement_bank_std_max_deg: 1.00
+  measurement_vertical_speed_std_max_mps: 0.50
+  settling_deadline_s: 30.0
+  repeatability_required: true
+  engine_health_required: true
+  strict_u1_status_is_only_one_input: true
+  unknown_is_infeasible: false
+
+historical_artifacts:
+  u2_inventory: {path: results/u2_inventory.json, sha256: 7556c2f273fba98fefb1fbc80b329879b6229eed5a754c5d062187c976e8185f}
+  u3_result: {path: results/u3_result.json, sha256: 6a8c88b8c8460a43bd08995b4ba4344d68941dac9848889a024d60b1b21975f8}
+  u4_raw: {path: results/aircraft_lut_raw.json, sha256: 6a2181f13438691c990237d5a5593ca591b0cb9bff1aad54868f7e36380ec548}
+  u4_raw_v2: {path: results/aircraft_lut_raw_v2.json, sha256: 7fb307060d62ee86f793e8d6e79aacc07fbbd2eba1381b0c029d03160a0eaee6}
+  u4_1a3_provenance: {path: results/u4_1a3_provenance.json, sha256: a698e554532ac9f3629534d9d1fa5ad4e254920004af3772bf2e745dc080f203}
+  u4_1a3_result: {path: results/u4_1a3_result.json, sha256: a42adae121519a4316b2ba698bd69d81442badc1df07aabc3ada482efc1d3104}
+
+freeze_contract:
+  primary_and_backup_required: true
+  selected_nominal_speed_policy_required: true
+  aircraft_selection_closed_after_u5: true
+  reopen_only_for_new_blocking_evidence: true
+  same_selected_stack_required_for_lut_and_final_replay: true

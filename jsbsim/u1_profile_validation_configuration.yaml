@@ -1,0 +1,149 @@
+schema_version: 1
+configuration_id: dhc6_u1_fail_fast_v1
+parent_selection: u0_aircraft_selection.yaml
+
+scope:
+  model_suitability_gate_only: true
+  full_altitude_sweep: false
+  capability_boundary_sweep: false
+  controller_optimization: false
+  planner_integration: false
+  heading_or_orbit_implementation: false
+
+aircraft:
+  primary_model: DHC6
+  expected_fdm_config_name: DHC-6
+  expected_loaded_model_id: DHC6
+  expected_engine_model: PT6A-27
+  expected_thruster_model: Propeller
+  expected_system_models: [Propulsion.xml, Conventional Controls.xml, Landing Gear.xml, Flaps.xml]
+  expected_fcs_name: "FCS: DHC-6 Twin Otter"
+  backup_model: c182
+
+fixture:
+  representative_altitude_msl_m: 1000.0
+  altitude_rationale: low_altitude_terrain_independent_point_with_engine_and_stall_margin_visible
+  synthetic_terrain_elevation_msl_m: -1000.0
+  tank_contents_lbs: [892.1, 892.1]
+  expected_total_fuel_lbs: 1784.2
+  expected_weight_lbs: 10114.2
+  fuel_frozen: true
+  flap_command_norm: 0.0
+  flap_position_norm: 0.0
+  gear_configuration: fixed_deployed
+  propeller_advance_command_norm: 1.0
+  feather_command_norm: 0.0
+  mixture_command_norm: 1.0
+  initial_symmetric_throttle_command_norm: 0.5
+  engine_count: 2
+  engine_state_property: n1
+  atmosphere: US_Standard
+  delta_temperature_R: 0.0
+  wind_north_fps: 0.0
+  wind_east_fps: 0.0
+  wind_down_fps: 0.0
+  gust_north_fps: 0.0
+  gust_east_fps: 0.0
+  gust_down_fps: 0.0
+  turbulence_type: 0
+
+backup_fixture:
+  tank_contents_lbs: [200.0, 200.0]
+  expected_total_fuel_lbs: 400.0
+  expected_weight_lbs: 2280.0
+  engine_count: 1
+  engine_state_property: engine-rpm
+  initial_symmetric_throttle_command_norm: 0.5
+
+ias_measurement_contract:
+  operational_term: IAS
+  jsbsim_source_property: velocities/vc-kts
+  reported_field: ias_mps
+  conversion: ias_mps_equals_vc_kts_times_0_5144444444444445
+  interpretation: ideal_indicated_airspeed_proxy_equal_to_CAS
+  limitation: no_instrument_or_position_error_model_is_available
+  tas_source_property: velocities/vt-fps
+
+operational_profile:
+  ias_range_mps: [35.0, 50.0]
+  nominal_ias_mps: 40.0
+  maximum_absolute_bank_deg: 25.0
+  maximum_absolute_vertical_speed_mps: 5.0
+  values_are_aircraft_physical_limits: false
+  values_are_planner_operational_constraints: true
+
+simulation:
+  timestep_s: 0.01
+  replay_duration_s: 40.0
+  steady_measurement_window_s: 20.0
+  target_ramp_s: 8.0
+  cold_start_repetitions: 3
+
+test_matrix:
+  straight_level_ias_mps: [35.0, 40.0, 50.0]
+  turn_points:
+    - {ias_mps: 35.0, bank_deg: -25.0}
+    - {ias_mps: 35.0, bank_deg: 25.0}
+    - {ias_mps: 40.0, bank_deg: -25.0}
+    - {ias_mps: 40.0, bank_deg: 25.0}
+  vertical_points:
+    - {ias_mps: 40.0, vertical_speed_mps: 5.0}
+    - {ias_mps: 40.0, vertical_speed_mps: -5.0}
+  backup_fail_fast_points:
+    - {maneuver: straight, ias_mps: 35.0}
+    - {maneuver: straight, ias_mps: 40.0}
+    - {maneuver: turn, ias_mps: 35.0, bank_deg: 25.0}
+    - {maneuver: vertical, ias_mps: 40.0, vertical_speed_mps: 5.0}
+
+controller:
+  policy: one_shot_generic_bounded_interface_controller_no_aircraft_specific_tuning
+  interface_adaptation: trim_engine_0_throttle_is_mirrored_to_all_engines
+  trim_policy: built_in_trim_is_initialization_aid_not_validity_requirement
+  bank:
+    kp_cmd_per_deg: 0.020
+    ki_cmd_per_deg_s: 0.0010
+    integral_limit_deg_s: 100.0
+    command_min_norm: -0.70
+    command_max_norm: 0.70
+  beta:
+    target_deg: 0.0
+    kp_cmd_per_deg: 0.080
+    ki_cmd_per_deg_s: 0.0020
+    integral_limit_deg_s: 50.0
+    command_min_norm: -0.50
+    command_max_norm: 0.50
+  vertical_speed:
+    kp_cmd_per_mps: -0.045
+    ki_cmd_per_m: -0.006
+    integral_limit_m: 30.0
+    command_min_norm: -0.65
+    command_max_norm: 0.65
+  ias:
+    kp_cmd_per_mps: 0.060
+    ki_cmd_per_m: 0.010
+    integral_limit_m: 40.0
+    command_min_norm: 0.0
+    command_max_norm: 1.0
+
+acceptance:
+  ias_tracking_relative: 0.02
+  level_vertical_speed_absolute_mps: 0.35
+  vertical_speed_tracking_absolute_mps: 0.50
+  bank_tracking_absolute_deg: 1.5
+  beta_absolute_deg: 5.0
+  turn_rate_coefficient_of_variation_max: 0.05
+  theory_radius_relative_difference_max: 0.15
+  normalized_surface_usage_max: 0.90
+  throttle_position_severe_boundary_norm: 0.99
+  command_boundary_epsilon_norm: 1.0e-6
+  stall_indicator_max: 0.0
+  cold_start_repeatability_relative: 0.01
+  zero_wind_residual_fps: 1.0e-9
+
+classification:
+  statuses: [VALID, INFEASIBLE, UNKNOWN]
+  trim_or_harness_failure: UNKNOWN
+  controller_limit_without_aircraft_evidence: UNKNOWN
+  reliable_stall_or_power_limit: INFEASIBLE
+  directly_infeasible_is_unreachable: false
+  repeated_trim_failure_plus_sustained_idle_speed_and_vz_miss: MODEL_MISMATCH

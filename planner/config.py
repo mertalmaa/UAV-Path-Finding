@@ -23,7 +23,16 @@ class PlannerConfig:
     roi_size_m: float = 10_000.0  # 10x10 km, this stage's scope
     xy_resolution_m: float = 30.0  # working DEM pixel size
 
-    # --- Reserved for future 3D state-space work; unused at this stage ---
+    # --- Vertical (Z) lattice step -- ACTIVE production parameter ---
+    # CORRECTION (2026-09-13): the old comment here ("Reserved for future
+    # 3D state-space work; unused at this stage") predates the actual 3D
+    # integration and is no longer true. z_step_m is now load-bearing:
+    # planner/primitives.py's build_primitive_set() derives climb/descent
+    # dz from it, both search layers (astar.py, coarse_astar.py) anchor
+    # CanonicalState.z_index to it, and CandidateZGenerator.is_representable()
+    # (planner/candidate_z.py, Step REP-1) checks against it directly. See
+    # project.md "Step REP-1"/"Step REP-1.1" for why the regular z_step_m
+    # lattice could not yet be fully replaced by sparse/lazy CandidateZ.
     z_step_m: float = 20.0
 
     # --- PLACEHOLDERS turned TEST PARAMETERS ---
