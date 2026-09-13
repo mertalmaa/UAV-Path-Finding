@@ -224,30 +224,34 @@ class CandidateZGenerator:
         return result
 
     def is_representable(self, row: int, col: int, z_msl: float, z_tol: float = 1e-6) -> bool:
-        """Step REP-1: the unified representability predicate generate()
+        """Step REP-1.1: the unified representability predicate generate()
         was designed to describe, usable as a direct membership test
-        against arithmetic-derived successor altitudes (generate()'s own
-        return value is a 2-4 element boundary-EVENT set -- floor,
-        ceiling, start/goal -- deliberately too sparse to double as that
-        test, since every interior ladder rung strictly between floor and
-        ceiling is never one of those events; see project.md "Step REP-1"
-        for the full audit).
+        against ANY candidate altitude (arithmetic-derived or otherwise) --
+        generate()'s own return value is a 2-4 element boundary-EVENT set
+        (floor, ceiling, start/goal), deliberately too sparse to double as
+        that test, since every interior altitude strictly between floor
+        and ceiling is never one of those events; see project.md "Step
+        REP-1"/"Step REP-1.1" for the full audit.
 
         True iff z_msl is:
-          CLASS A: on the z_step_m ladder (anchored at MSL 0, the same
-            global convention _index_to_msl already uses -- an audited,
-            rejected alternative was anchoring per-mission at start_z_msl,
-            which would make an off-lattice start exact but ripples into
-            every state_to_xyz caller repo-wide for an ambiguous payoff;
-            see project.md) AND floor_for(row,col) <= z_msl <=
-            mission.ceiling_msl, OR
+          CLASS A: floor_for(row,col) <= z_msl <= mission.ceiling_msl --
+            a CONTINUOUS range, no lattice-alignment requirement. Step
+            REP-1 required z_msl to additionally sit on a z_step_m ladder
+            anchored at MSL 0; Step REP-1.1 removed that requirement as
+            never a real representability constraint in the first place
+            -- it was always an emergent property of primitives.py's own
+            fixed +-z_step_m arithmetic (every state that arithmetic
+            produces IS on that ladder, by construction), not something
+            CandidateZ itself needed to enforce. Dropping it makes this
+            predicate genuinely representation-neutral: it now says
+            nothing about HOW a candidate altitude was computed, only
+            whether it clears real terrain+min_agl up to the mission
+            ceiling -- forward-compatible with a future primitive that
+            computes an altitude NOT on today's z_step_m grid, with zero
+            further change needed here.
           CLASS B: z_msl exactly equals this mission's start or goal
             altitude, AT that specific mission-designated cell (an exact,
-            possibly off-lattice mission event). Currently unreachable by
-            any producer of CanonicalState in this repo (z_index is
-            int-typed, so an off-lattice float can never BE a state) --
-            kept as the correct, forward-compatible hook for when that
-            constraint is lifted, not dead code for its own sake.
+            possibly off-lattice mission event).
 
         Pure membership test: never derives or caches a new candidate,
         same determinism/no-history guarantee as floor_for()."""
@@ -258,8 +262,4 @@ class CandidateZGenerator:
         floor = self.floor_for(row, col)
         if floor is None:
             return False
-        if z_msl < floor - z_tol or z_msl > self.mission.ceiling_msl + z_tol:
-            return False
-        z_step = self.mission.z_step_m
-        nearest_rung = round(z_msl / z_step) * z_step
-        return abs(z_msl - nearest_rung) < z_tol
+        return floor - z_tol <= z_msl <= self.mission.ceiling_msl + z_tol

@@ -1,0 +1,72 @@
+{
+  "representability_tests": [
+    {
+      "case": "A_terrain_candidate_representable",
+      "pass": true
+    },
+    {
+      "case": "B_off_structure_exact_start_representable",
+      "pass": true
+    },
+    {
+      "case": "C_exact_goal_representable",
+      "pass": true
+    },
+    {
+      "case": "D_out_of_range_altitude_rejected",
+      "pass": true
+    },
+    {
+      "case": "E_same_inputs_same_candidates",
+      "pass": true
+    },
+    {
+      "case": "F_search_order_does_not_change_candidate_set",
+      "pass": true
+    },
+    {
+      "case": "G_not_instantiated_still_representable",
+      "pass": true
+    },
+    {
+      "case": "H_terrain_floor_violation_impossible",
+      "pass": true
+    },
+    {
+      "case": "I_no_regular_z_fallback_in_predicate",
+      "pass": true
+    },
+    {
+      "case": "J_no_residual_history_parameter",
+      "pass": true
+    }
+  ],
+  "representability_all_pass": true,
+  "state_identity_tests": [
+    {
+      "case": "deterministic_equality",
+      "pass": true
+    },
+    {
+      "case": "deterministic_hashing",
+      "pass": true
+    },
+    {
+      "case": "no_floating_drift_over_1000_steps",
+      "pass": true
+    },
+    {
+      "case": "off_lattice_altitude_fails_loud_not_silently_wrong",
+      "pass": true
+    },
+    {
+      "case": "duplicate_candidate_collapses_to_one_key",
+      "pass": true
+    },
+    {
+      "case": "ordering_deterministic",
+      "pass": true
+    }
+  ],
+  "state_identity_all_pass": true
+}

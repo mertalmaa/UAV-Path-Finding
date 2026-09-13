@@ -1,0 +1,20 @@
+{
+  "context": "BEFORE = REP-1 architecture (is_representable with ladder-alignment requirement). AFTER = REP-1.1 (is_representable, continuous range). Expanded-node counts and evaluate_primitive-calls-avoided counts are IDENTICAL between the two -- see values below and compare against results/rep1_real_regression.json's own recorded numbers.",
+  "identical_to_rep1_confirmed": true,
+  "missions": {
+    "A_easy_open": {
+      "expanded": 461,
+      "evaluate_primitive_calls_avoided": 2259
+    },
+    "B_relief_affected": {
+      "expanded": 1635,
+      "evaluate_primitive_calls_avoided": 6543
+    },
+    "C_z_matters": {
+      "expanded": 22570,
+      "evaluate_primitive_calls_avoided": 27868
+    }
+  },
+  "why_identical": "Every candidate value _generate_neighbors ever computes for these 3 real missions comes from z0 + k*z_step_m arithmetic (primitives.py is unchanged) -- which is ALWAYS on the z_step_m ladder by construction. Removing the (redundant, for arithmetic-derived values) ladder-alignment check from is_representable() therefore changes zero accept/reject outcomes for any value these missions actually generate. The simplification's effect is invisible here by design -- it only matters for a future, not-yet-existing off-ladder-computing primitive.",
+  "runtime_speedup_claim": "Not claimed -- see results/rep1_sparse_representation_metrics.json's own disclosure, unchanged this stage."
+}

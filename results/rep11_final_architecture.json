@@ -1,0 +1,11 @@
+{
+  "1_candidatez_generate_production_used": false,
+  "2_candidatez_single_z_source_of_truth": false,
+  "3_regular_z_step_production_representation_remains": true,
+  "4_z_index_authority_remains": true,
+  "5_fixed_step_primitive_assumption_remains": true,
+  "6_web_ui_fully_removed": true,
+  "7_second_hidden_z_representation_exists": "planner/coarse_astar.py's own independent dense lattice -- pre-existing, disclosed, not newly introduced, genuinely different semantic (90m coarse guide search, own cost/heuristic) and out of this stage's scope, not a 'hidden' surprise.",
+  "8_exact_mission_altitude_works": "At the CandidateZGenerator query level: YES (is_representable() correctly recognizes it, tests B/C pass). As an actual CanonicalState the search can hold as its FIRST state: NO -- z_index remains int-typed and msl_to_z_index(off_lattice, allow_snap=False) still raises rather than silently mis-snapping (fails loud, verified by state-identity test). This is the same, now more precisely located, gap as Step REP-1 -- narrower (query-level solved) but not fully closed (state-level still open).",
+  "9_lazy_instantiation_works": true
+}
