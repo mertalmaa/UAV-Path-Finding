@@ -1,0 +1,252 @@
+{
+  "turn_geometry": [
+    {
+      "altitude_m": 0.0,
+      "direction": "LEFT",
+      "bank_deg": 20.0,
+      "availability": "AVAILABLE",
+      "turn_radius_m": 410.1955307687251,
+      "turn_rate_deg_s": -5.543934601687671,
+      "expected_ias_mps": 39.780324568323074
+    },
+    {
+      "altitude_m": 0.0,
+      "direction": "RIGHT",
+      "bank_deg": 20.0,
+      "availability": "AVAILABLE",
+      "turn_radius_m": 454.8144083982382,
+      "turn_rate_deg_s": 5.022338450494578,
+      "expected_ias_mps": 39.831328971231216
+    },
+    {
+      "altitude_m": 1000.0,
+      "direction": "LEFT",
+      "bank_deg": 20.0,
+      "availability": "AVAILABLE",
+      "turn_radius_m": 454.17476969369545,
+      "turn_rate_deg_s": -5.2575837744095395,
+      "expected_ias_mps": 39.81311175227223
+    },
+    {
+      "altitude_m": 1000.0,
+      "direction": "RIGHT",
+      "bank_deg": 20.0,
+      "availability": "AVAILABLE",
+      "turn_radius_m": 502.5249663838694,
+      "turn_rate_deg_s": 4.773041790637259,
+      "expected_ias_mps": 39.8545455096768
+    },
+    {
+      "altitude_m": 2500.0,
+      "direction": "LEFT",
+      "bank_deg": 20.0,
+      "availability": "AVAILABLE",
+      "turn_radius_m": 530.5986264599484,
+      "turn_rate_deg_s": -4.8515807673774525,
+      "expected_ias_mps": 39.85004357118928
+    },
+    {
+      "altitude_m": 2500.0,
+      "direction": "RIGHT",
+      "bank_deg": 20.0,
+      "availability": "AVAILABLE",
+      "turn_radius_m": 585.564769672884,
+      "turn_rate_deg_s": 4.415577870019029,
+      "expected_ias_mps": 39.880223069021696
+    },
+    {
+      "altitude_m": 4000.0,
+      "direction": "LEFT",
+      "bank_deg": 20.0,
+      "availability": "AVAILABLE",
+      "turn_radius_m": 622.1356023204534,
+      "turn_rate_deg_s": -4.471389704417138,
+      "expected_ias_mps": 39.87029252887748
+    },
+    {
+      "altitude_m": 4000.0,
+      "direction": "RIGHT",
+      "bank_deg": 20.0,
+      "availability": "AVAILABLE",
+      "turn_radius_m": 685.2857320693638,
+      "turn_rate_deg_s": 4.076468004319431,
+      "expected_ias_mps": 39.893836012872086
+    },
+    {
+      "altitude_m": 4500.0,
+      "direction": "LEFT",
+      "bank_deg": 20.0,
+      "availability": "AVAILABLE",
+      "turn_radius_m": 656.5387542354013,
+      "turn_rate_deg_s": -4.350414098604653,
+      "expected_ias_mps": 39.87200441291239
+    },
+    {
+      "altitude_m": 4500.0,
+      "direction": "RIGHT",
+      "bank_deg": 20.0,
+      "availability": "AVAILABLE",
+      "turn_radius_m": 722.8885333033923,
+      "turn_rate_deg_s": 3.9674178945071232,
+      "expected_ias_mps": 39.89505940502534
+    },
+    {
+      "altitude_m": 5500.0,
+      "direction": "LEFT",
+      "bank_deg": 20.0,
+      "availability": "AVAILABLE",
+      "turn_radius_m": 731.8605911768117,
+      "turn_rate_deg_s": -4.117494374296294,
+      "expected_ias_mps": 39.86261588463221
+    },
+    {
+      "altitude_m": 5500.0,
+      "direction": "RIGHT",
+      "bank_deg": 20.0,
+      "availability": "AVAILABLE",
+      "turn_radius_m": 805.6596797249952,
+      "turn_rate_deg_s": 3.7554343221266584,
+      "expected_ias_mps": 39.89285044658169
+    }
+  ],
+  "resolution_ratios": [
+    {
+      "altitude_m": 0.0,
+      "direction": "LEFT",
+      "turn_radius_m": 410.1955307687251,
+      "radius_over_30m": 13.673184358957505,
+      "diameter_over_30m": 27.34636871791501,
+      "radius_over_60m": 6.836592179478752,
+      "diameter_over_60m": 13.673184358957505,
+      "radius_over_90m": 4.557728119652501,
+      "diameter_over_90m": 9.115456239305002
+    },
+    {
+      "altitude_m": 0.0,
+      "direction": "RIGHT",
+      "turn_radius_m": 454.8144083982382,
+      "radius_over_30m": 15.160480279941273,
+      "diameter_over_30m": 30.320960559882547,
+      "radius_over_60m": 7.580240139970637,
+      "diameter_over_60m": 15.160480279941273,
+      "radius_over_90m": 5.053493426647091,
+      "diameter_over_90m": 10.106986853294181
+    },
+    {
+      "altitude_m": 1000.0,
+      "direction": "LEFT",
+      "turn_radius_m": 454.17476969369545,
+      "radius_over_30m": 15.139158989789848,
+      "diameter_over_30m": 30.278317979579697,
+      "radius_over_60m": 7.569579494894924,
+      "diameter_over_60m": 15.139158989789848,
+      "radius_over_90m": 5.046386329929949,
+      "diameter_over_90m": 10.092772659859898
+    },
+    {
+      "altitude_m": 1000.0,
+      "direction": "RIGHT",
+      "turn_radius_m": 502.5249663838694,
+      "radius_over_30m": 16.750832212795647,
+      "diameter_over_30m": 33.501664425591294,
+      "radius_over_60m": 8.375416106397823,
+      "diameter_over_60m": 16.750832212795647,
+      "radius_over_90m": 5.583610737598549,
+      "diameter_over_90m": 11.167221475197097
+    },
+    {
+      "altitude_m": 2500.0,
+      "direction": "LEFT",
+      "turn_radius_m": 530.5986264599484,
+      "radius_over_30m": 17.68662088199828,
+      "diameter_over_30m": 35.37324176399656,
+      "radius_over_60m": 8.84331044099914,
+      "diameter_over_60m": 17.68662088199828,
+      "radius_over_90m": 5.895540293999426,
+      "diameter_over_90m": 11.791080587998852
+    },
+    {
+      "altitude_m": 2500.0,
+      "direction": "RIGHT",
+      "turn_radius_m": 585.564769672884,
+      "radius_over_30m": 19.5188256557628,
+      "diameter_over_30m": 39.0376513115256,
+      "radius_over_60m": 9.7594128278814,
+      "diameter_over_60m": 19.5188256557628,
+      "radius_over_90m": 6.5062752185876,
+      "diameter_over_90m": 13.0125504371752
+    },
+    {
+      "altitude_m": 4000.0,
+      "direction": "LEFT",
+      "turn_radius_m": 622.1356023204534,
+      "radius_over_30m": 20.73785341068178,
+      "diameter_over_30m": 41.47570682136356,
+      "radius_over_60m": 10.36892670534089,
+      "diameter_over_60m": 20.73785341068178,
+      "radius_over_90m": 6.912617803560593,
+      "diameter_over_90m": 13.825235607121186
+    },
+    {
+      "altitude_m": 4000.0,
+      "direction": "RIGHT",
+      "turn_radius_m": 685.2857320693638,
+      "radius_over_30m": 22.84285773564546,
+      "diameter_over_30m": 45.68571547129092,
+      "radius_over_60m": 11.42142886782273,
+      "diameter_over_60m": 22.84285773564546,
+      "radius_over_90m": 7.6142859118818205,
+      "diameter_over_90m": 15.228571823763641
+    },
+    {
+      "altitude_m": 4500.0,
+      "direction": "LEFT",
+      "turn_radius_m": 656.5387542354013,
+      "radius_over_30m": 21.88462514118004,
+      "diameter_over_30m": 43.76925028236008,
+      "radius_over_60m": 10.94231257059002,
+      "diameter_over_60m": 21.88462514118004,
+      "radius_over_90m": 7.294875047060014,
+      "diameter_over_90m": 14.589750094120028
+    },
+    {
+      "altitude_m": 4500.0,
+      "direction": "RIGHT",
+      "turn_radius_m": 722.8885333033923,
+      "radius_over_30m": 24.096284443446407,
+      "diameter_over_30m": 48.192568886892815,
+      "radius_over_60m": 12.048142221723204,
+      "diameter_over_60m": 24.096284443446407,
+      "radius_over_90m": 8.032094814482136,
+      "diameter_over_90m": 16.06418962896427
+    },
+    {
+      "altitude_m": 5500.0,
+      "direction": "LEFT",
+      "turn_radius_m": 731.8605911768117,
+      "radius_over_30m": 24.395353039227057,
+      "diameter_over_30m": 48.790706078454114,
+      "radius_over_60m": 12.197676519613529,
+      "diameter_over_60m": 24.395353039227057,
+      "radius_over_90m": 8.131784346409018,
+      "diameter_over_90m": 16.263568692818037
+    },
+    {
+      "altitude_m": 5500.0,
+      "direction": "RIGHT",
+      "turn_radius_m": 805.6596797249952,
+      "radius_over_30m": 26.855322657499837,
+      "diameter_over_30m": 53.710645314999674,
+      "radius_over_60m": 13.427661328749918,
+      "diameter_over_60m": 26.855322657499837,
+      "radius_over_90m": 8.951774219166612,
+      "diameter_over_90m": 17.903548438333225
+    }
+  ],
+  "grid_spacings_m": {
+    "30m": 30.0,
+    "60m": 60.0,
+    "90m": 90.0
+  },
+  "guaranteed_bank_deg": 20.0
+}

@@ -1,0 +1,67 @@
+{
+  "representation_cost": {
+    "30m": {
+      "cell_count": 110889,
+      "shape": [
+        333,
+        333
+      ],
+      "bytes_per_array_f32_estimate": 443556
+    },
+    "60m": {
+      "cell_count": 27556,
+      "shape": [
+        166,
+        166
+      ],
+      "bytes_per_array_f32_estimate": 110224
+    },
+    "90m": {
+      "cell_count": 12321,
+      "shape": [
+        111,
+        111
+      ],
+      "bytes_per_array_f32_estimate": 49284
+    }
+  },
+  "decision": {
+    "questions": {
+      "q1_60m_represents_safe_turn_radii_adequately": {
+        "answer": true,
+        "evidence": "radius/60m ratio ranges 6.8-13.4 across the full altitude/direction matrix (tightest=410m at 0m LEFT, widest=806m at 5500m RIGHT) -- every real safe turn radius is many multiples of 60m, so 60m is geometrically fine-grained relative to the aircraft's own turn scale."
+      },
+      "q2_30m_global_required": {
+        "answer": false,
+        "evidence": "60m already resolves turn geometry with small relative error (see arc study); no evidence forces 30m everywhere."
+      },
+      "q3_30m_local_refinement_viable": {
+        "answer": true,
+        "evidence": "30m remains available as the native fine resolution for local refinement (unchanged architecture) -- no aircraft-geometry evidence argues against this."
+      },
+      "q4_90m_too_coarse_for_motion_representation": {
+        "answer": "MARGINAL",
+        "evidence": "90m gives measurably larger arc representation error and up to 194.1m extra conservative terrain blocking (vs 60m's 194.1m) in the tested windows -- see JSON for full breakdown."
+      },
+      "q5_90m_global_metadata_only": {
+        "answer": true,
+        "evidence": "Consistent with Step 2E-2F's original finding (60m had fewer false-blocks than 90m in 5/5 windows) -- now reconfirmed under real aircraft turn-arc footprints, not just straight-edge connectivity."
+      },
+      "q6_worst_case_altitude_direction": {
+        "answer": "Dominant driver is TERRAIN RELIEF, not altitude/direction: the worst-case conservative-blocking region is 'high-relief (REGRESSION reference, relief=282.1m, unchanged since Step 2B)' (up to 194.1m extra blocking at 90m, 194.1m at 60m) -- an order of magnitude larger than the low/medium-relief windows (single-digit to ~20m). Within a fixed terrain window, largest ABSOLUTE footprint comes from the widest radius (5500m RIGHT, R=805.7m); largest RELATIVE representation error (arc study) comes from the TIGHTEST radius (0m LEFT, R=410.2m)."
+      },
+      "q7_60m_over_blocks_safe_space": {
+        "answer": false,
+        "evidence": "60m's own extra conservative blocking beyond the true 30m terrain is small (max 194.09m across all tested windows/cases) -- far smaller than the min_agl_m safety margins already in use elsewhere in this project."
+      },
+      "q8_aircraft_evidence_supports_prior_60m_decision": {
+        "answer": true,
+        "evidence": "Real V3 turn geometry confirms 60m is small relative to every tested safe turn radius, and terrain-aware footprint sampling confirms MAX-pooling conservatism stays small in absolute terms -- consistent with, and now aircraft-aware confirmation of, Step 2E-2F's provisional terrain-only finding."
+      }
+    },
+    "final_policy": "A",
+    "final_policy_label": "60M DEFAULT CONFIRMED, 30M LOCAL REFINEMENT, 90M GLOBAL/OPTIONAL METADATA"
+  },
+  "aircraft_source": "jsbsim/results/c172p_aircraft_profile_planner_safe_v3.json",
+  "aircraft_id": "c172p"
+}

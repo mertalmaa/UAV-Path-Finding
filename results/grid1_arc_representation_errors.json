@@ -1,0 +1,1204 @@
+{
+  "heading_changes_deg": [
+    20.0,
+    45.0,
+    90.0
+  ],
+  "base_headings_deg": [
+    0.0,
+    22.5,
+    45.0,
+    67.5
+  ],
+  "results": [
+    {
+      "altitude_m": 0.0,
+      "direction": "LEFT",
+      "turn_radius_m": 410.1955307687251,
+      "heading_change_deg": 20.0,
+      "true_arc_length_m": 143.1852517775992,
+      "by_spacing": {
+        "30m": {
+          "endpoint_error_m_mean": 11.092324860273887,
+          "endpoint_error_m_max": 13.457438732087617,
+          "path_length_error_pct_mean": 36.18721033007047,
+          "lateral_deviation_m_max": 14.54300457785599,
+          "lateral_deviation_m_rms": 6.535445367525902,
+          "grid_cells_touched_mean": 7.5
+        },
+        "60m": {
+          "endpoint_error_m_mean": 26.339292985250808,
+          "endpoint_error_m_max": 34.85409078127147,
+          "path_length_error_pct_mean": 15.235331817751938,
+          "lateral_deviation_m_max": 31.99768873239747,
+          "lateral_deviation_m_rms": 13.178574374401933,
+          "grid_cells_touched_mean": 3.75
+        },
+        "90m": {
+          "endpoint_error_m_mean": 39.746006767994835,
+          "endpoint_error_m_max": 51.23440419343616,
+          "path_length_error_pct_mean": 25.711271073911206,
+          "lateral_deviation_m_max": 41.381797862332576,
+          "lateral_deviation_m_rms": 18.16135432686204,
+          "grid_cells_touched_mean": 3
+        }
+      }
+    },
+    {
+      "altitude_m": 0.0,
+      "direction": "LEFT",
+      "turn_radius_m": 410.1955307687251,
+      "heading_change_deg": 45.0,
+      "true_arc_length_m": 322.1668164995982,
+      "by_spacing": {
+        "30m": {
+          "endpoint_error_m_mean": 12.703318316985602,
+          "endpoint_error_m_max": 16.965219212441077,
+          "path_length_error_pct_mean": 25.711271073911206,
+          "lateral_deviation_m_max": 16.965219212441077,
+          "lateral_deviation_m_rms": 6.174621440919062,
+          "grid_cells_touched_mean": 14.5
+        },
+        "60m": {
+          "endpoint_error_m_mean": 14.827310428563276,
+          "endpoint_error_m_max": 25.461187658751772,
+          "path_length_error_pct_mean": 35.023217079386114,
+          "lateral_deviation_m_max": 28.854793528873913,
+          "lateral_deviation_m_rms": 13.495260056773638,
+          "grid_cells_touched_mean": 8.25
+        },
+        "90m": {
+          "endpoint_error_m_mean": 43.9373176917867,
+          "endpoint_error_m_max": 59.39162608363393,
+          "path_length_error_pct_mean": 4.759392561592671,
+          "lateral_deviation_m_max": 59.39162608363393,
+          "lateral_deviation_m_rms": 20.75944440759897,
+          "grid_cells_touched_mean": 4.75
+        }
+      }
+    },
+    {
+      "altitude_m": 0.0,
+      "direction": "LEFT",
+      "turn_radius_m": 410.1955307687251,
+      "heading_change_deg": 90.0,
+      "true_arc_length_m": 644.3336329991964,
+      "by_spacing": {
+        "30m": {
+          "endpoint_error_m_mean": 12.323733263465275,
+          "endpoint_error_m_max": 13.865613358738688,
+          "path_length_error_pct_mean": 26.193412864855414,
+          "lateral_deviation_m_max": 14.423097516604027,
+          "lateral_deviation_m_rms": 6.704567013083829,
+          "grid_cells_touched_mean": 28
+        },
+        "60m": {
+          "endpoint_error_m_mean": 17.66763320257277,
+          "endpoint_error_m_max": 19.895917162038813,
+          "path_length_error_pct_mean": 30.36724407664866,
+          "lateral_deviation_m_max": 28.854793528873913,
+          "lateral_deviation_m_rms": 12.718424936060629,
+          "grid_cells_touched_mean": 15
+        },
+        "90m": {
+          "endpoint_error_m_mean": 45.19473148184457,
+          "endpoint_error_m_max": 56.29202022993154,
+          "path_length_error_pct_mean": 25.711271073911206,
+          "lateral_deviation_m_max": 43.52833854890946,
+          "lateral_deviation_m_rms": 21.065029527937824,
+          "grid_cells_touched_mean": 10
+        }
+      }
+    },
+    {
+      "altitude_m": 0.0,
+      "direction": "RIGHT",
+      "turn_radius_m": 454.8144083982382,
+      "heading_change_deg": 20.0,
+      "true_arc_length_m": 158.7601782411881,
+      "by_spacing": {
+        "30m": {
+          "endpoint_error_m_mean": 8.912132129547683,
+          "endpoint_error_m_max": 14.179025968967787,
+          "path_length_error_pct_mean": 22.826770642545164,
+          "lateral_deviation_m_max": 14.525279513623875,
+          "lateral_deviation_m_rms": 6.284165472508584,
+          "grid_cells_touched_mean": 7.5
+        },
+        "60m": {
+          "endpoint_error_m_mean": 33.06379285651565,
+          "endpoint_error_m_max": 36.74038645312424,
+          "path_length_error_pct_mean": 32.27498376889479,
+          "lateral_deviation_m_max": 28.585045045026227,
+          "lateral_deviation_m_rms": 13.680874851260853,
+          "grid_cells_touched_mean": 4.5
+        },
+        "90m": {
+          "endpoint_error_m_mean": 40.619950112135434,
+          "endpoint_error_m_max": 43.52169665252144,
+          "path_length_error_pct_mean": 13.378557516195535,
+          "lateral_deviation_m_max": 43.218221701423886,
+          "lateral_deviation_m_rms": 20.115365457877655,
+          "grid_cells_touched_mean": 3
+        }
+      }
+    },
+    {
+      "altitude_m": 0.0,
+      "direction": "RIGHT",
+      "turn_radius_m": 454.8144083982382,
+      "heading_change_deg": 45.0,
+      "true_arc_length_m": 357.21040104267325,
+      "by_spacing": {
+        "30m": {
+          "endpoint_error_m_mean": 12.974684431588699,
+          "endpoint_error_m_max": 15.65499634794884,
+          "path_length_error_pct_mean": 25.97617501799503,
+          "lateral_deviation_m_max": 14.591146151182954,
+          "lateral_deviation_m_rms": 6.408543235870482,
+          "grid_cells_touched_mean": 16
+        },
+        "60m": {
+          "endpoint_error_m_mean": 17.808347857550697,
+          "endpoint_error_m_max": 25.322323199872823,
+          "path_length_error_pct_mean": 25.976175017995033,
+          "lateral_deviation_m_max": 29.067373244032012,
+          "lateral_deviation_m_rms": 13.793278257669344,
+          "grid_cells_touched_mean": 8.5
+        },
+        "90m": {
+          "endpoint_error_m_mean": 40.31302795335439,
+          "endpoint_error_m_max": 57.80710277621198,
+          "path_length_error_pct_mean": 25.97617501799503,
+          "lateral_deviation_m_max": 43.212056038496144,
+          "lateral_deviation_m_rms": 21.962245634629976,
+          "grid_cells_touched_mean": 6
+        }
+      }
+    },
+    {
+      "altitude_m": 0.0,
+      "direction": "RIGHT",
+      "turn_radius_m": 454.8144083982382,
+      "heading_change_deg": 90.0,
+      "true_arc_length_m": 714.4208020853465,
+      "by_spacing": {
+        "30m": {
+          "endpoint_error_m_mean": 9.212884512476428,
+          "endpoint_error_m_max": 13.204704719484198,
+          "path_length_error_pct_mean": 24.31141410293128,
+          "lateral_deviation_m_max": 14.493435816816788,
+          "lateral_deviation_m_rms": 6.612155190110582,
+          "grid_cells_touched_mean": 30.5
+        },
+        "60m": {
+          "endpoint_error_m_mean": 17.312833044736877,
+          "endpoint_error_m_max": 35.61780521960152,
+          "path_length_error_pct_mean": 32.274983768894785,
+          "lateral_deviation_m_max": 29.722975815384018,
+          "lateral_deviation_m_rms": 14.449234204340609,
+          "grid_cells_touched_mean": 16.75
+        },
+        "90m": {
+          "endpoint_error_m_mean": 26.495387628614694,
+          "endpoint_error_m_max": 42.98412207169164,
+          "path_length_error_pct_mean": 20.981892272803783,
+          "lateral_deviation_m_max": 43.212056038496144,
+          "lateral_deviation_m_rms": 19.95955081229173,
+          "grid_cells_touched_mean": 10.5
+        }
+      }
+    },
+    {
+      "altitude_m": 1000.0,
+      "direction": "LEFT",
+      "turn_radius_m": 454.17476969369545,
+      "heading_change_deg": 20.0,
+      "true_arc_length_m": 158.53690221283887,
+      "by_spacing": {
+        "30m": {
+          "endpoint_error_m_mean": 8.740442120926037,
+          "endpoint_error_m_max": 14.048697539484069,
+          "path_length_error_pct_mean": 22.999754175976467,
+          "lateral_deviation_m_max": 14.515243830025893,
+          "lateral_deviation_m_rms": 6.2797067972507,
+          "grid_cells_touched_mean": 7.5
+        },
+        "60m": {
+          "endpoint_error_m_mean": 33.108384135576635,
+          "endpoint_error_m_max": 36.857625499779914,
+          "path_length_error_pct_mean": 32.46127372797465,
+          "lateral_deviation_m_max": 28.54484380943589,
+          "lateral_deviation_m_rms": 13.66382319806377,
+          "grid_cells_touched_mean": 4.5
+        },
+        "90m": {
+          "endpoint_error_m_mean": 40.58357440910648,
+          "endpoint_error_m_max": 43.34994733589599,
+          "path_length_error_pct_mean": 13.538234623978274,
+          "lateral_deviation_m_max": 43.03086719115083,
+          "lateral_deviation_m_rms": 20.0818875219169,
+          "grid_cells_touched_mean": 3
+        }
+      }
+    },
+    {
+      "altitude_m": 1000.0,
+      "direction": "LEFT",
+      "turn_radius_m": 454.17476969369545,
+      "heading_change_deg": 45.0,
+      "true_arc_length_m": 356.70802997888745,
+      "by_spacing": {
+        "30m": {
+          "endpoint_error_m_mean": 13.02063090933488,
+          "endpoint_error_m_max": 15.746889303441204,
+          "path_length_error_pct_mean": 26.153594026642526,
+          "lateral_deviation_m_max": 14.739390317326809,
+          "lateral_deviation_m_rms": 6.391648522280034,
+          "grid_cells_touched_mean": 16
+        },
+        "60m": {
+          "endpoint_error_m_mean": 17.566607463832646,
+          "endpoint_error_m_max": 24.83884241243672,
+          "path_length_error_pct_mean": 26.153594026642526,
+          "lateral_deviation_m_max": 29.378174067231896,
+          "lateral_deviation_m_rms": 13.781557961593403,
+          "grid_cells_touched_mean": 8.5
+        },
+        "90m": {
+          "endpoint_error_m_mean": 40.63892218543411,
+          "endpoint_error_m_max": 57.96933297051551,
+          "path_length_error_pct_mean": 26.153594026642526,
+          "lateral_deviation_m_max": 43.024710199444996,
+          "lateral_deviation_m_rms": 21.92351851551638,
+          "grid_cells_touched_mean": 6
+        }
+      }
+    },
+    {
+      "altitude_m": 1000.0,
+      "direction": "LEFT",
+      "turn_radius_m": 454.17476969369545,
+      "heading_change_deg": 90.0,
+      "true_arc_length_m": 713.4160599577749,
+      "by_spacing": {
+        "30m": {
+          "endpoint_error_m_mean": 8.940443378422989,
+          "endpoint_error_m_max": 12.300118988501026,
+          "path_length_error_pct_mean": 24.486488539431356,
+          "lateral_deviation_m_max": 14.515243830025893,
+          "lateral_deviation_m_rms": 6.5797236707820135,
+          "grid_cells_touched_mean": 30.5
+        },
+        "60m": {
+          "endpoint_error_m_mean": 17.94497764166657,
+          "endpoint_error_m_max": 36.52239095058461,
+          "path_length_error_pct_mean": 32.46127372797465,
+          "lateral_deviation_m_max": 29.64376673472748,
+          "lateral_deviation_m_rms": 14.424981353863515,
+          "grid_cells_touched_mean": 16.75
+        },
+        "90m": {
+          "endpoint_error_m_mean": 26.48693352634164,
+          "endpoint_error_m_max": 43.87179959812866,
+          "path_length_error_pct_mean": 22.999754175976463,
+          "lateral_deviation_m_max": 43.99221674094815,
+          "lateral_deviation_m_rms": 20.606239912192674,
+          "grid_cells_touched_mean": 10.75
+        }
+      }
+    },
+    {
+      "altitude_m": 1000.0,
+      "direction": "RIGHT",
+      "turn_radius_m": 502.5249663838694,
+      "heading_change_deg": 20.0,
+      "true_arc_length_m": 175.41430473744688,
+      "by_spacing": {
+        "30m": {
+          "endpoint_error_m_mean": 9.377304867683401,
+          "endpoint_error_m_max": 12.362240937540111,
+          "path_length_error_pct_mean": 28.267760338457578,
+          "lateral_deviation_m_max": 14.568352514532798,
+          "lateral_deviation_m_rms": 6.133386161383134,
+          "grid_cells_touched_mean": 8.5
+        },
+        "60m": {
+          "endpoint_error_m_mean": 30.791214346728317,
+          "endpoint_error_m_max": 37.78030848843157,
+          "path_length_error_pct_mean": 36.818944361021416,
+          "lateral_deviation_m_max": 28.684716042722407,
+          "lateral_deviation_m_rms": 13.74876113811478,
+          "grid_cells_touched_mean": 5
+        },
+        "90m": {
+          "endpoint_error_m_mean": 35.44209489292103,
+          "endpoint_error_m_max": 38.97786009898809,
+          "path_length_error_pct_mean": 28.26776033845757,
+          "lateral_deviation_m_max": 42.002440020125015,
+          "lateral_deviation_m_rms": 18.9361501503541,
+          "grid_cells_touched_mean": 3.5
+        }
+      }
+    },
+    {
+      "altitude_m": 1000.0,
+      "direction": "RIGHT",
+      "turn_radius_m": 502.5249663838694,
+      "heading_change_deg": 45.0,
+      "true_arc_length_m": 394.6821856592555,
+      "by_spacing": {
+        "30m": {
+          "endpoint_error_m_mean": 4.762918224873087,
+          "endpoint_error_m_max": 5.444667370114006,
+          "path_length_error_pct_mean": 26.20448041904609,
+          "lateral_deviation_m_max": 14.563542306860953,
+          "lateral_deviation_m_rms": 6.126459976268413,
+          "grid_cells_touched_mean": 17.5
+        },
+        "60m": {
+          "endpoint_error_m_mean": 29.857442947901593,
+          "endpoint_error_m_max": 39.64811074206745,
+          "path_length_error_pct_mean": 29.217891896520225,
+          "lateral_deviation_m_max": 29.176283518262665,
+          "lateral_deviation_m_rms": 14.871255787408565,
+          "grid_cells_touched_mean": 9.5
+        },
+        "90m": {
+          "endpoint_error_m_mean": 23.420189172775018,
+          "endpoint_error_m_max": 33.14325129605685,
+          "path_length_error_pct_mean": 25.41736566426963,
+          "lateral_deviation_m_max": 41.882041600240704,
+          "lateral_deviation_m_rms": 21.339443842885906,
+          "grid_cells_touched_mean": 6.5
+        }
+      }
+    },
+    {
+      "altitude_m": 1000.0,
+      "direction": "RIGHT",
+      "turn_radius_m": 502.5249663838694,
+      "heading_change_deg": 90.0,
+      "true_arc_length_m": 789.364371318511,
+      "by_spacing": {
+        "30m": {
+          "endpoint_error_m_mean": 6.945242833588768,
+          "endpoint_error_m_max": 10.571293919126719,
+          "path_length_error_pct_mean": 25.647906238371668,
+          "lateral_deviation_m_max": 14.26324367560602,
+          "lateral_deviation_m_rms": 6.3617580338775515,
+          "grid_cells_touched_mean": 33.75
+        },
+        "60m": {
+          "endpoint_error_m_mean": 24.415980555283966,
+          "endpoint_error_m_max": 31.855112952066133,
+          "path_length_error_pct_mean": 25.41736566426963,
+          "lateral_deviation_m_max": 31.855112952066133,
+          "lateral_deviation_m_rms": 14.241643000662148,
+          "grid_cells_touched_mean": 17.5
+        },
+        "90m": {
+          "endpoint_error_m_mean": 28.906524799757584,
+          "endpoint_error_m_max": 52.99770079031957,
+          "path_length_error_pct_mean": 25.41736566426963,
+          "lateral_deviation_m_max": 43.250282122847466,
+          "lateral_deviation_m_rms": 22.994223194729834,
+          "grid_cells_touched_mean": 12
+        }
+      }
+    },
+    {
+      "altitude_m": 2500.0,
+      "direction": "LEFT",
+      "turn_radius_m": 530.5986264599484,
+      "heading_change_deg": 20.0,
+      "true_arc_length_m": 185.21386076571207,
+      "by_spacing": {
+        "30m": {
+          "endpoint_error_m_mean": 9.304572334449869,
+          "endpoint_error_m_max": 14.335680008372796,
+          "path_length_error_pct_mean": 25.53056182663508,
+          "lateral_deviation_m_max": 14.640702494432928,
+          "lateral_deviation_m_rms": 6.280560340330358,
+          "grid_cells_touched_mean": 8.75
+        },
+        "60m": {
+          "endpoint_error_m_mean": 28.21558041368366,
+          "endpoint_error_m_max": 32.38145552020452,
+          "path_length_error_pct_mean": 45.777426637382675,
+          "lateral_deviation_m_max": 28.701642427357488,
+          "lateral_deviation_m_rms": 13.889005605658879,
+          "grid_cells_touched_mean": 5.5
+        },
+        "90m": {
+          "endpoint_error_m_mean": 32.78018172632139,
+          "endpoint_error_m_max": 39.88451179398439,
+          "path_length_error_pct_mean": 21.48118886448556,
+          "lateral_deviation_m_max": 42.208500968096054,
+          "lateral_deviation_m_rms": 19.394640093003446,
+          "grid_cells_touched_mean": 3.5
+        }
+      }
+    },
+    {
+      "altitude_m": 2500.0,
+      "direction": "LEFT",
+      "turn_radius_m": 530.5986264599484,
+      "heading_change_deg": 45.0,
+      "true_arc_length_m": 416.73118672285216,
+      "by_spacing": {
+        "30m": {
+          "endpoint_error_m_mean": 15.898144247722477,
+          "endpoint_error_m_max": 18.1614615481381,
+          "path_length_error_pct_mean": 29.5799347887846,
+          "lateral_deviation_m_max": 14.440628027099834,
+          "lateral_deviation_m_rms": 6.442955995427049,
+          "grid_cells_touched_mean": 19
+        },
+        "60m": {
+          "endpoint_error_m_mean": 22.46689985571018,
+          "endpoint_error_m_max": 28.904372519246497,
+          "path_length_error_pct_mean": 33.17937742180639,
+          "lateral_deviation_m_max": 28.904372519246497,
+          "lateral_deviation_m_rms": 14.41001476175904,
+          "grid_cells_touched_mean": 10.25
+        },
+        "90m": {
+          "endpoint_error_m_mean": 31.492770799439345,
+          "endpoint_error_m_max": 43.89739283620963,
+          "path_length_error_pct_mean": 24.180770839251903,
+          "lateral_deviation_m_max": 43.84258562067822,
+          "lateral_deviation_m_rms": 21.384928457418912,
+          "grid_cells_touched_mean": 6.75
+        }
+      }
+    },
+    {
+      "altitude_m": 2500.0,
+      "direction": "LEFT",
+      "turn_radius_m": 530.5986264599484,
+      "heading_change_deg": 90.0,
+      "true_arc_length_m": 833.4623734457043,
+      "by_spacing": {
+        "30m": {
+          "endpoint_error_m_mean": 10.043600687922526,
+          "endpoint_error_m_max": 13.29554996527664,
+          "path_length_error_pct_mean": 25.82610047529812,
+          "lateral_deviation_m_max": 14.440628027099834,
+          "lateral_deviation_m_rms": 6.487034441559448,
+          "grid_cells_touched_mean": 35.75
+        },
+        "60m": {
+          "endpoint_error_m_mean": 25.56066197593311,
+          "endpoint_error_m_max": 29.66343582732525,
+          "path_length_error_pct_mean": 29.27115142785525,
+          "lateral_deviation_m_max": 28.57922753478789,
+          "lateral_deviation_m_rms": 14.454536041681866,
+          "grid_cells_touched_mean": 18.75
+        },
+        "90m": {
+          "endpoint_error_m_mean": 26.804310674415287,
+          "endpoint_error_m_max": 31.77095950809493,
+          "path_length_error_pct_mean": 29.5799347887846,
+          "lateral_deviation_m_max": 43.75537498544611,
+          "lateral_deviation_m_rms": 22.516690458564558,
+          "grid_cells_touched_mean": 13
+        }
+      }
+    },
+    {
+      "altitude_m": 2500.0,
+      "direction": "RIGHT",
+      "turn_radius_m": 585.564769672884,
+      "heading_change_deg": 20.0,
+      "true_arc_length_m": 204.4006642894813,
+      "by_spacing": {
+        "30m": {
+          "endpoint_error_m_mean": 14.172981466923801,
+          "endpoint_error_m_max": 18.10229093594177,
+          "path_length_error_pct_mean": 32.093504166705635,
+          "lateral_deviation_m_max": 14.549339383819065,
+          "lateral_deviation_m_rms": 6.919768327469589,
+          "grid_cells_touched_mean": 10
+        },
+        "60m": {
+          "endpoint_error_m_mean": 20.9835726462827,
+          "endpoint_error_m_max": 31.944923558022456,
+          "path_length_error_pct_mean": 32.093504166705635,
+          "lateral_deviation_m_max": 29.560687183153362,
+          "lateral_deviation_m_rms": 13.830942559112533,
+          "grid_cells_touched_mean": 5.5
+        },
+        "90m": {
+          "endpoint_error_m_mean": 34.84176083621029,
+          "endpoint_error_m_max": 47.762942415025094,
+          "path_length_error_pct_mean": 10.077920138921364,
+          "lateral_deviation_m_max": 47.762942415025094,
+          "lateral_deviation_m_rms": 20.793955442849004,
+          "grid_cells_touched_mean": 3.5
+        }
+      }
+    },
+    {
+      "altitude_m": 2500.0,
+      "direction": "RIGHT",
+      "turn_radius_m": 585.564769672884,
+      "heading_change_deg": 45.0,
+      "true_arc_length_m": 459.90149465133294,
+      "by_spacing": {
+        "30m": {
+          "endpoint_error_m_mean": 10.269257241553206,
+          "endpoint_error_m_max": 18.51860372213636,
+          "path_length_error_pct_mean": 26.921353860380336,
+          "lateral_deviation_m_max": 14.89301692376128,
+          "lateral_deviation_m_rms": 7.362036930450457,
+          "grid_cells_touched_mean": 20.25
+        },
+        "60m": {
+          "endpoint_error_m_mean": 18.202493028775738,
+          "endpoint_error_m_max": 28.171871860984993,
+          "path_length_error_pct_mean": 25.290569858322243,
+          "lateral_deviation_m_max": 29.321276767790607,
+          "lateral_deviation_m_rms": 13.896830991410729,
+          "grid_cells_touched_mean": 10.5
+        },
+        "90m": {
+          "endpoint_error_m_mean": 34.159653688239175,
+          "endpoint_error_m_max": 60.94501059332921,
+          "path_length_error_pct_mean": 29.227630713391967,
+          "lateral_deviation_m_max": 44.57346401242064,
+          "lateral_deviation_m_rms": 20.76661208004615,
+          "grid_cells_touched_mean": 7.5
+        }
+      }
+    },
+    {
+      "altitude_m": 2500.0,
+      "direction": "RIGHT",
+      "turn_radius_m": 585.564769672884,
+      "heading_change_deg": 90.0,
+      "true_arc_length_m": 919.8029893026659,
+      "by_spacing": {
+        "30m": {
+          "endpoint_error_m_mean": 18.001922059878716,
+          "endpoint_error_m_max": 20.41449850458688,
+          "path_length_error_pct_mean": 25.010771558171214,
+          "lateral_deviation_m_max": 14.680038369510157,
+          "lateral_deviation_m_rms": 6.935750044033454,
+          "grid_cells_touched_mean": 38.5
+        },
+        "60m": {
+          "endpoint_error_m_mean": 19.3499681557326,
+          "endpoint_error_m_max": 22.54950651880697,
+          "path_length_error_pct_mean": 28.55213786243843,
+          "lateral_deviation_m_max": 29.457180462645596,
+          "lateral_deviation_m_rms": 13.290997086111755,
+          "grid_cells_touched_mean": 20.5
+        },
+        "90m": {
+          "endpoint_error_m_mean": 51.36419382453968,
+          "endpoint_error_m_max": 62.840905375779734,
+          "path_length_error_pct_mean": 26.781454710304832,
+          "lateral_deviation_m_max": 44.57346401242064,
+          "lateral_deviation_m_rms": 20.11159193637227,
+          "grid_cells_touched_mean": 13.75
+        }
+      }
+    },
+    {
+      "altitude_m": 4000.0,
+      "direction": "LEFT",
+      "turn_radius_m": 622.1356023204534,
+      "heading_change_deg": 20.0,
+      "true_arc_length_m": 217.1662930873997,
+      "by_spacing": {
+        "30m": {
+          "endpoint_error_m_mean": 7.683701690556374,
+          "endpoint_error_m_max": 13.268492582355364,
+          "path_length_error_pct_mean": 27.78226125926396,
+          "lateral_deviation_m_max": 14.815215294571857,
+          "lateral_deviation_m_rms": 6.8730843542980224,
+          "grid_cells_touched_mean": 10.25
+        },
+        "60m": {
+          "endpoint_error_m_mean": 19.16943700842723,
+          "endpoint_error_m_max": 35.30083473226091,
+          "path_length_error_pct_mean": 38.14298514515023,
+          "lateral_deviation_m_max": 29.528134232020975,
+          "lateral_deviation_m_rms": 13.64561890341092,
+          "grid_cells_touched_mean": 6
+        },
+        "90m": {
+          "endpoint_error_m_mean": 40.8103447826432,
+          "endpoint_error_m_max": 53.167421115212726,
+          "path_length_error_pct_mean": 13.967962744748943,
+          "lateral_deviation_m_max": 49.82390992925723,
+          "lateral_deviation_m_rms": 20.013527196369296,
+          "grid_cells_touched_mean": 3.75
+        }
+      }
+    },
+    {
+      "altitude_m": 4000.0,
+      "direction": "LEFT",
+      "turn_radius_m": 622.1356023204534,
+      "heading_change_deg": 45.0,
+      "true_arc_length_m": 488.62415944664934,
+      "by_spacing": {
+        "30m": {
+          "endpoint_error_m_mean": 8.489895735878543,
+          "endpoint_error_m_max": 10.325029263317765,
+          "path_length_error_pct_mean": 27.13517975433302,
+          "lateral_deviation_m_max": 14.717735224950298,
+          "lateral_deviation_m_rms": 6.778995795606031,
+          "grid_cells_touched_mean": 21.5
+        },
+        "60m": {
+          "endpoint_error_m_mean": 19.218018627238457,
+          "endpoint_error_m_max": 32.95490706928696,
+          "path_length_error_pct_mean": 28.93345280214022,
+          "lateral_deviation_m_max": 29.52817557904261,
+          "lateral_deviation_m_rms": 13.743164740808353,
+          "grid_cells_touched_mean": 11.5
+        },
+        "90m": {
+          "endpoint_error_m_mean": 19.941735245237425,
+          "endpoint_error_m_max": 32.95490706928696,
+          "path_length_error_pct_mean": 33.53821897364523,
+          "lateral_deviation_m_max": 42.81543315350508,
+          "lateral_deviation_m_rms": 20.25525842333439,
+          "grid_cells_touched_mean": 8.25
+        }
+      }
+    },
+    {
+      "altitude_m": 4000.0,
+      "direction": "LEFT",
+      "turn_radius_m": 622.1356023204534,
+      "heading_change_deg": 90.0,
+      "true_arc_length_m": 977.2483188932987,
+      "by_spacing": {
+        "30m": {
+          "endpoint_error_m_mean": 8.879736972923913,
+          "endpoint_error_m_max": 11.121937858310439,
+          "path_length_error_pct_mean": 26.817286987700648,
+          "lateral_deviation_m_max": 14.849024730219185,
+          "lateral_deviation_m_rms": 6.897567420456063,
+          "grid_cells_touched_mean": 42
+        },
+        "60m": {
+          "endpoint_error_m_mean": 30.75391355977198,
+          "endpoint_error_m_max": 35.77189583147257,
+          "path_length_error_pct_mean": 27.398530744971882,
+          "lateral_deviation_m_max": 31.304469012882414,
+          "lateral_deviation_m_rms": 13.942064347278047,
+          "grid_cells_touched_mean": 21.75
+        },
+        "90m": {
+          "endpoint_error_m_mean": 19.561037625888332,
+          "endpoint_error_m_max": 23.47740954099129,
+          "path_length_error_pct_mean": 28.93345280214022,
+          "lateral_deviation_m_max": 44.20744623513974,
+          "lateral_deviation_m_rms": 19.448775077067815,
+          "grid_cells_touched_mean": 15
+        }
+      }
+    },
+    {
+      "altitude_m": 4000.0,
+      "direction": "RIGHT",
+      "turn_radius_m": 685.2857320693638,
+      "heading_change_deg": 20.0,
+      "true_arc_length_m": 239.20984683100184,
+      "by_spacing": {
+        "30m": {
+          "endpoint_error_m_mean": 14.09413353576907,
+          "endpoint_error_m_max": 20.1412596960814,
+          "path_length_error_pct_mean": 28.548219930613527,
+          "lateral_deviation_m_max": 14.95592331377739,
+          "lateral_deviation_m_rms": 6.953429476563376,
+          "grid_cells_touched_mean": 11.25
+        },
+        "60m": {
+          "endpoint_error_m_mean": 18.842363752527337,
+          "endpoint_error_m_max": 22.276596901714047,
+          "path_length_error_pct_mean": 25.41289749328149,
+          "lateral_deviation_m_max": 29.813683306178184,
+          "lateral_deviation_m_rms": 13.668777783615122,
+          "grid_cells_touched_mean": 6
+        },
+        "90m": {
+          "endpoint_error_m_mean": 49.3902601472213,
+          "endpoint_error_m_max": 54.558791676790264,
+          "path_length_error_pct_mean": 31.683542367945567,
+          "lateral_deviation_m_max": 43.17518563156697,
+          "lateral_deviation_m_rms": 20.603018101263,
+          "grid_cells_touched_mean": 4.5
+        }
+      }
+    },
+    {
+      "altitude_m": 4000.0,
+      "direction": "RIGHT",
+      "turn_radius_m": 685.2857320693638,
+      "heading_change_deg": 45.0,
+      "true_arc_length_m": 538.2221553697542,
+      "by_spacing": {
+        "30m": {
+          "endpoint_error_m_mean": 12.642435942373636,
+          "endpoint_error_m_max": 15.378109743940605,
+          "path_length_error_pct_mean": 25.173814699761103,
+          "lateral_deviation_m_max": 15.378109743940605,
+          "lateral_deviation_m_rms": 6.925318519227615,
+          "grid_cells_touched_mean": 23.25
+        },
+        "60m": {
+          "endpoint_error_m_mean": 18.32762125966092,
+          "endpoint_error_m_max": 21.213683746479006,
+          "path_length_error_pct_mean": 23.78033806094686,
+          "lateral_deviation_m_max": 28.617397557840636,
+          "lateral_deviation_m_rms": 12.938465032471706,
+          "grid_cells_touched_mean": 12
+        },
+        "90m": {
+          "endpoint_error_m_mean": 27.87165821275125,
+          "endpoint_error_m_max": 40.30175765265965,
+          "path_length_error_pct_mean": 25.412897493281474,
+          "lateral_deviation_m_max": 43.26022628723675,
+          "lateral_deviation_m_rms": 20.7604701687096,
+          "grid_cells_touched_mean": 8.5
+        }
+      }
+    },
+    {
+      "altitude_m": 4000.0,
+      "direction": "RIGHT",
+      "turn_radius_m": 685.2857320693638,
+      "heading_change_deg": 90.0,
+      "true_arc_length_m": 1076.4443107395084,
+      "by_spacing": {
+        "30m": {
+          "endpoint_error_m_mean": 9.86135896455388,
+          "endpoint_error_m_max": 11.819038910390011,
+          "path_length_error_pct_mean": 25.751011622408036,
+          "lateral_deviation_m_max": 14.540176425671103,
+          "lateral_deviation_m_rms": 6.640130370455761,
+          "grid_cells_touched_mean": 45.5
+        },
+        "60m": {
+          "endpoint_error_m_mean": 17.134469860268926,
+          "endpoint_error_m_max": 35.75942522702652,
+          "path_length_error_pct_mean": 24.59661777711417,
+          "lateral_deviation_m_max": 35.75942522702652,
+          "lateral_deviation_m_rms": 13.135556293983894,
+          "grid_cells_touched_mean": 23.25
+        },
+        "90m": {
+          "endpoint_error_m_mean": 23.397772485717432,
+          "endpoint_error_m_max": 49.09338851535919,
+          "path_length_error_pct_mean": 31.683542367945545,
+          "lateral_deviation_m_max": 42.857312471347996,
+          "lateral_deviation_m_rms": 21.41931854727845,
+          "grid_cells_touched_mean": 16.75
+        }
+      }
+    },
+    {
+      "altitude_m": 4500.0,
+      "direction": "LEFT",
+      "turn_radius_m": 656.5387542354013,
+      "heading_change_deg": 20.0,
+      "true_arc_length_m": 229.17525856699237,
+      "by_spacing": {
+        "30m": {
+          "endpoint_error_m_mean": 14.806635366470402,
+          "endpoint_error_m_max": 17.42798598676375,
+          "path_length_error_pct_mean": 21.086369329384382,
+          "lateral_deviation_m_max": 17.42798598676375,
+          "lateral_deviation_m_rms": 7.152688884512612,
+          "grid_cells_touched_mean": 10.25
+        },
+        "60m": {
+          "endpoint_error_m_mean": 17.82063177381395,
+          "endpoint_error_m_max": 25.595274348650047,
+          "path_length_error_pct_mean": 30.904183058793926,
+          "lateral_deviation_m_max": 29.807301578108465,
+          "lateral_deviation_m_rms": 13.513243611213484,
+          "grid_cells_touched_mean": 6
+        },
+        "90m": {
+          "endpoint_error_m_mean": 48.6486402595435,
+          "endpoint_error_m_max": 59.60160502978929,
+          "path_length_error_pct_mean": 7.995951023504989,
+          "lateral_deviation_m_max": 59.60160502978929,
+          "lateral_deviation_m_rms": 21.623308568573133,
+          "grid_cells_touched_mean": 3.75
+        }
+      }
+    },
+    {
+      "altitude_m": 4500.0,
+      "direction": "LEFT",
+      "turn_radius_m": 656.5387542354013,
+      "heading_change_deg": 45.0,
+      "true_arc_length_m": 515.6443317757328,
+      "by_spacing": {
+        "30m": {
+          "endpoint_error_m_mean": 12.940806818848989,
+          "endpoint_error_m_max": 18.816180313547882,
+          "path_length_error_pct_mean": 25.68868923389557,
+          "lateral_deviation_m_max": 18.816180313547882,
+          "lateral_deviation_m_rms": 7.179693650231872,
+          "grid_cells_touched_mean": 22.5
+        },
+        "60m": {
+          "endpoint_error_m_mean": 17.272572499891766,
+          "endpoint_error_m_max": 22.49300790300697,
+          "path_length_error_pct_mean": 27.99520121304296,
+          "lateral_deviation_m_max": 29.66902744232415,
+          "lateral_deviation_m_rms": 13.337325613872483,
+          "grid_cells_touched_mean": 12
+        },
+        "90m": {
+          "endpoint_error_m_mean": 20.440806818848987,
+          "endpoint_error_m_max": 37.50699209699303,
+          "path_length_error_pct_mean": 30.904183058793933,
+          "lateral_deviation_m_max": 43.18537665508265,
+          "lateral_deviation_m_rms": 20.294836213459845,
+          "grid_cells_touched_mean": 8.5
+        }
+      }
+    },
+    {
+      "altitude_m": 4500.0,
+      "direction": "LEFT",
+      "turn_radius_m": 656.5387542354013,
+      "heading_change_deg": 90.0,
+      "true_arc_length_m": 1031.2886635514656,
+      "by_spacing": {
+        "30m": {
+          "endpoint_error_m_mean": 8.132028548153414,
+          "endpoint_error_m_max": 13.059591976426193,
+          "path_length_error_pct_mean": 26.59239403380095,
+          "lateral_deviation_m_max": 14.882244527958733,
+          "lateral_deviation_m_rms": 7.050723286968897,
+          "grid_cells_touched_mean": 44
+        },
+        "60m": {
+          "endpoint_error_m_mean": 17.55265626789877,
+          "endpoint_error_m_max": 28.486010463240746,
+          "path_length_error_pct_mean": 24.836668177623668,
+          "lateral_deviation_m_max": 29.52957014482405,
+          "lateral_deviation_m_rms": 12.925360428067865,
+          "grid_cells_touched_mean": 22.25
+        },
+        "90m": {
+          "endpoint_error_m_mean": 37.72935246284439,
+          "endpoint_error_m_max": 42.44996660997301,
+          "path_length_error_pct_mean": 29.626151474386084,
+          "lateral_deviation_m_max": 44.88224452795873,
+          "lateral_deviation_m_rms": 20.520464701050784,
+          "grid_cells_touched_mean": 15.75
+        }
+      }
+    },
+    {
+      "altitude_m": 4500.0,
+      "direction": "RIGHT",
+      "turn_radius_m": 722.8885333033923,
+      "heading_change_deg": 20.0,
+      "true_arc_length_m": 252.3357006211375,
+      "by_spacing": {
+        "30m": {
+          "endpoint_error_m_mean": 11.357587831462155,
+          "endpoint_error_m_max": 15.404249576750036,
+          "path_length_error_pct_mean": 24.833703366036218,
+          "lateral_deviation_m_max": 15.404249576750036,
+          "lateral_deviation_m_rms": 6.906285974804856,
+          "grid_cells_touched_mean": 11.5
+        },
+        "60m": {
+          "endpoint_error_m_mean": 23.15759066091634,
+          "endpoint_error_m_max": 35.12986446295115,
+          "path_length_error_pct_mean": 24.833703366036218,
+          "lateral_deviation_m_max": 35.12986446295114,
+          "lateral_deviation_m_rms": 13.72745804506598,
+          "grid_cells_touched_mean": 6.25
+        },
+        "90m": {
+          "endpoint_error_m_mean": 47.96332766293664,
+          "endpoint_error_m_max": 54.97913523758435,
+          "path_length_error_pct_mean": 24.833703366036218,
+          "lateral_deviation_m_max": 54.97913523758435,
+          "lateral_deviation_m_rms": 21.729247906787023,
+          "grid_cells_touched_mean": 4.5
+        }
+      }
+    },
+    {
+      "altitude_m": 4500.0,
+      "direction": "RIGHT",
+      "turn_radius_m": 722.8885333033923,
+      "heading_change_deg": 45.0,
+      "true_arc_length_m": 567.7553263975594,
+      "by_spacing": {
+        "30m": {
+          "endpoint_error_m_mean": 4.792571319160175,
+          "endpoint_error_m_max": 13.274930283815365,
+          "path_length_error_pct_mean": 25.267552829188865,
+          "lateral_deviation_m_max": 14.72560442546123,
+          "lateral_deviation_m_rms": 6.4286565657397645,
+          "grid_cells_touched_mean": 24.5
+        },
+        "60m": {
+          "endpoint_error_m_mean": 33.68538154948168,
+          "endpoint_error_m_max": 40.69476591288457,
+          "path_length_error_pct_mean": 33.19350224925466,
+          "lateral_deviation_m_max": 29.482911014848153,
+          "lateral_deviation_m_rms": 13.625571664281836,
+          "grid_cells_touched_mean": 13.5
+        },
+        "90m": {
+          "endpoint_error_m_mean": 35.797228027697244,
+          "endpoint_error_m_max": 44.15804782950113,
+          "path_length_error_pct_mean": 26.81519072105265,
+          "lateral_deviation_m_max": 44.15804782950113,
+          "lateral_deviation_m_rms": 21.265162663613435,
+          "grid_cells_touched_mean": 9
+        }
+      }
+    },
+    {
+      "altitude_m": 4500.0,
+      "direction": "RIGHT",
+      "turn_radius_m": 722.8885333033923,
+      "heading_change_deg": 90.0,
+      "true_arc_length_m": 1135.5106527951189,
+      "by_spacing": {
+        "30m": {
+          "endpoint_error_m_mean": 8.876440388647762,
+          "endpoint_error_m_max": 14.550995349957729,
+          "path_length_error_pct_mean": 24.49373388325697,
+          "lateral_deviation_m_max": 14.943035168045867,
+          "lateral_deviation_m_rms": 6.447794437979582,
+          "grid_cells_touched_mean": 47.5
+        },
+        "60m": {
+          "endpoint_error_m_mean": 17.943380115580226,
+          "endpoint_error_m_max": 32.68487480382265,
+          "path_length_error_pct_mean": 26.58854439919983,
+          "lateral_deviation_m_max": 29.27244125598955,
+          "lateral_deviation_m_rms": 13.884296353071157,
+          "grid_cells_touched_mean": 24.75
+        },
+        "90m": {
+          "endpoint_error_m_mean": 36.28164308363466,
+          "endpoint_error_m_max": 54.361400739931476,
+          "path_length_error_pct_mean": 23.672974947138364,
+          "lateral_deviation_m_max": 54.361400739931476,
+          "lateral_deviation_m_rms": 20.043200329383087,
+          "grid_cells_touched_mean": 16.5
+        }
+      }
+    },
+    {
+      "altitude_m": 5500.0,
+      "direction": "LEFT",
+      "turn_radius_m": 731.8605911768117,
+      "heading_change_deg": 20.0,
+      "true_arc_length_m": 255.4675396325505,
+      "by_spacing": {
+        "30m": {
+          "endpoint_error_m_mean": 11.438523141095164,
+          "endpoint_error_m_max": 17.49746674387097,
+          "path_length_error_pct_mean": 26.239130209601203,
+          "lateral_deviation_m_max": 17.49746674387097,
+          "lateral_deviation_m_rms": 6.7678295751674185,
+          "grid_cells_touched_mean": 11.75
+        },
+        "60m": {
+          "endpoint_error_m_mean": 24.30266942603698,
+          "endpoint_error_m_max": 38.217313711431665,
+          "path_length_error_pct_mean": 23.30333648379652,
+          "lateral_deviation_m_max": 38.21731371143167,
+          "lateral_deviation_m_rms": 13.851213189256082,
+          "grid_cells_touched_mean": 6.25
+        },
+        "90m": {
+          "endpoint_error_m_mean": 47.32635956583434,
+          "endpoint_error_m_max": 55.38527809221018,
+          "path_length_error_pct_mean": 32.110717661210565,
+          "lateral_deviation_m_max": 44.13659420394922,
+          "lateral_deviation_m_rms": 20.71658515585245,
+          "grid_cells_touched_mean": 4.75
+        }
+      }
+    },
+    {
+      "altitude_m": 5500.0,
+      "direction": "LEFT",
+      "turn_radius_m": 731.8605911768117,
+      "heading_change_deg": 45.0,
+      "true_arc_length_m": 574.8019641732386,
+      "by_spacing": {
+        "30m": {
+          "endpoint_error_m_mean": 8.952590473474457,
+          "endpoint_error_m_max": 9.858153911427848,
+          "path_length_error_pct_mean": 25.036664491804807,
+          "lateral_deviation_m_max": 14.424669220586111,
+          "lateral_deviation_m_rms": 6.410895114416525,
+          "grid_cells_touched_mean": 24.75
+        },
+        "60m": {
+          "endpoint_error_m_mean": 30.548594721782628,
+          "endpoint_error_m_max": 34.112341345215306,
+          "path_length_error_pct_mean": 33.08931556981213,
+          "lateral_deviation_m_max": 29.47652964735888,
+          "lateral_deviation_m_rms": 14.062101207880124,
+          "grid_cells_touched_mean": 13.75
+        },
+        "90m": {
+          "endpoint_error_m_mean": 38.325165026867445,
+          "endpoint_error_m_max": 51.024963634257894,
+          "path_length_error_pct_mean": 22.967534770004264,
+          "lateral_deviation_m_max": 51.024963634257894,
+          "lateral_deviation_m_rms": 21.252244385602516,
+          "grid_cells_touched_mean": 8.75
+        }
+      }
+    },
+    {
+      "altitude_m": 5500.0,
+      "direction": "LEFT",
+      "turn_radius_m": 731.8605911768117,
+      "heading_change_deg": 90.0,
+      "true_arc_length_m": 1149.6039283464772,
+      "by_spacing": {
+        "30m": {
+          "endpoint_error_m_mean": 11.520710111439652,
+          "endpoint_error_m_max": 16.773408900009667,
+          "path_length_error_pct_mean": 25.689063097539176,
+          "lateral_deviation_m_max": 16.773408900009667,
+          "lateral_deviation_m_rms": 6.356569711949161,
+          "grid_cells_touched_mean": 48.75
+        },
+        "60m": {
+          "endpoint_error_m_mean": 20.053360135572746,
+          "endpoint_error_m_max": 24.21642891682168,
+          "path_length_error_pct_mean": 28.410591425074095,
+          "lateral_deviation_m_max": 29.65449156651198,
+          "lateral_deviation_m_rms": 14.097405953249785,
+          "grid_cells_touched_mean": 25.5
+        },
+        "90m": {
+          "endpoint_error_m_mean": 40.153552479866974,
+          "endpoint_error_m_max": 49.42398741404819,
+          "path_length_error_pct_mean": 26.881926404410503,
+          "lateral_deviation_m_max": 42.72341025865794,
+          "lateral_deviation_m_rms": 19.4670717184405,
+          "grid_cells_touched_mean": 17
+        }
+      }
+    },
+    {
+      "altitude_m": 5500.0,
+      "direction": "RIGHT",
+      "turn_radius_m": 805.6596797249952,
+      "heading_change_deg": 20.0,
+      "true_arc_length_m": 281.22828123528336,
+      "by_spacing": {
+        "30m": {
+          "endpoint_error_m_mean": 8.748970383045272,
+          "endpoint_error_m_max": 15.053991276027332,
+          "path_length_error_pct_mean": 28.009885214500898,
+          "lateral_deviation_m_max": 14.71746056835335,
+          "lateral_deviation_m_rms": 6.3449800878941325,
+          "grid_cells_touched_mean": 13
+        },
+        "60m": {
+          "endpoint_error_m_mean": 26.512548298127083,
+          "endpoint_error_m_max": 29.932876448627983,
+          "path_length_error_pct_mean": 38.677375649042645,
+          "lateral_deviation_m_max": 29.034399221278733,
+          "lateral_deviation_m_rms": 13.230635935047577,
+          "grid_cells_touched_mean": 7.5
+        },
+        "90m": {
+          "endpoint_error_m_mean": 40.437692630195244,
+          "endpoint_error_m_max": 45.22470310751064,
+          "path_length_error_pct_mean": 44.01112086631351,
+          "lateral_deviation_m_max": 43.01186543181515,
+          "lateral_deviation_m_rms": 20.825605489134546,
+          "grid_cells_touched_mean": 5.5
+        }
+      }
+    },
+    {
+      "altitude_m": 5500.0,
+      "direction": "RIGHT",
+      "turn_radius_m": 805.6596797249952,
+      "heading_change_deg": 45.0,
+      "true_arc_length_m": 632.7636327793876,
+      "by_spacing": {
+        "30m": {
+          "endpoint_error_m_mean": 10.306341143860458,
+          "endpoint_error_m_max": 19.77087995725259,
+          "path_length_error_pct_mean": 27.112204856093534,
+          "lateral_deviation_m_max": 14.558978548988193,
+          "lateral_deviation_m_rms": 6.235927071113432,
+          "grid_cells_touched_mean": 27.5
+        },
+        "60m": {
+          "endpoint_error_m_mean": 24.799888696200586,
+          "endpoint_error_m_max": 29.959402380110916,
+          "path_length_error_pct_mean": 23.26877835470455,
+          "lateral_deviation_m_max": 29.959402380110905,
+          "lateral_deviation_m_rms": 12.57982796664117,
+          "grid_cells_touched_mean": 14
+        },
+        "90m": {
+          "endpoint_error_m_mean": 30.86533346834721,
+          "endpoint_error_m_max": 45.15783851338829,
+          "path_length_error_pct_mean": 31.565715359348125,
+          "lateral_deviation_m_max": 45.15783851338823,
+          "lateral_deviation_m_rms": 21.668982618905744,
+          "grid_cells_touched_mean": 10.25
+        }
+      }
+    },
+    {
+      "altitude_m": 5500.0,
+      "direction": "RIGHT",
+      "turn_radius_m": 805.6596797249952,
+      "heading_change_deg": 90.0,
+      "true_arc_length_m": 1265.5272655587753,
+      "by_spacing": {
+        "30m": {
+          "endpoint_error_m_mean": 8.804901115255142,
+          "endpoint_error_m_max": 14.228155193659111,
+          "path_length_error_pct_mean": 24.88544960446623,
+          "lateral_deviation_m_max": 14.56150612692602,
+          "lateral_deviation_m_rms": 6.54184236418036,
+          "grid_cells_touched_mean": 52.75
+        },
+        "60m": {
+          "endpoint_error_m_mean": 25.078647239735453,
+          "endpoint_error_m_max": 36.288267073238,
+          "path_length_error_pct_mean": 24.047332401743226,
+          "lateral_deviation_m_max": 36.288267073238,
+          "lateral_deviation_m_rms": 12.14673907128326,
+          "grid_cells_touched_mean": 26.75
+        },
+        "90m": {
+          "endpoint_error_m_mean": 24.550953814457912,
+          "endpoint_error_m_max": 30.720260592064594,
+          "path_length_error_pct_mean": 33.34363043177175,
+          "lateral_deviation_m_max": 44.34226088948344,
+          "lateral_deviation_m_rms": 21.52142651169624,
+          "grid_cells_touched_mean": 19.75
+        }
+      }
+    }
+  ],
+  "compute_time_s": 0.49282649997621775
+}

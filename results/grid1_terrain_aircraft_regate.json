@@ -1,0 +1,196 @@
+{
+  "windows": {
+    "low-relief (p10, relief=14.6m)": {
+      "widest_radius": {
+        "turn_radius_m": 805.6596797249952,
+        "direction": "RIGHT",
+        "additional_conservatism_m": {
+          "60m": {
+            "mean": 9.691874186197916,
+            "max": 17.840576171875,
+            "min": 5.49560546875,
+            "n_samples": 12
+          },
+          "90m": {
+            "mean": 14.250996907552084,
+            "max": 33.27294921875,
+            "min": 6.74072265625,
+            "n_samples": 12
+          }
+        }
+      },
+      "tightest_radius": {
+        "turn_radius_m": 410.1955307687251,
+        "direction": "LEFT",
+        "additional_conservatism_m": {
+          "60m": {
+            "mean": 7.1175537109375,
+            "max": 17.79931640625,
+            "min": 0.0,
+            "n_samples": 12
+          },
+          "90m": {
+            "mean": 13.145955403645834,
+            "max": 27.916259765625,
+            "min": 0.0,
+            "n_samples": 12
+          }
+        }
+      }
+    },
+    "medium-relief (p50, relief=36.4m)": {
+      "widest_radius": {
+        "turn_radius_m": 805.6596797249952,
+        "direction": "RIGHT",
+        "additional_conservatism_m": {
+          "60m": {
+            "mean": 2.976806640625,
+            "max": 2.976806640625,
+            "min": 2.976806640625,
+            "n_samples": 12
+          },
+          "90m": {
+            "mean": 0.0,
+            "max": 0.0,
+            "min": 0.0,
+            "n_samples": 12
+          }
+        }
+      },
+      "tightest_radius": {
+        "turn_radius_m": 410.1955307687251,
+        "direction": "LEFT",
+        "additional_conservatism_m": {
+          "60m": {
+            "mean": 2.976806640625,
+            "max": 2.976806640625,
+            "min": 2.976806640625,
+            "n_samples": 12
+          },
+          "90m": {
+            "mean": 0.0,
+            "max": 0.0,
+            "min": 0.0,
+            "n_samples": 12
+          }
+        }
+      }
+    },
+    "high-relief (REGRESSION reference, relief=282.1m, unchanged since Step 2B)": {
+      "widest_radius": {
+        "turn_radius_m": 805.6596797249952,
+        "direction": "RIGHT",
+        "additional_conservatism_m": {
+          "60m": {
+            "mean": 109.15604654947917,
+            "max": 194.092529296875,
+            "min": 4.962646484375,
+            "n_samples": 12
+          },
+          "90m": {
+            "mean": 124.36366780598958,
+            "max": 194.092529296875,
+            "min": 16.623046875,
+            "n_samples": 12
+          }
+        }
+      },
+      "tightest_radius": {
+        "turn_radius_m": 410.1955307687251,
+        "direction": "LEFT",
+        "additional_conservatism_m": {
+          "60m": {
+            "mean": 41.907389322916664,
+            "max": 194.092529296875,
+            "min": 0.0,
+            "n_samples": 12
+          },
+          "90m": {
+            "mean": 56.2132568359375,
+            "max": 194.092529296875,
+            "min": 0.0,
+            "n_samples": 12
+          }
+        }
+      }
+    },
+    "valley-like (local min_elevation dip=11.3m below all 8 neighbors)": {
+      "widest_radius": {
+        "turn_radius_m": 805.6596797249952,
+        "direction": "RIGHT",
+        "additional_conservatism_m": {
+          "60m": {
+            "mean": 5.22772216796875,
+            "max": 13.173583984375,
+            "min": 0.0,
+            "n_samples": 12
+          },
+          "90m": {
+            "mean": 8.438741048177084,
+            "max": 22.06005859375,
+            "min": 0.0,
+            "n_samples": 12
+          }
+        }
+      },
+      "tightest_radius": {
+        "turn_radius_m": 410.1955307687251,
+        "direction": "LEFT",
+        "additional_conservatism_m": {
+          "60m": {
+            "mean": 22.886922200520832,
+            "max": 121.403076171875,
+            "min": 0.0,
+            "n_samples": 12
+          },
+          "90m": {
+            "mean": 30.932454427083332,
+            "max": 121.403076171875,
+            "min": 0.0,
+            "n_samples": 12
+          }
+        }
+      }
+    },
+    "ridge-like (local max_elevation rise=13.4m above all 8 neighbors)": {
+      "widest_radius": {
+        "turn_radius_m": 805.6596797249952,
+        "direction": "RIGHT",
+        "additional_conservatism_m": {
+          "60m": {
+            "mean": 18.56494140625,
+            "max": 18.56494140625,
+            "min": 18.56494140625,
+            "n_samples": 12
+          },
+          "90m": {
+            "mean": 18.56494140625,
+            "max": 18.56494140625,
+            "min": 18.56494140625,
+            "n_samples": 12
+          }
+        }
+      },
+      "tightest_radius": {
+        "turn_radius_m": 410.1955307687251,
+        "direction": "LEFT",
+        "additional_conservatism_m": {
+          "60m": {
+            "mean": 18.56494140625,
+            "max": 18.56494140625,
+            "min": 18.56494140625,
+            "n_samples": 12
+          },
+          "90m": {
+            "mean": 18.56494140625,
+            "max": 18.56494140625,
+            "min": 18.56494140625,
+            "n_samples": 12
+          }
+        }
+      }
+    }
+  },
+  "unsafe_optimism_violations": [],
+  "compute_time_s": 0.6976805999875069
+}
