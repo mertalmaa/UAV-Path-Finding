@@ -15,7 +15,7 @@ the one real 6.48km run.
 import numpy as np
 from affine import Affine
 
-from planner.astar import BUCKET_SHORT, _generate_neighbors, msl_to_z_index
+from planner.astar import _generate_neighbors, msl_to_z_index
 from planner.config import DEFAULT_CONFIG
 from planner.primitives import build_primitive_set
 from planner.roi import ROIData
@@ -43,7 +43,7 @@ def test_1_none_equals_all_true(cfg, primitives) -> bool:
     tq = TerrainQuery(make_synthetic_roi(elev))
     cache, stats = {}, {"hits": 0, "misses": 0, "actual_calls": 0}
     z0 = msl_to_z_index(1300.0, cfg)
-    state = (5, 5, z0, 0, BUCKET_SHORT)
+    state = (5, 5, z0)
 
     n_none, rej_none, gen_none, rejc_none, corridor_none, zcorr_none = _generate_neighbors(
         state, primitives, tq, cfg, 1100.0, 1500.0, cache, stats, None, None,
@@ -68,7 +68,7 @@ def test_2_outside_rejected(cfg, primitives) -> bool:
     tq = TerrainQuery(make_synthetic_roi(elev))
     cache, stats = {}, {"hits": 0, "misses": 0, "actual_calls": 0}
     z0 = msl_to_z_index(1300.0, cfg)
-    state = (5, 5, z0, 0, BUCKET_SHORT)
+    state = (5, 5, z0)
 
     mask = np.zeros((10, 10), dtype=bool)
     mask[5, 5] = True  # only the current cell itself is "in corridor" -- every successor is outside
@@ -90,7 +90,7 @@ def test_3_inside_normal_eval(cfg, primitives) -> bool:
     tq = TerrainQuery(make_synthetic_roi(elev))
     cache, stats = {}, {"hits": 0, "misses": 0, "actual_calls": 0}
     z0 = msl_to_z_index(1300.0, cfg)
-    state = (5, 5, z0, 0, BUCKET_SHORT)
+    state = (5, 5, z0)
 
     mask = np.ones((10, 10), dtype=bool)  # everything in-corridor -- flat safe terrain, all should pass normally
     accepted, rej_counts, gen, rejected, corridor_rej, zcorr_rej = _generate_neighbors(

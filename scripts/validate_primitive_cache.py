@@ -1,23 +1,21 @@
 """Stage 15 validation: physical primitive feasibility cache.
 
 Caches evaluate_primitive() results by (row, col, z_index, primitive_id)
--- deliberately NOT vertical_trend/trend_age_units, since physical
-feasibility never depends on search history. Cost (compute_edge_cost) and
-the next (trend, age) are always recomputed fresh, never cached.
+-- physical feasibility never depends on search history. Cost
+(compute_edge_cost) is always recomputed fresh, never cached.
 
 8)  cache OFF vs ON: identical path/cost/metrics, only evaluate_primitive
     call count should differ.
-9)  history-independence: two augmented states at the same physical
-    position, different (trend, age) -- same primitive is a cache MISS
-    then HIT, but the returned edge cost still differs correctly between
-    the two (trend, age) contexts.
+9)  cache-key correctness: two lookups at the same physical state -- same
+    primitive is a cache MISS then HIT, and the returned edge cost is
+    identical both times (cost has no history dependence to vary it).
 10) invalid-edge caching: a primitive that's physically INVALID at a
     given position is cached as INVALID too -- second lookup is a HIT,
     not a re-sample of the terrain.
 11) synthetic benchmark: cache ON vs OFF on a scenario with real
-    (trend, age) state-space growth. Expect identical expanded_nodes
-    (search ordering unaffected) but fewer actual evaluate_primitive
-    calls and lower runtime with the cache on.
+    repeated-state search dynamics. Expect identical expanded_nodes
+    (search ordering unaffected) but no more actual evaluate_primitive
+    calls with the cache on.
 """
 import time
 
@@ -70,18 +68,22 @@ def validation_8(cfg, primitives) -> bool:
         and abs(r_off.total_cost - r_on.total_cost) < 1e-9
         and abs(r_off.geometric_path_length - r_on.geometric_path_length) < 1e-9
         and abs(r_off.average_aircraft_msl - r_on.average_aircraft_msl) < 1e-9
-        and r_off.total_vertical_reversal_count == r_on.total_vertical_reversal_count
-        and abs(r_off.total_reversal_penalty - r_on.total_reversal_penalty) < 1e-9
         and abs(r_off.minimum_observed_agl - r_on.minimum_observed_agl) < 1e-9
-        and r_on.actual_evaluate_primitive_calls < r_off.actual_evaluate_primitive_calls
+        and r_on.actual_evaluate_primitive_calls <= r_off.actual_evaluate_primitive_calls
     )
-    print(f"  identical path/cost/metrics, fewer actual calls with cache on: {'PASS' if ok else 'FAIL'}")
+    # Step CLEAN-1 note: with the trend/bucket history dimension removed, each physical
+    # (row,col,z) is now visited at most once by exact A* in a scenario this small, so
+    # zero cache reuse WITHIN a single call is an expected, correct outcome (not a bug) --
+    # the assertion above is therefore <=, not <. The cache still pays off whenever a
+    # state genuinely gets re-evaluated (multiple predecessors before either closes, or
+    # reuse ACROSS calls via external_primitive_cache).
+    print(f"  identical path/cost/metrics, never more calls with cache on: {'PASS' if ok else 'FAIL'}")
     return ok
 
 
 def validation_9(cfg, primitives) -> bool:
     print()
-    print("=== 9: history-independence (same physical position, different trend/age) ===")
+    print("=== 9: cache-key correctness (same physical state, repeated lookup) ===")
     # height=15 keeps row=7 far enough from every edge that all 24
     # primitives (including the +-3/+-4-row diagonal and N/S climb/descent
     # ones) reach the cache stage rather than being bounds-rejected first.
@@ -94,33 +96,32 @@ def validation_9(cfg, primitives) -> bool:
     cache = {}
     stats = {"hits": 0, "misses": 0, "actual_calls": 0}
 
-    state_a = (row, col, z0, -1, 2)  # standing descent trend, short age -> a climb here would be a real reversal
-    state_b = (row, col, z0, 1, 8)  # standing climb trend, long age -> a climb here just continues it
+    state = (row, col, z0)
 
-    neighbors_a, _, _, _ = _generate_neighbors(state_a, primitives, tq, cfg, 1100.0, 1500.0, cache, stats)
+    neighbors_a, _, _, _, _, _ = _generate_neighbors(state, primitives, tq, cfg, 1100.0, 1500.0, cache, stats)
     misses_after_a, hits_after_a = stats["misses"], stats["hits"]
-    print(f"  after state A: misses={misses_after_a} hits={hits_after_a} (expect {len(primitives)} misses, 0 hits)")
+    print(f"  after 1st call: misses={misses_after_a} hits={hits_after_a} (expect {len(primitives)} misses, 0 hits)")
 
-    neighbors_b, _, _, _ = _generate_neighbors(state_b, primitives, tq, cfg, 1100.0, 1500.0, cache, stats)
+    neighbors_b, _, _, _, _, _ = _generate_neighbors(state, primitives, tq, cfg, 1100.0, 1500.0, cache, stats)
     misses_after_b, hits_after_b = stats["misses"], stats["hits"]
-    print(f"  after state B (same row,col,z): misses={misses_after_b} hits={hits_after_b - hits_after_a} new "
+    print(f"  after 2nd call (same physical state): misses={misses_after_b} hits={hits_after_b - hits_after_a} new "
           f"(expect 0 new misses, {len(primitives)} new hits)")
 
     climb_e = next(p for p in primitives if p.direction == "E" and p.primitive_type == "climb")
     climb_e_target = (row + climb_e.drow, col + climb_e.dcol, z0 + round(climb_e.dz_m / cfg.z_step_m))
-    cost_a = next(ec for ns, ec in neighbors_a if (ns[0], ns[1], ns[2]) == climb_e_target)
-    cost_b = next(ec for ns, ec in neighbors_b if (ns[0], ns[1], ns[2]) == climb_e_target)
+    cost_a = next(ec for ns, ec in neighbors_a if ns == climb_e_target)
+    cost_b = next(ec for ns, ec in neighbors_b if ns == climb_e_target)
 
-    print(f"  E-climb cost from state A (descent trend, reversal): {cost_a:.3f}")
-    print(f"  E-climb cost from state B (climb trend, continuation): {cost_b:.3f}")
+    print(f"  E-climb cost, 1st call (miss): {cost_a:.3f}")
+    print(f"  E-climb cost, 2nd call (hit): {cost_b:.3f}")
 
     ok = (
         misses_after_a == len(primitives) and hits_after_a == 0
-        and misses_after_b == misses_after_a  # no NEW misses from state B
-        and (hits_after_b - hits_after_a) == len(primitives)  # every primitive was a hit from state B
-        and cost_a > cost_b  # reversal cost only applied in state A's context
+        and misses_after_b == misses_after_a  # no NEW misses on the 2nd call
+        and (hits_after_b - hits_after_a) == len(primitives)  # every primitive was a hit on the 2nd call
+        and cost_a == cost_b  # cost is a pure function of physical state now -- no history to vary it
     )
-    print(f"  cache key shared (physical only), cost still context-sensitive: {'PASS' if ok else 'FAIL'}")
+    print(f"  cache key shared (physical only), cost identical (no history dependence): {'PASS' if ok else 'FAIL'}")
     return ok
 
 
@@ -139,23 +140,22 @@ def validation_10(cfg, primitives) -> bool:
     stats = {"hits": 0, "misses": 0, "actual_calls": 0}
 
     # Open altitude bounds so every primitive (not just level ones) reaches the cache stage.
-    state_a = (row, col, z0, -1, 4)
-    state_b = (row, col, z0, 1, 6)
+    state = (row, col, z0)
 
-    _, rej_a, _, _ = _generate_neighbors(state_a, primitives, tq, cfg, 1200.0, 1400.0, cache, stats)
+    _, rej_a, _, _, _, _ = _generate_neighbors(state, primitives, tq, cfg, 1200.0, 1400.0, cache, stats)
     calls_after_a = stats["actual_calls"]
-    _, rej_b, _, _ = _generate_neighbors(state_b, primitives, tq, cfg, 1200.0, 1400.0, cache, stats)
+    _, rej_b, _, _, _, _ = _generate_neighbors(state, primitives, tq, cfg, 1200.0, 1400.0, cache, stats)
     calls_after_b = stats["actual_calls"]
 
-    print(f"  rejections from state A: {rej_a}")
-    print(f"  rejections from state B: {rej_b}")
-    print(f"  actual evaluate_primitive calls after A: {calls_after_a}, after B: {calls_after_b} "
+    print(f"  rejections, 1st call: {rej_a}")
+    print(f"  rejections, 2nd call: {rej_b}")
+    print(f"  actual evaluate_primitive calls after 1st: {calls_after_a}, after 2nd: {calls_after_b} "
           f"(expect no increase -- same physical position, all cached)")
 
     ok = (
         rej_a.get("below_min_agl", 0) > 0
         and rej_b.get("below_min_agl", 0) == rej_a.get("below_min_agl", 0)
-        and calls_after_b == calls_after_a  # zero new evaluate_primitive calls from state B
+        and calls_after_b == calls_after_a  # zero new evaluate_primitive calls on the 2nd call
     )
     print(f"  INVALID result cached and reused without re-sampling terrain: {'PASS' if ok else 'FAIL'}")
     return ok
@@ -189,7 +189,7 @@ def validation_11(cfg, primitives) -> bool:
         r_off.status == r_on.status
         and r_off.expanded_nodes == r_on.expanded_nodes  # cache must not change search ordering
         and r_off.generated_neighbors == r_on.generated_neighbors
-        and r_on.actual_evaluate_primitive_calls < r_off.actual_evaluate_primitive_calls
+        and r_on.actual_evaluate_primitive_calls <= r_off.actual_evaluate_primitive_calls
     )
     speedup = wall_off / wall_on if wall_on > 0 else float("inf")
     call_reduction = 1.0 - r_on.actual_evaluate_primitive_calls / r_off.actual_evaluate_primitive_calls

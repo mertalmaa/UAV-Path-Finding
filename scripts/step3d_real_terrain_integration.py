@@ -18,12 +18,12 @@ from time import perf_counter
 import numpy as np
 from affine import Affine
 
+from planner.candidate_z import CacheBackedTerrainMetadataStore, CandidateZGenerator, MissionContext
 from planner.config import DEFAULT_CONFIG
 from planner.primitives import MotionPrimitive, build_primitive_set, evaluate_primitive, primitive_endpoint
 from planner.roi import ROIData, load_roi
 from planner.terrain import TerrainQuery
 from planner.terrain_cache import load_terrain_cache
-from scripts.step3b_sparse_lazy_z_prototype import CandidateZGenerator, MissionContext, TerrainMetadata
 
 CACHE_DIR = "outputs/terrain_cache"
 SOURCE_DEM_PATH = str(DEFAULT_CONFIG.working_dem_path)
@@ -44,24 +44,10 @@ COARSE_R0, COARSE_R1 = FINE_R0 // FACTOR60, FINE_R1 // FACTOR60  # 73, 93
 COARSE_C0, COARSE_C1 = FINE_C0 // FACTOR60, FINE_C1 // FACTOR60
 
 
-class CacheBacked60mStore:
-    """Same .get(row,col)->TerrainMetadata interface Step 3B's
-    TerrainMetadataStore exposes, backed by the Step 3C persistent cache's
-    max_elevation_f2 array (the SAFETY-relevant, MAX-pooled 60m surface --
-    identical in meaning to build_coarse_dem's own elevation array, just
-    read from the cache instead of recomputed). Never touches TerrainQuery
-    on the fine grid, never re-reads the raw DEM file."""
-
-    def __init__(self, cache):
-        self._cache = cache
-        self.raw_dem_reads = 0  # must stay 0 -- structurally cannot increment, kept for the assertion
-
-    def get(self, row: int, col: int) -> TerrainMetadata:
-        try:
-            elev = self._cache.max_elevation(FACTOR60, row, col)
-        except (IndexError, KeyError):
-            elev = float("nan")
-        return TerrainMetadata(row, col, elev)
+# CacheBacked60mStore MOVED to planner/candidate_z.py as of Step 3E, generalized (any pooling
+# factor, not just FACTOR60=2) as CacheBackedTerrainMetadataStore -- imported above, not redefined
+# here. Construct with CacheBackedTerrainMetadataStore(cache, FACTOR60) for the identical behavior
+# this local class used to provide.
 
 
 def build_coarse60_terrainquery_from_cache(cache, fine_roi) -> TerrainQuery:
@@ -314,7 +300,7 @@ def main():
     cache_load_s = perf_counter() - t0
     print(f"  cache loaded from {CACHE_DIR} in {cache_load_s:.4f}s, available_factors={cache.available_factors}")
     coarse_terrain = build_coarse60_terrainquery_from_cache(cache, fine_roi)
-    store = CacheBacked60mStore(cache)
+    store = CacheBackedTerrainMetadataStore(cache, FACTOR60)
     primitives = build_primitive_set(COARSE60_CONFIG)
     print(f"  60m coarse TerrainQuery built from cache max_elevation_f{FACTOR60} array "
           f"(shape={coarse_terrain.roi.elevation.shape}) -- zero fresh build_coarse_dem() call")

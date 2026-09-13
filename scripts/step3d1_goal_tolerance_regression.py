@@ -22,14 +22,14 @@ from time import perf_counter
 import numpy as np
 
 from planner.astar import _state_in_goal_region, msl_to_z_index
+from planner.candidate_z import CacheBackedTerrainMetadataStore, CandidateZGenerator, MissionContext
 from planner.config import DEFAULT_CONFIG
 from planner.primitives import build_primitive_set, evaluate_primitive, primitive_endpoint
 from planner.roi import load_roi
 from planner.terrain_cache import load_terrain_cache
-from scripts.step3b_sparse_lazy_z_prototype import CandidateZGenerator, MissionContext
 from scripts.step3d_real_terrain_integration import (
     CACHE_DIR, COARSE60_CONFIG, COARSE_C0, COARSE_C1, COARSE_R0, COARSE_R1, CEILING_MSL,
-    FACTOR60, MIN_AGL_M, SOURCE_DEM_PATH, Z_STEP_M, CacheBacked60mStore,
+    FACTOR60, MIN_AGL_M, SOURCE_DEM_PATH, Z_STEP_M,
     build_coarse60_terrainquery_from_cache, dense_eager_state_count, independent_safety_validation,
     objective_mission_setup,
 )
@@ -160,7 +160,7 @@ def main():
     fine_roi = load_roi(DEFAULT_CONFIG)
     cache = load_terrain_cache(CACHE_DIR, fine_roi, SOURCE_DEM_PATH)
     coarse_terrain = build_coarse60_terrainquery_from_cache(cache, fine_roi)
-    store = CacheBacked60mStore(cache)
+    store = CacheBackedTerrainMetadataStore(cache, FACTOR60)
     primitives = build_primitive_set(COARSE60_CONFIG)
 
     missions = objective_mission_setup(cache)

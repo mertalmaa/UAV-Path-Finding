@@ -79,7 +79,7 @@ def validation_10(cfg) -> bool:
     flat = np.full((5, 20), 1000.0)
     tq = TerrainQuery(make_roi(flat))
     z0 = msl_to_z_index(1300.0, cfg)
-    current = (2, 2, z0, 0, 0)
+    current = (2, 2, z0)
     goal = (2, 15, z0)
 
     old_h = _heuristic(current, goal, tq, cfg, 1.0)
@@ -127,26 +127,22 @@ def validation_11(cfg, primitives) -> bool:
     z0 = msl_to_z_index(1300.0, cfg)
     for row in range(3, height - 3, 3):
         for col in range(2, 50, 4):
-            for trend in (-1, 0, 1):
-                for age in (0, 4, 8, 10):
-                    current = (row, col, z0, trend, age)
-                    h_current = _heuristic(current, goal, tq, cfg, mult)
-                    x, y = tq.rowcol_to_xy(row, col)
-                    start_xyz = (x, y, 1300.0)
-                    for prim in primitives:
-                        result = evaluate_primitive(start_xyz, prim, tq, cfg)
-                        if not result.valid:
-                            continue
-                        edge_cost = compute_edge_cost(prim, 1300.0, trend, age, cfg)
-                        from planner.astar import _next_trend_and_age
-                        next_trend, next_age, _, _ = _next_trend_and_age(trend, age, prim, cfg)
-                        new_row, new_col = row + prim.drow, col + prim.dcol
-                        new_z = z0 + round(prim.dz_m / cfg.z_step_m)
-                        neighbor = (new_row, new_col, new_z, next_trend, next_age)
-                        h_neighbor = _heuristic(neighbor, goal, tq, cfg, mult)
-                        checked += 1
-                        if h_current > edge_cost + h_neighbor + 1e-9:
-                            violations += 1
+            current = (row, col, z0)
+            h_current = _heuristic(current, goal, tq, cfg, mult)
+            x, y = tq.rowcol_to_xy(row, col)
+            start_xyz = (x, y, 1300.0)
+            for prim in primitives:
+                result = evaluate_primitive(start_xyz, prim, tq, cfg)
+                if not result.valid:
+                    continue
+                edge_cost = compute_edge_cost(prim, 1300.0, cfg)
+                new_row, new_col = row + prim.drow, col + prim.dcol
+                new_z = z0 + round(prim.dz_m / cfg.z_step_m)
+                neighbor = (new_row, new_col, new_z)
+                h_neighbor = _heuristic(neighbor, goal, tq, cfg, mult)
+                checked += 1
+                if h_current > edge_cost + h_neighbor + 1e-9:
+                    violations += 1
 
     ok_consistency = violations == 0
     print(f"  checked {checked} (state, feasible primitive) combinations: {violations} consistency violations  "
@@ -187,7 +183,7 @@ def validation_13(cfg, primitives) -> bool:
     for label, use_h in (("OFF", False), ("ON", True)):
         r = astar_search(start, goal, tq, min_search_altitude_msl=1300.0, max_search_altitude_msl=1420.0,
                           config=cfg, primitives=primitives, max_expansions=50_000,
-                          use_primitive_cache=True, use_dominance_pruning=False, use_msl_lower_bound_heuristic=use_h)
+                          use_primitive_cache=True, use_msl_lower_bound_heuristic=use_h)
         results[label] = r
         print(f"  {label}: status={r.status} total_cost={r.total_cost:.3f} expanded={r.expanded_nodes} "
               f"max_open={r.max_open_size} runtime={r.runtime_s * 1000:.1f}ms "

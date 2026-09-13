@@ -13,7 +13,7 @@ scripts/benchmark_3d_corridor_fine_real.py for the one real run.
 """
 import numpy as np
 
-from planner.astar import BUCKET_SHORT, _generate_neighbors, msl_to_z_index, z_index_to_msl
+from planner.astar import _generate_neighbors, msl_to_z_index, z_index_to_msl
 from planner.config import DEFAULT_CONFIG
 from planner.corridor import build_z_guide_grid, fine_grid_centers
 from planner.primitives import build_primitive_set
@@ -64,7 +64,7 @@ def test_2_3_within_and_outside_tube(cfg, primitives) -> bool:
     elev = np.full((10, 10), 1000.0)
     tq = TerrainQuery(make_synthetic_roi(elev))
     z0 = msl_to_z_index(1300.0, cfg)
-    state = (5, 5, z0, 0, BUCKET_SHORT)
+    state = (5, 5, z0)
     all_true_xy = np.ones((10, 10), dtype=bool)
     # Every primitive changes altitude by at most one z_step (20m) from the current
     # 1300m, so new_z_msl always lands in [1280,1320].
@@ -101,7 +101,7 @@ def test_4_xy_takes_priority(cfg, primitives) -> bool:
     elev = np.full((10, 10), 1000.0)
     tq = TerrainQuery(make_synthetic_roi(elev))
     z0 = msl_to_z_index(1300.0, cfg)
-    state = (5, 5, z0, 0, BUCKET_SHORT)
+    state = (5, 5, z0)
 
     xy_mask = np.zeros((10, 10), dtype=bool)
     xy_mask[5, 5] = True  # every successor is outside XY -- z tube should never fire
@@ -160,7 +160,7 @@ def test_6_disabled_reproduces_stage37(cfg, primitives) -> bool:
     elev = np.full((10, 10), 1000.0)
     tq = TerrainQuery(make_synthetic_roi(elev))
     z0 = msl_to_z_index(1300.0, cfg)
-    state = (5, 5, z0, 0, BUCKET_SHORT)
+    state = (5, 5, z0)
     xy_mask = np.ones((10, 10), dtype=bool)
 
     cache_a, stats_a = {}, {"hits": 0, "misses": 0, "actual_calls": 0}

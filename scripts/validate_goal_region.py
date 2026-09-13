@@ -22,7 +22,7 @@ import numpy as np
 from affine import Affine
 
 from planner.astar import (
-    BUCKET_SHORT, _distance_to_goal_box, _heuristic, _state_in_goal_region,
+    _distance_to_goal_box, _heuristic, _state_in_goal_region,
     astar_search, msl_to_z_index, state_to_xyz,
 )
 from planner.config import DEFAULT_CONFIG
@@ -102,7 +102,7 @@ def unit_test_h(cfg, primitives) -> bool:
     cfg_tol = dataclasses.replace(cfg, goal_tolerance_xy_m=TOL_XY, goal_tolerance_z_m=TOL_Z)
     result = astar_search(start, goal, tq, min_search_altitude_msl=1200.0, max_search_altitude_msl=1400.0,
                            config=cfg_tol, primitives=primitives, max_expansions=5000,
-                           use_primitive_cache=True, use_dominance_pruning=False,
+                           use_primitive_cache=True,
                            use_msl_lower_bound_heuristic=True, use_vertical_reachability_heuristic=False)
 
     never_entered_region = result.closest_distance_to_goal_region_m > 0.0
@@ -130,7 +130,7 @@ def unit_tests_i_j(cfg, primitives) -> bool:
     goal = (1, 8, z0)
 
     # I: a state already within the box (1 column = 30m <= 35m tolerance, same z).
-    inside_state = (1, 7, z0, 0, BUCKET_SHORT)
+    inside_state = (1, 7, z0)
     h_inside = _heuristic(inside_state, goal, tq, cfg_tol)
     ok_i = h_inside == 0.0
     print(f"  I: state 30m from center (within +/-35m XY box) -> h={h_inside:.4f} (expect 0.0)  "
@@ -138,7 +138,7 @@ def unit_tests_i_j(cfg, primitives) -> bool:
 
     # J: a state well outside the box -- h must reflect distance to the box's
     # nearest face (row diff * 30m - tolerance), not the full center distance.
-    outside_state = (1, 3, z0, 0, BUCKET_SHORT)  # 5 columns = 150m from goal center
+    outside_state = (1, 3, z0)  # 5 columns = 150m from goal center
     h_outside = _heuristic(outside_state, goal, tq, cfg_tol)
     expected_face_distance = 5 * cfg_tol.xy_resolution_m - TOL_XY  # 150 - 35 = 115m
     center_distance = 5 * cfg_tol.xy_resolution_m  # 150m
@@ -168,7 +168,7 @@ def unit_test_k(cfg, primitives) -> bool:
 
     kwargs = dict(min_search_altitude_msl=1200.0, max_search_altitude_msl=1450.0,
                   primitives=primitives, max_expansions=20_000, use_primitive_cache=True,
-                  use_dominance_pruning=False, use_msl_lower_bound_heuristic=True,
+                  use_msl_lower_bound_heuristic=True,
                   use_vertical_reachability_heuristic=False)
     r_default = astar_search(start, goal, tq, config=default_cfg, **kwargs)
     r_explicit = astar_search(start, goal, tq, config=explicit_zero_cfg, **kwargs)

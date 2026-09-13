@@ -114,7 +114,7 @@ def small_exact_reference_test(cfg, primitives):
 
     exact = astar_search(start, goal, tq, min_search_altitude_msl=1200.0, max_search_altitude_msl=1450.0,
                           config=cfg, primitives=primitives, max_expansions=20_000,
-                          use_primitive_cache=True, use_dominance_pruning=False,
+                          use_primitive_cache=True,
                           use_msl_lower_bound_heuristic=True, use_vertical_reachability_heuristic=False,
                           epsilon_search=1.0, target_suboptimality=None)
     c_star = exact.total_cost
@@ -124,7 +124,7 @@ def small_exact_reference_test(cfg, primitives):
     for eps in (1.05, 1.2, 1.5, 2.0):
         result = astar_search(start, goal, tq, min_search_altitude_msl=1200.0, max_search_altitude_msl=1450.0,
                                config=cfg, primitives=primitives, max_expansions=20_000,
-                               use_primitive_cache=True, use_dominance_pruning=False,
+                               use_primitive_cache=True,
                                use_msl_lower_bound_heuristic=True, use_vertical_reachability_heuristic=False,
                                epsilon_search=eps, target_suboptimality=None)
         ratio = result.total_cost / c_star if result.status == "success" else float("nan")
@@ -153,7 +153,7 @@ def certified_bounded_test(cfg, primitives, c_star):
 
     result = astar_search(start, goal, tq, min_search_altitude_msl=1200.0, max_search_altitude_msl=1450.0,
                            config=cfg, primitives=primitives, max_expansions=20_000,
-                           use_primitive_cache=True, use_dominance_pruning=False,
+                           use_primitive_cache=True,
                            use_msl_lower_bound_heuristic=True, use_vertical_reachability_heuristic=False,
                            use_incumbent_pruning=True, epsilon_search=1.5, target_suboptimality=1.05)
 

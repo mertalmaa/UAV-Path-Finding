@@ -30,13 +30,16 @@ inventing a corridor algorithm that wasn't asked for and wasn't built.
 import dataclasses
 import math
 import sys
-from dataclasses import dataclass, field
 from time import perf_counter
-from typing import Dict, FrozenSet, List, Optional, Tuple
+from typing import Dict, Tuple
 
 import numpy as np
 from affine import Affine
 
+from planner.candidate_z import (
+    CandidateZGenerator, GeneratorStats, MissionContext, MotionContext,
+    TerrainMetadata, TerrainMetadataStore,
+)
 from planner.config import DEFAULT_CONFIG
 from planner.primitives import MotionPrimitive, build_primitive_set, evaluate_primitive, primitive_endpoint
 from planner.roi import ROIData
@@ -65,159 +68,15 @@ def lowest_feasible_layer(terrain_elev, min_agl, z_step, z_lo, z_hi):
 
 # ===========================================================================
 # 2. CandidateZGenerator -- Step 3A.1 contract, real implementation
+#
+# MOVED to planner/candidate_z.py as of Step 3E (production integration) --
+# TerrainMetadata, TerrainMetadataStore, MissionContext, MotionContext,
+# GeneratorStats, CandidateZGenerator are now imported from there (see the
+# import block above), unchanged in logic. Kept here as a comment, not a
+# duplicate definition, so this file's own history (which functions/cases
+# below call which class) stays readable without re-deriving where each
+# name now lives.
 # ===========================================================================
-
-@dataclass(frozen=True)
-class TerrainMetadata:
-    row: int
-    col: int
-    elevation_m: float  # NaN if out-of-bounds/nodata
-
-
-class TerrainMetadataStore:
-    """STATIC/OFFLINE terrain metadata cache (section 9's STATIC bucket).
-
-    The ONLY place in this whole prototype that ever touches the raster
-    (via TerrainQuery). Every (row,col) is read from the DEM at most once;
-    all later requests for the same cell are pure dict lookups. Search code
-    never re-derives terrain metadata -- it only calls .get(), which is
-    either a cache hit or a one-time cache-filling miss.
-    """
-
-    def __init__(self, terrain: TerrainQuery):
-        self._terrain = terrain
-        self._cache: Dict[Tuple[int, int], TerrainMetadata] = {}
-        self.hits = 0
-        self.misses = 0
-        self.lookup_time_total_s = 0.0
-
-    def get(self, row: int, col: int) -> TerrainMetadata:
-        key = (row, col)
-        cached = self._cache.get(key)
-        if cached is not None:
-            self.hits += 1
-            return cached
-        self.misses += 1
-        t0 = perf_counter()
-        if not self._terrain.in_bounds_rowcol(row, col):
-            md = TerrainMetadata(row, col, float("nan"))
-        else:
-            r = self._terrain.elevation_at_rowcol(row, col)
-            md = TerrainMetadata(row, col, r.elevation if r.valid else float("nan"))
-        self.lookup_time_total_s += perf_counter() - t0
-        self._cache[key] = md
-        return md
-
-    @property
-    def hit_rate(self) -> float:
-        total = self.hits + self.misses
-        return self.hits / total if total else 0.0
-
-
-@dataclass(frozen=True)
-class MissionContext:
-    """CLASS B events -- mission-dependent, search-independent."""
-    start_rowcol: Tuple[int, int]
-    start_z_msl: float
-    goal_rowcol: Tuple[int, int]
-    goal_z_msl: float
-    ceiling_msl: float
-    min_agl_m: float
-    # Ladder step used ONLY to snap the CLASS-A validity-transition altitude.
-    # Deliberately kept EQUAL to config.z_step_m (production, 20m) -- Step 3B
-    # does not decide or propose a final/different Z spacing. The sparsity
-    # measured in this prototype comes from generating few EVENTS per cell
-    # (floor/ceiling/start/goal) instead of the whole dense ladder, and from
-    # LAZY instantiation, not from widening this step.
-    z_step_m: float = DEFAULT_CONFIG.z_step_m
-
-
-@dataclass(frozen=True)
-class MotionContext:
-    """CLASS C events -- PROVISIONAL (Step 3A.1). A real implementation
-    would derive climb/descent-reachable altitude corridors from terrain
-    profile + primitive angle envelope, deterministically and independent
-    of search order (Step 3A.1 point 5). That algorithm was NOT designed or
-    implemented in Step 3A.1 and is NOT implemented here either --
-    `provisional_events` always returns an empty set. Kept as a real
-    parameter (not omitted) purely so the CandidateZGenerator signature is
-    forward-compatible with a future implementation, exactly like
-    AircraftSafetyContext stays an empty placeholder for now.
-    """
-
-    def provisional_events(self, row: int, col: int) -> FrozenSet[float]:
-        return frozenset()
-
-
-@dataclass
-class GeneratorStats:
-    call_count: int = 0
-    times_s: List[float] = field(default_factory=list)
-
-
-class CandidateZGenerator:
-    """Deterministic Z-candidate generator, Step 3A.1 contract:
-
-        CandidateZGenerator(xy, mission_context, terrain_metadata, motion_context=None)
-
-    Here `xy` is (row, col) (same discretization the rest of the prototype
-    and the production planner use), `terrain_metadata` is a
-    TerrainMetadataStore (the STATIC cache), and mission/motion_context are
-    as above. generate(row, col) returns a sorted tuple of unique candidate
-    Z_msl values, combining:
-
-      CLASS A (static terrain): the lowest z on the mission's z_step_m
-        ladder that clears terrain+min_agl ("validity-transition
-        altitude"), plus the mission ceiling as an always-present upper
-        bound event.
-      CLASS B (mission): start_z_msl at the start cell, goal_z_msl at the
-        goal cell.
-      CLASS C (motion, only if motion_context is not None): whatever
-        motion_context.provisional_events returns -- empty in this
-        prototype, see MotionContext docstring.
-
-    Deterministic: depends only on (row, col) plus the CONTENTS of store/
-    mission/motion_context, never on call order or on what the search has
-    done so far. store is itself a pure memoizing cache of real DEM values
-    (same value every time for the same cell), so repeated calls with the
-    same store/mission/motion_context always return the same tuple.
-    """
-
-    def __init__(self, store: TerrainMetadataStore, mission: MissionContext,
-                 motion_context: Optional[MotionContext] = None):
-        self.store = store
-        self.mission = mission
-        self.motion_context = motion_context
-        self.stats = GeneratorStats()
-
-    def floor_for(self, row: int, col: int) -> Optional[float]:
-        """CLASS-A validity-transition altitude at (row,col), or None if
-        the cell has no terrain data or no ladder altitude fits under the
-        mission ceiling."""
-        md = self.store.get(row, col)
-        if math.isnan(md.elevation_m):
-            return None
-        z_step = self.mission.z_step_m
-        floor = math.ceil((md.elevation_m + self.mission.min_agl_m) / z_step) * z_step
-        return floor if floor <= self.mission.ceiling_msl else None
-
-    def generate(self, row: int, col: int) -> Tuple[float, ...]:
-        t0 = perf_counter()
-        candidates = set()
-        floor = self.floor_for(row, col)
-        if floor is not None:
-            candidates.add(floor)                       # CLASS A
-            candidates.add(self.mission.ceiling_msl)     # CLASS A/B boundary
-        if (row, col) == self.mission.start_rowcol:
-            candidates.add(self.mission.start_z_msl)     # CLASS B
-        if (row, col) == self.mission.goal_rowcol:
-            candidates.add(self.mission.goal_z_msl)       # CLASS B
-        if self.motion_context is not None:
-            candidates |= self.motion_context.provisional_events(row, col)  # CLASS C
-        result = tuple(sorted(candidates))
-        self.stats.call_count += 1
-        self.stats.times_s.append(perf_counter() - t0)
-        return result
 
 
 # ===========================================================================

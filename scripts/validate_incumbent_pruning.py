@@ -1,6 +1,5 @@
 """Stage 24: incumbent upper-bound / branch-and-bound pruning (planner.astar
-astar_search(use_incumbent_pruning=...), validate_and_cost_path()) plus its
-interaction with dominance pruning (Stage 23).
+astar_search(use_incumbent_pruning=...), validate_and_cost_path()).
 
 10) unit tests for the basic g+h>=incumbent bound.
 11) invalid-initial-path test (no architectural dependency on the specific
@@ -8,8 +7,11 @@ interaction with dominance pruning (Stage 23).
 12) incumbent-update test (search finds something better than the initial
     incumbent).
 13) optimality test: incumbent OFF vs ON must find the same optimal cost.
-14) synthetic 4-way test: {incumbent, dominance} x {OFF, ON}.
-15) interaction analysis: does incumbent make dominance worth it?
+14) synthetic incumbent OFF vs ON test (same optimal cost either way).
+    Originally a 4-way test crossed with dominance pruning (Stage 23);
+    dominance pruning was removed in Step CLEAN-1 (it only ever pruned
+    redundant trend/bucket history variants of the same physical state,
+    which no longer exist), so this is now a plain 2-way comparison.
 """
 import dataclasses
 import math
@@ -94,7 +96,7 @@ def invalid_initial_path_test(cfg, primitives) -> bool:
     start, goal = (1, 2, z0), (1, 17, z0)
     result = astar_search(start, goal, tq, min_search_altitude_msl=1200.0, max_search_altitude_msl=1500.0,
                            config=cfg, primitives=primitives, max_expansions=5000,
-                           use_primitive_cache=True, use_dominance_pruning=False,
+                           use_primitive_cache=True,
                            use_msl_lower_bound_heuristic=True, use_vertical_reachability_heuristic=False,
                            use_incumbent_pruning=True,
                            initial_incumbent_cost=cost if ok else math.inf,
@@ -130,7 +132,7 @@ def incumbent_update_test(cfg, primitives) -> bool:
 
     result = astar_search(start, goal, tq, min_search_altitude_msl=1000.0, max_search_altitude_msl=1320.0,
                            config=cfg2, primitives=primitives, max_expansions=20_000,
-                           use_primitive_cache=True, use_dominance_pruning=False,
+                           use_primitive_cache=True,
                            use_msl_lower_bound_heuristic=True, use_vertical_reachability_heuristic=False,
                            use_incumbent_pruning=True,
                            initial_incumbent_cost=initial_cost, initial_incumbent_path=initial_path)
@@ -160,7 +162,7 @@ def optimality_test(cfg, primitives) -> bool:
 
     off = astar_search(start, goal, tq, min_search_altitude_msl=1200.0, max_search_altitude_msl=1450.0,
                         config=cfg, primitives=primitives, max_expansions=20_000,
-                        use_primitive_cache=True, use_dominance_pruning=False,
+                        use_primitive_cache=True,
                         use_msl_lower_bound_heuristic=True, use_vertical_reachability_heuristic=False,
                         use_incumbent_pruning=False)
 
@@ -169,7 +171,7 @@ def optimality_test(cfg, primitives) -> bool:
     weak_incumbent = off.total_cost * 3.0
     on = astar_search(start, goal, tq, min_search_altitude_msl=1200.0, max_search_altitude_msl=1450.0,
                        config=cfg, primitives=primitives, max_expansions=20_000,
-                       use_primitive_cache=True, use_dominance_pruning=False,
+                       use_primitive_cache=True,
                        use_msl_lower_bound_heuristic=True, use_vertical_reachability_heuristic=False,
                        use_incumbent_pruning=True, initial_incumbent_cost=weak_incumbent, initial_incumbent_path=None)
 
@@ -182,12 +184,16 @@ def optimality_test(cfg, primitives) -> bool:
 
 
 # ----------------------------------------------------------------------
-# 14/15) synthetic 4-way test + interaction analysis.
+# 14) synthetic 2-way test: incumbent OFF vs ON must still agree on the
+# optimal cost. Step CLEAN-1 removed dominance pruning entirely (it only
+# ever pruned redundant trend/bucket history variants of the same physical
+# state, which can no longer exist), so this is no longer a 4-way test --
+# there is nothing left to interact with incumbent pruning here.
 # ----------------------------------------------------------------------
 
-def four_way_test(cfg, primitives):
+def incumbent_on_off_test(cfg, primitives):
     print()
-    print("=== 14: synthetic 4-way test (incumbent x dominance) ===")
+    print("=== 14: synthetic incumbent OFF vs ON test ===")
     width, height = 55, 3
     elev = np.full((height, width), 1000.0)
     elev[:, 10:] = 1200.0
@@ -207,18 +213,13 @@ def four_way_test(cfg, primitives):
     print(f"  initial incumbent (direct level path): valid={ok} cost={initial_cost:.2f}" if ok
           else "  initial incumbent: not usable on this terrain (inf)")
 
-    combos = [
-        ("A) incumbent OFF, dominance OFF", False, False),
-        ("B) incumbent OFF, dominance ON", False, True),
-        ("C) incumbent ON,  dominance OFF", True, False),
-        ("D) incumbent ON,  dominance ON", True, True),
-    ]
+    combos = [("A) incumbent OFF", False), ("B) incumbent ON", True)]
     results = {}
-    for label, use_incumbent, use_dominance in combos:
+    for label, use_incumbent in combos:
         result = astar_search(
             start, goal, tq, min_search_altitude_msl=1300.0, max_search_altitude_msl=1420.0,
             config=cfg, primitives=primitives, max_expansions=50_000,
-            use_primitive_cache=True, use_dominance_pruning=use_dominance,
+            use_primitive_cache=True,
             use_msl_lower_bound_heuristic=True, use_vertical_reachability_heuristic=False,
             use_incumbent_pruning=use_incumbent,
             initial_incumbent_cost=initial_cost if use_incumbent else math.inf,
@@ -229,27 +230,11 @@ def four_way_test(cfg, primitives):
               f"expanded={result.expanded_nodes} max_open={result.max_open_size} "
               f"runtime={result.runtime_s * 1000:.1f}ms generated={result.generated_neighbors} "
               f"incumbent_pruned={result.incumbent_pruned_candidates + result.incumbent_heap_pops_skipped} "
-              f"dominance_pruned={result.dominance_pruned_candidates} cache_hit={result.primitive_cache_hit_rate:.3f}")
+              f"cache_hit={result.primitive_cache_hit_rate:.3f}")
 
     costs = [r.total_cost for r in results.values() if r.status == "success"]
     same_cost = len(costs) > 0 and all(abs(c - costs[0]) < 1e-6 for c in costs)
     print(f"  all successful runs found the same optimal cost: {same_cost}")
-
-    print()
-    print("=== 15: interaction analysis (C: incumbent ON/dominance OFF vs D: both ON) ===")
-    c, d = results["C) incumbent ON,  dominance OFF"], results["D) incumbent ON,  dominance ON"]
-    exp_change = 1.0 - d.expanded_nodes / c.expanded_nodes if c.expanded_nodes else 0.0
-    open_change = 1.0 - d.max_open_size / c.max_open_size if c.max_open_size else 0.0
-    runtime_ratio = d.runtime_s / c.runtime_s if c.runtime_s else float("nan")
-    print(f"  expanded change (D vs C): {exp_change * 100:.1f}%  max_open change: {open_change * 100:.1f}%  "
-          f"runtime ratio (D/C): {runtime_ratio:.2f}x")
-    if (exp_change > 0 or open_change > 0) and runtime_ratio <= 1.05:
-        verdict = "dominance now looks net-beneficial once incumbent has already shrunk the search"
-    elif runtime_ratio > 1.05:
-        verdict = "dominance still costs more wall-clock than it saves, even with incumbent active"
-    else:
-        verdict = "no clear interaction effect on this synthetic scenario"
-    print(f"  verdict: {verdict}")
     return results, same_cost
 
 
@@ -261,7 +246,7 @@ def main() -> None:
     r11 = invalid_initial_path_test(cfg, primitives)
     r12 = incumbent_update_test(cfg, primitives)
     r13 = optimality_test(cfg, primitives)
-    results, same_cost = four_way_test(cfg, primitives)
+    results, same_cost = incumbent_on_off_test(cfg, primitives)
 
     print()
     all_pass = r10 and r11 and r12 and r13 and same_cost
