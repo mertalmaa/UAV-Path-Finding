@@ -3542,6 +3542,176 @@ Detaylı rapor: `jsbsim/U4_REPORT.md`; frozen config/harness:
 point/trace artifacts: `jsbsim/results/aircraft_lut_raw.json` ve
 `jsbsim/results/u4_*.json`.
 
+## STEP U4.1A — capability boundary sanity check (2026-09-13)
+
+**Sonuç: PASS. READY FOR U4.1B HOLDOUT VALIDATION: YES.** Mentorun yaklaşık
+`35–50 m/s IAS`, `25° bank` ve `5 m/s vertical speed` değerleri preferred
+operating region'dır; c172r physical capability limiti değildir. Characterization
+envelope, measured aircraft capability ve ileride seçilecek planner-safe operating
+envelope birbirinden ayrı tutulur.
+
+U4 raw LUT'un yalnız `0, 1000, 2000 m` representative altitude'larındaki outer
+kenarları incelendi; U4'ün son straight-valid seviyesi olan 2500 m yalnız mevcut
+edge audit olarak dahil edildi. Sadece existing `±25°` edge'i VALID olan 1000 ve
+2000 m RIGHT dalları dışarı doğru probe edildi. 1000 m'de `+30° VALID`, `+35°
+UNKNOWN (speed_retention_failure)`; 2000 m'de `+30° UNKNOWN (radius diagnostic /
+other)` bulundu ve ilk non-VALID noktada duruldu. Yeni `+40°` koşusu açılmadı.
+Sonuç **TURN GRID EDGE = POSSIBLY ARTIFICIAL**; highest tested VALID bank 30°'dir,
+true maximum değildir. LEFT sonuçları controller-limited/UNKNOWN kaldığından
+physical sol-turn sınırı çıkarılamaz.
+
+Mevcut climb `+5 m/s` edge'lerinin tamamı INFEASIBLE, descent `−5 m/s`
+edge'lerinin tamamı UNKNOWN olduğundan eligibility contract gereği hiçbir
+`±6/±7 m/s` probe'u çalıştırılmadı. Climb alt sonucu NOT ARTIFICIAL, descent alt
+sonucu INCONCLUSIVE ve birleşik **VERTICAL GRID EDGE = INCONCLUSIVE**'dur.
+UNKNOWN, INFEASIBLE sayılmadı; controller-limited sonuç physical maximum kanıtı
+olarak kullanılmadı.
+
+Canonical `jsbsim/results/aircraft_lut_raw.json` overwrite edilmedi; önce/sonra
+SHA-256 aynı kaldı (`6a2181f13438691c990237d5a5593ca591b0cb9bff1aad54868f7e36380ec548`).
+Ayrı sonuç `jsbsim/results/u4_1a_boundary_sanity.json` altında tutulur. Üç yeni
+turn point'i, her biri üç cold-start olmak üzere toplam dokuz yeni run üretildi.
+PID/controller tuning, XML, planner/search/heading, interpolation, derating,
+maximum-performance optimization veya holdout çalışması yapılmadı. True physical
+maximum çıkarılmadı. Ayrıntılar `jsbsim/U4_1A_REPORT.md` içindedir.
+
+## STEP U4.1A.1 — vertical capability refinement (2026-09-13)
+
+**Sonuç: PASS. VERTICAL CAPABILITY SUFFICIENTLY REFINED FOR HOLDOUT STAGE: YES.**
+U4'te +2 m/s VALID ile +5 m/s INFEASIBLE, −2 m/s VALID ile −5 m/s UNKNOWN
+arasındaki boşluk planner açısından fazla kaba olduğu için 0/1000/2000 m'de
+0.5 m/s resolution ile ayrı climb/descent refinement yapıldı. `±2 m/s`, physical
+maximum veya hard planner limit kabul edilmedi.
+
+Frozen U4 measurement contract değişmediğinden ±2/3/4/5 m/s integer point'ler
+reuse edildi; duplicate simulation yapılmadı. `±2.5/±3.5/±4.5 m/s` için 18 yeni
+point/54 cold-start çalıştırıldı. Her altitude'da toplam climb
+`+2.0:+0.5:+5.0`, descent `−2.0:−0.5:−5.0 m/s` grid'i oluştu. Canonical U4 raw
+LUT önce/sonra aynı SHA-256 ile immutable kaldı.
+
+Climb highest tested sustainable VALID: 0 m `+2.0` (actual `+2.173`), 1000 m
+`+2.5` (actual `+2.689`), 2000 m `+2.0 m/s` (actual `+2.192`). Descent largest
+tested sustainable VALID üç altitude'da `−2.0 m/s` (actual sırasıyla
+`−2.210/−2.200/−2.194`). Bu climb/descent asymmetry nedeniyle iki direction eşit
+varsayılmaz. Ortak altitude-spanning confirmed VALID değer şu anda ±2 olsa da
+bu stage planner-safe limit seçmez ve true maximum iddiası yapmaz.
+
+İlk non-VALID noktalar 0/2000 m climb'da `+2.5 UNKNOWN`, 1000 m climb'da `+3.0
+UNKNOWN`, bütün descent'lerde `−2.5 UNKNOWN` oldu. Yakın/repeatable actual Vz'ye
+rağmen acceptance kaçıran sonuçlar `TRACKING_ACCEPTANCE_LIMITED`; gerçek command
+clipping `CONTROLLER_LIMITED`; throttle/engine boundary ile tracking loss
+`POWER_LIMITED` olarak ayrıldı. 35 non-VALID row dağılımı 23 tracking/acceptance,
+5 controller ve 7 power-limited'dır; UNKNOWN, INFEASIBLE sayılmadı.
+
+40 m/s nominal yatay hız ve actual sustained Vz ile 100 m irtifa değişimi yaklaşık
+0/1000/2000 m climb için `1840.9/1487.8/1824.9 m`, descent için
+`1810.1/1818.1/1822.8 m` yatay mesafe gerektirir. Bu yalnız planner-relevant
+interpretation'dır; planner/search/heading koduna bağlanmadı. Interpolation,
+derating, controller/XML tuning ve U4.1B holdout yapılmadı. Ayrıntılı rapor:
+`jsbsim/U4_1A1_REPORT.md`; ayrı artifact:
+`jsbsim/results/u4_1a1_vertical_refinement.json`.
+
+## STEP U4.1A.2 — aircraft suitability diagnostic (2026-09-13)
+
+**Sonuç: PASS. C172R SUITABILITY: CONTINUE. READY FOR U4.1B: NO.** U4.1A.1'in
+28 vertical UNKNOWN point'i mevcut üç-cold-start telemetry üzerinden audit edildi;
+23 point `NEAR_TARGET_STABLE`, 5 point gerçek measurement-window command clamp
+nedeniyle `CONTROLLER_LIMITED` çıktı. UNKNOWN status'ları production VALID'e
+yükseltilmedi. Actual repeatable vertical response ±2 m/s ötesine uzanır; ancak
+planner-safe limit bu stage'de seçilmez.
+
+U1'den taşınan acceptance contract 40 m/s'de IAS `±0.8 m/s`, Vz `±0.5 m/s`, bank
+`±1.5°`, beta `±5°`, surface usage `≤0.90`, cold-start repeatability `%1` kullanır.
+Tracking bütün 20 s window içindeki maximum instantaneous error'a, settling ise
+window öncesinde bütün band'larda sürekli kalmaya bakar. UNKNOWN failed-check
+sayımı IAS 20, bank 10, Vz 8 ve clamp 5'tir. Bu eşikler U1 provisional
+model-suitability gate'inden gelir; physical aircraft boundary veya planner
+primitive usability için kalibre edilmiş değildir. Sonuç hoş görünmediği için
+threshold değiştirilmedi.
+
+High-altitude frozen baseline 2500 m VALID, 3000/3500 m INFEASIBLE sonucunu üçer
+cold-start ile birebir reproduce etti. 3000/3500 m'de built-in trim fail sonrası
+failed object atılıp fresh untrimmed FDM kullanıldığı halde RPM/thrust/fuel flow
+sıfıra indi; bu nedenle trim tek başına kök neden değildir. Local c172r XML,
+`engIO360C` 180 hp naturally aspirated piston engine ve 75-inch/21.6° fixed-pitch
+`prop_Clark_Y7570` tanımlar; supercharger/turbo ve aircraft-level automatic
+mixture/altitude compensation yoktur.
+
+One-factor-at-a-time diagnostic'te yalnız engine-start sonrası mixture command/
+position, local stock c172x standard-pressure-ratio referansıyla değiştirildi;
+controller, trim algorithm, fixture'ın diğer bütün değerleri, XML ve acceptance
+aynı kaldı. 3000/3500/4000 m sırasıyla mixture `0.6918/0.6490/0.6083` ile VALID;
+IAS `39.969/39.971/39.973 m/s`, RPM `2010/2062/2115`, thrust yaklaşık 188 lb oldu.
+Bu nedenle primary root cause **ENGINE / MIXTURE / PROPULSION FIXTURE**'dır;
+controller veya kanıtlanmış aircraft capability/service-ceiling limiti değildir.
+
+Gerçek planner path'lerindeki yaklaşık 3800 m sınıfı diagnostic 4000 m point ile
+kapsandı; c172r modelini değiştirmek için kanıt yoktur ve suitability `CONTINUE`
+seçildi. Ancak mixture diagnostic otomatik production stack yapılmadı. U4.1B
+öncesi blocker: physically appropriate mixture handling'in açıkça onaylanıp
+freeze edilmesi ve yalnız etkilenen 3000 m+ raw characterization'ın ayrı
+provenance ile yenilenmesidir. U4/U4.1A/U4.1A.1 historical artifacts immutable
+kaldı; planner/search/heading/interpolation/derating/aircraft-switch yapılmadı.
+Ayrıntılar `jsbsim/U4_1A2_REPORT.md` ve `jsbsim/results/u4_1a2_*.json` içindedir.
+
+## STEP U4.1A.3 — production mixture policy + RAW LUT V2 (2026-09-13)
+
+**Sonuç: PASS. Production Mixture Policy FROZEN. RAW LUT V2 READY.** Kalıcı
+production rule `clip(atmosphere/P-psf / 2117.0, 0.0, 1.0)` olarak seçildi.
+Policy ambient static pressure state'inden hesaplanır; altitude lookup/test-point
+özel değer içermez, stateless ve path-independent'tır. Motor start sonrasında ve
+her `0.01 s` simulation frame öncesinde hem `fcs/mixture-cmd-norm` hem
+`fcs/mixture-pos-norm` yazılır. Final JSBSim replay aynı
+`jsbsim/production_mixture_policy.py` fonksiyonunu ve cadence'i kullanmak
+zorundadır.
+
+Production Stack V2 identity: `c172r + frozen U3 IAS/Vz/bank/beta outer-loop +
+c172r stock FCS + Production Mixture Policy V1`; stack ID
+`c172r-u3-outer-loop-stock-fcs-production-mixture-v1`, provenance
+`u4.1a3-fbb69a12629a9ab58eca`. U4.1A.2 diagnostic'in 3000/3500/4000 m
+`0.6918/0.6490/0.6083` değerleri target-altitude `run_ic()` sonrası
+`atmosphere/P-psf / 2117` hesabıyla tam eşleşti. Diagnostic basıncı bir kez
+örnekleyip command'ı sabit tutuyordu; production policy aynı model referansını
+canlı environment state'e uygular ve `[0,1]` clipping ekler. Stock c172r XML
+değiştirilmedi.
+
+**Old/V2 ayrımı ve reuse kararı: CASE B — FULL RERUN.** V2 mean mixture command
+0/500/1000/1500/2000/2500 m'de sırasıyla `0.999696/0.941838/0.886731/
+0.834273/0.784364/0.736909`; dolayısıyla eski full-rich `1.0` command/history
+altı noktanın tamamında farklıdır. Exact reuse contract yalnız aircraft,
+controller, propulsion, mixture history, initialization ve measurement tümü
+identical ise izin verir. Eski U4 noktası reuse edilmedi; “sonuç benzer” gerekçesi
+kullanılmadı. Eski `aircraft_lut_raw.json` ve U4.1A/U4.1A.1/U4.1A.2 artifact
+hash'leri değişmeden korundu.
+
+0/1000/2000/2500/3000/3500/4000/4500/5000/5500/6000 m sanity gate'inin tamamı
+üç cold-start ile straight VALID/engine healthy/repeatable oldu; low-altitude
+gate geçti. Ardından `0:500:6000 m` main grid'in 13 altitude'u açıkça test edildi.
+13 straight'in tamamı VALID olduğu için her altitude'da core `0,±10,±15,±20,
+±25°` turn ve `−5,−4,−3,−2,0,+2,+3,+4,+5 m/s` vertical sweep çalıştırıldı:
+221 yeni point, 663 cold-start, 117 turn ve 117 vertical row. U4 acceptance ve
+VALID/UNKNOWN/INFEASIBLE semantiği değiştirilmedi; interpolation, derating,
+planner/search/heading değişikliği veya controller tuning yapılmadı.
+
+**5000/5500/6000 kararı:** Üç altitude'da da straight ve propulsion sağlıklı,
+mixture command-position kararlı ve repeats deterministiktir. 5000 m'de iki yönlü
+temel turn vardır (`−10,+10,+15,+20,+25°` VALID) fakat vertical'da yalnız descent
+`−2 m/s` VALID; `+2 m/s` full throttle'da IAS retention kaybıyla power-limited
+INFEASIBLE. 5500 m'de `−10,+10,+15,+20°` turn VALID fakat nonzero VALID vertical
+yoktur. 6000 m'de nonzero VALID turn veya vertical yoktur. Minimal 3B usability
+stable straight + healthy propulsion + repeatability + en az bir VALID left/right
+turn + en az bir VALID climb/descent gerektirir. Bu nedenle **RECOMMENDED TESTED
+OPERATIONAL CEILING: NONE** (yalnız 5000/5500/6000 candidate kümesinde). Bu true
+service ceiling veya aircraft maximum iddiası değildir.
+
+Canonical V2 `jsbsim/results/aircraft_lut_raw_v2.json` dosyasıdır (SHA-256
+`7fb307060d62ee86f793e8d6e79aacc07fbbd2eba1381b0c029d03160a0eaee6`);
+ayrıntılı rapor `jsbsim/U4_1A3_REPORT.md`. Planner max altitude config'i
+değişmedi. **READY FOR U4.1B: YES:** holdout/interpolation validation yalnız
+RAW V2'nin pointwise validated operational domain'i içinde yapılacak; candidate
+sonucunun NONE olması coherent V2'yi bloke etmez ve 5000 m üzerindeki/non-VALID
+maneuver domain'i interpolate edilmeyecektir. Bu stage U4.1B'yi başlatmadı.
+
 ## Step CLEAN-1 — Full Planner Architecture Cleanup (heading öncesi temel temizlik)
 
 **Amaç ve kapsam:** Yeni özellik eklenmedi. Stage 12-38 arasında birikmiş
@@ -3774,3 +3944,162 @@ gelmez.
 
 STEP ALG-0: PASS
 READY TO CONSUME FUTURE PLANNER-SAFE LUT: YES
+
+## Step U5 — Practical UAV-Like Aircraft Re-Screen + Final Freeze
+
+**Kalıcı seçim ilkesi:** Mentor referansları (`35–50 m/s IAS`, yaklaşık
+`25° bank`, yaklaşık `5 m/s` vertical speed) hard gate değil, yalnız soft
+character preference'tır. Aircraft seçiminde kalıcı öncelik sırası
+control quality/stability → repeatability → high-altitude usability → minimum
+tuning burden → reasonable turn/climb/descent → UAV-like davranış → mentor
+sayısal referans yakınlığıdır. Aranan karakter low/medium-speed,
+non-aggressive, predictable ve controller-friendly fixed-wing'dir.
+
+**Değerlendirilen stock adaylar:** `c172r`, `c172p`, `c172x`, `c182`,
+`DHC6`, `J3Cub`, `pa28`, `c310`. Sparse Phase 1'de 0/3000 m ve
+30/40/50/60 m/s kullanıldı; seçilen stabil screening hızları sırasıyla
+40/40/30/40/60/30/50 m/s oldu. `c310`, iki irtifada birlikte stabil hız
+bulunamadığı için erken elendi. Mentor bandı dışındaki `30` ve `60 m/s`
+sonuçları otomatik elenmedi.
+
+**Frozen karar:** PRIMARY `c172p`; BACKUP `DHC6`. Primary nominal speed
+policy sabit `40 m/s IAS` context'idir ve speed planner state dimension
+değildir. Frozen production stack: stock `c172p` FCS + değiştirilmemiş U1/U3
+bounded IAS/Vz/bank/β outer-loop +
+`c172p-production-mixture-pressure-ratio-v1`; mixture formülü
+`clip(atmosphere/P-psf / 2117.0, 0.0, 1.0)`, engine start sonrasında ve her
+simulation frame öncesinde uygulanır. LUT ve final replay aynı stack'i
+kullanmak zorundadır.
+
+**High-altitude usable domain:** Sparse mission screen içinde primary için
+5000 ve 5500 m kullanılabilir bulundu. 6000 m'de straight ve `±20/±30°`
+turn actual-stable olsa da climb requirement tamamlanmadığı için domain'e
+dahil değildir. Bu bir service-ceiling veya full-envelope iddiası değildir.
+Strict `VALID/UNKNOWN/INFEASIBLE` etiketleri aynen korunur; selection ayrıca
+repeatable actual-stable response'u değerlendirir. Örneğin 5000 m / +2.5 m/s
+`c172p` noktası strict `INFEASIBLE` kalırken ölçülen +2.507 m/s yanıt
+actual-stable'dır.
+
+**Bilinen sınırlar:** U5 yalnız 189-point sparse selection screen'dir; full
+LUT, boundary refinement, maximum-bank search, service-ceiling research,
+controller gain tuning, stock XML değişikliği, interpolation, derating,
+heading, planner/search entegrasyonu veya final replay yapılmadı. DHC6 güçlü
+backup olsa da 60 m/s hız, twin-turboprop karmaşıklığı ve yüksek irtifada
+artan saturation nedeniyle primary değildir.
+
+**AIRCRAFT SELECTION CLOSED.** Yeni blocking evidence olmadıkça model shopping
+yeniden açılmayacak. Sıradaki iş yalnız selected `c172p` stack'i için gerekli
+compact LUT characterization → holdout/interpolation validation → planner-safe
+derating → aircraft-aware 60 m grid re-gate → CLASS-C → heading →
+aircraft-aware primitives → reachability/search → final JSBSim replay'dir.
+U5 bu sonraki aşamalardan hiçbirini başlatmadı. Kanıt paketi:
+`jsbsim/U5_REPORT.md`, provenance `u5-4135baabef4a403315e5`.
+
+STEP U5: PASS
+AIRCRAFT SELECTION FROZEN: YES
+READY TO RETURN TO PATH-PLANNER WORK: YES
+
+## Step U5.1 — Multi-Aircraft Altitude / Speed Envelope Audit
+
+**Existing-data-first audit:** U5'in 189 operating point / 567 benzersiz
+cold-start run'ı değiştirilmeden yeniden analiz edildi; yeni JSBSim run
+çalıştırılmadı. Gerçek coverage bütün sekiz model için 0/3000 m ×
+30/40/50/60 m/s straight'tir. Phase 1'den geçen yedi model ayrıca kendi
+seçilmiş tek hızında 5000/5500/6000 m straight ve straight gate izin verdiği
+ölçüde maneuver testine sahiptir. `c310` yalnız 0/3000 m'de kaldı.
+1000/2000/4000 m ve high-altitude selected-speed dışındaki hücreler açıkça
+`NOT TESTED`'dir; dense 0–6000 m flight-envelope iddiası YOKTUR.
+
+**Cross-aircraft sonuç:** U5 sırası doğrulandı: `c172p`, `DHC6`, `c172r`,
+`c172x`, `c182`, `J3Cub`, `pa28`, `c310`. `c172p @ 40 m/s` ve
+`DHC6 @ 60 m/s`, 5000/5500 m'de straight + iki yönlü `±20/±30°` turn +
+moderate climb/descent bütünlüğü veren tek iki stack'tir. İkisi de 6000 m'de
+straight/turn üretir fakat climb requirement tamamlanmadığı için overall
+usability `LIMITED`'dır. `c172r` high-alt climb'da, `c172x` vertical
+completion'da; `c182`, `J3Cub`, `pa28` high-alt straight coverage'da zayıftır;
+`c310` Phase 1'de ortak stabil hız bulamamıştır.
+
+**Primary/backup confirmation:** `PRIMARY c172p @ 40 m/s = CONFIRMED`,
+`BACKUP DHC6 @ 60 m/s = CONFIRMED`. c172p selected speed'i test edilmiş
+0/3000/5000/5500/6000 m anchor'larının tümünde actual-stable straight'tir;
+5000/5500/6000 m throttle yaklaşık 0.802/0.825/0.849'dur. DHC6 aynı
+anchor'larda stable olsa da 60 m/s, twin-turboprop/interface burden, daha büyük
+turn radius ve 6000 m'de yaklaşık 0.992 throttle taşır. Bu nedenle stability,
+repeatability, coverage, minimum tuning ve UAV-like character sıralamasında
+c172p daha iyi practical tradeoff'tur.
+
+**Nominal speed ve weak region:** Tek `40 m/s IAS` policy korunur; speed planner
+state dimension değildir. c172p 0/3000 m'de 40 ve 50 m/s strict-USABLE olsa da
+high-altitude boyunca doğrulanmış hız yalnız 40 m/s'dir ve altitude-dependent
+speed schedule gerektiren evidence yoktur. Known weak region 6000 m climb'dır;
+bu altitude production-usable domain'e eklenmez. Strict
+`VALID/UNKNOWN/INFEASIBLE` semantics korunmuş, actual-stable response ayrı
+raporlanmıştır.
+
+**AIRCRAFT SELECTION REALLY FROZEN:** Selection confirmation için kritik
+coverage yeterlidir; 1000/2000/4000 m boşlukları yeni selection run'ı
+gerektirmez. Yeni blocking evidence olmadıkça model shopping açılmayacaktır.
+Full LUT, tuning, aircraft XML, planner/search, heading veya sonraki stage
+başlatılmadı. Kanıt: `jsbsim/U5_1_REPORT.md`, provenance
+`u5.1-d706a368635d7cb66217`.
+
+STEP U5.1: PASS
+PRIMARY DECISION: CONFIRMED
+AIRCRAFT SELECTION REALLY FROZEN: YES
+READY TO RETURN TO PATH PLANNER: YES
+
+## Step PERF-0 — Search Performance Baseline + Budget Contract
+
+**Kalıcı final değerlendirme ilkesi:** proje başarısı üç eksende ölçülür —
+**CORRECTNESS/SAFETY + PATH QUALITY + SEARCH PERFORMANCE**, üçü birlikte,
+hiçbiri diğerini gizlemeden. Bir search budget'a takılması ("TIMEOUT" veya
+"EXPANSION_LIMIT") hiçbir zaman "bu hedefe ulaşılamaz" (unreachable)
+anlamına gelmez — bu, önceki stage'lerin **DIRECTLY INFEASIBLE !=
+UNREACHABLE** ilkesinin budget katmanındaki karşılığıdır:
+**TIMEOUT != UNREACHABLE**, **EXPANSION_LIMIT != UNREACHABLE**.
+
+**Configurable budget (kalıcı arayüz):** `planner/astar.py`'nin
+`astar_search()` ve `ara_star_search()`'üne `max_search_time_s` eklendi
+(mevcut `max_expansions`/`max_expansions_cumulative`'ın yanına, onu
+duplike etmeden). Her ikisi de opsiyonel, default `None` — verilmediği
+sürece hiçbir mevcut çağıran için davranış değişmiyor (regression suite
+aynı sayılarla doğrulandı). Sonuç artık dört ayrı `termination_reason`
+değerinden birini taşıyor: **FOUND / NO_PATH / EXPANSION_LIMIT /
+TIMEOUT** — sadece NO_PATH (open_heap tükendi, incumbent yok) gerçek bir
+negatif sonuçtur.
+
+**Baseline mimari (donduruldu, bu stage'de değiştirilmedi):**
+`STATE=(x,y,z)`, `HEADING=OFF`, `AIRCRAFT LUT=OFF`, `HARD CORRIDOR=ON`
+(tam pipeline case'inde), `SEARCH GUIDANCE=CURRENT`,
+`PRODUCTION SEARCH=ARA*` (tam pipeline) / `astar_search` (Mission A/B/C
+ve düz long-valley case'leri). Production flow aynen korundu: Terrain →
+`coarse_astar_search` → corridor/z-guide → `fine_precompute` →
+`ara_star_search` → `validate_path_safety`.
+
+**Baseline artifact:** `outputs/search_baseline_perf0.json` — git commit/
+config hash, her test için ayrı correctness/quality/performance/timing
+bloğu ve açık future-comparison label'ları taşıyor. İleride heading +
+aircraft LUT + aircraft primitives + corridor retirement + yeni search
+guidance sonrası AYNI benchmark set'i tekrar çalıştırılıp bu artifact'a
+karşı diff'lenecek.
+
+**Önemli sonuçlar:** Mission A/B/C üçü de **FOUND + safety PASS**
+(expanded=461/1635/22570 — Step CLEAN-1'in kendi kayıtlı sayılarıyla
+birebir aynı, tutarlılık doğrulandı). 6.48km long-valley: düz
+`astar_search` (legacy cost, weighted A* eps=1.5) 30.000 expansion
+cap'inde **EXPANSION_LIMIT** ile durdu (path yok — budget-limited, "no
+path exists" değil). Aynı mission tam production pipeline'da (coarse →
+corridor → fine_precompute → ARA*) **EXPANSION_LIMIT** ile durdu ama
+kısmi incumbent zaten **safety PASS** (min_AGL=210.8m); timing ayrımı:
+preprocessing=0.01s, coarse=4.6s, corridor=0.2s, precompute=25.3s,
+search=14.0s, validation=0.04s, total=44.2s. Timeout/expansion-limit
+semantiği doğrudan test edildi: 1e-9s bütçe → TIMEOUT, 1-expansion cap →
+EXPANSION_LIMIT, ikisi de asla NO_PATH raporlanmadı.
+
+**Watchdog süreleri (30/60/120s) final performance target DEĞİLDİR** —
+sadece development/regression watchdog değerleridir; `outputs/
+search_baseline_perf0.json` içindeki `watchdogs_s` alanında bu açıkça
+not edilmiştir.
+
+STEP PERF-0: PASS
+BASELINE READY FOR FUTURE SEARCH COMPARISON: YES
