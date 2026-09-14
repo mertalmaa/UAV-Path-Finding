@@ -1,64 +1,4 @@
-"""Step CLASS-C: the physical vertical-motion feasibility BRIDGE between
-Z representation (planner/candidate_z.py) and real aircraft vertical
-capability (planner/aircraft_profile.py). Search-independent, not wired
-into planner/astar.py's successor generation -- see module docstring in
-planner/candidate_z.py and project.md "Step CLASS-C" for why.
-
-Audit finding this module exists to close (project.md "Step CLASS-C"):
-production search's Z state is STILL the plain regular z_step_m lattice
-(`z_index_to_msl(z_index) = z_index * config.z_step_m`, planner/astar.py)
--- CandidateZGenerator.floor_for() is only ever consulted as an efficiency
-PREFILTER on top of that lattice (Step 3E), never as a replacement state
-space; CandidateZGenerator.generate() (the CLASS A/B/C sparse candidate
-SET Step 3A/3B designed) is not called anywhere in production. Nothing in
-the codebase, until this module, ever compared a Z transition's implied
-vertical rate against real aircraft capability -- evaluate_primitive()
-checks terrain/AGL/climb-angle only.
-
-Three distinct concepts this module keeps separate (see also
-planner/candidate_z.py's own module docstring, and this repo's Step
-CLASS-C decision record):
-
-  REPRESENTABILITY -- which altitude values CAN exist as planner state at
-    all. Decided entirely by planner/candidate_z.py (the z_step_m lattice
-    today; CLASS A/B/C events if/when generate() is ever wired in) and
-    planner/astar.py's search bounds. This module has NO opinion on it
-    and never proposes a new representable altitude.
-
-  PHYSICAL REACHABILITY -- whether the aircraft can actually fly from one
-    representable altitude to another representable altitude within a
-    given motion duration/path length, per planner-safe capability. This
-    is exactly what evaluate_vertical_motion() below answers.
-
-  INSTANTIATION -- whether a representable state was actually created
-    during a particular search run. Entirely planner/astar.py's concern
-    (open/closed sets, lazy generation); this module has no visibility
-    into it at all.
-
-REPRESENTABLE ENDPOINT != FEASIBLE EDGE: a candidate altitude existing
-(CandidateZ said so, or it's on the lattice) never implies the aircraft
-can physically fly there from wherever it currently is in the time/
-distance a primitive would allow. evaluate_vertical_motion() is the
-missing check for exactly that gap.
-
-NO RESIDUAL/HISTORY STATE: this module takes a single (source_altitude_m,
-target_altitude_m, motion_duration_s) transition and answers it in
-isolation -- it never accumulates "progress" across calls, never reads or
-writes anything resembling search history, and returns the identical
-result for the identical inputs every time (referentially transparent).
-The "lost partial progress" problem this stage was asked to analyze
-(project.md "Step CLASS-C") is resolved by NOT tracking partial vertical
-progress at all: the permanent design principle carried forward is that a
-future vertical-motion primitive must itself span a COMPLETE transition
-between two representable endpoints (whatever horizontal distance/time
-that requires), never a partial climb needing a later primitive to
-"remember" how far it got. This module doesn't implement that primitive
-(Step 19: no primitives here) -- it only defines the contract such a
-primitive would call once its full duration/path-length is known.
-
-Units: SI throughout (meters, seconds, meters/second), matching planner.
-aircraft_profile.
-"""
+"""Aircraft-aware vertical-motion feasibility helpers.\n\nThis module bridges CandidateZ altitude events and the validated aircraft\nprofile. Search uses it to size the minimum horizontal distance for vertical\nmotion and to confirm each concrete transition. Representability, physical\nreachability, and search-state instantiation remain separate concerns.\n"""
 from dataclasses import dataclass, field
 from typing import Any, Mapping, Optional
 
@@ -130,6 +70,7 @@ def derive_minimum_horizontal_distance_m(
     source_altitude_m: float,
     target_altitude_m: float,
     aircraft_profile,
+    resolved_rate: Optional[SafeVerticalRateResult] = None,
 ) -> Optional[float]:
     """Step REP-1.2B.1: the minimum horizontal distance, flown at the
     profile's own domain-declared nominal_ias_context_mps, an aircraft
@@ -149,12 +90,18 @@ def derive_minimum_horizontal_distance_m(
     (distance, duration) pair -- this function does not replace it, and
     the two share their rate lookup via query_safe_vertical_rate() so
     there is exactly one place that reads a profile's safe rate.
+
+    ``resolved_rate`` may supply the already-resolved result for this exact
+    source altitude and mode. Production A* obtains it from its search-local
+    cache; omitting it preserves the direct profile-query API.
     """
     delta_z = target_altitude_m - source_altitude_m
     if abs(delta_z) < 1e-9:
         return 0.0
     mode = "CLIMB" if delta_z > 0.0 else "DESCENT"
-    rate = query_safe_vertical_rate(aircraft_profile, source_altitude_m, mode)
+    rate = resolved_rate if resolved_rate is not None else query_safe_vertical_rate(
+        aircraft_profile, source_altitude_m, mode
+    )
     # DESCENT's planner_safe rate is stored as a NEGATIVE number (e.g. -3.2 m/s, matching
     # descent_vz_mps's own sign convention in the V3 schema) -- compare/divide by MAGNITUDE,
     # never assume a positive safe_vz_mps regardless of mode.
@@ -169,6 +116,7 @@ def evaluate_vertical_motion(
     target_altitude_m: float,
     motion_duration_s: Optional[float],
     aircraft_profile,
+    resolved_rate: Optional[SafeVerticalRateResult] = None,
 ) -> VerticalMotionResult:
     """The core physical-transition contract (project.md "Step CLASS-C"):
 
@@ -200,6 +148,9 @@ def evaluate_vertical_motion(
     contract covers planner.aircraft_profile.vertical_query() (straight
     climb/descent) only, not combined_query(); a future heading-aware
     primitive needing turning-vertical feasibility calls that separately.
+
+    ``resolved_rate`` has the same search-local memoization contract as the
+    sizing helper and does not change interpolation or feasibility rules.
     """
     delta_z = target_altitude_m - source_altitude_m
 
@@ -219,7 +170,9 @@ def evaluate_vertical_motion(
     required_vz = delta_z / motion_duration_s
     mode = "CLIMB" if delta_z > 0.0 else "DESCENT"
 
-    rate = query_safe_vertical_rate(aircraft_profile, source_altitude_m, mode)
+    rate = resolved_rate if resolved_rate is not None else query_safe_vertical_rate(
+        aircraft_profile, source_altitude_m, mode
+    )
 
     if rate.availability == "OUT_OF_DOMAIN":
         return VerticalMotionResult(

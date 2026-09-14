@@ -2,8 +2,8 @@
 
 Builds and loads a small set of DEM-derived arrays ONCE, offline, so a
 mission never has to re-read or re-derive raw terrain metadata. Reuses
-planner.coarse.build_coarse_dem / build_coarse_terrain_stats verbatim for
-every derived (coarser) level -- this module only adds persistence
+planner.coarse.build_coarse_terrain_stats for every derived level -- this
+module only adds persistence
 (build/validate/load) around them, it does not reimplement any terrain
 math. planner.roi.load_roi / planner.terrain.TerrainQuery are similarly
 reused unchanged wherever this module needs to read the source DEM.
@@ -18,13 +18,12 @@ WHAT IS CACHED (per Step 3C, section 1):
     never assumes a forced 90->60->30 parent/child hierarchy; each factor
     is computed directly from the fine ROI.
 
-WHAT IS DELIBERATELY NOT CACHED (per Step 3C, section 2 -- different
-lifecycle, see module docstring of scripts/step3c_persistent_terrain_cache.py
-for the full reasoning): mission start/goal/ceiling/allowed-altitude-
+WHAT IS DELIBERATELY NOT CACHED (different lifecycle): mission
+start/goal/ceiling/allowed-altitude-
 interval, any min_agl-DERIVED value (clearance floor, P1 ambiguity band --
 these are one O(1) addition away from the cached min/max, recomputing them
 is far cheaper than the staleness risk of baking a config constant into
-the cache key), search states, corridor data, CLASS-C motion/aircraft
+the cache key), search states, route-guidance data, CLASS-C motion/aircraft
 events, JSBSim output, future aircraft-safety-box results.
 
 CACHE SCOPE DECISION (Step 3C section 3): terrain cache = f(terrain) ONLY.
@@ -38,7 +37,7 @@ at load/mission time, a single cheap arithmetic op per cell.
 import hashlib
 import json
 import time
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
@@ -241,12 +240,10 @@ class TerrainCache:
 def build_terrain_query_from_cache(cache: TerrainCache, fine_roi: ROIData, factor: int) -> TerrainQuery:
     """Roadmap Step 3E: a real TerrainQuery backed by this cache's
     max_elevation array for `factor`, instead of a fresh load_roi()/
-    build_coarse_dem() derivation -- so evaluate_primitive()/evaluate_agl()/
+    conservative block-statistics derivation -- so evaluate_primitive()/evaluate_agl()/
     evaluate_transition() can be reused completely UNCHANGED downstream (they
     only ever see a TerrainQuery, never know or care where its elevation
-    array came from). Generalizes scripts/step3d_real_terrain_integration.py's
-    build_coarse60_terrainquery_from_cache (which hard-coded factor=2/60m) to
-    any pooling factor already present in this cache.
+    array came from). It supports any pooling factor present in the cache.
 
     factor=1 uses the cache's native fine_elevation array (transform/
     resolution unchanged from fine_roi). factor>1 derives the coarse

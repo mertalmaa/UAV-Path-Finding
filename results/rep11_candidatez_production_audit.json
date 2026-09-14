@@ -1,8 +1,0 @@
-{
-  "is_representable_called_by": "planner/astar.py:_generate_neighbors (unchanged call site from Step REP-1; the METHOD's own body was simplified this stage -- see rep11_z_dependency_graph.json)",
-  "generate_called_by_production": false,
-  "generate_called_by_anything": "scripts/step3b_sparse_lazy_z_prototype.py, scripts/step3c_persistent_terrain_cache.py only (both historical, unchanged this stage)",
-  "successor_value_still_computed_by": "planner/astar.py:_generate_neighbors -- new_z_index = z_index + round(primitive.dz_m / config.z_step_m); new_z_msl = new_z_index * config.z_step_m. UNCHANGED this stage. is_representable() only GATES this arithmetic-derived value, it does not replace how the value itself is computed -- see Central Finding in the module docstring.",
-  "is_representable_rule_this_stage": "floor_for(row,col) <= z_msl <= mission.ceiling_msl (CONTINUOUS, no lattice-alignment requirement) OR exact mission start/goal event at that cell. Simplified from Step REP-1's version, which additionally required z_msl to sit on a z_step_m-anchored ladder -- that requirement is removed as never a real CandidateZ constraint, only an emergent property of primitives.py's own arithmetic.",
-  "verdict": "CandidateZ.generate() remains unused in production. is_representable() is real, live, and now GENUINELY representation-neutral about candidate VALUES (continuous range, not lattice-restricted) -- but it is still a GATE on values primitives.py's fixed-step arithmetic computes, not the SOURCE of those values. CandidateZ is the representability AUTHORITY; it is not yet the SOLE production Z SOURCE OF TRUTH in the sense of literally generating/enumerating successor altitudes -- that remains primitives.py's job. See Central Finding / Blocker."
-}

@@ -5,8 +5,7 @@ source GLO-30 tile (EPSG:4326, ~1 arcsec) into the planner's working CRS at
 a fixed 30 m pixel size, using block-maximum resampling so that peaks are
 never averaged away (safety-conservative for terrain-avoidance use).
 
-Run once. Output feeds scripts/validate_roi.py and, later, everything else
-in planner/.
+Run once. The output feeds the planner and the canonical regression suite.
 """
 from pathlib import Path
 

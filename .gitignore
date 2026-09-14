@@ -7,3 +7,12 @@ __pycache__/
 .pytest_cache/
 .venv/
 venv/
+
+# Generated diagnostics and simulator scratch output
+*.log
+*.tmp
+*.bak
+JSBout*.csv
+outputs/*
+!outputs/terrain_cache/
+!outputs/terrain_cache/**

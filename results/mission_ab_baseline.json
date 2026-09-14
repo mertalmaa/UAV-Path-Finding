@@ -1,0 +1,47 @@
+{
+  "architecture": "candidate_z_with_aircraft_profile_and_multi_cell_vertical_horizon",
+  "aircraft_profile": "jsbsim/results/c172p_aircraft_profile_planner_safe_v3.json",
+  "development_watchdog_s": 300.0,
+  "missions": {
+    "A_easy_open": {
+      "status": "success",
+      "termination_reason": "FOUND",
+      "success": true,
+      "safety_pass": true,
+      "min_agl_m": 100.069580078125,
+      "goal_error_xy_m": 0.0,
+      "goal_error_z_m": 0.0,
+      "node_count": 20,
+      "path_cost": 6137.610518238544,
+      "expanded_nodes": 1429,
+      "generated_neighbors": 42156,
+      "rejected_neighbors": 29974,
+      "search_time_s": 22.512359799991827,
+      "altitude_metrics": {
+        "geometric_path_length": 3355.235380398979,
+        "minimum_aircraft_msl": 3260.0,
+        "maximum_aircraft_msl": 3360.0,
+        "average_aircraft_msl": 3317.055076486116,
+        "total_climb_m": 100.0,
+        "total_descent_m": 20.0,
+        "total_vertical_motion_m": 120.0
+      }
+    },
+    "B_relief_affected": {
+      "status": "timeout",
+      "termination_reason": "TIMEOUT",
+      "success": false,
+      "safety_pass": null,
+      "min_agl_m": null,
+      "goal_error_xy_m": null,
+      "goal_error_z_m": null,
+      "node_count": 0,
+      "path_cost": null,
+      "expanded_nodes": 22249,
+      "generated_neighbors": 644235,
+      "rejected_neighbors": 430431,
+      "search_time_s": 300.1019840000081
+    }
+  },
+  "interpretation": "Mission B is budget-limited; TIMEOUT is not UNREACHABLE."
+}

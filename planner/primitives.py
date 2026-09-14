@@ -1,27 +1,9 @@
-"""Motion primitives: the fixed set of small moves the planner may make,
-and along-primitive terrain/AGL feasibility checking.
-
-Two responsibilities, kept in one module because they are tightly coupled
-at this stage:
-
-  1. build_primitive_set() -- 8 raster directions x {level, climb, descent}.
-     Endpoint geometry is validated with the existing evaluate_transition();
-     nothing recomputes that logic here.
-
-  2. evaluate_primitive() -- given an aircraft start state and one
-     primitive, checks the endpoint transition, then samples terrain/AGL
-     at points along the straight-line path (reusing evaluate_agl() for
-     every sample) so a primitive that clears both endpoints but clips a
-     ridge in the middle is still rejected.
-
-No A*, no search, no cost, no heading/turn-radius, no primitive set beyond
-this fixed shape.
-"""
+"""Explicit-target motion construction and along-path safety evaluation.\n\nCandidateZ search builds one- or multi-cell primitives for exact target\naltitudes. Every primitive is checked for endpoint transition feasibility and\nsampled terrain/AGL clearance along the complete straight segment.\n"""
 import math
 from dataclasses import dataclass
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, Optional, Tuple
 
-from planner.agl import evaluate_agl
+from planner.agl import _evaluate_agl_payload
 from planner.config import DEFAULT_CONFIG, PlannerConfig
 from planner.terrain import TerrainQuery
 from planner.transition import evaluate_transition
@@ -70,14 +52,8 @@ def _climb_descent_primitive(
 ) -> Optional[MotionPrimitive]:
     """Build a climb/descent primitive for an explicit, arbitrary altitude delta.
 
-    Step REP-1.2A: this is the single primitive-shape implementation for
-    non-level motion. It takes delta_altitude_m as a plain float -- there is
-    no assumption that abs(delta_altitude_m) is any particular fixed step
-    (e.g. config.z_step_m). build_primitive_set() below is just one caller
-    that happens to request +-config.z_step_m (to preserve the regular-
-    lattice search state representation, which is unchanged this stage);
-    primitive_for_target_altitude() is another caller that requests whatever
-    arbitrary delta an explicit source/target altitude pair implies.
+    This is the shared primitive-shape implementation for non-level motion.
+    It takes an arbitrary explicit altitude delta and assumes no Z lattice.
 
     Horizontal distance is derived from the max angle for the delta's sign,
     rounded up to the smallest whole number of grid steps in that direction
@@ -106,7 +82,7 @@ def primitive_for_target_altitude(
     """Representation-neutral primitive constructor (Step REP-1.2A).
 
     dz_m is exactly target_altitude_m - source_altitude_m -- not snapped to
-    config.z_step_m or any other lattice. source_altitude_m and
+    any lattice. source_altitude_m and
     target_altitude_m may be arbitrary off-lattice floats (e.g. 4127 ->
     4163). This function makes no claim about whether the resulting motion
     is physically flyable by any given aircraft (see planner.vertical_motion
@@ -187,38 +163,6 @@ def primitive_for_target_altitude_over_horizon(
     return prim if _endpoint_geometry_valid(prim, config) else None
 
 
-def build_primitive_set(config: PlannerConfig = DEFAULT_CONFIG) -> List[MotionPrimitive]:
-    """8-direction level/climb/descent primitive set.
-
-    This is the fixed-lattice caller: it builds the primitive set the
-    regular-Z-lattice search state representation (planner.astar's
-    CanonicalState.z_index arithmetic) still relies on, by requesting
-    climb/descent primitives with delta_altitude_m = +-config.z_step_m from
-    the same representation-neutral _climb_descent_primitive() that
-    primitive_for_target_altitude() uses for arbitrary deltas. There is no
-    separate/duplicate climb-descent geometry implementation here.
-    """
-    if config.max_climb_angle_deg is None or config.max_descent_angle_deg is None:
-        raise ValueError("config.max_climb_angle_deg / max_descent_angle_deg must be set")
-
-    primitives: List[MotionPrimitive] = []
-
-    for direction in DIRECTIONS:
-        level = _level_primitive(direction, config)
-        if level is not None:
-            primitives.append(level)
-
-        climb = _climb_descent_primitive(direction, config.z_step_m, config)
-        if climb is not None:
-            primitives.append(climb)
-
-        descent = _climb_descent_primitive(direction, -config.z_step_m, config)
-        if descent is not None:
-            primitives.append(descent)
-
-    return primitives
-
-
 def _endpoint_geometry_valid(primitive: MotionPrimitive, config: PlannerConfig) -> bool:
     result = evaluate_transition((0.0, 0.0, 0.0), (primitive.horizontal_distance_m, 0.0, primitive.dz_m), config)
     return result.valid
@@ -267,9 +211,9 @@ def evaluate_primitive(
 ) -> PrimitiveEvalResult:
     """Endpoint transition check, then terrain/AGL sampled along the path.
 
-    Reuses evaluate_transition() for the endpoint climb/descent geometry
-    and evaluate_agl() for every sample -- no terrain/AGL logic is
-    reimplemented here.
+    Every physical sample is evaluated. The loop keeps only the streaming
+    state needed for the result: sample zero for the all-NaN fallback, the
+    earliest strict minimum AGL sample, and the first failed sample.
     """
     x1, y1, z1 = start
     dx = primitive.dcol * config.xy_resolution_m
@@ -294,21 +238,56 @@ def evaluate_primitive(
 
     n_intervals = max(1, math.ceil(transition.horizontal_distance_m / config.primitive_sample_spacing_m))
 
-    samples: List[PrimitiveSample] = []
+    first_sample: Optional[PrimitiveSample] = None
+    min_sample: Optional[PrimitiveSample] = None
+    first_failure: Optional[PrimitiveSample] = None
+    has_numeric_agl = False
+
     for i in range(n_intervals + 1):
         t = i / n_intervals
         x, y = x1 + dx * t, y1 + dy * t
         altitude_msl = z1 + primitive.dz_m * t
-        agl = evaluate_agl(terrain, x, y, altitude_msl, config)
-        samples.append(PrimitiveSample(
-            index=i, t=t, x=x, y=y, altitude_msl=altitude_msl,
-            terrain_elevation_msl=agl.terrain_elevation_msl, agl_m=agl.agl_m,
-            valid=agl.valid, reason=agl.reason,
-        ))
+        terrain_elevation_msl, agl_m, sample_valid, sample_reason = _evaluate_agl_payload(
+            terrain, x, y, altitude_msl, config
+        )
 
-    numeric = [s for s in samples if not math.isnan(s.agl_m)]
-    min_sample = min(numeric, key=lambda s: s.agl_m) if numeric else samples[0]
-    first_failure = next((s for s in samples if not s.valid), None)
+        # A sample object is allocated only when it is part of the final
+        # observable result, or may become part of it. Strict '<' preserves
+        # Python min's existing earliest-sample tie behavior.
+        sample: Optional[PrimitiveSample] = None
+        if i == 0:
+            sample = PrimitiveSample(
+                index=i, t=t, x=x, y=y, altitude_msl=altitude_msl,
+                terrain_elevation_msl=terrain_elevation_msl, agl_m=agl_m,
+                valid=sample_valid, reason=sample_reason,
+            )
+            first_sample = sample
+
+        if not math.isnan(agl_m) and (
+            not has_numeric_agl or agl_m < min_sample.agl_m  # type: ignore[union-attr]
+        ):
+            if sample is None:
+                sample = PrimitiveSample(
+                    index=i, t=t, x=x, y=y, altitude_msl=altitude_msl,
+                    terrain_elevation_msl=terrain_elevation_msl, agl_m=agl_m,
+                    valid=sample_valid, reason=sample_reason,
+                )
+            has_numeric_agl = True
+            min_sample = sample
+
+        if not sample_valid and first_failure is None:
+            if sample is None:
+                sample = PrimitiveSample(
+                    index=i, t=t, x=x, y=y, altitude_msl=altitude_msl,
+                    terrain_elevation_msl=terrain_elevation_msl, agl_m=agl_m,
+                    valid=sample_valid, reason=sample_reason,
+                )
+            first_failure = sample
+
+    assert first_sample is not None
+    if not has_numeric_agl:
+        min_sample = first_sample
+    assert min_sample is not None
 
     valid = first_failure is None
     reason = "ok" if valid else first_failure.reason
@@ -321,7 +300,7 @@ def evaluate_primitive(
         primitive_type=primitive.primitive_type,
         horizontal_distance_m=transition.horizontal_distance_m,
         delta_z_m=transition.delta_z_m,
-        sample_count=len(samples),
+        sample_count=n_intervals + 1,
         min_agl_m=min_sample.agl_m,
         min_agl_sample=min_sample,
         first_failure=first_failure,

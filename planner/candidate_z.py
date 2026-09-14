@@ -1,34 +1,8 @@
-"""Roadmap Step 3E: production home for the sparse/lazy Z representation.
-
-Everything below CandidateZGenerator and its supporting dataclasses
-(TerrainMetadata, TerrainMetadataStore, MissionContext, MotionContext,
-GeneratorStats) is moved here VERBATIM from scripts/step3b_sparse_lazy_z_
-prototype.py, which validated it (5 controlled cases A-E, real synthetic
-terrain, PASS -- see project.md "Step 3B") before this module existed.
-No logic changed in the move; scripts/step3b_sparse_lazy_z_prototype.py,
-scripts/step3d_real_terrain_integration.py and scripts/
-step3d1_goal_tolerance_regression.py now import these names from here
-instead of defining/duplicating them, so there is exactly one
-implementation, not two drifting copies.
-
-CacheBackedTerrainMetadataStore is NEW for Step 3E: it generalizes Step
-3D's CacheBacked60mStore (which was hard-coded to FACTOR60=2) to any
-pooling factor already present in a planner.terrain_cache.TerrainCache,
-so this module has no hidden 60m assumption of its own -- the caller
-decides which cached factor to read.
-
-CandidateZGenerator.floor_for() remains a per-cell BOUND CHECK only (the
-cheapest terrain-derived lower bound on safe altitude at a cell), never a
-restriction to a small discrete event set -- a candidate that clears the
-floor still goes through the full evaluate_primitive() safety check
-downstream. See planner/astar.py's _generate_neighbors for exactly how
-production wires this in as a pre-filter (Step 3E) -- this module itself
-has no dependency on planner.astar and performs no search.
-"""
+"""Deterministic CandidateZ altitude-event generation.\n\nTerrain metadata supplies a conservative per-cell clearance-floor event; the\nmission supplies its exact start, goal, and ceiling events. Production A* uses\nthese events as its sole altitude-successor authority, while full primitive\nevaluation remains the final terrain/AGL safety authority.\n"""
 import math
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from time import perf_counter
-from typing import Dict, FrozenSet, List, Optional, Tuple
+from typing import Dict, FrozenSet, Optional, Tuple
 
 from planner.config import DEFAULT_CONFIG
 from planner.terrain import TerrainQuery
@@ -92,8 +66,8 @@ class CacheBackedTerrainMetadataStore:
     generalizes Step 3D's CacheBacked60mStore (which hard-coded
     FACTOR60=2) to any pooling factor already present in the cache.
     Reads the cache's MAX-pooled elevation array for `factor` (the same
-    safety-relevant, conservative surface planner.coarse.build_coarse_dem
-    would produce -- see planner/terrain_cache.py's own docstring on what
+    safety-relevant conservative block-maximum surface stored by the terrain
+    cache -- see planner/terrain_cache.py's own docstring on what
     is cached and why). raw_dem_reads is fixed at 0 and exposed only for
     the same structural assertion Step 3D used: this class has no code
     path that could ever touch the original DEM file, so the count can
@@ -124,12 +98,9 @@ class MissionContext:
     goal_z_msl: float
     ceiling_msl: float
     min_agl_m: float
-    # Ladder step used ONLY to snap the CLASS-A validity-transition altitude.
-    # Deliberately kept EQUAL to config.z_step_m (production, 20m) -- this
-    # module does not decide or propose a different Z spacing. The sparsity
-    # comes from generating few EVENTS per cell (floor/ceiling/start/goal)
-    # instead of the whole dense ladder, and from LAZY instantiation, not
-    # from widening this step.
+    # Quantization used only to round the conservative CLASS-A terrain-floor
+    # event upward. It does not define search-state identity or successor
+    # arithmetic; CandidateZ still emits only a few events per cell.
     z_step_m: float = DEFAULT_CONFIG.z_step_m
 
 
@@ -153,8 +124,16 @@ class MotionContext:
 
 @dataclass
 class GeneratorStats:
+    """Constant-memory CandidateZ generation diagnostics."""
+
     call_count: int = 0
-    times_s: List[float] = field(default_factory=list)
+    total_time_s: float = 0.0
+    max_time_s: float = 0.0
+    min_time_s: float = math.inf
+
+    @property
+    def average_time_s(self) -> float:
+        return self.total_time_s / self.call_count if self.call_count else 0.0
 
 
 class CandidateZGenerator:
@@ -169,10 +148,8 @@ class CandidateZGenerator:
     mission/motion_context are as above. generate(row, col) returns a
     sorted tuple of unique candidate Z_msl values, combining:
 
-      CLASS A (static terrain): the lowest z on the mission's z_step_m
-        ladder that clears terrain+min_agl ("validity-transition
-        altitude"), plus the mission ceiling as an always-present upper
-        bound event.
+      CLASS A (static terrain): the conservative floor event rounded upward
+        by mission.z_step_m, plus the mission ceiling as an upper-bound event.
       CLASS B (mission): start_z_msl at the start cell, goal_z_msl at the
         goal cell.
       CLASS C (motion, only if motion_context is not None): whatever
@@ -219,8 +196,11 @@ class CandidateZGenerator:
         if self.motion_context is not None:
             candidates |= self.motion_context.provisional_events(row, col)  # CLASS C
         result = tuple(sorted(candidates))
+        elapsed_s = perf_counter() - t0
         self.stats.call_count += 1
-        self.stats.times_s.append(perf_counter() - t0)
+        self.stats.total_time_s += elapsed_s
+        self.stats.max_time_s = max(self.stats.max_time_s, elapsed_s)
+        self.stats.min_time_s = min(self.stats.min_time_s, elapsed_s)
         return result
 
     def is_representable(self, row: int, col: int, z_msl: float, z_tol: float = 1e-6) -> bool:
@@ -235,20 +215,9 @@ class CandidateZGenerator:
 
         True iff z_msl is:
           CLASS A: floor_for(row,col) <= z_msl <= mission.ceiling_msl --
-            a CONTINUOUS range, no lattice-alignment requirement. Step
-            REP-1 required z_msl to additionally sit on a z_step_m ladder
-            anchored at MSL 0; Step REP-1.1 removed that requirement as
-            never a real representability constraint in the first place
-            -- it was always an emergent property of primitives.py's own
-            fixed +-z_step_m arithmetic (every state that arithmetic
-            produces IS on that ladder, by construction), not something
-            CandidateZ itself needed to enforce. Dropping it makes this
-            predicate genuinely representation-neutral: it now says
-            nothing about HOW a candidate altitude was computed, only
-            whether it clears real terrain+min_agl up to the mission
-            ceiling -- forward-compatible with a future primitive that
-            computes an altitude NOT on today's z_step_m grid, with zero
-            further change needed here.
+            a continuous range with no quantization requirement. This says
+            nothing about how a candidate was computed, only whether it
+            clears terrain+min_agl up to the mission ceiling.
           CLASS B: z_msl exactly equals this mission's start or goal
             altitude, AT that specific mission-designated cell (an exact,
             possibly off-lattice mission event).

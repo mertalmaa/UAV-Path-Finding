@@ -15,6 +15,7 @@ Terrain access goes entirely through TerrainQuery (planner/terrain.py); this
 module does not touch the ROI array or DEM directly.
 """
 from dataclasses import dataclass
+from typing import Tuple
 
 from planner.config import DEFAULT_CONFIG, PlannerConfig
 from planner.terrain import TerrainQuery
@@ -31,6 +32,33 @@ class AGLResult:
     reason: str  # "ok" | "out_of_bounds" | "nodata" | "below_min_agl"
 
 
+def _evaluate_agl_payload(
+    terrain: TerrainQuery,
+    x: float,
+    y: float,
+    aircraft_altitude_msl: float,
+    config: PlannerConfig = DEFAULT_CONFIG,
+) -> Tuple[float, float, bool, str]:
+    """Return evaluate_agl's scalar result without allocating AGLResult.
+
+    This is the single authoritative terrain/AGL calculation shared by the
+    public result-object API and primitive safety's streaming hot path.
+    """
+    _, _, terrain_elevation_msl, terrain_valid, terrain_reason = terrain._query_payload(x, y)
+    if not terrain_valid:
+        return float("nan"), float("nan"), False, terrain_reason
+
+    if config.min_agl_m is None:
+        raise ValueError(
+            "config.min_agl_m is not set -- cannot evaluate AGL feasibility without a threshold"
+        )
+
+    agl_m = aircraft_altitude_msl - terrain_elevation_msl
+    if agl_m < config.min_agl_m:
+        return terrain_elevation_msl, agl_m, False, "below_min_agl"
+    return terrain_elevation_msl, agl_m, True, "ok"
+
+
 def evaluate_agl(
     terrain: TerrainQuery,
     x: float,
@@ -38,44 +66,14 @@ def evaluate_agl(
     aircraft_altitude_msl: float,
     config: PlannerConfig = DEFAULT_CONFIG,
 ) -> AGLResult:
-    terrain_result = terrain.query(x, y)
-
-    if not terrain_result.valid:
-        # terrain_result.reason is "out_of_bounds" or "nodata" -- both are
-        # hard INVALID here, we can't evaluate AGL without a real elevation.
-        return AGLResult(
-            x=x,
-            y=y,
-            aircraft_altitude_msl=aircraft_altitude_msl,
-            terrain_elevation_msl=float("nan"),
-            agl_m=float("nan"),
-            valid=False,
-            reason=terrain_result.reason,
-        )
-
-    if config.min_agl_m is None:
-        raise ValueError(
-            "config.min_agl_m is not set -- cannot evaluate AGL feasibility without a threshold"
-        )
-
-    terrain_elevation_msl = terrain_result.elevation
-    agl_m = aircraft_altitude_msl - terrain_elevation_msl
-
-    if agl_m < config.min_agl_m:
-        return AGLResult(
-            x=x, y=y,
-            aircraft_altitude_msl=aircraft_altitude_msl,
-            terrain_elevation_msl=terrain_elevation_msl,
-            agl_m=agl_m,
-            valid=False,
-            reason="below_min_agl",
-        )
-
+    terrain_elevation_msl, agl_m, valid, reason = _evaluate_agl_payload(
+        terrain, x, y, aircraft_altitude_msl, config
+    )
     return AGLResult(
         x=x, y=y,
         aircraft_altitude_msl=aircraft_altitude_msl,
         terrain_elevation_msl=terrain_elevation_msl,
         agl_m=agl_m,
-        valid=True,
-        reason="ok",
+        valid=valid,
+        reason=reason,
     )

@@ -84,8 +84,6 @@ actual_stable_response_contract:
 historical_artifacts:
   u2_inventory: {path: results/u2_inventory.json, sha256: 7556c2f273fba98fefb1fbc80b329879b6229eed5a754c5d062187c976e8185f}
   u3_result: {path: results/u3_result.json, sha256: 6a8c88b8c8460a43bd08995b4ba4344d68941dac9848889a024d60b1b21975f8}
-  u4_raw: {path: results/aircraft_lut_raw.json, sha256: 6a2181f13438691c990237d5a5593ca591b0cb9bff1aad54868f7e36380ec548}
-  u4_raw_v2: {path: results/aircraft_lut_raw_v2.json, sha256: 7fb307060d62ee86f793e8d6e79aacc07fbbd2eba1381b0c029d03160a0eaee6}
   u4_1a3_provenance: {path: results/u4_1a3_provenance.json, sha256: a698e554532ac9f3629534d9d1fa5ad4e254920004af3772bf2e745dc080f203}
   u4_1a3_result: {path: results/u4_1a3_result.json, sha256: a42adae121519a4316b2ba698bd69d81442badc1df07aabc3ada482efc1d3104}
 

@@ -1,4 +1,4 @@
-"""Central mission-objective contract shared by coarse and fine planners.
+"""Central mission-objective contract used by the production planner.
 
 Hard feasibility is deliberately absent from this module. Terrain collision,
 minimum AGL, bounds/NoData, and climb/descent limits are decided before an
