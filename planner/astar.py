@@ -1,9 +1,10 @@
-"""Terrain-aware CandidateZ A* and weighted A* search.
+"""Legacy CandidateZ/grid A* compatibility implementation.
 
 The canonical state is ``(row, col, altitude_id)``. Its third component always
-encodes an exact CandidateZ event altitude. Neighbor generation is lazy and all
-hard terrain, AGL, and transition checks remain delegated to the primitive
-safety evaluator.
+encodes an exact CandidateZ event altitude. It is retained only for historical
+regressions and artifact inspection; production benchmark entry points use
+``planner.pose_search``.  Neighbor generation is lazy and all hard terrain,
+AGL, and transition checks remain delegated to the primitive safety evaluator.
 """
 import heapq
 import itertools

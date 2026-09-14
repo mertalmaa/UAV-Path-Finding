@@ -1,0 +1,160 @@
+{
+  "architecture": "pose_aware_fixed_wing_single_representative_approximate_search",
+  "aircraft_profile": "jsbsim/results/c172p_aircraft_profile_planner_safe_v3.json",
+  "search_key": {
+    "xy_m": 60.0,
+    "z_m": 5.0,
+    "heading_deg": 15.0
+  },
+  "development_watchdog_s": 300.0,
+  "missions": {
+    "A_easy_open": {
+      "name": "A_easy_open",
+      "criterion": "retained low-relief XY endpoints; 3500 m MSL ROI entry cruise",
+      "status": "success",
+      "termination_reason": "FOUND",
+      "success": true,
+      "start_heading_deg": 180.0,
+      "effective_min_agl_m": 100.0,
+      "lateral_buffer_m": 0.0,
+      "altitude_contract": "explicit_roi_entry_cruise_msl",
+      "start_z_msl_m": 3500.0,
+      "goal_z_msl_m": 3500.0,
+      "goal_tolerance": {
+        "xy_m": 90.0,
+        "altitude_m": 10.0
+      },
+      "runtime_s": 0.6479377000359818,
+      "expanded_nodes": 1201,
+      "generated_neighbors": 6000,
+      "rejected_neighbors": 3225,
+      "peak_open": 1109,
+      "peak_rss": null,
+      "unique_search_keys": 837,
+      "unique_xy_bins": 64,
+      "heading_bins_per_xy": {
+        "mean": 2.25,
+        "median": 2.0,
+        "max": 4
+      },
+      "z_bins_per_xy": {
+        "mean": 7.078125,
+        "median": 8.0,
+        "max": 13
+      },
+      "same_key": {
+        "collisions": 3979,
+        "replaced_lower_g": 1221,
+        "rejected_existing_better": 2758,
+        "self_transitions": 0,
+        "self_transitions_by_primitive": {}
+      },
+      "reject_reasons": {
+        "BELOW_MIN_AGL": 467,
+        "SAME_KEY_DOMINANCE": 2758
+      },
+      "primitive_counts": {
+        "LEFT_LEVEL_TURN": 905,
+        "RIGHT_LEVEL_TURN": 756,
+        "STRAIGHT_CLIMB": 201,
+        "STRAIGHT_DESCENT": 316,
+        "STRAIGHT_LEVEL": 597
+      },
+      "best_physical_xy_distance_to_goal_m": 82.87971388834761,
+      "best_physical_3d_distance_to_goal_m": 82.87971388834761,
+      "maximum_altitude_msl_m": 3500.094499769072,
+      "progress_checkpoints": {
+        "1000": {
+          "best_xy_distance_m": 97.86870852509388,
+          "best_3d_distance_m": 97.86870852509388,
+          "maximum_altitude_msl_m": 3500.094499769072
+        }
+      },
+      "path": {
+        "continuous_path_length_m": 1070.1589795711081,
+        "physical_primitive_segments": 16,
+        "turn_count": 1,
+        "climb_count": 0,
+        "descent_count": 0,
+        "minimum_agl_m": 134.65283203125,
+        "goal_xy_error_m": 82.87971388834761,
+        "goal_z_error_m": 0.0,
+        "final_heading_deg": 165.0
+      },
+      "safety": "PASS"
+    },
+    "B_relief_affected": {
+      "name": "B_relief_affected",
+      "criterion": "retained relief-crossing XY endpoints; 3600 m MSL ROI entry cruise",
+      "status": "success",
+      "termination_reason": "FOUND",
+      "success": true,
+      "start_heading_deg": 135.0,
+      "effective_min_agl_m": 100.0,
+      "lateral_buffer_m": 0.0,
+      "altitude_contract": "explicit_roi_entry_cruise_msl",
+      "start_z_msl_m": 3600.0,
+      "goal_z_msl_m": 3600.0,
+      "goal_tolerance": {
+        "xy_m": 90.0,
+        "altitude_m": 10.0
+      },
+      "runtime_s": 0.2540469999657944,
+      "expanded_nodes": 466,
+      "generated_neighbors": 2325,
+      "rejected_neighbors": 1377,
+      "peak_open": 388,
+      "peak_rss": null,
+      "unique_search_keys": 446,
+      "unique_xy_bins": 72,
+      "heading_bins_per_xy": {
+        "mean": 1.7222222222222223,
+        "median": 1.5,
+        "max": 3
+      },
+      "z_bins_per_xy": {
+        "mean": 4.375,
+        "median": 4.0,
+        "max": 10
+      },
+      "same_key": {
+        "collisions": 956,
+        "replaced_lower_g": 184,
+        "rejected_existing_better": 772,
+        "self_transitions": 37,
+        "self_transitions_by_primitive": {
+          "STRAIGHT_CLIMB": 10,
+          "STRAIGHT_LEVEL": 27
+        }
+      },
+      "reject_reasons": {
+        "BELOW_MIN_AGL": 568,
+        "SAME_KEY_DOMINANCE": 772,
+        "SAME_KEY_SELF_TRANSITION": 37
+      },
+      "primitive_counts": {
+        "LEFT_LEVEL_TURN": 251,
+        "RIGHT_LEVEL_TURN": 269,
+        "STRAIGHT_CLIMB": 84,
+        "STRAIGHT_DESCENT": 185,
+        "STRAIGHT_LEVEL": 159
+      },
+      "best_physical_xy_distance_to_goal_m": 89.25937786313287,
+      "best_physical_3d_distance_to_goal_m": 89.48447423503704,
+      "maximum_altitude_msl_m": 3600.094499769072,
+      "progress_checkpoints": {},
+      "path": {
+        "continuous_path_length_m": 1900.4178008270221,
+        "physical_primitive_segments": 13,
+        "turn_count": 10,
+        "climb_count": 0,
+        "descent_count": 1,
+        "minimum_agl_m": 104.22705078125,
+        "goal_xy_error_m": 89.25937786313287,
+        "goal_z_error_m": 6.343074381360566,
+        "final_heading_deg": 75.0
+      },
+      "safety": "PASS"
+    }
+  }
+}

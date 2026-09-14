@@ -15,6 +15,7 @@ Terrain access goes entirely through TerrainQuery (planner/terrain.py); this
 module does not touch the ROI array or DEM directly.
 """
 from dataclasses import dataclass
+import math
 from typing import Tuple
 
 from planner.config import DEFAULT_CONFIG, PlannerConfig
@@ -44,17 +45,35 @@ def _evaluate_agl_payload(
     This is the single authoritative terrain/AGL calculation shared by the
     public result-object API and primitive safety's streaming hot path.
     """
-    _, _, terrain_elevation_msl, terrain_valid, terrain_reason = terrain._query_payload(x, y)
-    if not terrain_valid:
-        return float("nan"), float("nan"), False, terrain_reason
-
     if config.min_agl_m is None:
         raise ValueError(
             "config.min_agl_m is not set -- cannot evaluate AGL feasibility without a threshold"
         )
+    return _evaluate_agl_with_min_payload(terrain, x, y, aircraft_altitude_msl, config.min_agl_m)
+
+
+def _evaluate_agl_with_min_payload(
+    terrain: TerrainQuery,
+    x: float,
+    y: float,
+    aircraft_altitude_msl: float,
+    effective_min_agl_m: float,
+) -> Tuple[float, float, bool, str]:
+    """AGL scalar helper with an explicit threshold for physical trajectories.
+
+    The existing grid primitive path supplies its config through
+    :func:`_evaluate_agl_payload`; the continuous path supplies a mission's
+    effective threshold directly.  Both retain exactly the same terrain lookup
+    and inclusive AGL-boundary semantics.
+    """
+    if not math.isfinite(effective_min_agl_m) or effective_min_agl_m < 0.0:
+        raise ValueError("effective_min_agl_m must be finite and non-negative")
+    _, _, terrain_elevation_msl, terrain_valid, terrain_reason = terrain._query_payload(x, y)
+    if not terrain_valid:
+        return float("nan"), float("nan"), False, terrain_reason
 
     agl_m = aircraft_altitude_msl - terrain_elevation_msl
-    if agl_m < config.min_agl_m:
+    if agl_m < effective_min_agl_m:
         return terrain_elevation_msl, agl_m, False, "below_min_agl"
     return terrain_elevation_msl, agl_m, True, "ok"
 

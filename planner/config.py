@@ -43,6 +43,17 @@ class PlannerConfig:
     # derived from aircraft capability.
     primitive_sample_spacing_m: float = 10.0
 
+    # --- Pose-aware fixed-wing search representation (first baseline) ---
+    # These are dominance/hash buckets only.  They never alter a
+    # PhysicalPose or a validated continuous trajectory.
+    search_xy_bin_m: float = 60.0
+    search_z_bin_m: float = 5.0
+    search_heading_bin_deg: float = 15.0
+    # Centreline terrain semantics are the frozen first-baseline default.
+    # A non-zero value is an explicit safety-model choice, not an aircraft
+    # dimension and not a substitute for curve-to-chord coverage.
+    lateral_buffer_m: float = 0.0
+
     # --- A* cost tuning (not an aircraft/mission requirement) ---
     # How strongly the A* edge cost prefers lower absolute MSL altitude
     # among otherwise-safe routes. 0.0 reproduces the plain-geometric

@@ -1,0 +1,1182 @@
+{
+  "baseline": {
+    "reproduced": "YES",
+    "unobserved_runtime_s": 16.06301079998957,
+    "instrumented_runtime_s": 16.13909509999212,
+    "instrumented": {
+      "status": "search_limit_reached",
+      "termination": "EXPANSION_LIMIT",
+      "expanded": 30000,
+      "generated": 149995,
+      "rejected": 95073,
+      "peak_open": 21356,
+      "best_xy_m": 120.0,
+      "best_z_m": 4.363551587838629,
+      "best_3d_m": 120.07930955189461,
+      "minimum_expanded_altitude_m": 3904.3635515878386,
+      "maximum_expanded_altitude_m": 4400.0
+    }
+  },
+  "diversity": {
+    "z_bins_per_xy": {
+      "count": 364,
+      "min": 1,
+      "mean": 37.417582417582416,
+      "median": 37.0,
+      "p10": 10.0,
+      "p90": 62.0,
+      "p95": 72.0,
+      "max": 82
+    },
+    "heading_bins_per_xy": {
+      "count": 364,
+      "min": 1,
+      "mean": 2.2857142857142856,
+      "median": 2.0,
+      "p10": 2.0,
+      "p90": 3.0,
+      "p95": 3.0,
+      "max": 3
+    },
+    "heading_bins_per_xy_z": {
+      "count": 13620,
+      "min": 1,
+      "mean": 2.202643171806167,
+      "median": 2.0,
+      "p10": 1.0,
+      "p90": 3.0,
+      "p95": 3.0,
+      "max": 3
+    },
+    "z_bins_per_xy_heading": {
+      "count": 832,
+      "min": 1,
+      "mean": 36.05769230769231,
+      "median": 36.0,
+      "p10": 10.0,
+      "p90": 60.89999999999998,
+      "p95": 68.0,
+      "max": 82
+    },
+    "full_states_per_xy": {
+      "count": 364,
+      "min": 1,
+      "mean": 82.41758241758242,
+      "median": 76.0,
+      "p10": 16.0,
+      "p90": 168.0,
+      "p95": 195.85000000000002,
+      "max": 220
+    },
+    "top_z_diversity_xy": [
+      {
+        "xy_bin": [
+          11484,
+          69777
+        ],
+        "z_bins": 82,
+        "heading_bins": 3,
+        "full_states": 218,
+        "expanded_states": 218,
+        "altitude_min_m": 3910.706625969199,
+        "altitude_median_m": 4142.541928983877,
+        "altitude_max_m": 4400.0,
+        "distance_to_goal_min_m": 4680.012246975391,
+        "distance_to_goal_median_m": 4686.211218840723
+      },
+      {
+        "xy_bin": [
+          11485,
+          69777
+        ],
+        "z_bins": 82,
+        "heading_bins": 3,
+        "full_states": 216,
+        "expanded_states": 216,
+        "altitude_min_m": 3904.3635515878386,
+        "altitude_median_m": 4139.363434279975,
+        "altitude_max_m": 4393.6430105921945,
+        "distance_to_goal_min_m": 4620.002060668638,
+        "distance_to_goal_median_m": 4626.179779458595
+      },
+      {
+        "xy_bin": [
+          11483,
+          69777
+        ],
+        "z_bins": 81,
+        "heading_bins": 3,
+        "full_states": 219,
+        "expanded_states": 219,
+        "altitude_min_m": 3917.0497003505598,
+        "altitude_median_m": 4145.720423687781,
+        "altitude_max_m": 4400.0,
+        "distance_to_goal_min_m": 4740.030663643648,
+        "distance_to_goal_median_m": 4746.222937431773
+      },
+      {
+        "xy_bin": [
+          11486,
+          69777
+        ],
+        "z_bins": 81,
+        "heading_bins": 3,
+        "full_states": 213,
+        "expanded_states": 213,
+        "altitude_min_m": 3904.3635515878386,
+        "altitude_median_m": 4133.00644487217,
+        "altitude_max_m": 4387.286021184389,
+        "distance_to_goal_min_m": 4560.002087782686,
+        "distance_to_goal_median_m": 4566.056670869156
+      },
+      {
+        "xy_bin": [
+          11482,
+          69777
+        ],
+        "z_bins": 80,
+        "heading_bins": 3,
+        "full_states": 220,
+        "expanded_states": 220,
+        "altitude_min_m": 3923.3927747319203,
+        "altitude_median_m": 4148.898918391684,
+        "altitude_max_m": 4400.0,
+        "distance_to_goal_min_m": 4800.0570019437955,
+        "distance_to_goal_median_m": 4806.316884702745
+      },
+      {
+        "xy_bin": [
+          11487,
+          69777
+        ],
+        "z_bins": 80,
+        "heading_bins": 3,
+        "full_states": 210,
+        "expanded_states": 210,
+        "altitude_min_m": 3904.3635515878386,
+        "altitude_median_m": 4133.00644487217,
+        "altitude_max_m": 4380.9290317765835,
+        "distance_to_goal_min_m": 4500.002115619776,
+        "distance_to_goal_median_m": 4506.082555262143
+      },
+      {
+        "xy_bin": [
+          11488,
+          69777
+        ],
+        "z_bins": 79,
+        "heading_bins": 3,
+        "full_states": 207,
+        "expanded_states": 207,
+        "altitude_min_m": 3904.3635515878386,
+        "altitude_median_m": 4126.649455464364,
+        "altitude_max_m": 4374.572042368778,
+        "distance_to_goal_min_m": 4440.002144209218,
+        "distance_to_goal_median_m": 4446.013773093483
+      },
+      {
+        "xy_bin": [
+          11481,
+          69777
+        ],
+        "z_bins": 78,
+        "heading_bins": 3,
+        "full_states": 218,
+        "expanded_states": 218,
+        "altitude_min_m": 3929.735849113281,
+        "altitude_median_m": 4155.255907799488,
+        "altitude_max_m": 4400.0,
+        "distance_to_goal_min_m": 4860.090968358771,
+        "distance_to_goal_median_m": 4866.476129673132
+      },
+      {
+        "xy_bin": [
+          11489,
+          69777
+        ],
+        "z_bins": 78,
+        "heading_bins": 3,
+        "full_states": 204,
+        "expanded_states": 204,
+        "altitude_min_m": 3904.3635515878386,
+        "altitude_median_m": 4126.649455464364,
+        "altitude_max_m": 4368.215052960973,
+        "distance_to_goal_min_m": 4380.002173581933,
+        "distance_to_goal_median_m": 4385.993512225726
+      },
+      {
+        "xy_bin": [
+          11480,
+          69777
+        ],
+        "z_bins": 77,
+        "heading_bins": 3,
+        "full_states": 217,
+        "expanded_states": 217,
+        "altitude_min_m": 3936.0789234946415,
+        "altitude_median_m": 4158.4344025033915,
+        "altitude_max_m": 4400.0,
+        "distance_to_goal_min_m": 4920.132283660728,
+        "distance_to_goal_median_m": 4926.605883429113
+      },
+      {
+        "xy_bin": [
+          11490,
+          69777
+        ],
+        "z_bins": 77,
+        "heading_bins": 3,
+        "full_states": 201,
+        "expanded_states": 201,
+        "altitude_min_m": 3904.3635515878386,
+        "altitude_median_m": 4120.292466056559,
+        "altitude_max_m": 4361.858063553167,
+        "distance_to_goal_min_m": 4320.002203770556,
+        "distance_to_goal_median_m": 4325.970975368925
+      },
+      {
+        "xy_bin": [
+          11479,
+          69777
+        ],
+        "z_bins": 76,
+        "heading_bins": 3,
+        "full_states": 216,
+        "expanded_states": 216,
+        "altitude_min_m": 3942.421997876002,
+        "altitude_median_m": 4164.791391911197,
+        "altitude_max_m": 4400.0,
+        "distance_to_goal_min_m": 4980.180682053995,
+        "distance_to_goal_median_m": 4986.719394418718
+      },
+      {
+        "xy_bin": [
+          11491,
+          69777
+        ],
+        "z_bins": 76,
+        "heading_bins": 3,
+        "full_states": 198,
+        "expanded_states": 198,
+        "altitude_min_m": 3904.3635515878386,
+        "altitude_median_m": 4120.292466056559,
+        "altitude_max_m": 4355.501074145362,
+        "distance_to_goal_min_m": 4260.002234809562,
+        "distance_to_goal_median_m": 4265.937926423847
+      },
+      {
+        "xy_bin": [
+          11492,
+          69777
+        ],
+        "z_bins": 75,
+        "heading_bins": 3,
+        "full_states": 195,
+        "expanded_states": 195,
+        "altitude_min_m": 3904.3635515878386,
+        "altitude_median_m": 4113.935476648753,
+        "altitude_max_m": 4349.144084737556,
+        "distance_to_goal_min_m": 4200.002266735395,
+        "distance_to_goal_median_m": 4205.928286262371
+      },
+      {
+        "xy_bin": [
+          11478,
+          69777
+        ],
+        "z_bins": 74,
+        "heading_bins": 3,
+        "full_states": 214,
+        "expanded_states": 214,
+        "altitude_min_m": 3948.7650722573626,
+        "altitude_median_m": 4171.1483813190025,
+        "altitude_max_m": 4400.0,
+        "distance_to_goal_min_m": 5040.235910378825,
+        "distance_to_goal_median_m": 5046.871330002593
+      },
+      {
+        "xy_bin": [
+          11493,
+          69777
+        ],
+        "z_bins": 74,
+        "heading_bins": 3,
+        "full_states": 192,
+        "expanded_states": 192,
+        "altitude_min_m": 3904.3635515878386,
+        "altitude_median_m": 4113.935476648753,
+        "altitude_max_m": 4342.787095329751,
+        "distance_to_goal_min_m": 4140.002299586615,
+        "distance_to_goal_median_m": 4145.832592570378
+      },
+      {
+        "xy_bin": [
+          11477,
+          69777
+        ],
+        "z_bins": 73,
+        "heading_bins": 3,
+        "full_states": 211,
+        "expanded_states": 211,
+        "altitude_min_m": 3955.108146638723,
+        "altitude_median_m": 4177.505370726808,
+        "altitude_max_m": 4400.0,
+        "distance_to_goal_min_m": 5100.297727371017,
+        "distance_to_goal_median_m": 5107.006882960618
+      },
+      {
+        "xy_bin": [
+          11494,
+          69777
+        ],
+        "z_bins": 73,
+        "heading_bins": 3,
+        "full_states": 189,
+        "expanded_states": 189,
+        "altitude_min_m": 3904.3635515878386,
+        "altitude_median_m": 4107.578487240948,
+        "altitude_max_m": 4336.430105921945,
+        "distance_to_goal_min_m": 4080.002333404046,
+        "distance_to_goal_median_m": 4085.885715347116
+      },
+      {
+        "xy_bin": [
+          11476,
+          69777
+        ],
+        "z_bins": 72,
+        "heading_bins": 3,
+        "full_states": 208,
+        "expanded_states": 208,
+        "altitude_min_m": 3961.4512210200837,
+        "altitude_median_m": 4183.8623601346135,
+        "altitude_max_m": 4400.0,
+        "distance_to_goal_min_m": 5160.365902972856,
+        "distance_to_goal_median_m": 5167.131747159499
+      },
+      {
+        "xy_bin": [
+          11495,
+          69777
+        ],
+        "z_bins": 72,
+        "heading_bins": 3,
+        "full_states": 186,
+        "expanded_states": 186,
+        "altitude_min_m": 3904.3635515878386,
+        "altitude_median_m": 4107.578487240948,
+        "altitude_max_m": 4330.07311651414,
+        "distance_to_goal_min_m": 4020.0023682309516,
+        "distance_to_goal_median_m": 4025.7660935700287
+      }
+    ],
+    "top_full_state_xy": [
+      {
+        "xy_bin": [
+          11482,
+          69777
+        ],
+        "z_bins": 80,
+        "heading_bins": 3,
+        "full_states": 220,
+        "expanded_states": 220,
+        "altitude_min_m": 3923.3927747319203,
+        "altitude_median_m": 4148.898918391684,
+        "altitude_max_m": 4400.0,
+        "distance_to_goal_min_m": 4800.0570019437955,
+        "distance_to_goal_median_m": 4806.316884702745
+      },
+      {
+        "xy_bin": [
+          11483,
+          69777
+        ],
+        "z_bins": 81,
+        "heading_bins": 3,
+        "full_states": 219,
+        "expanded_states": 219,
+        "altitude_min_m": 3917.0497003505598,
+        "altitude_median_m": 4145.720423687781,
+        "altitude_max_m": 4400.0,
+        "distance_to_goal_min_m": 4740.030663643648,
+        "distance_to_goal_median_m": 4746.222937431773
+      },
+      {
+        "xy_bin": [
+          11484,
+          69777
+        ],
+        "z_bins": 82,
+        "heading_bins": 3,
+        "full_states": 218,
+        "expanded_states": 218,
+        "altitude_min_m": 3910.706625969199,
+        "altitude_median_m": 4142.541928983877,
+        "altitude_max_m": 4400.0,
+        "distance_to_goal_min_m": 4680.012246975391,
+        "distance_to_goal_median_m": 4686.211218840723
+      },
+      {
+        "xy_bin": [
+          11481,
+          69777
+        ],
+        "z_bins": 78,
+        "heading_bins": 3,
+        "full_states": 218,
+        "expanded_states": 218,
+        "altitude_min_m": 3929.735849113281,
+        "altitude_median_m": 4155.255907799488,
+        "altitude_max_m": 4400.0,
+        "distance_to_goal_min_m": 4860.090968358771,
+        "distance_to_goal_median_m": 4866.476129673132
+      },
+      {
+        "xy_bin": [
+          11480,
+          69777
+        ],
+        "z_bins": 77,
+        "heading_bins": 3,
+        "full_states": 217,
+        "expanded_states": 217,
+        "altitude_min_m": 3936.0789234946415,
+        "altitude_median_m": 4158.4344025033915,
+        "altitude_max_m": 4400.0,
+        "distance_to_goal_min_m": 4920.132283660728,
+        "distance_to_goal_median_m": 4926.605883429113
+      },
+      {
+        "xy_bin": [
+          11485,
+          69777
+        ],
+        "z_bins": 82,
+        "heading_bins": 3,
+        "full_states": 216,
+        "expanded_states": 216,
+        "altitude_min_m": 3904.3635515878386,
+        "altitude_median_m": 4139.363434279975,
+        "altitude_max_m": 4393.6430105921945,
+        "distance_to_goal_min_m": 4620.002060668638,
+        "distance_to_goal_median_m": 4626.179779458595
+      },
+      {
+        "xy_bin": [
+          11479,
+          69777
+        ],
+        "z_bins": 76,
+        "heading_bins": 3,
+        "full_states": 216,
+        "expanded_states": 216,
+        "altitude_min_m": 3942.421997876002,
+        "altitude_median_m": 4164.791391911197,
+        "altitude_max_m": 4400.0,
+        "distance_to_goal_min_m": 4980.180682053995,
+        "distance_to_goal_median_m": 4986.719394418718
+      },
+      {
+        "xy_bin": [
+          11478,
+          69777
+        ],
+        "z_bins": 74,
+        "heading_bins": 3,
+        "full_states": 214,
+        "expanded_states": 214,
+        "altitude_min_m": 3948.7650722573626,
+        "altitude_median_m": 4171.1483813190025,
+        "altitude_max_m": 4400.0,
+        "distance_to_goal_min_m": 5040.235910378825,
+        "distance_to_goal_median_m": 5046.871330002593
+      },
+      {
+        "xy_bin": [
+          11486,
+          69777
+        ],
+        "z_bins": 81,
+        "heading_bins": 3,
+        "full_states": 213,
+        "expanded_states": 213,
+        "altitude_min_m": 3904.3635515878386,
+        "altitude_median_m": 4133.00644487217,
+        "altitude_max_m": 4387.286021184389,
+        "distance_to_goal_min_m": 4560.002087782686,
+        "distance_to_goal_median_m": 4566.056670869156
+      },
+      {
+        "xy_bin": [
+          11477,
+          69777
+        ],
+        "z_bins": 73,
+        "heading_bins": 3,
+        "full_states": 211,
+        "expanded_states": 211,
+        "altitude_min_m": 3955.108146638723,
+        "altitude_median_m": 4177.505370726808,
+        "altitude_max_m": 4400.0,
+        "distance_to_goal_min_m": 5100.297727371017,
+        "distance_to_goal_median_m": 5107.006882960618
+      },
+      {
+        "xy_bin": [
+          11487,
+          69777
+        ],
+        "z_bins": 80,
+        "heading_bins": 3,
+        "full_states": 210,
+        "expanded_states": 210,
+        "altitude_min_m": 3904.3635515878386,
+        "altitude_median_m": 4133.00644487217,
+        "altitude_max_m": 4380.9290317765835,
+        "distance_to_goal_min_m": 4500.002115619776,
+        "distance_to_goal_median_m": 4506.082555262143
+      },
+      {
+        "xy_bin": [
+          11476,
+          69777
+        ],
+        "z_bins": 72,
+        "heading_bins": 3,
+        "full_states": 208,
+        "expanded_states": 208,
+        "altitude_min_m": 3961.4512210200837,
+        "altitude_median_m": 4183.8623601346135,
+        "altitude_max_m": 4400.0,
+        "distance_to_goal_min_m": 5160.365902972856,
+        "distance_to_goal_median_m": 5167.131747159499
+      },
+      {
+        "xy_bin": [
+          11488,
+          69777
+        ],
+        "z_bins": 79,
+        "heading_bins": 3,
+        "full_states": 207,
+        "expanded_states": 207,
+        "altitude_min_m": 3904.3635515878386,
+        "altitude_median_m": 4126.649455464364,
+        "altitude_max_m": 4374.572042368778,
+        "distance_to_goal_min_m": 4440.002144209218,
+        "distance_to_goal_median_m": 4446.013773093483
+      },
+      {
+        "xy_bin": [
+          11475,
+          69777
+        ],
+        "z_bins": 71,
+        "heading_bins": 3,
+        "full_states": 205,
+        "expanded_states": 205,
+        "altitude_min_m": 3967.7942954014443,
+        "altitude_median_m": 4183.8623601346135,
+        "altitude_max_m": 4400.0,
+        "distance_to_goal_min_m": 5220.440217691318,
+        "distance_to_goal_median_m": 5227.049974371946
+      },
+      {
+        "xy_bin": [
+          11489,
+          69777
+        ],
+        "z_bins": 78,
+        "heading_bins": 3,
+        "full_states": 204,
+        "expanded_states": 204,
+        "altitude_min_m": 3904.3635515878386,
+        "altitude_median_m": 4126.649455464364,
+        "altitude_max_m": 4368.215052960973,
+        "distance_to_goal_min_m": 4380.002173581933,
+        "distance_to_goal_median_m": 4385.993512225726
+      },
+      {
+        "xy_bin": [
+          11490,
+          69777
+        ],
+        "z_bins": 77,
+        "heading_bins": 3,
+        "full_states": 201,
+        "expanded_states": 201,
+        "altitude_min_m": 3904.3635515878386,
+        "altitude_median_m": 4120.292466056559,
+        "altitude_max_m": 4361.858063553167,
+        "distance_to_goal_min_m": 4320.002203770556,
+        "distance_to_goal_median_m": 4325.970975368925
+      },
+      {
+        "xy_bin": [
+          11474,
+          69777
+        ],
+        "z_bins": 69,
+        "heading_bins": 3,
+        "full_states": 201,
+        "expanded_states": 201,
+        "altitude_min_m": 3974.137369782805,
+        "altitude_median_m": 4190.219349542419,
+        "altitude_max_m": 4400.0,
+        "distance_to_goal_min_m": 5280.520461999775,
+        "distance_to_goal_median_m": 5287.187152090665
+      },
+      {
+        "xy_bin": [
+          11491,
+          69777
+        ],
+        "z_bins": 76,
+        "heading_bins": 3,
+        "full_states": 198,
+        "expanded_states": 198,
+        "altitude_min_m": 3904.3635515878386,
+        "altitude_median_m": 4120.292466056559,
+        "altitude_max_m": 4355.501074145362,
+        "distance_to_goal_min_m": 4260.002234809562,
+        "distance_to_goal_median_m": 4265.937926423847
+      },
+      {
+        "xy_bin": [
+          11473,
+          69777
+        ],
+        "z_bins": 68,
+        "heading_bins": 3,
+        "full_states": 196,
+        "expanded_states": 196,
+        "altitude_min_m": 3980.4804441641654,
+        "altitude_median_m": 4196.576338950224,
+        "altitude_max_m": 4400.0,
+        "distance_to_goal_min_m": 5340.606435779823,
+        "distance_to_goal_median_m": 5347.326031288879
+      },
+      {
+        "xy_bin": [
+          11492,
+          69777
+        ],
+        "z_bins": 75,
+        "heading_bins": 3,
+        "full_states": 195,
+        "expanded_states": 195,
+        "altitude_min_m": 3904.3635515878386,
+        "altitude_median_m": 4113.935476648753,
+        "altitude_max_m": 4349.144084737556,
+        "distance_to_goal_min_m": 4200.002266735395,
+        "distance_to_goal_median_m": 4205.928286262371
+      }
+    ]
+  },
+  "altitude_histogram_25m": [
+    {
+      "band_msl_m": "3900-3925",
+      "count": 308,
+      "percent": 1.0266666666666666
+    },
+    {
+      "band_msl_m": "3925-3950",
+      "count": 476,
+      "percent": 1.5866666666666667
+    },
+    {
+      "band_msl_m": "3950-3975",
+      "count": 916,
+      "percent": 3.0533333333333332
+    },
+    {
+      "band_msl_m": "3975-4000",
+      "count": 1072,
+      "percent": 3.5733333333333333
+    },
+    {
+      "band_msl_m": "4000-4025",
+      "count": 1390,
+      "percent": 4.633333333333334
+    },
+    {
+      "band_msl_m": "4025-4050",
+      "count": 1196,
+      "percent": 3.986666666666667
+    },
+    {
+      "band_msl_m": "4050-4075",
+      "count": 1660,
+      "percent": 5.533333333333333
+    },
+    {
+      "band_msl_m": "4075-4100",
+      "count": 1702,
+      "percent": 5.673333333333333
+    },
+    {
+      "band_msl_m": "4100-4125",
+      "count": 1732,
+      "percent": 5.773333333333333
+    },
+    {
+      "band_msl_m": "4125-4150",
+      "count": 1746,
+      "percent": 5.82
+    },
+    {
+      "band_msl_m": "4150-4175",
+      "count": 1760,
+      "percent": 5.866666666666666
+    },
+    {
+      "band_msl_m": "4175-4200",
+      "count": 1764,
+      "percent": 5.88
+    },
+    {
+      "band_msl_m": "4200-4225",
+      "count": 1776,
+      "percent": 5.92
+    },
+    {
+      "band_msl_m": "4225-4250",
+      "count": 1776,
+      "percent": 5.92
+    },
+    {
+      "band_msl_m": "4250-4275",
+      "count": 1780,
+      "percent": 5.933333333333334
+    },
+    {
+      "band_msl_m": "4275-4300",
+      "count": 1784,
+      "percent": 5.946666666666666
+    },
+    {
+      "band_msl_m": "4300-4325",
+      "count": 1788,
+      "percent": 5.96
+    },
+    {
+      "band_msl_m": "4325-4350",
+      "count": 1792,
+      "percent": 5.973333333333334
+    },
+    {
+      "band_msl_m": "4350-4375",
+      "count": 1792,
+      "percent": 5.973333333333334
+    },
+    {
+      "band_msl_m": "4375-4400",
+      "count": 1344,
+      "percent": 4.48
+    },
+    {
+      "band_msl_m": "4400-4425",
+      "count": 446,
+      "percent": 1.4866666666666666
+    }
+  ],
+  "altitude_expanded_summary": {
+    "count": 30000,
+    "min": 3904.3635515878386,
+    "mean": 4185.286295440718,
+    "median": 4190.219349542419,
+    "p10": 4005.866656716053,
+    "p90": 4361.858063553167,
+    "p95": 4380.9290317765835,
+    "max": 4400.0
+  },
+  "altitude_evolution": [
+    {
+      "window": "1-1000",
+      "states": 1000,
+      "altitude": {
+        "count": 1000,
+        "min": 4190.219349542419,
+        "mean": 4328.776290674948,
+        "median": 4342.787095329751,
+        "p10": 4247.432254212668,
+        "p90": 4393.6430105921945,
+        "p95": 4400.0,
+        "max": 4400.0
+      },
+      "best_abs_z_error_m": 290.21934954241897,
+      "median_abs_z_error_m": 442.7870953297506,
+      "median_xy_error_m": 7920.0,
+      "median_3d_error_m": 7931.4972793093975
+    },
+    {
+      "window": "1001-5000",
+      "states": 4000,
+      "altitude": {
+        "count": 4000,
+        "min": 4075.7935402019184,
+        "mean": 4285.698151952953,
+        "median": 4298.288169475112,
+        "p10": 4164.791391911197,
+        "p90": 4380.9290317765835,
+        "p95": 4393.6430105921945,
+        "max": 4400.0
+      },
+      "best_abs_z_error_m": 175.7935402019184,
+      "median_abs_z_error_m": 398.2881694751122,
+      "median_xy_error_m": 7020.0,
+      "median_3d_error_m": 7031.573913943099
+    },
+    {
+      "window": "5001-10000",
+      "states": 5000,
+      "altitude": {
+        "count": 5000,
+        "min": 4024.937624939471,
+        "mean": 4242.878107000916,
+        "median": 4253.789243620474,
+        "p10": 4107.578487240948,
+        "p90": 4368.215052960973,
+        "p95": 4387.286021184389,
+        "max": 4400.0
+      },
+      "best_abs_z_error_m": 124.93762493947088,
+      "median_abs_z_error_m": 353.7892436204738,
+      "median_xy_error_m": 6416.00852146545,
+      "median_3d_error_m": 6425.071737816914
+    },
+    {
+      "window": "10001-20000",
+      "states": 10000,
+      "altitude": {
+        "count": 10000,
+        "min": 3955.108146638723,
+        "mean": 4177.968424368346,
+        "median": 4171.1483813190025,
+        "p10": 4024.937624939471,
+        "p90": 4342.787095329751,
+        "p95": 4374.572042368778,
+        "max": 4400.0
+      },
+      "best_abs_z_error_m": 55.108146638723156,
+      "median_abs_z_error_m": 271.1483813190025,
+      "median_xy_error_m": 5221.519591985357,
+      "median_3d_error_m": 5230.692984194766
+    },
+    {
+      "window": "20001-30000",
+      "states": 10000,
+      "altitude": {
+        "count": 10000,
+        "min": 3904.3635515878386,
+        "mean": 4109.2945186046745,
+        "median": 4075.7935402019184,
+        "p10": 3955.108146638723,
+        "p90": 4317.359137698529,
+        "p95": 4355.501074145362,
+        "max": 4400.0
+      },
+      "best_abs_z_error_m": 4.363551587838629,
+      "median_abs_z_error_m": 175.7935402019184,
+      "median_xy_error_m": 3960.0,
+      "median_3d_error_m": 3966.527394135198
+    }
+  ],
+  "goal_proximity_density": [
+    {
+      "xy_distance_limit_m": 100,
+      "expanded_states": 0
+    },
+    {
+      "xy_distance_limit_m": 150,
+      "expanded_states": 2,
+      "unique_xy_bins": 1,
+      "mean_z_bins_per_xy": 2.0,
+      "mean_heading_bins_per_xy": 1.0,
+      "mean_full_states_per_xy": 2.0,
+      "altitude_min_m": 3904.3635515878386,
+      "altitude_max_m": 3910.706625969199,
+      "best_z_error_m": 4.363551587838629
+    },
+    {
+      "xy_distance_limit_m": 250,
+      "expanded_states": 11,
+      "unique_xy_bins": 3,
+      "mean_z_bins_per_xy": 3.6666666666666665,
+      "mean_heading_bins_per_xy": 1.0,
+      "mean_full_states_per_xy": 3.6666666666666665,
+      "altitude_min_m": 3904.3635515878386,
+      "altitude_max_m": 3929.735849113281,
+      "best_z_error_m": 4.363551587838629
+    },
+    {
+      "xy_distance_limit_m": 500,
+      "expanded_states": 46,
+      "unique_xy_bins": 7,
+      "mean_z_bins_per_xy": 6.571428571428571,
+      "mean_heading_bins_per_xy": 1.0,
+      "mean_full_states_per_xy": 6.571428571428571,
+      "altitude_min_m": 3904.3635515878386,
+      "altitude_max_m": 3955.108146638723,
+      "best_z_error_m": 4.363551587838629
+    },
+    {
+      "xy_distance_limit_m": 1000,
+      "expanded_states": 176,
+      "unique_xy_bins": 15,
+      "mean_z_bins_per_xy": 11.733333333333333,
+      "mean_heading_bins_per_xy": 1.0,
+      "mean_full_states_per_xy": 11.733333333333333,
+      "altitude_min_m": 3904.3635515878386,
+      "altitude_max_m": 4005.866656716053,
+      "best_z_error_m": 4.363551587838629
+    }
+  ],
+  "goal_useful_expansions": {
+    "XY": 667,
+    "Z": 79,
+    "D3": 700,
+    "none": 28720
+  },
+  "same_key_by_primitive": {
+    "STRAIGHT_LEVEL": {
+      "collisions": 21663,
+      "replacements": 4517,
+      "dominated": 17146,
+      "self": 0,
+      "valid_not_open": 17146
+    },
+    "LEFT_LEVEL_TURN": {
+      "collisions": 13595,
+      "replacements": 318,
+      "dominated": 13277,
+      "self": 0,
+      "valid_not_open": 13277
+    },
+    "RIGHT_LEVEL_TURN": {
+      "collisions": 13618,
+      "replacements": 323,
+      "dominated": 13295,
+      "self": 0,
+      "valid_not_open": 13295
+    },
+    "STRAIGHT_CLIMB": {
+      "collisions": 1963,
+      "replacements": 32,
+      "dominated": 1931,
+      "self": 0,
+      "valid_not_open": 1931
+    },
+    "STRAIGHT_DESCENT": {
+      "collisions": 22196,
+      "replacements": 0,
+      "dominated": 22196,
+      "self": 0,
+      "valid_not_open": 22196
+    }
+  },
+  "primitive_contributions": {
+    "STRAIGHT_LEVEL": {
+      "generated": 29999,
+      "unavailable": 0,
+      "safety_rejected": 0,
+      "physically_valid": 29999,
+      "open_inserted": 12853,
+      "lower_g_replacement": 4517,
+      "same_key_self": 0,
+      "same_key_dominated": 17146,
+      "valid_not_open": 17146,
+      "expanded_arrivals": 9880,
+      "expanded_arrival_fraction": 0.3293333333333333
+    },
+    "LEFT_LEVEL_TURN": {
+      "generated": 29999,
+      "unavailable": 0,
+      "safety_rejected": 0,
+      "physically_valid": 29999,
+      "open_inserted": 16722,
+      "lower_g_replacement": 318,
+      "same_key_self": 0,
+      "same_key_dominated": 13277,
+      "valid_not_open": 13277,
+      "expanded_arrivals": 8297,
+      "expanded_arrival_fraction": 0.2765666666666667
+    },
+    "RIGHT_LEVEL_TURN": {
+      "generated": 29999,
+      "unavailable": 0,
+      "safety_rejected": 0,
+      "physically_valid": 29999,
+      "open_inserted": 16704,
+      "lower_g_replacement": 323,
+      "same_key_self": 0,
+      "same_key_dominated": 13295,
+      "valid_not_open": 13295,
+      "expanded_arrivals": 8297,
+      "expanded_arrival_fraction": 0.2765666666666667
+    },
+    "STRAIGHT_CLIMB": {
+      "generated": 29999,
+      "unavailable": 27228,
+      "safety_rejected": 0,
+      "physically_valid": 2771,
+      "open_inserted": 840,
+      "lower_g_replacement": 32,
+      "same_key_self": 0,
+      "same_key_dominated": 1931,
+      "valid_not_open": 1931,
+      "expanded_arrivals": 320,
+      "expanded_arrival_fraction": 0.010666666666666666
+    },
+    "STRAIGHT_DESCENT": {
+      "generated": 29999,
+      "unavailable": 0,
+      "safety_rejected": 0,
+      "physically_valid": 29999,
+      "open_inserted": 7803,
+      "lower_g_replacement": 0,
+      "same_key_self": 0,
+      "same_key_dominated": 22196,
+      "valid_not_open": 22196,
+      "expanded_arrivals": 3205,
+      "expanded_arrival_fraction": 0.10683333333333334
+    }
+  },
+  "corridor_spread": {
+    "deviation_m": {
+      "count": 30000,
+      "min": 0.0,
+      "mean": 27.64570828125502,
+      "median": 24.212670356500894,
+      "p10": 0.0,
+      "p90": 47.904053593054414,
+      "p95": 48.32759937830269,
+      "max": 48.75114516261965
+    },
+    "cumulative_counts": {
+      "<=100m": 30000,
+      "<=250m": 30000,
+      "<=500m": 30000,
+      "<=1000m": 30000,
+      ">1000m": 0
+    }
+  },
+  "goal_progress_windows": [
+    {
+      "window": "1-1000",
+      "states": 1000,
+      "altitude": {
+        "count": 1000,
+        "min": 4190.219349542419,
+        "mean": 4328.776290674948,
+        "median": 4342.787095329751,
+        "p10": 4247.432254212668,
+        "p90": 4393.6430105921945,
+        "p95": 4400.0,
+        "max": 4400.0
+      },
+      "best_abs_z_error_m": 290.21934954241897,
+      "median_abs_z_error_m": 442.7870953297506,
+      "median_xy_error_m": 7920.0,
+      "median_3d_error_m": 7931.4972793093975
+    },
+    {
+      "window": "1001-5000",
+      "states": 4000,
+      "altitude": {
+        "count": 4000,
+        "min": 4075.7935402019184,
+        "mean": 4285.698151952953,
+        "median": 4298.288169475112,
+        "p10": 4164.791391911197,
+        "p90": 4380.9290317765835,
+        "p95": 4393.6430105921945,
+        "max": 4400.0
+      },
+      "best_abs_z_error_m": 175.7935402019184,
+      "median_abs_z_error_m": 398.2881694751122,
+      "median_xy_error_m": 7020.0,
+      "median_3d_error_m": 7031.573913943099
+    },
+    {
+      "window": "5001-10000",
+      "states": 5000,
+      "altitude": {
+        "count": 5000,
+        "min": 4024.937624939471,
+        "mean": 4242.878107000916,
+        "median": 4253.789243620474,
+        "p10": 4107.578487240948,
+        "p90": 4368.215052960973,
+        "p95": 4387.286021184389,
+        "max": 4400.0
+      },
+      "best_abs_z_error_m": 124.93762493947088,
+      "median_abs_z_error_m": 353.7892436204738,
+      "median_xy_error_m": 6416.00852146545,
+      "median_3d_error_m": 6425.071737816914
+    },
+    {
+      "window": "10001-20000",
+      "states": 10000,
+      "altitude": {
+        "count": 10000,
+        "min": 3955.108146638723,
+        "mean": 4177.968424368346,
+        "median": 4171.1483813190025,
+        "p10": 4024.937624939471,
+        "p90": 4342.787095329751,
+        "p95": 4374.572042368778,
+        "max": 4400.0
+      },
+      "best_abs_z_error_m": 55.108146638723156,
+      "median_abs_z_error_m": 271.1483813190025,
+      "median_xy_error_m": 5221.519591985357,
+      "median_3d_error_m": 5230.692984194766
+    },
+    {
+      "window": "20001-30000",
+      "states": 10000,
+      "altitude": {
+        "count": 10000,
+        "min": 3904.3635515878386,
+        "mean": 4109.2945186046745,
+        "median": 4075.7935402019184,
+        "p10": 3955.108146638723,
+        "p90": 4317.359137698529,
+        "p95": 4355.501074145362,
+        "max": 4400.0
+      },
+      "best_abs_z_error_m": 4.363551587838629,
+      "median_abs_z_error_m": 175.7935402019184,
+      "median_xy_error_m": 3960.0,
+      "median_3d_error_m": 3966.527394135198
+    }
+  ],
+  "open_at_termination": {
+    "heap_entries_including_stale": 21353,
+    "heap_stale_entries": 1302,
+    "active_open_representatives": 20051,
+    "unique_xy_bins": 495,
+    "mean_z_bins_per_xy": 29.517171717171717,
+    "mean_heading_bins_per_xy": 1.7676767676767677,
+    "altitude": {
+      "count": 20051,
+      "min": 3898.020477206478,
+      "mean": 4117.696128659405,
+      "median": 4088.5075190175303,
+      "p10": 3951.983859332579,
+      "p90": 4336.430105921945,
+      "p95": 4368.215052960973,
+      "max": 4400.0
+    },
+    "best_xy_distance_m": 23.515032725851952,
+    "best_z_error_m": 1.9795227935219373,
+    "best_3d_distance_m": 23.933374368428744
+  },
+  "classification": {
+    "primary": "A. Z DIVERSITY",
+    "secondary": "E. HEURISTIC / GOAL GUIDANCE",
+    "evidence": "Z multiplicity is widespread (median 37 and maximum 82 Z bins per XY), while heading diversity is only median 2 and all expanded poses stay within 49 m of the direct corridor. At 30k, an active non-stale OPEN representative is already inside the physical goal region, so frontier ordering/budget delays goal acceptance after vertical-state growth rather than a lateral detour or missing descent capability."
+  }
+}

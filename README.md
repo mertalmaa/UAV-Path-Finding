@@ -1,9 +1,10 @@
 # UAV Pathfinder
 
 Terrain-aware 3D path-planning research code for a fixed-wing UAV. The current
-planner combines conservative terrain/AGL checks, sparse CandidateZ altitude
-events, explicit-target motion primitives, and a measured planner-safe C172P
-aircraft profile.
+planner uses a continuous fixed-wing pose-aware A* with conservative
+terrain/AGL checks and a measured planner-safe C172P reference profile.
+CandidateZ remains a legacy terrain-event/audit artifact; it is not the active
+altitude-successor authority of the pose-aware core.
 
 ## Repository layout
 

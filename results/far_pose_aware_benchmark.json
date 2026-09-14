@@ -1,0 +1,189 @@
+{
+  "architecture": "pose_aware_fixed_wing_single_representative_approximate_search",
+  "speed_mps": 40.0,
+  "effective_min_agl_m": 100.0,
+  "lateral_buffer_m": 0.0,
+  "search_key": {
+    "xy_m": 60.0,
+    "z_m": 5.0,
+    "heading_deg": 15.0
+  },
+  "missions": {
+    "C_far_south_3km": {
+      "name": "C_far_south_3km",
+      "criterion": "3.0 km southbound real-terrain crossing from the canonical origin",
+      "start_rowcol": [
+        73,
+        73
+      ],
+      "goal_rowcol": [
+        123,
+        73
+      ],
+      "physical_separation_m": 3000.0,
+      "altitude_contract": "explicit_roi_entry_cruise_msl",
+      "start_z_msl_m": 3800.0,
+      "goal_z_msl_m": 3800.0,
+      "start_heading_deg": 180.0,
+      "status": "success",
+      "termination_reason": "FOUND",
+      "runtime_s": 5.9694909999961965,
+      "expanded": 10789,
+      "generated": 53940,
+      "rejected": 29308,
+      "peak_open": 8698,
+      "unique_search_keys": 6483,
+      "same_key": {
+        "collisions": 41097,
+        "replaced_lower_g": 12201,
+        "rejected_existing_better": 28896,
+        "self_transitions": 412,
+        "self_transitions_by_primitive": {
+          "STRAIGHT_CLIMB": 206,
+          "STRAIGHT_LEVEL": 206
+        }
+      },
+      "reject_reasons": {
+        "SAME_KEY_DOMINANCE": 28896,
+        "SAME_KEY_SELF_TRANSITION": 412
+      },
+      "primitive_counts": {
+        "LEFT_LEVEL_TURN": 7311,
+        "RIGHT_LEVEL_TURN": 7112,
+        "STRAIGHT_CLIMB": 2232,
+        "STRAIGHT_DESCENT": 2555,
+        "STRAIGHT_LEVEL": 5422
+      },
+      "best_xy_distance_to_goal_m": 89.49643488298258,
+      "best_3d_distance_to_goal_m": 89.99579320216014,
+      "maximum_altitude_msl_m": 3800.0,
+      "minimum_agl_m": 290.36487662790387,
+      "path": {
+        "continuous_length_m": 2922.6448332624445,
+        "segments": 41,
+        "goal_xy_error_m": 89.49643488298258,
+        "goal_z_error_m": 9.467361687504763,
+        "final_heading_deg": 180.0
+      },
+      "best_partial_path": null
+    },
+    "D_far_east_3km": {
+      "name": "D_far_east_3km",
+      "criterion": "3.0 km eastbound real-terrain crossing from the canonical origin",
+      "start_rowcol": [
+        73,
+        73
+      ],
+      "goal_rowcol": [
+        73,
+        123
+      ],
+      "physical_separation_m": 3000.0,
+      "altitude_contract": "explicit_roi_entry_cruise_msl",
+      "start_z_msl_m": 3800.0,
+      "goal_z_msl_m": 3800.0,
+      "start_heading_deg": 90.0,
+      "status": "success",
+      "termination_reason": "FOUND",
+      "runtime_s": 4.807439700001851,
+      "expanded": 8928,
+      "generated": 44635,
+      "rejected": 25247,
+      "peak_open": 6900,
+      "unique_search_keys": 7696,
+      "same_key": {
+        "collisions": 29906,
+        "replaced_lower_g": 6160,
+        "rejected_existing_better": 23746,
+        "self_transitions": 1501,
+        "self_transitions_by_primitive": {
+          "STRAIGHT_CLIMB": 308,
+          "STRAIGHT_LEVEL": 1193
+        }
+      },
+      "reject_reasons": {
+        "SAME_KEY_DOMINANCE": 23746,
+        "SAME_KEY_SELF_TRANSITION": 1501
+      },
+      "primitive_counts": {
+        "LEFT_LEVEL_TURN": 7227,
+        "RIGHT_LEVEL_TURN": 5949,
+        "STRAIGHT_CLIMB": 1447,
+        "STRAIGHT_DESCENT": 2575,
+        "STRAIGHT_LEVEL": 2190
+      },
+      "best_xy_distance_to_goal_m": 82.45341124488779,
+      "best_3d_distance_to_goal_m": 82.69703512536626,
+      "maximum_altitude_msl_m": 3800.094499769072,
+      "minimum_agl_m": 228.1337890625,
+      "path": {
+        "continuous_length_m": 2927.103659217665,
+        "segments": 43,
+        "goal_xy_error_m": 82.45341124488779,
+        "goal_z_error_m": 6.343074381360566,
+        "final_heading_deg": 105.0
+      },
+      "best_partial_path": null
+    },
+    "E_long_descent_9_3km": {
+      "name": "E_long_descent_9_3km",
+      "criterion": "9.3 km eastbound controlled 500 m descent across the ROI",
+      "start_rowcol": [
+        80,
+        5
+      ],
+      "goal_rowcol": [
+        80,
+        160
+      ],
+      "physical_separation_m": 9300.0,
+      "altitude_contract": "explicit_roi_entry_cruise_msl",
+      "start_z_msl_m": 4400.0,
+      "goal_z_msl_m": 3900.0,
+      "start_heading_deg": 90.0,
+      "status": "search_limit_reached",
+      "termination_reason": "EXPANSION_LIMIT",
+      "runtime_s": 15.395155400037766,
+      "expanded": 30000,
+      "generated": 149995,
+      "rejected": 95073,
+      "peak_open": 21356,
+      "unique_search_keys": 30000,
+      "same_key": {
+        "collisions": 73035,
+        "replaced_lower_g": 5190,
+        "rejected_existing_better": 67845,
+        "self_transitions": 0,
+        "self_transitions_by_primitive": {}
+      },
+      "reject_reasons": {
+        "SAME_KEY_DOMINANCE": 67845,
+        "UNAVAILABLE_CAPABILITY": 27228
+      },
+      "primitive_counts": {
+        "LEFT_LEVEL_TURN": 16722,
+        "RIGHT_LEVEL_TURN": 16704,
+        "STRAIGHT_CLIMB": 840,
+        "STRAIGHT_DESCENT": 7803,
+        "STRAIGHT_LEVEL": 12853
+      },
+      "best_xy_distance_to_goal_m": 120.0,
+      "best_3d_distance_to_goal_m": 120.07930955189461,
+      "maximum_altitude_msl_m": 4400.0,
+      "minimum_agl_m": null,
+      "path": null,
+      "best_partial_path": {
+        "continuous_length_m": 9180.0,
+        "segments": 153,
+        "end_xy_distance_to_goal_m": 120.0,
+        "end_3d_distance_to_goal_m": 120.07930955189461,
+        "end_pose": {
+          "x_m": 693620.843569939,
+          "y_m": 4186648.055558809,
+          "z_msl_m": 3904.3635515878386,
+          "heading_deg": 90.0
+        }
+      }
+    }
+  }
+}
