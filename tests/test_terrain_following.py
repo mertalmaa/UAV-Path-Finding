@@ -25,7 +25,8 @@ class TerrainFollowingTests(unittest.TestCase):
     def setUpClass(cls) -> None:
         cls.envelope = FixedWingKinematicEnvelope()
         cls.config = replace(DEFAULT_CONFIG, min_agl_m=100.0,
-                             primitive_sample_spacing_m=10.0, lateral_buffer_m=0.0)
+                             primitive_sample_spacing_m=10.0, lateral_buffer_m=0.0,
+                             enable_combined_turns=False)
 
     @staticmethod
     def terrain(elevation=1000.0, width=1000, height=120):

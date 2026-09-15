@@ -9,7 +9,7 @@
     "STRAIGHT_CLIMB",
     "STRAIGHT_DESCENT"
   ],
-  "aircraft_profile": "jsbsim/results/c172p_aircraft_profile_planner_safe_v3.json",
+  "aircraft_model": "generic_constant_performance_fixed_wing",
   "speed_mps": 40.0,
   "effective_min_agl_m": 100.0,
   "lateral_buffer_m": 0.0,
@@ -46,60 +46,62 @@
       "status": "success",
       "termination_reason": "FOUND",
       "success": true,
-      "expanded": 1201,
-      "generated": 6000,
-      "generated_per_expanded": 4.995836802664447,
-      "rejected": 3225,
-      "peak_open": 1109,
-      "runtime_s": 0.5840322000003653,
-      "unique_search_keys": 837,
+      "expanded": 154,
+      "generated": 765,
+      "generated_per_expanded": 4.967532467532467,
+      "rejected": 523,
+      "peak_open": 90,
+      "runtime_s": 0.06207740004174411,
+      "unique_search_keys": 154,
       "same_key": {
-        "collisions": 3979,
-        "replaced_lower_g": 1221,
-        "rejected_existing_better": 2758,
-        "self_transitions": 0,
-        "self_transitions_by_primitive": {}
+        "collisions": 9,
+        "replaced_lower_g": 4,
+        "rejected_existing_better": 5,
+        "self_transitions": 16,
+        "self_transitions_by_primitive": {
+          "STRAIGHT_LEVEL": 16
+        }
       },
       "reject_reasons": {
-        "BELOW_MIN_AGL": 467,
-        "SAME_KEY_DOMINANCE": 2758
+        "BELOW_MIN_AGL": 39,
+        "PARETO_Z_DOMINANCE": 463,
+        "SAME_KEY_DOMINANCE": 5,
+        "SAME_KEY_SELF_TRANSITION": 16
       },
       "search_statistics": {
         "generated_by_primitive": {
-          "LEFT_LEVEL_TURN": 1200,
-          "RIGHT_LEVEL_TURN": 1200,
-          "STRAIGHT_CLIMB": 1200,
-          "STRAIGHT_DESCENT": 1200,
-          "STRAIGHT_LEVEL": 1200
+          "LEFT_LEVEL_TURN": 153,
+          "RIGHT_LEVEL_TURN": 153,
+          "STRAIGHT_CLIMB": 153,
+          "STRAIGHT_DESCENT": 153,
+          "STRAIGHT_LEVEL": 153
         },
         "open_inserted_by_primitive": {
-          "LEFT_LEVEL_TURN": 905,
-          "RIGHT_LEVEL_TURN": 756,
-          "STRAIGHT_CLIMB": 201,
-          "STRAIGHT_DESCENT": 316,
-          "STRAIGHT_LEVEL": 597
+          "LEFT_LEVEL_TURN": 108,
+          "RIGHT_LEVEL_TURN": 79,
+          "STRAIGHT_CLIMB": 5,
+          "STRAIGHT_DESCENT": 5,
+          "STRAIGHT_LEVEL": 45
         },
         "expanded_arrivals_by_primitive": {
-          "LEFT_LEVEL_TURN": 327,
-          "RIGHT_LEVEL_TURN": 117,
-          "STRAIGHT_CLIMB": 146,
-          "STRAIGHT_DESCENT": 148,
-          "STRAIGHT_LEVEL": 462
+          "LEFT_LEVEL_TURN": 67,
+          "RIGHT_LEVEL_TURN": 43,
+          "STRAIGHT_LEVEL": 43
         }
       },
       "minimum_agl_m": 134.65283203125,
-      "closest_xy_distance_m": 82.87971388834761,
+      "closest_xy_distance_m": 60.0,
       "best_partial_goal_z_error_m": 0.0,
-      "best_partial_goal_3d_error_m": 82.87971388834761,
+      "best_partial_goal_3d_error_m": 60.0,
       "best_partial_end_pose": {
-        "x_m": 688558.5197382062,
-        "y_m": 4186001.8766487422,
+        "x_m": 688520.843569939,
+        "y_m": 4185988.055558809,
         "z_msl_m": 3500.0,
-        "heading_deg": 165.0
+        "heading_deg": 180.0
       },
       "path": {
-        "physical_length_m": 1070.1589795711081,
-        "segments": 16,
+        "physical_length_m": 1080.0,
+        "segments": 18,
         "primitives": [
           "STRAIGHT_LEVEL",
           "STRAIGHT_LEVEL",
@@ -115,17 +117,18 @@
           "STRAIGHT_LEVEL",
           "STRAIGHT_LEVEL",
           "STRAIGHT_LEVEL",
-          "LEFT_LEVEL_TURN",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
           "STRAIGHT_LEVEL"
         ],
         "primitive_counts": {
-          "LEFT_LEVEL_TURN": 1,
-          "STRAIGHT_LEVEL": 15
+          "STRAIGHT_LEVEL": 18
         },
         "minimum_agl_m": 134.65283203125,
-        "goal_xy_error_m": 82.87971388834761,
+        "goal_xy_error_m": 60.0,
         "goal_z_error_m": 0.0,
-        "final_heading_deg": 165.0
+        "final_heading_deg": 180.0
       }
     },
     "B_relief_affected": {
@@ -147,89 +150,100 @@
       "status": "success",
       "termination_reason": "FOUND",
       "success": true,
-      "expanded": 466,
-      "generated": 2325,
-      "generated_per_expanded": 4.989270386266094,
-      "rejected": 1377,
-      "peak_open": 388,
-      "runtime_s": 0.27738680000038585,
-      "unique_search_keys": 446,
+      "expanded": 378,
+      "generated": 1885,
+      "generated_per_expanded": 4.9867724867724865,
+      "rejected": 1313,
+      "peak_open": 164,
+      "runtime_s": 0.16971729998476803,
+      "unique_search_keys": 350,
       "same_key": {
-        "collisions": 956,
-        "replaced_lower_g": 184,
-        "rejected_existing_better": 772,
-        "self_transitions": 37,
+        "collisions": 116,
+        "replaced_lower_g": 95,
+        "rejected_existing_better": 21,
+        "self_transitions": 15,
         "self_transitions_by_primitive": {
-          "STRAIGHT_CLIMB": 10,
-          "STRAIGHT_LEVEL": 27
+          "STRAIGHT_LEVEL": 15
         }
       },
       "reject_reasons": {
-        "BELOW_MIN_AGL": 568,
-        "SAME_KEY_DOMINANCE": 772,
-        "SAME_KEY_SELF_TRANSITION": 37
+        "BELOW_MIN_AGL": 374,
+        "PARETO_Z_DOMINANCE": 903,
+        "SAME_KEY_DOMINANCE": 21,
+        "SAME_KEY_SELF_TRANSITION": 15
       },
       "search_statistics": {
         "generated_by_primitive": {
-          "LEFT_LEVEL_TURN": 465,
-          "RIGHT_LEVEL_TURN": 465,
-          "STRAIGHT_CLIMB": 465,
-          "STRAIGHT_DESCENT": 465,
-          "STRAIGHT_LEVEL": 465
+          "LEFT_LEVEL_TURN": 377,
+          "RIGHT_LEVEL_TURN": 377,
+          "STRAIGHT_CLIMB": 377,
+          "STRAIGHT_DESCENT": 377,
+          "STRAIGHT_LEVEL": 377
         },
         "open_inserted_by_primitive": {
-          "LEFT_LEVEL_TURN": 251,
-          "RIGHT_LEVEL_TURN": 269,
-          "STRAIGHT_CLIMB": 84,
-          "STRAIGHT_DESCENT": 185,
-          "STRAIGHT_LEVEL": 159
+          "LEFT_LEVEL_TURN": 187,
+          "RIGHT_LEVEL_TURN": 193,
+          "STRAIGHT_CLIMB": 7,
+          "STRAIGHT_DESCENT": 50,
+          "STRAIGHT_LEVEL": 135
         },
         "expanded_arrivals_by_primitive": {
-          "LEFT_LEVEL_TURN": 97,
-          "RIGHT_LEVEL_TURN": 82,
-          "STRAIGHT_CLIMB": 63,
-          "STRAIGHT_DESCENT": 107,
-          "STRAIGHT_LEVEL": 116
+          "LEFT_LEVEL_TURN": 117,
+          "RIGHT_LEVEL_TURN": 107,
+          "STRAIGHT_CLIMB": 6,
+          "STRAIGHT_DESCENT": 30,
+          "STRAIGHT_LEVEL": 117
         }
       },
-      "minimum_agl_m": 104.22705078125,
-      "closest_xy_distance_m": 89.25937786313287,
-      "best_partial_goal_z_error_m": 6.343074381360566,
-      "best_partial_goal_3d_error_m": 89.48447423503704,
+      "minimum_agl_m": 100.302001953125,
+      "closest_xy_distance_m": 87.2308736030096,
+      "best_partial_goal_z_error_m": 7.5,
+      "best_partial_goal_3d_error_m": 87.55270018419898,
       "best_partial_end_pose": {
-        "x_m": 689598.31949484,
-        "y_m": 4185864.3533094805,
-        "z_msl_m": 3593.6569256186394,
-        "heading_deg": 75.0
+        "x_m": 689582.8723625136,
+        "y_m": 4185967.1671443325,
+        "z_msl_m": 3607.5,
+        "heading_deg": 90.0
       },
       "path": {
-        "physical_length_m": 1900.4178008270221,
-        "segments": 13,
+        "physical_length_m": 1788.0379546000013,
+        "segments": 24,
         "primitives": [
           "RIGHT_LEVEL_TURN",
           "RIGHT_LEVEL_TURN",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
           "RIGHT_LEVEL_TURN",
           "STRAIGHT_LEVEL",
           "STRAIGHT_LEVEL",
           "LEFT_LEVEL_TURN",
           "LEFT_LEVEL_TURN",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
           "LEFT_LEVEL_TURN",
           "LEFT_LEVEL_TURN",
+          "STRAIGHT_CLIMB",
           "LEFT_LEVEL_TURN",
           "LEFT_LEVEL_TURN",
+          "RIGHT_LEVEL_TURN",
           "LEFT_LEVEL_TURN",
-          "STRAIGHT_DESCENT"
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL"
         ],
         "primitive_counts": {
           "LEFT_LEVEL_TURN": 7,
-          "RIGHT_LEVEL_TURN": 3,
-          "STRAIGHT_DESCENT": 1,
-          "STRAIGHT_LEVEL": 2
+          "RIGHT_LEVEL_TURN": 4,
+          "STRAIGHT_CLIMB": 1,
+          "STRAIGHT_LEVEL": 12
         },
-        "minimum_agl_m": 104.22705078125,
-        "goal_xy_error_m": 89.25937786313287,
-        "goal_z_error_m": 6.343074381360566,
-        "final_heading_deg": 75.0
+        "minimum_agl_m": 100.302001953125,
+        "goal_xy_error_m": 87.2308736030096,
+        "goal_z_error_m": 7.5,
+        "final_heading_deg": 90.0
       }
     },
     "C_far_south_3km": {
@@ -251,63 +265,61 @@
       "status": "success",
       "termination_reason": "FOUND",
       "success": true,
-      "expanded": 10789,
-      "generated": 53940,
-      "generated_per_expanded": 4.999536565019928,
-      "rejected": 29308,
-      "peak_open": 8698,
-      "runtime_s": 5.230506100000639,
-      "unique_search_keys": 6483,
+      "expanded": 390,
+      "generated": 1945,
+      "generated_per_expanded": 4.987179487179487,
+      "rejected": 1318,
+      "peak_open": 240,
+      "runtime_s": 0.18400450004264712,
+      "unique_search_keys": 390,
       "same_key": {
-        "collisions": 41097,
-        "replaced_lower_g": 12201,
-        "rejected_existing_better": 28896,
-        "self_transitions": 412,
+        "collisions": 9,
+        "replaced_lower_g": 4,
+        "rejected_existing_better": 5,
+        "self_transitions": 45,
         "self_transitions_by_primitive": {
-          "STRAIGHT_CLIMB": 206,
-          "STRAIGHT_LEVEL": 206
+          "STRAIGHT_LEVEL": 45
         }
       },
       "reject_reasons": {
-        "SAME_KEY_DOMINANCE": 28896,
-        "SAME_KEY_SELF_TRANSITION": 412
+        "PARETO_Z_DOMINANCE": 1268,
+        "SAME_KEY_DOMINANCE": 5,
+        "SAME_KEY_SELF_TRANSITION": 45
       },
       "search_statistics": {
         "generated_by_primitive": {
-          "LEFT_LEVEL_TURN": 10788,
-          "RIGHT_LEVEL_TURN": 10788,
-          "STRAIGHT_CLIMB": 10788,
-          "STRAIGHT_DESCENT": 10788,
-          "STRAIGHT_LEVEL": 10788
+          "LEFT_LEVEL_TURN": 389,
+          "RIGHT_LEVEL_TURN": 389,
+          "STRAIGHT_CLIMB": 389,
+          "STRAIGHT_DESCENT": 389,
+          "STRAIGHT_LEVEL": 389
         },
         "open_inserted_by_primitive": {
-          "LEFT_LEVEL_TURN": 7311,
-          "RIGHT_LEVEL_TURN": 7112,
-          "STRAIGHT_CLIMB": 2232,
-          "STRAIGHT_DESCENT": 2555,
-          "STRAIGHT_LEVEL": 5422
+          "LEFT_LEVEL_TURN": 283,
+          "RIGHT_LEVEL_TURN": 221,
+          "STRAIGHT_CLIMB": 5,
+          "STRAIGHT_DESCENT": 5,
+          "STRAIGHT_LEVEL": 113
         },
         "expanded_arrivals_by_primitive": {
-          "LEFT_LEVEL_TURN": 2446,
-          "RIGHT_LEVEL_TURN": 2346,
-          "STRAIGHT_CLIMB": 1557,
-          "STRAIGHT_DESCENT": 744,
-          "STRAIGHT_LEVEL": 3695
+          "LEFT_LEVEL_TURN": 164,
+          "RIGHT_LEVEL_TURN": 116,
+          "STRAIGHT_LEVEL": 109
         }
       },
-      "minimum_agl_m": 290.36487662790387,
-      "closest_xy_distance_m": 89.49643488298258,
-      "best_partial_goal_z_error_m": 9.467361687504763,
-      "best_partial_goal_3d_error_m": 89.99579320216014,
+      "minimum_agl_m": 303.051025390625,
+      "closest_xy_distance_m": 60.0,
+      "best_partial_goal_z_error_m": 0.0,
+      "best_partial_goal_3d_error_m": 60.0,
       "best_partial_end_pose": {
-        "x_m": 688505.3144272328,
-        "y_m": 4184156.194412804,
-        "z_msl_m": 3790.5326383124952,
+        "x_m": 688520.843569939,
+        "y_m": 4184128.055558809,
+        "z_msl_m": 3800.0,
         "heading_deg": 180.0
       },
       "path": {
-        "physical_length_m": 2922.6448332624445,
-        "segments": 41,
+        "physical_length_m": 2940.0,
+        "segments": 49,
         "primitives": [
           "STRAIGHT_LEVEL",
           "STRAIGHT_LEVEL",
@@ -341,26 +353,30 @@
           "STRAIGHT_LEVEL",
           "STRAIGHT_LEVEL",
           "STRAIGHT_LEVEL",
-          "STRAIGHT_DESCENT",
-          "STRAIGHT_DESCENT",
-          "LEFT_LEVEL_TURN",
-          "RIGHT_LEVEL_TURN",
-          "RIGHT_LEVEL_TURN",
           "STRAIGHT_LEVEL",
-          "LEFT_LEVEL_TURN",
           "STRAIGHT_LEVEL",
-          "STRAIGHT_CLIMB"
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL"
         ],
         "primitive_counts": {
-          "LEFT_LEVEL_TURN": 2,
-          "RIGHT_LEVEL_TURN": 2,
-          "STRAIGHT_CLIMB": 1,
-          "STRAIGHT_DESCENT": 2,
-          "STRAIGHT_LEVEL": 34
+          "STRAIGHT_LEVEL": 49
         },
-        "minimum_agl_m": 290.36487662790387,
-        "goal_xy_error_m": 89.49643488298258,
-        "goal_z_error_m": 9.467361687504763,
+        "minimum_agl_m": 303.051025390625,
+        "goal_xy_error_m": 60.0,
+        "goal_z_error_m": 0.0,
         "final_heading_deg": 180.0
       }
     },
@@ -383,63 +399,61 @@
       "status": "success",
       "termination_reason": "FOUND",
       "success": true,
-      "expanded": 8928,
-      "generated": 44635,
-      "generated_per_expanded": 4.999439964157706,
-      "rejected": 25247,
-      "peak_open": 6900,
-      "runtime_s": 4.353730599999835,
-      "unique_search_keys": 7696,
+      "expanded": 334,
+      "generated": 1665,
+      "generated_per_expanded": 4.985029940119761,
+      "rejected": 1061,
+      "peak_open": 270,
+      "runtime_s": 0.15604069997789338,
+      "unique_search_keys": 326,
       "same_key": {
-        "collisions": 29906,
-        "replaced_lower_g": 6160,
-        "rejected_existing_better": 23746,
-        "self_transitions": 1501,
+        "collisions": 33,
+        "replaced_lower_g": 14,
+        "rejected_existing_better": 19,
+        "self_transitions": 6,
         "self_transitions_by_primitive": {
-          "STRAIGHT_CLIMB": 308,
-          "STRAIGHT_LEVEL": 1193
+          "STRAIGHT_LEVEL": 6
         }
       },
       "reject_reasons": {
-        "SAME_KEY_DOMINANCE": 23746,
-        "SAME_KEY_SELF_TRANSITION": 1501
+        "PARETO_Z_DOMINANCE": 1036,
+        "SAME_KEY_DOMINANCE": 19,
+        "SAME_KEY_SELF_TRANSITION": 6
       },
       "search_statistics": {
         "generated_by_primitive": {
-          "LEFT_LEVEL_TURN": 8927,
-          "RIGHT_LEVEL_TURN": 8927,
-          "STRAIGHT_CLIMB": 8927,
-          "STRAIGHT_DESCENT": 8927,
-          "STRAIGHT_LEVEL": 8927
+          "LEFT_LEVEL_TURN": 333,
+          "RIGHT_LEVEL_TURN": 333,
+          "STRAIGHT_CLIMB": 333,
+          "STRAIGHT_DESCENT": 333,
+          "STRAIGHT_LEVEL": 333
         },
         "open_inserted_by_primitive": {
-          "LEFT_LEVEL_TURN": 7227,
-          "RIGHT_LEVEL_TURN": 5949,
-          "STRAIGHT_CLIMB": 1447,
-          "STRAIGHT_DESCENT": 2575,
-          "STRAIGHT_LEVEL": 2190
+          "LEFT_LEVEL_TURN": 239,
+          "RIGHT_LEVEL_TURN": 240,
+          "STRAIGHT_CLIMB": 7,
+          "STRAIGHT_DESCENT": 7,
+          "STRAIGHT_LEVEL": 111
         },
         "expanded_arrivals_by_primitive": {
-          "LEFT_LEVEL_TURN": 2937,
-          "RIGHT_LEVEL_TURN": 2484,
-          "STRAIGHT_CLIMB": 1145,
-          "STRAIGHT_DESCENT": 1025,
-          "STRAIGHT_LEVEL": 1336
+          "LEFT_LEVEL_TURN": 130,
+          "RIGHT_LEVEL_TURN": 130,
+          "STRAIGHT_LEVEL": 73
         }
       },
       "minimum_agl_m": 228.1337890625,
-      "closest_xy_distance_m": 82.45341124488779,
-      "best_partial_goal_z_error_m": 6.343074381360566,
-      "best_partial_goal_3d_error_m": 82.69703512536626,
+      "closest_xy_distance_m": 60.0,
+      "best_partial_goal_z_error_m": 0.0,
+      "best_partial_goal_3d_error_m": 60.0,
       "best_partial_end_pose": {
-        "x_m": 691441.6206838103,
-        "y_m": 4187090.9094280517,
-        "z_msl_m": 3793.6569256186394,
-        "heading_deg": 105.0
+        "x_m": 691460.843569939,
+        "y_m": 4187068.055558809,
+        "z_msl_m": 3800.0,
+        "heading_deg": 90.0
       },
       "path": {
-        "physical_length_m": 2927.103659217665,
-        "segments": 43,
+        "physical_length_m": 2940.0,
+        "segments": 49,
         "primitives": [
           "STRAIGHT_LEVEL",
           "STRAIGHT_LEVEL",
@@ -480,21 +494,24 @@
           "STRAIGHT_LEVEL",
           "STRAIGHT_LEVEL",
           "STRAIGHT_LEVEL",
-          "STRAIGHT_DESCENT",
-          "LEFT_LEVEL_TURN",
-          "RIGHT_LEVEL_TURN",
-          "RIGHT_LEVEL_TURN"
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL"
         ],
         "primitive_counts": {
-          "LEFT_LEVEL_TURN": 1,
-          "RIGHT_LEVEL_TURN": 2,
-          "STRAIGHT_DESCENT": 1,
-          "STRAIGHT_LEVEL": 39
+          "STRAIGHT_LEVEL": 49
         },
         "minimum_agl_m": 228.1337890625,
-        "goal_xy_error_m": 82.45341124488779,
-        "goal_z_error_m": 6.343074381360566,
-        "final_heading_deg": 105.0
+        "goal_xy_error_m": 60.0,
+        "goal_z_error_m": 0.0,
+        "final_heading_deg": 90.0
       }
     },
     "E_long_descent_9_3km": {
@@ -513,61 +530,229 @@
       "start_z_msl_m": 4400.0,
       "goal_z_msl_m": 3900.0,
       "start_heading_deg": 90.0,
-      "status": "search_limit_reached",
-      "termination_reason": "EXPANSION_LIMIT",
-      "success": false,
-      "expanded": 30000,
-      "generated": 149995,
-      "generated_per_expanded": 4.999833333333333,
-      "rejected": 95073,
-      "peak_open": 21356,
-      "runtime_s": 13.880571300000156,
-      "unique_search_keys": 30000,
+      "status": "success",
+      "termination_reason": "FOUND",
+      "success": true,
+      "expanded": 7137,
+      "generated": 35680,
+      "generated_per_expanded": 4.999299425528934,
+      "rejected": 22992,
+      "peak_open": 5554,
+      "runtime_s": 2.729522499954328,
+      "unique_search_keys": 7098,
       "same_key": {
-        "collisions": 73035,
-        "replaced_lower_g": 5190,
-        "rejected_existing_better": 67845,
-        "self_transitions": 0,
-        "self_transitions_by_primitive": {}
+        "collisions": 140,
+        "replaced_lower_g": 82,
+        "rejected_existing_better": 58,
+        "self_transitions": 23,
+        "self_transitions_by_primitive": {
+          "STRAIGHT_LEVEL": 23
+        }
       },
       "reject_reasons": {
-        "SAME_KEY_DOMINANCE": 67845,
-        "UNAVAILABLE_CAPABILITY": 27228
+        "PARETO_Z_DOMINANCE": 22911,
+        "SAME_KEY_DOMINANCE": 58,
+        "SAME_KEY_SELF_TRANSITION": 23
       },
       "search_statistics": {
         "generated_by_primitive": {
-          "LEFT_LEVEL_TURN": 29999,
-          "RIGHT_LEVEL_TURN": 29999,
-          "STRAIGHT_CLIMB": 29999,
-          "STRAIGHT_DESCENT": 29999,
-          "STRAIGHT_LEVEL": 29999
+          "LEFT_LEVEL_TURN": 7136,
+          "RIGHT_LEVEL_TURN": 7136,
+          "STRAIGHT_CLIMB": 7136,
+          "STRAIGHT_DESCENT": 7136,
+          "STRAIGHT_LEVEL": 7136
         },
         "open_inserted_by_primitive": {
-          "LEFT_LEVEL_TURN": 16722,
-          "RIGHT_LEVEL_TURN": 16704,
-          "STRAIGHT_CLIMB": 840,
-          "STRAIGHT_DESCENT": 7803,
-          "STRAIGHT_LEVEL": 12853
+          "LEFT_LEVEL_TURN": 5158,
+          "RIGHT_LEVEL_TURN": 5169,
+          "STRAIGHT_DESCENT": 1278,
+          "STRAIGHT_LEVEL": 1083
         },
         "expanded_arrivals_by_primitive": {
-          "LEFT_LEVEL_TURN": 8297,
-          "RIGHT_LEVEL_TURN": 8297,
-          "STRAIGHT_CLIMB": 320,
-          "STRAIGHT_DESCENT": 3205,
-          "STRAIGHT_LEVEL": 9880
+          "LEFT_LEVEL_TURN": 2723,
+          "RIGHT_LEVEL_TURN": 2724,
+          "STRAIGHT_DESCENT": 932,
+          "STRAIGHT_LEVEL": 757
         }
       },
-      "minimum_agl_m": null,
-      "closest_xy_distance_m": 120.0,
-      "best_partial_goal_z_error_m": 4.363551587838629,
-      "best_partial_goal_3d_error_m": 120.07930955189461,
+      "minimum_agl_m": 504.0732421875,
+      "closest_xy_distance_m": 60.0,
+      "best_partial_goal_z_error_m": 5.0,
+      "best_partial_goal_3d_error_m": 60.207972893961475,
       "best_partial_end_pose": {
-        "x_m": 693620.843569939,
+        "x_m": 693680.843569939,
         "y_m": 4186648.055558809,
-        "z_msl_m": 3904.3635515878386,
+        "z_msl_m": 3905.0,
         "heading_deg": 90.0
       },
-      "path": null
+      "path": {
+        "physical_length_m": 9270.817585407782,
+        "segments": 154,
+        "primitives": [
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT"
+        ],
+        "primitive_counts": {
+          "STRAIGHT_DESCENT": 66,
+          "STRAIGHT_LEVEL": 88
+        },
+        "minimum_agl_m": 504.0732421875,
+        "goal_xy_error_m": 60.0,
+        "goal_z_error_m": 5.0,
+        "final_heading_deg": 90.0
+      }
     },
     "F_turn_required_diagonal_2_3km": {
       "name": "F_turn_required_diagonal_2_3km",
@@ -588,95 +773,107 @@
       "status": "success",
       "termination_reason": "FOUND",
       "success": true,
-      "expanded": 5942,
-      "generated": 29705,
-      "generated_per_expanded": 4.999158532480647,
-      "rejected": 18486,
-      "peak_open": 3001,
-      "runtime_s": 2.834688900000401,
-      "unique_search_keys": 4425,
+      "expanded": 404,
+      "generated": 2015,
+      "generated_per_expanded": 4.987623762376238,
+      "rejected": 1431,
+      "peak_open": 158,
+      "runtime_s": 0.17252239998197183,
+      "unique_search_keys": 359,
       "same_key": {
-        "collisions": 17482,
-        "replaced_lower_g": 4502,
-        "rejected_existing_better": 12980,
-        "self_transitions": 705,
+        "collisions": 101,
+        "replaced_lower_g": 90,
+        "rejected_existing_better": 11,
+        "self_transitions": 29,
         "self_transitions_by_primitive": {
-          "STRAIGHT_CLIMB": 179,
-          "STRAIGHT_LEVEL": 526
+          "STRAIGHT_LEVEL": 29
         }
       },
       "reject_reasons": {
-        "BELOW_MIN_AGL": 4801,
-        "SAME_KEY_DOMINANCE": 12980,
-        "SAME_KEY_SELF_TRANSITION": 705
+        "BELOW_MIN_AGL": 331,
+        "PARETO_Z_DOMINANCE": 1060,
+        "SAME_KEY_DOMINANCE": 11,
+        "SAME_KEY_SELF_TRANSITION": 29
       },
       "search_statistics": {
         "generated_by_primitive": {
-          "LEFT_LEVEL_TURN": 5941,
-          "RIGHT_LEVEL_TURN": 5941,
-          "STRAIGHT_CLIMB": 5941,
-          "STRAIGHT_DESCENT": 5941,
-          "STRAIGHT_LEVEL": 5941
+          "LEFT_LEVEL_TURN": 403,
+          "RIGHT_LEVEL_TURN": 403,
+          "STRAIGHT_CLIMB": 403,
+          "STRAIGHT_DESCENT": 403,
+          "STRAIGHT_LEVEL": 403
         },
         "open_inserted_by_primitive": {
-          "LEFT_LEVEL_TURN": 3522,
-          "RIGHT_LEVEL_TURN": 2998,
-          "STRAIGHT_CLIMB": 1183,
-          "STRAIGHT_DESCENT": 1737,
-          "STRAIGHT_LEVEL": 1779
+          "LEFT_LEVEL_TURN": 193,
+          "RIGHT_LEVEL_TURN": 214,
+          "STRAIGHT_CLIMB": 6,
+          "STRAIGHT_DESCENT": 6,
+          "STRAIGHT_LEVEL": 165
         },
         "expanded_arrivals_by_primitive": {
-          "LEFT_LEVEL_TURN": 1612,
-          "RIGHT_LEVEL_TURN": 1147,
-          "STRAIGHT_CLIMB": 944,
-          "STRAIGHT_DESCENT": 867,
-          "STRAIGHT_LEVEL": 1371
+          "LEFT_LEVEL_TURN": 130,
+          "RIGHT_LEVEL_TURN": 140,
+          "STRAIGHT_LEVEL": 133
         }
       },
-      "minimum_agl_m": 109.46497428415387,
-      "closest_xy_distance_m": 79.13623341601753,
-      "best_partial_goal_z_error_m": 9.467361687504763,
-      "best_partial_goal_3d_error_m": 79.70052933699024,
+      "minimum_agl_m": 109.82861328125,
+      "closest_xy_distance_m": 80.69840288912178,
+      "best_partial_goal_z_error_m": 0.0,
+      "best_partial_goal_3d_error_m": 80.69840288912178,
       "best_partial_end_pose": {
-        "x_m": 690088.0241622193,
-        "y_m": 4185506.984784219,
-        "z_msl_m": 3690.5326383124952,
-        "heading_deg": 150.0
+        "x_m": 690076.0324312977,
+        "y_m": 4185496.136204987,
+        "z_msl_m": 3700.0,
+        "heading_deg": 135.0
       },
       "path": {
-        "physical_length_m": 2330.8436596691554,
-        "segments": 18,
+        "physical_length_m": 2292.7789247182454,
+        "segments": 34,
         "primitives": [
-          "STRAIGHT_DESCENT",
-          "RIGHT_LEVEL_TURN",
+          "STRAIGHT_LEVEL",
           "RIGHT_LEVEL_TURN",
           "STRAIGHT_LEVEL",
           "STRAIGHT_LEVEL",
-          "STRAIGHT_DESCENT",
-          "LEFT_LEVEL_TURN",
-          "LEFT_LEVEL_TURN",
-          "STRAIGHT_LEVEL",
-          "LEFT_LEVEL_TURN",
-          "LEFT_LEVEL_TURN",
-          "RIGHT_LEVEL_TURN",
-          "LEFT_LEVEL_TURN",
-          "RIGHT_LEVEL_TURN",
-          "RIGHT_LEVEL_TURN",
           "STRAIGHT_LEVEL",
           "RIGHT_LEVEL_TURN",
-          "STRAIGHT_CLIMB"
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "LEFT_LEVEL_TURN",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "LEFT_LEVEL_TURN",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "LEFT_LEVEL_TURN",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "RIGHT_LEVEL_TURN",
+          "LEFT_LEVEL_TURN",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "RIGHT_LEVEL_TURN",
+          "STRAIGHT_LEVEL"
         ],
         "primitive_counts": {
-          "LEFT_LEVEL_TURN": 5,
-          "RIGHT_LEVEL_TURN": 6,
-          "STRAIGHT_CLIMB": 1,
-          "STRAIGHT_DESCENT": 2,
-          "STRAIGHT_LEVEL": 4
+          "LEFT_LEVEL_TURN": 4,
+          "RIGHT_LEVEL_TURN": 4,
+          "STRAIGHT_LEVEL": 26
         },
-        "minimum_agl_m": 109.46497428415387,
-        "goal_xy_error_m": 79.13623341601753,
-        "goal_z_error_m": 9.467361687504763,
-        "final_heading_deg": 150.0
+        "minimum_agl_m": 109.82861328125,
+        "goal_xy_error_m": 80.69840288912178,
+        "goal_z_error_m": 0.0,
+        "final_heading_deg": 135.0
       }
     }
   }

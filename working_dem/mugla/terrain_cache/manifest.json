@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "code_version": "terrain_cache_v1",
+  "created_at_utc": "2026-09-15T20:24:13Z",
+  "source_dem_path": "regions\\mugla\\working_dem.tif",
+  "source_sha256": "2126b9d17da8b03192c261f48e7b1a29627cc7152359ff46c4f34373bfd5c350",
+  "source_width": 1000,
+  "source_height": 1000,
+  "source_crs": "EPSG:32636",
+  "source_transform": [
+    30.0,
+    0.0,
+    72321.35383186117,
+    0.0,
+    -30.0,
+    4144444.325037066
+  ],
+  "native_resolution_m": 30.0,
+  "nodata": -9999.0,
+  "pooling_factors": [
+    2,
+    3
+  ],
+  "array_shapes": {
+    "fine_elevation": [
+      1000,
+      1000
+    ],
+    "min_elevation_f2": [
+      500,
+      500
+    ],
+    "max_elevation_f2": [
+      500,
+      500
+    ],
+    "mean_elevation_f2": [
+      500,
+      500
+    ],
+    "relief_f2": [
+      500,
+      500
+    ],
+    "min_elevation_f3": [
+      333,
+      333
+    ],
+    "max_elevation_f3": [
+      333,
+      333
+    ],
+    "mean_elevation_f3": [
+      333,
+      333
+    ],
+    "relief_f3": [
+      333,
+      333
+    ]
+  },
+  "array_dtypes": {
+    "fine_elevation": "float32",
+    "min_elevation_f2": "float32",
+    "max_elevation_f2": "float32",
+    "mean_elevation_f2": "float32",
+    "relief_f2": "float32",
+    "min_elevation_f3": "float32",
+    "max_elevation_f3": "float32",
+    "mean_elevation_f3": "float32",
+    "relief_f3": "float32"
+  }
+}

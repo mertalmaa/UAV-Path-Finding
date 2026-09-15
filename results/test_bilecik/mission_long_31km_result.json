@@ -1,0 +1,140 @@
+{
+  "mission_id": "M_LONG_31KM",
+  "mission_name": "Bilecik Sakarya Kanyonu 31 km Ultra-Uzun Uçuş",
+  "region": "bilecik",
+  "success": true,
+  "total_distance_m": 31093.2,
+  "total_distance_km": 31.09,
+  "flight_time_s": 777.3,
+  "flight_time_min": 12.96,
+  "planning_runtime_s": 2.537,
+  "total_expanded_nodes": 796,
+  "total_primitives": 346,
+  "min_agl_m": 120.0,
+  "max_agl_m": 466.6,
+  "mean_agl_m": 185.4,
+  "altitude_msl_min_m": 248.4,
+  "altitude_msl_max_m": 698.9,
+  "maneuvers_count": {
+    "DESCENDING_RIGHT_TURN": 78,
+    "DESCENDING_LEFT_TURN": 78,
+    "CLIMBING_LEFT_TURN": 72,
+    "CLIMBING_RIGHT_TURN": 79,
+    "LEFT_LEVEL_TURN": 10,
+    "RIGHT_LEVEL_TURN": 10,
+    "STRAIGHT_CLIMB": 13,
+    "STRAIGHT_DESCENT": 5,
+    "STRAIGHT_LEVEL": 1
+  },
+  "maneuvers_tr": "Tırmanan Sağa Dönüş: 79, Alçalan Sağa Dönüş: 78, Alçalan Sola Dönüş: 78, Tırmanan Sola Dönüş: 72, Düz Tırmanış: 13, Sola Düzey Dönüş: 10, Sağa Düzey Dönüş: 10, Düz Süzülüş/Alçalış: 5, Düz Düzey Uçuş: 1",
+  "plot_filename": "mission_long_31km_2panel.png",
+  "waypoints": [
+    {
+      "id": "WP0_INHISAR_SOUTH",
+      "x": 261800.0,
+      "y": 4445000.0,
+      "desc": "İnhisar Kanyon Girişi (Güney Sınırı)"
+    },
+    {
+      "id": "WP1_GORGE_BEND_S",
+      "x": 259200.0,
+      "y": 4448000.0,
+      "desc": "Güney Kanyon Dirseği"
+    },
+    {
+      "id": "WP2_VALLEY_NARROWS",
+      "x": 258000.0,
+      "y": 4452000.0,
+      "desc": "Vadi Boğazı Dar Boğaz"
+    },
+    {
+      "id": "WP3_VEZIRHAN_S",
+      "x": 256500.0,
+      "y": 4456500.0,
+      "desc": "Vezirhan Güney Geçiş Koridoru"
+    },
+    {
+      "id": "WP4_VEZIRHAN_GORGE",
+      "x": 256300.0,
+      "y": 4461500.0,
+      "desc": "Vezirhan Kanyon Kanyonu"
+    },
+    {
+      "id": "WP5_BAYIRKOY_PASS",
+      "x": 256800.0,
+      "y": 4466500.0,
+      "desc": "Bayırköy Vadi Geçidi"
+    },
+    {
+      "id": "WP6_OSMANELI_GORGE",
+      "x": 257500.0,
+      "y": 4468500.0,
+      "desc": "Osmaneli Kanyon Dirseği"
+    },
+    {
+      "id": "WP7_OSMANELI_PLAINS",
+      "x": 262800.0,
+      "y": 4471200.0,
+      "desc": "Osmaneli Doğu Ovaları (Kuzey Çıkışı)"
+    }
+  ],
+  "leg_details": [
+    {
+      "leg": 1,
+      "from": "WP0_INHISAR_SOUTH",
+      "to": "WP1_GORGE_BEND_S",
+      "runtime_s": 0.264,
+      "expanded_nodes": 54,
+      "length_m": 3904.0
+    },
+    {
+      "leg": 2,
+      "from": "WP1_GORGE_BEND_S",
+      "to": "WP2_VALLEY_NARROWS",
+      "runtime_s": 0.264,
+      "expanded_nodes": 51,
+      "length_m": 4182.0
+    },
+    {
+      "leg": 3,
+      "from": "WP2_VALLEY_NARROWS",
+      "to": "WP3_VEZIRHAN_S",
+      "runtime_s": 0.279,
+      "expanded_nodes": 67,
+      "length_m": 4763.2
+    },
+    {
+      "leg": 4,
+      "from": "WP3_VEZIRHAN_S",
+      "to": "WP4_VEZIRHAN_GORGE",
+      "runtime_s": 0.498,
+      "expanded_nodes": 379,
+      "length_m": 5031.6
+    },
+    {
+      "leg": 5,
+      "from": "WP4_VEZIRHAN_GORGE",
+      "to": "WP5_BAYIRKOY_PASS",
+      "runtime_s": 0.305,
+      "expanded_nodes": 98,
+      "length_m": 5066.4
+    },
+    {
+      "leg": 6,
+      "from": "WP5_BAYIRKOY_PASS",
+      "to": "WP6_OSMANELI_GORGE",
+      "runtime_s": 0.317,
+      "expanded_nodes": 72,
+      "length_m": 2132.0
+    },
+    {
+      "leg": 7,
+      "from": "WP6_OSMANELI_GORGE",
+      "to": "WP7_OSMANELI_PLAINS",
+      "runtime_s": 0.317,
+      "expanded_nodes": 75,
+      "length_m": 6014.0
+    }
+  ],
+  "sample_points_count": 3730
+}

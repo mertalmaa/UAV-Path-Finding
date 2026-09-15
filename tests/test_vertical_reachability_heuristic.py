@@ -1,10 +1,10 @@
-"""Contracts for the isolated vertical-reachability heuristic experiment."""
+"""Contracts for the production vertical-reachability heuristic."""
 from __future__ import annotations
 
 import math
 import unittest
 
-from experiments.vertical_reachability_heuristic import vertical_reachability_heuristic
+from planner.pose_search import vertical_reachability_heuristic
 from planner.physical import PhysicalPose
 from planner.pose_search import GoalPose, GoalTolerance, _heuristic
 

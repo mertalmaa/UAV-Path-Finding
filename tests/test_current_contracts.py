@@ -3,42 +3,25 @@
 from __future__ import annotations
 
 import dataclasses
-import math
 import unittest
-from pathlib import Path
 
 import numpy as np
 from affine import Affine
 from rasterio.transform import rowcol as _rasterio_rowcol
 
 from planner.agl import evaluate_agl
-from planner.aircraft_profile import LutNotPlannerSafeError, load_aircraft_profile
-from planner.astar import (
-    _SearchLocalSafeVerticalRateCache,
-    astar_search,
-    decode_candidate_altitude,
-    encode_candidate_altitude,
-)
+from planner.fixed_wing_envelope import FixedWingKinematicEnvelope
+from planner.physical import PhysicalPose, build_straight_vertical_trajectory
+from planner.pose_search import GoalPose, GoalTolerance, pose_aware_astar_search
 from planner.candidate_z import CandidateZGenerator, MissionContext, TerrainMetadataStore
 from planner.config import DEFAULT_CONFIG
 from planner.primitives import (
     MotionPrimitive,
     evaluate_primitive,
     primitive_for_target_altitude,
-    primitive_for_target_altitude_over_horizon,
 )
 from planner.roi import ROIData
 from planner.terrain import TerrainQuery
-from planner.vertical_motion import (
-    derive_minimum_horizontal_distance_m,
-    evaluate_vertical_motion,
-    query_safe_vertical_rate,
-)
-
-
-ROOT = Path(__file__).resolve().parents[1]
-PROFILE_PATH = ROOT / "jsbsim" / "results" / "c172p_aircraft_profile_planner_safe_v3.json"
-RAW_PROFILE_PATH = ROOT / "jsbsim" / "results" / "c172p_core_aircraft_lut_raw.json"
 NODATA = -9999.0
 
 
@@ -61,7 +44,7 @@ def terrain_from_array(elevation: np.ndarray, resolution_m: float = 60.0) -> Ter
 class CurrentArchitectureContracts(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
-        cls.profile = load_aircraft_profile(PROFILE_PATH)
+        cls.envelope = FixedWingKinematicEnvelope()
 
     def test_candidate_z_is_deterministic_and_preserves_off_lattice_events(self) -> None:
         terrain = terrain_from_array(np.full((8, 8), 1000.0, dtype=np.float32))
@@ -163,62 +146,22 @@ class CurrentArchitectureContracts(unittest.TestCase):
         repeated = primitive_for_target_altitude("E", 4127.0, 4163.0, DEFAULT_CONFIG)
         self.assertEqual(primitive, repeated)
 
-    def test_multi_cell_vertical_motion_uses_altitude_dependent_capability(self) -> None:
-        cfg = dataclasses.replace(DEFAULT_CONFIG, xy_resolution_m=60.0)
-        distance = derive_minimum_horizontal_distance_m(1200.0, 1300.0, self.profile)
-        self.assertIsNotNone(distance)
-        assert distance is not None
-        cells = math.ceil(distance / cfg.xy_resolution_m - 1e-9)
+    def test_vertical_motion_uses_current_constant_envelope(self) -> None:
+        for altitude in (0.0, 1200.0, 3500.0, 5000.0):
+            for mode, expected in (("CLIMB", 5.0), ("DESCENT", -5.0)):
+                limit = self.envelope.straight_vertical(altitude, mode)
+                self.assertEqual(limit.availability, "AVAILABLE")
+                self.assertEqual(limit.signed_vertical_rate_mps, expected)
+                trajectory = build_straight_vertical_trajectory(
+                    PhysicalPose(300, 300, altitude, 90), 800, expected, 10
+                ).trajectory
+                self.assertAlmostEqual(trajectory.end_pose.z_msl_m, altitude + expected * 20)
 
-        primitive = primitive_for_target_altitude_over_horizon("E", 1200.0, 1300.0, cells, cfg)
-        self.assertIsNotNone(primitive)
-        assert primitive is not None
-        duration = primitive.horizontal_distance_m / self.profile.manifest.nominal_ias_context_mps
-        self.assertEqual(evaluate_vertical_motion(1200.0, 1300.0, duration, self.profile).status, "FEASIBLE")
-
-        if cells > 1:
-            short = primitive_for_target_altitude_over_horizon("E", 1200.0, 1300.0, cells - 1, cfg)
-            if short is not None:
-                short_duration = short.horizontal_distance_m / self.profile.manifest.nominal_ias_context_mps
-                self.assertNotEqual(
-                    evaluate_vertical_motion(1200.0, 1300.0, short_duration, self.profile).status,
-                    "FEASIBLE",
-                )
-
-        self.assertIsNone(derive_minimum_horizontal_distance_m(5000.0, 5100.0, self.profile))
-
-    def test_aircraft_profile_v3_and_raw_rejection(self) -> None:
-        self.assertEqual(self.profile.manifest.schema_version, 3)
-        self.assertEqual(self.profile.manifest.aircraft_id, "c172p")
-        self.assertTrue(self.profile.manifest.planner_ready)
-
-        with self.assertRaises(LutNotPlannerSafeError):
-            load_aircraft_profile(RAW_PROFILE_PATH)
-
-    def test_aircraft_capability_depends_on_altitude(self) -> None:
-        low = self.profile.vertical_query(0.0, "CLIMB")
-        high = self.profile.vertical_query(3500.0, "CLIMB")
-        unavailable = self.profile.vertical_query(5000.0, "CLIMB")
-
-        self.assertEqual(low.availability, "AVAILABLE")
-        self.assertEqual(high.availability, "AVAILABLE")
-        self.assertGreater(low.planner_safe["climb_vz_mps"], high.planner_safe["climb_vz_mps"])
-        self.assertEqual(unavailable.availability, "UNAVAILABLE")
-        self.assertFalse(unavailable.planner_safe)
-
-    def test_search_local_vertical_rate_cache_preserves_profile_results(self) -> None:
-        cache = _SearchLocalSafeVerticalRateCache(self.profile)
-        cases = ((1200.0, "CLIMB"), (1200.0, "DESCENT"), (5000.0, "CLIMB"))
-
-        for altitude, mode in cases:
-            altitude_id = encode_candidate_altitude(altitude)
-            expected = query_safe_vertical_rate(self.profile, altitude, mode)
-            self.assertEqual(cache.get(altitude_id, mode), expected)
-            self.assertEqual(cache.get(altitude_id, mode), expected)
-
-        self.assertEqual(cache.lookups, 6)
-        self.assertEqual(cache.misses, 3)
-        self.assertEqual(cache.hits, 3)
+    def test_envelope_requires_no_external_aircraft_profile(self) -> None:
+        self.assertEqual(self.envelope.horizontal_speed_mps, 40.0)
+        self.assertAlmostEqual(self.envelope.turn_radius_m, 349.89, places=2)
+        with self.assertRaises(ValueError):
+            self.envelope.straight_vertical(1200, "INVALID")
 
     def test_agl_and_along_path_terrain_safety(self) -> None:
         cfg = dataclasses.replace(DEFAULT_CONFIG, xy_resolution_m=30.0, min_agl_m=200.0)
@@ -236,39 +179,17 @@ class CurrentArchitectureContracts(unittest.TestCase):
         self.assertFalse(result.valid)
         self.assertEqual(result.reason, "below_min_agl")
 
-    def test_tiny_candidate_z_planner_smoke(self) -> None:
-        cfg = dataclasses.replace(DEFAULT_CONFIG, xy_resolution_m=60.0, min_agl_m=200.0)
+    def test_tiny_production_planner_smoke(self) -> None:
+        cfg = dataclasses.replace(DEFAULT_CONFIG, min_agl_m=200.0)
         terrain = terrain_from_array(np.full((20, 20), 1000.0, dtype=np.float32), 60.0)
-        start_rc, goal_rc = (15, 2), (5, 17)
-        altitude = 1203.0
-        mission = MissionContext(start_rc, altitude, goal_rc, altitude, 1206.0, 200.0)
-        generator = CandidateZGenerator(TerrainMetadataStore(terrain), mission)
-        start = (*start_rc, encode_candidate_altitude(altitude))
-        goal = (*goal_rc, encode_candidate_altitude(altitude))
-
-        result = astar_search(
-            start,
-            goal,
-            terrain,
-            min_search_altitude_msl=0.0,
-            max_search_altitude_msl=2000.0,
-            config=cfg,
-            max_expansions=20_000,
-            candidate_z_generator=generator,
-            aircraft_profile=self.profile,
+        result = pose_aware_astar_search(
+            PhysicalPose(150, 300, 1203, 90), GoalPose(900, 300, 1203), terrain,
+            envelope=self.envelope, goal_tolerance=GoalTolerance(60, 10),
+            config=cfg, max_expansions=2000,
         )
         self.assertTrue(result.success)
         self.assertEqual(result.termination_reason, "FOUND")
-        self.assertEqual(decode_candidate_altitude(result.path[-1][2]), altitude)
-        self.assertGreater(result.vertical_rate_cache_lookups, 0)
-        self.assertEqual(
-            result.vertical_rate_cache_lookups,
-            result.vertical_rate_cache_hits + result.vertical_rate_cache_misses,
-        )
-        self.assertEqual(
-            result.aircraft_profile_vertical_queries,
-            result.vertical_rate_cache_misses,
-        )
+        self.assertGreaterEqual(result.minimum_agl_m, 200.0)
 
 
 if __name__ == "__main__":

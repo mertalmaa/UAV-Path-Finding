@@ -6,11 +6,10 @@ approximate one-representative dominance bucket. In particular, a key is
 never converted back to a pose and terrain row/col is only consulted by the
 continuous trajectory safety evaluator.
 
-The canonical BASIC policy enables level straight, left/right level turns,
-straight climb, and straight descent. Derived climbing/descending turns are
-implemented and use the same continuous safety pipeline, but are opt-in via
-``PlannerConfig.enable_combined_turns``. Loiter and spiral macros are not
-search successors.
+Climbing/descending turns share the continuous safety pipeline and are enabled
+by default. BASIC remains configurable. Weighted ordering and optional Pareto
+pruning are approximate; neither completeness nor a global suboptimality bound
+is promised. Loiter and spiral macros are not search successors.
 """
 from __future__ import annotations
 
@@ -20,7 +19,9 @@ import math
 import time
 from collections import Counter, defaultdict
 from dataclasses import dataclass, field
-from typing import Dict, Iterable, Optional, Tuple
+from typing import Any, Dict, Iterable, Optional, Tuple
+
+import numpy as np
 
 from planner.config import DEFAULT_CONFIG, PlannerConfig
 from planner.fixed_wing_envelope import FixedWingKinematicEnvelope, FixedWingKinematicModel
@@ -228,6 +229,7 @@ def _trajectory_3d_length(trajectory: PhysicalTrajectory) -> float:
 
 def _trajectory_edge_cost(
     trajectory: PhysicalTrajectory, safety: TrajectorySafetyResult, config: PlannerConfig,
+    guidance=None,
 ) -> float:
     """Return the configured, non-negative cost of an already-safe trajectory.
 
@@ -241,16 +243,16 @@ def _trajectory_edge_cost(
     if not config.enable_low_altitude_cost:
         return physical_length
     shape = config.low_altitude_cost_shape
-    if shape not in ("quadratic", "capped_linear"):
-        raise ValueError("low_altitude_cost_shape must be quadratic or capped_linear")
-    if shape == "quadratic" and config.lambda_agl == 0.0:
+    if shape not in ("quadratic", "linear", "capped_linear"):
+        raise ValueError("low_altitude_cost_shape must be quadratic, linear or capped_linear")
+    if shape in ("quadratic", "linear") and config.lambda_agl == 0.0 and guidance is None:
         return physical_length
-    if shape == "capped_linear" and config.max_agl_cost_multiplier == 1.0:
+    if shape == "capped_linear" and config.max_agl_cost_multiplier == 1.0 and guidance is None:
         return physical_length
     elevations = safety.sample_terrain_elevations_msl
     if len(elevations) != len(trajectory.samples):
         raise ValueError("low-altitude cost requires sample terrain recorded by trajectory safety")
-    if shape == "quadratic" and (config.agl_cost_scale_m <= 0.0 or config.lambda_agl < 0.0):
+    if shape in ("quadratic", "linear") and (config.agl_cost_scale_m <= 0.0 or config.lambda_agl < 0.0):
         raise ValueError("quadratic low-altitude cost requires positive scale and non-negative lambda")
     if shape == "capped_linear" and (
         config.full_penalty_agl_m <= config.desired_agl_m or config.max_agl_cost_multiplier < 1.0
@@ -260,15 +262,19 @@ def _trajectory_edge_cost(
     def multiplier(sample, elevation_msl: float) -> float:
         if not math.isfinite(elevation_msl):
             raise ValueError("safe trajectory sample has no recorded terrain elevation")
-        agl = sample.z_msl_m - elevation_msl
-        if shape == "quadratic":
+        base = 1.0 if guidance is None else guidance.multiplier(sample)
+        reference = elevation_msl + config.desired_agl_m
+        if guidance is not None:
+            reference = max(reference, guidance.target(sample))
+        agl = sample.z_msl_m - reference + config.desired_agl_m
+        if shape in ("quadratic", "linear"):
             excess = max(0.0, agl - config.desired_agl_m) / config.agl_cost_scale_m
-            return 1.0 + config.lambda_agl * excess * excess
+            return base + config.lambda_agl * (excess * excess if shape == "quadratic" else excess)
         if agl <= config.desired_agl_m:
-            return 1.0
+            return base
         ratio = min(1.0, (agl - config.desired_agl_m) /
                     (config.full_penalty_agl_m - config.desired_agl_m))
-        return 1.0 + ratio * (config.max_agl_cost_multiplier - 1.0)
+        return base + ratio * (config.max_agl_cost_multiplier - 1.0)
 
     return sum(
         math.sqrt(
@@ -279,10 +285,6 @@ def _trajectory_edge_cost(
             trajectory.samples, trajectory.samples[1:], elevations, elevations[1:]
         )
     )
-
-
-def _goal_errors(pose: PhysicalPose, goal: GoalPose) -> Tuple[float, float, float]:
-    xy = math.hypot(pose.x_m - goal.x_m, pose.y_m - goal.y_m)
 
 
 def _goal_errors(pose: PhysicalPose, goal: GoalPose) -> Tuple[float, float, float]:
@@ -306,10 +308,83 @@ def pose_in_goal(pose: PhysicalPose, goal: GoalPose, tolerance: GoalTolerance) -
 
 def _heuristic(pose: PhysicalPose, goal: GoalPose, tolerance: GoalTolerance) -> float:
     """Admissible lower bound under geometric-3D edge cost."""
-    dx = max(abs(pose.x_m - goal.x_m) - tolerance.xy_m, 0.0)
-    dy = max(abs(pose.y_m - goal.y_m) - tolerance.xy_m, 0.0)
+    horizontal = max(math.hypot(pose.x_m - goal.x_m, pose.y_m - goal.y_m) - tolerance.xy_m, 0.0)
     dz = max(abs(pose.z_msl_m - goal.z_msl_m) - tolerance.altitude_m, 0.0)
-    return math.sqrt(dx * dx + dy * dy + dz * dz)
+    return math.hypot(horizontal, dz)
+
+
+def vertical_reachability_heuristic(pose, goal, tolerance, envelope=None):
+    """Distance lower bound including the time needed to change altitude."""
+    envelope = envelope or FixedWingKinematicEnvelope()
+    horizontal = max(math.hypot(pose.x_m - goal.x_m, pose.y_m - goal.y_m) - tolerance.xy_m, 0.0)
+    dz = max(abs(pose.z_msl_m - goal.z_msl_m) - tolerance.altitude_m, 0.0)
+    rate = envelope.max_climb_rate_mps if pose.z_msl_m < goal.z_msl_m else envelope.max_descent_rate_mps
+    # Combined motion may be faster in an explicitly supplied custom model.
+    rate *= max(1.0, envelope.model.combined_vertical_rate_factor)
+    required_horizontal = dz * envelope.horizontal_speed_mps / rate if dz else 0.0
+    return math.hypot(max(horizontal, required_horizontal), dz)
+
+
+class _TerrainGuidance:
+    """Optional 2D topographic guidance; never grants physical feasibility.
+
+    Dijkstra also propagates a backwards climb envelope along its successor
+    tree. This is a soft reference only: actual curved flight still passes
+    full trajectory safety. Grid costs need not lower-bound continuous costs.
+    """
+
+    def __init__(self, terrain, goal, tolerance, config, envelope, influence_cache):
+        self.terrain = terrain
+        field = influence_cache.field(config.lateral_buffer_m)
+        valid = field.valid
+        elevation = field.elevation_msl
+        self.distance = np.full(elevation.shape, np.inf)
+        self.targets = elevation + max(config.desired_agl_m, config.min_agl_m)
+        self.cost = np.ones(elevation.shape)
+        if not np.any(valid):
+            return
+        lo, hi = float(elevation[valid].min()), float(elevation[valid].max())
+        filled = np.where(valid, elevation, hi)
+        # Relief is a soft valley preference; invalid cells stay blocked.
+        self.cost += 2.0 * ((filled - lo) / max(1.0, hi - lo)) ** 2
+        rows, cols = elevation.shape
+        gr, gc = terrain.xy_to_rowcol(goal.x_m, goal.y_m)
+        if not terrain.in_bounds_rowcol(gr, gc) or not valid[gr, gc]:
+            return
+        self.distance[gr, gc] = 0.0
+        self.targets[gr, gc] = max(self.targets[gr, gc], goal.z_msl_m - tolerance.altitude_m)
+        queue = [(0.0, gr, gc)]
+        transform = terrain.roi.transform
+        steps = [(dr, dc, math.hypot(transform.a * dc + transform.b * dr,
+                                    transform.d * dc + transform.e * dr))
+                 for dr in (-1, 0, 1) for dc in (-1, 0, 1) if dr or dc]
+        climb_slope = envelope.max_climb_rate_mps / envelope.horizontal_speed_mps
+        while queue:
+            distance, r, c = heapq.heappop(queue)
+            if distance != self.distance[r, c]:
+                continue
+            for dr, dc, step in steps:
+                nr, nc = r + dr, c + dc
+                if not (0 <= nr < rows and 0 <= nc < cols and valid[nr, nc]):
+                    continue
+                candidate = distance + step * (self.cost[r, c] + self.cost[nr, nc]) * .5
+                if candidate < self.distance[nr, nc]:
+                    self.distance[nr, nc] = candidate
+                    self.targets[nr, nc] = max(elevation[nr, nc] + max(config.desired_agl_m, config.min_agl_m),
+                                                self.targets[r, c] - climb_slope * step)
+                    heapq.heappush(queue, (candidate, nr, nc))
+
+    def value(self, array, pose, fallback):
+        r, c = self.terrain.xy_to_rowcol(pose.x_m, pose.y_m)
+        if not self.terrain.in_bounds_rowcol(r, c) or not math.isfinite(array[r, c]):
+            return fallback
+        return float(array[r, c])
+
+    def target(self, pose):
+        return self.value(self.targets, pose, pose.z_msl_m)
+
+    def multiplier(self, pose):
+        return self.value(self.cost, pose, 1.0)
 
 
 def _candidate_trajectories(
@@ -378,17 +453,56 @@ def pose_aware_astar_search(
         raise ValueError("primitive_sample_spacing_m must be positive")
     if config.lateral_buffer_m < 0.0:
         raise ValueError("lateral_buffer_m must be non-negative")
+    if not math.isfinite(config.search_heuristic_weight) or config.search_heuristic_weight < 1.0:
+        raise ValueError("search_heuristic_weight must be finite and >= 1")
+    if config.enable_low_altitude_cost:
+        if (config.low_altitude_cost_shape not in ("linear", "quadratic", "capped_linear") or
+                not all(math.isfinite(v) for v in (config.desired_agl_m, config.agl_cost_scale_m,
+                        config.lambda_agl, config.full_penalty_agl_m, config.max_agl_cost_multiplier)) or
+                config.agl_cost_scale_m <= 0 or config.lambda_agl < 0 or
+                config.max_agl_cost_multiplier < 1 or
+                (config.low_altitude_cost_shape == "capped_linear" and
+                 config.full_penalty_agl_m <= config.desired_agl_m)):
+            raise ValueError("invalid low-altitude cost configuration")
     if envelope is None:
         envelope = FixedWingKinematicEnvelope()
     influence_cache = TerrainInfluenceCache(terrain)
     started = time.perf_counter()
+    start_safety = evaluate_physical_trajectory_safety(
+        build_straight_level_trajectory(start, 0.0, config.primitive_sample_spacing_m).trajectory,
+        terrain, config.min_agl_m, config.primitive_sample_spacing_m,
+        planning_bounds=terrain.roi.bounds, lateral_buffer_m=config.lateral_buffer_m,
+        terrain_influence_cache=influence_cache,
+    )
+    guidance = (_TerrainGuidance(terrain, goal, goal_tolerance, config, envelope, influence_cache)
+                if config.enable_terrain_guidance and config.enable_low_altitude_cost else None)
     counter = itertools.count()
     next_node_id = itertools.count()
     start_key = search_key_for_pose(start, config)
     start_node = PoseSearchNode(next(next_node_id), start_key, start, 0.0, None, None, None)
     active: Dict[SearchKey, PoseSearchNode] = {start_key: start_node}
     all_nodes: Dict[int, PoseSearchNode] = {start_node.node_id: start_node}
-    open_heap = [( _heuristic(start, goal, goal_tolerance), next(counter), start_node.node_id)]
+    def heuristic(pose):
+        lower = vertical_reachability_heuristic(pose, goal, goal_tolerance, envelope)
+        if guidance is None or pose_in_goal(pose, goal, goal_tolerance):
+            return lower
+        return max(lower, guidance.value(guidance.distance, pose, lower))
+    open_heap = [(config.search_heuristic_weight * heuristic(start), next(counter), start_node.node_id)]
+    # This is approximate pruning, not a proof of physical dominance: distinct
+    # altitudes can have different obstacle clearance. Keep it configurable.
+    frontier = defaultdict(list)
+    def altitude_error(pose):
+        if guidance is not None:
+            return abs(pose.z_msl_m - guidance.target(pose))
+        if config.enable_low_altitude_cost:
+            ground = terrain.query(pose.x_m, pose.y_m)
+            if ground.valid:
+                remaining = math.hypot(pose.x_m - goal.x_m, pose.y_m - goal.y_m)
+                target = max(ground.elevation + max(config.desired_agl_m, config.min_agl_m),
+                             goal.z_msl_m - envelope.max_climb_rate_mps * remaining / envelope.horizontal_speed_mps)
+                return abs(pose.z_msl_m - target)
+        return abs(pose.z_msl_m - goal.z_msl_m)
+    frontier[(start_key.x_bin, start_key.y_bin, start_key.heading_bin)].append(start_node)
     expanded_ids = set()
     expanded_keys = set()
     expanded = generated = rejected = 0
@@ -396,6 +510,9 @@ def pose_aware_astar_search(
     self_by_primitive: Counter[str] = Counter()
     max_open = 1
     reject_reasons: Counter[str] = Counter()
+    if not start_safety.is_safe:
+        open_heap.clear()
+        reject_reasons["INVALID_START_" + _safety_reason(start_safety)] = 1
     generated_by_primitive: Counter[str] = Counter()
     open_inserted_by_primitive: Counter[str] = Counter()
     expanded_arrivals_by_primitive: Counter[str] = Counter()
@@ -478,7 +595,17 @@ def pose_aware_astar_search(
                 rejected += 1
                 reject_reasons["SAME_KEY_SELF_TRANSITION"] += 1
                 continue
-            candidate_g = node.g_cost + _trajectory_edge_cost(trajectory, safety, config)
+            candidate_g = node.g_cost + _trajectory_edge_cost(trajectory, safety, config, guidance)
+            xyh = (key.x_bin, key.y_bin, key.heading_bin)
+            if config.enable_pareto_z_pruning and not pose_in_goal(end_pose, goal, goal_tolerance):
+                representatives = [item for item in frontier[xyh] if active.get(item.key) is item]
+                frontier[xyh] = representatives
+                if any(item.g_cost <= candidate_g + 1e-9 and
+                       altitude_error(item.end_pose) <= altitude_error(end_pose) + 1e-9
+                       for item in representatives):
+                    rejected += 1
+                    reject_reasons["PARETO_Z_DOMINANCE"] += 1
+                    continue
             existing = active.get(key)
             if existing is not None:
                 collisions += 1
@@ -494,6 +621,11 @@ def pose_aware_astar_search(
                 next(next_node_id), key, end_pose, candidate_g, node.node_id, trajectory, primitive,
             )
             active[key] = successor
+            if config.enable_pareto_z_pruning:
+                frontier[xyh] = [item for item in frontier[xyh]
+                                 if not (candidate_g <= item.g_cost + 1e-9 and
+                                         altitude_error(end_pose) <= altitude_error(item.end_pose) + 1e-9)]
+                frontier[xyh].append(successor)
             all_nodes[successor.node_id] = successor
             open_inserted_by_primitive[primitive] += 1
             if diagnostics is not None:
@@ -502,7 +634,7 @@ def pose_aware_astar_search(
                     "OPEN_INSERTED_REPLACEMENT" if existing is not None else "OPEN_INSERTED",
                     successor.end_pose,
                 )
-            f_score = candidate_g + _heuristic(end_pose, goal, goal_tolerance)
+            f_score = candidate_g + config.search_heuristic_weight * heuristic(end_pose)
             heapq.heappush(open_heap, (f_score, next(counter), successor.node_id))
 
     if status == "no_path" and not open_heap:
@@ -526,7 +658,7 @@ def pose_aware_astar_search(
             trajectory, terrain, config.min_agl_m, config.primitive_sample_spacing_m,
             planning_bounds=terrain.roi.bounds, lateral_buffer_m=config.lateral_buffer_m,
             terrain_influence_cache=influence_cache,
-        ).min_agl_m for trajectory in (item.incoming_trajectory for item in path[1:]) if trajectory is not None), default=float("nan"))
+        ).min_agl_m for trajectory in (item.incoming_trajectory for item in path[1:]) if trajectory is not None), default=start_safety.min_agl_m)
         goal_xy_error, goal_z_error, _ = _goal_errors(goal_node.end_pose, goal)
         final_heading = goal_node.end_pose.heading_deg
     else:
@@ -543,6 +675,8 @@ def pose_aware_astar_search(
     z_counts = [len(v) for v in xy_to_z.values()]
     reasons = dict(sorted(reject_reasons.items()))
     termination = {"success": "FOUND", "no_path": "OPEN_EXHAUSTED", "search_limit_reached": "EXPANSION_LIMIT", "timeout": "TIMEOUT"}[status]
+    if not start_safety.is_safe:
+        termination = "INVALID_START_" + _safety_reason(start_safety)
     return PoseSearchResult(
         status == "success", status, termination, path, total_cost, expanded, generated, rejected, reasons,
         max_open, runtime, len(expanded_keys), len(xy_to_heading),

@@ -29,7 +29,7 @@ class PoseAwareSearchTests(unittest.TestCase):
         cls.config = dataclasses.replace(
             DEFAULT_CONFIG, min_agl_m=100.0, primitive_sample_spacing_m=10.0,
             search_xy_bin_m=60.0, search_z_bin_m=5.0, search_heading_bin_deg=15.0,
-            lateral_buffer_m=0.0,
+            lateral_buffer_m=0.0, enable_combined_turns=False,
         )
 
     def flat(self, size=100):

@@ -126,18 +126,32 @@ def optimize_terrain_following_altitudes(
     if len(stations) < 2:
         return failure("EMPTY_GROUND_TRACK")
 
-    min_domain = 0.0
-    max_domain = 10000.0
-    hard_floor = [max(z + config.min_agl_m, min_domain) for z in ground]
-    desired_floor = [max(z + target_agl_m, min_domain) for z in ground]
-    climb = [dt * max_climb_rate_mps for dt in durations]
-    descent = [dt * max_descent_rate_mps for dt in durations]
+    # No arbitrary MSL floor/ceiling: valid terrain may be below sea level.
+    hard_floor = [z + config.min_agl_m for z in ground]
+    desired_floor = [z + target_agl_m for z in ground]
+    climb, descent = [], []
+    for (angle, ds), dt in zip(edge_turn, durations):
+        climb_cap = min(max_climb_rate_mps, envelope.max_climb_rate_mps)
+        descent_cap = min(max_descent_rate_mps, envelope.max_descent_rate_mps)
+        if angle >= 1e-8:
+            radius = ds / math.radians(angle)
+            if radius + 1e-6 < envelope.turn_radius_m:
+                return failure("TURN_REQUIRES_HORIZONTAL_REPLAN")
+            # A wider combined radius cannot be squeezed into a level arc.
+            if (not config.enable_combined_turns or
+                    radius + 1e-6 < envelope.turn_radius_m * envelope.model.combined_radius_factor):
+                climb_cap = descent_cap = 0.0
+            else:
+                climb_cap = min(climb_cap, envelope.max_climb_rate_mps * envelope.model.combined_vertical_rate_factor)
+                descent_cap = min(descent_cap, envelope.max_descent_rate_mps * envelope.model.combined_vertical_rate_factor)
+        climb.append(dt * climb_cap)
+        descent.append(dt * descent_cap)
     start_z, end_z = stations[0].z_msl_m, stations[-1].z_msl_m
 
     for passes in range(1, max_refinement_passes + 1):
         upper = [start_z]
         for budget in climb:
-            upper.append(min(max_domain, upper[-1] + budget))
+            upper.append(upper[-1] + budget)
         upper[-1] = min(upper[-1], end_z)
         for i in range(len(upper) - 2, -1, -1):
             upper[i] = min(upper[i], upper[i + 1] + descent[i])
@@ -145,7 +159,7 @@ def optimize_terrain_following_altitudes(
                  for hard, wanted, cap in zip(hard_floor, desired_floor, upper)]
         solved = solve_lowest_altitude_profile(
             floor, climb, descent, start_altitude_msl_m=start_z,
-            end_altitude_msl_m=end_z, ceiling_msl_m=[max_domain] * len(stations),
+            end_altitude_msl_m=end_z,
         )
         if not solved.feasible:
             return failure("FIXED_TRACK_" + solved.status, passes)
