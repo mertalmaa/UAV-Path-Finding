@@ -1,0 +1,683 @@
+{
+  "architecture": "pose_aware_fixed_wing_single_representative_approximate_search",
+  "mode": "BASIC",
+  "enable_combined_turns": false,
+  "active_primitives": [
+    "STRAIGHT_LEVEL",
+    "LEFT_LEVEL_TURN",
+    "RIGHT_LEVEL_TURN",
+    "STRAIGHT_CLIMB",
+    "STRAIGHT_DESCENT"
+  ],
+  "aircraft_profile": "jsbsim/results/c172p_aircraft_profile_planner_safe_v3.json",
+  "speed_mps": 40.0,
+  "effective_min_agl_m": 100.0,
+  "lateral_buffer_m": 0.0,
+  "search_key": {
+    "xy_m": 60.0,
+    "z_m": 5.0,
+    "heading_deg": 15.0
+  },
+  "goal_tolerance": {
+    "xy_m": 90.0,
+    "altitude_m": 10.0
+  },
+  "budgets": {
+    "max_expansions": 30000,
+    "max_search_time_s": 300.0
+  },
+  "missions": {
+    "A_easy_open": {
+      "name": "A_easy_open",
+      "criterion": "retained low-relief XY endpoints; 3500 m MSL ROI entry cruise",
+      "start_rowcol": [
+        73,
+        73
+      ],
+      "goal_rowcol": [
+        92,
+        73
+      ],
+      "physical_separation_m": 1140.0,
+      "altitude_contract": "explicit_roi_entry_cruise_msl",
+      "start_z_msl_m": 3500.0,
+      "goal_z_msl_m": 3500.0,
+      "start_heading_deg": 180.0,
+      "status": "success",
+      "termination_reason": "FOUND",
+      "success": true,
+      "expanded": 1201,
+      "generated": 6000,
+      "generated_per_expanded": 4.995836802664447,
+      "rejected": 3225,
+      "peak_open": 1109,
+      "runtime_s": 0.5840322000003653,
+      "unique_search_keys": 837,
+      "same_key": {
+        "collisions": 3979,
+        "replaced_lower_g": 1221,
+        "rejected_existing_better": 2758,
+        "self_transitions": 0,
+        "self_transitions_by_primitive": {}
+      },
+      "reject_reasons": {
+        "BELOW_MIN_AGL": 467,
+        "SAME_KEY_DOMINANCE": 2758
+      },
+      "search_statistics": {
+        "generated_by_primitive": {
+          "LEFT_LEVEL_TURN": 1200,
+          "RIGHT_LEVEL_TURN": 1200,
+          "STRAIGHT_CLIMB": 1200,
+          "STRAIGHT_DESCENT": 1200,
+          "STRAIGHT_LEVEL": 1200
+        },
+        "open_inserted_by_primitive": {
+          "LEFT_LEVEL_TURN": 905,
+          "RIGHT_LEVEL_TURN": 756,
+          "STRAIGHT_CLIMB": 201,
+          "STRAIGHT_DESCENT": 316,
+          "STRAIGHT_LEVEL": 597
+        },
+        "expanded_arrivals_by_primitive": {
+          "LEFT_LEVEL_TURN": 327,
+          "RIGHT_LEVEL_TURN": 117,
+          "STRAIGHT_CLIMB": 146,
+          "STRAIGHT_DESCENT": 148,
+          "STRAIGHT_LEVEL": 462
+        }
+      },
+      "minimum_agl_m": 134.65283203125,
+      "closest_xy_distance_m": 82.87971388834761,
+      "best_partial_goal_z_error_m": 0.0,
+      "best_partial_goal_3d_error_m": 82.87971388834761,
+      "best_partial_end_pose": {
+        "x_m": 688558.5197382062,
+        "y_m": 4186001.8766487422,
+        "z_msl_m": 3500.0,
+        "heading_deg": 165.0
+      },
+      "path": {
+        "physical_length_m": 1070.1589795711081,
+        "segments": 16,
+        "primitives": [
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "LEFT_LEVEL_TURN",
+          "STRAIGHT_LEVEL"
+        ],
+        "primitive_counts": {
+          "LEFT_LEVEL_TURN": 1,
+          "STRAIGHT_LEVEL": 15
+        },
+        "minimum_agl_m": 134.65283203125,
+        "goal_xy_error_m": 82.87971388834761,
+        "goal_z_error_m": 0.0,
+        "final_heading_deg": 165.0
+      }
+    },
+    "B_relief_affected": {
+      "name": "B_relief_affected",
+      "criterion": "retained relief-crossing XY endpoints; 3600 m MSL ROI entry cruise",
+      "start_rowcol": [
+        73,
+        73
+      ],
+      "goal_rowcol": [
+        92,
+        92
+      ],
+      "physical_separation_m": 1612.2034611053284,
+      "altitude_contract": "explicit_roi_entry_cruise_msl",
+      "start_z_msl_m": 3600.0,
+      "goal_z_msl_m": 3600.0,
+      "start_heading_deg": 135.0,
+      "status": "success",
+      "termination_reason": "FOUND",
+      "success": true,
+      "expanded": 466,
+      "generated": 2325,
+      "generated_per_expanded": 4.989270386266094,
+      "rejected": 1377,
+      "peak_open": 388,
+      "runtime_s": 0.27738680000038585,
+      "unique_search_keys": 446,
+      "same_key": {
+        "collisions": 956,
+        "replaced_lower_g": 184,
+        "rejected_existing_better": 772,
+        "self_transitions": 37,
+        "self_transitions_by_primitive": {
+          "STRAIGHT_CLIMB": 10,
+          "STRAIGHT_LEVEL": 27
+        }
+      },
+      "reject_reasons": {
+        "BELOW_MIN_AGL": 568,
+        "SAME_KEY_DOMINANCE": 772,
+        "SAME_KEY_SELF_TRANSITION": 37
+      },
+      "search_statistics": {
+        "generated_by_primitive": {
+          "LEFT_LEVEL_TURN": 465,
+          "RIGHT_LEVEL_TURN": 465,
+          "STRAIGHT_CLIMB": 465,
+          "STRAIGHT_DESCENT": 465,
+          "STRAIGHT_LEVEL": 465
+        },
+        "open_inserted_by_primitive": {
+          "LEFT_LEVEL_TURN": 251,
+          "RIGHT_LEVEL_TURN": 269,
+          "STRAIGHT_CLIMB": 84,
+          "STRAIGHT_DESCENT": 185,
+          "STRAIGHT_LEVEL": 159
+        },
+        "expanded_arrivals_by_primitive": {
+          "LEFT_LEVEL_TURN": 97,
+          "RIGHT_LEVEL_TURN": 82,
+          "STRAIGHT_CLIMB": 63,
+          "STRAIGHT_DESCENT": 107,
+          "STRAIGHT_LEVEL": 116
+        }
+      },
+      "minimum_agl_m": 104.22705078125,
+      "closest_xy_distance_m": 89.25937786313287,
+      "best_partial_goal_z_error_m": 6.343074381360566,
+      "best_partial_goal_3d_error_m": 89.48447423503704,
+      "best_partial_end_pose": {
+        "x_m": 689598.31949484,
+        "y_m": 4185864.3533094805,
+        "z_msl_m": 3593.6569256186394,
+        "heading_deg": 75.0
+      },
+      "path": {
+        "physical_length_m": 1900.4178008270221,
+        "segments": 13,
+        "primitives": [
+          "RIGHT_LEVEL_TURN",
+          "RIGHT_LEVEL_TURN",
+          "RIGHT_LEVEL_TURN",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "LEFT_LEVEL_TURN",
+          "LEFT_LEVEL_TURN",
+          "LEFT_LEVEL_TURN",
+          "LEFT_LEVEL_TURN",
+          "LEFT_LEVEL_TURN",
+          "LEFT_LEVEL_TURN",
+          "LEFT_LEVEL_TURN",
+          "STRAIGHT_DESCENT"
+        ],
+        "primitive_counts": {
+          "LEFT_LEVEL_TURN": 7,
+          "RIGHT_LEVEL_TURN": 3,
+          "STRAIGHT_DESCENT": 1,
+          "STRAIGHT_LEVEL": 2
+        },
+        "minimum_agl_m": 104.22705078125,
+        "goal_xy_error_m": 89.25937786313287,
+        "goal_z_error_m": 6.343074381360566,
+        "final_heading_deg": 75.0
+      }
+    },
+    "C_far_south_3km": {
+      "name": "C_far_south_3km",
+      "criterion": "3.0 km southbound real-terrain crossing from the canonical origin",
+      "start_rowcol": [
+        73,
+        73
+      ],
+      "goal_rowcol": [
+        123,
+        73
+      ],
+      "physical_separation_m": 3000.0,
+      "altitude_contract": "explicit_roi_entry_cruise_msl",
+      "start_z_msl_m": 3800.0,
+      "goal_z_msl_m": 3800.0,
+      "start_heading_deg": 180.0,
+      "status": "success",
+      "termination_reason": "FOUND",
+      "success": true,
+      "expanded": 10789,
+      "generated": 53940,
+      "generated_per_expanded": 4.999536565019928,
+      "rejected": 29308,
+      "peak_open": 8698,
+      "runtime_s": 5.230506100000639,
+      "unique_search_keys": 6483,
+      "same_key": {
+        "collisions": 41097,
+        "replaced_lower_g": 12201,
+        "rejected_existing_better": 28896,
+        "self_transitions": 412,
+        "self_transitions_by_primitive": {
+          "STRAIGHT_CLIMB": 206,
+          "STRAIGHT_LEVEL": 206
+        }
+      },
+      "reject_reasons": {
+        "SAME_KEY_DOMINANCE": 28896,
+        "SAME_KEY_SELF_TRANSITION": 412
+      },
+      "search_statistics": {
+        "generated_by_primitive": {
+          "LEFT_LEVEL_TURN": 10788,
+          "RIGHT_LEVEL_TURN": 10788,
+          "STRAIGHT_CLIMB": 10788,
+          "STRAIGHT_DESCENT": 10788,
+          "STRAIGHT_LEVEL": 10788
+        },
+        "open_inserted_by_primitive": {
+          "LEFT_LEVEL_TURN": 7311,
+          "RIGHT_LEVEL_TURN": 7112,
+          "STRAIGHT_CLIMB": 2232,
+          "STRAIGHT_DESCENT": 2555,
+          "STRAIGHT_LEVEL": 5422
+        },
+        "expanded_arrivals_by_primitive": {
+          "LEFT_LEVEL_TURN": 2446,
+          "RIGHT_LEVEL_TURN": 2346,
+          "STRAIGHT_CLIMB": 1557,
+          "STRAIGHT_DESCENT": 744,
+          "STRAIGHT_LEVEL": 3695
+        }
+      },
+      "minimum_agl_m": 290.36487662790387,
+      "closest_xy_distance_m": 89.49643488298258,
+      "best_partial_goal_z_error_m": 9.467361687504763,
+      "best_partial_goal_3d_error_m": 89.99579320216014,
+      "best_partial_end_pose": {
+        "x_m": 688505.3144272328,
+        "y_m": 4184156.194412804,
+        "z_msl_m": 3790.5326383124952,
+        "heading_deg": 180.0
+      },
+      "path": {
+        "physical_length_m": 2922.6448332624445,
+        "segments": 41,
+        "primitives": [
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "STRAIGHT_DESCENT",
+          "LEFT_LEVEL_TURN",
+          "RIGHT_LEVEL_TURN",
+          "RIGHT_LEVEL_TURN",
+          "STRAIGHT_LEVEL",
+          "LEFT_LEVEL_TURN",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_CLIMB"
+        ],
+        "primitive_counts": {
+          "LEFT_LEVEL_TURN": 2,
+          "RIGHT_LEVEL_TURN": 2,
+          "STRAIGHT_CLIMB": 1,
+          "STRAIGHT_DESCENT": 2,
+          "STRAIGHT_LEVEL": 34
+        },
+        "minimum_agl_m": 290.36487662790387,
+        "goal_xy_error_m": 89.49643488298258,
+        "goal_z_error_m": 9.467361687504763,
+        "final_heading_deg": 180.0
+      }
+    },
+    "D_far_east_3km": {
+      "name": "D_far_east_3km",
+      "criterion": "3.0 km eastbound real-terrain crossing from the canonical origin",
+      "start_rowcol": [
+        73,
+        73
+      ],
+      "goal_rowcol": [
+        73,
+        123
+      ],
+      "physical_separation_m": 3000.0,
+      "altitude_contract": "explicit_roi_entry_cruise_msl",
+      "start_z_msl_m": 3800.0,
+      "goal_z_msl_m": 3800.0,
+      "start_heading_deg": 90.0,
+      "status": "success",
+      "termination_reason": "FOUND",
+      "success": true,
+      "expanded": 8928,
+      "generated": 44635,
+      "generated_per_expanded": 4.999439964157706,
+      "rejected": 25247,
+      "peak_open": 6900,
+      "runtime_s": 4.353730599999835,
+      "unique_search_keys": 7696,
+      "same_key": {
+        "collisions": 29906,
+        "replaced_lower_g": 6160,
+        "rejected_existing_better": 23746,
+        "self_transitions": 1501,
+        "self_transitions_by_primitive": {
+          "STRAIGHT_CLIMB": 308,
+          "STRAIGHT_LEVEL": 1193
+        }
+      },
+      "reject_reasons": {
+        "SAME_KEY_DOMINANCE": 23746,
+        "SAME_KEY_SELF_TRANSITION": 1501
+      },
+      "search_statistics": {
+        "generated_by_primitive": {
+          "LEFT_LEVEL_TURN": 8927,
+          "RIGHT_LEVEL_TURN": 8927,
+          "STRAIGHT_CLIMB": 8927,
+          "STRAIGHT_DESCENT": 8927,
+          "STRAIGHT_LEVEL": 8927
+        },
+        "open_inserted_by_primitive": {
+          "LEFT_LEVEL_TURN": 7227,
+          "RIGHT_LEVEL_TURN": 5949,
+          "STRAIGHT_CLIMB": 1447,
+          "STRAIGHT_DESCENT": 2575,
+          "STRAIGHT_LEVEL": 2190
+        },
+        "expanded_arrivals_by_primitive": {
+          "LEFT_LEVEL_TURN": 2937,
+          "RIGHT_LEVEL_TURN": 2484,
+          "STRAIGHT_CLIMB": 1145,
+          "STRAIGHT_DESCENT": 1025,
+          "STRAIGHT_LEVEL": 1336
+        }
+      },
+      "minimum_agl_m": 228.1337890625,
+      "closest_xy_distance_m": 82.45341124488779,
+      "best_partial_goal_z_error_m": 6.343074381360566,
+      "best_partial_goal_3d_error_m": 82.69703512536626,
+      "best_partial_end_pose": {
+        "x_m": 691441.6206838103,
+        "y_m": 4187090.9094280517,
+        "z_msl_m": 3793.6569256186394,
+        "heading_deg": 105.0
+      },
+      "path": {
+        "physical_length_m": 2927.103659217665,
+        "segments": 43,
+        "primitives": [
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "LEFT_LEVEL_TURN",
+          "RIGHT_LEVEL_TURN",
+          "RIGHT_LEVEL_TURN"
+        ],
+        "primitive_counts": {
+          "LEFT_LEVEL_TURN": 1,
+          "RIGHT_LEVEL_TURN": 2,
+          "STRAIGHT_DESCENT": 1,
+          "STRAIGHT_LEVEL": 39
+        },
+        "minimum_agl_m": 228.1337890625,
+        "goal_xy_error_m": 82.45341124488779,
+        "goal_z_error_m": 6.343074381360566,
+        "final_heading_deg": 105.0
+      }
+    },
+    "E_long_descent_9_3km": {
+      "name": "E_long_descent_9_3km",
+      "criterion": "9.3 km eastbound controlled 500 m descent across the ROI",
+      "start_rowcol": [
+        80,
+        5
+      ],
+      "goal_rowcol": [
+        80,
+        160
+      ],
+      "physical_separation_m": 9300.0,
+      "altitude_contract": "explicit_roi_entry_cruise_msl",
+      "start_z_msl_m": 4400.0,
+      "goal_z_msl_m": 3900.0,
+      "start_heading_deg": 90.0,
+      "status": "search_limit_reached",
+      "termination_reason": "EXPANSION_LIMIT",
+      "success": false,
+      "expanded": 30000,
+      "generated": 149995,
+      "generated_per_expanded": 4.999833333333333,
+      "rejected": 95073,
+      "peak_open": 21356,
+      "runtime_s": 13.880571300000156,
+      "unique_search_keys": 30000,
+      "same_key": {
+        "collisions": 73035,
+        "replaced_lower_g": 5190,
+        "rejected_existing_better": 67845,
+        "self_transitions": 0,
+        "self_transitions_by_primitive": {}
+      },
+      "reject_reasons": {
+        "SAME_KEY_DOMINANCE": 67845,
+        "UNAVAILABLE_CAPABILITY": 27228
+      },
+      "search_statistics": {
+        "generated_by_primitive": {
+          "LEFT_LEVEL_TURN": 29999,
+          "RIGHT_LEVEL_TURN": 29999,
+          "STRAIGHT_CLIMB": 29999,
+          "STRAIGHT_DESCENT": 29999,
+          "STRAIGHT_LEVEL": 29999
+        },
+        "open_inserted_by_primitive": {
+          "LEFT_LEVEL_TURN": 16722,
+          "RIGHT_LEVEL_TURN": 16704,
+          "STRAIGHT_CLIMB": 840,
+          "STRAIGHT_DESCENT": 7803,
+          "STRAIGHT_LEVEL": 12853
+        },
+        "expanded_arrivals_by_primitive": {
+          "LEFT_LEVEL_TURN": 8297,
+          "RIGHT_LEVEL_TURN": 8297,
+          "STRAIGHT_CLIMB": 320,
+          "STRAIGHT_DESCENT": 3205,
+          "STRAIGHT_LEVEL": 9880
+        }
+      },
+      "minimum_agl_m": null,
+      "closest_xy_distance_m": 120.0,
+      "best_partial_goal_z_error_m": 4.363551587838629,
+      "best_partial_goal_3d_error_m": 120.07930955189461,
+      "best_partial_end_pose": {
+        "x_m": 693620.843569939,
+        "y_m": 4186648.055558809,
+        "z_msl_m": 3904.3635515878386,
+        "heading_deg": 90.0
+      },
+      "path": null
+    },
+    "F_turn_required_diagonal_2_3km": {
+      "name": "F_turn_required_diagonal_2_3km",
+      "criterion": "2.29 km diagonal approach requiring curved fixed-wing goal alignment",
+      "start_rowcol": [
+        73,
+        73
+      ],
+      "goal_rowcol": [
+        100,
+        100
+      ],
+      "physical_separation_m": 2291.025971044414,
+      "altitude_contract": "explicit_roi_entry_cruise_msl",
+      "start_z_msl_m": 3700.0,
+      "goal_z_msl_m": 3700.0,
+      "start_heading_deg": 135.0,
+      "status": "success",
+      "termination_reason": "FOUND",
+      "success": true,
+      "expanded": 5942,
+      "generated": 29705,
+      "generated_per_expanded": 4.999158532480647,
+      "rejected": 18486,
+      "peak_open": 3001,
+      "runtime_s": 2.834688900000401,
+      "unique_search_keys": 4425,
+      "same_key": {
+        "collisions": 17482,
+        "replaced_lower_g": 4502,
+        "rejected_existing_better": 12980,
+        "self_transitions": 705,
+        "self_transitions_by_primitive": {
+          "STRAIGHT_CLIMB": 179,
+          "STRAIGHT_LEVEL": 526
+        }
+      },
+      "reject_reasons": {
+        "BELOW_MIN_AGL": 4801,
+        "SAME_KEY_DOMINANCE": 12980,
+        "SAME_KEY_SELF_TRANSITION": 705
+      },
+      "search_statistics": {
+        "generated_by_primitive": {
+          "LEFT_LEVEL_TURN": 5941,
+          "RIGHT_LEVEL_TURN": 5941,
+          "STRAIGHT_CLIMB": 5941,
+          "STRAIGHT_DESCENT": 5941,
+          "STRAIGHT_LEVEL": 5941
+        },
+        "open_inserted_by_primitive": {
+          "LEFT_LEVEL_TURN": 3522,
+          "RIGHT_LEVEL_TURN": 2998,
+          "STRAIGHT_CLIMB": 1183,
+          "STRAIGHT_DESCENT": 1737,
+          "STRAIGHT_LEVEL": 1779
+        },
+        "expanded_arrivals_by_primitive": {
+          "LEFT_LEVEL_TURN": 1612,
+          "RIGHT_LEVEL_TURN": 1147,
+          "STRAIGHT_CLIMB": 944,
+          "STRAIGHT_DESCENT": 867,
+          "STRAIGHT_LEVEL": 1371
+        }
+      },
+      "minimum_agl_m": 109.46497428415387,
+      "closest_xy_distance_m": 79.13623341601753,
+      "best_partial_goal_z_error_m": 9.467361687504763,
+      "best_partial_goal_3d_error_m": 79.70052933699024,
+      "best_partial_end_pose": {
+        "x_m": 690088.0241622193,
+        "y_m": 4185506.984784219,
+        "z_msl_m": 3690.5326383124952,
+        "heading_deg": 150.0
+      },
+      "path": {
+        "physical_length_m": 2330.8436596691554,
+        "segments": 18,
+        "primitives": [
+          "STRAIGHT_DESCENT",
+          "RIGHT_LEVEL_TURN",
+          "RIGHT_LEVEL_TURN",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_LEVEL",
+          "STRAIGHT_DESCENT",
+          "LEFT_LEVEL_TURN",
+          "LEFT_LEVEL_TURN",
+          "STRAIGHT_LEVEL",
+          "LEFT_LEVEL_TURN",
+          "LEFT_LEVEL_TURN",
+          "RIGHT_LEVEL_TURN",
+          "LEFT_LEVEL_TURN",
+          "RIGHT_LEVEL_TURN",
+          "RIGHT_LEVEL_TURN",
+          "STRAIGHT_LEVEL",
+          "RIGHT_LEVEL_TURN",
+          "STRAIGHT_CLIMB"
+        ],
+        "primitive_counts": {
+          "LEFT_LEVEL_TURN": 5,
+          "RIGHT_LEVEL_TURN": 6,
+          "STRAIGHT_CLIMB": 1,
+          "STRAIGHT_DESCENT": 2,
+          "STRAIGHT_LEVEL": 4
+        },
+        "minimum_agl_m": 109.46497428415387,
+        "goal_xy_error_m": 79.13623341601753,
+        "goal_z_error_m": 9.467361687504763,
+        "final_heading_deg": 150.0
+      }
+    }
+  }
+}

@@ -319,6 +319,25 @@ class AircraftProfile:
 
     # -- public query contract (interface_contract in the artifact) --
 
+    def altitude_interval_checkpoints(self, low_m: float, high_m: float) -> Tuple[float, ...]:
+        """Query locations covering row boundaries and interpolation gaps.
+
+        Supported family policies are linear, constant conservative endpoint,
+        or unavailable between rows. Include blocked-range boundaries and an
+        interior point of every partition, so checking only two available
+        exact rows cannot accidentally authorize their unavailable interior.
+        This exposes resolution boundaries, not raw measured capability data.
+        """
+        if not math.isfinite(low_m) or not math.isfinite(high_m) or low_m > high_m:
+            raise ValueError("altitude interval must be finite and ordered")
+        boundaries = {low_m, high_m}
+        boundaries.update(z for z in self.manifest.altitude_grid_m if low_m < z < high_m)
+        for family in self._families.values():
+            for lo, hi in family.blocked_ranges:
+                boundaries.update(z for z in (lo, hi) if low_m < z < high_m)
+        ordered = sorted(boundaries)
+        return tuple(sorted(boundaries | {(a + b) / 2.0 for a, b in zip(ordered, ordered[1:])}))
+
     def straight_query(self, altitude_m: float) -> ManeuverQueryResult:
         return self._resolve("straight", altitude_m, {})
 

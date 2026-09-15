@@ -8,20 +8,24 @@ from unittest.mock import patch
 
 import numpy as np
 
-from planner.aircraft_profile import load_aircraft_profile
 from planner.config import DEFAULT_CONFIG
-from planner.physical import PhysicalPose, PhysicalTrajectory, TrajectorySample, build_straight_level_trajectory
-from planner.pose_search import (
-    GoalPose, GoalTolerance, navigation_bearing_deg, pose_aware_astar_search,
-    pose_in_goal, search_key_for_pose,
+from planner.fixed_wing_envelope import FixedWingKinematicEnvelope
+from planner.physical import (
+    PhysicalPose, PhysicalTrajectory, TrajectorySample,
+    build_helical_turn_trajectory, build_straight_level_trajectory,
 )
-from tests.test_current_contracts import PROFILE_PATH, terrain_from_array
+from planner.pose_search import (
+    GoalPose, GoalTolerance, _trajectory_edge_cost, active_primitive_names, navigation_bearing_deg,
+    pose_aware_astar_search, pose_in_goal, search_key_for_pose,
+)
+from planner.trajectory_safety import evaluate_physical_trajectory_safety
+from tests.test_current_contracts import terrain_from_array
 
 
 class PoseAwareSearchTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
-        cls.profile = load_aircraft_profile(PROFILE_PATH)
+        cls.envelope = FixedWingKinematicEnvelope()
         cls.config = dataclasses.replace(
             DEFAULT_CONFIG, min_agl_m=100.0, primitive_sample_spacing_m=10.0,
             search_xy_bin_m=60.0, search_z_bin_m=5.0, search_heading_bin_deg=15.0,
@@ -31,9 +35,10 @@ class PoseAwareSearchTests(unittest.TestCase):
     def flat(self, size=100):
         return terrain_from_array(np.full((size, size), 1000.0, dtype=np.float32), 60.0)
 
-    def search(self, start, goal, terrain, tolerance=GoalTolerance(90.0, 10.0), limit=3000):
-        return pose_aware_astar_search(start, goal, terrain, self.profile, goal_tolerance=tolerance,
-                                       config=self.config, max_expansions=limit)
+    def search(self, start, goal, terrain, tolerance=GoalTolerance(90.0, 10.0), limit=3000,
+               config=None):
+        return pose_aware_astar_search(start, goal, terrain, envelope=self.envelope, goal_tolerance=tolerance,
+                                       config=self.config if config is None else config, max_expansions=limit)
 
     def test_floor_key_bins_and_wrapped_heading_preserve_pose(self) -> None:
         pose = PhysicalPose(120.0, 60.0, 1005.0, 0.0)
@@ -56,6 +61,57 @@ class PoseAwareSearchTests(unittest.TestCase):
         self.assertEqual(result.nodes[0].end_pose, PhysicalPose(300, 300, 1200, 90))
         self.assertTrue(all(t.max_sample_spacing_m <= 10.0 for t in result.trajectories))
 
+    def test_low_altitude_cost_is_opt_in_and_terrain_relative(self) -> None:
+        low_terrain = self.flat()
+        trajectory = build_straight_level_trajectory(
+            PhysicalPose(300, 300, 1200, 90), 60, 10
+        ).trajectory
+        physical = 60.0
+        safety = evaluate_physical_trajectory_safety(trajectory, low_terrain, 100.0, 10.0,
+                                                     record_sample_terrain=True)
+        disabled = _trajectory_edge_cost(trajectory, safety, self.config)
+        enabled = _trajectory_edge_cost(
+            trajectory, safety,
+            dataclasses.replace(self.config, enable_low_altitude_cost=True, lambda_agl=0.10,
+                                low_altitude_cost_shape="quadratic",
+                                desired_agl_m=120.0, agl_cost_scale_m=100.0),
+        )
+        # AGL=200: excess=.8, multiplier=1+.1*.8^2.
+        self.assertAlmostEqual(disabled, physical)
+        self.assertAlmostEqual(enabled, physical * 1.064)
+        high_terrain = terrain_from_array(np.full((100, 100), 3680.0, dtype=np.float32), 60.0)
+        terrain_relative = _trajectory_edge_cost(
+            build_straight_level_trajectory(PhysicalPose(300, 300, 3880, 90), 60, 10).trajectory,
+            evaluate_physical_trajectory_safety(
+                build_straight_level_trajectory(PhysicalPose(300, 300, 3880, 90), 60, 10).trajectory,
+                high_terrain, 100.0, 10.0, record_sample_terrain=True),
+            dataclasses.replace(self.config, enable_low_altitude_cost=True, lambda_agl=0.10,
+                                low_altitude_cost_shape="quadratic", desired_agl_m=120.0, agl_cost_scale_m=100.0),
+        )
+        self.assertAlmostEqual(enabled, terrain_relative)
+
+    def test_low_altitude_cost_has_no_penalty_at_or_below_target(self) -> None:
+        trajectory = build_straight_level_trajectory(PhysicalPose(300, 300, 1120, 90), 60, 10).trajectory
+        terrain = self.flat()
+        cost = _trajectory_edge_cost(
+            trajectory, evaluate_physical_trajectory_safety(trajectory, terrain, 100.0, 10.0,
+                                                             record_sample_terrain=True),
+            dataclasses.replace(self.config, enable_low_altitude_cost=True,
+                                desired_agl_m=120.0, max_agl_cost_multiplier=1.10),
+        )
+        self.assertAlmostEqual(cost, 60.0)
+
+    def test_capped_linear_agl_cost_caps_at_configured_multiplier(self) -> None:
+        terrain = self.flat()
+        trajectory = build_straight_level_trajectory(PhysicalPose(300, 300, 1800, 90), 60, 10).trajectory
+        safety = evaluate_physical_trajectory_safety(trajectory, terrain, 100.0, 10.0,
+                                                     record_sample_terrain=True)
+        cost = _trajectory_edge_cost(trajectory, safety, dataclasses.replace(
+            self.config, enable_low_altitude_cost=True, desired_agl_m=120.0,
+            full_penalty_agl_m=500.0, max_agl_cost_multiplier=1.05,
+        ))
+        self.assertAlmostEqual(cost, 63.0)
+
     def test_turn_arc_hazard_rejected_even_when_endpoint_is_safe(self) -> None:
         terrain = terrain_from_array(np.full((100, 100), 1000.0, dtype=np.float32), 10.0)
         # Right 15 degree arc from north bends across cell (59, 51), while a
@@ -74,6 +130,52 @@ class PoseAwareSearchTests(unittest.TestCase):
         climbs = [node for node in result.nodes if node.incoming_primitive == "STRAIGHT_CLIMB"]
         self.assertTrue(climbs)
         self.assertNotEqual(climbs[0].end_pose.z_msl_m - start.z_msl_m, self.config.search_z_bin_m)
+
+    def test_basic_policy_generates_no_combined_successors(self) -> None:
+        terrain = self.flat()
+        result = self.search(PhysicalPose(300, 300, 1200, 90), GoalPose(700, 300, 1200), terrain)
+        self.assertFalse(self.config.enable_combined_turns)
+        self.assertEqual(active_primitive_names(self.config), (
+            "STRAIGHT_LEVEL", "LEFT_LEVEL_TURN", "RIGHT_LEVEL_TURN",
+            "STRAIGHT_CLIMB", "STRAIGHT_DESCENT",
+        ))
+        self.assertFalse(any("TURN" in name and ("CLIMBING" in name or "DESCENDING" in name)
+                             for name in result.generated_by_primitive))
+
+    def test_combined_successors_use_safety_pipeline_and_can_enter_open(self) -> None:
+        terrain = self.flat(150)
+        config = dataclasses.replace(self.config, enable_combined_turns=True)
+        start = PhysicalPose(300, 300, 1200, 0)
+        envelope = FixedWingKinematicEnvelope()
+        limit = envelope.combined_turn(start.z_msl_m, "LEFT", "CLIMB")
+        self.assertEqual(limit.availability, "AVAILABLE")
+        self.assertIsNotNone(limit.combined_turn)
+        expected = build_helical_turn_trajectory(start, limit.combined_turn, 15.0,
+                                                  config.primitive_sample_spacing_m).trajectory
+        assert expected is not None
+        goal = GoalPose(expected.end_pose.x_m, expected.end_pose.y_m, expected.end_pose.z_msl_m,
+                        expected.end_pose.heading_deg)
+        tolerance = GoalTolerance(1.0, 1.0, 0.1)
+
+        with patch("planner.pose_search.evaluate_physical_trajectory_safety",
+                   wraps=evaluate_physical_trajectory_safety) as safety_evaluator:
+            result = self.search(start, goal, terrain, tolerance, 100, config)
+
+        combined_names = {
+            "CLIMBING_LEFT_TURN", "CLIMBING_RIGHT_TURN",
+            "DESCENDING_LEFT_TURN", "DESCENDING_RIGHT_TURN",
+        }
+        self.assertTrue(combined_names.issubset(result.generated_by_primitive))
+        self.assertGreater(result.open_inserted_by_primitive.get("CLIMBING_LEFT_TURN", 0), 0)
+        self.assertTrue(result.success)
+        self.assertIn("CLIMBING_LEFT_TURN", result.path_primitives)
+        combined_index = result.path_primitives.index("CLIMBING_LEFT_TURN") + 1
+        combined_node = result.nodes[combined_index]
+        self.assertEqual(combined_node.incoming_trajectory.start_pose,
+                         result.nodes[combined_index - 1].end_pose)
+        self.assertIn(combined_node.incoming_trajectory,
+                      [call.args[0] for call in safety_evaluator.call_args_list])
+        self.assertEqual(result.path_primitive_counts["CLIMBING_LEFT_TURN"], 1)
 
     def test_same_key_self_transition_is_measured_without_loop_insertion(self) -> None:
         terrain = self.flat()

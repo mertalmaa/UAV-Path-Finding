@@ -57,6 +57,9 @@ class TrajectorySafetyResult:
     terrain_cell_evaluations: int
     max_curve_to_chord_deviation_m: float
     lateral_buffer_m: float
+    # Optional cost-observation payload. Filled inside this same safety pass
+    # only when an opt-in cost model requests it; never used for acceptance.
+    sample_terrain_elevations_msl: Tuple[float, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -229,6 +232,7 @@ def evaluate_physical_trajectory_safety(
     trajectory: PhysicalTrajectory, terrain: TerrainQuery, effective_min_agl_m: float,
     required_max_sample_spacing_m: float, planning_bounds: Optional[Bounds] = None,
     lateral_buffer_m: float = 0.0, terrain_influence_cache: Optional[TerrainInfluenceCache] = None,
+    record_sample_terrain: bool = False,
 ) -> TrajectorySafetyResult:
     """Conservative actual-curve centerline safety with optional terrain dilation.
 
@@ -251,11 +255,18 @@ def evaluate_physical_trajectory_safety(
     cell_failure_source_sample = None
     min_observed_agl = float("nan")
     covered_count, max_sagitta = 0, 0.0
+    sample_terrain_elevations = []
     for index, sample in enumerate(trajectory.samples):
         if not all(math.isfinite(v) for v in (sample.x_m, sample.y_m, sample.z_msl_m)) and sample_failure is None:
             sample_failure = TrajectorySafetySample(index, sample.x_m, sample.y_m, sample.z_msl_m, float("nan"), float("nan"), "INVALID_SAMPLE")
         elif not _in_bounds(sample.x_m, sample.y_m, bounds) and sample_failure is None:
             sample_failure = TrajectorySafetySample(index, sample.x_m, sample.y_m, sample.z_msl_m, float("nan"), float("nan"), "OUTSIDE_ROI")
+        if record_sample_terrain:
+            row, col = terrain.xy_to_rowcol(sample.x_m, sample.y_m)
+            sample_terrain_elevations.append(
+                float(field.elevation_msl[row, col]) if terrain.in_bounds_rowcol(row, col) and field.valid[row, col]
+                else float("nan")
+            )
     for segment_index, (first, second) in enumerate(zip(trajectory.samples, trajectory.samples[1:])):
         sagitta = curve_to_chord_deviation_m(first, second)
         max_sagitta = max(max_sagitta, sagitta)
@@ -282,7 +293,8 @@ def evaluate_physical_trajectory_safety(
     if sample_failure is not None:
         return TrajectorySafetyResult(False, min_observed_agl, sample_failure, cell_failure, sample_failure.reason,
                                       len(trajectory.samples), trajectory.max_sample_spacing_m, required_spacing,
-                                      sampling_sufficient, covered_count, covered_count, max_sagitta, buffer_m)
+                                      sampling_sufficient, covered_count, covered_count, max_sagitta, buffer_m,
+                                      tuple(sample_terrain_elevations))
     if cell_failure is not None:
         reason = "OUTSIDE_DEM" if not terrain.in_bounds_rowcol(cell_failure.row, cell_failure.col) else \
             ("OUTSIDE_DEM" if field.outside_dem[cell_failure.row, cell_failure.col] else
@@ -295,11 +307,14 @@ def evaluate_physical_trajectory_safety(
                                                  cell_failure.agl_m, reason)
         return TrajectorySafetyResult(False, min_observed_agl, source_failure, cell_failure, reason, len(trajectory.samples),
                                       trajectory.max_sample_spacing_m, required_spacing, sampling_sufficient,
-                                      covered_count, covered_count, max_sagitta, buffer_m)
+                                      covered_count, covered_count, max_sagitta, buffer_m,
+                                      tuple(sample_terrain_elevations))
     if not sampling_sufficient:
         return TrajectorySafetyResult(False, min_observed_agl, None, None, "INSUFFICIENT_SAMPLE_DENSITY",
                                       len(trajectory.samples), trajectory.max_sample_spacing_m, required_spacing, False,
-                                      covered_count, covered_count, max_sagitta, buffer_m)
+                                      covered_count, covered_count, max_sagitta, buffer_m,
+                                      tuple(sample_terrain_elevations))
     return TrajectorySafetyResult(True, min_observed_agl, None, None, None, len(trajectory.samples),
                                   trajectory.max_sample_spacing_m, required_spacing, True,
-                                  covered_count, covered_count, max_sagitta, buffer_m)
+                                  covered_count, covered_count, max_sagitta, buffer_m,
+                                  tuple(sample_terrain_elevations))

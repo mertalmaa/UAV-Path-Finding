@@ -1,0 +1,805 @@
+{
+  "admissibility_proven": true,
+  "formula": "h=sqrt(max(Dxy, Dz*40/5)^2 + Dz^2), with Dxy/Dz residuals to the accepted goal region",
+  "vz_upper_mps": 5.0,
+  "baseline": {
+    "A_easy_open": {
+      "name": "A_easy_open",
+      "mode": "EUCLIDEAN",
+      "status": "success",
+      "termination_reason": "FOUND",
+      "success": true,
+      "runtime_s": 0.6114036000017222,
+      "expanded": 1201,
+      "generated": 6000,
+      "rejected": 3225,
+      "peak_open": 1109,
+      "best_xy_error_m": 82.87971388834761,
+      "best_z_error_m": 0.0,
+      "expanded_z_diversity": {
+        "xy_bins": 64,
+        "mean_z_bins_per_xy": 7.078125,
+        "median_z_bins_per_xy": 8.0
+      },
+      "active_open_z_diversity": {
+        "xy_bins": 71,
+        "mean_z_bins_per_xy": 6.23943661971831,
+        "median_z_bins_per_xy": 6
+      },
+      "vertical_bound_active_among_expanded": {
+        "count": 158,
+        "percent": 13.155703580349709
+      },
+      "first_goal_open": {
+        "insertion_expansion": 16,
+        "node_id": 62,
+        "primitive": "LEFT_LEVEL_TURN",
+        "key": {
+          "x_bin": 11475,
+          "y_bin": 69766,
+          "z_bin": 700,
+          "heading_bin": 11
+        },
+        "pose": {
+          "x_m": 688542.9905955,
+          "y_m": 4185999.8321983195,
+          "z_msl_m": 3500.0,
+          "heading_deg": 165.0
+        },
+        "g": 1070.158979571188,
+        "h": 0.0,
+        "f": 1070.158979571188,
+        "xy_error_m": 75.11575547516931,
+        "z_error_m": 0.0,
+        "d3_error_m": 75.11575547516931,
+        "raw_open_rank": 47
+      },
+      "goal_pop_expansion": 1201,
+      "goal_open_rank_at_insertion": 47,
+      "active_lower_f_than_first_goal": 0,
+      "expanded_lower_f_than_first_goal": 1198,
+      "path": {
+        "physical_length_m": 1070.1589795711081,
+        "minimum_agl_m": 134.65283203125,
+        "goal_xy_error_m": 82.87971388834761,
+        "goal_z_error_m": 0.0,
+        "primitive_counts": {
+          "LEFT_LEVEL_TURN": 1,
+          "STRAIGHT_LEVEL": 15
+        }
+      }
+    },
+    "B_relief_affected": {
+      "name": "B_relief_affected",
+      "mode": "EUCLIDEAN",
+      "status": "success",
+      "termination_reason": "FOUND",
+      "success": true,
+      "runtime_s": 0.23498920000020007,
+      "expanded": 466,
+      "generated": 2325,
+      "rejected": 1377,
+      "peak_open": 388,
+      "best_xy_error_m": 89.25937786313287,
+      "best_z_error_m": 0.0,
+      "expanded_z_diversity": {
+        "xy_bins": 72,
+        "mean_z_bins_per_xy": 4.375,
+        "median_z_bins_per_xy": 4.0
+      },
+      "active_open_z_diversity": {
+        "xy_bins": 51,
+        "mean_z_bins_per_xy": 4.333333333333333,
+        "median_z_bins_per_xy": 4
+      },
+      "vertical_bound_active_among_expanded": {
+        "count": 1,
+        "percent": 0.2145922746781116
+      },
+      "first_goal_open": {
+        "insertion_expansion": 350,
+        "node_id": 647,
+        "primitive": "LEFT_LEVEL_TURN",
+        "key": {
+          "x_bin": 11494,
+          "y_bin": 69764,
+          "z_bin": 720,
+          "heading_bin": 5
+        },
+        "pose": {
+          "x_m": 689660.3639452626,
+          "y_m": 4185848.8241667743,
+          "z_msl_m": 3600.0,
+          "heading_deg": 75.0
+        },
+        "g": 1960.0834441750171,
+        "h": 0.0,
+        "f": 1960.0834441750171,
+        "xy_error_m": 79.23284371775136,
+        "z_error_m": 0.0,
+        "d3_error_m": 79.23284371775136,
+        "raw_open_rank": 153
+      },
+      "goal_pop_expansion": 466,
+      "goal_open_rank_at_insertion": 153,
+      "active_lower_f_than_first_goal": 174,
+      "expanded_lower_f_than_first_goal": 466,
+      "path": {
+        "physical_length_m": 1900.4178008270221,
+        "minimum_agl_m": 104.22705078125,
+        "goal_xy_error_m": 89.25937786313287,
+        "goal_z_error_m": 6.343074381360566,
+        "primitive_counts": {
+          "LEFT_LEVEL_TURN": 7,
+          "RIGHT_LEVEL_TURN": 3,
+          "STRAIGHT_DESCENT": 1,
+          "STRAIGHT_LEVEL": 2
+        }
+      }
+    },
+    "C_far_south_3km": {
+      "name": "C_far_south_3km",
+      "mode": "EUCLIDEAN",
+      "status": "success",
+      "termination_reason": "FOUND",
+      "success": true,
+      "runtime_s": 10.911883200000375,
+      "expanded": 10789,
+      "generated": 53940,
+      "rejected": 29308,
+      "peak_open": 8698,
+      "best_xy_error_m": 89.49643488298258,
+      "best_z_error_m": 0.0,
+      "expanded_z_diversity": {
+        "xy_bins": 225,
+        "mean_z_bins_per_xy": 13.56,
+        "median_z_bins_per_xy": 13
+      },
+      "active_open_z_diversity": {
+        "xy_bins": 299,
+        "mean_z_bins_per_xy": 13.357859531772576,
+        "median_z_bins_per_xy": 14
+      },
+      "vertical_bound_active_among_expanded": {
+        "count": 258,
+        "percent": 2.3913244971730467
+      },
+      "first_goal_open": {
+        "insertion_expansion": 47,
+        "node_id": 186,
+        "primitive": "LEFT_LEVEL_TURN",
+        "key": {
+          "x_bin": 11475,
+          "y_bin": 69735,
+          "z_bin": 760,
+          "heading_bin": 11
+        },
+        "pose": {
+          "x_m": 688543.7127072092,
+          "y_m": 4184134.3472153354,
+          "z_msl_m": 3800.0,
+          "heading_deg": 165.0
+        },
+        "g": 2935.707074109496,
+        "h": 0.0,
+        "f": 2935.707074109496,
+        "xy_error_m": 70.12546730309737,
+        "z_error_m": 0.0,
+        "d3_error_m": 70.12546730309737,
+        "raw_open_rank": 140
+      },
+      "goal_pop_expansion": 10789,
+      "goal_open_rank_at_insertion": 140,
+      "active_lower_f_than_first_goal": 5927,
+      "expanded_lower_f_than_first_goal": 10789,
+      "path": {
+        "physical_length_m": 2922.6448332624445,
+        "minimum_agl_m": 290.36487662790387,
+        "goal_xy_error_m": 89.49643488298258,
+        "goal_z_error_m": 9.467361687504763,
+        "primitive_counts": {
+          "LEFT_LEVEL_TURN": 2,
+          "RIGHT_LEVEL_TURN": 2,
+          "STRAIGHT_CLIMB": 1,
+          "STRAIGHT_DESCENT": 2,
+          "STRAIGHT_LEVEL": 34
+        }
+      }
+    },
+    "D_far_east_3km": {
+      "name": "D_far_east_3km",
+      "mode": "EUCLIDEAN",
+      "status": "success",
+      "termination_reason": "FOUND",
+      "success": true,
+      "runtime_s": 10.255708799999411,
+      "expanded": 8928,
+      "generated": 44635,
+      "rejected": 25247,
+      "peak_open": 6900,
+      "best_xy_error_m": 82.45341124488779,
+      "best_z_error_m": 0.0,
+      "expanded_z_diversity": {
+        "xy_bins": 202,
+        "mean_z_bins_per_xy": 16.603960396039604,
+        "median_z_bins_per_xy": 18.0
+      },
+      "active_open_z_diversity": {
+        "xy_bins": 278,
+        "mean_z_bins_per_xy": 15.014388489208633,
+        "median_z_bins_per_xy": 16.0
+      },
+      "vertical_bound_active_among_expanded": {
+        "count": 660,
+        "percent": 7.39247311827957
+      },
+      "first_goal_open": {
+        "insertion_expansion": 47,
+        "node_id": 186,
+        "primitive": "LEFT_LEVEL_TURN",
+        "key": {
+          "x_bin": 11524,
+          "y_bin": 69784,
+          "z_bin": 760,
+          "heading_bin": 5
+        },
+        "pose": {
+          "x_m": 691454.5519134129,
+          "y_m": 4187090.924696079,
+          "z_msl_m": 3800.0,
+          "heading_deg": 75.0
+        },
+        "g": 2935.707074109543,
+        "h": 0.0,
+        "f": 2935.707074109543,
+        "xy_error_m": 70.12546730291139,
+        "z_error_m": 0.0,
+        "d3_error_m": 70.12546730291139,
+        "raw_open_rank": 140
+      },
+      "goal_pop_expansion": 8928,
+      "goal_open_rank_at_insertion": 140,
+      "active_lower_f_than_first_goal": 3871,
+      "expanded_lower_f_than_first_goal": 8928,
+      "path": {
+        "physical_length_m": 2927.103659217665,
+        "minimum_agl_m": 228.1337890625,
+        "goal_xy_error_m": 82.45341124488779,
+        "goal_z_error_m": 6.343074381360566,
+        "primitive_counts": {
+          "LEFT_LEVEL_TURN": 1,
+          "RIGHT_LEVEL_TURN": 2,
+          "STRAIGHT_DESCENT": 1,
+          "STRAIGHT_LEVEL": 39
+        }
+      }
+    },
+    "E_long_descent_9_3km": {
+      "name": "E_long_descent_9_3km",
+      "mode": "EUCLIDEAN",
+      "status": "search_limit_reached",
+      "termination_reason": "EXPANSION_LIMIT",
+      "success": false,
+      "runtime_s": 31.73353379999935,
+      "expanded": 30000,
+      "generated": 149995,
+      "rejected": 95073,
+      "peak_open": 21356,
+      "best_xy_error_m": 120.0,
+      "best_z_error_m": 4.363551587838629,
+      "expanded_z_diversity": {
+        "xy_bins": 364,
+        "mean_z_bins_per_xy": 37.417582417582416,
+        "median_z_bins_per_xy": 37.0
+      },
+      "active_open_z_diversity": {
+        "xy_bins": 495,
+        "mean_z_bins_per_xy": 29.517171717171717,
+        "median_z_bins_per_xy": 28
+      },
+      "vertical_bound_active_among_expanded": {
+        "count": 2,
+        "percent": 0.006666666666666667
+      },
+      "first_goal_open": {
+        "insertion_expansion": 28618,
+        "node_id": 52316,
+        "primitive": "STRAIGHT_DESCENT",
+        "key": {
+          "x_bin": 11561,
+          "y_bin": 69777,
+          "z_bin": 780,
+          "heading_bin": 6
+        },
+        "pose": {
+          "x_m": 693680.843569939,
+          "y_m": 4186648.055558809,
+          "z_msl_m": 3904.3635515878386,
+          "heading_deg": 90.0
+        },
+        "g": 9266.172082483414,
+        "h": 0.0,
+        "f": 9266.172082483414,
+        "xy_error_m": 60.0,
+        "z_error_m": 4.363551587838629,
+        "d3_error_m": 60.158462268077706,
+        "raw_open_rank": 20501
+      },
+      "goal_pop_expansion": null,
+      "goal_open_rank_at_insertion": 20501,
+      "active_lower_f_than_first_goal": 20029,
+      "expanded_lower_f_than_first_goal": 30000,
+      "path": null
+    },
+    "F_turn_required_diagonal_2_3km": {
+      "name": "F_turn_required_diagonal_2_3km",
+      "mode": "EUCLIDEAN",
+      "status": "success",
+      "termination_reason": "FOUND",
+      "success": true,
+      "runtime_s": 2.999112600000444,
+      "expanded": 5942,
+      "generated": 29705,
+      "rejected": 18486,
+      "peak_open": 3001,
+      "best_xy_error_m": 79.13623341601753,
+      "best_z_error_m": 0.0,
+      "expanded_z_diversity": {
+        "xy_bins": 191,
+        "mean_z_bins_per_xy": 9.769633507853403,
+        "median_z_bins_per_xy": 10
+      },
+      "active_open_z_diversity": {
+        "xy_bins": 152,
+        "mean_z_bins_per_xy": 8.717105263157896,
+        "median_z_bins_per_xy": 9.0
+      },
+      "vertical_bound_active_among_expanded": {
+        "count": 393,
+        "percent": 6.613934702120498
+      },
+      "first_goal_open": {
+        "insertion_expansion": 853,
+        "node_id": 1646,
+        "primitive": "RIGHT_LEVEL_TURN",
+        "key": {
+          "x_bin": 11501,
+          "y_bin": 69758,
+          "z_bin": 738,
+          "heading_bin": 9
+        },
+        "pose": {
+          "x_m": 690065.2089116077,
+          "y_m": 4185492.465605543,
+          "z_msl_m": 3693.6569256186394,
+          "heading_deg": 135.0
+        },
+        "g": 2290.2575780580623,
+        "h": 0.0,
+        "f": 2290.2575780580623,
+        "xy_error_m": 87.7089151215468,
+        "z_error_m": 6.343074381360566,
+        "d3_error_m": 87.93798032935582,
+        "raw_open_rank": 488
+      },
+      "goal_pop_expansion": 5942,
+      "goal_open_rank_at_insertion": 488,
+      "active_lower_f_than_first_goal": 0,
+      "expanded_lower_f_than_first_goal": 3743,
+      "path": {
+        "physical_length_m": 2330.8436596691554,
+        "minimum_agl_m": 109.46497428415387,
+        "goal_xy_error_m": 79.13623341601753,
+        "goal_z_error_m": 9.467361687504763,
+        "primitive_counts": {
+          "LEFT_LEVEL_TURN": 5,
+          "RIGHT_LEVEL_TURN": 6,
+          "STRAIGHT_CLIMB": 1,
+          "STRAIGHT_DESCENT": 2,
+          "STRAIGHT_LEVEL": 4
+        }
+      }
+    }
+  },
+  "vertical_reachability": {
+    "A_easy_open": {
+      "name": "A_easy_open",
+      "mode": "VERTICAL_REACHABILITY",
+      "status": "success",
+      "termination_reason": "FOUND",
+      "success": true,
+      "runtime_s": 1.131447699999626,
+      "expanded": 1050,
+      "generated": 5245,
+      "rejected": 2881,
+      "peak_open": 945,
+      "best_xy_error_m": 82.87971388834761,
+      "best_z_error_m": 0.0,
+      "expanded_z_diversity": {
+        "xy_bins": 64,
+        "mean_z_bins_per_xy": 5.921875,
+        "median_z_bins_per_xy": 6.0
+      },
+      "active_open_z_diversity": {
+        "xy_bins": 72,
+        "mean_z_bins_per_xy": 4.930555555555555,
+        "median_z_bins_per_xy": 4.0
+      },
+      "vertical_bound_active_among_expanded": {
+        "count": 7,
+        "percent": 0.6666666666666666
+      },
+      "first_goal_open": {
+        "insertion_expansion": 16,
+        "node_id": 62,
+        "primitive": "LEFT_LEVEL_TURN",
+        "key": {
+          "x_bin": 11475,
+          "y_bin": 69766,
+          "z_bin": 700,
+          "heading_bin": 11
+        },
+        "pose": {
+          "x_m": 688542.9905955,
+          "y_m": 4185999.8321983195,
+          "z_msl_m": 3500.0,
+          "heading_deg": 165.0
+        },
+        "g": 1070.158979571188,
+        "h": 0.0,
+        "f": 1070.158979571188,
+        "xy_error_m": 75.11575547516931,
+        "z_error_m": 0.0,
+        "d3_error_m": 75.11575547516931,
+        "raw_open_rank": 47
+      },
+      "goal_pop_expansion": 1050,
+      "goal_open_rank_at_insertion": 47,
+      "active_lower_f_than_first_goal": 0,
+      "expanded_lower_f_than_first_goal": 1047,
+      "path": {
+        "physical_length_m": 1070.1589795711081,
+        "minimum_agl_m": 134.65283203125,
+        "goal_xy_error_m": 82.87971388834761,
+        "goal_z_error_m": 0.0,
+        "primitive_counts": {
+          "LEFT_LEVEL_TURN": 1,
+          "STRAIGHT_LEVEL": 15
+        }
+      }
+    },
+    "B_relief_affected": {
+      "name": "B_relief_affected",
+      "mode": "VERTICAL_REACHABILITY",
+      "status": "success",
+      "termination_reason": "FOUND",
+      "success": true,
+      "runtime_s": 0.23869639999975334,
+      "expanded": 465,
+      "generated": 2320,
+      "rejected": 1373,
+      "peak_open": 388,
+      "best_xy_error_m": 89.25937786313287,
+      "best_z_error_m": 0.0,
+      "expanded_z_diversity": {
+        "xy_bins": 72,
+        "mean_z_bins_per_xy": 4.361111111111111,
+        "median_z_bins_per_xy": 4.0
+      },
+      "active_open_z_diversity": {
+        "xy_bins": 51,
+        "mean_z_bins_per_xy": 4.333333333333333,
+        "median_z_bins_per_xy": 5
+      },
+      "vertical_bound_active_among_expanded": {
+        "count": 0,
+        "percent": 0.0
+      },
+      "first_goal_open": {
+        "insertion_expansion": 350,
+        "node_id": 647,
+        "primitive": "LEFT_LEVEL_TURN",
+        "key": {
+          "x_bin": 11494,
+          "y_bin": 69764,
+          "z_bin": 720,
+          "heading_bin": 5
+        },
+        "pose": {
+          "x_m": 689660.3639452626,
+          "y_m": 4185848.8241667743,
+          "z_msl_m": 3600.0,
+          "heading_deg": 75.0
+        },
+        "g": 1960.0834441750171,
+        "h": 0.0,
+        "f": 1960.0834441750171,
+        "xy_error_m": 79.23284371775136,
+        "z_error_m": 0.0,
+        "d3_error_m": 79.23284371775136,
+        "raw_open_rank": 153
+      },
+      "goal_pop_expansion": 465,
+      "goal_open_rank_at_insertion": 153,
+      "active_lower_f_than_first_goal": 172,
+      "expanded_lower_f_than_first_goal": 465,
+      "path": {
+        "physical_length_m": 1900.4178008270221,
+        "minimum_agl_m": 104.22705078125,
+        "goal_xy_error_m": 89.25937786313287,
+        "goal_z_error_m": 6.343074381360566,
+        "primitive_counts": {
+          "LEFT_LEVEL_TURN": 7,
+          "RIGHT_LEVEL_TURN": 3,
+          "STRAIGHT_DESCENT": 1,
+          "STRAIGHT_LEVEL": 2
+        }
+      }
+    },
+    "C_far_south_3km": {
+      "name": "C_far_south_3km",
+      "mode": "VERTICAL_REACHABILITY",
+      "status": "success",
+      "termination_reason": "FOUND",
+      "success": true,
+      "runtime_s": 5.6295914000002085,
+      "expanded": 10539,
+      "generated": 52690,
+      "rejected": 28727,
+      "peak_open": 8442,
+      "best_xy_error_m": 89.49643488298258,
+      "best_z_error_m": 0.0,
+      "expanded_z_diversity": {
+        "xy_bins": 225,
+        "mean_z_bins_per_xy": 13.026666666666667,
+        "median_z_bins_per_xy": 13
+      },
+      "active_open_z_diversity": {
+        "xy_bins": 299,
+        "mean_z_bins_per_xy": 12.68227424749164,
+        "median_z_bins_per_xy": 12
+      },
+      "vertical_bound_active_among_expanded": {
+        "count": 8,
+        "percent": 0.0759085302210836
+      },
+      "first_goal_open": {
+        "insertion_expansion": 47,
+        "node_id": 186,
+        "primitive": "LEFT_LEVEL_TURN",
+        "key": {
+          "x_bin": 11475,
+          "y_bin": 69735,
+          "z_bin": 760,
+          "heading_bin": 11
+        },
+        "pose": {
+          "x_m": 688543.7127072092,
+          "y_m": 4184134.3472153354,
+          "z_msl_m": 3800.0,
+          "heading_deg": 165.0
+        },
+        "g": 2935.707074109496,
+        "h": 0.0,
+        "f": 2935.707074109496,
+        "xy_error_m": 70.12546730309737,
+        "z_error_m": 0.0,
+        "d3_error_m": 70.12546730309737,
+        "raw_open_rank": 140
+      },
+      "goal_pop_expansion": 10539,
+      "goal_open_rank_at_insertion": 140,
+      "active_lower_f_than_first_goal": 5405,
+      "expanded_lower_f_than_first_goal": 10539,
+      "path": {
+        "physical_length_m": 2922.6448332624445,
+        "minimum_agl_m": 290.36487662790387,
+        "goal_xy_error_m": 89.49643488298258,
+        "goal_z_error_m": 9.467361687504763,
+        "primitive_counts": {
+          "LEFT_LEVEL_TURN": 2,
+          "RIGHT_LEVEL_TURN": 2,
+          "STRAIGHT_CLIMB": 1,
+          "STRAIGHT_DESCENT": 2,
+          "STRAIGHT_LEVEL": 34
+        }
+      }
+    },
+    "D_far_east_3km": {
+      "name": "D_far_east_3km",
+      "mode": "VERTICAL_REACHABILITY",
+      "status": "success",
+      "termination_reason": "FOUND",
+      "success": true,
+      "runtime_s": 4.600553499998568,
+      "expanded": 8291,
+      "generated": 41450,
+      "rejected": 23463,
+      "peak_open": 6352,
+      "best_xy_error_m": 82.45341124488779,
+      "best_z_error_m": 0.0,
+      "expanded_z_diversity": {
+        "xy_bins": 202,
+        "mean_z_bins_per_xy": 15.217821782178218,
+        "median_z_bins_per_xy": 15.0
+      },
+      "active_open_z_diversity": {
+        "xy_bins": 278,
+        "mean_z_bins_per_xy": 13.679856115107913,
+        "median_z_bins_per_xy": 13.0
+      },
+      "vertical_bound_active_among_expanded": {
+        "count": 23,
+        "percent": 0.2774092389337836
+      },
+      "first_goal_open": {
+        "insertion_expansion": 47,
+        "node_id": 186,
+        "primitive": "LEFT_LEVEL_TURN",
+        "key": {
+          "x_bin": 11524,
+          "y_bin": 69784,
+          "z_bin": 760,
+          "heading_bin": 5
+        },
+        "pose": {
+          "x_m": 691454.5519134129,
+          "y_m": 4187090.924696079,
+          "z_msl_m": 3800.0,
+          "heading_deg": 75.0
+        },
+        "g": 2935.707074109543,
+        "h": 0.0,
+        "f": 2935.707074109543,
+        "xy_error_m": 70.12546730291139,
+        "z_error_m": 0.0,
+        "d3_error_m": 70.12546730291139,
+        "raw_open_rank": 140
+      },
+      "goal_pop_expansion": 8291,
+      "goal_open_rank_at_insertion": 140,
+      "active_lower_f_than_first_goal": 3269,
+      "expanded_lower_f_than_first_goal": 8291,
+      "path": {
+        "physical_length_m": 2927.103659217665,
+        "minimum_agl_m": 228.1337890625,
+        "goal_xy_error_m": 82.45341124488779,
+        "goal_z_error_m": 6.343074381360566,
+        "primitive_counts": {
+          "LEFT_LEVEL_TURN": 1,
+          "RIGHT_LEVEL_TURN": 2,
+          "STRAIGHT_DESCENT": 1,
+          "STRAIGHT_LEVEL": 39
+        }
+      }
+    },
+    "E_long_descent_9_3km": {
+      "name": "E_long_descent_9_3km",
+      "mode": "VERTICAL_REACHABILITY",
+      "status": "search_limit_reached",
+      "termination_reason": "EXPANSION_LIMIT",
+      "success": false,
+      "runtime_s": 14.913765699999203,
+      "expanded": 30000,
+      "generated": 149995,
+      "rejected": 95076,
+      "peak_open": 21352,
+      "best_xy_error_m": 120.0,
+      "best_z_error_m": 4.363551587838629,
+      "expanded_z_diversity": {
+        "xy_bins": 364,
+        "mean_z_bins_per_xy": 37.41208791208791,
+        "median_z_bins_per_xy": 37.0
+      },
+      "active_open_z_diversity": {
+        "xy_bins": 495,
+        "mean_z_bins_per_xy": 29.515151515151516,
+        "median_z_bins_per_xy": 28
+      },
+      "vertical_bound_active_among_expanded": {
+        "count": 0,
+        "percent": 0.0
+      },
+      "first_goal_open": {
+        "insertion_expansion": 28618,
+        "node_id": 52316,
+        "primitive": "STRAIGHT_DESCENT",
+        "key": {
+          "x_bin": 11561,
+          "y_bin": 69777,
+          "z_bin": 780,
+          "heading_bin": 6
+        },
+        "pose": {
+          "x_m": 693680.843569939,
+          "y_m": 4186648.055558809,
+          "z_msl_m": 3904.3635515878386,
+          "heading_deg": 90.0
+        },
+        "g": 9266.172082483414,
+        "h": 0.0,
+        "f": 9266.172082483414,
+        "xy_error_m": 60.0,
+        "z_error_m": 4.363551587838629,
+        "d3_error_m": 60.158462268077706,
+        "raw_open_rank": 20462
+      },
+      "goal_pop_expansion": null,
+      "goal_open_rank_at_insertion": 20462,
+      "active_lower_f_than_first_goal": 19939,
+      "expanded_lower_f_than_first_goal": 30000,
+      "path": null
+    },
+    "F_turn_required_diagonal_2_3km": {
+      "name": "F_turn_required_diagonal_2_3km",
+      "mode": "VERTICAL_REACHABILITY",
+      "status": "success",
+      "termination_reason": "FOUND",
+      "success": true,
+      "runtime_s": 3.7862550000008923,
+      "expanded": 5631,
+      "generated": 28150,
+      "rejected": 17405,
+      "peak_open": 2929,
+      "best_xy_error_m": 79.13623341601753,
+      "best_z_error_m": 0.0,
+      "expanded_z_diversity": {
+        "xy_bins": 191,
+        "mean_z_bins_per_xy": 9.109947643979057,
+        "median_z_bins_per_xy": 9
+      },
+      "active_open_z_diversity": {
+        "xy_bins": 163,
+        "mean_z_bins_per_xy": 7.662576687116564,
+        "median_z_bins_per_xy": 7
+      },
+      "vertical_bound_active_among_expanded": {
+        "count": 82,
+        "percent": 1.4562244716746582
+      },
+      "first_goal_open": {
+        "insertion_expansion": 853,
+        "node_id": 1646,
+        "primitive": "RIGHT_LEVEL_TURN",
+        "key": {
+          "x_bin": 11501,
+          "y_bin": 69758,
+          "z_bin": 738,
+          "heading_bin": 9
+        },
+        "pose": {
+          "x_m": 690065.2089116077,
+          "y_m": 4185492.465605543,
+          "z_msl_m": 3693.6569256186394,
+          "heading_deg": 135.0
+        },
+        "g": 2290.2575780580623,
+        "h": 0.0,
+        "f": 2290.2575780580623,
+        "xy_error_m": 87.7089151215468,
+        "z_error_m": 6.343074381360566,
+        "d3_error_m": 87.93798032935582,
+        "raw_open_rank": 488
+      },
+      "goal_pop_expansion": 5631,
+      "goal_open_rank_at_insertion": 488,
+      "active_lower_f_than_first_goal": 0,
+      "expanded_lower_f_than_first_goal": 3603,
+      "path": {
+        "physical_length_m": 2330.8436596691554,
+        "minimum_agl_m": 109.46497428415387,
+        "goal_xy_error_m": 79.13623341601753,
+        "goal_z_error_m": 9.467361687504763,
+        "primitive_counts": {
+          "LEFT_LEVEL_TURN": 5,
+          "RIGHT_LEVEL_TURN": 6,
+          "STRAIGHT_CLIMB": 1,
+          "STRAIGHT_DESCENT": 2,
+          "STRAIGHT_LEVEL": 4
+        }
+      }
+    }
+  },
+  "classification": "C. NEUTRAL",
+  "production_behavior_changed": false
+}

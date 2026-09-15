@@ -1,0 +1,368 @@
+{
+  "baseline": {
+    "reproduced": true,
+    "enable_combined_turns": false,
+    "instrumented": {
+      "status": "search_limit_reached",
+      "termination_reason": "EXPANSION_LIMIT",
+      "expanded": 30000,
+      "generated": 149995,
+      "rejected": 95073,
+      "peak_open": 21356,
+      "best_expanded_xy_error_m": 120.0,
+      "best_expanded_3d_error_m": 120.07930955189461
+    }
+  },
+  "first_goal_open_insertion": {
+    "node_id": 52316,
+    "insertion_expansion": 28618,
+    "key": {
+      "x_bin": 11561,
+      "y_bin": 69777,
+      "z_bin": 780,
+      "heading_bin": 6
+    },
+    "pose": {
+      "x_m": 693680.843569939,
+      "y_m": 4186648.055558809,
+      "z_msl_m": 3904.3635515878386,
+      "heading_deg": 90.0
+    },
+    "primitive": "STRAIGHT_DESCENT",
+    "g": 9266.172082483414,
+    "h": 0.0,
+    "f": 9266.172082483414,
+    "xy_error_m": 60.0,
+    "z_error_m": 4.363551587838629,
+    "d3_error_m": 60.158462268077706,
+    "open_size_before_insert": 20511,
+    "raw_heap_priority_rank_at_insert": 20501,
+    "heap_counter": 52316
+  },
+  "active_goal_open_summary": {
+    "count": 9,
+    "minimum_g": 9263.809219428278,
+    "minimum_h": 0.0,
+    "minimum_f": 9263.809219428278
+  },
+  "lowest_f_goal_open_at_30k": {
+    "node_id": 54466,
+    "insertion_expansion": 29819,
+    "key": {
+      "x_bin": 11561,
+      "y_bin": 69777,
+      "z_bin": 780,
+      "heading_bin": 5
+    },
+    "pose": {
+      "x_m": 693676.460021095,
+      "y_m": 4186671.175903221,
+      "z_msl_m": 3904.3635515878386,
+      "heading_deg": 75.0
+    },
+    "primitive": "LEFT_LEVEL_TURN",
+    "g": 9263.809219428278,
+    "h": 0.0,
+    "f": 9263.809219428278,
+    "xy_error_m": 68.40900297097207,
+    "z_error_m": 4.363551587838629,
+    "d3_error_m": 68.54802892820621,
+    "open_size_before_insert": null,
+    "raw_heap_priority_rank_at_insert": null,
+    "heap_counter": 54466
+  },
+  "lowest_f_goal_open_rank": 20026,
+  "pops_after_first_goal_insertion": {
+    "count": 1382,
+    "f_lower": 1382,
+    "f_equal": 0,
+    "f_higher": 0,
+    "g": {
+      "count": 1382,
+      "min": 3674.562831697671,
+      "mean": 6005.8161228001445,
+      "median": 6078.153848234311,
+      "max": 9206.172082483414
+    },
+    "h": {
+      "count": 1382,
+      "min": 30.0,
+      "mean": 3230.227906206911,
+      "median": 3157.9760084664053,
+      "max": 5561.326921615348
+    },
+    "f": {
+      "count": 1382,
+      "min": 9235.847377665346,
+      "mean": 9236.044029007056,
+      "median": 9236.060995275144,
+      "max": 9236.204116384648
+    },
+    "xy_error_m": {
+      "count": 1382,
+      "min": 120.0,
+      "mean": 3313.697715292548,
+      "median": 3243.596977649592,
+      "max": 5629.909368292908
+    },
+    "z_error_m": {
+      "count": 1382,
+      "min": 4.363551587838629,
+      "mean": 189.89808966884337,
+      "median": 150.36558257069464,
+      "max": 500.0
+    },
+    "d3_error_m": {
+      "count": 1382,
+      "min": 120.07930955189461,
+      "mean": 3320.782257333107,
+      "median": 3248.805059357748,
+      "max": 5652.068603192308
+    }
+  },
+  "production_cost_formula": "g = sum(_trajectory_3d_length(incoming_trajectory)); no altitude/terrain multiplier or penalty",
+  "goal_state_g_decomposition": {
+    "production_cost": "sum of sampled geometric 3D trajectory lengths",
+    "physical_distance_m": 9263.809219428274,
+    "altitude_or_terrain_penalty_m": 0.0,
+    "other_penalty_m": 0.0,
+    "segments": 152,
+    "matches_node_g": true
+  },
+  "production_heuristic_formula": "sqrt(max(abs(dx)-xy_tolerance,0)^2 + max(abs(dy)-xy_tolerance,0)^2 + max(abs(dz)-altitude_tolerance,0)^2)",
+  "heuristic_representatives": {
+    "start": {
+      "node_id": 0,
+      "insertion_expansion": null,
+      "key": {
+        "x_bin": 11407,
+        "y_bin": 69777,
+        "z_bin": 880,
+        "heading_bin": 6
+      },
+      "pose": {
+        "x_m": 684440.843569939,
+        "y_m": 4186648.055558809,
+        "z_msl_m": 4400.0,
+        "heading_deg": 90.0
+      },
+      "primitive": "START",
+      "g": 0.0,
+      "h": 9223.025533955764,
+      "f": 9223.025533955764,
+      "xy_error_m": 9300.0,
+      "z_error_m": 500.0,
+      "d3_error_m": 9313.43116150004,
+      "open_size_before_insert": null,
+      "raw_heap_priority_rank_at_insert": null,
+      "heap_counter": null
+    },
+    "25_percent_xy_progress": {
+      "node_id": 11419,
+      "insertion_expansion": null,
+      "key": {
+        "x_bin": 11446,
+        "y_bin": 69778,
+        "z_bin": 835,
+        "heading_bin": 5
+      },
+      "pose": {
+        "x_m": 686779.6191968458,
+        "y_m": 4186687.3901163097,
+        "z_msl_m": 4177.505370726808,
+        "heading_deg": 75.0
+      },
+      "primitive": "STRAIGHT_LEVEL",
+      "g": 2354.6545429346706,
+      "h": 6876.429561099137,
+      "f": 9231.084104033807,
+      "xy_error_m": 6961.335502614489,
+      "z_error_m": 277.505370726808,
+      "d3_error_m": 6966.864517897786,
+      "open_size_before_insert": null,
+      "raw_heap_priority_rank_at_insert": null,
+      "heap_counter": null
+    },
+    "50_percent_xy_progress": {
+      "node_id": 34947,
+      "insertion_expansion": null,
+      "key": {
+        "x_bin": 11484,
+        "y_bin": 69778,
+        "z_bin": 859,
+        "heading_bin": 6
+      },
+      "pose": {
+        "x_m": 689067.1857125252,
+        "y_m": 4186696.2854168527,
+        "z_msl_m": 4298.288169475112,
+        "heading_deg": 90.0
+      },
+      "primitive": "RIGHT_LEVEL_TURN",
+      "g": 4635.930837997425,
+      "h": 4600.074679435785,
+      "f": 9236.00551743321,
+      "xy_error_m": 4673.906705035232,
+      "z_error_m": 398.2881694751122,
+      "d3_error_m": 4690.846123389376,
+      "open_size_before_insert": null,
+      "raw_heap_priority_rank_at_insert": null,
+      "heap_counter": null
+    },
+    "75_percent_xy_progress": {
+      "node_id": 31111,
+      "insertion_expansion": null,
+      "key": {
+        "x_bin": 11523,
+        "y_bin": 69777,
+        "z_bin": 806,
+        "heading_bin": 6
+      },
+      "pose": {
+        "x_m": 691400.843569939,
+        "y_m": 4186648.055558809,
+        "z_msl_m": 4031.294614347277,
+        "heading_deg": 90.0
+      },
+      "primitive": "STRAIGHT_LEVEL",
+      "g": 6979.477626933676,
+      "h": 2253.2670466390914,
+      "f": 9232.744673572768,
+      "xy_error_m": 2340.0,
+      "z_error_m": 131.29461434727682,
+      "d3_error_m": 2343.680497797556,
+      "open_size_before_insert": null,
+      "raw_heap_priority_rank_at_insert": null,
+      "heap_counter": null
+    },
+    "near_goal_wrong_z": {
+      "node_id": 51579,
+      "insertion_expansion": null,
+      "key": {
+        "x_bin": 11560,
+        "y_bin": 69777,
+        "z_bin": 782,
+        "heading_bin": 6
+      },
+      "pose": {
+        "x_m": 693620.843569939,
+        "y_m": 4186648.055558809,
+        "z_msl_m": 3910.706625969199,
+        "heading_deg": 90.0
+      },
+      "primitive": "STRAIGHT_DESCENT",
+      "g": 9205.837725831441,
+      "h": 30.00832085039659,
+      "f": 9235.846046681838,
+      "xy_error_m": 120.0,
+      "z_error_m": 10.706625969199195,
+      "d3_error_m": 120.4766858759168,
+      "open_size_before_insert": null,
+      "raw_heap_priority_rank_at_insert": null,
+      "heap_counter": null
+    },
+    "correct_z_farther_xy": {
+      "node_id": 52231,
+      "insertion_expansion": null,
+      "key": {
+        "x_bin": 11545,
+        "y_bin": 69777,
+        "z_bin": 780,
+        "heading_bin": 6
+      },
+      "pose": {
+        "x_m": 692720.843569939,
+        "y_m": 4186648.055558809,
+        "z_msl_m": 3904.3635515878386,
+        "heading_deg": 90.0
+      },
+      "primitive": "STRAIGHT_DESCENT",
+      "g": 8306.172082483421,
+      "h": 930.0,
+      "f": 9236.172082483421,
+      "xy_error_m": 1020.0,
+      "z_error_m": 4.363551587838629,
+      "d3_error_m": 1020.0093335761491,
+      "open_size_before_insert": null,
+      "raw_heap_priority_rank_at_insert": null,
+      "heap_counter": null
+    },
+    "first_goal_satisfying_open": {
+      "node_id": 52316,
+      "insertion_expansion": 28618,
+      "key": {
+        "x_bin": 11561,
+        "y_bin": 69777,
+        "z_bin": 780,
+        "heading_bin": 6
+      },
+      "pose": {
+        "x_m": 693680.843569939,
+        "y_m": 4186648.055558809,
+        "z_msl_m": 3904.3635515878386,
+        "heading_deg": 90.0
+      },
+      "primitive": "STRAIGHT_DESCENT",
+      "g": 9266.172082483414,
+      "h": 0.0,
+      "f": 9266.172082483414,
+      "xy_error_m": 60.0,
+      "z_error_m": 4.363551587838629,
+      "d3_error_m": 60.158462268077706,
+      "open_size_before_insert": 20511,
+      "raw_heap_priority_rank_at_insert": 20501,
+      "heap_counter": 52316
+    }
+  },
+  "f_plateau": {
+    "0.1_percent": {
+      "count": 10,
+      "unique_xy_bins": 1,
+      "unique_z_bins": 5,
+      "unique_heading_bins": 3
+    },
+    "0.5_percent": {
+      "count": 20039,
+      "unique_xy_bins": 493,
+      "unique_z_bins": 85,
+      "unique_heading_bins": 5
+    },
+    "1_percent": {
+      "count": 20047,
+      "unique_xy_bins": 494,
+      "unique_z_bins": 85,
+      "unique_heading_bins": 5
+    },
+    "5_percent": {
+      "count": 20051,
+      "unique_xy_bins": 495,
+      "unique_z_bins": 85,
+      "unique_heading_bins": 5
+    },
+    "strictly_lower_f": 20029
+  },
+  "heap_ordering": "(f_score, insertion_counter, node_id)",
+  "tie_breaking": "exact equal f is resolved by monotonically increasing insertion_counter; no h/g/key preference",
+  "lower_f_frontier_diversity": {
+    "total_active_entries": 20027,
+    "unique_xy_bins": 493,
+    "mean_z_bins_per_xy": 29.612576064908723,
+    "median_z_bins_per_xy": 29,
+    "altitude_min_msl_m": 3898.020477206478,
+    "altitude_max_msl_m": 4400.0,
+    "mean_heading_bins_per_xy": 1.7647058823529411,
+    "unique_heading_bins": 5
+  },
+  "counterfactual_goal_ranks": {
+    "current_f_then_insertion_order": 20026,
+    "current_f_then_lower_h": 20026,
+    "current_f_then_larger_g": 20026,
+    "pure_h": 2
+  },
+  "goal_check_location": "after an active non-stale OPEN node is popped, before successor expansion; not during successor generation",
+  "classification": {
+    "primary": "D. Z DIVERSITY CREATES TOO MANY LOWER-F STATES",
+    "secondary": "A. HEURISTIC TOO WEAK FOR VERTICAL-TIMING PROGRESS",
+    "evidence": "All 1,382 pops after first goal insertion had strictly lower f; no equal-f or f-higher state was popped. The geometric heuristic leaves a broad f band while it does not encode vertical-timing progress. Exact-tie counterfactuals do not improve the goal rank, while pure-h would rank it 2nd. This rules out a heap/stale bug and makes insertion-order tie-breaking non-causal in this run."
+  }
+}

@@ -1,0 +1,1761 @@
+{
+  "V0_baseline": {
+    "1_west_valley_descent": {
+      "variant": "V0_baseline",
+      "status": "FAIL",
+      "termination": "EXPANSIONS_LIMIT",
+      "expansions": 30000,
+      "generated": 150000,
+      "peak_open": 2207,
+      "runtime_s": 13.399249500002043,
+      "path_length_m": 0.0,
+      "min_agl_m": NaN,
+      "mean_agl_m": NaN,
+      "median_agl_m": NaN,
+      "goal_xy_error_m": NaN,
+      "goal_z_error_m": NaN,
+      "all_safe": false,
+      "closest_3d_m": 235.58492903894236,
+      "rejections": {
+        "PARETO_DOM": 37031,
+        "SAME_KEY_DOM": 62906,
+        "SAFETY": 12244,
+        "SAME_KEY_SELF": 2714
+      },
+      "primitive_counts": {}
+    },
+    "2_west_valley_climb": {
+      "variant": "V0_baseline",
+      "status": "FAIL",
+      "termination": "OPEN_EXHAUSTED",
+      "expansions": 14442,
+      "generated": 72210,
+      "peak_open": 1135,
+      "runtime_s": 6.313389299997652,
+      "path_length_m": 0.0,
+      "min_agl_m": NaN,
+      "mean_agl_m": NaN,
+      "median_agl_m": NaN,
+      "goal_xy_error_m": NaN,
+      "goal_z_error_m": NaN,
+      "all_safe": false,
+      "closest_3d_m": 1362.619610101292,
+      "rejections": {
+        "SAME_KEY_DOM": 17916,
+        "PARETO_DOM": 6264,
+        "SAFETY": 28741,
+        "SAME_KEY_SELF": 263
+      },
+      "primitive_counts": {}
+    },
+    "3_second_valley": {
+      "variant": "V0_baseline",
+      "status": "FAIL",
+      "termination": "OPEN_EXHAUSTED",
+      "expansions": 3,
+      "generated": 15,
+      "peak_open": 2,
+      "runtime_s": 0.0013476999993145,
+      "path_length_m": 0.0,
+      "min_agl_m": NaN,
+      "mean_agl_m": NaN,
+      "median_agl_m": NaN,
+      "goal_xy_error_m": NaN,
+      "goal_z_error_m": NaN,
+      "all_safe": false,
+      "closest_3d_m": 2683.787399746022,
+      "rejections": {
+        "SAFETY": 12,
+        "PARETO_DOM": 1
+      },
+      "primitive_counts": {}
+    },
+    "4_lateral_detour": {
+      "variant": "V0_baseline",
+      "status": "FAIL",
+      "termination": "OPEN_EXHAUSTED",
+      "expansions": 3,
+      "generated": 15,
+      "peak_open": 2,
+      "runtime_s": 0.0011862999999721069,
+      "path_length_m": 0.0,
+      "min_agl_m": NaN,
+      "mean_agl_m": NaN,
+      "median_agl_m": NaN,
+      "goal_xy_error_m": NaN,
+      "goal_z_error_m": NaN,
+      "all_safe": false,
+      "closest_3d_m": 2941.042938954298,
+      "rejections": {
+        "SAFETY": 12,
+        "PARETO_DOM": 1
+      },
+      "primitive_counts": {}
+    },
+    "can_A_easy_open": {
+      "variant": "V0_baseline",
+      "status": "FOUND",
+      "termination": "FOUND",
+      "expansions": 19,
+      "generated": 90,
+      "peak_open": 37,
+      "runtime_s": 0.007267699998919852,
+      "path_length_m": 1080.0,
+      "min_agl_m": 134.65283203125,
+      "mean_agl_m": 204.6269763764881,
+      "median_agl_m": 206.5152587890625,
+      "goal_xy_error_m": 60.0,
+      "goal_z_error_m": 0.0,
+      "all_safe": true,
+      "closest_3d_m": 60.0,
+      "rejections": {
+        "SAME_KEY_DOM": 18,
+        "PARETO_DOM": 18
+      },
+      "primitive_counts": {
+        "STRAIGHT_LEVEL": 18
+      }
+    },
+    "can_B_relief_affected": {
+      "variant": "V0_baseline",
+      "status": "FOUND",
+      "termination": "FOUND",
+      "expansions": 122,
+      "generated": 605,
+      "peak_open": 86,
+      "runtime_s": 0.05570689999876777,
+      "path_length_m": 1960.0834441750171,
+      "min_agl_m": 100.19384765625,
+      "mean_agl_m": 206.19449160514623,
+      "median_agl_m": 194.400634765625,
+      "goal_xy_error_m": 79.23284371775136,
+      "goal_z_error_m": 0.0,
+      "all_safe": true,
+      "closest_3d_m": 79.23284371775136,
+      "rejections": {
+        "SAME_KEY_DOM": 153,
+        "PARETO_DOM": 131,
+        "SAME_KEY_SELF": 12,
+        "SAFETY": 103
+      },
+      "primitive_counts": {
+        "RIGHT_LEVEL_TURN": 3,
+        "STRAIGHT_LEVEL": 4,
+        "LEFT_LEVEL_TURN": 7
+      }
+    },
+    "can_C_far_south_3km": {
+      "variant": "V0_baseline",
+      "status": "FOUND",
+      "termination": "FOUND",
+      "expansions": 50,
+      "generated": 245,
+      "peak_open": 99,
+      "runtime_s": 0.02266080000117654,
+      "path_length_m": 2940.0,
+      "min_agl_m": 303.051025390625,
+      "mean_agl_m": 530.7026723077624,
+      "median_agl_m": 515.069580078125,
+      "goal_xy_error_m": 60.0,
+      "goal_z_error_m": 0.0,
+      "all_safe": true,
+      "closest_3d_m": 60.0,
+      "rejections": {
+        "SAME_KEY_DOM": 49,
+        "PARETO_DOM": 49
+      },
+      "primitive_counts": {
+        "STRAIGHT_LEVEL": 49
+      }
+    },
+    "can_D_far_east_3km": {
+      "variant": "V0_baseline",
+      "status": "FOUND",
+      "termination": "FOUND",
+      "expansions": 50,
+      "generated": 245,
+      "peak_open": 99,
+      "runtime_s": 0.022209900002053473,
+      "path_length_m": 2940.0,
+      "min_agl_m": 228.1337890625,
+      "mean_agl_m": 445.7461037149235,
+      "median_agl_m": 422.109619140625,
+      "goal_xy_error_m": 60.0,
+      "goal_z_error_m": 0.0,
+      "all_safe": true,
+      "closest_3d_m": 60.0,
+      "rejections": {
+        "SAME_KEY_DOM": 49,
+        "PARETO_DOM": 49
+      },
+      "primitive_counts": {
+        "STRAIGHT_LEVEL": 49
+      }
+    },
+    "can_E_long_descent_9_3km": {
+      "variant": "V0_baseline",
+      "status": "FOUND",
+      "termination": "FOUND",
+      "expansions": 156,
+      "generated": 775,
+      "peak_open": 466,
+      "runtime_s": 0.06809769999745185,
+      "path_length_m": 9326.172082483412,
+      "min_agl_m": 469.87325571903057,
+      "mean_agl_m": 1211.0762763092175,
+      "median_agl_m": 895.3767182539059,
+      "goal_xy_error_m": 0.0,
+      "goal_z_error_m": 4.363551587838629,
+      "all_safe": true,
+      "closest_3d_m": 4.363551587838629,
+      "rejections": {
+        "UNAVAILABLE_CAPABILITY": 126,
+        "PARETO_DOM": 20,
+        "SAME_KEY_DOM": 9
+      },
+      "primitive_counts": {
+        "STRAIGHT_DESCENT": 78,
+        "STRAIGHT_LEVEL": 77
+      }
+    },
+    "can_F_turn_required_diagonal_2_3km": {
+      "variant": "V0_baseline",
+      "status": "FOUND",
+      "termination": "FOUND",
+      "expansions": 138,
+      "generated": 685,
+      "peak_open": 72,
+      "runtime_s": 0.061985799999092706,
+      "path_length_m": 2332.434801899971,
+      "min_agl_m": 102.61767578125,
+      "mean_agl_m": 238.7590710543847,
+      "median_agl_m": 214.45751953125,
+      "goal_xy_error_m": 64.95109857505324,
+      "goal_z_error_m": 0.0,
+      "all_safe": true,
+      "closest_3d_m": 64.95109857505324,
+      "rejections": {
+        "SAME_KEY_DOM": 147,
+        "PARETO_DOM": 115,
+        "SAME_KEY_SELF": 20,
+        "SAFETY": 195
+      },
+      "primitive_counts": {
+        "RIGHT_LEVEL_TURN": 5,
+        "LEFT_LEVEL_TURN": 6,
+        "STRAIGHT_LEVEL": 7
+      }
+    }
+  },
+  "V1_geodesic_only": {
+    "1_west_valley_descent": {
+      "variant": "V1_geodesic_only",
+      "status": "FAIL",
+      "termination": "EXPANSIONS_LIMIT",
+      "expansions": 30000,
+      "generated": 150000,
+      "peak_open": 4758,
+      "runtime_s": 13.826857199997903,
+      "path_length_m": 0.0,
+      "min_agl_m": NaN,
+      "mean_agl_m": NaN,
+      "median_agl_m": NaN,
+      "goal_xy_error_m": NaN,
+      "goal_z_error_m": NaN,
+      "all_safe": false,
+      "closest_3d_m": 235.1113995716981,
+      "rejections": {
+        "PARETO_DOM": 28043,
+        "SAME_KEY_DOM": 73219,
+        "SAFETY": 2873,
+        "SAME_KEY_SELF": 2300
+      },
+      "primitive_counts": {}
+    },
+    "2_west_valley_climb": {
+      "variant": "V1_geodesic_only",
+      "status": "FAIL",
+      "termination": "OPEN_EXHAUSTED",
+      "expansions": 9146,
+      "generated": 45730,
+      "peak_open": 1192,
+      "runtime_s": 4.127832699999999,
+      "path_length_m": 0.0,
+      "min_agl_m": NaN,
+      "mean_agl_m": NaN,
+      "median_agl_m": NaN,
+      "goal_xy_error_m": NaN,
+      "goal_z_error_m": NaN,
+      "all_safe": false,
+      "closest_3d_m": 1361.925433375297,
+      "rejections": {
+        "SAME_KEY_DOM": 12582,
+        "SAFETY": 18528,
+        "PARETO_DOM": 2384,
+        "SAME_KEY_SELF": 362
+      },
+      "primitive_counts": {}
+    },
+    "3_second_valley": {
+      "variant": "V1_geodesic_only",
+      "status": "FAIL",
+      "termination": "OPEN_EXHAUSTED",
+      "expansions": 3,
+      "generated": 15,
+      "peak_open": 2,
+      "runtime_s": 0.13356330000169692,
+      "path_length_m": 0.0,
+      "min_agl_m": NaN,
+      "mean_agl_m": NaN,
+      "median_agl_m": NaN,
+      "goal_xy_error_m": NaN,
+      "goal_z_error_m": NaN,
+      "all_safe": false,
+      "closest_3d_m": 2683.787399746022,
+      "rejections": {
+        "SAFETY": 12,
+        "PARETO_DOM": 1
+      },
+      "primitive_counts": {}
+    },
+    "4_lateral_detour": {
+      "variant": "V1_geodesic_only",
+      "status": "FAIL",
+      "termination": "OPEN_EXHAUSTED",
+      "expansions": 3,
+      "generated": 15,
+      "peak_open": 2,
+      "runtime_s": 0.13445789999968838,
+      "path_length_m": 0.0,
+      "min_agl_m": NaN,
+      "mean_agl_m": NaN,
+      "median_agl_m": NaN,
+      "goal_xy_error_m": NaN,
+      "goal_z_error_m": NaN,
+      "all_safe": false,
+      "closest_3d_m": 2941.042938954298,
+      "rejections": {
+        "SAFETY": 12,
+        "PARETO_DOM": 1
+      },
+      "primitive_counts": {}
+    },
+    "can_A_easy_open": {
+      "variant": "V1_geodesic_only",
+      "status": "FOUND",
+      "termination": "FOUND",
+      "expansions": 18,
+      "generated": 85,
+      "peak_open": 35,
+      "runtime_s": 0.14211989999967045,
+      "path_length_m": 1110.4769387134843,
+      "min_agl_m": 161.710205078125,
+      "mean_agl_m": 235.19057194266733,
+      "median_agl_m": 229.483642578125,
+      "goal_xy_error_m": 37.95576146236577,
+      "goal_z_error_m": 0.0,
+      "all_safe": true,
+      "closest_3d_m": 37.95576146236577,
+      "rejections": {
+        "SAME_KEY_DOM": 17,
+        "PARETO_DOM": 17
+      },
+      "primitive_counts": {
+        "RIGHT_LEVEL_TURN": 1,
+        "LEFT_LEVEL_TURN": 2,
+        "STRAIGHT_LEVEL": 10
+      }
+    },
+    "can_B_relief_affected": {
+      "variant": "V1_geodesic_only",
+      "status": "FOUND",
+      "termination": "FOUND",
+      "expansions": 115,
+      "generated": 570,
+      "peak_open": 86,
+      "runtime_s": 0.18917839999994612,
+      "path_length_m": 1900.0834441750496,
+      "min_agl_m": 104.22705078125,
+      "mean_agl_m": 208.5091894068424,
+      "median_agl_m": 194.400634765625,
+      "goal_xy_error_m": 89.25937786313287,
+      "goal_z_error_m": 0.0,
+      "all_safe": true,
+      "closest_3d_m": 89.25937786313287,
+      "rejections": {
+        "SAME_KEY_DOM": 143,
+        "PARETO_DOM": 98,
+        "SAME_KEY_SELF": 14,
+        "SAFETY": 112
+      },
+      "primitive_counts": {
+        "RIGHT_LEVEL_TURN": 3,
+        "STRAIGHT_LEVEL": 3,
+        "LEFT_LEVEL_TURN": 7
+      }
+    },
+    "can_C_far_south_3km": {
+      "variant": "V1_geodesic_only",
+      "status": "FOUND",
+      "termination": "FOUND",
+      "expansions": 42,
+      "generated": 205,
+      "peak_open": 83,
+      "runtime_s": 0.1540951999995741,
+      "path_length_m": 2922.828296437903,
+      "min_agl_m": 303.051025390625,
+      "mean_agl_m": 526.4424010319497,
+      "median_agl_m": 511.067138671875,
+      "goal_xy_error_m": 88.582877252508,
+      "goal_z_error_m": 0.0,
+      "all_safe": true,
+      "closest_3d_m": 88.582877252508,
+      "rejections": {
+        "SAME_KEY_DOM": 41,
+        "PARETO_DOM": 41
+      },
+      "primitive_counts": {
+        "LEFT_LEVEL_TURN": 2,
+        "STRAIGHT_LEVEL": 37,
+        "RIGHT_LEVEL_TURN": 2
+      }
+    },
+    "can_D_far_east_3km": {
+      "variant": "V1_geodesic_only",
+      "status": "FOUND",
+      "termination": "FOUND",
+      "expansions": 79,
+      "generated": 390,
+      "peak_open": 157,
+      "runtime_s": 0.19598300000143354,
+      "path_length_m": 2978.5353705478465,
+      "min_agl_m": 252.322265625,
+      "mean_agl_m": 491.22751177619483,
+      "median_agl_m": 489.3316650390625,
+      "goal_xy_error_m": 79.23380677182936,
+      "goal_z_error_m": 0.0,
+      "all_safe": true,
+      "closest_3d_m": 79.23380677182936,
+      "rejections": {
+        "SAME_KEY_DOM": 78,
+        "PARETO_DOM": 78
+      },
+      "primitive_counts": {
+        "STRAIGHT_LEVEL": 35,
+        "LEFT_LEVEL_TURN": 2,
+        "RIGHT_LEVEL_TURN": 3
+      }
+    },
+    "can_E_long_descent_9_3km": {
+      "variant": "V1_geodesic_only",
+      "status": "FAIL",
+      "termination": "EXPANSIONS_LIMIT",
+      "expansions": 30000,
+      "generated": 150000,
+      "peak_open": 29736,
+      "runtime_s": 14.103453300002002,
+      "path_length_m": 0.0,
+      "min_agl_m": NaN,
+      "mean_agl_m": NaN,
+      "median_agl_m": NaN,
+      "goal_xy_error_m": NaN,
+      "goal_z_error_m": NaN,
+      "all_safe": false,
+      "closest_3d_m": 207.08484690086536,
+      "rejections": {
+        "UNAVAILABLE_CAPABILITY": 30000,
+        "SAME_KEY_DOM": 44635,
+        "SAME_KEY_SELF": 6,
+        "PARETO_DOM": 6375
+      },
+      "primitive_counts": {}
+    },
+    "can_F_turn_required_diagonal_2_3km": {
+      "variant": "V1_geodesic_only",
+      "status": "FOUND",
+      "termination": "FOUND",
+      "expansions": 146,
+      "generated": 725,
+      "peak_open": 104,
+      "runtime_s": 0.2007899999989604,
+      "path_length_m": 2380.1502204267854,
+      "min_agl_m": 126.0029296875,
+      "mean_agl_m": 245.91213088930795,
+      "median_agl_m": 227.34033203125,
+      "goal_xy_error_m": 39.033344616311666,
+      "goal_z_error_m": 0.0,
+      "all_safe": true,
+      "closest_3d_m": 39.033344616311666,
+      "rejections": {
+        "SAME_KEY_DOM": 155,
+        "PARETO_DOM": 120,
+        "SAME_KEY_SELF": 24,
+        "SAFETY": 167
+      },
+      "primitive_counts": {
+        "STRAIGHT_LEVEL": 2,
+        "RIGHT_LEVEL_TURN": 6,
+        "LEFT_LEVEL_TURN": 7
+      }
+    }
+  },
+  "V2_excess_cost_only": {
+    "1_west_valley_descent": {
+      "variant": "V2_excess_cost_only",
+      "status": "FAIL",
+      "termination": "EXPANSIONS_LIMIT",
+      "expansions": 30000,
+      "generated": 150000,
+      "peak_open": 1716,
+      "runtime_s": 13.52047550000134,
+      "path_length_m": 0.0,
+      "min_agl_m": NaN,
+      "mean_agl_m": NaN,
+      "median_agl_m": NaN,
+      "goal_xy_error_m": NaN,
+      "goal_z_error_m": NaN,
+      "all_safe": false,
+      "closest_3d_m": 235.24475156349078,
+      "rejections": {
+        "PARETO_DOM": 28843,
+        "SAME_KEY_DOM": 66558,
+        "SAFETY": 13781,
+        "SAME_KEY_SELF": 2708
+      },
+      "primitive_counts": {}
+    },
+    "2_west_valley_climb": {
+      "variant": "V2_excess_cost_only",
+      "status": "FAIL",
+      "termination": "OPEN_EXHAUSTED",
+      "expansions": 10086,
+      "generated": 50430,
+      "peak_open": 888,
+      "runtime_s": 4.396361500002968,
+      "path_length_m": 0.0,
+      "min_agl_m": NaN,
+      "mean_agl_m": NaN,
+      "median_agl_m": NaN,
+      "goal_xy_error_m": NaN,
+      "goal_z_error_m": NaN,
+      "all_safe": false,
+      "closest_3d_m": 1369.5728034200904,
+      "rejections": {
+        "SAME_KEY_DOM": 13800,
+        "PARETO_DOM": 2703,
+        "SAFETY": 20610,
+        "SAME_KEY_SELF": 374
+      },
+      "primitive_counts": {}
+    },
+    "3_second_valley": {
+      "variant": "V2_excess_cost_only",
+      "status": "FAIL",
+      "termination": "OPEN_EXHAUSTED",
+      "expansions": 3,
+      "generated": 15,
+      "peak_open": 2,
+      "runtime_s": 0.0013304999993124511,
+      "path_length_m": 0.0,
+      "min_agl_m": NaN,
+      "mean_agl_m": NaN,
+      "median_agl_m": NaN,
+      "goal_xy_error_m": NaN,
+      "goal_z_error_m": NaN,
+      "all_safe": false,
+      "closest_3d_m": 2683.787399746022,
+      "rejections": {
+        "SAFETY": 12,
+        "PARETO_DOM": 1
+      },
+      "primitive_counts": {}
+    },
+    "4_lateral_detour": {
+      "variant": "V2_excess_cost_only",
+      "status": "FAIL",
+      "termination": "OPEN_EXHAUSTED",
+      "expansions": 3,
+      "generated": 15,
+      "peak_open": 2,
+      "runtime_s": 0.0011849000002257526,
+      "path_length_m": 0.0,
+      "min_agl_m": NaN,
+      "mean_agl_m": NaN,
+      "median_agl_m": NaN,
+      "goal_xy_error_m": NaN,
+      "goal_z_error_m": NaN,
+      "all_safe": false,
+      "closest_3d_m": 2941.042938954298,
+      "rejections": {
+        "SAFETY": 12,
+        "PARETO_DOM": 1
+      },
+      "primitive_counts": {}
+    },
+    "can_A_easy_open": {
+      "variant": "V2_excess_cost_only",
+      "status": "FOUND",
+      "termination": "FOUND",
+      "expansions": 65,
+      "generated": 320,
+      "peak_open": 59,
+      "runtime_s": 0.026211100001091836,
+      "path_length_m": 1080.0,
+      "min_agl_m": 134.65283203125,
+      "mean_agl_m": 204.6269763764881,
+      "median_agl_m": 206.5152587890625,
+      "goal_xy_error_m": 60.0,
+      "goal_z_error_m": 0.0,
+      "all_safe": true,
+      "closest_3d_m": 60.0,
+      "rejections": {
+        "SAME_KEY_DOM": 81,
+        "PARETO_DOM": 56,
+        "SAFETY": 50
+      },
+      "primitive_counts": {
+        "STRAIGHT_LEVEL": 18
+      }
+    },
+    "can_B_relief_affected": {
+      "variant": "V2_excess_cost_only",
+      "status": "FOUND",
+      "termination": "FOUND",
+      "expansions": 10518,
+      "generated": 52585,
+      "peak_open": 2718,
+      "runtime_s": 5.004138900003454,
+      "path_length_m": 5392.258676943216,
+      "min_agl_m": 100.155029296875,
+      "mean_agl_m": 266.73908289966965,
+      "median_agl_m": 217.04638671875,
+      "goal_xy_error_m": 38.6243813598081,
+      "goal_z_error_m": 0.0,
+      "all_safe": true,
+      "closest_3d_m": 38.6243813598081,
+      "rejections": {
+        "SAME_KEY_DOM": 21230,
+        "PARETO_DOM": 10278,
+        "SAME_KEY_SELF": 1407,
+        "SAFETY": 3408
+      },
+      "primitive_counts": {
+        "RIGHT_LEVEL_TURN": 13,
+        "LEFT_LEVEL_TURN": 18,
+        "STRAIGHT_LEVEL": 1
+      }
+    },
+    "can_C_far_south_3km": {
+      "variant": "V2_excess_cost_only",
+      "status": "FOUND",
+      "termination": "FOUND",
+      "expansions": 2783,
+      "generated": 13910,
+      "peak_open": 1301,
+      "runtime_s": 1.3028799000021536,
+      "path_length_m": 2961.3636669853486,
+      "min_agl_m": 295.568115234375,
+      "mean_agl_m": 498.78435470397216,
+      "median_agl_m": 488.0888671875,
+      "goal_xy_error_m": 88.4770174409295,
+      "goal_z_error_m": 0.0,
+      "all_safe": true,
+      "closest_3d_m": 88.4770174409295,
+      "rejections": {
+        "SAME_KEY_DOM": 5681,
+        "PARETO_DOM": 2780,
+        "SAME_KEY_SELF": 350,
+        "SAFETY": 2
+      },
+      "primitive_counts": {
+        "LEFT_LEVEL_TURN": 5,
+        "STRAIGHT_LEVEL": 23,
+        "RIGHT_LEVEL_TURN": 4
+      }
+    },
+    "can_D_far_east_3km": {
+      "variant": "V2_excess_cost_only",
+      "status": "FOUND",
+      "termination": "FOUND",
+      "expansions": 2585,
+      "generated": 12920,
+      "peak_open": 1119,
+      "runtime_s": 1.2209680000014487,
+      "path_length_m": 2978.5353705481048,
+      "min_agl_m": 178.509521484375,
+      "mean_agl_m": 399.80805592256434,
+      "median_agl_m": 361.181396484375,
+      "goal_xy_error_m": 56.3666577725814,
+      "goal_z_error_m": 0.0,
+      "all_safe": true,
+      "closest_3d_m": 56.3666577725814,
+      "rejections": {
+        "SAME_KEY_DOM": 5244,
+        "PARETO_DOM": 2584,
+        "SAME_KEY_SELF": 464
+      },
+      "primitive_counts": {
+        "RIGHT_LEVEL_TURN": 2,
+        "STRAIGHT_LEVEL": 35,
+        "LEFT_LEVEL_TURN": 3
+      }
+    },
+    "can_E_long_descent_9_3km": {
+      "variant": "V2_excess_cost_only",
+      "status": "FAIL",
+      "termination": "EXPANSIONS_LIMIT",
+      "expansions": 30000,
+      "generated": 150000,
+      "peak_open": 10962,
+      "runtime_s": 13.285711000000447,
+      "path_length_m": 0.0,
+      "min_agl_m": NaN,
+      "mean_agl_m": NaN,
+      "median_agl_m": NaN,
+      "goal_xy_error_m": NaN,
+      "goal_z_error_m": NaN,
+      "all_safe": false,
+      "closest_3d_m": 5881.611000739198,
+      "rejections": {
+        "UNAVAILABLE_CAPABILITY": 30000,
+        "PARETO_DOM": 41080,
+        "SAME_KEY_DOM": 29812,
+        "SAME_KEY_SELF": 2641
+      },
+      "primitive_counts": {}
+    },
+    "can_F_turn_required_diagonal_2_3km": {
+      "variant": "V2_excess_cost_only",
+      "status": "FOUND",
+      "termination": "FOUND",
+      "expansions": 257,
+      "generated": 1280,
+      "peak_open": 154,
+      "runtime_s": 0.11966389999724925,
+      "path_length_m": 2332.434801899296,
+      "min_agl_m": 122.151123046875,
+      "mean_agl_m": 225.39772116491037,
+      "median_agl_m": 187.29736328125,
+      "goal_xy_error_m": 55.87706263902833,
+      "goal_z_error_m": 0.0,
+      "all_safe": true,
+      "closest_3d_m": 55.87706263902833,
+      "rejections": {
+        "SAME_KEY_DOM": 344,
+        "PARETO_DOM": 222,
+        "SAME_KEY_SELF": 50,
+        "SAFETY": 215
+      },
+      "primitive_counts": {
+        "RIGHT_LEVEL_TURN": 5,
+        "STRAIGHT_LEVEL": 7,
+        "LEFT_LEVEL_TURN": 6
+      }
+    }
+  },
+  "V3_excess_dom_only": {
+    "1_west_valley_descent": {
+      "variant": "V3_excess_dom_only",
+      "status": "FAIL",
+      "termination": "EXPANSIONS_LIMIT",
+      "expansions": 30000,
+      "generated": 150000,
+      "peak_open": 7161,
+      "runtime_s": 13.47455600000103,
+      "path_length_m": 0.0,
+      "min_agl_m": NaN,
+      "mean_agl_m": NaN,
+      "median_agl_m": NaN,
+      "goal_xy_error_m": NaN,
+      "goal_z_error_m": NaN,
+      "all_safe": false,
+      "closest_3d_m": 103.88000443810596,
+      "rejections": {
+        "PARETO_DOM": 44821,
+        "SAME_KEY_DOM": 56899,
+        "SAFETY": 4712,
+        "SAME_KEY_SELF": 2553
+      },
+      "primitive_counts": {}
+    },
+    "2_west_valley_climb": {
+      "variant": "V3_excess_dom_only",
+      "status": "FAIL",
+      "termination": "OPEN_EXHAUSTED",
+      "expansions": 412,
+      "generated": 2060,
+      "peak_open": 54,
+      "runtime_s": 0.17511499999818625,
+      "path_length_m": 0.0,
+      "min_agl_m": NaN,
+      "mean_agl_m": NaN,
+      "median_agl_m": NaN,
+      "goal_xy_error_m": NaN,
+      "goal_z_error_m": NaN,
+      "all_safe": false,
+      "closest_3d_m": 2308.4069196641317,
+      "rejections": {
+        "PARETO_DOM": 439,
+        "SAME_KEY_DOM": 451,
+        "SAFETY": 685,
+        "SAME_KEY_SELF": 52
+      },
+      "primitive_counts": {}
+    },
+    "3_second_valley": {
+      "variant": "V3_excess_dom_only",
+      "status": "FAIL",
+      "termination": "OPEN_EXHAUSTED",
+      "expansions": 2,
+      "generated": 10,
+      "peak_open": 1,
+      "runtime_s": 0.0009013999988383148,
+      "path_length_m": 0.0,
+      "min_agl_m": NaN,
+      "mean_agl_m": NaN,
+      "median_agl_m": NaN,
+      "goal_xy_error_m": NaN,
+      "goal_z_error_m": NaN,
+      "all_safe": false,
+      "closest_3d_m": 2683.9487237409403,
+      "rejections": {
+        "SAFETY": 7,
+        "PARETO_DOM": 2
+      },
+      "primitive_counts": {}
+    },
+    "4_lateral_detour": {
+      "variant": "V3_excess_dom_only",
+      "status": "FAIL",
+      "termination": "OPEN_EXHAUSTED",
+      "expansions": 2,
+      "generated": 10,
+      "peak_open": 1,
+      "runtime_s": 0.0008009999983187299,
+      "path_length_m": 0.0,
+      "min_agl_m": NaN,
+      "mean_agl_m": NaN,
+      "median_agl_m": NaN,
+      "goal_xy_error_m": NaN,
+      "goal_z_error_m": NaN,
+      "all_safe": false,
+      "closest_3d_m": 2942.6501167783135,
+      "rejections": {
+        "SAFETY": 7,
+        "PARETO_DOM": 2
+      },
+      "primitive_counts": {}
+    },
+    "can_A_easy_open": {
+      "variant": "V3_excess_dom_only",
+      "status": "FOUND",
+      "termination": "FOUND",
+      "expansions": 19,
+      "generated": 90,
+      "peak_open": 55,
+      "runtime_s": 0.0070850000010977965,
+      "path_length_m": 1080.0,
+      "min_agl_m": 134.65283203125,
+      "mean_agl_m": 204.6269763764881,
+      "median_agl_m": 206.5152587890625,
+      "goal_xy_error_m": 60.0,
+      "goal_z_error_m": 0.0,
+      "all_safe": true,
+      "closest_3d_m": 60.0,
+      "rejections": {
+        "SAME_KEY_DOM": 18
+      },
+      "primitive_counts": {
+        "STRAIGHT_LEVEL": 18
+      }
+    },
+    "can_B_relief_affected": {
+      "variant": "V3_excess_dom_only",
+      "status": "FOUND",
+      "termination": "FOUND",
+      "expansions": 377,
+      "generated": 1880,
+      "peak_open": 335,
+      "runtime_s": 0.17346859999815933,
+      "path_length_m": 1960.0834441750171,
+      "min_agl_m": 100.19384765625,
+      "mean_agl_m": 206.19449160514623,
+      "median_agl_m": 194.400634765625,
+      "goal_xy_error_m": 79.23284371775136,
+      "goal_z_error_m": 0.0,
+      "all_safe": true,
+      "closest_3d_m": 79.23284371775136,
+      "rejections": {
+        "SAME_KEY_DOM": 503,
+        "SAME_KEY_SELF": 27,
+        "PARETO_DOM": 232,
+        "SAFETY": 377
+      },
+      "primitive_counts": {
+        "RIGHT_LEVEL_TURN": 3,
+        "STRAIGHT_LEVEL": 4,
+        "LEFT_LEVEL_TURN": 7
+      }
+    },
+    "can_C_far_south_3km": {
+      "variant": "V3_excess_dom_only",
+      "status": "FOUND",
+      "termination": "FOUND",
+      "expansions": 50,
+      "generated": 245,
+      "peak_open": 148,
+      "runtime_s": 0.023348800001258496,
+      "path_length_m": 2940.0,
+      "min_agl_m": 303.051025390625,
+      "mean_agl_m": 530.7026723077624,
+      "median_agl_m": 515.069580078125,
+      "goal_xy_error_m": 60.0,
+      "goal_z_error_m": 0.0,
+      "all_safe": true,
+      "closest_3d_m": 60.0,
+      "rejections": {
+        "SAME_KEY_DOM": 49
+      },
+      "primitive_counts": {
+        "STRAIGHT_LEVEL": 49
+      }
+    },
+    "can_D_far_east_3km": {
+      "variant": "V3_excess_dom_only",
+      "status": "FOUND",
+      "termination": "FOUND",
+      "expansions": 50,
+      "generated": 245,
+      "peak_open": 148,
+      "runtime_s": 0.021893400000408292,
+      "path_length_m": 2940.0,
+      "min_agl_m": 228.1337890625,
+      "mean_agl_m": 445.7461037149235,
+      "median_agl_m": 422.109619140625,
+      "goal_xy_error_m": 60.0,
+      "goal_z_error_m": 0.0,
+      "all_safe": true,
+      "closest_3d_m": 60.0,
+      "rejections": {
+        "SAME_KEY_DOM": 49
+      },
+      "primitive_counts": {
+        "STRAIGHT_LEVEL": 49
+      }
+    },
+    "can_E_long_descent_9_3km": {
+      "variant": "V3_excess_dom_only",
+      "status": "FOUND",
+      "termination": "FOUND",
+      "expansions": 156,
+      "generated": 775,
+      "peak_open": 466,
+      "runtime_s": 0.06533919999856153,
+      "path_length_m": 9326.172082483412,
+      "min_agl_m": 469.87325571903057,
+      "mean_agl_m": 1211.0762763092175,
+      "median_agl_m": 895.3767182539059,
+      "goal_xy_error_m": 0.0,
+      "goal_z_error_m": 4.363551587838629,
+      "all_safe": true,
+      "closest_3d_m": 4.363551587838629,
+      "rejections": {
+        "UNAVAILABLE_CAPABILITY": 126,
+        "PARETO_DOM": 20,
+        "SAME_KEY_DOM": 9
+      },
+      "primitive_counts": {
+        "STRAIGHT_DESCENT": 78,
+        "STRAIGHT_LEVEL": 77
+      }
+    },
+    "can_F_turn_required_diagonal_2_3km": {
+      "variant": "V3_excess_dom_only",
+      "status": "FOUND",
+      "termination": "FOUND",
+      "expansions": 443,
+      "generated": 2210,
+      "peak_open": 143,
+      "runtime_s": 0.21798750000016298,
+      "path_length_m": 2296.47032955008,
+      "min_agl_m": 109.46497428415387,
+      "mean_agl_m": 216.6256201952687,
+      "median_agl_m": 184.42517936227887,
+      "goal_xy_error_m": 83.25833086370746,
+      "goal_z_error_m": 9.467361687504763,
+      "all_safe": true,
+      "closest_3d_m": 83.79487213148913,
+      "rejections": {
+        "SAME_KEY_DOM": 463,
+        "SAME_KEY_SELF": 68,
+        "PARETO_DOM": 282,
+        "SAFETY": 779
+      },
+      "primitive_counts": {
+        "STRAIGHT_DESCENT": 2,
+        "RIGHT_LEVEL_TURN": 3,
+        "STRAIGHT_LEVEL": 15,
+        "LEFT_LEVEL_TURN": 4,
+        "STRAIGHT_CLIMB": 1
+      }
+    }
+  },
+  "V4_geo_plus_cost": {
+    "1_west_valley_descent": {
+      "variant": "V4_geo_plus_cost",
+      "status": "FAIL",
+      "termination": "EXPANSIONS_LIMIT",
+      "expansions": 30000,
+      "generated": 150000,
+      "peak_open": 2937,
+      "runtime_s": 16.87098960000003,
+      "path_length_m": 0.0,
+      "min_agl_m": NaN,
+      "mean_agl_m": NaN,
+      "median_agl_m": NaN,
+      "goal_xy_error_m": NaN,
+      "goal_z_error_m": NaN,
+      "all_safe": false,
+      "closest_3d_m": 230.5301142971613,
+      "rejections": {
+        "PARETO_DOM": 22295,
+        "SAME_KEY_DOM": 70963,
+        "SAFETY": 12404,
+        "SAME_KEY_SELF": 3128
+      },
+      "primitive_counts": {}
+    },
+    "2_west_valley_climb": {
+      "variant": "V4_geo_plus_cost",
+      "status": "FAIL",
+      "termination": "OPEN_EXHAUSTED",
+      "expansions": 8433,
+      "generated": 42165,
+      "peak_open": 1019,
+      "runtime_s": 3.775348800001666,
+      "path_length_m": 0.0,
+      "min_agl_m": NaN,
+      "mean_agl_m": NaN,
+      "median_agl_m": NaN,
+      "goal_xy_error_m": NaN,
+      "goal_z_error_m": NaN,
+      "all_safe": false,
+      "closest_3d_m": 1361.925433375297,
+      "rejections": {
+        "SAME_KEY_DOM": 12233,
+        "SAFETY": 17001,
+        "SAME_KEY_SELF": 358,
+        "PARETO_DOM": 2052
+      },
+      "primitive_counts": {}
+    },
+    "3_second_valley": {
+      "variant": "V4_geo_plus_cost",
+      "status": "FAIL",
+      "termination": "OPEN_EXHAUSTED",
+      "expansions": 3,
+      "generated": 15,
+      "peak_open": 2,
+      "runtime_s": 0.13493910000033793,
+      "path_length_m": 0.0,
+      "min_agl_m": NaN,
+      "mean_agl_m": NaN,
+      "median_agl_m": NaN,
+      "goal_xy_error_m": NaN,
+      "goal_z_error_m": NaN,
+      "all_safe": false,
+      "closest_3d_m": 2683.787399746022,
+      "rejections": {
+        "SAFETY": 12,
+        "PARETO_DOM": 1
+      },
+      "primitive_counts": {}
+    },
+    "4_lateral_detour": {
+      "variant": "V4_geo_plus_cost",
+      "status": "FAIL",
+      "termination": "OPEN_EXHAUSTED",
+      "expansions": 3,
+      "generated": 15,
+      "peak_open": 2,
+      "runtime_s": 0.13615199999912875,
+      "path_length_m": 0.0,
+      "min_agl_m": NaN,
+      "mean_agl_m": NaN,
+      "median_agl_m": NaN,
+      "goal_xy_error_m": NaN,
+      "goal_z_error_m": NaN,
+      "all_safe": false,
+      "closest_3d_m": 2941.042938954298,
+      "rejections": {
+        "SAFETY": 12,
+        "PARETO_DOM": 1
+      },
+      "primitive_counts": {}
+    },
+    "can_A_easy_open": {
+      "variant": "V4_geo_plus_cost",
+      "status": "FOUND",
+      "termination": "FOUND",
+      "expansions": 31,
+      "generated": 150,
+      "peak_open": 49,
+      "runtime_s": 0.14992089999941527,
+      "path_length_m": 1110.4769387134843,
+      "min_agl_m": 161.710205078125,
+      "mean_agl_m": 235.19057194266733,
+      "median_agl_m": 229.483642578125,
+      "goal_xy_error_m": 37.95576146236577,
+      "goal_z_error_m": 0.0,
+      "all_safe": true,
+      "closest_3d_m": 37.95576146236577,
+      "rejections": {
+        "SAME_KEY_DOM": 32,
+        "PARETO_DOM": 29,
+        "SAFETY": 10
+      },
+      "primitive_counts": {
+        "RIGHT_LEVEL_TURN": 1,
+        "LEFT_LEVEL_TURN": 2,
+        "STRAIGHT_LEVEL": 10
+      }
+    },
+    "can_B_relief_affected": {
+      "variant": "V4_geo_plus_cost",
+      "status": "FOUND",
+      "termination": "FOUND",
+      "expansions": 111,
+      "generated": 550,
+      "peak_open": 87,
+      "runtime_s": 0.18811920000007376,
+      "path_length_m": 1900.0834441750496,
+      "min_agl_m": 104.22705078125,
+      "mean_agl_m": 208.5091894068424,
+      "median_agl_m": 194.400634765625,
+      "goal_xy_error_m": 89.25937786313287,
+      "goal_z_error_m": 0.0,
+      "all_safe": true,
+      "closest_3d_m": 89.25937786313287,
+      "rejections": {
+        "SAME_KEY_DOM": 138,
+        "PARETO_DOM": 96,
+        "SAME_KEY_SELF": 14,
+        "SAFETY": 101
+      },
+      "primitive_counts": {
+        "RIGHT_LEVEL_TURN": 3,
+        "STRAIGHT_LEVEL": 3,
+        "LEFT_LEVEL_TURN": 7
+      }
+    },
+    "can_C_far_south_3km": {
+      "variant": "V4_geo_plus_cost",
+      "status": "FOUND",
+      "termination": "FOUND",
+      "expansions": 527,
+      "generated": 2630,
+      "peak_open": 614,
+      "runtime_s": 0.3934953999996651,
+      "path_length_m": 2948.48488931347,
+      "min_agl_m": 313.621826171875,
+      "mean_agl_m": 556.2047695791795,
+      "median_agl_m": 561.329345703125,
+      "goal_xy_error_m": 87.76658085174859,
+      "goal_z_error_m": 0.0,
+      "all_safe": true,
+      "closest_3d_m": 87.76658085174859,
+      "rejections": {
+        "SAME_KEY_DOM": 862,
+        "PARETO_DOM": 526,
+        "SAME_KEY_SELF": 48
+      },
+      "primitive_counts": {
+        "RIGHT_LEVEL_TURN": 6,
+        "LEFT_LEVEL_TURN": 6,
+        "STRAIGHT_LEVEL": 14
+      }
+    },
+    "can_D_far_east_3km": {
+      "variant": "V4_geo_plus_cost",
+      "status": "FOUND",
+      "termination": "FOUND",
+      "expansions": 235,
+      "generated": 1170,
+      "peak_open": 360,
+      "runtime_s": 0.2628489999988233,
+      "path_length_m": 3012.777815205268,
+      "min_agl_m": 252.322265625,
+      "mean_agl_m": 491.3155462919776,
+      "median_agl_m": 504.59423828125,
+      "goal_xy_error_m": 28.567331015093384,
+      "goal_z_error_m": 0.0,
+      "all_safe": true,
+      "closest_3d_m": 28.567331015093384,
+      "rejections": {
+        "SAME_KEY_DOM": 307,
+        "PARETO_DOM": 234,
+        "SAME_KEY_SELF": 22
+      },
+      "primitive_counts": {
+        "STRAIGHT_LEVEL": 18,
+        "LEFT_LEVEL_TURN": 5,
+        "RIGHT_LEVEL_TURN": 6
+      }
+    },
+    "can_E_long_descent_9_3km": {
+      "variant": "V4_geo_plus_cost",
+      "status": "FAIL",
+      "termination": "EXPANSIONS_LIMIT",
+      "expansions": 30000,
+      "generated": 150000,
+      "peak_open": 12277,
+      "runtime_s": 13.902223900000536,
+      "path_length_m": 0.0,
+      "min_agl_m": NaN,
+      "mean_agl_m": NaN,
+      "median_agl_m": NaN,
+      "goal_xy_error_m": NaN,
+      "goal_z_error_m": NaN,
+      "all_safe": false,
+      "closest_3d_m": 5604.745388521957,
+      "rejections": {
+        "UNAVAILABLE_CAPABILITY": 30000,
+        "PARETO_DOM": 41164,
+        "SAME_KEY_DOM": 24418,
+        "SAME_KEY_SELF": 2221
+      },
+      "primitive_counts": {}
+    },
+    "can_F_turn_required_diagonal_2_3km": {
+      "variant": "V4_geo_plus_cost",
+      "status": "FOUND",
+      "termination": "FOUND",
+      "expansions": 126,
+      "generated": 625,
+      "peak_open": 72,
+      "runtime_s": 0.19661709999854793,
+      "path_length_m": 2338.5770926363166,
+      "min_agl_m": 102.61767578125,
+      "mean_agl_m": 236.82679818960335,
+      "median_agl_m": 209.656494140625,
+      "goal_xy_error_m": 57.99501569365695,
+      "goal_z_error_m": 0.0,
+      "all_safe": true,
+      "closest_3d_m": 57.99501569365695,
+      "rejections": {
+        "SAME_KEY_DOM": 124,
+        "PARETO_DOM": 99,
+        "SAME_KEY_SELF": 26,
+        "SAFETY": 170
+      },
+      "primitive_counts": {
+        "STRAIGHT_LEVEL": 10,
+        "RIGHT_LEVEL_TURN": 5,
+        "LEFT_LEVEL_TURN": 5
+      }
+    }
+  },
+  "V5_geo_plus_dom": {
+    "1_west_valley_descent": {
+      "variant": "V5_geo_plus_dom",
+      "status": "FAIL",
+      "termination": "EXPANSIONS_LIMIT",
+      "expansions": 30000,
+      "generated": 150000,
+      "peak_open": 11862,
+      "runtime_s": 13.982910299997457,
+      "path_length_m": 0.0,
+      "min_agl_m": NaN,
+      "mean_agl_m": NaN,
+      "median_agl_m": NaN,
+      "goal_xy_error_m": NaN,
+      "goal_z_error_m": NaN,
+      "all_safe": false,
+      "closest_3d_m": 105.79721208941397,
+      "rejections": {
+        "PARETO_DOM": 26681,
+        "SAME_KEY_DOM": 70803,
+        "SAFETY": 56,
+        "SAME_KEY_SELF": 1007
+      },
+      "primitive_counts": {}
+    },
+    "2_west_valley_climb": {
+      "variant": "V5_geo_plus_dom",
+      "status": "FAIL",
+      "termination": "OPEN_EXHAUSTED",
+      "expansions": 525,
+      "generated": 2625,
+      "peak_open": 74,
+      "runtime_s": 0.36444180000034976,
+      "path_length_m": 0.0,
+      "min_agl_m": NaN,
+      "mean_agl_m": NaN,
+      "median_agl_m": NaN,
+      "goal_xy_error_m": NaN,
+      "goal_z_error_m": NaN,
+      "all_safe": false,
+      "closest_3d_m": 2287.676693882883,
+      "rejections": {
+        "PARETO_DOM": 452,
+        "SAME_KEY_DOM": 646,
+        "SAFETY": 834,
+        "SAME_KEY_SELF": 64
+      },
+      "primitive_counts": {}
+    },
+    "3_second_valley": {
+      "variant": "V5_geo_plus_dom",
+      "status": "FAIL",
+      "termination": "OPEN_EXHAUSTED",
+      "expansions": 2,
+      "generated": 10,
+      "peak_open": 1,
+      "runtime_s": 0.139271899999585,
+      "path_length_m": 0.0,
+      "min_agl_m": NaN,
+      "mean_agl_m": NaN,
+      "median_agl_m": NaN,
+      "goal_xy_error_m": NaN,
+      "goal_z_error_m": NaN,
+      "all_safe": false,
+      "closest_3d_m": 2683.9487237409403,
+      "rejections": {
+        "SAFETY": 7,
+        "PARETO_DOM": 2
+      },
+      "primitive_counts": {}
+    },
+    "4_lateral_detour": {
+      "variant": "V5_geo_plus_dom",
+      "status": "FAIL",
+      "termination": "OPEN_EXHAUSTED",
+      "expansions": 2,
+      "generated": 10,
+      "peak_open": 1,
+      "runtime_s": 0.13871589999689604,
+      "path_length_m": 0.0,
+      "min_agl_m": NaN,
+      "mean_agl_m": NaN,
+      "median_agl_m": NaN,
+      "goal_xy_error_m": NaN,
+      "goal_z_error_m": NaN,
+      "all_safe": false,
+      "closest_3d_m": 2942.6501167783135,
+      "rejections": {
+        "SAFETY": 7,
+        "PARETO_DOM": 2
+      },
+      "primitive_counts": {}
+    },
+    "can_A_easy_open": {
+      "variant": "V5_geo_plus_dom",
+      "status": "FOUND",
+      "termination": "FOUND",
+      "expansions": 126,
+      "generated": 625,
+      "peak_open": 279,
+      "runtime_s": 0.19870629999786615,
+      "path_length_m": 1110.4769387134843,
+      "min_agl_m": 161.710205078125,
+      "mean_agl_m": 235.19057194266733,
+      "median_agl_m": 229.483642578125,
+      "goal_xy_error_m": 37.95576146236577,
+      "goal_z_error_m": 0.0,
+      "all_safe": true,
+      "closest_3d_m": 37.95576146236577,
+      "rejections": {
+        "SAME_KEY_DOM": 176,
+        "PARETO_DOM": 40
+      },
+      "primitive_counts": {
+        "RIGHT_LEVEL_TURN": 1,
+        "LEFT_LEVEL_TURN": 2,
+        "STRAIGHT_LEVEL": 10
+      }
+    },
+    "can_B_relief_affected": {
+      "variant": "V5_geo_plus_dom",
+      "status": "FOUND",
+      "termination": "FOUND",
+      "expansions": 370,
+      "generated": 1845,
+      "peak_open": 289,
+      "runtime_s": 0.3182502999989083,
+      "path_length_m": 1900.0834441750496,
+      "min_agl_m": 104.22705078125,
+      "mean_agl_m": 208.5091894068424,
+      "median_agl_m": 194.400634765625,
+      "goal_xy_error_m": 89.25937786313287,
+      "goal_z_error_m": 0.0,
+      "all_safe": true,
+      "closest_3d_m": 89.25937786313287,
+      "rejections": {
+        "SAME_KEY_DOM": 420,
+        "SAME_KEY_SELF": 45,
+        "PARETO_DOM": 212,
+        "SAFETY": 466
+      },
+      "primitive_counts": {
+        "RIGHT_LEVEL_TURN": 3,
+        "STRAIGHT_LEVEL": 3,
+        "LEFT_LEVEL_TURN": 7
+      }
+    },
+    "can_C_far_south_3km": {
+      "variant": "V5_geo_plus_dom",
+      "status": "FOUND",
+      "termination": "FOUND",
+      "expansions": 295,
+      "generated": 1470,
+      "peak_open": 649,
+      "runtime_s": 0.28492460000052233,
+      "path_length_m": 2922.828296437903,
+      "min_agl_m": 303.051025390625,
+      "mean_agl_m": 526.4424010319497,
+      "median_agl_m": 511.067138671875,
+      "goal_xy_error_m": 88.582877252508,
+      "goal_z_error_m": 0.0,
+      "all_safe": true,
+      "closest_3d_m": 88.582877252508,
+      "rejections": {
+        "SAME_KEY_DOM": 409,
+        "PARETO_DOM": 82
+      },
+      "primitive_counts": {
+        "LEFT_LEVEL_TURN": 2,
+        "STRAIGHT_LEVEL": 37,
+        "RIGHT_LEVEL_TURN": 2
+      }
+    },
+    "can_D_far_east_3km": {
+      "variant": "V5_geo_plus_dom",
+      "status": "FOUND",
+      "termination": "FOUND",
+      "expansions": 4140,
+      "generated": 20695,
+      "peak_open": 8542,
+      "runtime_s": 2.2423737999997684,
+      "path_length_m": 2978.5353705478465,
+      "min_agl_m": 252.322265625,
+      "mean_agl_m": 491.22751177619483,
+      "median_agl_m": 489.3316650390625,
+      "goal_xy_error_m": 79.23380677182936,
+      "goal_z_error_m": 0.0,
+      "all_safe": true,
+      "closest_3d_m": 79.23380677182936,
+      "rejections": {
+        "SAME_KEY_DOM": 6693,
+        "PARETO_DOM": 1145
+      },
+      "primitive_counts": {
+        "STRAIGHT_LEVEL": 35,
+        "LEFT_LEVEL_TURN": 2,
+        "RIGHT_LEVEL_TURN": 3
+      }
+    },
+    "can_E_long_descent_9_3km": {
+      "variant": "V5_geo_plus_dom",
+      "status": "FAIL",
+      "termination": "EXPANSIONS_LIMIT",
+      "expansions": 30000,
+      "generated": 150000,
+      "peak_open": 29719,
+      "runtime_s": 14.264029900001333,
+      "path_length_m": 0.0,
+      "min_agl_m": NaN,
+      "mean_agl_m": NaN,
+      "median_agl_m": NaN,
+      "goal_xy_error_m": NaN,
+      "goal_z_error_m": NaN,
+      "all_safe": false,
+      "closest_3d_m": 207.08484690086536,
+      "rejections": {
+        "UNAVAILABLE_CAPABILITY": 30000,
+        "SAME_KEY_DOM": 44631,
+        "SAME_KEY_SELF": 6,
+        "PARETO_DOM": 6396
+      },
+      "primitive_counts": {}
+    },
+    "can_F_turn_required_diagonal_2_3km": {
+      "variant": "V5_geo_plus_dom",
+      "status": "FOUND",
+      "termination": "FOUND",
+      "expansions": 659,
+      "generated": 3290,
+      "peak_open": 390,
+      "runtime_s": 0.45051750000129687,
+      "path_length_m": 2391.4787860850647,
+      "min_agl_m": 122.49066585301443,
+      "mean_agl_m": 240.8296779719074,
+      "median_agl_m": 220.99725764988943,
+      "goal_xy_error_m": 46.49973810317443,
+      "goal_z_error_m": 6.343074381360566,
+      "all_safe": true,
+      "closest_3d_m": 46.930376476982204,
+      "rejections": {
+        "SAME_KEY_DOM": 665,
+        "SAME_KEY_SELF": 68,
+        "PARETO_DOM": 401,
+        "SAFETY": 930
+      },
+      "primitive_counts": {
+        "STRAIGHT_DESCENT": 1,
+        "RIGHT_LEVEL_TURN": 6,
+        "STRAIGHT_LEVEL": 7,
+        "LEFT_LEVEL_TURN": 5
+      }
+    }
+  },
+  "V6_full_experimental": {
+    "1_west_valley_descent": {
+      "variant": "V6_full_experimental",
+      "status": "FAIL",
+      "termination": "EXPANSIONS_LIMIT",
+      "expansions": 30000,
+      "generated": 150000,
+      "peak_open": 3522,
+      "runtime_s": 13.790882600002078,
+      "path_length_m": 0.0,
+      "min_agl_m": NaN,
+      "mean_agl_m": NaN,
+      "median_agl_m": NaN,
+      "goal_xy_error_m": NaN,
+      "goal_z_error_m": NaN,
+      "all_safe": false,
+      "closest_3d_m": 94.93332351621784,
+      "rejections": {
+        "PARETO_DOM": 57610,
+        "SAME_KEY_DOM": 38751,
+        "SAFETY": 11288,
+        "SAME_KEY_SELF": 2127
+      },
+      "primitive_counts": {}
+    },
+    "2_west_valley_climb": {
+      "variant": "V6_full_experimental",
+      "status": "FAIL",
+      "termination": "OPEN_EXHAUSTED",
+      "expansions": 506,
+      "generated": 2530,
+      "peak_open": 81,
+      "runtime_s": 0.3539783999985957,
+      "path_length_m": 0.0,
+      "min_agl_m": NaN,
+      "mean_agl_m": NaN,
+      "median_agl_m": NaN,
+      "goal_xy_error_m": NaN,
+      "goal_z_error_m": NaN,
+      "all_safe": false,
+      "closest_3d_m": 2293.852952087226,
+      "rejections": {
+        "PARETO_DOM": 450,
+        "SAME_KEY_DOM": 622,
+        "SAFETY": 778,
+        "SAME_KEY_SELF": 60
+      },
+      "primitive_counts": {}
+    },
+    "3_second_valley": {
+      "variant": "V6_full_experimental",
+      "status": "FAIL",
+      "termination": "OPEN_EXHAUSTED",
+      "expansions": 2,
+      "generated": 10,
+      "peak_open": 1,
+      "runtime_s": 0.14142920000085724,
+      "path_length_m": 0.0,
+      "min_agl_m": NaN,
+      "mean_agl_m": NaN,
+      "median_agl_m": NaN,
+      "goal_xy_error_m": NaN,
+      "goal_z_error_m": NaN,
+      "all_safe": false,
+      "closest_3d_m": 2683.9487237409403,
+      "rejections": {
+        "SAFETY": 7,
+        "PARETO_DOM": 2
+      },
+      "primitive_counts": {}
+    },
+    "4_lateral_detour": {
+      "variant": "V6_full_experimental",
+      "status": "FAIL",
+      "termination": "OPEN_EXHAUSTED",
+      "expansions": 2,
+      "generated": 10,
+      "peak_open": 1,
+      "runtime_s": 0.13645790000009583,
+      "path_length_m": 0.0,
+      "min_agl_m": NaN,
+      "mean_agl_m": NaN,
+      "median_agl_m": NaN,
+      "goal_xy_error_m": NaN,
+      "goal_z_error_m": NaN,
+      "all_safe": false,
+      "closest_3d_m": 2942.6501167783135,
+      "rejections": {
+        "SAFETY": 7,
+        "PARETO_DOM": 2
+      },
+      "primitive_counts": {}
+    },
+    "can_A_easy_open": {
+      "variant": "V6_full_experimental",
+      "status": "FOUND",
+      "termination": "FOUND",
+      "expansions": 697,
+      "generated": 3480,
+      "peak_open": 915,
+      "runtime_s": 0.45840030000181287,
+      "path_length_m": 1170.701058010965,
+      "min_agl_m": 161.710205078125,
+      "mean_agl_m": 237.13405872436354,
+      "median_agl_m": 229.483642578125,
+      "goal_xy_error_m": 33.0813242653326,
+      "goal_z_error_m": 6.343074381360566,
+      "all_safe": true,
+      "closest_3d_m": 33.683951783535676,
+      "rejections": {
+        "SAME_KEY_DOM": 817,
+        "PARETO_DOM": 746,
+        "SAFETY": 48
+      },
+      "primitive_counts": {
+        "RIGHT_LEVEL_TURN": 1,
+        "LEFT_LEVEL_TURN": 2,
+        "STRAIGHT_LEVEL": 10,
+        "STRAIGHT_DESCENT": 1
+      }
+    },
+    "can_B_relief_affected": {
+      "variant": "V6_full_experimental",
+      "status": "FOUND",
+      "termination": "FOUND",
+      "expansions": 305,
+      "generated": 1520,
+      "peak_open": 260,
+      "runtime_s": 0.29798959999970975,
+      "path_length_m": 1900.0834441750496,
+      "min_agl_m": 104.22705078125,
+      "mean_agl_m": 208.5091894068424,
+      "median_agl_m": 194.400634765625,
+      "goal_xy_error_m": 89.25937786313287,
+      "goal_z_error_m": 0.0,
+      "all_safe": true,
+      "closest_3d_m": 89.25937786313287,
+      "rejections": {
+        "SAME_KEY_DOM": 280,
+        "SAME_KEY_SELF": 37,
+        "PARETO_DOM": 269,
+        "SAFETY": 321
+      },
+      "primitive_counts": {
+        "RIGHT_LEVEL_TURN": 3,
+        "STRAIGHT_LEVEL": 3,
+        "LEFT_LEVEL_TURN": 7
+      }
+    },
+    "can_C_far_south_3km": {
+      "variant": "V6_full_experimental",
+      "status": "FAIL",
+      "termination": "EXPANSIONS_LIMIT",
+      "expansions": 30000,
+      "generated": 150000,
+      "peak_open": 20297,
+      "runtime_s": 14.934535099997447,
+      "path_length_m": 0.0,
+      "min_agl_m": NaN,
+      "mean_agl_m": NaN,
+      "median_agl_m": NaN,
+      "goal_xy_error_m": NaN,
+      "goal_z_error_m": NaN,
+      "all_safe": false,
+      "closest_3d_m": 39.62468900670496,
+      "rejections": {
+        "SAME_KEY_DOM": 53284,
+        "SAME_KEY_SELF": 1224,
+        "PARETO_DOM": 29353
+      },
+      "primitive_counts": {}
+    },
+    "can_D_far_east_3km": {
+      "variant": "V6_full_experimental",
+      "status": "FAIL",
+      "termination": "EXPANSIONS_LIMIT",
+      "expansions": 30000,
+      "generated": 150000,
+      "peak_open": 17458,
+      "runtime_s": 14.874069800000143,
+      "path_length_m": 0.0,
+      "min_agl_m": NaN,
+      "mean_agl_m": NaN,
+      "median_agl_m": NaN,
+      "goal_xy_error_m": NaN,
+      "goal_z_error_m": NaN,
+      "all_safe": false,
+      "closest_3d_m": 48.547892198412306,
+      "rejections": {
+        "SAME_KEY_DOM": 58975,
+        "PARETO_DOM": 28654,
+        "SAME_KEY_SELF": 2770
+      },
+      "primitive_counts": {}
+    },
+    "can_E_long_descent_9_3km": {
+      "variant": "V6_full_experimental",
+      "status": "FAIL",
+      "termination": "EXPANSIONS_LIMIT",
+      "expansions": 30000,
+      "generated": 150000,
+      "peak_open": 12193,
+      "runtime_s": 13.83396410000205,
+      "path_length_m": 0.0,
+      "min_agl_m": NaN,
+      "mean_agl_m": NaN,
+      "median_agl_m": NaN,
+      "goal_xy_error_m": NaN,
+      "goal_z_error_m": NaN,
+      "all_safe": false,
+      "closest_3d_m": 5604.745388521957,
+      "rejections": {
+        "UNAVAILABLE_CAPABILITY": 30000,
+        "PARETO_DOM": 42180,
+        "SAME_KEY_DOM": 23835,
+        "SAME_KEY_SELF": 2201
+      },
+      "primitive_counts": {}
+    },
+    "can_F_turn_required_diagonal_2_3km": {
+      "variant": "V6_full_experimental",
+      "status": "FOUND",
+      "termination": "FOUND",
+      "expansions": 1849,
+      "generated": 9240,
+      "peak_open": 1259,
+      "runtime_s": 0.9904408999973384,
+      "path_length_m": 2331.022241018849,
+      "min_agl_m": 100.36125159374524,
+      "mean_agl_m": 230.67072844420716,
+      "median_agl_m": 207.68091666696637,
+      "goal_xy_error_m": 80.57234728061101,
+      "goal_z_error_m": 9.467361687504763,
+      "all_safe": true,
+      "closest_3d_m": 22.519323952047245,
+      "rejections": {
+        "SAME_KEY_DOM": 1943,
+        "SAME_KEY_SELF": 280,
+        "PARETO_DOM": 1824,
+        "SAFETY": 1556
+      },
+      "primitive_counts": {
+        "STRAIGHT_DESCENT": 2,
+        "RIGHT_LEVEL_TURN": 5,
+        "STRAIGHT_LEVEL": 4,
+        "LEFT_LEVEL_TURN": 6,
+        "STRAIGHT_CLIMB": 1
+      }
+    }
+  }
+}

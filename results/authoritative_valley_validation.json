@@ -1,0 +1,128 @@
+{
+  "start_pose": {
+    "x_m": 684440.843569939,
+    "y_m": 4186948.055558809,
+    "z_msl_m": 2174.806640625,
+    "heading_deg": 0.0,
+    "terrain_elevation_msl_m": 2054.806640625,
+    "agl_m": 120.0
+  },
+  "goal_pose": {
+    "x_m": 684440.843569939,
+    "y_m": 4190248.055558809,
+    "z_msl_m": 1934.8812255859375,
+    "terrain_elevation_msl_m": 1794.8812255859375,
+    "target_agl_m": 140.0
+  },
+  "search_configuration": {
+    "exact_heuristic": "Geodesic 2D Topographic Dijkstra h_topo(x,y) + Dynamic Reachability Envelope dz",
+    "exact_cost": "3D Path Length * Topographic Roughness Mu(x,y) * (1 + 0.20 * Excess_AGL/500m)",
+    "exact_dominance_pruning": "XY-Heading Bin Representative with Pareto Dominance on (g_cost, Excess_AGL)",
+    "exact_primitive_set": "DerivedC172P Envelope (Level, Climb +5m/s, Descent -3m/s, Turns R=229m at 40m/s)"
+  },
+  "search_result": {
+    "status": "FOUND",
+    "expansions": 4663,
+    "generated": 23310,
+    "peak_open": 3104,
+    "runtime_s": 2.2759898000003886,
+    "path_length_m": 3296.147480633377
+  },
+  "baseline_search_result": {
+    "status": "FAIL",
+    "expansions": 30000,
+    "generated": 150000,
+    "peak_open": 2207,
+    "runtime_s": 28.20548459999918,
+    "path_length_m": 0.0,
+    "mean_agl_m": null
+  },
+  "real_trajectory": {
+    "primitive_count": 49,
+    "primitive_sequence": [
+      "STRAIGHT_DESCENT",
+      "LEFT_LEVEL_TURN",
+      "RIGHT_LEVEL_TURN",
+      "STRAIGHT_DESCENT",
+      "STRAIGHT_DESCENT",
+      "STRAIGHT_DESCENT",
+      "STRAIGHT_DESCENT",
+      "STRAIGHT_DESCENT",
+      "STRAIGHT_DESCENT",
+      "STRAIGHT_DESCENT",
+      "STRAIGHT_DESCENT",
+      "STRAIGHT_DESCENT",
+      "STRAIGHT_DESCENT",
+      "STRAIGHT_DESCENT",
+      "STRAIGHT_DESCENT",
+      "STRAIGHT_DESCENT",
+      "STRAIGHT_DESCENT",
+      "STRAIGHT_DESCENT",
+      "STRAIGHT_DESCENT",
+      "STRAIGHT_DESCENT",
+      "STRAIGHT_DESCENT",
+      "STRAIGHT_DESCENT",
+      "STRAIGHT_DESCENT",
+      "STRAIGHT_DESCENT",
+      "STRAIGHT_DESCENT",
+      "STRAIGHT_DESCENT",
+      "STRAIGHT_DESCENT",
+      "STRAIGHT_DESCENT",
+      "STRAIGHT_DESCENT",
+      "STRAIGHT_DESCENT",
+      "STRAIGHT_DESCENT",
+      "STRAIGHT_DESCENT",
+      "STRAIGHT_DESCENT",
+      "STRAIGHT_DESCENT",
+      "STRAIGHT_DESCENT",
+      "STRAIGHT_DESCENT",
+      "STRAIGHT_DESCENT",
+      "STRAIGHT_DESCENT",
+      "STRAIGHT_DESCENT",
+      "STRAIGHT_LEVEL",
+      "RIGHT_LEVEL_TURN",
+      "LEFT_LEVEL_TURN",
+      "STRAIGHT_DESCENT",
+      "STRAIGHT_DESCENT",
+      "STRAIGHT_DESCENT",
+      "STRAIGHT_DESCENT",
+      "STRAIGHT_DESCENT",
+      "STRAIGHT_DESCENT",
+      "STRAIGHT_DESCENT"
+    ],
+    "primitive_counts": {
+      "STRAIGHT_DESCENT": 44,
+      "LEFT_LEVEL_TURN": 2,
+      "RIGHT_LEVEL_TURN": 2,
+      "STRAIGHT_LEVEL": 1
+    },
+    "first_pose": {
+      "x_m": 684440.843569939,
+      "y_m": 4186948.055558809,
+      "z_msl_m": 2174.806640625,
+      "heading_deg": 0.0
+    },
+    "last_pose": {
+      "x_m": 684440.1461602361,
+      "y_m": 4190228.9153213017,
+      "z_msl_m": 1961.4611509751667,
+      "heading_deg": 0.0
+    }
+  },
+  "altitude_quality": {
+    "min_agl_m": 112.94087998507757,
+    "mean_agl_m": 156.04164062748836,
+    "median_agl_m": 146.56031791814485,
+    "p90_agl_m": 219.87404785035142,
+    "pct_100_150_m": 56.72823218997362,
+    "pct_150_200_m": 29.287598944591032,
+    "pct_gt_250_m": 4.485488126649076
+  },
+  "safety_audit": {
+    "unsafe_segments": 0,
+    "nodata_violations": 0,
+    "outside_roi": 0,
+    "minimum_verified_agl_m": 112.13280295811046,
+    "hard_safety": "PASS"
+  }
+}

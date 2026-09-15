@@ -49,6 +49,25 @@ class PlannerConfig:
     search_xy_bin_m: float = 60.0
     search_z_bin_m: float = 5.0
     search_heading_bin_deg: float = 15.0
+    # Combined climbing/descending turns are physically implemented and use
+    # the normal continuous safety pipeline.  They remain opt-in because the
+    # first global activation widened the search substantially; BASIC is the
+    # canonical production baseline.
+    enable_combined_turns: bool = False
+    # Experimental terrain-relative soft objective.  It is deliberately
+    # opt-in: safety is still governed solely by min_agl_m and continuous
+    # trajectory validation.  When disabled, pose-aware A* uses its original
+    # geometric 3D edge length without terrain queries in the cost path.
+    enable_low_altitude_cost: bool = False
+    desired_agl_m: float = 120.0
+    agl_cost_scale_m: float = 100.0
+    lambda_agl: float = 0.0
+    # Shape selection exists only for controlled experimental comparison.
+    # Capped linear is the current experiment; quadratic remains explicitly
+    # addressable solely so its previous experiment can be reproduced.
+    low_altitude_cost_shape: str = "capped_linear"
+    full_penalty_agl_m: float = 500.0
+    max_agl_cost_multiplier: float = 1.0
     # Centreline terrain semantics are the frozen first-baseline default.
     # A non-zero value is an explicit safety-model choice, not an aircraft
     # dimension and not a substitute for curve-to-chord coverage.

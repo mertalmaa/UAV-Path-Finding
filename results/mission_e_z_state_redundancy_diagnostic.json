@@ -1,0 +1,1320 @@
+{
+  "task": "Z-DIAG-1",
+  "diagnostic_only": true,
+  "production_behavior_changed": false,
+  "search_contract": {
+    "combined_turns": false,
+    "xy_bin_m": 60.0,
+    "z_bin_m": 5.0,
+    "heading_bin_deg": 15.0,
+    "expansion_limit": 30000
+  },
+  "euclidean": {
+    "label": "EUCLIDEAN",
+    "status": "search_limit_reached",
+    "termination_reason": "EXPANSION_LIMIT",
+    "expanded": 30000,
+    "generated": 149995,
+    "rejected": 95073,
+    "peak_open": 21356,
+    "runtime_s": 14.165468000001056,
+    "best_xy_error_m": 120.0,
+    "best_z_error_m": 4.363551587838629,
+    "first_goal_state_insertion_expansion": 28618,
+    "goal_pop_expansion": null,
+    "z_per_xy_heading": {
+      "count": 832,
+      "mean": 36.05769230769231,
+      "median": 36.0,
+      "p90": 60.89999999999998,
+      "p95": 68.0,
+      "max": 82
+    },
+    "pairwise": {
+      "total_compared_pairs": 681697,
+      "obvious_dominance_candidates": 608,
+      "candidate_percent_of_pairs": 0.08918918522452057,
+      "obvious_dominated_states": 608,
+      "locally_unrefuted_candidates": 390,
+      "locally_unrefuted_percent_of_candidates": 64.14473684210526
+    },
+    "top_20_groups": [
+      {
+        "xy_heading_bin": [
+          11484,
+          69777,
+          6
+        ],
+        "z_state_count": 82,
+        "altitude_min_m": 3910.706625969199,
+        "altitude_max_m": 4400.0,
+        "altitude_span_m": 489.2933740308008,
+        "g_min": 4620.0,
+        "g_max": 4645.837725831444,
+        "goal_distance_min_m": 4680.012246975391,
+        "goal_distance_max_m": 4706.633616503414,
+        "terrain_msl_min_m": 3609.4697265625,
+        "terrain_msl_max_m": 3609.4697265625,
+        "agl_min_m": 301.2368994066992,
+        "agl_max_m": 790.5302734375,
+        "minimum_safe_altitude_msl_m": 3709.4697265625,
+        "dominance_candidate_count": 4
+      },
+      {
+        "xy_heading_bin": [
+          11485,
+          69777,
+          6
+        ],
+        "z_state_count": 82,
+        "altitude_min_m": 3904.3635515878386,
+        "altitude_max_m": 4393.6430105921945,
+        "altitude_span_m": 489.2794590043559,
+        "g_min": 4680.335821154029,
+        "g_max": 4706.172082483417,
+        "goal_distance_min_m": 4620.002060668638,
+        "goal_distance_max_m": 4646.297818899099,
+        "terrain_msl_min_m": 3645.332763671875,
+        "terrain_msl_max_m": 3645.332763671875,
+        "agl_min_m": 259.03078791596363,
+        "agl_max_m": 748.3102469203195,
+        "minimum_safe_altitude_msl_m": 3745.332763671875,
+        "dominance_candidate_count": 4
+      },
+      {
+        "xy_heading_bin": [
+          11483,
+          69777,
+          6
+        ],
+        "z_state_count": 81,
+        "altitude_min_m": 3917.0497003505598,
+        "altitude_max_m": 4400.0,
+        "altitude_span_m": 482.95029964944024,
+        "g_min": 4560.0,
+        "g_max": 4585.503369179471,
+        "goal_distance_min_m": 4740.030663643648,
+        "goal_distance_max_m": 4766.29835406891,
+        "terrain_msl_min_m": 3559.745361328125,
+        "terrain_msl_max_m": 3559.745361328125,
+        "agl_min_m": 357.30433902243476,
+        "agl_max_m": 840.254638671875,
+        "minimum_safe_altitude_msl_m": 3659.745361328125,
+        "dominance_candidate_count": 4
+      },
+      {
+        "xy_heading_bin": [
+          11486,
+          69777,
+          6
+        ],
+        "z_state_count": 81,
+        "altitude_min_m": 3904.3635515878386,
+        "altitude_max_m": 4387.286021184389,
+        "altitude_span_m": 482.9224695965504,
+        "g_min": 4740.671642308058,
+        "g_max": 4766.172082483418,
+        "goal_distance_min_m": 4560.002087782686,
+        "goal_distance_max_m": 4585.962021914454,
+        "terrain_msl_min_m": 3675.84716796875,
+        "terrain_msl_max_m": 3675.84716796875,
+        "agl_min_m": 228.51638361908863,
+        "agl_max_m": 711.438853215639,
+        "minimum_safe_altitude_msl_m": 3775.84716796875,
+        "dominance_candidate_count": 4
+      },
+      {
+        "xy_heading_bin": [
+          11482,
+          69777,
+          6
+        ],
+        "z_state_count": 80,
+        "altitude_min_m": 3923.3927747319203,
+        "altitude_max_m": 4400.0,
+        "altitude_span_m": 476.6072252680797,
+        "g_min": 4500.0,
+        "g_max": 4525.169012527497,
+        "goal_distance_min_m": 4800.0570019437955,
+        "goal_distance_max_m": 4825.971404805461,
+        "terrain_msl_min_m": 3525.287353515625,
+        "terrain_msl_max_m": 3525.287353515625,
+        "agl_min_m": 398.1054212162953,
+        "agl_max_m": 874.712646484375,
+        "minimum_safe_altitude_msl_m": 3625.287353515625,
+        "dominance_candidate_count": 4
+      },
+      {
+        "xy_heading_bin": [
+          11487,
+          69777,
+          6
+        ],
+        "z_state_count": 80,
+        "altitude_min_m": 3904.3635515878386,
+        "altitude_max_m": 4380.9290317765835,
+        "altitude_span_m": 476.5654801887449,
+        "g_min": 4801.007463462087,
+        "g_max": 4826.172082483418,
+        "goal_distance_min_m": 4500.002115619776,
+        "goal_distance_max_m": 4525.626225574264,
+        "terrain_msl_min_m": 3674.6767578125,
+        "terrain_msl_max_m": 3674.6767578125,
+        "agl_min_m": 229.68679377533863,
+        "agl_max_m": 706.2522739640835,
+        "minimum_safe_altitude_msl_m": 3774.6767578125,
+        "dominance_candidate_count": 4
+      },
+      {
+        "xy_heading_bin": [
+          11488,
+          69777,
+          6
+        ],
+        "z_state_count": 79,
+        "altitude_min_m": 3904.3635515878386,
+        "altitude_max_m": 4374.572042368778,
+        "altitude_span_m": 470.2084907809394,
+        "g_min": 4861.343284616115,
+        "g_max": 4886.172082483419,
+        "goal_distance_min_m": 4440.002144209218,
+        "goal_distance_max_m": 4465.290429904652,
+        "terrain_msl_min_m": 3656.585205078125,
+        "terrain_msl_max_m": 3656.585205078125,
+        "agl_min_m": 247.77834650971363,
+        "agl_max_m": 717.986837290653,
+        "minimum_safe_altitude_msl_m": 3756.585205078125,
+        "dominance_candidate_count": 4
+      },
+      {
+        "xy_heading_bin": [
+          11481,
+          69777,
+          6
+        ],
+        "z_state_count": 78,
+        "altitude_min_m": 3929.735849113281,
+        "altitude_max_m": 4400.0,
+        "altitude_span_m": 470.2641508867191,
+        "g_min": 4440.0,
+        "g_max": 4464.834655875524,
+        "goal_distance_min_m": 4860.09096835877,
+        "goal_distance_max_m": 4885.652464103438,
+        "terrain_msl_min_m": 3475.8798828125,
+        "terrain_msl_max_m": 3475.8798828125,
+        "agl_min_m": 453.8559663007809,
+        "agl_max_m": 924.1201171875,
+        "minimum_safe_altitude_msl_m": 3575.8798828125,
+        "dominance_candidate_count": 3
+      },
+      {
+        "xy_heading_bin": [
+          11489,
+          69777,
+          6
+        ],
+        "z_state_count": 78,
+        "altitude_min_m": 3904.3635515878386,
+        "altitude_max_m": 4368.215052960973,
+        "altitude_span_m": 463.85150137313394,
+        "g_min": 4921.679105770144,
+        "g_max": 4946.17208248342,
+        "goal_distance_min_m": 4380.002173581934,
+        "goal_distance_max_m": 4404.954634933173,
+        "terrain_msl_min_m": 3620.539306640625,
+        "terrain_msl_max_m": 3620.539306640625,
+        "agl_min_m": 283.82424494721363,
+        "agl_max_m": 747.6757463203476,
+        "minimum_safe_altitude_msl_m": 3720.539306640625,
+        "dominance_candidate_count": 4
+      },
+      {
+        "xy_heading_bin": [
+          11480,
+          69777,
+          6
+        ],
+        "z_state_count": 77,
+        "altitude_min_m": 3936.0789234946415,
+        "altitude_max_m": 4400.0,
+        "altitude_span_m": 463.92107650535854,
+        "g_min": 4380.0,
+        "g_max": 4404.50029922355,
+        "goal_distance_min_m": 4920.132283660728,
+        "goal_distance_max_m": 4945.341242017582,
+        "terrain_msl_min_m": 3428.9462890625,
+        "terrain_msl_max_m": 3428.9462890625,
+        "agl_min_m": 507.13263443214146,
+        "agl_max_m": 971.0537109375,
+        "minimum_safe_altitude_msl_m": 3528.9462890625,
+        "dominance_candidate_count": 3
+      },
+      {
+        "xy_heading_bin": [
+          11490,
+          69777,
+          6
+        ],
+        "z_state_count": 77,
+        "altitude_min_m": 3904.3635515878386,
+        "altitude_max_m": 4361.858063553167,
+        "altitude_span_m": 457.49451196532846,
+        "g_min": 4982.014926924173,
+        "g_max": 5006.17208248342,
+        "goal_distance_min_m": 4320.002203770556,
+        "goal_distance_max_m": 4344.618840688914,
+        "terrain_msl_min_m": 3596.705078125,
+        "terrain_msl_max_m": 3596.705078125,
+        "agl_min_m": 307.65847346283863,
+        "agl_max_m": 765.1529854281671,
+        "minimum_safe_altitude_msl_m": 3696.705078125,
+        "dominance_candidate_count": 4
+      },
+      {
+        "xy_heading_bin": [
+          11479,
+          69777,
+          6
+        ],
+        "z_state_count": 76,
+        "altitude_min_m": 3942.421997876002,
+        "altitude_max_m": 4400.0,
+        "altitude_span_m": 457.578002123998,
+        "g_min": 4320.0,
+        "g_max": 4344.165942571577,
+        "goal_distance_min_m": 4980.180682053995,
+        "goal_distance_max_m": 5005.037462397259,
+        "terrain_msl_min_m": 3383.881591796875,
+        "terrain_msl_max_m": 3383.881591796875,
+        "agl_min_m": 558.540406079127,
+        "agl_max_m": 1016.118408203125,
+        "minimum_safe_altitude_msl_m": 3483.881591796875,
+        "dominance_candidate_count": 3
+      },
+      {
+        "xy_heading_bin": [
+          11491,
+          69777,
+          6
+        ],
+        "z_state_count": 76,
+        "altitude_min_m": 3904.3635515878386,
+        "altitude_max_m": 4355.501074145362,
+        "altitude_span_m": 451.13752255752297,
+        "g_min": 5042.350748078202,
+        "g_max": 5066.17208248342,
+        "goal_distance_min_m": 4260.002234809562,
+        "goal_distance_max_m": 4284.283047202598,
+        "terrain_msl_min_m": 3565.789794921875,
+        "terrain_msl_max_m": 3565.789794921875,
+        "agl_min_m": 338.57375666596363,
+        "agl_max_m": 789.7112792234866,
+        "minimum_safe_altitude_msl_m": 3665.789794921875,
+        "dominance_candidate_count": 4
+      },
+      {
+        "xy_heading_bin": [
+          11492,
+          69777,
+          6
+        ],
+        "z_state_count": 75,
+        "altitude_min_m": 3904.3635515878386,
+        "altitude_max_m": 4349.144084737556,
+        "altitude_span_m": 444.7805331497175,
+        "g_min": 5102.686569232231,
+        "g_max": 5126.17208248342,
+        "goal_distance_min_m": 4200.002266735395,
+        "goal_distance_max_m": 4223.947254506706,
+        "terrain_msl_min_m": 3541.381103515625,
+        "terrain_msl_max_m": 3541.381103515625,
+        "agl_min_m": 362.98244807221363,
+        "agl_max_m": 807.7629812219311,
+        "minimum_safe_altitude_msl_m": 3641.381103515625,
+        "dominance_candidate_count": 4
+      },
+      {
+        "xy_heading_bin": [
+          11478,
+          69777,
+          6
+        ],
+        "z_state_count": 74,
+        "altitude_min_m": 3948.7650722573626,
+        "altitude_max_m": 4400.0,
+        "altitude_span_m": 451.2349277426374,
+        "g_min": 4260.0,
+        "g_max": 4283.831585919604,
+        "goal_distance_min_m": 5040.235910378825,
+        "goal_distance_max_m": 5064.740862077743,
+        "terrain_msl_min_m": 3353.025634765625,
+        "terrain_msl_max_m": 3353.025634765625,
+        "agl_min_m": 595.7394374917376,
+        "agl_max_m": 1046.974365234375,
+        "minimum_safe_altitude_msl_m": 3453.025634765625,
+        "dominance_candidate_count": 2
+      },
+      {
+        "xy_heading_bin": [
+          11493,
+          69777,
+          6
+        ],
+        "z_state_count": 74,
+        "altitude_min_m": 3904.3635515878386,
+        "altitude_max_m": 4342.787095329751,
+        "altitude_span_m": 438.423543741912,
+        "g_min": 5163.022390386259,
+        "g_max": 5186.17208248342,
+        "goal_distance_min_m": 4140.002299586615,
+        "goal_distance_max_m": 4163.611462635599,
+        "terrain_msl_min_m": 3521.0595703125,
+        "terrain_msl_max_m": 3521.0595703125,
+        "agl_min_m": 383.30398127533863,
+        "agl_max_m": 821.7275250172506,
+        "minimum_safe_altitude_msl_m": 3621.0595703125,
+        "dominance_candidate_count": 4
+      },
+      {
+        "xy_heading_bin": [
+          11477,
+          69777,
+          6
+        ],
+        "z_state_count": 73,
+        "altitude_min_m": 3955.108146638723,
+        "altitude_max_m": 4400.0,
+        "altitude_span_m": 444.89185336127684,
+        "g_min": 4200.0,
+        "g_max": 4223.49722926763,
+        "goal_distance_min_m": 5100.297727371017,
+        "goal_distance_max_m": 5124.451190127583,
+        "terrain_msl_min_m": 3316.077392578125,
+        "terrain_msl_max_m": 3316.077392578125,
+        "agl_min_m": 639.0307540605982,
+        "agl_max_m": 1083.922607421875,
+        "minimum_safe_altitude_msl_m": 3416.077392578125,
+        "dominance_candidate_count": 2
+      },
+      {
+        "xy_heading_bin": [
+          11494,
+          69777,
+          6
+        ],
+        "z_state_count": 73,
+        "altitude_min_m": 3904.3635515878386,
+        "altitude_max_m": 4336.430105921945,
+        "altitude_span_m": 432.0665543341065,
+        "g_min": 5223.358211540288,
+        "g_max": 5246.17208248342,
+        "goal_distance_min_m": 4080.002333404046,
+        "goal_distance_max_m": 4103.275671625664,
+        "terrain_msl_min_m": 3493.50390625,
+        "terrain_msl_max_m": 3493.50390625,
+        "agl_min_m": 410.85964533783863,
+        "agl_max_m": 842.9261996719451,
+        "minimum_safe_altitude_msl_m": 3593.50390625,
+        "dominance_candidate_count": 4
+      },
+      {
+        "xy_heading_bin": [
+          11476,
+          69777,
+          6
+        ],
+        "z_state_count": 72,
+        "altitude_min_m": 3961.4512210200837,
+        "altitude_max_m": 4400.0,
+        "altitude_span_m": 438.5487789799163,
+        "g_min": 4140.0,
+        "g_max": 4163.162872615657,
+        "goal_distance_min_m": 5160.365902972856,
+        "goal_distance_max_m": 5184.168207147603,
+        "terrain_msl_min_m": 3278.14599609375,
+        "terrain_msl_max_m": 3278.14599609375,
+        "agl_min_m": 683.3052249263337,
+        "agl_max_m": 1121.85400390625,
+        "minimum_safe_altitude_msl_m": 3378.14599609375,
+        "dominance_candidate_count": 2
+      },
+      {
+        "xy_heading_bin": [
+          11495,
+          69777,
+          6
+        ],
+        "z_state_count": 72,
+        "altitude_min_m": 3904.3635515878386,
+        "altitude_max_m": 4330.07311651414,
+        "altitude_span_m": 425.709564926301,
+        "g_min": 5283.694032694317,
+        "g_max": 5306.172082483421,
+        "goal_distance_min_m": 4020.0023682309516,
+        "goal_distance_max_m": 4042.9398815154527,
+        "terrain_msl_min_m": 3476.29296875,
+        "terrain_msl_max_m": 3476.29296875,
+        "agl_min_m": 428.07058283783863,
+        "agl_max_m": 853.7801477641397,
+        "minimum_safe_altitude_msl_m": 3576.29296875,
+        "dominance_candidate_count": 4
+      }
+    ],
+    "terrain_interpretation": {
+      "all_expanded_representatives_previously_passed_continuous_safety": true,
+      "min_agl_required_m": 100.0,
+      "high_diversity_groups_safe_band_is_observed_not_future_terrain_proof": true
+    },
+    "redundancy_global": {
+      "raw_z_states": 30000,
+      "obviously_dominated_candidates": 608,
+      "non_dominated_candidates": 29392,
+      "redundancy_ratio": 0.020266666666666665,
+      "candidate_pair_count": 608
+    },
+    "redundancy_by_route_third": {
+      "first_third": {
+        "raw_z_states": 8438,
+        "obviously_dominated_candidates": 0,
+        "non_dominated_candidates": 8438,
+        "redundancy_ratio": 0.0,
+        "candidate_pair_count": 0
+      },
+      "middle_third": {
+        "raw_z_states": 18403,
+        "obviously_dominated_candidates": 337,
+        "non_dominated_candidates": 18066,
+        "redundancy_ratio": 0.01831223170135304,
+        "candidate_pair_count": 337
+      },
+      "final_third": {
+        "raw_z_states": 3159,
+        "obviously_dominated_candidates": 271,
+        "non_dominated_candidates": 2888,
+        "redundancy_ratio": 0.08578664134219689,
+        "candidate_pair_count": 271
+      }
+    },
+    "redundancy_by_goal_distance_band": {
+      ">5km": {
+        "raw_z_states": 16508,
+        "obviously_dominated_candidates": 38,
+        "non_dominated_candidates": 16470,
+        "redundancy_ratio": 0.002301914223406833,
+        "candidate_pair_count": 38
+      },
+      "2-5km": {
+        "raw_z_states": 12502,
+        "obviously_dominated_candidates": 443,
+        "non_dominated_candidates": 12059,
+        "redundancy_ratio": 0.03543433050711886,
+        "candidate_pair_count": 443
+      },
+      "1-2km": {
+        "raw_z_states": 814,
+        "obviously_dominated_candidates": 100,
+        "non_dominated_candidates": 714,
+        "redundancy_ratio": 0.12285012285012285,
+        "candidate_pair_count": 100
+      },
+      "500-1000m": {
+        "raw_z_states": 130,
+        "obviously_dominated_candidates": 22,
+        "non_dominated_candidates": 108,
+        "redundancy_ratio": 0.16923076923076924,
+        "candidate_pair_count": 22
+      },
+      "<500m": {
+        "raw_z_states": 46,
+        "obviously_dominated_candidates": 5,
+        "non_dominated_candidates": 41,
+        "redundancy_ratio": 0.10869565217391304,
+        "candidate_pair_count": 5
+      }
+    },
+    "offline_rebin_expanded_representatives": [
+      {
+        "z_bin_m": 5.0,
+        "unique_search_key_count": 30000,
+        "reduction_percent": 0.0,
+        "mean_z_bins_per_xy": 37.417582417582416,
+        "mean_z_bins_per_xy_heading": 36.05769230769231,
+        "physically_distinct_states_merged": 0,
+        "merged_buckets": 0,
+        "merged_buckets_substantial_g_difference": 0,
+        "merged_buckets_clearance_difference_over_20m": 0,
+        "merged_buckets_goal_z_suitability_difference_over_tolerance": 0
+      },
+      {
+        "z_bin_m": 10.0,
+        "unique_search_key_count": 19223,
+        "reduction_percent": 35.92333333333333,
+        "mean_z_bins_per_xy": 23.892857142857142,
+        "mean_z_bins_per_xy_heading": 23.104567307692307,
+        "physically_distinct_states_merged": 10777,
+        "merged_buckets": 10777,
+        "merged_buckets_substantial_g_difference": 0,
+        "merged_buckets_clearance_difference_over_20m": 0,
+        "merged_buckets_goal_z_suitability_difference_over_tolerance": 0
+      },
+      {
+        "z_bin_m": 20.0,
+        "unique_search_key_count": 10137,
+        "reduction_percent": 66.21000000000001,
+        "mean_z_bins_per_xy": 12.557692307692308,
+        "mean_z_bins_per_xy_heading": 12.18389423076923,
+        "physically_distinct_states_merged": 19863,
+        "merged_buckets": 9341,
+        "merged_buckets_substantial_g_difference": 0,
+        "merged_buckets_clearance_difference_over_20m": 0,
+        "merged_buckets_goal_z_suitability_difference_over_tolerance": 8878
+      },
+      {
+        "z_bin_m": 50.0,
+        "unique_search_key_count": 4704,
+        "reduction_percent": 84.32,
+        "mean_z_bins_per_xy": 5.71978021978022,
+        "mean_z_bins_per_xy_heading": 5.653846153846154,
+        "physically_distinct_states_merged": 25296,
+        "merged_buckets": 4013,
+        "merged_buckets_substantial_g_difference": 0,
+        "merged_buckets_clearance_difference_over_20m": 3612,
+        "merged_buckets_goal_z_suitability_difference_over_tolerance": 3905
+      },
+      {
+        "z_bin_m": 100.0,
+        "unique_search_key_count": 2825,
+        "reduction_percent": 90.58333333333334,
+        "mean_z_bins_per_xy": 3.431318681318681,
+        "mean_z_bins_per_xy_heading": 3.3954326923076925,
+        "physically_distinct_states_merged": 27175,
+        "merged_buckets": 2279,
+        "merged_buckets_substantial_g_difference": 0,
+        "merged_buckets_clearance_difference_over_20m": 2118,
+        "merged_buckets_goal_z_suitability_difference_over_tolerance": 2226
+      }
+    ],
+    "real_vertical_transition_collapse": [
+      {
+        "z_bin_m": 5.0,
+        "climb_successors": 2771,
+        "climb_full_search_key_collapses": 0,
+        "climb_full_search_key_collapse_rate_percent": 0.0,
+        "climb_z_component_collapses": 749,
+        "climb_z_component_collapse_rate_percent": 27.02995308552869,
+        "descent_successors": 29999,
+        "descent_full_search_key_collapses": 0,
+        "descent_full_search_key_collapse_rate_percent": 0.0,
+        "descent_z_component_collapses": 0,
+        "descent_z_component_collapse_rate_percent": 0.0
+      },
+      {
+        "z_bin_m": 10.0,
+        "climb_successors": 2771,
+        "climb_full_search_key_collapses": 0,
+        "climb_full_search_key_collapse_rate_percent": 0.0,
+        "climb_z_component_collapses": 1593,
+        "climb_z_component_collapse_rate_percent": 57.4882713821725,
+        "descent_successors": 29999,
+        "descent_full_search_key_collapses": 0,
+        "descent_full_search_key_collapse_rate_percent": 0.0,
+        "descent_z_component_collapses": 10672,
+        "descent_z_component_collapse_rate_percent": 35.57451915063835
+      },
+      {
+        "z_bin_m": 20.0,
+        "climb_successors": 2771,
+        "climb_full_search_key_collapses": 0,
+        "climb_full_search_key_collapse_rate_percent": 0.0,
+        "climb_z_component_collapses": 2246,
+        "climb_z_component_collapse_rate_percent": 81.05377120173223,
+        "descent_successors": 29999,
+        "descent_full_search_key_collapses": 0,
+        "descent_full_search_key_collapse_rate_percent": 0.0,
+        "descent_z_component_collapses": 20223,
+        "descent_z_component_collapse_rate_percent": 67.4122470749025
+      },
+      {
+        "z_bin_m": 50.0,
+        "climb_successors": 2771,
+        "climb_full_search_key_collapses": 0,
+        "climb_full_search_key_collapse_rate_percent": 0.0,
+        "climb_z_component_collapses": 2352,
+        "climb_z_component_collapse_rate_percent": 84.87910501623962,
+        "descent_successors": 29999,
+        "descent_full_search_key_collapses": 0,
+        "descent_full_search_key_collapse_rate_percent": 0.0,
+        "descent_z_component_collapses": 25609,
+        "descent_z_component_collapse_rate_percent": 85.36617887262909
+      },
+      {
+        "z_bin_m": 100.0,
+        "climb_successors": 2771,
+        "climb_full_search_key_collapses": 0,
+        "climb_full_search_key_collapse_rate_percent": 0.0,
+        "climb_z_component_collapses": 2517,
+        "climb_z_component_collapse_rate_percent": 90.83363406712378,
+        "descent_successors": 29999,
+        "descent_full_search_key_collapses": 0,
+        "descent_full_search_key_collapse_rate_percent": 0.0,
+        "descent_z_component_collapses": 27661,
+        "descent_z_component_collapse_rate_percent": 92.20640688022934
+      }
+    ]
+  },
+  "vertical_reachability": {
+    "label": "VERTICAL_REACHABILITY",
+    "status": "search_limit_reached",
+    "termination_reason": "EXPANSION_LIMIT",
+    "expanded": 30000,
+    "generated": 149995,
+    "rejected": 95076,
+    "peak_open": 21352,
+    "runtime_s": 13.799167099999977,
+    "best_xy_error_m": 120.0,
+    "best_z_error_m": 4.363551587838629,
+    "first_goal_state_insertion_expansion": 28618,
+    "goal_pop_expansion": null,
+    "z_per_xy_heading": {
+      "count": 832,
+      "mean": 36.05769230769231,
+      "median": 36.0,
+      "p90": 60.89999999999998,
+      "p95": 68.0,
+      "max": 82
+    },
+    "pairwise": {
+      "total_compared_pairs": 681704,
+      "obvious_dominance_candidates": 608,
+      "candidate_percent_of_pairs": 0.08918826939551477,
+      "obvious_dominated_states": 608,
+      "locally_unrefuted_candidates": 390,
+      "locally_unrefuted_percent_of_candidates": 64.14473684210526
+    },
+    "top_20_groups": [
+      {
+        "xy_heading_bin": [
+          11484,
+          69777,
+          6
+        ],
+        "z_state_count": 82,
+        "altitude_min_m": 3910.706625969199,
+        "altitude_max_m": 4400.0,
+        "altitude_span_m": 489.2933740308008,
+        "g_min": 4620.0,
+        "g_max": 4645.837725831444,
+        "goal_distance_min_m": 4680.012246975391,
+        "goal_distance_max_m": 4706.633616503414,
+        "terrain_msl_min_m": 3609.4697265625,
+        "terrain_msl_max_m": 3609.4697265625,
+        "agl_min_m": 301.2368994066992,
+        "agl_max_m": 790.5302734375,
+        "minimum_safe_altitude_msl_m": 3709.4697265625,
+        "dominance_candidate_count": 4
+      },
+      {
+        "xy_heading_bin": [
+          11485,
+          69777,
+          6
+        ],
+        "z_state_count": 82,
+        "altitude_min_m": 3904.3635515878386,
+        "altitude_max_m": 4393.6430105921945,
+        "altitude_span_m": 489.2794590043559,
+        "g_min": 4680.335821154029,
+        "g_max": 4706.172082483417,
+        "goal_distance_min_m": 4620.002060668638,
+        "goal_distance_max_m": 4646.297818899099,
+        "terrain_msl_min_m": 3645.332763671875,
+        "terrain_msl_max_m": 3645.332763671875,
+        "agl_min_m": 259.03078791596363,
+        "agl_max_m": 748.3102469203195,
+        "minimum_safe_altitude_msl_m": 3745.332763671875,
+        "dominance_candidate_count": 4
+      },
+      {
+        "xy_heading_bin": [
+          11483,
+          69777,
+          6
+        ],
+        "z_state_count": 81,
+        "altitude_min_m": 3917.0497003505598,
+        "altitude_max_m": 4400.0,
+        "altitude_span_m": 482.95029964944024,
+        "g_min": 4560.0,
+        "g_max": 4585.503369179471,
+        "goal_distance_min_m": 4740.030663643648,
+        "goal_distance_max_m": 4766.29835406891,
+        "terrain_msl_min_m": 3559.745361328125,
+        "terrain_msl_max_m": 3559.745361328125,
+        "agl_min_m": 357.30433902243476,
+        "agl_max_m": 840.254638671875,
+        "minimum_safe_altitude_msl_m": 3659.745361328125,
+        "dominance_candidate_count": 4
+      },
+      {
+        "xy_heading_bin": [
+          11486,
+          69777,
+          6
+        ],
+        "z_state_count": 81,
+        "altitude_min_m": 3904.3635515878386,
+        "altitude_max_m": 4387.286021184389,
+        "altitude_span_m": 482.9224695965504,
+        "g_min": 4740.671642308058,
+        "g_max": 4766.172082483418,
+        "goal_distance_min_m": 4560.002087782686,
+        "goal_distance_max_m": 4585.962021914454,
+        "terrain_msl_min_m": 3675.84716796875,
+        "terrain_msl_max_m": 3675.84716796875,
+        "agl_min_m": 228.51638361908863,
+        "agl_max_m": 711.438853215639,
+        "minimum_safe_altitude_msl_m": 3775.84716796875,
+        "dominance_candidate_count": 4
+      },
+      {
+        "xy_heading_bin": [
+          11482,
+          69777,
+          6
+        ],
+        "z_state_count": 80,
+        "altitude_min_m": 3923.3927747319203,
+        "altitude_max_m": 4400.0,
+        "altitude_span_m": 476.6072252680797,
+        "g_min": 4500.0,
+        "g_max": 4525.169012527497,
+        "goal_distance_min_m": 4800.0570019437955,
+        "goal_distance_max_m": 4825.971404805461,
+        "terrain_msl_min_m": 3525.287353515625,
+        "terrain_msl_max_m": 3525.287353515625,
+        "agl_min_m": 398.1054212162953,
+        "agl_max_m": 874.712646484375,
+        "minimum_safe_altitude_msl_m": 3625.287353515625,
+        "dominance_candidate_count": 4
+      },
+      {
+        "xy_heading_bin": [
+          11487,
+          69777,
+          6
+        ],
+        "z_state_count": 80,
+        "altitude_min_m": 3904.3635515878386,
+        "altitude_max_m": 4380.9290317765835,
+        "altitude_span_m": 476.5654801887449,
+        "g_min": 4801.007463462087,
+        "g_max": 4826.172082483418,
+        "goal_distance_min_m": 4500.002115619776,
+        "goal_distance_max_m": 4525.626225574264,
+        "terrain_msl_min_m": 3674.6767578125,
+        "terrain_msl_max_m": 3674.6767578125,
+        "agl_min_m": 229.68679377533863,
+        "agl_max_m": 706.2522739640835,
+        "minimum_safe_altitude_msl_m": 3774.6767578125,
+        "dominance_candidate_count": 4
+      },
+      {
+        "xy_heading_bin": [
+          11488,
+          69777,
+          6
+        ],
+        "z_state_count": 79,
+        "altitude_min_m": 3904.3635515878386,
+        "altitude_max_m": 4374.572042368778,
+        "altitude_span_m": 470.2084907809394,
+        "g_min": 4861.343284616115,
+        "g_max": 4886.172082483419,
+        "goal_distance_min_m": 4440.002144209218,
+        "goal_distance_max_m": 4465.290429904652,
+        "terrain_msl_min_m": 3656.585205078125,
+        "terrain_msl_max_m": 3656.585205078125,
+        "agl_min_m": 247.77834650971363,
+        "agl_max_m": 717.986837290653,
+        "minimum_safe_altitude_msl_m": 3756.585205078125,
+        "dominance_candidate_count": 4
+      },
+      {
+        "xy_heading_bin": [
+          11481,
+          69777,
+          6
+        ],
+        "z_state_count": 78,
+        "altitude_min_m": 3929.735849113281,
+        "altitude_max_m": 4400.0,
+        "altitude_span_m": 470.2641508867191,
+        "g_min": 4440.0,
+        "g_max": 4464.834655875524,
+        "goal_distance_min_m": 4860.09096835877,
+        "goal_distance_max_m": 4885.652464103438,
+        "terrain_msl_min_m": 3475.8798828125,
+        "terrain_msl_max_m": 3475.8798828125,
+        "agl_min_m": 453.8559663007809,
+        "agl_max_m": 924.1201171875,
+        "minimum_safe_altitude_msl_m": 3575.8798828125,
+        "dominance_candidate_count": 3
+      },
+      {
+        "xy_heading_bin": [
+          11489,
+          69777,
+          6
+        ],
+        "z_state_count": 78,
+        "altitude_min_m": 3904.3635515878386,
+        "altitude_max_m": 4368.215052960973,
+        "altitude_span_m": 463.85150137313394,
+        "g_min": 4921.679105770144,
+        "g_max": 4946.17208248342,
+        "goal_distance_min_m": 4380.002173581934,
+        "goal_distance_max_m": 4404.954634933173,
+        "terrain_msl_min_m": 3620.539306640625,
+        "terrain_msl_max_m": 3620.539306640625,
+        "agl_min_m": 283.82424494721363,
+        "agl_max_m": 747.6757463203476,
+        "minimum_safe_altitude_msl_m": 3720.539306640625,
+        "dominance_candidate_count": 4
+      },
+      {
+        "xy_heading_bin": [
+          11480,
+          69777,
+          6
+        ],
+        "z_state_count": 77,
+        "altitude_min_m": 3936.0789234946415,
+        "altitude_max_m": 4400.0,
+        "altitude_span_m": 463.92107650535854,
+        "g_min": 4380.0,
+        "g_max": 4404.50029922355,
+        "goal_distance_min_m": 4920.132283660728,
+        "goal_distance_max_m": 4945.341242017582,
+        "terrain_msl_min_m": 3428.9462890625,
+        "terrain_msl_max_m": 3428.9462890625,
+        "agl_min_m": 507.13263443214146,
+        "agl_max_m": 971.0537109375,
+        "minimum_safe_altitude_msl_m": 3528.9462890625,
+        "dominance_candidate_count": 3
+      },
+      {
+        "xy_heading_bin": [
+          11490,
+          69777,
+          6
+        ],
+        "z_state_count": 77,
+        "altitude_min_m": 3904.3635515878386,
+        "altitude_max_m": 4361.858063553167,
+        "altitude_span_m": 457.49451196532846,
+        "g_min": 4982.014926924173,
+        "g_max": 5006.17208248342,
+        "goal_distance_min_m": 4320.002203770556,
+        "goal_distance_max_m": 4344.618840688914,
+        "terrain_msl_min_m": 3596.705078125,
+        "terrain_msl_max_m": 3596.705078125,
+        "agl_min_m": 307.65847346283863,
+        "agl_max_m": 765.1529854281671,
+        "minimum_safe_altitude_msl_m": 3696.705078125,
+        "dominance_candidate_count": 4
+      },
+      {
+        "xy_heading_bin": [
+          11479,
+          69777,
+          6
+        ],
+        "z_state_count": 76,
+        "altitude_min_m": 3942.421997876002,
+        "altitude_max_m": 4400.0,
+        "altitude_span_m": 457.578002123998,
+        "g_min": 4320.0,
+        "g_max": 4344.165942571577,
+        "goal_distance_min_m": 4980.180682053995,
+        "goal_distance_max_m": 5005.037462397259,
+        "terrain_msl_min_m": 3383.881591796875,
+        "terrain_msl_max_m": 3383.881591796875,
+        "agl_min_m": 558.540406079127,
+        "agl_max_m": 1016.118408203125,
+        "minimum_safe_altitude_msl_m": 3483.881591796875,
+        "dominance_candidate_count": 3
+      },
+      {
+        "xy_heading_bin": [
+          11491,
+          69777,
+          6
+        ],
+        "z_state_count": 76,
+        "altitude_min_m": 3904.3635515878386,
+        "altitude_max_m": 4355.501074145362,
+        "altitude_span_m": 451.13752255752297,
+        "g_min": 5042.350748078202,
+        "g_max": 5066.17208248342,
+        "goal_distance_min_m": 4260.002234809562,
+        "goal_distance_max_m": 4284.283047202598,
+        "terrain_msl_min_m": 3565.789794921875,
+        "terrain_msl_max_m": 3565.789794921875,
+        "agl_min_m": 338.57375666596363,
+        "agl_max_m": 789.7112792234866,
+        "minimum_safe_altitude_msl_m": 3665.789794921875,
+        "dominance_candidate_count": 4
+      },
+      {
+        "xy_heading_bin": [
+          11492,
+          69777,
+          6
+        ],
+        "z_state_count": 75,
+        "altitude_min_m": 3904.3635515878386,
+        "altitude_max_m": 4349.144084737556,
+        "altitude_span_m": 444.7805331497175,
+        "g_min": 5102.686569232231,
+        "g_max": 5126.17208248342,
+        "goal_distance_min_m": 4200.002266735395,
+        "goal_distance_max_m": 4223.947254506706,
+        "terrain_msl_min_m": 3541.381103515625,
+        "terrain_msl_max_m": 3541.381103515625,
+        "agl_min_m": 362.98244807221363,
+        "agl_max_m": 807.7629812219311,
+        "minimum_safe_altitude_msl_m": 3641.381103515625,
+        "dominance_candidate_count": 4
+      },
+      {
+        "xy_heading_bin": [
+          11478,
+          69777,
+          6
+        ],
+        "z_state_count": 74,
+        "altitude_min_m": 3948.7650722573626,
+        "altitude_max_m": 4400.0,
+        "altitude_span_m": 451.2349277426374,
+        "g_min": 4260.0,
+        "g_max": 4283.831585919604,
+        "goal_distance_min_m": 5040.235910378825,
+        "goal_distance_max_m": 5064.740862077743,
+        "terrain_msl_min_m": 3353.025634765625,
+        "terrain_msl_max_m": 3353.025634765625,
+        "agl_min_m": 595.7394374917376,
+        "agl_max_m": 1046.974365234375,
+        "minimum_safe_altitude_msl_m": 3453.025634765625,
+        "dominance_candidate_count": 2
+      },
+      {
+        "xy_heading_bin": [
+          11493,
+          69777,
+          6
+        ],
+        "z_state_count": 74,
+        "altitude_min_m": 3904.3635515878386,
+        "altitude_max_m": 4342.787095329751,
+        "altitude_span_m": 438.423543741912,
+        "g_min": 5163.022390386259,
+        "g_max": 5186.17208248342,
+        "goal_distance_min_m": 4140.002299586615,
+        "goal_distance_max_m": 4163.611462635599,
+        "terrain_msl_min_m": 3521.0595703125,
+        "terrain_msl_max_m": 3521.0595703125,
+        "agl_min_m": 383.30398127533863,
+        "agl_max_m": 821.7275250172506,
+        "minimum_safe_altitude_msl_m": 3621.0595703125,
+        "dominance_candidate_count": 4
+      },
+      {
+        "xy_heading_bin": [
+          11477,
+          69777,
+          6
+        ],
+        "z_state_count": 73,
+        "altitude_min_m": 3955.108146638723,
+        "altitude_max_m": 4400.0,
+        "altitude_span_m": 444.89185336127684,
+        "g_min": 4200.0,
+        "g_max": 4223.49722926763,
+        "goal_distance_min_m": 5100.297727371017,
+        "goal_distance_max_m": 5124.451190127583,
+        "terrain_msl_min_m": 3316.077392578125,
+        "terrain_msl_max_m": 3316.077392578125,
+        "agl_min_m": 639.0307540605982,
+        "agl_max_m": 1083.922607421875,
+        "minimum_safe_altitude_msl_m": 3416.077392578125,
+        "dominance_candidate_count": 2
+      },
+      {
+        "xy_heading_bin": [
+          11494,
+          69777,
+          6
+        ],
+        "z_state_count": 73,
+        "altitude_min_m": 3904.3635515878386,
+        "altitude_max_m": 4336.430105921945,
+        "altitude_span_m": 432.0665543341065,
+        "g_min": 5223.358211540288,
+        "g_max": 5246.17208248342,
+        "goal_distance_min_m": 4080.002333404046,
+        "goal_distance_max_m": 4103.275671625664,
+        "terrain_msl_min_m": 3493.50390625,
+        "terrain_msl_max_m": 3493.50390625,
+        "agl_min_m": 410.85964533783863,
+        "agl_max_m": 842.9261996719451,
+        "minimum_safe_altitude_msl_m": 3593.50390625,
+        "dominance_candidate_count": 4
+      },
+      {
+        "xy_heading_bin": [
+          11476,
+          69777,
+          6
+        ],
+        "z_state_count": 72,
+        "altitude_min_m": 3961.4512210200837,
+        "altitude_max_m": 4400.0,
+        "altitude_span_m": 438.5487789799163,
+        "g_min": 4140.0,
+        "g_max": 4163.162872615657,
+        "goal_distance_min_m": 5160.365902972856,
+        "goal_distance_max_m": 5184.168207147603,
+        "terrain_msl_min_m": 3278.14599609375,
+        "terrain_msl_max_m": 3278.14599609375,
+        "agl_min_m": 683.3052249263337,
+        "agl_max_m": 1121.85400390625,
+        "minimum_safe_altitude_msl_m": 3378.14599609375,
+        "dominance_candidate_count": 2
+      },
+      {
+        "xy_heading_bin": [
+          11495,
+          69777,
+          6
+        ],
+        "z_state_count": 72,
+        "altitude_min_m": 3904.3635515878386,
+        "altitude_max_m": 4330.07311651414,
+        "altitude_span_m": 425.709564926301,
+        "g_min": 5283.694032694317,
+        "g_max": 5306.172082483421,
+        "goal_distance_min_m": 4020.0023682309516,
+        "goal_distance_max_m": 4042.9398815154527,
+        "terrain_msl_min_m": 3476.29296875,
+        "terrain_msl_max_m": 3476.29296875,
+        "agl_min_m": 428.07058283783863,
+        "agl_max_m": 853.7801477641397,
+        "minimum_safe_altitude_msl_m": 3576.29296875,
+        "dominance_candidate_count": 4
+      }
+    ],
+    "terrain_interpretation": {
+      "all_expanded_representatives_previously_passed_continuous_safety": true,
+      "min_agl_required_m": 100.0,
+      "high_diversity_groups_safe_band_is_observed_not_future_terrain_proof": true
+    },
+    "redundancy_global": {
+      "raw_z_states": 30000,
+      "obviously_dominated_candidates": 608,
+      "non_dominated_candidates": 29392,
+      "redundancy_ratio": 0.020266666666666665,
+      "candidate_pair_count": 608
+    },
+    "redundancy_by_route_third": {
+      "first_third": {
+        "raw_z_states": 8438,
+        "obviously_dominated_candidates": 0,
+        "non_dominated_candidates": 8438,
+        "redundancy_ratio": 0.0,
+        "candidate_pair_count": 0
+      },
+      "middle_third": {
+        "raw_z_states": 18403,
+        "obviously_dominated_candidates": 337,
+        "non_dominated_candidates": 18066,
+        "redundancy_ratio": 0.01831223170135304,
+        "candidate_pair_count": 337
+      },
+      "final_third": {
+        "raw_z_states": 3159,
+        "obviously_dominated_candidates": 271,
+        "non_dominated_candidates": 2888,
+        "redundancy_ratio": 0.08578664134219689,
+        "candidate_pair_count": 271
+      }
+    },
+    "redundancy_by_goal_distance_band": {
+      ">5km": {
+        "raw_z_states": 16508,
+        "obviously_dominated_candidates": 38,
+        "non_dominated_candidates": 16470,
+        "redundancy_ratio": 0.002301914223406833,
+        "candidate_pair_count": 38
+      },
+      "2-5km": {
+        "raw_z_states": 12504,
+        "obviously_dominated_candidates": 443,
+        "non_dominated_candidates": 12061,
+        "redundancy_ratio": 0.03542866282789507,
+        "candidate_pair_count": 443
+      },
+      "1-2km": {
+        "raw_z_states": 814,
+        "obviously_dominated_candidates": 100,
+        "non_dominated_candidates": 714,
+        "redundancy_ratio": 0.12285012285012285,
+        "candidate_pair_count": 100
+      },
+      "500-1000m": {
+        "raw_z_states": 130,
+        "obviously_dominated_candidates": 22,
+        "non_dominated_candidates": 108,
+        "redundancy_ratio": 0.16923076923076924,
+        "candidate_pair_count": 22
+      },
+      "<500m": {
+        "raw_z_states": 44,
+        "obviously_dominated_candidates": 5,
+        "non_dominated_candidates": 39,
+        "redundancy_ratio": 0.11363636363636363,
+        "candidate_pair_count": 5
+      }
+    },
+    "offline_rebin_expanded_representatives": [
+      {
+        "z_bin_m": 5.0,
+        "unique_search_key_count": 30000,
+        "reduction_percent": 0.0,
+        "mean_z_bins_per_xy": 37.41208791208791,
+        "mean_z_bins_per_xy_heading": 36.05769230769231,
+        "physically_distinct_states_merged": 0,
+        "merged_buckets": 0,
+        "merged_buckets_substantial_g_difference": 0,
+        "merged_buckets_clearance_difference_over_20m": 0,
+        "merged_buckets_goal_z_suitability_difference_over_tolerance": 0
+      },
+      {
+        "z_bin_m": 10.0,
+        "unique_search_key_count": 19222,
+        "reduction_percent": 35.92666666666666,
+        "mean_z_bins_per_xy": 23.89010989010989,
+        "mean_z_bins_per_xy_heading": 23.103365384615383,
+        "physically_distinct_states_merged": 10778,
+        "merged_buckets": 10778,
+        "merged_buckets_substantial_g_difference": 0,
+        "merged_buckets_clearance_difference_over_20m": 0,
+        "merged_buckets_goal_z_suitability_difference_over_tolerance": 0
+      },
+      {
+        "z_bin_m": 20.0,
+        "unique_search_key_count": 10136,
+        "reduction_percent": 66.21333333333334,
+        "mean_z_bins_per_xy": 12.554945054945055,
+        "mean_z_bins_per_xy_heading": 12.182692307692308,
+        "physically_distinct_states_merged": 19864,
+        "merged_buckets": 9342,
+        "merged_buckets_substantial_g_difference": 0,
+        "merged_buckets_clearance_difference_over_20m": 0,
+        "merged_buckets_goal_z_suitability_difference_over_tolerance": 8878
+      },
+      {
+        "z_bin_m": 50.0,
+        "unique_search_key_count": 4704,
+        "reduction_percent": 84.32,
+        "mean_z_bins_per_xy": 5.71978021978022,
+        "mean_z_bins_per_xy_heading": 5.653846153846154,
+        "physically_distinct_states_merged": 25296,
+        "merged_buckets": 4013,
+        "merged_buckets_substantial_g_difference": 0,
+        "merged_buckets_clearance_difference_over_20m": 3611,
+        "merged_buckets_goal_z_suitability_difference_over_tolerance": 3907
+      },
+      {
+        "z_bin_m": 100.0,
+        "unique_search_key_count": 2825,
+        "reduction_percent": 90.58333333333334,
+        "mean_z_bins_per_xy": 3.431318681318681,
+        "mean_z_bins_per_xy_heading": 3.3954326923076925,
+        "physically_distinct_states_merged": 27175,
+        "merged_buckets": 2279,
+        "merged_buckets_substantial_g_difference": 0,
+        "merged_buckets_clearance_difference_over_20m": 2117,
+        "merged_buckets_goal_z_suitability_difference_over_tolerance": 2226
+      }
+    ],
+    "real_vertical_transition_collapse": [
+      {
+        "z_bin_m": 5.0,
+        "climb_successors": 2770,
+        "climb_full_search_key_collapses": 0,
+        "climb_full_search_key_collapse_rate_percent": 0.0,
+        "climb_z_component_collapses": 749,
+        "climb_z_component_collapse_rate_percent": 27.03971119133574,
+        "descent_successors": 29999,
+        "descent_full_search_key_collapses": 0,
+        "descent_full_search_key_collapse_rate_percent": 0.0,
+        "descent_z_component_collapses": 0,
+        "descent_z_component_collapse_rate_percent": 0.0
+      },
+      {
+        "z_bin_m": 10.0,
+        "climb_successors": 2770,
+        "climb_full_search_key_collapses": 0,
+        "climb_full_search_key_collapse_rate_percent": 0.0,
+        "climb_z_component_collapses": 1592,
+        "climb_z_component_collapse_rate_percent": 57.47292418772563,
+        "descent_successors": 29999,
+        "descent_full_search_key_collapses": 0,
+        "descent_full_search_key_collapse_rate_percent": 0.0,
+        "descent_z_component_collapses": 10672,
+        "descent_z_component_collapse_rate_percent": 35.57451915063835
+      },
+      {
+        "z_bin_m": 20.0,
+        "climb_successors": 2770,
+        "climb_full_search_key_collapses": 0,
+        "climb_full_search_key_collapse_rate_percent": 0.0,
+        "climb_z_component_collapses": 2245,
+        "climb_z_component_collapse_rate_percent": 81.04693140794224,
+        "descent_successors": 29999,
+        "descent_full_search_key_collapses": 0,
+        "descent_full_search_key_collapse_rate_percent": 0.0,
+        "descent_z_component_collapses": 20224,
+        "descent_z_component_collapse_rate_percent": 67.41558051935064
+      },
+      {
+        "z_bin_m": 50.0,
+        "climb_successors": 2770,
+        "climb_full_search_key_collapses": 0,
+        "climb_full_search_key_collapse_rate_percent": 0.0,
+        "climb_z_component_collapses": 2350,
+        "climb_z_component_collapse_rate_percent": 84.83754512635379,
+        "descent_successors": 29999,
+        "descent_full_search_key_collapses": 0,
+        "descent_full_search_key_collapse_rate_percent": 0.0,
+        "descent_z_component_collapses": 25609,
+        "descent_z_component_collapse_rate_percent": 85.36617887262909
+      },
+      {
+        "z_bin_m": 100.0,
+        "climb_successors": 2770,
+        "climb_full_search_key_collapses": 0,
+        "climb_full_search_key_collapse_rate_percent": 0.0,
+        "climb_z_component_collapses": 2516,
+        "climb_z_component_collapse_rate_percent": 90.83032490974729,
+        "descent_successors": 29999,
+        "descent_full_search_key_collapses": 0,
+        "descent_full_search_key_collapse_rate_percent": 0.0,
+        "descent_z_component_collapses": 27661,
+        "descent_z_component_collapse_rate_percent": 92.20640688022934
+      }
+    ]
+  },
+  "structure_classification": "SAME",
+  "conclusion": "EUCLIDEAN VS VERTICAL STRUCTURE: **SAME**. 5M Z REDUNDANCY: **LOW** (2.03% of expanded representatives are directional obvious-worse states). Z-DOMINANCE POTENTIAL: **LOW**: the pair screen is only a local candidate test, and terrain ahead is not inferable from a shared XY/heading bucket. COARSER Z RISK: **HIGH from 10 m**: actual vertical progress loses its Z component on 57.49% of climbs and 35.57% of descents; even 5 m loses 27.03% of climb steps. Thus 10/20/50/100 m could reduce offline state count but are not shown safe alternatives. The literal full SearchKey transition collapse remains zero because every tested straight primitive also advances horizontally. Vertical heuristic changes conclusion: **NO**."
+}

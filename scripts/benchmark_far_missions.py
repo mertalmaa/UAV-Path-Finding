@@ -1,28 +1,35 @@
-"""Run and plot distant real-terrain pose-aware fixed-wing benchmarks.
+"""Run and optionally plot ad-hoc distant pose-aware fixed-wing benchmarks.
 
 The missions deliberately use roughly 3 km physical separation, substantially
 larger than the local Mission A/B corner window.  Their explicit ROI-entry
 cruise altitude is a mission initial condition, not a planner tuning knob.
+For canonical controlled BASIC-vs-COMBINED A--F evidence, use
+``scripts.benchmark_pose_aware_af`` instead.
 """
 from __future__ import annotations
 
 import argparse
 import json
 import math
+import sys
 from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 
-from planner.aircraft_profile import load_aircraft_profile
+from planner.fixed_wing_envelope import FixedWingKinematicEnvelope
 from planner.physical import PhysicalPose
 from planner.pose_search import GoalPose, navigation_bearing_deg, pose_aware_astar_search
 from planner.roi import load_roi
 from planner.terrain_cache import build_terrain_query_from_cache, load_terrain_cache
 from scripts.benchmark_missions import (
-    CACHE_DIR, CONFIG, GOAL_TOLERANCE, PROFILE_PATH, ROOT, SOURCE_DEM_PATH,
+    CACHE_DIR, CONFIG, GOAL_TOLERANCE, SOURCE_DEM_PATH,
 )
 
 
@@ -47,14 +54,14 @@ FAR_MISSIONS = {
 }
 
 
-def _run_one(name: str, definition: dict, terrain, profile):
+def _run_one(name: str, definition: dict, terrain, envelope):
     sx, sy = terrain.rowcol_to_xy(*definition["start_rc"])
     gx, gy = terrain.rowcol_to_xy(*definition["goal_rc"])
     heading = navigation_bearing_deg(sx, sy, gx, gy)
     start = PhysicalPose(sx, sy, definition["z_msl_m"], heading)
     goal = GoalPose(gx, gy, definition.get("goal_z_msl_m", definition["z_msl_m"]))
     result = pose_aware_astar_search(
-        start, goal, terrain, profile, goal_tolerance=GOAL_TOLERANCE, config=CONFIG,
+        start, goal, terrain, envelope=envelope, goal_tolerance=GOAL_TOLERANCE, config=CONFIG,
         max_expansions=30_000, max_search_time_s=300.0,
     )
     separation = math.hypot(gx - sx, gy - sy)
@@ -72,7 +79,12 @@ def _run_one(name: str, definition: dict, terrain, profile):
                      "rejected_existing_better": result.same_key_rejected_existing_better,
                      "self_transitions": result.same_key_self_transition_count,
                      "self_transitions_by_primitive": result.same_key_self_transition_by_primitive},
-        "reject_reasons": result.rejected_reason_counts, "primitive_counts": result.primitive_counts,
+        "reject_reasons": result.rejected_reason_counts,
+        "search_statistics": {
+            "generated_by_primitive": result.generated_by_primitive,
+            "open_inserted_by_primitive": result.open_inserted_by_primitive,
+            "expanded_arrivals_by_primitive": result.expanded_arrivals_by_primitive,
+        },
         "best_xy_distance_to_goal_m": result.closest_xy_distance_to_goal_m,
         "best_3d_distance_to_goal_m": result.closest_3d_distance_to_goal_m,
         "maximum_altitude_msl_m": result.maximum_altitude_msl_m,
@@ -81,10 +93,8 @@ def _run_one(name: str, definition: dict, terrain, profile):
             "continuous_length_m": result.continuous_path_length_m,
             "segments": len(result.trajectories), "goal_xy_error_m": result.goal_xy_error_m,
             "goal_z_error_m": result.goal_z_error_m, "final_heading_deg": result.final_heading_deg,
-            "left_turn_count": sum(node.incoming_primitive == "LEFT_LEVEL_TURN" for node in result.nodes),
-            "right_turn_count": sum(node.incoming_primitive == "RIGHT_LEVEL_TURN" for node in result.nodes),
-            "climb_count": sum(node.incoming_primitive == "STRAIGHT_CLIMB" for node in result.nodes),
-            "descent_count": sum(node.incoming_primitive == "STRAIGHT_DESCENT" for node in result.nodes),
+            "primitives": list(result.path_primitives),
+            "primitive_counts": result.path_primitive_counts,
         },
         "best_partial_path": None if result.success else {
             "continuous_length_m": sum(trajectory.horizontal_arc_length_m for node in result.best_nodes[1:]
@@ -108,7 +118,9 @@ def _plot(results, terrain, path: Path) -> None:
     elevations = terrain.roi.elevation
     primitive_colors = {"STRAIGHT_LEVEL": "#0072B2", "LEFT_LEVEL_TURN": "#E69F00",
                         "RIGHT_LEVEL_TURN": "#CC79A7", "STRAIGHT_CLIMB": "#009E73",
-                        "STRAIGHT_DESCENT": "#D55E00"}
+                        "STRAIGHT_DESCENT": "#D55E00",
+                        "CLIMBING_LEFT_TURN": "#009E73", "CLIMBING_RIGHT_TURN": "#009E73",
+                        "DESCENDING_LEFT_TURN": "#D55E00", "DESCENDING_RIGHT_TURN": "#D55E00"}
     terrain_image = None
     for axis, (payload, result, start, goal) in zip(axes, results):
         terrain_image = axis.imshow(elevations, extent=(xmin, xmax, ymin, ymax), origin="upper", cmap="terrain", alpha=0.82)
@@ -123,7 +135,6 @@ def _plot(results, terrain, path: Path) -> None:
                           color=primitive_colors[node.incoming_primitive], linewidth=2.4, zorder=3)
         axis.scatter(start.x_m, start.y_m, marker="o", s=65, c="#00a651", edgecolors="black", label="Start", zorder=4)
         axis.scatter(goal.x_m, goal.y_m, marker="*", s=140, c="#d62728", edgecolors="black", label="Goal", zorder=4)
-        # Heading arrow exposes the navigation-oriented initial physical pose.
         arrow_length = 180.0
         heading_rad = math.radians(start.heading_deg)
         axis.quiver(start.x_m, start.y_m, arrow_length * math.sin(heading_rad), arrow_length * math.cos(heading_rad),
@@ -147,15 +158,17 @@ def _plot(results, terrain, path: Path) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--mission", choices=("all", *FAR_MISSIONS), default="all")
-    parser.add_argument("--output-json", type=Path, default=ROOT / "results" / "far_pose_aware_benchmark.json")
-    parser.add_argument("--output-plot", type=Path, default=ROOT / "results" / "far_pose_aware_trajectories.png")
+    parser.add_argument("--output-json", type=Path,
+                        help="optional JSON destination; canonical A--F results use benchmark_pose_aware_af")
+    parser.add_argument("--output-plot", type=Path,
+                        help="optional plot destination; canonical A--F results use benchmark_pose_aware_af")
     args = parser.parse_args()
     terrain = build_terrain_query_from_cache(
         load_terrain_cache(CACHE_DIR, load_roi(CONFIG), SOURCE_DEM_PATH), load_roi(CONFIG), 2
     )
-    profile = load_aircraft_profile(PROFILE_PATH)
+    envelope = FixedWingKinematicEnvelope()
     selected = FAR_MISSIONS.items() if args.mission == "all" else ((args.mission, FAR_MISSIONS[args.mission]),)
-    runs = [_run_one(name, definition, terrain, profile) for name, definition in selected]
+    runs = [_run_one(name, definition, terrain, envelope) for name, definition in selected]
     payload = {
         "architecture": "pose_aware_fixed_wing_single_representative_approximate_search",
         "speed_mps": 40.0, "effective_min_agl_m": CONFIG.min_agl_m,
@@ -164,10 +177,13 @@ def main() -> None:
                        "heading_deg": CONFIG.search_heading_bin_deg},
         "missions": {entry[0]["name"]: entry[0] for entry in runs},
     }
-    args.output_json.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
-    _plot(runs, terrain, args.output_plot)
+    if args.output_json is not None:
+        args.output_json.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+    if args.output_plot is not None:
+        _plot(runs, terrain, args.output_plot)
     print(json.dumps(payload, indent=2))
-    print(f"plot: {args.output_plot}")
+    if args.output_plot is not None:
+        print(f"plot: {args.output_plot}")
 
 
 if __name__ == "__main__":

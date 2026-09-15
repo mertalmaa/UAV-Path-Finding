@@ -1,0 +1,365 @@
+{
+  "1_western_valley_descent": {
+    "status": "FOUND",
+    "success": true,
+    "expansions": 4663,
+    "generated": 23310,
+    "peak_open": 3104,
+    "runtime_s": 2.4740655000023253,
+    "path_length_m": 3296.147480633377,
+    "min_agl_m": 112.94087998507757,
+    "mean_agl_m": 156.04164062748836,
+    "median_agl_m": 146.56031791814485,
+    "p90_agl_m": 219.87404785035142,
+    "goal_xy_error_m": 19.152938994677022,
+    "goal_z_error_m": 26.579925389229174,
+    "all_safe": true,
+    "min_verified_agl_m": 112.13280295811046,
+    "primitive_count": 49,
+    "primitive_counts": {
+      "STRAIGHT_DESCENT": 44,
+      "LEFT_LEVEL_TURN": 2,
+      "RIGHT_LEVEL_TURN": 2,
+      "STRAIGHT_LEVEL": 1
+    },
+    "first_pose": {
+      "x_m": 684440.843569939,
+      "y_m": 4186948.055558809,
+      "z_msl_m": 2174.806640625,
+      "heading_deg": 0.0
+    },
+    "last_pose": {
+      "x_m": 684440.1461602361,
+      "y_m": 4190228.9153213017,
+      "z_msl_m": 1961.4611509751667,
+      "heading_deg": 0.0
+    }
+  },
+  "2_western_valley_reverse_climb": {
+    "status": "FAIL",
+    "success": false,
+    "expansions": 783,
+    "generated": 3915,
+    "peak_open": 255,
+    "runtime_s": 0.48468009999851347,
+    "path_length_m": 0.0,
+    "min_agl_m": NaN,
+    "mean_agl_m": NaN,
+    "median_agl_m": NaN,
+    "p90_agl_m": NaN,
+    "goal_xy_error_m": NaN,
+    "goal_z_error_m": NaN,
+    "all_safe": false,
+    "min_verified_agl_m": NaN,
+    "primitive_count": 0,
+    "primitive_counts": {},
+    "first_pose": null,
+    "last_pose": null
+  },
+  "3_second_valley_mission": {
+    "status": "FAIL",
+    "success": false,
+    "expansions": 2,
+    "generated": 10,
+    "peak_open": 1,
+    "runtime_s": 0.14010390000112238,
+    "path_length_m": 0.0,
+    "min_agl_m": NaN,
+    "mean_agl_m": NaN,
+    "median_agl_m": NaN,
+    "p90_agl_m": NaN,
+    "goal_xy_error_m": NaN,
+    "goal_z_error_m": NaN,
+    "all_safe": false,
+    "min_verified_agl_m": NaN,
+    "primitive_count": 0,
+    "primitive_counts": {},
+    "first_pose": null,
+    "last_pose": null
+  },
+  "4_lateral_detour_ridge": {
+    "status": "FAIL",
+    "success": false,
+    "expansions": 2,
+    "generated": 10,
+    "peak_open": 1,
+    "runtime_s": 0.14233170000079554,
+    "path_length_m": 0.0,
+    "min_agl_m": NaN,
+    "mean_agl_m": NaN,
+    "median_agl_m": NaN,
+    "p90_agl_m": NaN,
+    "goal_xy_error_m": NaN,
+    "goal_z_error_m": NaN,
+    "all_safe": false,
+    "min_verified_agl_m": NaN,
+    "primitive_count": 0,
+    "primitive_counts": {},
+    "first_pose": null,
+    "last_pose": null,
+    "direct_xy_distance_m": 2830.1943396169813,
+    "max_lateral_deviation_m": 0.0
+  },
+  "5_canonical_regression": {
+    "A_easy_open": {
+      "new_planner": {
+        "status": "FOUND",
+        "success": true,
+        "expansions": 697,
+        "generated": 3480,
+        "peak_open": 916,
+        "runtime_s": 0.47359050000159186,
+        "path_length_m": 1170.701058010965,
+        "min_agl_m": 161.710205078125,
+        "mean_agl_m": 237.13405872436354,
+        "median_agl_m": 229.483642578125,
+        "p90_agl_m": 311.484130859375,
+        "goal_xy_error_m": 33.0813242653326,
+        "goal_z_error_m": 6.343074381360566,
+        "all_safe": true,
+        "min_verified_agl_m": 161.710205078125,
+        "primitive_count": 14,
+        "primitive_counts": {
+          "RIGHT_LEVEL_TURN": 1,
+          "LEFT_LEVEL_TURN": 2,
+          "STRAIGHT_LEVEL": 10,
+          "STRAIGHT_DESCENT": 1
+        },
+        "first_pose": {
+          "x_m": 688520.843569939,
+          "y_m": 4187068.055558809,
+          "z_msl_m": 3500.0,
+          "heading_deg": 180.0
+        },
+        "last_pose": {
+          "x_m": 688498.6821964459,
+          "y_m": 4185903.4944607057,
+          "z_msl_m": 3493.6569256186394,
+          "heading_deg": 165.0
+        }
+      },
+      "baseline": {
+        "status": "FOUND",
+        "expansions": 19,
+        "generated": 90,
+        "peak_open": 37,
+        "runtime_s": 0.007489299998269416,
+        "path_length_m": 1080.0,
+        "min_agl_m": 134.65283203125,
+        "mean_agl_m": 204.6269763764881,
+        "goal_xy_error_m": 60.0,
+        "goal_z_error_m": 0.0,
+        "all_safe": true
+      }
+    },
+    "B_relief_affected": {
+      "new_planner": {
+        "status": "FOUND",
+        "success": true,
+        "expansions": 316,
+        "generated": 1575,
+        "peak_open": 284,
+        "runtime_s": 0.28527720000056433,
+        "path_length_m": 1900.0834441750496,
+        "min_agl_m": 104.22705078125,
+        "mean_agl_m": 208.5091894068424,
+        "median_agl_m": 194.400634765625,
+        "p90_agl_m": 259.18017578125,
+        "goal_xy_error_m": 89.25937786313287,
+        "goal_z_error_m": 0.0,
+        "all_safe": true,
+        "min_verified_agl_m": 104.22705078125,
+        "primitive_count": 13,
+        "primitive_counts": {
+          "RIGHT_LEVEL_TURN": 3,
+          "STRAIGHT_LEVEL": 3,
+          "LEFT_LEVEL_TURN": 7
+        },
+        "first_pose": {
+          "x_m": 688520.843569939,
+          "y_m": 4187068.055558809,
+          "z_msl_m": 3600.0,
+          "heading_deg": 135.0
+        },
+        "last_pose": {
+          "x_m": 689598.31949484,
+          "y_m": 4185864.3533094805,
+          "z_msl_m": 3600.0,
+          "heading_deg": 75.0
+        }
+      },
+      "baseline": {
+        "status": "FOUND",
+        "expansions": 122,
+        "generated": 605,
+        "peak_open": 86,
+        "runtime_s": 0.05576880000080564,
+        "path_length_m": 1960.0834441750171,
+        "min_agl_m": 100.19384765625,
+        "mean_agl_m": 206.19449160514623,
+        "goal_xy_error_m": 79.23284371775136,
+        "goal_z_error_m": 0.0,
+        "all_safe": true
+      }
+    },
+    "C_far_south_3km": {
+      "new_planner": {
+        "status": "FAIL",
+        "success": false,
+        "expansions": 30000,
+        "generated": 150000,
+        "peak_open": 21423,
+        "runtime_s": 15.045917100000224,
+        "path_length_m": 0.0,
+        "min_agl_m": NaN,
+        "mean_agl_m": NaN,
+        "median_agl_m": NaN,
+        "p90_agl_m": NaN,
+        "goal_xy_error_m": NaN,
+        "goal_z_error_m": NaN,
+        "all_safe": false,
+        "min_verified_agl_m": NaN,
+        "primitive_count": 0,
+        "primitive_counts": {},
+        "first_pose": null,
+        "last_pose": null
+      },
+      "baseline": {
+        "status": "FOUND",
+        "expansions": 50,
+        "generated": 245,
+        "peak_open": 99,
+        "runtime_s": 0.022800700000516372,
+        "path_length_m": 2940.0,
+        "min_agl_m": 303.051025390625,
+        "mean_agl_m": 530.7026723077624,
+        "goal_xy_error_m": 60.0,
+        "goal_z_error_m": 0.0,
+        "all_safe": true
+      }
+    },
+    "D_far_east_3km": {
+      "new_planner": {
+        "status": "FAIL",
+        "success": false,
+        "expansions": 30000,
+        "generated": 150000,
+        "peak_open": 18081,
+        "runtime_s": 14.631114399999205,
+        "path_length_m": 0.0,
+        "min_agl_m": NaN,
+        "mean_agl_m": NaN,
+        "median_agl_m": NaN,
+        "p90_agl_m": NaN,
+        "goal_xy_error_m": NaN,
+        "goal_z_error_m": NaN,
+        "all_safe": false,
+        "min_verified_agl_m": NaN,
+        "primitive_count": 0,
+        "primitive_counts": {},
+        "first_pose": null,
+        "last_pose": null
+      },
+      "baseline": {
+        "status": "FOUND",
+        "expansions": 50,
+        "generated": 245,
+        "peak_open": 99,
+        "runtime_s": 0.022840800000267336,
+        "path_length_m": 2940.0,
+        "min_agl_m": 228.1337890625,
+        "mean_agl_m": 445.7461037149235,
+        "goal_xy_error_m": 60.0,
+        "goal_z_error_m": 0.0,
+        "all_safe": true
+      }
+    },
+    "E_long_descent_9_3km": {
+      "new_planner": {
+        "status": "FAIL",
+        "success": false,
+        "expansions": 30000,
+        "generated": 150000,
+        "peak_open": 12338,
+        "runtime_s": 13.506441400000767,
+        "path_length_m": 0.0,
+        "min_agl_m": NaN,
+        "mean_agl_m": NaN,
+        "median_agl_m": NaN,
+        "p90_agl_m": NaN,
+        "goal_xy_error_m": NaN,
+        "goal_z_error_m": NaN,
+        "all_safe": false,
+        "min_verified_agl_m": NaN,
+        "primitive_count": 0,
+        "primitive_counts": {},
+        "first_pose": null,
+        "last_pose": null
+      },
+      "baseline": {
+        "status": "FOUND",
+        "expansions": 156,
+        "generated": 775,
+        "peak_open": 466,
+        "runtime_s": 0.06633059999876423,
+        "path_length_m": 9326.172082483412,
+        "min_agl_m": 469.87325571903057,
+        "mean_agl_m": 1211.0762763092175,
+        "goal_xy_error_m": 0.0,
+        "goal_z_error_m": 4.363551587838629,
+        "all_safe": true
+      }
+    },
+    "F_turn_required_diagonal_2_3km": {
+      "new_planner": {
+        "status": "FOUND",
+        "success": true,
+        "expansions": 3241,
+        "generated": 16200,
+        "peak_open": 1646,
+        "runtime_s": 1.6745317999993858,
+        "path_length_m": 2440.2499639037933,
+        "min_agl_m": 144.847900390625,
+        "mean_agl_m": 245.61341934161655,
+        "median_agl_m": 222.67626953125,
+        "p90_agl_m": 359.18017578125,
+        "goal_xy_error_m": 45.811281306816184,
+        "goal_z_error_m": 6.343074381360566,
+        "all_safe": true,
+        "min_verified_agl_m": 129.16064453125,
+        "primitive_count": 16,
+        "primitive_counts": {
+          "RIGHT_LEVEL_TURN": 7,
+          "LEFT_LEVEL_TURN": 6,
+          "STRAIGHT_DESCENT": 1,
+          "STRAIGHT_LEVEL": 2
+        },
+        "first_pose": {
+          "x_m": 688520.843569939,
+          "y_m": 4187068.055558809,
+          "z_msl_m": 3700.0,
+          "heading_deg": 135.0
+        },
+        "last_pose": {
+          "x_m": 690153.7942139427,
+          "y_m": 4185491.9981840705,
+          "z_msl_m": 3693.6569256186394,
+          "heading_deg": 150.0
+        }
+      },
+      "baseline": {
+        "status": "FOUND",
+        "expansions": 138,
+        "generated": 685,
+        "peak_open": 72,
+        "runtime_s": 0.0641356000014639,
+        "path_length_m": 2332.434801899971,
+        "min_agl_m": 102.61767578125,
+        "mean_agl_m": 238.7590710543847,
+        "goal_xy_error_m": 64.95109857505324,
+        "goal_z_error_m": 0.0,
+        "all_safe": true
+      }
+    }
+  }
+}

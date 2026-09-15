@@ -1,0 +1,3914 @@
+{
+  "task": "TERRAIN-GUIDANCE-1",
+  "diagnostic_only": true,
+  "hard_agl_m": 100.0,
+  "soft_agl_m": 120.0,
+  "horizons_m": [
+    1000.0,
+    3000.0,
+    5000.0
+  ],
+  "missions": {
+    "C_far_south_3km": {
+      "name": "C_far_south_3km",
+      "reference_status": "FOUND",
+      "reference_length_m": 2922.6448332624445,
+      "terrain_sample_spacing_m": 60.0,
+      "anchor_count": 50,
+      "horizons": {
+        "1000": {
+          "heading_ray_vs_reference_path_abs_difference_m": {
+            "count": 50,
+            "mean": 3.197425640667261,
+            "median": 0.0,
+            "p90": 0.3691999264615789,
+            "max": 76.16747332768819
+          },
+          "largest_disagreement": {
+            "distance_m": 1140.0,
+            "current_z_msl_m": 3800.0,
+            "terrain_msl_m": 3233.66845703125,
+            "heading_ray_status": "FULL",
+            "heading_ray_invalid_at_m": null,
+            "heading_ray_soft_msl_m": 3471.150285702788,
+            "heading_ray_hard_msl_m": 3451.150285702788,
+            "reference_soft_msl_m": 3547.3177590304763,
+            "reference_hard_msl_m": 3527.3177590304763,
+            "future_heading_change_deg": 8.333333333333343,
+            "future_turn_events": 10,
+            "abs_envelope_difference_m": 76.16747332768819
+          },
+          "heading_ray_validity": {
+            "FULL": 50
+          },
+          "heading_ray_classification": "GOOD",
+          "reference_preferred_agl_m": {
+            "count": 50,
+            "mean": 239.74434510841,
+            "median": 175.45817010974747,
+            "p90": 481.46192099385314,
+            "max": 521.0354122901872
+          },
+          "current_minus_reference_preferred_m": {
+            "mean_absolute": 291.1444204734603,
+            "above_100m_percent": 100.0,
+            "above_250m_percent": 60.0,
+            "above_500m_percent": 0.0
+          },
+          "raw_soft_climb_violations": 16,
+          "preferred_profile_feasibility": {
+            "climb_violations": 6,
+            "max_climb_excess_mps": 50.37570894502763,
+            "descent_violations": 15,
+            "max_descent_excess_mps": 21.550843011263623,
+            "max_required_descent_mps": 25.779559265503877,
+            "available_descent_at_violations_mps": [
+              4.218137762266384,
+              4.218137762266384,
+              4.218137762266384,
+              4.218137762266384,
+              4.228716254240256,
+              4.228716254240256,
+              4.228716254240256,
+              4.228716254240256,
+              4.218137762266384,
+              4.218137762266384,
+              4.218137762266384,
+              4.218137762266384,
+              4.218137762266384,
+              4.218137762266384,
+              4.218137762266384
+            ]
+          },
+          "profile": [
+            {
+              "distance_m": 0.0,
+              "terrain_msl_m": 3150.740478515625,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3453.1592972165863,
+              "preferred_hard_msl_m": 3433.1592972165863
+            },
+            {
+              "distance_m": 60.0,
+              "terrain_msl_m": 3200.971923828125,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3456.3780842918027,
+              "preferred_hard_msl_m": 3436.3780842918027
+            },
+            {
+              "distance_m": 120.0,
+              "terrain_msl_m": 3270.516357421875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3459.596871367019,
+              "preferred_hard_msl_m": 3439.596871367019
+            },
+            {
+              "distance_m": 180.0,
+              "terrain_msl_m": 3299.44091796875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3462.8156584422354,
+              "preferred_hard_msl_m": 3442.8156584422354
+            },
+            {
+              "distance_m": 240.0,
+              "terrain_msl_m": 3299.44091796875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3466.034445517452,
+              "preferred_hard_msl_m": 3446.034445517452
+            },
+            {
+              "distance_m": 300.0,
+              "terrain_msl_m": 3284.930419921875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3469.253232592668,
+              "preferred_hard_msl_m": 3449.253232592668
+            },
+            {
+              "distance_m": 360.0,
+              "terrain_msl_m": 3248.78515625,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3472.4720196678845,
+              "preferred_hard_msl_m": 3452.4720196678845
+            },
+            {
+              "distance_m": 420.0,
+              "terrain_msl_m": 3251.33251953125,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3475.690806743101,
+              "preferred_hard_msl_m": 3455.690806743101
+            },
+            {
+              "distance_m": 480.0,
+              "terrain_msl_m": 3285.09326171875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3478.9095938183173,
+              "preferred_hard_msl_m": 3458.9095938183173
+            },
+            {
+              "distance_m": 540.0,
+              "terrain_msl_m": 3322.391357421875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3482.1283808935336,
+              "preferred_hard_msl_m": 3462.1283808935336
+            },
+            {
+              "distance_m": 600.0,
+              "terrain_msl_m": 3365.34716796875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3485.34716796875,
+              "preferred_hard_msl_m": 3465.34716796875
+            },
+            {
+              "distance_m": 660.0,
+              "terrain_msl_m": 3363.2802734375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3483.2802734375,
+              "preferred_hard_msl_m": 3463.2802734375
+            },
+            {
+              "distance_m": 720.0,
+              "terrain_msl_m": 3363.2802734375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3483.2802734375,
+              "preferred_hard_msl_m": 3463.2802734375
+            },
+            {
+              "distance_m": 780.0,
+              "terrain_msl_m": 3348.626708984375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3468.626708984375,
+              "preferred_hard_msl_m": 3448.626708984375
+            },
+            {
+              "distance_m": 840.0,
+              "terrain_msl_m": 3324.881591796875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3444.881591796875,
+              "preferred_hard_msl_m": 3424.881591796875
+            },
+            {
+              "distance_m": 900.0,
+              "terrain_msl_m": 3305.69580078125,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3425.69580078125,
+              "preferred_hard_msl_m": 3405.69580078125
+            },
+            {
+              "distance_m": 960.0,
+              "terrain_msl_m": 3287.528564453125,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3407.528564453125,
+              "preferred_hard_msl_m": 3387.528564453125
+            },
+            {
+              "distance_m": 1020.0,
+              "terrain_msl_m": 3280.57080078125,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3424.0058924963937,
+              "preferred_hard_msl_m": 3404.0058924963937
+            },
+            {
+              "distance_m": 1080.0,
+              "terrain_msl_m": 3262.495361328125,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3468.5354085377185,
+              "preferred_hard_msl_m": 3448.5354085377185
+            },
+            {
+              "distance_m": 1140.0,
+              "terrain_msl_m": 3233.66845703125,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3547.3177590304763,
+              "preferred_hard_msl_m": 3527.3177590304763
+            },
+            {
+              "distance_m": 1200.0,
+              "terrain_msl_m": 3201.2314453125,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3562.995373195109,
+              "preferred_hard_msl_m": 3542.995373195109
+            },
+            {
+              "distance_m": 1260.0,
+              "terrain_msl_m": 3173.151611328125,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3565.1682094042976,
+              "preferred_hard_msl_m": 3545.1682094042976
+            },
+            {
+              "distance_m": 1320.0,
+              "terrain_msl_m": 3142.842529296875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3568.386996479514,
+              "preferred_hard_msl_m": 3548.386996479514
+            },
+            {
+              "distance_m": 1380.0,
+              "terrain_msl_m": 3129.022216796875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3571.6057835547304,
+              "preferred_hard_msl_m": 3551.6057835547304
+            },
+            {
+              "distance_m": 1440.0,
+              "terrain_msl_m": 3113.347412109375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3574.8245706299467,
+              "preferred_hard_msl_m": 3554.8245706299467
+            },
+            {
+              "distance_m": 1500.0,
+              "terrain_msl_m": 3103.0361328125,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3578.043357705163,
+              "preferred_hard_msl_m": 3558.043357705163
+            },
+            {
+              "distance_m": 1560.0,
+              "terrain_msl_m": 3092.337158203125,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3581.2621447803795,
+              "preferred_hard_msl_m": 3561.2621447803795
+            },
+            {
+              "distance_m": 1620.0,
+              "terrain_msl_m": 3079.3525390625,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3584.480931855596,
+              "preferred_hard_msl_m": 3564.480931855596
+            },
+            {
+              "distance_m": 1680.0,
+              "terrain_msl_m": 3066.664306640625,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3587.699718930812,
+              "preferred_hard_msl_m": 3567.699718930812
+            },
+            {
+              "distance_m": 1740.0,
+              "terrain_msl_m": 3070.0830078125,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3590.9185060060286,
+              "preferred_hard_msl_m": 3570.9185060060286
+            },
+            {
+              "distance_m": 1800.0,
+              "terrain_msl_m": 3075.072265625,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3594.137293081245,
+              "preferred_hard_msl_m": 3574.137293081245
+            },
+            {
+              "distance_m": 1860.0,
+              "terrain_msl_m": 3116.723388671875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3597.3560801564613,
+              "preferred_hard_msl_m": 3577.3560801564613
+            },
+            {
+              "distance_m": 1920.0,
+              "terrain_msl_m": 3227.363037109375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3600.5748672316777,
+              "preferred_hard_msl_m": 3580.5748672316777
+            },
+            {
+              "distance_m": 1980.0,
+              "terrain_msl_m": 3298.51806640625,
+              "current_z_msl_m": 3793.6569256186394,
+              "preferred_soft_msl_m": 3603.793654306894,
+              "preferred_hard_msl_m": 3583.793654306894
+            },
+            {
+              "distance_m": 2040.0,
+              "terrain_msl_m": 3357.65234375,
+              "current_z_msl_m": 3787.313851237279,
+              "preferred_soft_msl_m": 3607.0124413821104,
+              "preferred_hard_msl_m": 3587.0124413821104
+            },
+            {
+              "distance_m": 2108.239891839094,
+              "terrain_msl_m": 3402.65087890625,
+              "current_z_msl_m": 3787.313851237279,
+              "preferred_soft_msl_m": 3610.150293980194,
+              "preferred_hard_msl_m": 3590.150293980194
+            },
+            {
+              "distance_m": 2166.7312277011747,
+              "terrain_msl_m": 3481.352294921875,
+              "current_z_msl_m": 3787.313851237279,
+              "preferred_soft_msl_m": 3613.2881465782775,
+              "preferred_hard_msl_m": 3593.2881465782775
+            },
+            {
+              "distance_m": 2225.2225635632553,
+              "terrain_msl_m": 3496.948974609375,
+              "current_z_msl_m": 3787.313851237279,
+              "preferred_soft_msl_m": 3616.948974609375,
+              "preferred_hard_msl_m": 3596.948974609375
+            },
+            {
+              "distance_m": 2283.713899425336,
+              "terrain_msl_m": 3465.21630859375,
+              "current_z_msl_m": 3787.313851237279,
+              "preferred_soft_msl_m": 3585.21630859375,
+              "preferred_hard_msl_m": 3565.21630859375
+            },
+            {
+              "distance_m": 2342.2052352874166,
+              "terrain_msl_m": 3427.519287109375,
+              "current_z_msl_m": 3787.313851237279,
+              "preferred_soft_msl_m": 3547.519287109375,
+              "preferred_hard_msl_m": 3527.519287109375
+            },
+            {
+              "distance_m": 2400.6965711494972,
+              "terrain_msl_m": 3395.853271484375,
+              "current_z_msl_m": 3787.313851237279,
+              "preferred_soft_msl_m": 3515.853271484375,
+              "preferred_hard_msl_m": 3495.853271484375
+            },
+            {
+              "distance_m": 2468.9364629885913,
+              "terrain_msl_m": 3364.6513671875,
+              "current_z_msl_m": 3787.313851237279,
+              "preferred_soft_msl_m": 3484.6513671875,
+              "preferred_hard_msl_m": 3464.6513671875
+            },
+            {
+              "distance_m": 2527.427798850672,
+              "terrain_msl_m": 3334.31591796875,
+              "current_z_msl_m": 3787.313851237279,
+              "preferred_soft_msl_m": 3454.31591796875,
+              "preferred_hard_msl_m": 3434.31591796875
+            },
+            {
+              "distance_m": 2586.4220227587257,
+              "terrain_msl_m": 3337.550537109375,
+              "current_z_msl_m": 3787.313851237279,
+              "preferred_soft_msl_m": 3457.550537109375,
+              "preferred_hard_msl_m": 3437.550537109375
+            },
+            {
+              "distance_m": 2645.9191347127526,
+              "terrain_msl_m": 3316.2919921875,
+              "current_z_msl_m": 3787.313851237279,
+              "preferred_soft_msl_m": 3436.2919921875,
+              "preferred_hard_msl_m": 3416.2919921875
+            },
+            {
+              "distance_m": 2704.410470574833,
+              "terrain_msl_m": 3293.218017578125,
+              "current_z_msl_m": 3787.313851237279,
+              "preferred_soft_msl_m": 3413.218017578125,
+              "preferred_hard_msl_m": 3393.218017578125
+            },
+            {
+              "distance_m": 2762.901806436914,
+              "terrain_msl_m": 3268.9521484375,
+              "current_z_msl_m": 3787.313851237279,
+              "preferred_soft_msl_m": 3388.9521484375,
+              "preferred_hard_msl_m": 3368.9521484375
+            },
+            {
+              "distance_m": 2821.8960303449676,
+              "terrain_msl_m": 3238.670654296875,
+              "current_z_msl_m": 3787.313851237279,
+              "preferred_soft_msl_m": 3358.670654296875,
+              "preferred_hard_msl_m": 3338.670654296875
+            },
+            {
+              "distance_m": 2881.8960303449676,
+              "terrain_msl_m": 3223.884033203125,
+              "current_z_msl_m": 3788.386780262351,
+              "preferred_soft_msl_m": 3343.884033203125,
+              "preferred_hard_msl_m": 3323.884033203125
+            },
+            {
+              "distance_m": 2921.8960303449676,
+              "terrain_msl_m": 3208.04052734375,
+              "current_z_msl_m": 3790.5326383124952,
+              "preferred_soft_msl_m": 3328.04052734375,
+              "preferred_hard_msl_m": 3308.04052734375
+            }
+          ]
+        },
+        "3000": {
+          "heading_ray_vs_reference_path_abs_difference_m": {
+            "count": 44,
+            "mean": 0.24147726264954433,
+            "median": 0.28017200161548317,
+            "p90": 0.28017200161548317,
+            "max": 0.4420409558811116
+          },
+          "largest_disagreement": {
+            "distance_m": 2166.7312277011747,
+            "current_z_msl_m": 3787.313851237279,
+            "terrain_msl_m": 3481.352294921875,
+            "heading_ray_status": "FULL",
+            "heading_ray_invalid_at_m": null,
+            "heading_ray_soft_msl_m": 3613.7301875341586,
+            "heading_ray_hard_msl_m": 3593.7301875341586,
+            "reference_soft_msl_m": 3613.2881465782775,
+            "reference_hard_msl_m": 3593.2881465782775,
+            "future_heading_change_deg": 49.16666666666666,
+            "future_turn_events": 59,
+            "abs_envelope_difference_m": 0.4420409558811116
+          },
+          "heading_ray_validity": {
+            "FULL": 44,
+            "PARTIAL": 6
+          },
+          "heading_ray_classification": "GOOD",
+          "reference_preferred_agl_m": {
+            "count": 50,
+            "mean": 264.68553267732193,
+            "median": 235.8628066305232,
+            "p90": 481.46192099385314,
+            "max": 521.0354122901872
+          },
+          "current_minus_reference_preferred_m": {
+            "mean_absolute": 266.2032329045484,
+            "above_100m_percent": 100.0,
+            "above_250m_percent": 54.0,
+            "above_500m_percent": 0.0
+          },
+          "raw_soft_climb_violations": 16,
+          "preferred_profile_feasibility": {
+            "climb_violations": 2,
+            "max_climb_excess_mps": 0.35764300835748886,
+            "descent_violations": 11,
+            "max_descent_excess_mps": 21.550843011263623,
+            "max_required_descent_mps": 25.779559265503877,
+            "available_descent_at_violations_mps": [
+              4.228716254240256,
+              4.228716254240256,
+              4.228716254240256,
+              4.228716254240256,
+              4.218137762266384,
+              4.218137762266384,
+              4.218137762266384,
+              4.218137762266384,
+              4.218137762266384,
+              4.218137762266384,
+              4.218137762266384
+            ]
+          },
+          "profile": [
+            {
+              "distance_m": 0.0,
+              "terrain_msl_m": 3150.740478515625,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3497.573680824754,
+              "preferred_hard_msl_m": 3477.573680824754
+            },
+            {
+              "distance_m": 60.0,
+              "terrain_msl_m": 3200.971923828125,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3500.7924678999702,
+              "preferred_hard_msl_m": 3480.7924678999702
+            },
+            {
+              "distance_m": 120.0,
+              "terrain_msl_m": 3270.516357421875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3504.0112549751866,
+              "preferred_hard_msl_m": 3484.0112549751866
+            },
+            {
+              "distance_m": 180.0,
+              "terrain_msl_m": 3299.44091796875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3507.230042050403,
+              "preferred_hard_msl_m": 3487.230042050403
+            },
+            {
+              "distance_m": 240.0,
+              "terrain_msl_m": 3299.44091796875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3510.4488291256193,
+              "preferred_hard_msl_m": 3490.4488291256193
+            },
+            {
+              "distance_m": 300.0,
+              "terrain_msl_m": 3284.930419921875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3513.6676162008357,
+              "preferred_hard_msl_m": 3493.6676162008357
+            },
+            {
+              "distance_m": 360.0,
+              "terrain_msl_m": 3248.78515625,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3516.886403276052,
+              "preferred_hard_msl_m": 3496.886403276052
+            },
+            {
+              "distance_m": 420.0,
+              "terrain_msl_m": 3251.33251953125,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3520.1051903512684,
+              "preferred_hard_msl_m": 3500.1051903512684
+            },
+            {
+              "distance_m": 480.0,
+              "terrain_msl_m": 3285.09326171875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3523.323977426485,
+              "preferred_hard_msl_m": 3503.323977426485
+            },
+            {
+              "distance_m": 540.0,
+              "terrain_msl_m": 3322.391357421875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3526.542764501701,
+              "preferred_hard_msl_m": 3506.542764501701
+            },
+            {
+              "distance_m": 600.0,
+              "terrain_msl_m": 3365.34716796875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3529.7615515769176,
+              "preferred_hard_msl_m": 3509.7615515769176
+            },
+            {
+              "distance_m": 660.0,
+              "terrain_msl_m": 3363.2802734375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3532.980338652134,
+              "preferred_hard_msl_m": 3512.980338652134
+            },
+            {
+              "distance_m": 720.0,
+              "terrain_msl_m": 3363.2802734375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3536.1991257273503,
+              "preferred_hard_msl_m": 3516.1991257273503
+            },
+            {
+              "distance_m": 780.0,
+              "terrain_msl_m": 3348.626708984375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3539.4179128025667,
+              "preferred_hard_msl_m": 3519.4179128025667
+            },
+            {
+              "distance_m": 840.0,
+              "terrain_msl_m": 3324.881591796875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3542.636699877783,
+              "preferred_hard_msl_m": 3522.636699877783
+            },
+            {
+              "distance_m": 900.0,
+              "terrain_msl_m": 3305.69580078125,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3545.8554869529994,
+              "preferred_hard_msl_m": 3525.8554869529994
+            },
+            {
+              "distance_m": 960.0,
+              "terrain_msl_m": 3287.528564453125,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3549.0742740282158,
+              "preferred_hard_msl_m": 3529.0742740282158
+            },
+            {
+              "distance_m": 1020.0,
+              "terrain_msl_m": 3280.57080078125,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3552.293061103432,
+              "preferred_hard_msl_m": 3532.293061103432
+            },
+            {
+              "distance_m": 1080.0,
+              "terrain_msl_m": 3262.495361328125,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3555.5118481786485,
+              "preferred_hard_msl_m": 3535.5118481786485
+            },
+            {
+              "distance_m": 1140.0,
+              "terrain_msl_m": 3233.66845703125,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3558.730635253865,
+              "preferred_hard_msl_m": 3538.730635253865
+            },
+            {
+              "distance_m": 1200.0,
+              "terrain_msl_m": 3201.2314453125,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3561.9494223290812,
+              "preferred_hard_msl_m": 3541.9494223290812
+            },
+            {
+              "distance_m": 1260.0,
+              "terrain_msl_m": 3173.151611328125,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3565.1682094042976,
+              "preferred_hard_msl_m": 3545.1682094042976
+            },
+            {
+              "distance_m": 1320.0,
+              "terrain_msl_m": 3142.842529296875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3568.386996479514,
+              "preferred_hard_msl_m": 3548.386996479514
+            },
+            {
+              "distance_m": 1380.0,
+              "terrain_msl_m": 3129.022216796875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3571.6057835547304,
+              "preferred_hard_msl_m": 3551.6057835547304
+            },
+            {
+              "distance_m": 1440.0,
+              "terrain_msl_m": 3113.347412109375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3574.8245706299467,
+              "preferred_hard_msl_m": 3554.8245706299467
+            },
+            {
+              "distance_m": 1500.0,
+              "terrain_msl_m": 3103.0361328125,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3578.043357705163,
+              "preferred_hard_msl_m": 3558.043357705163
+            },
+            {
+              "distance_m": 1560.0,
+              "terrain_msl_m": 3092.337158203125,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3581.2621447803795,
+              "preferred_hard_msl_m": 3561.2621447803795
+            },
+            {
+              "distance_m": 1620.0,
+              "terrain_msl_m": 3079.3525390625,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3584.480931855596,
+              "preferred_hard_msl_m": 3564.480931855596
+            },
+            {
+              "distance_m": 1680.0,
+              "terrain_msl_m": 3066.664306640625,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3587.699718930812,
+              "preferred_hard_msl_m": 3567.699718930812
+            },
+            {
+              "distance_m": 1740.0,
+              "terrain_msl_m": 3070.0830078125,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3590.9185060060286,
+              "preferred_hard_msl_m": 3570.9185060060286
+            },
+            {
+              "distance_m": 1800.0,
+              "terrain_msl_m": 3075.072265625,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3594.137293081245,
+              "preferred_hard_msl_m": 3574.137293081245
+            },
+            {
+              "distance_m": 1860.0,
+              "terrain_msl_m": 3116.723388671875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3597.3560801564613,
+              "preferred_hard_msl_m": 3577.3560801564613
+            },
+            {
+              "distance_m": 1920.0,
+              "terrain_msl_m": 3227.363037109375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3600.5748672316777,
+              "preferred_hard_msl_m": 3580.5748672316777
+            },
+            {
+              "distance_m": 1980.0,
+              "terrain_msl_m": 3298.51806640625,
+              "current_z_msl_m": 3793.6569256186394,
+              "preferred_soft_msl_m": 3603.793654306894,
+              "preferred_hard_msl_m": 3583.793654306894
+            },
+            {
+              "distance_m": 2040.0,
+              "terrain_msl_m": 3357.65234375,
+              "current_z_msl_m": 3787.313851237279,
+              "preferred_soft_msl_m": 3607.0124413821104,
+              "preferred_hard_msl_m": 3587.0124413821104
+            },
+            {
+              "distance_m": 2108.239891839094,
+              "terrain_msl_m": 3402.65087890625,
+              "current_z_msl_m": 3787.313851237279,
+              "preferred_soft_msl_m": 3610.150293980194,
+              "preferred_hard_msl_m": 3590.150293980194
+            },
+            {
+              "distance_m": 2166.7312277011747,
+              "terrain_msl_m": 3481.352294921875,
+              "current_z_msl_m": 3787.313851237279,
+              "preferred_soft_msl_m": 3613.2881465782775,
+              "preferred_hard_msl_m": 3593.2881465782775
+            },
+            {
+              "distance_m": 2225.2225635632553,
+              "terrain_msl_m": 3496.948974609375,
+              "current_z_msl_m": 3787.313851237279,
+              "preferred_soft_msl_m": 3616.948974609375,
+              "preferred_hard_msl_m": 3596.948974609375
+            },
+            {
+              "distance_m": 2283.713899425336,
+              "terrain_msl_m": 3465.21630859375,
+              "current_z_msl_m": 3787.313851237279,
+              "preferred_soft_msl_m": 3585.21630859375,
+              "preferred_hard_msl_m": 3565.21630859375
+            },
+            {
+              "distance_m": 2342.2052352874166,
+              "terrain_msl_m": 3427.519287109375,
+              "current_z_msl_m": 3787.313851237279,
+              "preferred_soft_msl_m": 3547.519287109375,
+              "preferred_hard_msl_m": 3527.519287109375
+            },
+            {
+              "distance_m": 2400.6965711494972,
+              "terrain_msl_m": 3395.853271484375,
+              "current_z_msl_m": 3787.313851237279,
+              "preferred_soft_msl_m": 3515.853271484375,
+              "preferred_hard_msl_m": 3495.853271484375
+            },
+            {
+              "distance_m": 2468.9364629885913,
+              "terrain_msl_m": 3364.6513671875,
+              "current_z_msl_m": 3787.313851237279,
+              "preferred_soft_msl_m": 3484.6513671875,
+              "preferred_hard_msl_m": 3464.6513671875
+            },
+            {
+              "distance_m": 2527.427798850672,
+              "terrain_msl_m": 3334.31591796875,
+              "current_z_msl_m": 3787.313851237279,
+              "preferred_soft_msl_m": 3454.31591796875,
+              "preferred_hard_msl_m": 3434.31591796875
+            },
+            {
+              "distance_m": 2586.4220227587257,
+              "terrain_msl_m": 3337.550537109375,
+              "current_z_msl_m": 3787.313851237279,
+              "preferred_soft_msl_m": 3457.550537109375,
+              "preferred_hard_msl_m": 3437.550537109375
+            },
+            {
+              "distance_m": 2645.9191347127526,
+              "terrain_msl_m": 3316.2919921875,
+              "current_z_msl_m": 3787.313851237279,
+              "preferred_soft_msl_m": 3436.2919921875,
+              "preferred_hard_msl_m": 3416.2919921875
+            },
+            {
+              "distance_m": 2704.410470574833,
+              "terrain_msl_m": 3293.218017578125,
+              "current_z_msl_m": 3787.313851237279,
+              "preferred_soft_msl_m": 3413.218017578125,
+              "preferred_hard_msl_m": 3393.218017578125
+            },
+            {
+              "distance_m": 2762.901806436914,
+              "terrain_msl_m": 3268.9521484375,
+              "current_z_msl_m": 3787.313851237279,
+              "preferred_soft_msl_m": 3388.9521484375,
+              "preferred_hard_msl_m": 3368.9521484375
+            },
+            {
+              "distance_m": 2821.8960303449676,
+              "terrain_msl_m": 3238.670654296875,
+              "current_z_msl_m": 3787.313851237279,
+              "preferred_soft_msl_m": 3358.670654296875,
+              "preferred_hard_msl_m": 3338.670654296875
+            },
+            {
+              "distance_m": 2881.8960303449676,
+              "terrain_msl_m": 3223.884033203125,
+              "current_z_msl_m": 3788.386780262351,
+              "preferred_soft_msl_m": 3343.884033203125,
+              "preferred_hard_msl_m": 3323.884033203125
+            },
+            {
+              "distance_m": 2921.8960303449676,
+              "terrain_msl_m": 3208.04052734375,
+              "current_z_msl_m": 3790.5326383124952,
+              "preferred_soft_msl_m": 3328.04052734375,
+              "preferred_hard_msl_m": 3308.04052734375
+            }
+          ]
+        },
+        "5000": {
+          "heading_ray_vs_reference_path_abs_difference_m": {
+            "count": 10,
+            "mean": 0.28017200161548317,
+            "median": 0.28017200161548317,
+            "p90": 0.28017200161548317,
+            "max": 0.28017200161548317
+          },
+          "largest_disagreement": {
+            "distance_m": 0.0,
+            "current_z_msl_m": 3800.0,
+            "terrain_msl_m": 3150.740478515625,
+            "heading_ray_status": "FULL",
+            "heading_ray_invalid_at_m": null,
+            "heading_ray_soft_msl_m": 3497.8538528263693,
+            "heading_ray_hard_msl_m": 3477.8538528263693,
+            "reference_soft_msl_m": 3497.573680824754,
+            "reference_hard_msl_m": 3477.573680824754,
+            "future_heading_change_deg": 60.0,
+            "future_turn_events": 72,
+            "abs_envelope_difference_m": 0.28017200161548317
+          },
+          "heading_ray_validity": {
+            "FULL": 10,
+            "PARTIAL": 40
+          },
+          "heading_ray_classification": "GOOD",
+          "reference_preferred_agl_m": {
+            "count": 50,
+            "mean": 264.68553267732193,
+            "median": 235.8628066305232,
+            "p90": 481.46192099385314,
+            "max": 521.0354122901872
+          },
+          "current_minus_reference_preferred_m": {
+            "mean_absolute": 266.2032329045484,
+            "above_100m_percent": 100.0,
+            "above_250m_percent": 54.0,
+            "above_500m_percent": 0.0
+          },
+          "raw_soft_climb_violations": 16,
+          "preferred_profile_feasibility": {
+            "climb_violations": 2,
+            "max_climb_excess_mps": 0.35764300835748886,
+            "descent_violations": 11,
+            "max_descent_excess_mps": 21.550843011263623,
+            "max_required_descent_mps": 25.779559265503877,
+            "available_descent_at_violations_mps": [
+              4.228716254240256,
+              4.228716254240256,
+              4.228716254240256,
+              4.228716254240256,
+              4.218137762266384,
+              4.218137762266384,
+              4.218137762266384,
+              4.218137762266384,
+              4.218137762266384,
+              4.218137762266384,
+              4.218137762266384
+            ]
+          },
+          "profile": [
+            {
+              "distance_m": 0.0,
+              "terrain_msl_m": 3150.740478515625,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3497.573680824754,
+              "preferred_hard_msl_m": 3477.573680824754
+            },
+            {
+              "distance_m": 60.0,
+              "terrain_msl_m": 3200.971923828125,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3500.7924678999702,
+              "preferred_hard_msl_m": 3480.7924678999702
+            },
+            {
+              "distance_m": 120.0,
+              "terrain_msl_m": 3270.516357421875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3504.0112549751866,
+              "preferred_hard_msl_m": 3484.0112549751866
+            },
+            {
+              "distance_m": 180.0,
+              "terrain_msl_m": 3299.44091796875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3507.230042050403,
+              "preferred_hard_msl_m": 3487.230042050403
+            },
+            {
+              "distance_m": 240.0,
+              "terrain_msl_m": 3299.44091796875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3510.4488291256193,
+              "preferred_hard_msl_m": 3490.4488291256193
+            },
+            {
+              "distance_m": 300.0,
+              "terrain_msl_m": 3284.930419921875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3513.6676162008357,
+              "preferred_hard_msl_m": 3493.6676162008357
+            },
+            {
+              "distance_m": 360.0,
+              "terrain_msl_m": 3248.78515625,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3516.886403276052,
+              "preferred_hard_msl_m": 3496.886403276052
+            },
+            {
+              "distance_m": 420.0,
+              "terrain_msl_m": 3251.33251953125,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3520.1051903512684,
+              "preferred_hard_msl_m": 3500.1051903512684
+            },
+            {
+              "distance_m": 480.0,
+              "terrain_msl_m": 3285.09326171875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3523.323977426485,
+              "preferred_hard_msl_m": 3503.323977426485
+            },
+            {
+              "distance_m": 540.0,
+              "terrain_msl_m": 3322.391357421875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3526.542764501701,
+              "preferred_hard_msl_m": 3506.542764501701
+            },
+            {
+              "distance_m": 600.0,
+              "terrain_msl_m": 3365.34716796875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3529.7615515769176,
+              "preferred_hard_msl_m": 3509.7615515769176
+            },
+            {
+              "distance_m": 660.0,
+              "terrain_msl_m": 3363.2802734375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3532.980338652134,
+              "preferred_hard_msl_m": 3512.980338652134
+            },
+            {
+              "distance_m": 720.0,
+              "terrain_msl_m": 3363.2802734375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3536.1991257273503,
+              "preferred_hard_msl_m": 3516.1991257273503
+            },
+            {
+              "distance_m": 780.0,
+              "terrain_msl_m": 3348.626708984375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3539.4179128025667,
+              "preferred_hard_msl_m": 3519.4179128025667
+            },
+            {
+              "distance_m": 840.0,
+              "terrain_msl_m": 3324.881591796875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3542.636699877783,
+              "preferred_hard_msl_m": 3522.636699877783
+            },
+            {
+              "distance_m": 900.0,
+              "terrain_msl_m": 3305.69580078125,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3545.8554869529994,
+              "preferred_hard_msl_m": 3525.8554869529994
+            },
+            {
+              "distance_m": 960.0,
+              "terrain_msl_m": 3287.528564453125,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3549.0742740282158,
+              "preferred_hard_msl_m": 3529.0742740282158
+            },
+            {
+              "distance_m": 1020.0,
+              "terrain_msl_m": 3280.57080078125,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3552.293061103432,
+              "preferred_hard_msl_m": 3532.293061103432
+            },
+            {
+              "distance_m": 1080.0,
+              "terrain_msl_m": 3262.495361328125,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3555.5118481786485,
+              "preferred_hard_msl_m": 3535.5118481786485
+            },
+            {
+              "distance_m": 1140.0,
+              "terrain_msl_m": 3233.66845703125,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3558.730635253865,
+              "preferred_hard_msl_m": 3538.730635253865
+            },
+            {
+              "distance_m": 1200.0,
+              "terrain_msl_m": 3201.2314453125,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3561.9494223290812,
+              "preferred_hard_msl_m": 3541.9494223290812
+            },
+            {
+              "distance_m": 1260.0,
+              "terrain_msl_m": 3173.151611328125,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3565.1682094042976,
+              "preferred_hard_msl_m": 3545.1682094042976
+            },
+            {
+              "distance_m": 1320.0,
+              "terrain_msl_m": 3142.842529296875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3568.386996479514,
+              "preferred_hard_msl_m": 3548.386996479514
+            },
+            {
+              "distance_m": 1380.0,
+              "terrain_msl_m": 3129.022216796875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3571.6057835547304,
+              "preferred_hard_msl_m": 3551.6057835547304
+            },
+            {
+              "distance_m": 1440.0,
+              "terrain_msl_m": 3113.347412109375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3574.8245706299467,
+              "preferred_hard_msl_m": 3554.8245706299467
+            },
+            {
+              "distance_m": 1500.0,
+              "terrain_msl_m": 3103.0361328125,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3578.043357705163,
+              "preferred_hard_msl_m": 3558.043357705163
+            },
+            {
+              "distance_m": 1560.0,
+              "terrain_msl_m": 3092.337158203125,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3581.2621447803795,
+              "preferred_hard_msl_m": 3561.2621447803795
+            },
+            {
+              "distance_m": 1620.0,
+              "terrain_msl_m": 3079.3525390625,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3584.480931855596,
+              "preferred_hard_msl_m": 3564.480931855596
+            },
+            {
+              "distance_m": 1680.0,
+              "terrain_msl_m": 3066.664306640625,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3587.699718930812,
+              "preferred_hard_msl_m": 3567.699718930812
+            },
+            {
+              "distance_m": 1740.0,
+              "terrain_msl_m": 3070.0830078125,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3590.9185060060286,
+              "preferred_hard_msl_m": 3570.9185060060286
+            },
+            {
+              "distance_m": 1800.0,
+              "terrain_msl_m": 3075.072265625,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3594.137293081245,
+              "preferred_hard_msl_m": 3574.137293081245
+            },
+            {
+              "distance_m": 1860.0,
+              "terrain_msl_m": 3116.723388671875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3597.3560801564613,
+              "preferred_hard_msl_m": 3577.3560801564613
+            },
+            {
+              "distance_m": 1920.0,
+              "terrain_msl_m": 3227.363037109375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3600.5748672316777,
+              "preferred_hard_msl_m": 3580.5748672316777
+            },
+            {
+              "distance_m": 1980.0,
+              "terrain_msl_m": 3298.51806640625,
+              "current_z_msl_m": 3793.6569256186394,
+              "preferred_soft_msl_m": 3603.793654306894,
+              "preferred_hard_msl_m": 3583.793654306894
+            },
+            {
+              "distance_m": 2040.0,
+              "terrain_msl_m": 3357.65234375,
+              "current_z_msl_m": 3787.313851237279,
+              "preferred_soft_msl_m": 3607.0124413821104,
+              "preferred_hard_msl_m": 3587.0124413821104
+            },
+            {
+              "distance_m": 2108.239891839094,
+              "terrain_msl_m": 3402.65087890625,
+              "current_z_msl_m": 3787.313851237279,
+              "preferred_soft_msl_m": 3610.150293980194,
+              "preferred_hard_msl_m": 3590.150293980194
+            },
+            {
+              "distance_m": 2166.7312277011747,
+              "terrain_msl_m": 3481.352294921875,
+              "current_z_msl_m": 3787.313851237279,
+              "preferred_soft_msl_m": 3613.2881465782775,
+              "preferred_hard_msl_m": 3593.2881465782775
+            },
+            {
+              "distance_m": 2225.2225635632553,
+              "terrain_msl_m": 3496.948974609375,
+              "current_z_msl_m": 3787.313851237279,
+              "preferred_soft_msl_m": 3616.948974609375,
+              "preferred_hard_msl_m": 3596.948974609375
+            },
+            {
+              "distance_m": 2283.713899425336,
+              "terrain_msl_m": 3465.21630859375,
+              "current_z_msl_m": 3787.313851237279,
+              "preferred_soft_msl_m": 3585.21630859375,
+              "preferred_hard_msl_m": 3565.21630859375
+            },
+            {
+              "distance_m": 2342.2052352874166,
+              "terrain_msl_m": 3427.519287109375,
+              "current_z_msl_m": 3787.313851237279,
+              "preferred_soft_msl_m": 3547.519287109375,
+              "preferred_hard_msl_m": 3527.519287109375
+            },
+            {
+              "distance_m": 2400.6965711494972,
+              "terrain_msl_m": 3395.853271484375,
+              "current_z_msl_m": 3787.313851237279,
+              "preferred_soft_msl_m": 3515.853271484375,
+              "preferred_hard_msl_m": 3495.853271484375
+            },
+            {
+              "distance_m": 2468.9364629885913,
+              "terrain_msl_m": 3364.6513671875,
+              "current_z_msl_m": 3787.313851237279,
+              "preferred_soft_msl_m": 3484.6513671875,
+              "preferred_hard_msl_m": 3464.6513671875
+            },
+            {
+              "distance_m": 2527.427798850672,
+              "terrain_msl_m": 3334.31591796875,
+              "current_z_msl_m": 3787.313851237279,
+              "preferred_soft_msl_m": 3454.31591796875,
+              "preferred_hard_msl_m": 3434.31591796875
+            },
+            {
+              "distance_m": 2586.4220227587257,
+              "terrain_msl_m": 3337.550537109375,
+              "current_z_msl_m": 3787.313851237279,
+              "preferred_soft_msl_m": 3457.550537109375,
+              "preferred_hard_msl_m": 3437.550537109375
+            },
+            {
+              "distance_m": 2645.9191347127526,
+              "terrain_msl_m": 3316.2919921875,
+              "current_z_msl_m": 3787.313851237279,
+              "preferred_soft_msl_m": 3436.2919921875,
+              "preferred_hard_msl_m": 3416.2919921875
+            },
+            {
+              "distance_m": 2704.410470574833,
+              "terrain_msl_m": 3293.218017578125,
+              "current_z_msl_m": 3787.313851237279,
+              "preferred_soft_msl_m": 3413.218017578125,
+              "preferred_hard_msl_m": 3393.218017578125
+            },
+            {
+              "distance_m": 2762.901806436914,
+              "terrain_msl_m": 3268.9521484375,
+              "current_z_msl_m": 3787.313851237279,
+              "preferred_soft_msl_m": 3388.9521484375,
+              "preferred_hard_msl_m": 3368.9521484375
+            },
+            {
+              "distance_m": 2821.8960303449676,
+              "terrain_msl_m": 3238.670654296875,
+              "current_z_msl_m": 3787.313851237279,
+              "preferred_soft_msl_m": 3358.670654296875,
+              "preferred_hard_msl_m": 3338.670654296875
+            },
+            {
+              "distance_m": 2881.8960303449676,
+              "terrain_msl_m": 3223.884033203125,
+              "current_z_msl_m": 3788.386780262351,
+              "preferred_soft_msl_m": 3343.884033203125,
+              "preferred_hard_msl_m": 3323.884033203125
+            },
+            {
+              "distance_m": 2921.8960303449676,
+              "terrain_msl_m": 3208.04052734375,
+              "current_z_msl_m": 3790.5326383124952,
+              "preferred_soft_msl_m": 3328.04052734375,
+              "preferred_hard_msl_m": 3308.04052734375
+            }
+          ]
+        }
+      }
+    },
+    "D_far_east_3km": {
+      "name": "D_far_east_3km",
+      "reference_status": "FOUND",
+      "reference_length_m": 2927.103659217665,
+      "terrain_sample_spacing_m": 60.0,
+      "anchor_count": 50,
+      "horizons": {
+        "1000": {
+          "heading_ray_vs_reference_path_abs_difference_m": {
+            "count": 50,
+            "mean": 0.08658309730241853,
+            "median": 0.0,
+            "p90": 0.0,
+            "max": 3.2036679969846773
+          },
+          "largest_disagreement": {
+            "distance_m": 2829.2232149528227,
+            "current_z_msl_m": 3793.6569256186394,
+            "terrain_msl_m": 3206.16259765625,
+            "heading_ray_status": "FULL",
+            "heading_ray_invalid_at_m": null,
+            "heading_ray_soft_msl_m": 3326.16259765625,
+            "heading_ray_hard_msl_m": 3306.16259765625,
+            "reference_soft_msl_m": 3329.3662656532347,
+            "reference_hard_msl_m": 3309.3662656532347,
+            "future_heading_change_deg": 8.33333333333323,
+            "future_turn_events": 10,
+            "abs_envelope_difference_m": 3.2036679969846773
+          },
+          "heading_ray_validity": {
+            "FULL": 50
+          },
+          "heading_ray_classification": "GOOD",
+          "reference_preferred_agl_m": {
+            "count": 50,
+            "mean": 195.16610813736628,
+            "median": 128.7234562566773,
+            "p90": 359.71431105303105,
+            "max": 517.9079652878122
+          },
+          "current_minus_reference_preferred_m": {
+            "mean_absolute": 254.2496031582366,
+            "above_100m_percent": 100.0,
+            "above_250m_percent": 32.0,
+            "above_500m_percent": 0.0
+          },
+          "raw_soft_climb_violations": 19,
+          "preferred_profile_feasibility": {
+            "climb_violations": 0,
+            "max_climb_excess_mps": 0.0,
+            "descent_violations": 14,
+            "max_descent_excess_mps": 32.13344945454453,
+            "max_required_descent_mps": 36.35158721681091,
+            "available_descent_at_violations_mps": [
+              4.228716254240256,
+              4.228716254240256,
+              4.228716254240256,
+              4.228716254240256,
+              4.228716254240256,
+              4.228716254240256,
+              4.228716254240256,
+              4.228716254240256,
+              4.218137762266384,
+              4.218137762266384,
+              4.218137762266384,
+              4.218137762266384,
+              4.218137762266384,
+              4.218137762266384
+            ]
+          },
+          "profile": [
+            {
+              "distance_m": 0.0,
+              "terrain_msl_m": 3150.740478515625,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3646.803191884471,
+              "preferred_hard_msl_m": 3626.803191884471
+            },
+            {
+              "distance_m": 60.0,
+              "terrain_msl_m": 3132.114013671875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3650.021978959687,
+              "preferred_hard_msl_m": 3630.021978959687
+            },
+            {
+              "distance_m": 120.0,
+              "terrain_msl_m": 3139.962646484375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3653.2407660349036,
+              "preferred_hard_msl_m": 3633.2407660349036
+            },
+            {
+              "distance_m": 180.0,
+              "terrain_msl_m": 3221.55908203125,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3656.45955311012,
+              "preferred_hard_msl_m": 3636.45955311012
+            },
+            {
+              "distance_m": 240.0,
+              "terrain_msl_m": 3279.898193359375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3659.6783401853363,
+              "preferred_hard_msl_m": 3639.6783401853363
+            },
+            {
+              "distance_m": 300.0,
+              "terrain_msl_m": 3305.412353515625,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3662.8971272605527,
+              "preferred_hard_msl_m": 3642.8971272605527
+            },
+            {
+              "distance_m": 360.0,
+              "terrain_msl_m": 3326.6728515625,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3666.115914335769,
+              "preferred_hard_msl_m": 3646.115914335769
+            },
+            {
+              "distance_m": 420.0,
+              "terrain_msl_m": 3331.705078125,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3669.3347014109854,
+              "preferred_hard_msl_m": 3649.3347014109854
+            },
+            {
+              "distance_m": 480.0,
+              "terrain_msl_m": 3377.890380859375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3672.553488486202,
+              "preferred_hard_msl_m": 3652.553488486202
+            },
+            {
+              "distance_m": 540.0,
+              "terrain_msl_m": 3419.17919921875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3675.772275561418,
+              "preferred_hard_msl_m": 3655.772275561418
+            },
+            {
+              "distance_m": 600.0,
+              "terrain_msl_m": 3434.9775390625,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3678.9910626366345,
+              "preferred_hard_msl_m": 3658.9910626366345
+            },
+            {
+              "distance_m": 660.0,
+              "terrain_msl_m": 3453.38330078125,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3682.209849711851,
+              "preferred_hard_msl_m": 3662.209849711851
+            },
+            {
+              "distance_m": 720.0,
+              "terrain_msl_m": 3494.2119140625,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3685.4286367870673,
+              "preferred_hard_msl_m": 3665.4286367870673
+            },
+            {
+              "distance_m": 780.0,
+              "terrain_msl_m": 3539.211669921875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3688.6474238622836,
+              "preferred_hard_msl_m": 3668.6474238622836
+            },
+            {
+              "distance_m": 840.0,
+              "terrain_msl_m": 3571.8662109375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3691.8662109375,
+              "preferred_hard_msl_m": 3671.8662109375
+            },
+            {
+              "distance_m": 900.0,
+              "terrain_msl_m": 3571.8662109375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3691.8662109375,
+              "preferred_hard_msl_m": 3671.8662109375
+            },
+            {
+              "distance_m": 960.0,
+              "terrain_msl_m": 3537.20849609375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3657.20849609375,
+              "preferred_hard_msl_m": 3637.20849609375
+            },
+            {
+              "distance_m": 1020.0,
+              "terrain_msl_m": 3501.87109375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3621.87109375,
+              "preferred_hard_msl_m": 3601.87109375
+            },
+            {
+              "distance_m": 1080.0,
+              "terrain_msl_m": 3451.83544921875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3571.83544921875,
+              "preferred_hard_msl_m": 3551.83544921875
+            },
+            {
+              "distance_m": 1140.0,
+              "terrain_msl_m": 3418.18359375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3552.42683826637,
+              "preferred_hard_msl_m": 3532.42683826637
+            },
+            {
+              "distance_m": 1200.0,
+              "terrain_msl_m": 3392.18994140625,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3555.6456253415863,
+              "preferred_hard_msl_m": 3535.6456253415863
+            },
+            {
+              "distance_m": 1260.0,
+              "terrain_msl_m": 3378.521728515625,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3558.8644124168027,
+              "preferred_hard_msl_m": 3538.8644124168027
+            },
+            {
+              "distance_m": 1320.0,
+              "terrain_msl_m": 3354.837890625,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3562.083199492019,
+              "preferred_hard_msl_m": 3542.083199492019
+            },
+            {
+              "distance_m": 1380.0,
+              "terrain_msl_m": 3352.66650390625,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3565.3019865672354,
+              "preferred_hard_msl_m": 3545.3019865672354
+            },
+            {
+              "distance_m": 1440.0,
+              "terrain_msl_m": 3371.455810546875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3568.520773642452,
+              "preferred_hard_msl_m": 3548.520773642452
+            },
+            {
+              "distance_m": 1500.0,
+              "terrain_msl_m": 3401.942138671875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3571.739560717668,
+              "preferred_hard_msl_m": 3551.739560717668
+            },
+            {
+              "distance_m": 1560.0,
+              "terrain_msl_m": 3393.259521484375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3574.9583477928845,
+              "preferred_hard_msl_m": 3554.9583477928845
+            },
+            {
+              "distance_m": 1620.0,
+              "terrain_msl_m": 3378.8388671875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3578.177134868101,
+              "preferred_hard_msl_m": 3558.177134868101
+            },
+            {
+              "distance_m": 1680.0,
+              "terrain_msl_m": 3380.958740234375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3581.3959219433173,
+              "preferred_hard_msl_m": 3561.3959219433173
+            },
+            {
+              "distance_m": 1740.0,
+              "terrain_msl_m": 3419.4326171875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3584.6147090185336,
+              "preferred_hard_msl_m": 3564.6147090185336
+            },
+            {
+              "distance_m": 1800.0,
+              "terrain_msl_m": 3467.83349609375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3587.83349609375,
+              "preferred_hard_msl_m": 3567.83349609375
+            },
+            {
+              "distance_m": 1860.0,
+              "terrain_msl_m": 3469.57080078125,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3589.57080078125,
+              "preferred_hard_msl_m": 3569.57080078125
+            },
+            {
+              "distance_m": 1920.0,
+              "terrain_msl_m": 3464.7275390625,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3584.7275390625,
+              "preferred_hard_msl_m": 3564.7275390625
+            },
+            {
+              "distance_m": 1980.0,
+              "terrain_msl_m": 3436.057373046875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3556.057373046875,
+              "preferred_hard_msl_m": 3536.057373046875
+            },
+            {
+              "distance_m": 2040.0,
+              "terrain_msl_m": 3399.275146484375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3519.275146484375,
+              "preferred_hard_msl_m": 3499.275146484375
+            },
+            {
+              "distance_m": 2100.0,
+              "terrain_msl_m": 3381.3583984375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3501.3583984375,
+              "preferred_hard_msl_m": 3481.3583984375
+            },
+            {
+              "distance_m": 2160.0,
+              "terrain_msl_m": 3327.40625,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3447.40625,
+              "preferred_hard_msl_m": 3427.40625
+            },
+            {
+              "distance_m": 2220.0,
+              "terrain_msl_m": 3306.678466796875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3426.678466796875,
+              "preferred_hard_msl_m": 3406.678466796875
+            },
+            {
+              "distance_m": 2280.0,
+              "terrain_msl_m": 3251.945068359375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3372.1510859716586,
+              "preferred_hard_msl_m": 3352.1510859716586
+            },
+            {
+              "distance_m": 2340.0,
+              "terrain_msl_m": 3255.369873046875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3375.369873046875,
+              "preferred_hard_msl_m": 3355.369873046875
+            },
+            {
+              "distance_m": 2400.0,
+              "terrain_msl_m": 3255.56298828125,
+              "current_z_msl_m": 3793.6569256186394,
+              "preferred_soft_msl_m": 3375.56298828125,
+              "preferred_hard_msl_m": 3355.56298828125
+            },
+            {
+              "distance_m": 2468.2855114697672,
+              "terrain_msl_m": 3247.821533203125,
+              "current_z_msl_m": 3793.6569256186394,
+              "preferred_soft_msl_m": 3367.821533203125,
+              "preferred_hard_msl_m": 3347.821533203125
+            },
+            {
+              "distance_m": 2526.815949872425,
+              "terrain_msl_m": 3236.56494140625,
+              "current_z_msl_m": 3793.6569256186394,
+              "preferred_soft_msl_m": 3356.56494140625,
+              "preferred_hard_msl_m": 3336.56494140625
+            },
+            {
+              "distance_m": 2585.3463882750825,
+              "terrain_msl_m": 3231.556640625,
+              "current_z_msl_m": 3793.6569256186394,
+              "preferred_soft_msl_m": 3351.556640625,
+              "preferred_hard_msl_m": 3331.556640625
+            },
+            {
+              "distance_m": 2643.87682667774,
+              "terrain_msl_m": 3221.119384765625,
+              "current_z_msl_m": 3793.6569256186394,
+              "preferred_soft_msl_m": 3341.119384765625,
+              "preferred_hard_msl_m": 3321.119384765625
+            },
+            {
+              "distance_m": 2702.407265080398,
+              "terrain_msl_m": 3221.119384765625,
+              "current_z_msl_m": 3793.6569256186394,
+              "preferred_soft_msl_m": 3341.119384765625,
+              "preferred_hard_msl_m": 3321.119384765625
+            },
+            {
+              "distance_m": 2760.9377034830554,
+              "terrain_msl_m": 3215.528564453125,
+              "current_z_msl_m": 3793.6569256186394,
+              "preferred_soft_msl_m": 3335.528564453125,
+              "preferred_hard_msl_m": 3315.528564453125
+            },
+            {
+              "distance_m": 2829.2232149528227,
+              "terrain_msl_m": 3206.16259765625,
+              "current_z_msl_m": 3793.6569256186394,
+              "preferred_soft_msl_m": 3329.3662656532347,
+              "preferred_hard_msl_m": 3309.3662656532347
+            },
+            {
+              "distance_m": 2887.7536533554803,
+              "terrain_msl_m": 3190.979736328125,
+              "current_z_msl_m": 3793.6569256186394,
+              "preferred_soft_msl_m": 3313.19869198042,
+              "preferred_hard_msl_m": 3293.19869198042
+            },
+            {
+              "distance_m": 2926.7739456239187,
+              "terrain_msl_m": 3195.2919921875,
+              "current_z_msl_m": 3793.6569256186394,
+              "preferred_soft_msl_m": 3315.2919921875,
+              "preferred_hard_msl_m": 3295.2919921875
+            }
+          ]
+        },
+        "3000": {
+          "heading_ray_vs_reference_path_abs_difference_m": {
+            "count": 44,
+            "mean": 0.0,
+            "median": 0.0,
+            "p90": 0.0,
+            "max": 0.0
+          },
+          "largest_disagreement": {
+            "distance_m": 0.0,
+            "current_z_msl_m": 3800.0,
+            "terrain_msl_m": 3150.740478515625,
+            "heading_ray_status": "FULL",
+            "heading_ray_invalid_at_m": null,
+            "heading_ray_soft_msl_m": 3646.803191884471,
+            "heading_ray_hard_msl_m": 3626.803191884471,
+            "reference_soft_msl_m": 3646.803191884471,
+            "reference_hard_msl_m": 3626.803191884471,
+            "future_heading_change_deg": 44.99999999999949,
+            "future_turn_events": 54,
+            "abs_envelope_difference_m": 0.0
+          },
+          "heading_ray_validity": {
+            "FULL": 44,
+            "PARTIAL": 6
+          },
+          "heading_ray_classification": "GOOD",
+          "reference_preferred_agl_m": {
+            "count": 50,
+            "mean": 195.16610813736628,
+            "median": 128.7234562566773,
+            "p90": 359.71431105303105,
+            "max": 517.9079652878122
+          },
+          "current_minus_reference_preferred_m": {
+            "mean_absolute": 254.2496031582366,
+            "above_100m_percent": 100.0,
+            "above_250m_percent": 32.0,
+            "above_500m_percent": 0.0
+          },
+          "raw_soft_climb_violations": 19,
+          "preferred_profile_feasibility": {
+            "climb_violations": 0,
+            "max_climb_excess_mps": 0.0,
+            "descent_violations": 14,
+            "max_descent_excess_mps": 32.13344945454453,
+            "max_required_descent_mps": 36.35158721681091,
+            "available_descent_at_violations_mps": [
+              4.228716254240256,
+              4.228716254240256,
+              4.228716254240256,
+              4.228716254240256,
+              4.228716254240256,
+              4.228716254240256,
+              4.228716254240256,
+              4.228716254240256,
+              4.218137762266384,
+              4.218137762266384,
+              4.218137762266384,
+              4.218137762266384,
+              4.218137762266384,
+              4.218137762266384
+            ]
+          },
+          "profile": [
+            {
+              "distance_m": 0.0,
+              "terrain_msl_m": 3150.740478515625,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3646.803191884471,
+              "preferred_hard_msl_m": 3626.803191884471
+            },
+            {
+              "distance_m": 60.0,
+              "terrain_msl_m": 3132.114013671875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3650.021978959687,
+              "preferred_hard_msl_m": 3630.021978959687
+            },
+            {
+              "distance_m": 120.0,
+              "terrain_msl_m": 3139.962646484375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3653.2407660349036,
+              "preferred_hard_msl_m": 3633.2407660349036
+            },
+            {
+              "distance_m": 180.0,
+              "terrain_msl_m": 3221.55908203125,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3656.45955311012,
+              "preferred_hard_msl_m": 3636.45955311012
+            },
+            {
+              "distance_m": 240.0,
+              "terrain_msl_m": 3279.898193359375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3659.6783401853363,
+              "preferred_hard_msl_m": 3639.6783401853363
+            },
+            {
+              "distance_m": 300.0,
+              "terrain_msl_m": 3305.412353515625,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3662.8971272605527,
+              "preferred_hard_msl_m": 3642.8971272605527
+            },
+            {
+              "distance_m": 360.0,
+              "terrain_msl_m": 3326.6728515625,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3666.115914335769,
+              "preferred_hard_msl_m": 3646.115914335769
+            },
+            {
+              "distance_m": 420.0,
+              "terrain_msl_m": 3331.705078125,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3669.3347014109854,
+              "preferred_hard_msl_m": 3649.3347014109854
+            },
+            {
+              "distance_m": 480.0,
+              "terrain_msl_m": 3377.890380859375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3672.553488486202,
+              "preferred_hard_msl_m": 3652.553488486202
+            },
+            {
+              "distance_m": 540.0,
+              "terrain_msl_m": 3419.17919921875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3675.772275561418,
+              "preferred_hard_msl_m": 3655.772275561418
+            },
+            {
+              "distance_m": 600.0,
+              "terrain_msl_m": 3434.9775390625,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3678.9910626366345,
+              "preferred_hard_msl_m": 3658.9910626366345
+            },
+            {
+              "distance_m": 660.0,
+              "terrain_msl_m": 3453.38330078125,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3682.209849711851,
+              "preferred_hard_msl_m": 3662.209849711851
+            },
+            {
+              "distance_m": 720.0,
+              "terrain_msl_m": 3494.2119140625,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3685.4286367870673,
+              "preferred_hard_msl_m": 3665.4286367870673
+            },
+            {
+              "distance_m": 780.0,
+              "terrain_msl_m": 3539.211669921875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3688.6474238622836,
+              "preferred_hard_msl_m": 3668.6474238622836
+            },
+            {
+              "distance_m": 840.0,
+              "terrain_msl_m": 3571.8662109375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3691.8662109375,
+              "preferred_hard_msl_m": 3671.8662109375
+            },
+            {
+              "distance_m": 900.0,
+              "terrain_msl_m": 3571.8662109375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3691.8662109375,
+              "preferred_hard_msl_m": 3671.8662109375
+            },
+            {
+              "distance_m": 960.0,
+              "terrain_msl_m": 3537.20849609375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3657.20849609375,
+              "preferred_hard_msl_m": 3637.20849609375
+            },
+            {
+              "distance_m": 1020.0,
+              "terrain_msl_m": 3501.87109375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3621.87109375,
+              "preferred_hard_msl_m": 3601.87109375
+            },
+            {
+              "distance_m": 1080.0,
+              "terrain_msl_m": 3451.83544921875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3571.83544921875,
+              "preferred_hard_msl_m": 3551.83544921875
+            },
+            {
+              "distance_m": 1140.0,
+              "terrain_msl_m": 3418.18359375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3552.42683826637,
+              "preferred_hard_msl_m": 3532.42683826637
+            },
+            {
+              "distance_m": 1200.0,
+              "terrain_msl_m": 3392.18994140625,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3555.6456253415863,
+              "preferred_hard_msl_m": 3535.6456253415863
+            },
+            {
+              "distance_m": 1260.0,
+              "terrain_msl_m": 3378.521728515625,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3558.8644124168027,
+              "preferred_hard_msl_m": 3538.8644124168027
+            },
+            {
+              "distance_m": 1320.0,
+              "terrain_msl_m": 3354.837890625,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3562.083199492019,
+              "preferred_hard_msl_m": 3542.083199492019
+            },
+            {
+              "distance_m": 1380.0,
+              "terrain_msl_m": 3352.66650390625,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3565.3019865672354,
+              "preferred_hard_msl_m": 3545.3019865672354
+            },
+            {
+              "distance_m": 1440.0,
+              "terrain_msl_m": 3371.455810546875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3568.520773642452,
+              "preferred_hard_msl_m": 3548.520773642452
+            },
+            {
+              "distance_m": 1500.0,
+              "terrain_msl_m": 3401.942138671875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3571.739560717668,
+              "preferred_hard_msl_m": 3551.739560717668
+            },
+            {
+              "distance_m": 1560.0,
+              "terrain_msl_m": 3393.259521484375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3574.9583477928845,
+              "preferred_hard_msl_m": 3554.9583477928845
+            },
+            {
+              "distance_m": 1620.0,
+              "terrain_msl_m": 3378.8388671875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3578.177134868101,
+              "preferred_hard_msl_m": 3558.177134868101
+            },
+            {
+              "distance_m": 1680.0,
+              "terrain_msl_m": 3380.958740234375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3581.3959219433173,
+              "preferred_hard_msl_m": 3561.3959219433173
+            },
+            {
+              "distance_m": 1740.0,
+              "terrain_msl_m": 3419.4326171875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3584.6147090185336,
+              "preferred_hard_msl_m": 3564.6147090185336
+            },
+            {
+              "distance_m": 1800.0,
+              "terrain_msl_m": 3467.83349609375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3587.83349609375,
+              "preferred_hard_msl_m": 3567.83349609375
+            },
+            {
+              "distance_m": 1860.0,
+              "terrain_msl_m": 3469.57080078125,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3589.57080078125,
+              "preferred_hard_msl_m": 3569.57080078125
+            },
+            {
+              "distance_m": 1920.0,
+              "terrain_msl_m": 3464.7275390625,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3584.7275390625,
+              "preferred_hard_msl_m": 3564.7275390625
+            },
+            {
+              "distance_m": 1980.0,
+              "terrain_msl_m": 3436.057373046875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3556.057373046875,
+              "preferred_hard_msl_m": 3536.057373046875
+            },
+            {
+              "distance_m": 2040.0,
+              "terrain_msl_m": 3399.275146484375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3519.275146484375,
+              "preferred_hard_msl_m": 3499.275146484375
+            },
+            {
+              "distance_m": 2100.0,
+              "terrain_msl_m": 3381.3583984375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3501.3583984375,
+              "preferred_hard_msl_m": 3481.3583984375
+            },
+            {
+              "distance_m": 2160.0,
+              "terrain_msl_m": 3327.40625,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3447.40625,
+              "preferred_hard_msl_m": 3427.40625
+            },
+            {
+              "distance_m": 2220.0,
+              "terrain_msl_m": 3306.678466796875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3426.678466796875,
+              "preferred_hard_msl_m": 3406.678466796875
+            },
+            {
+              "distance_m": 2280.0,
+              "terrain_msl_m": 3251.945068359375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3372.1510859716586,
+              "preferred_hard_msl_m": 3352.1510859716586
+            },
+            {
+              "distance_m": 2340.0,
+              "terrain_msl_m": 3255.369873046875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3375.369873046875,
+              "preferred_hard_msl_m": 3355.369873046875
+            },
+            {
+              "distance_m": 2400.0,
+              "terrain_msl_m": 3255.56298828125,
+              "current_z_msl_m": 3793.6569256186394,
+              "preferred_soft_msl_m": 3375.56298828125,
+              "preferred_hard_msl_m": 3355.56298828125
+            },
+            {
+              "distance_m": 2468.2855114697672,
+              "terrain_msl_m": 3247.821533203125,
+              "current_z_msl_m": 3793.6569256186394,
+              "preferred_soft_msl_m": 3367.821533203125,
+              "preferred_hard_msl_m": 3347.821533203125
+            },
+            {
+              "distance_m": 2526.815949872425,
+              "terrain_msl_m": 3236.56494140625,
+              "current_z_msl_m": 3793.6569256186394,
+              "preferred_soft_msl_m": 3356.56494140625,
+              "preferred_hard_msl_m": 3336.56494140625
+            },
+            {
+              "distance_m": 2585.3463882750825,
+              "terrain_msl_m": 3231.556640625,
+              "current_z_msl_m": 3793.6569256186394,
+              "preferred_soft_msl_m": 3351.556640625,
+              "preferred_hard_msl_m": 3331.556640625
+            },
+            {
+              "distance_m": 2643.87682667774,
+              "terrain_msl_m": 3221.119384765625,
+              "current_z_msl_m": 3793.6569256186394,
+              "preferred_soft_msl_m": 3341.119384765625,
+              "preferred_hard_msl_m": 3321.119384765625
+            },
+            {
+              "distance_m": 2702.407265080398,
+              "terrain_msl_m": 3221.119384765625,
+              "current_z_msl_m": 3793.6569256186394,
+              "preferred_soft_msl_m": 3341.119384765625,
+              "preferred_hard_msl_m": 3321.119384765625
+            },
+            {
+              "distance_m": 2760.9377034830554,
+              "terrain_msl_m": 3215.528564453125,
+              "current_z_msl_m": 3793.6569256186394,
+              "preferred_soft_msl_m": 3335.528564453125,
+              "preferred_hard_msl_m": 3315.528564453125
+            },
+            {
+              "distance_m": 2829.2232149528227,
+              "terrain_msl_m": 3206.16259765625,
+              "current_z_msl_m": 3793.6569256186394,
+              "preferred_soft_msl_m": 3329.3662656532347,
+              "preferred_hard_msl_m": 3309.3662656532347
+            },
+            {
+              "distance_m": 2887.7536533554803,
+              "terrain_msl_m": 3190.979736328125,
+              "current_z_msl_m": 3793.6569256186394,
+              "preferred_soft_msl_m": 3313.19869198042,
+              "preferred_hard_msl_m": 3293.19869198042
+            },
+            {
+              "distance_m": 2926.7739456239187,
+              "terrain_msl_m": 3195.2919921875,
+              "current_z_msl_m": 3793.6569256186394,
+              "preferred_soft_msl_m": 3315.2919921875,
+              "preferred_hard_msl_m": 3295.2919921875
+            }
+          ]
+        },
+        "5000": {
+          "heading_ray_vs_reference_path_abs_difference_m": {
+            "count": 10,
+            "mean": 0.0,
+            "median": 0.0,
+            "p90": 0.0,
+            "max": 0.0
+          },
+          "largest_disagreement": {
+            "distance_m": 0.0,
+            "current_z_msl_m": 3800.0,
+            "terrain_msl_m": 3150.740478515625,
+            "heading_ray_status": "FULL",
+            "heading_ray_invalid_at_m": null,
+            "heading_ray_soft_msl_m": 3646.803191884471,
+            "heading_ray_hard_msl_m": 3626.803191884471,
+            "reference_soft_msl_m": 3646.803191884471,
+            "reference_hard_msl_m": 3626.803191884471,
+            "future_heading_change_deg": 44.99999999999949,
+            "future_turn_events": 54,
+            "abs_envelope_difference_m": 0.0
+          },
+          "heading_ray_validity": {
+            "FULL": 10,
+            "PARTIAL": 40
+          },
+          "heading_ray_classification": "GOOD",
+          "reference_preferred_agl_m": {
+            "count": 50,
+            "mean": 195.16610813736628,
+            "median": 128.7234562566773,
+            "p90": 359.71431105303105,
+            "max": 517.9079652878122
+          },
+          "current_minus_reference_preferred_m": {
+            "mean_absolute": 254.2496031582366,
+            "above_100m_percent": 100.0,
+            "above_250m_percent": 32.0,
+            "above_500m_percent": 0.0
+          },
+          "raw_soft_climb_violations": 19,
+          "preferred_profile_feasibility": {
+            "climb_violations": 0,
+            "max_climb_excess_mps": 0.0,
+            "descent_violations": 14,
+            "max_descent_excess_mps": 32.13344945454453,
+            "max_required_descent_mps": 36.35158721681091,
+            "available_descent_at_violations_mps": [
+              4.228716254240256,
+              4.228716254240256,
+              4.228716254240256,
+              4.228716254240256,
+              4.228716254240256,
+              4.228716254240256,
+              4.228716254240256,
+              4.228716254240256,
+              4.218137762266384,
+              4.218137762266384,
+              4.218137762266384,
+              4.218137762266384,
+              4.218137762266384,
+              4.218137762266384
+            ]
+          },
+          "profile": [
+            {
+              "distance_m": 0.0,
+              "terrain_msl_m": 3150.740478515625,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3646.803191884471,
+              "preferred_hard_msl_m": 3626.803191884471
+            },
+            {
+              "distance_m": 60.0,
+              "terrain_msl_m": 3132.114013671875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3650.021978959687,
+              "preferred_hard_msl_m": 3630.021978959687
+            },
+            {
+              "distance_m": 120.0,
+              "terrain_msl_m": 3139.962646484375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3653.2407660349036,
+              "preferred_hard_msl_m": 3633.2407660349036
+            },
+            {
+              "distance_m": 180.0,
+              "terrain_msl_m": 3221.55908203125,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3656.45955311012,
+              "preferred_hard_msl_m": 3636.45955311012
+            },
+            {
+              "distance_m": 240.0,
+              "terrain_msl_m": 3279.898193359375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3659.6783401853363,
+              "preferred_hard_msl_m": 3639.6783401853363
+            },
+            {
+              "distance_m": 300.0,
+              "terrain_msl_m": 3305.412353515625,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3662.8971272605527,
+              "preferred_hard_msl_m": 3642.8971272605527
+            },
+            {
+              "distance_m": 360.0,
+              "terrain_msl_m": 3326.6728515625,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3666.115914335769,
+              "preferred_hard_msl_m": 3646.115914335769
+            },
+            {
+              "distance_m": 420.0,
+              "terrain_msl_m": 3331.705078125,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3669.3347014109854,
+              "preferred_hard_msl_m": 3649.3347014109854
+            },
+            {
+              "distance_m": 480.0,
+              "terrain_msl_m": 3377.890380859375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3672.553488486202,
+              "preferred_hard_msl_m": 3652.553488486202
+            },
+            {
+              "distance_m": 540.0,
+              "terrain_msl_m": 3419.17919921875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3675.772275561418,
+              "preferred_hard_msl_m": 3655.772275561418
+            },
+            {
+              "distance_m": 600.0,
+              "terrain_msl_m": 3434.9775390625,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3678.9910626366345,
+              "preferred_hard_msl_m": 3658.9910626366345
+            },
+            {
+              "distance_m": 660.0,
+              "terrain_msl_m": 3453.38330078125,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3682.209849711851,
+              "preferred_hard_msl_m": 3662.209849711851
+            },
+            {
+              "distance_m": 720.0,
+              "terrain_msl_m": 3494.2119140625,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3685.4286367870673,
+              "preferred_hard_msl_m": 3665.4286367870673
+            },
+            {
+              "distance_m": 780.0,
+              "terrain_msl_m": 3539.211669921875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3688.6474238622836,
+              "preferred_hard_msl_m": 3668.6474238622836
+            },
+            {
+              "distance_m": 840.0,
+              "terrain_msl_m": 3571.8662109375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3691.8662109375,
+              "preferred_hard_msl_m": 3671.8662109375
+            },
+            {
+              "distance_m": 900.0,
+              "terrain_msl_m": 3571.8662109375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3691.8662109375,
+              "preferred_hard_msl_m": 3671.8662109375
+            },
+            {
+              "distance_m": 960.0,
+              "terrain_msl_m": 3537.20849609375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3657.20849609375,
+              "preferred_hard_msl_m": 3637.20849609375
+            },
+            {
+              "distance_m": 1020.0,
+              "terrain_msl_m": 3501.87109375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3621.87109375,
+              "preferred_hard_msl_m": 3601.87109375
+            },
+            {
+              "distance_m": 1080.0,
+              "terrain_msl_m": 3451.83544921875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3571.83544921875,
+              "preferred_hard_msl_m": 3551.83544921875
+            },
+            {
+              "distance_m": 1140.0,
+              "terrain_msl_m": 3418.18359375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3552.42683826637,
+              "preferred_hard_msl_m": 3532.42683826637
+            },
+            {
+              "distance_m": 1200.0,
+              "terrain_msl_m": 3392.18994140625,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3555.6456253415863,
+              "preferred_hard_msl_m": 3535.6456253415863
+            },
+            {
+              "distance_m": 1260.0,
+              "terrain_msl_m": 3378.521728515625,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3558.8644124168027,
+              "preferred_hard_msl_m": 3538.8644124168027
+            },
+            {
+              "distance_m": 1320.0,
+              "terrain_msl_m": 3354.837890625,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3562.083199492019,
+              "preferred_hard_msl_m": 3542.083199492019
+            },
+            {
+              "distance_m": 1380.0,
+              "terrain_msl_m": 3352.66650390625,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3565.3019865672354,
+              "preferred_hard_msl_m": 3545.3019865672354
+            },
+            {
+              "distance_m": 1440.0,
+              "terrain_msl_m": 3371.455810546875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3568.520773642452,
+              "preferred_hard_msl_m": 3548.520773642452
+            },
+            {
+              "distance_m": 1500.0,
+              "terrain_msl_m": 3401.942138671875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3571.739560717668,
+              "preferred_hard_msl_m": 3551.739560717668
+            },
+            {
+              "distance_m": 1560.0,
+              "terrain_msl_m": 3393.259521484375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3574.9583477928845,
+              "preferred_hard_msl_m": 3554.9583477928845
+            },
+            {
+              "distance_m": 1620.0,
+              "terrain_msl_m": 3378.8388671875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3578.177134868101,
+              "preferred_hard_msl_m": 3558.177134868101
+            },
+            {
+              "distance_m": 1680.0,
+              "terrain_msl_m": 3380.958740234375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3581.3959219433173,
+              "preferred_hard_msl_m": 3561.3959219433173
+            },
+            {
+              "distance_m": 1740.0,
+              "terrain_msl_m": 3419.4326171875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3584.6147090185336,
+              "preferred_hard_msl_m": 3564.6147090185336
+            },
+            {
+              "distance_m": 1800.0,
+              "terrain_msl_m": 3467.83349609375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3587.83349609375,
+              "preferred_hard_msl_m": 3567.83349609375
+            },
+            {
+              "distance_m": 1860.0,
+              "terrain_msl_m": 3469.57080078125,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3589.57080078125,
+              "preferred_hard_msl_m": 3569.57080078125
+            },
+            {
+              "distance_m": 1920.0,
+              "terrain_msl_m": 3464.7275390625,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3584.7275390625,
+              "preferred_hard_msl_m": 3564.7275390625
+            },
+            {
+              "distance_m": 1980.0,
+              "terrain_msl_m": 3436.057373046875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3556.057373046875,
+              "preferred_hard_msl_m": 3536.057373046875
+            },
+            {
+              "distance_m": 2040.0,
+              "terrain_msl_m": 3399.275146484375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3519.275146484375,
+              "preferred_hard_msl_m": 3499.275146484375
+            },
+            {
+              "distance_m": 2100.0,
+              "terrain_msl_m": 3381.3583984375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3501.3583984375,
+              "preferred_hard_msl_m": 3481.3583984375
+            },
+            {
+              "distance_m": 2160.0,
+              "terrain_msl_m": 3327.40625,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3447.40625,
+              "preferred_hard_msl_m": 3427.40625
+            },
+            {
+              "distance_m": 2220.0,
+              "terrain_msl_m": 3306.678466796875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3426.678466796875,
+              "preferred_hard_msl_m": 3406.678466796875
+            },
+            {
+              "distance_m": 2280.0,
+              "terrain_msl_m": 3251.945068359375,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3372.1510859716586,
+              "preferred_hard_msl_m": 3352.1510859716586
+            },
+            {
+              "distance_m": 2340.0,
+              "terrain_msl_m": 3255.369873046875,
+              "current_z_msl_m": 3800.0,
+              "preferred_soft_msl_m": 3375.369873046875,
+              "preferred_hard_msl_m": 3355.369873046875
+            },
+            {
+              "distance_m": 2400.0,
+              "terrain_msl_m": 3255.56298828125,
+              "current_z_msl_m": 3793.6569256186394,
+              "preferred_soft_msl_m": 3375.56298828125,
+              "preferred_hard_msl_m": 3355.56298828125
+            },
+            {
+              "distance_m": 2468.2855114697672,
+              "terrain_msl_m": 3247.821533203125,
+              "current_z_msl_m": 3793.6569256186394,
+              "preferred_soft_msl_m": 3367.821533203125,
+              "preferred_hard_msl_m": 3347.821533203125
+            },
+            {
+              "distance_m": 2526.815949872425,
+              "terrain_msl_m": 3236.56494140625,
+              "current_z_msl_m": 3793.6569256186394,
+              "preferred_soft_msl_m": 3356.56494140625,
+              "preferred_hard_msl_m": 3336.56494140625
+            },
+            {
+              "distance_m": 2585.3463882750825,
+              "terrain_msl_m": 3231.556640625,
+              "current_z_msl_m": 3793.6569256186394,
+              "preferred_soft_msl_m": 3351.556640625,
+              "preferred_hard_msl_m": 3331.556640625
+            },
+            {
+              "distance_m": 2643.87682667774,
+              "terrain_msl_m": 3221.119384765625,
+              "current_z_msl_m": 3793.6569256186394,
+              "preferred_soft_msl_m": 3341.119384765625,
+              "preferred_hard_msl_m": 3321.119384765625
+            },
+            {
+              "distance_m": 2702.407265080398,
+              "terrain_msl_m": 3221.119384765625,
+              "current_z_msl_m": 3793.6569256186394,
+              "preferred_soft_msl_m": 3341.119384765625,
+              "preferred_hard_msl_m": 3321.119384765625
+            },
+            {
+              "distance_m": 2760.9377034830554,
+              "terrain_msl_m": 3215.528564453125,
+              "current_z_msl_m": 3793.6569256186394,
+              "preferred_soft_msl_m": 3335.528564453125,
+              "preferred_hard_msl_m": 3315.528564453125
+            },
+            {
+              "distance_m": 2829.2232149528227,
+              "terrain_msl_m": 3206.16259765625,
+              "current_z_msl_m": 3793.6569256186394,
+              "preferred_soft_msl_m": 3329.3662656532347,
+              "preferred_hard_msl_m": 3309.3662656532347
+            },
+            {
+              "distance_m": 2887.7536533554803,
+              "terrain_msl_m": 3190.979736328125,
+              "current_z_msl_m": 3793.6569256186394,
+              "preferred_soft_msl_m": 3313.19869198042,
+              "preferred_hard_msl_m": 3293.19869198042
+            },
+            {
+              "distance_m": 2926.7739456239187,
+              "terrain_msl_m": 3195.2919921875,
+              "current_z_msl_m": 3793.6569256186394,
+              "preferred_soft_msl_m": 3315.2919921875,
+              "preferred_hard_msl_m": 3295.2919921875
+            }
+          ]
+        }
+      }
+    },
+    "F_turn_required_diagonal_2_3km": {
+      "name": "F_turn_required_diagonal_2_3km",
+      "reference_status": "FOUND",
+      "reference_length_m": 2330.8436596691554,
+      "terrain_sample_spacing_m": 60.0,
+      "anchor_count": 40,
+      "horizons": {
+        "1000": {
+          "heading_ray_vs_reference_path_abs_difference_m": {
+            "count": 40,
+            "mean": 25.94686913512543,
+            "median": 1.4142493870567705,
+            "p90": 85.20622811788886,
+            "max": 133.0814627272821
+          },
+          "largest_disagreement": {
+            "distance_m": 0.0,
+            "current_z_msl_m": 3700.0,
+            "terrain_msl_m": 3150.740478515625,
+            "heading_ray_status": "FULL",
+            "heading_ray_invalid_at_m": null,
+            "heading_ray_soft_msl_m": 3775.328094228221,
+            "heading_ray_hard_msl_m": 3755.328094228221,
+            "reference_soft_msl_m": 3642.2466315009387,
+            "reference_hard_msl_m": 3622.2466315009387,
+            "future_heading_change_deg": 60.0,
+            "future_turn_events": 72,
+            "abs_envelope_difference_m": 133.0814627272821
+          },
+          "heading_ray_validity": {
+            "FULL": 40
+          },
+          "heading_ray_classification": "ACCEPTABLE",
+          "reference_preferred_agl_m": {
+            "count": 40,
+            "mean": 190.11609506583454,
+            "median": 143.18549395720265,
+            "p90": 305.78551342946383,
+            "max": 491.50615298531375
+          },
+          "current_minus_reference_preferred_m": {
+            "mean_absolute": 35.41600797760525,
+            "above_100m_percent": 7.5,
+            "above_250m_percent": 0.0,
+            "above_500m_percent": 0.0
+          },
+          "raw_soft_climb_violations": 17,
+          "preferred_profile_feasibility": {
+            "climb_violations": 6,
+            "max_climb_excess_mps": 0.3576430083575266,
+            "descent_violations": 7,
+            "max_descent_excess_mps": 17.446377626736613,
+            "max_required_descent_mps": 21.67509388097687,
+            "available_descent_at_violations_mps": [
+              4.228716254240256,
+              4.228716254240256,
+              4.228716254240256,
+              4.228716254240256,
+              4.228716254240256,
+              4.228716254240256,
+              4.228716254240256
+            ]
+          },
+          "profile": [
+            {
+              "distance_m": 0.0,
+              "terrain_msl_m": 3150.740478515625,
+              "current_z_msl_m": 3700.0,
+              "preferred_soft_msl_m": 3642.2466315009387,
+              "preferred_hard_msl_m": 3622.2466315009387
+            },
+            {
+              "distance_m": 60.0,
+              "terrain_msl_m": 3171.895751953125,
+              "current_z_msl_m": 3693.6569256186394,
+              "preferred_soft_msl_m": 3645.465418576155,
+              "preferred_hard_msl_m": 3625.465418576155
+            },
+            {
+              "distance_m": 127.56630769046734,
+              "terrain_msl_m": 3254.78759765625,
+              "current_z_msl_m": 3693.6569256186394,
+              "preferred_soft_msl_m": 3648.572647593685,
+              "preferred_hard_msl_m": 3628.572647593685
+            },
+            {
+              "distance_m": 185.48028571086792,
+              "terrain_msl_m": 3297.84130859375,
+              "current_z_msl_m": 3693.6569256186394,
+              "preferred_soft_msl_m": 3652.1969906068316,
+              "preferred_hard_msl_m": 3632.1969906068316
+            },
+            {
+              "distance_m": 243.39426373126847,
+              "terrain_msl_m": 3375.5654296875,
+              "current_z_msl_m": 3693.6569256186394,
+              "preferred_soft_msl_m": 3655.3038700056054,
+              "preferred_hard_msl_m": 3635.3038700056054
+            },
+            {
+              "distance_m": 301.308241751669,
+              "terrain_msl_m": 3375.5654296875,
+              "current_z_msl_m": 3693.6569256186394,
+              "preferred_soft_msl_m": 3658.410749404379,
+              "preferred_hard_msl_m": 3638.410749404379
+            },
+            {
+              "distance_m": 368.87454944213636,
+              "terrain_msl_m": 3361.129150390625,
+              "current_z_msl_m": 3693.6569256186394,
+              "preferred_soft_msl_m": 3661.517978421909,
+              "preferred_hard_msl_m": 3641.517978421909
+            },
+            {
+              "distance_m": 427.48386812240335,
+              "terrain_msl_m": 3382.0146484375,
+              "current_z_msl_m": 3693.6569256186394,
+              "preferred_soft_msl_m": 3664.662160379497,
+              "preferred_hard_msl_m": 3644.662160379497
+            },
+            {
+              "distance_m": 487.48386812240335,
+              "terrain_msl_m": 3383.881591796875,
+              "current_z_msl_m": 3693.6569256186394,
+              "preferred_soft_msl_m": 3667.8809474547134,
+              "preferred_hard_msl_m": 3647.8809474547134
+            },
+            {
+              "distance_m": 547.4838681224034,
+              "terrain_msl_m": 3420.934326171875,
+              "current_z_msl_m": 3691.542567491519,
+              "preferred_soft_msl_m": 3671.0997345299297,
+              "preferred_hard_msl_m": 3651.0997345299297
+            },
+            {
+              "distance_m": 606.7754932823442,
+              "terrain_msl_m": 3479.997314453125,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3674.2805198088195,
+              "preferred_hard_msl_m": 3654.2805198088195
+            },
+            {
+              "distance_m": 664.6503687621667,
+              "terrain_msl_m": 3543.620361328125,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3677.9027651094293,
+              "preferred_hard_msl_m": 3657.9027651094293
+            },
+            {
+              "distance_m": 722.5252442419893,
+              "terrain_msl_m": 3543.620361328125,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3681.0075467956663,
+              "preferred_hard_msl_m": 3661.0075467956663
+            },
+            {
+              "distance_m": 780.4001197218117,
+              "terrain_msl_m": 3552.008056640625,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3684.112328481903,
+              "preferred_hard_msl_m": 3664.112328481903
+            },
+            {
+              "distance_m": 847.9208077816047,
+              "terrain_msl_m": 3552.008056640625,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3687.21711016814,
+              "preferred_hard_msl_m": 3667.21711016814
+            },
+            {
+              "distance_m": 905.7956832614273,
+              "terrain_msl_m": 3570.83935546875,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3690.83935546875,
+              "preferred_hard_msl_m": 3670.83935546875
+            },
+            {
+              "distance_m": 964.7331210013385,
+              "terrain_msl_m": 3572.28515625,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3692.28515625,
+              "preferred_hard_msl_m": 3672.28515625
+            },
+            {
+              "distance_m": 1023.6705587412498,
+              "terrain_msl_m": 3539.186767578125,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3694.226631652515,
+              "preferred_hard_msl_m": 3674.226631652515
+            },
+            {
+              "distance_m": 1081.5454342210724,
+              "terrain_msl_m": 3577.848876953125,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3697.848876953125,
+              "preferred_hard_msl_m": 3677.848876953125
+            },
+            {
+              "distance_m": 1149.0661222808653,
+              "terrain_msl_m": 3565.974609375,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3688.522041808765,
+              "preferred_hard_msl_m": 3668.522041808765
+            },
+            {
+              "distance_m": 1206.9409977606879,
+              "terrain_msl_m": 3572.144287109375,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3692.144287109375,
+              "preferred_hard_msl_m": 3672.144287109375
+            },
+            {
+              "distance_m": 1264.8158732405104,
+              "terrain_msl_m": 3540.783203125,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3660.783203125,
+              "preferred_hard_msl_m": 3640.783203125
+            },
+            {
+              "distance_m": 1322.690748720333,
+              "terrain_msl_m": 3540.783203125,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3660.783203125,
+              "preferred_hard_msl_m": 3640.783203125
+            },
+            {
+              "distance_m": 1380.5656242001555,
+              "terrain_msl_m": 3540.783203125,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3660.783203125,
+              "preferred_hard_msl_m": 3640.783203125
+            },
+            {
+              "distance_m": 1448.0863122599485,
+              "terrain_msl_m": 3472.64794921875,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3638.6541630313586,
+              "preferred_hard_msl_m": 3618.6541630313586
+            },
+            {
+              "distance_m": 1505.961187739771,
+              "terrain_msl_m": 3472.64794921875,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3641.7589447175956,
+              "preferred_hard_msl_m": 3621.7589447175956
+            },
+            {
+              "distance_m": 1563.8360632195936,
+              "terrain_msl_m": 3458.3818359375,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3644.8637264038325,
+              "preferred_hard_msl_m": 3624.8637264038325
+            },
+            {
+              "distance_m": 1621.7109386994161,
+              "terrain_msl_m": 3456.26904296875,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3647.9685080900695,
+              "preferred_hard_msl_m": 3627.9685080900695
+            },
+            {
+              "distance_m": 1689.2316267592091,
+              "terrain_msl_m": 3457.051025390625,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3651.5907533906793,
+              "preferred_hard_msl_m": 3631.5907533906793
+            },
+            {
+              "distance_m": 1747.1065022390317,
+              "terrain_msl_m": 3499.80615234375,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3654.6955350769163,
+              "preferred_hard_msl_m": 3634.6955350769163
+            },
+            {
+              "distance_m": 1804.9813777188542,
+              "terrain_msl_m": 3509.259765625,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3657.800316763153,
+              "preferred_hard_msl_m": 3637.800316763153
+            },
+            {
+              "distance_m": 1862.8562531986768,
+              "terrain_msl_m": 3515.491455078125,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3660.90509844939,
+              "preferred_hard_msl_m": 3640.90509844939
+            },
+            {
+              "distance_m": 1920.7311286784993,
+              "terrain_msl_m": 3544.52734375,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3664.52734375,
+              "preferred_hard_msl_m": 3644.52734375
+            },
+            {
+              "distance_m": 1988.2518167382923,
+              "terrain_msl_m": 3521.2431640625,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3641.2431640625,
+              "preferred_hard_msl_m": 3621.2431640625
+            },
+            {
+              "distance_m": 2046.4808796381444,
+              "terrain_msl_m": 3521.2431640625,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3641.2431640625,
+              "preferred_hard_msl_m": 3621.2431640625
+            },
+            {
+              "distance_m": 2106.126692218115,
+              "terrain_msl_m": 3497.419677734375,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3617.419677734375,
+              "preferred_hard_msl_m": 3597.419677734375
+            },
+            {
+              "distance_m": 2164.0015676979374,
+              "terrain_msl_m": 3455.001220703125,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3595.958565246265,
+              "preferred_hard_msl_m": 3575.958565246265
+            },
+            {
+              "distance_m": 2221.87644317776,
+              "terrain_msl_m": 3455.001220703125,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3577.8809065716696,
+              "preferred_hard_msl_m": 3557.8809065716696
+            },
+            {
+              "distance_m": 2280.105506077612,
+              "terrain_msl_m": 3440.734619140625,
+              "current_z_msl_m": 3687.850315749815,
+              "preferred_soft_msl_m": 3581.0046891560696,
+              "preferred_hard_msl_m": 3561.0046891560696
+            },
+            {
+              "distance_m": 2330.105506077612,
+              "terrain_msl_m": 3463.68701171875,
+              "current_z_msl_m": 3690.5326383124952,
+              "preferred_soft_msl_m": 3583.68701171875,
+              "preferred_hard_msl_m": 3563.68701171875
+            }
+          ]
+        },
+        "3000": {
+          "heading_ray_vs_reference_path_abs_difference_m": {
+            "count": 40,
+            "mean": 27.650391266923464,
+            "median": 12.129854269028101,
+            "p90": 85.20622811788886,
+            "max": 133.0814627272821
+          },
+          "largest_disagreement": {
+            "distance_m": 0.0,
+            "current_z_msl_m": 3700.0,
+            "terrain_msl_m": 3150.740478515625,
+            "heading_ray_status": "FULL",
+            "heading_ray_invalid_at_m": null,
+            "heading_ray_soft_msl_m": 3775.328094228221,
+            "heading_ray_hard_msl_m": 3755.328094228221,
+            "reference_soft_msl_m": 3642.2466315009387,
+            "reference_hard_msl_m": 3622.2466315009387,
+            "future_heading_change_deg": 164.99999999999915,
+            "future_turn_events": 198,
+            "abs_envelope_difference_m": 133.0814627272821
+          },
+          "heading_ray_validity": {
+            "FULL": 40
+          },
+          "heading_ray_classification": "ACCEPTABLE",
+          "reference_preferred_agl_m": {
+            "count": 40,
+            "mean": 190.11609506583454,
+            "median": 143.18549395720265,
+            "p90": 305.78551342946383,
+            "max": 491.50615298531375
+          },
+          "current_minus_reference_preferred_m": {
+            "mean_absolute": 35.41600797760525,
+            "above_100m_percent": 7.5,
+            "above_250m_percent": 0.0,
+            "above_500m_percent": 0.0
+          },
+          "raw_soft_climb_violations": 17,
+          "preferred_profile_feasibility": {
+            "climb_violations": 6,
+            "max_climb_excess_mps": 0.3576430083575266,
+            "descent_violations": 7,
+            "max_descent_excess_mps": 17.446377626736613,
+            "max_required_descent_mps": 21.67509388097687,
+            "available_descent_at_violations_mps": [
+              4.228716254240256,
+              4.228716254240256,
+              4.228716254240256,
+              4.228716254240256,
+              4.228716254240256,
+              4.228716254240256,
+              4.228716254240256
+            ]
+          },
+          "profile": [
+            {
+              "distance_m": 0.0,
+              "terrain_msl_m": 3150.740478515625,
+              "current_z_msl_m": 3700.0,
+              "preferred_soft_msl_m": 3642.2466315009387,
+              "preferred_hard_msl_m": 3622.2466315009387
+            },
+            {
+              "distance_m": 60.0,
+              "terrain_msl_m": 3171.895751953125,
+              "current_z_msl_m": 3693.6569256186394,
+              "preferred_soft_msl_m": 3645.465418576155,
+              "preferred_hard_msl_m": 3625.465418576155
+            },
+            {
+              "distance_m": 127.56630769046734,
+              "terrain_msl_m": 3254.78759765625,
+              "current_z_msl_m": 3693.6569256186394,
+              "preferred_soft_msl_m": 3648.572647593685,
+              "preferred_hard_msl_m": 3628.572647593685
+            },
+            {
+              "distance_m": 185.48028571086792,
+              "terrain_msl_m": 3297.84130859375,
+              "current_z_msl_m": 3693.6569256186394,
+              "preferred_soft_msl_m": 3652.1969906068316,
+              "preferred_hard_msl_m": 3632.1969906068316
+            },
+            {
+              "distance_m": 243.39426373126847,
+              "terrain_msl_m": 3375.5654296875,
+              "current_z_msl_m": 3693.6569256186394,
+              "preferred_soft_msl_m": 3655.3038700056054,
+              "preferred_hard_msl_m": 3635.3038700056054
+            },
+            {
+              "distance_m": 301.308241751669,
+              "terrain_msl_m": 3375.5654296875,
+              "current_z_msl_m": 3693.6569256186394,
+              "preferred_soft_msl_m": 3658.410749404379,
+              "preferred_hard_msl_m": 3638.410749404379
+            },
+            {
+              "distance_m": 368.87454944213636,
+              "terrain_msl_m": 3361.129150390625,
+              "current_z_msl_m": 3693.6569256186394,
+              "preferred_soft_msl_m": 3661.517978421909,
+              "preferred_hard_msl_m": 3641.517978421909
+            },
+            {
+              "distance_m": 427.48386812240335,
+              "terrain_msl_m": 3382.0146484375,
+              "current_z_msl_m": 3693.6569256186394,
+              "preferred_soft_msl_m": 3664.662160379497,
+              "preferred_hard_msl_m": 3644.662160379497
+            },
+            {
+              "distance_m": 487.48386812240335,
+              "terrain_msl_m": 3383.881591796875,
+              "current_z_msl_m": 3693.6569256186394,
+              "preferred_soft_msl_m": 3667.8809474547134,
+              "preferred_hard_msl_m": 3647.8809474547134
+            },
+            {
+              "distance_m": 547.4838681224034,
+              "terrain_msl_m": 3420.934326171875,
+              "current_z_msl_m": 3691.542567491519,
+              "preferred_soft_msl_m": 3671.0997345299297,
+              "preferred_hard_msl_m": 3651.0997345299297
+            },
+            {
+              "distance_m": 606.7754932823442,
+              "terrain_msl_m": 3479.997314453125,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3674.2805198088195,
+              "preferred_hard_msl_m": 3654.2805198088195
+            },
+            {
+              "distance_m": 664.6503687621667,
+              "terrain_msl_m": 3543.620361328125,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3677.9027651094293,
+              "preferred_hard_msl_m": 3657.9027651094293
+            },
+            {
+              "distance_m": 722.5252442419893,
+              "terrain_msl_m": 3543.620361328125,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3681.0075467956663,
+              "preferred_hard_msl_m": 3661.0075467956663
+            },
+            {
+              "distance_m": 780.4001197218117,
+              "terrain_msl_m": 3552.008056640625,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3684.112328481903,
+              "preferred_hard_msl_m": 3664.112328481903
+            },
+            {
+              "distance_m": 847.9208077816047,
+              "terrain_msl_m": 3552.008056640625,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3687.21711016814,
+              "preferred_hard_msl_m": 3667.21711016814
+            },
+            {
+              "distance_m": 905.7956832614273,
+              "terrain_msl_m": 3570.83935546875,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3690.83935546875,
+              "preferred_hard_msl_m": 3670.83935546875
+            },
+            {
+              "distance_m": 964.7331210013385,
+              "terrain_msl_m": 3572.28515625,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3692.28515625,
+              "preferred_hard_msl_m": 3672.28515625
+            },
+            {
+              "distance_m": 1023.6705587412498,
+              "terrain_msl_m": 3539.186767578125,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3694.226631652515,
+              "preferred_hard_msl_m": 3674.226631652515
+            },
+            {
+              "distance_m": 1081.5454342210724,
+              "terrain_msl_m": 3577.848876953125,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3697.848876953125,
+              "preferred_hard_msl_m": 3677.848876953125
+            },
+            {
+              "distance_m": 1149.0661222808653,
+              "terrain_msl_m": 3565.974609375,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3688.522041808765,
+              "preferred_hard_msl_m": 3668.522041808765
+            },
+            {
+              "distance_m": 1206.9409977606879,
+              "terrain_msl_m": 3572.144287109375,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3692.144287109375,
+              "preferred_hard_msl_m": 3672.144287109375
+            },
+            {
+              "distance_m": 1264.8158732405104,
+              "terrain_msl_m": 3540.783203125,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3660.783203125,
+              "preferred_hard_msl_m": 3640.783203125
+            },
+            {
+              "distance_m": 1322.690748720333,
+              "terrain_msl_m": 3540.783203125,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3660.783203125,
+              "preferred_hard_msl_m": 3640.783203125
+            },
+            {
+              "distance_m": 1380.5656242001555,
+              "terrain_msl_m": 3540.783203125,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3660.783203125,
+              "preferred_hard_msl_m": 3640.783203125
+            },
+            {
+              "distance_m": 1448.0863122599485,
+              "terrain_msl_m": 3472.64794921875,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3638.6541630313586,
+              "preferred_hard_msl_m": 3618.6541630313586
+            },
+            {
+              "distance_m": 1505.961187739771,
+              "terrain_msl_m": 3472.64794921875,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3641.7589447175956,
+              "preferred_hard_msl_m": 3621.7589447175956
+            },
+            {
+              "distance_m": 1563.8360632195936,
+              "terrain_msl_m": 3458.3818359375,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3644.8637264038325,
+              "preferred_hard_msl_m": 3624.8637264038325
+            },
+            {
+              "distance_m": 1621.7109386994161,
+              "terrain_msl_m": 3456.26904296875,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3647.9685080900695,
+              "preferred_hard_msl_m": 3627.9685080900695
+            },
+            {
+              "distance_m": 1689.2316267592091,
+              "terrain_msl_m": 3457.051025390625,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3651.5907533906793,
+              "preferred_hard_msl_m": 3631.5907533906793
+            },
+            {
+              "distance_m": 1747.1065022390317,
+              "terrain_msl_m": 3499.80615234375,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3654.6955350769163,
+              "preferred_hard_msl_m": 3634.6955350769163
+            },
+            {
+              "distance_m": 1804.9813777188542,
+              "terrain_msl_m": 3509.259765625,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3657.800316763153,
+              "preferred_hard_msl_m": 3637.800316763153
+            },
+            {
+              "distance_m": 1862.8562531986768,
+              "terrain_msl_m": 3515.491455078125,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3660.90509844939,
+              "preferred_hard_msl_m": 3640.90509844939
+            },
+            {
+              "distance_m": 1920.7311286784993,
+              "terrain_msl_m": 3544.52734375,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3664.52734375,
+              "preferred_hard_msl_m": 3644.52734375
+            },
+            {
+              "distance_m": 1988.2518167382923,
+              "terrain_msl_m": 3521.2431640625,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3641.2431640625,
+              "preferred_hard_msl_m": 3621.2431640625
+            },
+            {
+              "distance_m": 2046.4808796381444,
+              "terrain_msl_m": 3521.2431640625,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3641.2431640625,
+              "preferred_hard_msl_m": 3621.2431640625
+            },
+            {
+              "distance_m": 2106.126692218115,
+              "terrain_msl_m": 3497.419677734375,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3617.419677734375,
+              "preferred_hard_msl_m": 3597.419677734375
+            },
+            {
+              "distance_m": 2164.0015676979374,
+              "terrain_msl_m": 3455.001220703125,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3595.958565246265,
+              "preferred_hard_msl_m": 3575.958565246265
+            },
+            {
+              "distance_m": 2221.87644317776,
+              "terrain_msl_m": 3455.001220703125,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3577.8809065716696,
+              "preferred_hard_msl_m": 3557.8809065716696
+            },
+            {
+              "distance_m": 2280.105506077612,
+              "terrain_msl_m": 3440.734619140625,
+              "current_z_msl_m": 3687.850315749815,
+              "preferred_soft_msl_m": 3581.0046891560696,
+              "preferred_hard_msl_m": 3561.0046891560696
+            },
+            {
+              "distance_m": 2330.105506077612,
+              "terrain_msl_m": 3463.68701171875,
+              "current_z_msl_m": 3690.5326383124952,
+              "preferred_soft_msl_m": 3583.68701171875,
+              "preferred_hard_msl_m": 3563.68701171875
+            }
+          ]
+        },
+        "5000": {
+          "heading_ray_vs_reference_path_abs_difference_m": {
+            "count": 32,
+            "mean": 26.12874509742771,
+            "median": 12.129854269028101,
+            "p90": 110.08993454825958,
+            "max": 133.0814627272821
+          },
+          "largest_disagreement": {
+            "distance_m": 0.0,
+            "current_z_msl_m": 3700.0,
+            "terrain_msl_m": 3150.740478515625,
+            "heading_ray_status": "FULL",
+            "heading_ray_invalid_at_m": null,
+            "heading_ray_soft_msl_m": 3775.328094228221,
+            "heading_ray_hard_msl_m": 3755.328094228221,
+            "reference_soft_msl_m": 3642.2466315009387,
+            "reference_hard_msl_m": 3622.2466315009387,
+            "future_heading_change_deg": 164.99999999999915,
+            "future_turn_events": 198,
+            "abs_envelope_difference_m": 133.0814627272821
+          },
+          "heading_ray_validity": {
+            "FULL": 32,
+            "PARTIAL": 8
+          },
+          "heading_ray_classification": "ACCEPTABLE",
+          "reference_preferred_agl_m": {
+            "count": 40,
+            "mean": 190.11609506583454,
+            "median": 143.18549395720265,
+            "p90": 305.78551342946383,
+            "max": 491.50615298531375
+          },
+          "current_minus_reference_preferred_m": {
+            "mean_absolute": 35.41600797760525,
+            "above_100m_percent": 7.5,
+            "above_250m_percent": 0.0,
+            "above_500m_percent": 0.0
+          },
+          "raw_soft_climb_violations": 17,
+          "preferred_profile_feasibility": {
+            "climb_violations": 6,
+            "max_climb_excess_mps": 0.3576430083575266,
+            "descent_violations": 7,
+            "max_descent_excess_mps": 17.446377626736613,
+            "max_required_descent_mps": 21.67509388097687,
+            "available_descent_at_violations_mps": [
+              4.228716254240256,
+              4.228716254240256,
+              4.228716254240256,
+              4.228716254240256,
+              4.228716254240256,
+              4.228716254240256,
+              4.228716254240256
+            ]
+          },
+          "profile": [
+            {
+              "distance_m": 0.0,
+              "terrain_msl_m": 3150.740478515625,
+              "current_z_msl_m": 3700.0,
+              "preferred_soft_msl_m": 3642.2466315009387,
+              "preferred_hard_msl_m": 3622.2466315009387
+            },
+            {
+              "distance_m": 60.0,
+              "terrain_msl_m": 3171.895751953125,
+              "current_z_msl_m": 3693.6569256186394,
+              "preferred_soft_msl_m": 3645.465418576155,
+              "preferred_hard_msl_m": 3625.465418576155
+            },
+            {
+              "distance_m": 127.56630769046734,
+              "terrain_msl_m": 3254.78759765625,
+              "current_z_msl_m": 3693.6569256186394,
+              "preferred_soft_msl_m": 3648.572647593685,
+              "preferred_hard_msl_m": 3628.572647593685
+            },
+            {
+              "distance_m": 185.48028571086792,
+              "terrain_msl_m": 3297.84130859375,
+              "current_z_msl_m": 3693.6569256186394,
+              "preferred_soft_msl_m": 3652.1969906068316,
+              "preferred_hard_msl_m": 3632.1969906068316
+            },
+            {
+              "distance_m": 243.39426373126847,
+              "terrain_msl_m": 3375.5654296875,
+              "current_z_msl_m": 3693.6569256186394,
+              "preferred_soft_msl_m": 3655.3038700056054,
+              "preferred_hard_msl_m": 3635.3038700056054
+            },
+            {
+              "distance_m": 301.308241751669,
+              "terrain_msl_m": 3375.5654296875,
+              "current_z_msl_m": 3693.6569256186394,
+              "preferred_soft_msl_m": 3658.410749404379,
+              "preferred_hard_msl_m": 3638.410749404379
+            },
+            {
+              "distance_m": 368.87454944213636,
+              "terrain_msl_m": 3361.129150390625,
+              "current_z_msl_m": 3693.6569256186394,
+              "preferred_soft_msl_m": 3661.517978421909,
+              "preferred_hard_msl_m": 3641.517978421909
+            },
+            {
+              "distance_m": 427.48386812240335,
+              "terrain_msl_m": 3382.0146484375,
+              "current_z_msl_m": 3693.6569256186394,
+              "preferred_soft_msl_m": 3664.662160379497,
+              "preferred_hard_msl_m": 3644.662160379497
+            },
+            {
+              "distance_m": 487.48386812240335,
+              "terrain_msl_m": 3383.881591796875,
+              "current_z_msl_m": 3693.6569256186394,
+              "preferred_soft_msl_m": 3667.8809474547134,
+              "preferred_hard_msl_m": 3647.8809474547134
+            },
+            {
+              "distance_m": 547.4838681224034,
+              "terrain_msl_m": 3420.934326171875,
+              "current_z_msl_m": 3691.542567491519,
+              "preferred_soft_msl_m": 3671.0997345299297,
+              "preferred_hard_msl_m": 3651.0997345299297
+            },
+            {
+              "distance_m": 606.7754932823442,
+              "terrain_msl_m": 3479.997314453125,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3674.2805198088195,
+              "preferred_hard_msl_m": 3654.2805198088195
+            },
+            {
+              "distance_m": 664.6503687621667,
+              "terrain_msl_m": 3543.620361328125,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3677.9027651094293,
+              "preferred_hard_msl_m": 3657.9027651094293
+            },
+            {
+              "distance_m": 722.5252442419893,
+              "terrain_msl_m": 3543.620361328125,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3681.0075467956663,
+              "preferred_hard_msl_m": 3661.0075467956663
+            },
+            {
+              "distance_m": 780.4001197218117,
+              "terrain_msl_m": 3552.008056640625,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3684.112328481903,
+              "preferred_hard_msl_m": 3664.112328481903
+            },
+            {
+              "distance_m": 847.9208077816047,
+              "terrain_msl_m": 3552.008056640625,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3687.21711016814,
+              "preferred_hard_msl_m": 3667.21711016814
+            },
+            {
+              "distance_m": 905.7956832614273,
+              "terrain_msl_m": 3570.83935546875,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3690.83935546875,
+              "preferred_hard_msl_m": 3670.83935546875
+            },
+            {
+              "distance_m": 964.7331210013385,
+              "terrain_msl_m": 3572.28515625,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3692.28515625,
+              "preferred_hard_msl_m": 3672.28515625
+            },
+            {
+              "distance_m": 1023.6705587412498,
+              "terrain_msl_m": 3539.186767578125,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3694.226631652515,
+              "preferred_hard_msl_m": 3674.226631652515
+            },
+            {
+              "distance_m": 1081.5454342210724,
+              "terrain_msl_m": 3577.848876953125,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3697.848876953125,
+              "preferred_hard_msl_m": 3677.848876953125
+            },
+            {
+              "distance_m": 1149.0661222808653,
+              "terrain_msl_m": 3565.974609375,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3688.522041808765,
+              "preferred_hard_msl_m": 3668.522041808765
+            },
+            {
+              "distance_m": 1206.9409977606879,
+              "terrain_msl_m": 3572.144287109375,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3692.144287109375,
+              "preferred_hard_msl_m": 3672.144287109375
+            },
+            {
+              "distance_m": 1264.8158732405104,
+              "terrain_msl_m": 3540.783203125,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3660.783203125,
+              "preferred_hard_msl_m": 3640.783203125
+            },
+            {
+              "distance_m": 1322.690748720333,
+              "terrain_msl_m": 3540.783203125,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3660.783203125,
+              "preferred_hard_msl_m": 3640.783203125
+            },
+            {
+              "distance_m": 1380.5656242001555,
+              "terrain_msl_m": 3540.783203125,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3660.783203125,
+              "preferred_hard_msl_m": 3640.783203125
+            },
+            {
+              "distance_m": 1448.0863122599485,
+              "terrain_msl_m": 3472.64794921875,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3638.6541630313586,
+              "preferred_hard_msl_m": 3618.6541630313586
+            },
+            {
+              "distance_m": 1505.961187739771,
+              "terrain_msl_m": 3472.64794921875,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3641.7589447175956,
+              "preferred_hard_msl_m": 3621.7589447175956
+            },
+            {
+              "distance_m": 1563.8360632195936,
+              "terrain_msl_m": 3458.3818359375,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3644.8637264038325,
+              "preferred_hard_msl_m": 3624.8637264038325
+            },
+            {
+              "distance_m": 1621.7109386994161,
+              "terrain_msl_m": 3456.26904296875,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3647.9685080900695,
+              "preferred_hard_msl_m": 3627.9685080900695
+            },
+            {
+              "distance_m": 1689.2316267592091,
+              "terrain_msl_m": 3457.051025390625,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3651.5907533906793,
+              "preferred_hard_msl_m": 3631.5907533906793
+            },
+            {
+              "distance_m": 1747.1065022390317,
+              "terrain_msl_m": 3499.80615234375,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3654.6955350769163,
+              "preferred_hard_msl_m": 3634.6955350769163
+            },
+            {
+              "distance_m": 1804.9813777188542,
+              "terrain_msl_m": 3509.259765625,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3657.800316763153,
+              "preferred_hard_msl_m": 3637.800316763153
+            },
+            {
+              "distance_m": 1862.8562531986768,
+              "terrain_msl_m": 3515.491455078125,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3660.90509844939,
+              "preferred_hard_msl_m": 3640.90509844939
+            },
+            {
+              "distance_m": 1920.7311286784993,
+              "terrain_msl_m": 3544.52734375,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3664.52734375,
+              "preferred_hard_msl_m": 3644.52734375
+            },
+            {
+              "distance_m": 1988.2518167382923,
+              "terrain_msl_m": 3521.2431640625,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3641.2431640625,
+              "preferred_hard_msl_m": 3621.2431640625
+            },
+            {
+              "distance_m": 2046.4808796381444,
+              "terrain_msl_m": 3521.2431640625,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3641.2431640625,
+              "preferred_hard_msl_m": 3621.2431640625
+            },
+            {
+              "distance_m": 2106.126692218115,
+              "terrain_msl_m": 3497.419677734375,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3617.419677734375,
+              "preferred_hard_msl_m": 3597.419677734375
+            },
+            {
+              "distance_m": 2164.0015676979374,
+              "terrain_msl_m": 3455.001220703125,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3595.958565246265,
+              "preferred_hard_msl_m": 3575.958565246265
+            },
+            {
+              "distance_m": 2221.87644317776,
+              "terrain_msl_m": 3455.001220703125,
+              "current_z_msl_m": 3687.313851237279,
+              "preferred_soft_msl_m": 3577.8809065716696,
+              "preferred_hard_msl_m": 3557.8809065716696
+            },
+            {
+              "distance_m": 2280.105506077612,
+              "terrain_msl_m": 3440.734619140625,
+              "current_z_msl_m": 3687.850315749815,
+              "preferred_soft_msl_m": 3581.0046891560696,
+              "preferred_hard_msl_m": 3561.0046891560696
+            },
+            {
+              "distance_m": 2330.105506077612,
+              "terrain_msl_m": 3463.68701171875,
+              "current_z_msl_m": 3690.5326383124952,
+              "preferred_soft_msl_m": 3583.68701171875,
+              "preferred_hard_msl_m": 3563.68701171875
+            }
+          ]
+        }
+      }
+    }
+  },
+  "synthetic_cases": {
+    "valley": {
+      "spacing_m": 60.0,
+      "terrain_msl_m": [
+        1000.0001874757457,
+        1000.0011484281741,
+        1000.0062083440534,
+        1000.0296183529808,
+        1000.1246979237171,
+        1000.4633089926947,
+        1001.5191317025966,
+        1004.3957533332962,
+        1011.2249493721501,
+        1025.2958138948475,
+        1050.3067329162634,
+        1088.291065881146,
+        1136.7478779354215,
+        1186.912187937137,
+        1225.4591350752341,
+        1240.0,
+        1225.4591350752341,
+        1186.912187937137,
+        1136.7478779354215,
+        1088.291065881146,
+        1050.3067329162634,
+        1025.2958138948475,
+        1011.2249493721512,
+        1004.3957533333137,
+        1001.5191317028537,
+        1000.4633089960278,
+        1000.1246979618625,
+        1000.0296187382355,
+        1000.0062117777915,
+        1000.0011754366161,
+        1000.0003749514915,
+        1000.0011754366161,
+        1000.0062117777915,
+        1000.0296187382355,
+        1000.1246979618625,
+        1000.4633089960278,
+        1001.5191317028537,
+        1004.3957533333137,
+        1011.2249493721512,
+        1025.2958138948475,
+        1050.3067329162634,
+        1088.291065881146,
+        1136.7478779354215,
+        1186.912187937137,
+        1225.4591350752341,
+        1240.0,
+        1225.4591350752341,
+        1186.912187937137,
+        1136.7478779354215,
+        1088.291065881146,
+        1050.3067329162634,
+        1025.2958138948475,
+        1011.2249493721501,
+        1004.3957533332962,
+        1001.5191317025966,
+        1000.4633089926947,
+        1000.1246979237171,
+        1000.0296183529808,
+        1000.0062083440534,
+        1000.0011484281741,
+        1000.0001874757457
+      ],
+      "raw_soft_msl_m": [
+        1120.0001874757459,
+        1120.001148428174,
+        1120.0062083440534,
+        1120.0296183529808,
+        1120.1246979237171,
+        1120.4633089926947,
+        1121.5191317025965,
+        1124.3957533332962,
+        1131.2249493721501,
+        1145.2958138948475,
+        1170.3067329162634,
+        1208.291065881146,
+        1256.7478779354215,
+        1306.912187937137,
+        1345.4591350752341,
+        1360.0,
+        1345.4591350752341,
+        1306.912187937137,
+        1256.7478779354215,
+        1208.291065881146,
+        1170.3067329162634,
+        1145.2958138948475,
+        1131.224949372151,
+        1124.3957533333137,
+        1121.5191317028537,
+        1120.4633089960278,
+        1120.1246979618625,
+        1120.0296187382355,
+        1120.0062117777916,
+        1120.001175436616,
+        1120.0003749514915,
+        1120.001175436616,
+        1120.0062117777916,
+        1120.0296187382355,
+        1120.1246979618625,
+        1120.4633089960278,
+        1121.5191317028537,
+        1124.3957533333137,
+        1131.224949372151,
+        1145.2958138948475,
+        1170.3067329162634,
+        1208.291065881146,
+        1256.7478779354215,
+        1306.912187937137,
+        1345.4591350752341,
+        1360.0,
+        1345.4591350752341,
+        1306.912187937137,
+        1256.7478779354215,
+        1208.291065881146,
+        1170.3067329162634,
+        1145.2958138948475,
+        1131.2249493721501,
+        1124.3957533332962,
+        1121.5191317025965,
+        1120.4633089926947,
+        1120.1246979237171,
+        1120.0296183529808,
+        1120.0062083440534,
+        1120.001148428174,
+        1120.0001874757459
+      ],
+      "lookahead_preferred_msl_m": [
+        1264.909114625417,
+        1271.2485069837226,
+        1277.587899342028,
+        1283.9272917003336,
+        1290.2666840586392,
+        1296.6060764169447,
+        1302.9454687752502,
+        1309.2848611335558,
+        1315.6242534918613,
+        1321.9636458501668,
+        1328.3030382084723,
+        1334.6424305667779,
+        1340.9818229250834,
+        1347.321215283389,
+        1353.6606076416945,
+        1360.0,
+        1345.4591350752341,
+        1306.912187937137,
+        1256.7478779354215,
+        1208.291065881146,
+        1201.5151910423617,
+        1207.8545834006673,
+        1214.1939757589728,
+        1220.5333681172783,
+        1226.8727604755838,
+        1233.2121528338894,
+        1239.551545192195,
+        1245.8909375505004,
+        1252.230329908806,
+        1258.5697222671115,
+        1264.909114625417,
+        1271.2485069837226,
+        1277.587899342028,
+        1283.9272917003336,
+        1290.2666840586392,
+        1296.6060764169447,
+        1302.9454687752502,
+        1309.2848611335558,
+        1315.6242534918613,
+        1321.9636458501668,
+        1328.3030382084723,
+        1334.6424305667779,
+        1340.9818229250834,
+        1347.321215283389,
+        1353.6606076416945,
+        1360.0,
+        1345.4591350752341,
+        1306.912187937137,
+        1256.7478779354215,
+        1208.291065881146,
+        1170.3067329162634,
+        1145.2958138948475,
+        1131.2249493721501,
+        1124.3957533332962,
+        1121.5191317025965,
+        1120.4633089926947,
+        1120.1246979237171,
+        1120.0296183529808,
+        1120.0062083440534,
+        1120.001148428174,
+        1120.0001874757459
+      ],
+      "max_envelope_above_raw_m": 184.88910780025958
+    },
+    "small_dip": {
+      "spacing_m": 60.0,
+      "terrain_msl_m": [
+        1500.0,
+        1500.0,
+        1500.0,
+        1500.0,
+        1500.0,
+        1500.0,
+        1500.0,
+        1500.0,
+        1500.0,
+        1500.0,
+        1500.0,
+        1500.0,
+        1500.0,
+        1500.0,
+        1500.0,
+        1500.0,
+        1499.9999999999827,
+        1499.9999999921124,
+        1499.9999982536337,
+        1499.999811793984,
+        1499.990127215673,
+        1499.7479110721245,
+        1496.8668883920811,
+        1481.0457793054302,
+        1444.1858939143176,
+        1420.0,
+        1444.1858939143176,
+        1481.0457793054302,
+        1496.8668883920811,
+        1499.7479110721245,
+        1499.990127215673,
+        1499.999811793984,
+        1499.9999982536337,
+        1499.9999999921124,
+        1499.9999999999827,
+        1500.0,
+        1500.0,
+        1500.0,
+        1500.0,
+        1500.0,
+        1500.0,
+        1500.0,
+        1500.0,
+        1500.0,
+        1500.0,
+        1500.0,
+        1500.0,
+        1500.0,
+        1500.0,
+        1500.0,
+        1500.0
+      ],
+      "raw_soft_msl_m": [
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1619.9999999999827,
+        1619.9999999921124,
+        1619.9999982536337,
+        1619.999811793984,
+        1619.990127215673,
+        1619.7479110721245,
+        1616.8668883920811,
+        1601.0457793054302,
+        1564.1858939143176,
+        1540.0,
+        1564.1858939143176,
+        1601.0457793054302,
+        1616.8668883920811,
+        1619.7479110721245,
+        1619.990127215673,
+        1619.999811793984,
+        1619.9999982536337,
+        1619.9999999921124,
+        1619.9999999999827,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0
+      ],
+      "lookahead_preferred_msl_m": [
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1619.9999999999827,
+        1619.9999999921124,
+        1619.9999982536337,
+        1619.999811793984,
+        1619.990127215673,
+        1619.7479110721245,
+        1616.8668883920811,
+        1601.0457793054302,
+        1597.7672682784953,
+        1602.5421733068918,
+        1607.3170783352882,
+        1612.0919833636847,
+        1616.8668883920811,
+        1619.7479110721245,
+        1619.990127215673,
+        1619.999811793984,
+        1619.9999982536337,
+        1619.9999999921124,
+        1619.9999999999827,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0,
+        1620.0
+      ],
+      "max_envelope_above_raw_m": 62.542173306891755
+    }
+  },
+  "plot": "results/terrain_guidance_lookahead_profiles.png",
+  "conclusion": "Q1/Q5: raw +120 is compared against the back-propagated envelope in the synthetic valley/dip cases; the plotted envelope supplies the evidence without adding a smoothing filter. Q2: anticipation and Q4 descent feasibility are horizon-specific table metrics. Q3/Q11: provisional cheap-signal choice is **heading ray + 3 km**, diagnostic only. Q8/Q9: heading-ray agreement and validity are explicitly compared with the reference-path oracle; largest disagreements include future heading-change diagnostics in JSON. Q10: descent violations are reported separately because back-propagated climb protection does not guarantee descent feasibility. Q6/Q7: the current-path excess metrics show whether a materially lower profile exists, but no planner integration is authorized by this diagnostic.",
+  "production_behavior_changed": false
+}

@@ -22,7 +22,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from planner.aircraft_profile import load_aircraft_profile
-from planner.derived_c172p import DerivedC172PEnvelope
+from planner.fixed_wing_envelope import FixedWingKinematicEnvelope
 from planner.physical import (
     PhysicalPose,
     angular_distance_deg,
@@ -84,7 +84,7 @@ def _append(result: List[Endpoint], label: str, family: str, chain: str, sequenc
 
 def build_endpoint_corpus() -> List[Endpoint]:
     """Generate deterministic endpoints from actual current primitive geometry."""
-    envelope = DerivedC172PEnvelope(load_aircraft_profile(PROFILE))
+    envelope = FixedWingKinematicEnvelope(load_aircraft_profile(PROFILE))
     endpoints: List[Endpoint] = []
     altitudes = (0.0, 1500.0, 4500.0)
     for altitude in altitudes:

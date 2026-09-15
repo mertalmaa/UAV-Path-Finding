@@ -1,14 +1,19 @@
-"""Canonical Mission A/B baseline runner for pose-aware fixed-wing A*."""
+"""Canonical Mission A/B baseline runner for generic fixed-wing pose-aware A*."""
 from __future__ import annotations
 
 import argparse
 import dataclasses
 import json
 import math
+import sys
 from pathlib import Path
 
-from planner.aircraft_profile import load_aircraft_profile
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
 from planner.config import DEFAULT_CONFIG
+from planner.fixed_wing_envelope import FixedWingKinematicEnvelope
 from planner.physical import PhysicalPose
 from planner.pose_search import GoalPose, GoalTolerance, navigation_bearing_deg, pose_aware_astar_search
 from planner.roi import load_roi
@@ -16,16 +21,10 @@ from planner.terrain_cache import build_terrain_query_from_cache, load_terrain_c
 
 ROOT = Path(__file__).resolve().parents[1]
 CACHE_DIR = ROOT / "outputs" / "terrain_cache"
-PROFILE_PATH = ROOT / "jsbsim" / "results" / "c172p_aircraft_profile_planner_safe_v3.json"
 SOURCE_DEM_PATH = str(DEFAULT_CONFIG.working_dem_path)
 FACTOR, MIN_AGL_M = 2, 100.0
-# First basic-primitive baselines enter the planning ROI with explicit cruise
-# altitude, rather than the old terrain-floor-at-exact-minimum-clearance start.
-# This is a mission initial-condition change, not a SearchKey/cost/primitive
-# tuning change.  It gives the fixed-wing vehicle a safe first trajectory.
+
 MISSION_CRUISE_MSL = {"A_easy_open": 3500.0, "B_relief_affected": 3600.0}
-# Fixed 60 m continuous primitives cannot generically land exactly on a goal.
-# This is an explicit benchmark acceptance contract, not a SearchKey setting.
 GOAL_TOLERANCE = GoalTolerance(xy_m=90.0, altitude_m=10.0)
 CONFIG = dataclasses.replace(DEFAULT_CONFIG, xy_resolution_m=60.0, min_agl_m=MIN_AGL_M,
                              search_xy_bin_m=60.0, search_z_bin_m=5.0,
@@ -59,13 +58,19 @@ def mission_definitions(cache) -> dict[str, dict]:
 
 
 def _path_metrics(result) -> dict:
-    primitives = [node.incoming_primitive for node in result.nodes]
     return {"continuous_path_length_m": result.continuous_path_length_m,
             "physical_primitive_segments": len(result.trajectories),
-            "turn_count": sum(p in ("LEFT_LEVEL_TURN", "RIGHT_LEVEL_TURN") for p in primitives),
-            "climb_count": primitives.count("STRAIGHT_CLIMB"), "descent_count": primitives.count("STRAIGHT_DESCENT"),
+            "primitives": list(result.path_primitives),
+            "primitive_counts": result.path_primitive_counts,
             "minimum_agl_m": result.minimum_agl_m, "goal_xy_error_m": result.goal_xy_error_m,
             "goal_z_error_m": result.goal_z_error_m, "final_heading_deg": result.final_heading_deg}
+
+
+def _search_statistics(result) -> dict:
+    """Counters for search activity, explicitly separate from final-path data."""
+    return {"generated_by_primitive": result.generated_by_primitive,
+            "open_inserted_by_primitive": result.open_inserted_by_primitive,
+            "expanded_arrivals_by_primitive": result.expanded_arrivals_by_primitive}
 
 
 def run_case(name: str, mission: dict, cache, timeout_s: float, max_expansions: int) -> dict:
@@ -73,9 +78,10 @@ def run_case(name: str, mission: dict, cache, timeout_s: float, max_expansions: 
     sx, sy = terrain.rowcol_to_xy(*mission["start_rc"])
     gx, gy = terrain.rowcol_to_xy(*mission["goal_rc"])
     heading = navigation_bearing_deg(sx, sy, gx, gy)
+    envelope = FixedWingKinematicEnvelope()
     result = pose_aware_astar_search(
         PhysicalPose(sx, sy, mission["start_z"], heading), GoalPose(gx, gy, mission["goal_z"]), terrain,
-        load_aircraft_profile(PROFILE_PATH), goal_tolerance=GOAL_TOLERANCE, config=CONFIG,
+        envelope=envelope, goal_tolerance=GOAL_TOLERANCE, config=CONFIG,
         max_expansions=max_expansions, max_search_time_s=timeout_s)
     return {
         "name": name, "criterion": mission["criterion"], "status": result.status,
@@ -93,7 +99,7 @@ def run_case(name: str, mission: dict, cache, timeout_s: float, max_expansions: 
                      "rejected_existing_better": result.same_key_rejected_existing_better,
                      "self_transitions": result.same_key_self_transition_count,
                      "self_transitions_by_primitive": result.same_key_self_transition_by_primitive},
-        "reject_reasons": result.rejected_reason_counts, "primitive_counts": result.primitive_counts,
+        "reject_reasons": result.rejected_reason_counts, "search_statistics": _search_statistics(result),
         "best_physical_xy_distance_to_goal_m": result.closest_xy_distance_to_goal_m,
         "best_physical_3d_distance_to_goal_m": result.closest_3d_distance_to_goal_m,
         "maximum_altitude_msl_m": result.maximum_altitude_msl_m, "progress_checkpoints": result.progress_checkpoints,
@@ -116,7 +122,7 @@ def main() -> None:
     missions = mission_definitions(cache)
     selected = ("A_easy_open", "B_relief_affected") if args.mission == "all" else (("A_easy_open",) if args.mission == "A" else ("B_relief_affected",))
     payload = {"architecture": "pose_aware_fixed_wing_single_representative_approximate_search",
-               "aircraft_profile": str(PROFILE_PATH.relative_to(ROOT)).replace("\\", "/"),
+               "aircraft_model": "generic_constant_performance_fixed_wing",
                "search_key": {"xy_m": CONFIG.search_xy_bin_m, "z_m": CONFIG.search_z_bin_m, "heading_deg": CONFIG.search_heading_bin_deg},
                "development_watchdog_s": args.timeout,
                "missions": {name: run_case(name, missions[name], cache, args.timeout, args.max_expansions) for name in selected}}

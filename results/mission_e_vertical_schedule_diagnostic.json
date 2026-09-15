@@ -1,0 +1,2448 @@
+{
+  "task": "Z-DIAG-2",
+  "diagnostic_only": true,
+  "production_behavior_changed": false,
+  "baseline": {
+    "reproduced": "YES",
+    "termination_reason": "EXPANSION_LIMIT",
+    "expanded": 30000,
+    "generated": 149995,
+    "rejected": 95073,
+    "peak_open": 21356,
+    "runtime_s": 13.04828599999928,
+    "best_xy_error_m": 120.0,
+    "best_z_error_m": 4.363551587838629
+  },
+  "mean_z_per_xy_heading": 36.05769230769231,
+  "top_20_groups": [
+    {
+      "xy_heading_bin": [
+        11484,
+        69777,
+        6
+      ],
+      "z_states": 82,
+      "altitude_min_m": 3910.706625969199,
+      "altitude_max_m": 4400.0,
+      "distinct_full_schedules": 82,
+      "distinct_rle_schedules": 82,
+      "descent_count_min": 0,
+      "descent_count_max": 77,
+      "level_count_min": 0,
+      "level_count_max": 77,
+      "first_descent_earliest_m": 0,
+      "first_descent_latest_m": 0,
+      "switch_min": 0,
+      "switch_max": 76,
+      "geometric_lineages": 1,
+      "max_altitude_variants_one_lineage": 82,
+      "terrain_msl_min_m": 3609.4697265625,
+      "terrain_msl_max_m": 3609.4697265625,
+      "examples": {
+        "highest": {
+          "altitude_m": 4400.0,
+          "g": 4620.0,
+          "schedule": "L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L",
+          "rle": "L77",
+          "descent_steps": 0,
+          "level_steps": 77,
+          "switches": 0
+        },
+        "median": {
+          "altitude_m": 4145.720423687781,
+          "g": 4633.432846161155,
+          "schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D D D",
+          "rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D3",
+          "descent_steps": 40,
+          "level_steps": 37,
+          "switches": 74
+        },
+        "lowest": {
+          "altitude_m": 3910.706625969199,
+          "g": 4645.837725831444,
+          "schedule": "D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D",
+          "rle": "D77",
+          "descent_steps": 77,
+          "level_steps": 0,
+          "switches": 0
+        }
+      }
+    },
+    {
+      "xy_heading_bin": [
+        11485,
+        69777,
+        6
+      ],
+      "z_states": 82,
+      "altitude_min_m": 3904.3635515878386,
+      "altitude_max_m": 4393.6430105921945,
+      "distinct_full_schedules": 82,
+      "distinct_rle_schedules": 82,
+      "descent_count_min": 1,
+      "descent_count_max": 78,
+      "level_count_min": 0,
+      "level_count_max": 77,
+      "first_descent_earliest_m": 0,
+      "first_descent_latest_m": 0,
+      "switch_min": 0,
+      "switch_max": 77,
+      "geometric_lineages": 1,
+      "max_altitude_variants_one_lineage": 82,
+      "terrain_msl_min_m": 3645.332763671875,
+      "terrain_msl_max_m": 3645.332763671875,
+      "examples": {
+        "highest": {
+          "altitude_m": 4393.6430105921945,
+          "g": 4680.335821154029,
+          "schedule": "D L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L",
+          "rle": "D1 L77",
+          "descent_steps": 1,
+          "level_steps": 77,
+          "switches": 1
+        },
+        "median": {
+          "altitude_m": 4139.363434279975,
+          "g": 4693.768667315184,
+          "schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D D D D",
+          "rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D4",
+          "descent_steps": 41,
+          "level_steps": 37,
+          "switches": 74
+        },
+        "lowest": {
+          "altitude_m": 3904.3635515878386,
+          "g": 4706.172082483417,
+          "schedule": "D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D",
+          "rle": "D78",
+          "descent_steps": 78,
+          "level_steps": 0,
+          "switches": 0
+        }
+      }
+    },
+    {
+      "xy_heading_bin": [
+        11483,
+        69777,
+        6
+      ],
+      "z_states": 81,
+      "altitude_min_m": 3917.0497003505598,
+      "altitude_max_m": 4400.0,
+      "distinct_full_schedules": 81,
+      "distinct_rle_schedules": 81,
+      "descent_count_min": 0,
+      "descent_count_max": 76,
+      "level_count_min": 0,
+      "level_count_max": 76,
+      "first_descent_earliest_m": 0,
+      "first_descent_latest_m": 0,
+      "switch_min": 0,
+      "switch_max": 75,
+      "geometric_lineages": 1,
+      "max_altitude_variants_one_lineage": 81,
+      "terrain_msl_min_m": 3559.745361328125,
+      "terrain_msl_max_m": 3559.745361328125,
+      "examples": {
+        "highest": {
+          "altitude_m": 4400.0,
+          "g": 4560.0,
+          "schedule": "L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L",
+          "rle": "L76",
+          "descent_steps": 0,
+          "level_steps": 76,
+          "switches": 0
+        },
+        "median": {
+          "altitude_m": 4145.720423687781,
+          "g": 4573.432846161155,
+          "schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D D D D",
+          "rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D4",
+          "descent_steps": 40,
+          "level_steps": 36,
+          "switches": 72
+        },
+        "lowest": {
+          "altitude_m": 3917.0497003505598,
+          "g": 4585.503369179471,
+          "schedule": "D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D",
+          "rle": "D76",
+          "descent_steps": 76,
+          "level_steps": 0,
+          "switches": 0
+        }
+      }
+    },
+    {
+      "xy_heading_bin": [
+        11486,
+        69777,
+        6
+      ],
+      "z_states": 81,
+      "altitude_min_m": 3904.3635515878386,
+      "altitude_max_m": 4387.286021184389,
+      "distinct_full_schedules": 81,
+      "distinct_rle_schedules": 81,
+      "descent_count_min": 2,
+      "descent_count_max": 78,
+      "level_count_min": 1,
+      "level_count_max": 77,
+      "first_descent_earliest_m": 0,
+      "first_descent_latest_m": 0,
+      "switch_min": 2,
+      "switch_max": 78,
+      "geometric_lineages": 1,
+      "max_altitude_variants_one_lineage": 81,
+      "terrain_msl_min_m": 3675.84716796875,
+      "terrain_msl_max_m": 3675.84716796875,
+      "examples": {
+        "highest": {
+          "altitude_m": 4387.286021184389,
+          "g": 4740.671642308058,
+          "schedule": "D L D L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L",
+          "rle": "D1 L1 D1 L76",
+          "descent_steps": 2,
+          "level_steps": 77,
+          "switches": 3
+        },
+        "median": {
+          "altitude_m": 4133.00644487217,
+          "g": 4754.104488469213,
+          "schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D D D D D",
+          "rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D5",
+          "descent_steps": 42,
+          "level_steps": 37,
+          "switches": 74
+        },
+        "lowest": {
+          "altitude_m": 3904.3635515878386,
+          "g": 4766.172082483418,
+          "schedule": "D L D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D",
+          "rle": "D1 L1 D77",
+          "descent_steps": 78,
+          "level_steps": 1,
+          "switches": 2
+        }
+      }
+    },
+    {
+      "xy_heading_bin": [
+        11482,
+        69777,
+        6
+      ],
+      "z_states": 80,
+      "altitude_min_m": 3923.3927747319203,
+      "altitude_max_m": 4400.0,
+      "distinct_full_schedules": 80,
+      "distinct_rle_schedules": 80,
+      "descent_count_min": 0,
+      "descent_count_max": 75,
+      "level_count_min": 0,
+      "level_count_max": 75,
+      "first_descent_earliest_m": 0,
+      "first_descent_latest_m": 0,
+      "switch_min": 0,
+      "switch_max": 74,
+      "geometric_lineages": 1,
+      "max_altitude_variants_one_lineage": 80,
+      "terrain_msl_min_m": 3525.287353515625,
+      "terrain_msl_max_m": 3525.287353515625,
+      "examples": {
+        "highest": {
+          "altitude_m": 4400.0,
+          "g": 4500.0,
+          "schedule": "L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L",
+          "rle": "L75",
+          "descent_steps": 0,
+          "level_steps": 75,
+          "switches": 0
+        },
+        "median": {
+          "altitude_m": 4152.077413095586,
+          "g": 4513.097025007126,
+          "schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D D D",
+          "rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D3",
+          "descent_steps": 39,
+          "level_steps": 36,
+          "switches": 72
+        },
+        "lowest": {
+          "altitude_m": 3923.3927747319203,
+          "g": 4525.169012527497,
+          "schedule": "D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D",
+          "rle": "D75",
+          "descent_steps": 75,
+          "level_steps": 0,
+          "switches": 0
+        }
+      }
+    },
+    {
+      "xy_heading_bin": [
+        11487,
+        69777,
+        6
+      ],
+      "z_states": 80,
+      "altitude_min_m": 3904.3635515878386,
+      "altitude_max_m": 4380.9290317765835,
+      "distinct_full_schedules": 80,
+      "distinct_rle_schedules": 80,
+      "descent_count_min": 3,
+      "descent_count_max": 78,
+      "level_count_min": 2,
+      "level_count_max": 77,
+      "first_descent_earliest_m": 0,
+      "first_descent_latest_m": 0,
+      "switch_min": 4,
+      "switch_max": 79,
+      "geometric_lineages": 1,
+      "max_altitude_variants_one_lineage": 80,
+      "terrain_msl_min_m": 3674.6767578125,
+      "terrain_msl_max_m": 3674.6767578125,
+      "examples": {
+        "highest": {
+          "altitude_m": 4380.9290317765835,
+          "g": 4801.007463462087,
+          "schedule": "D L D L D L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L",
+          "rle": "D1 L1 D1 L1 D1 L75",
+          "descent_steps": 3,
+          "level_steps": 77,
+          "switches": 5
+        },
+        "median": {
+          "altitude_m": 4133.00644487217,
+          "g": 4814.104488469213,
+          "schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D D D D",
+          "rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D4",
+          "descent_steps": 42,
+          "level_steps": 38,
+          "switches": 76
+        },
+        "lowest": {
+          "altitude_m": 3904.3635515878386,
+          "g": 4826.172082483418,
+          "schedule": "D L D L D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D",
+          "rle": "D1 L1 D1 L1 D76",
+          "descent_steps": 78,
+          "level_steps": 2,
+          "switches": 4
+        }
+      }
+    },
+    {
+      "xy_heading_bin": [
+        11488,
+        69777,
+        6
+      ],
+      "z_states": 79,
+      "altitude_min_m": 3904.3635515878386,
+      "altitude_max_m": 4374.572042368778,
+      "distinct_full_schedules": 79,
+      "distinct_rle_schedules": 79,
+      "descent_count_min": 4,
+      "descent_count_max": 78,
+      "level_count_min": 3,
+      "level_count_max": 77,
+      "first_descent_earliest_m": 0,
+      "first_descent_latest_m": 0,
+      "switch_min": 6,
+      "switch_max": 80,
+      "geometric_lineages": 1,
+      "max_altitude_variants_one_lineage": 79,
+      "terrain_msl_min_m": 3656.585205078125,
+      "terrain_msl_max_m": 3656.585205078125,
+      "examples": {
+        "highest": {
+          "altitude_m": 4374.572042368778,
+          "g": 4861.343284616115,
+          "schedule": "D L D L D L D L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L",
+          "rle": "D1 L1 D1 L1 D1 L1 D1 L74",
+          "descent_steps": 4,
+          "level_steps": 77,
+          "switches": 7
+        },
+        "median": {
+          "altitude_m": 4126.649455464364,
+          "g": 4874.440309623242,
+          "schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D D D D D",
+          "rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D5",
+          "descent_steps": 43,
+          "level_steps": 38,
+          "switches": 76
+        },
+        "lowest": {
+          "altitude_m": 3904.3635515878386,
+          "g": 4886.172082483419,
+          "schedule": "D L D L D L D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D",
+          "rle": "D1 L1 D1 L1 D1 L1 D75",
+          "descent_steps": 78,
+          "level_steps": 3,
+          "switches": 6
+        }
+      }
+    },
+    {
+      "xy_heading_bin": [
+        11481,
+        69777,
+        6
+      ],
+      "z_states": 78,
+      "altitude_min_m": 3929.735849113281,
+      "altitude_max_m": 4400.0,
+      "distinct_full_schedules": 78,
+      "distinct_rle_schedules": 78,
+      "descent_count_min": 0,
+      "descent_count_max": 74,
+      "level_count_min": 0,
+      "level_count_max": 74,
+      "first_descent_earliest_m": 0,
+      "first_descent_latest_m": 0,
+      "switch_min": 0,
+      "switch_max": 73,
+      "geometric_lineages": 1,
+      "max_altitude_variants_one_lineage": 78,
+      "terrain_msl_min_m": 3475.8798828125,
+      "terrain_msl_max_m": 3475.8798828125,
+      "examples": {
+        "highest": {
+          "altitude_m": 4400.0,
+          "g": 4440.0,
+          "schedule": "L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L",
+          "rle": "L74",
+          "descent_steps": 0,
+          "level_steps": 74,
+          "switches": 0
+        },
+        "median": {
+          "altitude_m": 4158.4344025033915,
+          "g": 4452.761203853097,
+          "schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D D",
+          "rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D2",
+          "descent_steps": 38,
+          "level_steps": 36,
+          "switches": 72
+        },
+        "lowest": {
+          "altitude_m": 3929.735849113281,
+          "g": 4464.834655875524,
+          "schedule": "D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D",
+          "rle": "D74",
+          "descent_steps": 74,
+          "level_steps": 0,
+          "switches": 0
+        }
+      }
+    },
+    {
+      "xy_heading_bin": [
+        11489,
+        69777,
+        6
+      ],
+      "z_states": 78,
+      "altitude_min_m": 3904.3635515878386,
+      "altitude_max_m": 4368.215052960973,
+      "distinct_full_schedules": 78,
+      "distinct_rle_schedules": 78,
+      "descent_count_min": 5,
+      "descent_count_max": 78,
+      "level_count_min": 4,
+      "level_count_max": 77,
+      "first_descent_earliest_m": 0,
+      "first_descent_latest_m": 0,
+      "switch_min": 8,
+      "switch_max": 81,
+      "geometric_lineages": 1,
+      "max_altitude_variants_one_lineage": 78,
+      "terrain_msl_min_m": 3620.539306640625,
+      "terrain_msl_max_m": 3620.539306640625,
+      "examples": {
+        "highest": {
+          "altitude_m": 4368.215052960973,
+          "g": 4921.679105770144,
+          "schedule": "D L D L D L D L D L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L",
+          "rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L73",
+          "descent_steps": 5,
+          "level_steps": 77,
+          "switches": 9
+        },
+        "median": {
+          "altitude_m": 4126.649455464364,
+          "g": 4934.440309623242,
+          "schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D D D D",
+          "rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D4",
+          "descent_steps": 43,
+          "level_steps": 39,
+          "switches": 78
+        },
+        "lowest": {
+          "altitude_m": 3904.3635515878386,
+          "g": 4946.17208248342,
+          "schedule": "D L D L D L D L D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D",
+          "rle": "D1 L1 D1 L1 D1 L1 D1 L1 D74",
+          "descent_steps": 78,
+          "level_steps": 4,
+          "switches": 8
+        }
+      }
+    },
+    {
+      "xy_heading_bin": [
+        11480,
+        69777,
+        6
+      ],
+      "z_states": 77,
+      "altitude_min_m": 3936.0789234946415,
+      "altitude_max_m": 4400.0,
+      "distinct_full_schedules": 77,
+      "distinct_rle_schedules": 77,
+      "descent_count_min": 0,
+      "descent_count_max": 73,
+      "level_count_min": 0,
+      "level_count_max": 73,
+      "first_descent_earliest_m": 0,
+      "first_descent_latest_m": 0,
+      "switch_min": 0,
+      "switch_max": 72,
+      "geometric_lineages": 1,
+      "max_altitude_variants_one_lineage": 77,
+      "terrain_msl_min_m": 3428.9462890625,
+      "terrain_msl_max_m": 3428.9462890625,
+      "examples": {
+        "highest": {
+          "altitude_m": 4400.0,
+          "g": 4380.0,
+          "schedule": "L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L",
+          "rle": "L73",
+          "descent_steps": 0,
+          "level_steps": 73,
+          "switches": 0
+        },
+        "median": {
+          "altitude_m": 4158.4344025033915,
+          "g": 4392.761203853097,
+          "schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D D D",
+          "rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D3",
+          "descent_steps": 38,
+          "level_steps": 35,
+          "switches": 70
+        },
+        "lowest": {
+          "altitude_m": 3936.0789234946415,
+          "g": 4404.50029922355,
+          "schedule": "D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D",
+          "rle": "D73",
+          "descent_steps": 73,
+          "level_steps": 0,
+          "switches": 0
+        }
+      }
+    },
+    {
+      "xy_heading_bin": [
+        11490,
+        69777,
+        6
+      ],
+      "z_states": 77,
+      "altitude_min_m": 3904.3635515878386,
+      "altitude_max_m": 4361.858063553167,
+      "distinct_full_schedules": 77,
+      "distinct_rle_schedules": 77,
+      "descent_count_min": 6,
+      "descent_count_max": 78,
+      "level_count_min": 5,
+      "level_count_max": 77,
+      "first_descent_earliest_m": 0,
+      "first_descent_latest_m": 0,
+      "switch_min": 10,
+      "switch_max": 82,
+      "geometric_lineages": 1,
+      "max_altitude_variants_one_lineage": 77,
+      "terrain_msl_min_m": 3596.705078125,
+      "terrain_msl_max_m": 3596.705078125,
+      "examples": {
+        "highest": {
+          "altitude_m": 4361.858063553167,
+          "g": 4982.014926924173,
+          "schedule": "D L D L D L D L D L D L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L",
+          "rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L72",
+          "descent_steps": 6,
+          "level_steps": 77,
+          "switches": 11
+        },
+        "median": {
+          "altitude_m": 4120.292466056559,
+          "g": 4994.776130777271,
+          "schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D D D D D",
+          "rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D5",
+          "descent_steps": 44,
+          "level_steps": 39,
+          "switches": 78
+        },
+        "lowest": {
+          "altitude_m": 3904.3635515878386,
+          "g": 5006.17208248342,
+          "schedule": "D L D L D L D L D L D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D",
+          "rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D73",
+          "descent_steps": 78,
+          "level_steps": 5,
+          "switches": 10
+        }
+      }
+    },
+    {
+      "xy_heading_bin": [
+        11479,
+        69777,
+        6
+      ],
+      "z_states": 76,
+      "altitude_min_m": 3942.421997876002,
+      "altitude_max_m": 4400.0,
+      "distinct_full_schedules": 76,
+      "distinct_rle_schedules": 76,
+      "descent_count_min": 0,
+      "descent_count_max": 72,
+      "level_count_min": 0,
+      "level_count_max": 72,
+      "first_descent_earliest_m": 0,
+      "first_descent_latest_m": 0,
+      "switch_min": 0,
+      "switch_max": 71,
+      "geometric_lineages": 1,
+      "max_altitude_variants_one_lineage": 76,
+      "terrain_msl_min_m": 3383.881591796875,
+      "terrain_msl_max_m": 3383.881591796875,
+      "examples": {
+        "highest": {
+          "altitude_m": 4400.0,
+          "g": 4320.0,
+          "schedule": "L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L",
+          "rle": "L72",
+          "descent_steps": 0,
+          "level_steps": 72,
+          "switches": 0
+        },
+        "median": {
+          "altitude_m": 4164.791391911197,
+          "g": 4332.425382699068,
+          "schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D D",
+          "rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D2",
+          "descent_steps": 37,
+          "level_steps": 35,
+          "switches": 70
+        },
+        "lowest": {
+          "altitude_m": 3942.421997876002,
+          "g": 4344.165942571577,
+          "schedule": "D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D",
+          "rle": "D72",
+          "descent_steps": 72,
+          "level_steps": 0,
+          "switches": 0
+        }
+      }
+    },
+    {
+      "xy_heading_bin": [
+        11491,
+        69777,
+        6
+      ],
+      "z_states": 76,
+      "altitude_min_m": 3904.3635515878386,
+      "altitude_max_m": 4355.501074145362,
+      "distinct_full_schedules": 76,
+      "distinct_rle_schedules": 76,
+      "descent_count_min": 7,
+      "descent_count_max": 78,
+      "level_count_min": 6,
+      "level_count_max": 77,
+      "first_descent_earliest_m": 0,
+      "first_descent_latest_m": 0,
+      "switch_min": 12,
+      "switch_max": 83,
+      "geometric_lineages": 1,
+      "max_altitude_variants_one_lineage": 76,
+      "terrain_msl_min_m": 3565.789794921875,
+      "terrain_msl_max_m": 3565.789794921875,
+      "examples": {
+        "highest": {
+          "altitude_m": 4355.501074145362,
+          "g": 5042.350748078202,
+          "schedule": "D L D L D L D L D L D L D L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L",
+          "rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L71",
+          "descent_steps": 7,
+          "level_steps": 77,
+          "switches": 13
+        },
+        "median": {
+          "altitude_m": 4120.292466056559,
+          "g": 5054.776130777271,
+          "schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D D D D",
+          "rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D4",
+          "descent_steps": 44,
+          "level_steps": 40,
+          "switches": 80
+        },
+        "lowest": {
+          "altitude_m": 3904.3635515878386,
+          "g": 5066.17208248342,
+          "schedule": "D L D L D L D L D L D L D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D",
+          "rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D72",
+          "descent_steps": 78,
+          "level_steps": 6,
+          "switches": 12
+        }
+      }
+    },
+    {
+      "xy_heading_bin": [
+        11492,
+        69777,
+        6
+      ],
+      "z_states": 75,
+      "altitude_min_m": 3904.3635515878386,
+      "altitude_max_m": 4349.144084737556,
+      "distinct_full_schedules": 75,
+      "distinct_rle_schedules": 75,
+      "descent_count_min": 8,
+      "descent_count_max": 78,
+      "level_count_min": 7,
+      "level_count_max": 77,
+      "first_descent_earliest_m": 0,
+      "first_descent_latest_m": 0,
+      "switch_min": 14,
+      "switch_max": 84,
+      "geometric_lineages": 1,
+      "max_altitude_variants_one_lineage": 75,
+      "terrain_msl_min_m": 3541.381103515625,
+      "terrain_msl_max_m": 3541.381103515625,
+      "examples": {
+        "highest": {
+          "altitude_m": 4349.144084737556,
+          "g": 5102.686569232231,
+          "schedule": "D L D L D L D L D L D L D L D L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L",
+          "rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L70",
+          "descent_steps": 8,
+          "level_steps": 77,
+          "switches": 15
+        },
+        "median": {
+          "altitude_m": 4113.935476648753,
+          "g": 5115.1119519313,
+          "schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D D D D D",
+          "rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D5",
+          "descent_steps": 45,
+          "level_steps": 40,
+          "switches": 80
+        },
+        "lowest": {
+          "altitude_m": 3904.3635515878386,
+          "g": 5126.17208248342,
+          "schedule": "D L D L D L D L D L D L D L D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D",
+          "rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D71",
+          "descent_steps": 78,
+          "level_steps": 7,
+          "switches": 14
+        }
+      }
+    },
+    {
+      "xy_heading_bin": [
+        11478,
+        69777,
+        6
+      ],
+      "z_states": 74,
+      "altitude_min_m": 3948.7650722573626,
+      "altitude_max_m": 4400.0,
+      "distinct_full_schedules": 74,
+      "distinct_rle_schedules": 74,
+      "descent_count_min": 0,
+      "descent_count_max": 71,
+      "level_count_min": 0,
+      "level_count_max": 71,
+      "first_descent_earliest_m": 0,
+      "first_descent_latest_m": 0,
+      "switch_min": 0,
+      "switch_max": 70,
+      "geometric_lineages": 1,
+      "max_altitude_variants_one_lineage": 74,
+      "terrain_msl_min_m": 3353.025634765625,
+      "terrain_msl_max_m": 3353.025634765625,
+      "examples": {
+        "highest": {
+          "altitude_m": 4400.0,
+          "g": 4260.0,
+          "schedule": "L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L",
+          "rle": "L71",
+          "descent_steps": 0,
+          "level_steps": 71,
+          "switches": 0
+        },
+        "median": {
+          "altitude_m": 4171.1483813190025,
+          "g": 4272.089561545039,
+          "schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D",
+          "rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1",
+          "descent_steps": 36,
+          "level_steps": 35,
+          "switches": 70
+        },
+        "lowest": {
+          "altitude_m": 3948.7650722573626,
+          "g": 4283.831585919604,
+          "schedule": "D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D",
+          "rle": "D71",
+          "descent_steps": 71,
+          "level_steps": 0,
+          "switches": 0
+        }
+      }
+    },
+    {
+      "xy_heading_bin": [
+        11493,
+        69777,
+        6
+      ],
+      "z_states": 74,
+      "altitude_min_m": 3904.3635515878386,
+      "altitude_max_m": 4342.787095329751,
+      "distinct_full_schedules": 74,
+      "distinct_rle_schedules": 74,
+      "descent_count_min": 9,
+      "descent_count_max": 78,
+      "level_count_min": 8,
+      "level_count_max": 77,
+      "first_descent_earliest_m": 0,
+      "first_descent_latest_m": 0,
+      "switch_min": 16,
+      "switch_max": 85,
+      "geometric_lineages": 1,
+      "max_altitude_variants_one_lineage": 74,
+      "terrain_msl_min_m": 3521.0595703125,
+      "terrain_msl_max_m": 3521.0595703125,
+      "examples": {
+        "highest": {
+          "altitude_m": 4342.787095329751,
+          "g": 5163.022390386259,
+          "schedule": "D L D L D L D L D L D L D L D L D L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L",
+          "rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L69",
+          "descent_steps": 9,
+          "level_steps": 77,
+          "switches": 17
+        },
+        "median": {
+          "altitude_m": 4113.935476648753,
+          "g": 5175.1119519313,
+          "schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D D D D",
+          "rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D4",
+          "descent_steps": 45,
+          "level_steps": 41,
+          "switches": 82
+        },
+        "lowest": {
+          "altitude_m": 3904.3635515878386,
+          "g": 5186.17208248342,
+          "schedule": "D L D L D L D L D L D L D L D L D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D",
+          "rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D70",
+          "descent_steps": 78,
+          "level_steps": 8,
+          "switches": 16
+        }
+      }
+    },
+    {
+      "xy_heading_bin": [
+        11477,
+        69777,
+        6
+      ],
+      "z_states": 73,
+      "altitude_min_m": 3955.108146638723,
+      "altitude_max_m": 4400.0,
+      "distinct_full_schedules": 73,
+      "distinct_rle_schedules": 73,
+      "descent_count_min": 0,
+      "descent_count_max": 70,
+      "level_count_min": 0,
+      "level_count_max": 70,
+      "first_descent_earliest_m": 0,
+      "first_descent_latest_m": 0,
+      "switch_min": 0,
+      "switch_max": 69,
+      "geometric_lineages": 1,
+      "max_altitude_variants_one_lineage": 73,
+      "terrain_msl_min_m": 3316.077392578125,
+      "terrain_msl_max_m": 3316.077392578125,
+      "examples": {
+        "highest": {
+          "altitude_m": 4400.0,
+          "g": 4200.0,
+          "schedule": "L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L",
+          "rle": "L70",
+          "descent_steps": 0,
+          "level_steps": 70,
+          "switches": 0
+        },
+        "median": {
+          "altitude_m": 4171.1483813190025,
+          "g": 4212.089561545039,
+          "schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D D",
+          "rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D2",
+          "descent_steps": 36,
+          "level_steps": 34,
+          "switches": 68
+        },
+        "lowest": {
+          "altitude_m": 3955.108146638723,
+          "g": 4223.49722926763,
+          "schedule": "D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D",
+          "rle": "D70",
+          "descent_steps": 70,
+          "level_steps": 0,
+          "switches": 0
+        }
+      }
+    },
+    {
+      "xy_heading_bin": [
+        11494,
+        69777,
+        6
+      ],
+      "z_states": 73,
+      "altitude_min_m": 3904.3635515878386,
+      "altitude_max_m": 4336.430105921945,
+      "distinct_full_schedules": 73,
+      "distinct_rle_schedules": 73,
+      "descent_count_min": 10,
+      "descent_count_max": 78,
+      "level_count_min": 9,
+      "level_count_max": 77,
+      "first_descent_earliest_m": 0,
+      "first_descent_latest_m": 0,
+      "switch_min": 18,
+      "switch_max": 86,
+      "geometric_lineages": 1,
+      "max_altitude_variants_one_lineage": 73,
+      "terrain_msl_min_m": 3493.50390625,
+      "terrain_msl_max_m": 3493.50390625,
+      "examples": {
+        "highest": {
+          "altitude_m": 4336.430105921945,
+          "g": 5223.358211540288,
+          "schedule": "D L D L D L D L D L D L D L D L D L D L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L",
+          "rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L68",
+          "descent_steps": 10,
+          "level_steps": 77,
+          "switches": 19
+        },
+        "median": {
+          "altitude_m": 4107.578487240948,
+          "g": 5235.447773085329,
+          "schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D D D D D",
+          "rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D5",
+          "descent_steps": 46,
+          "level_steps": 41,
+          "switches": 82
+        },
+        "lowest": {
+          "altitude_m": 3904.3635515878386,
+          "g": 5246.17208248342,
+          "schedule": "D L D L D L D L D L D L D L D L D L D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D",
+          "rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D69",
+          "descent_steps": 78,
+          "level_steps": 9,
+          "switches": 18
+        }
+      }
+    },
+    {
+      "xy_heading_bin": [
+        11476,
+        69777,
+        6
+      ],
+      "z_states": 72,
+      "altitude_min_m": 3961.4512210200837,
+      "altitude_max_m": 4400.0,
+      "distinct_full_schedules": 72,
+      "distinct_rle_schedules": 72,
+      "descent_count_min": 0,
+      "descent_count_max": 69,
+      "level_count_min": 0,
+      "level_count_max": 69,
+      "first_descent_earliest_m": 0,
+      "first_descent_latest_m": 0,
+      "switch_min": 0,
+      "switch_max": 68,
+      "geometric_lineages": 1,
+      "max_altitude_variants_one_lineage": 72,
+      "terrain_msl_min_m": 3278.14599609375,
+      "terrain_msl_max_m": 3278.14599609375,
+      "examples": {
+        "highest": {
+          "altitude_m": 4400.0,
+          "g": 4140.0,
+          "schedule": "L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L",
+          "rle": "L69",
+          "descent_steps": 0,
+          "level_steps": 69,
+          "switches": 0
+        },
+        "median": {
+          "altitude_m": 4177.505370726808,
+          "g": 4151.75374039101,
+          "schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D",
+          "rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1",
+          "descent_steps": 35,
+          "level_steps": 34,
+          "switches": 68
+        },
+        "lowest": {
+          "altitude_m": 3961.4512210200837,
+          "g": 4163.162872615657,
+          "schedule": "D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D",
+          "rle": "D69",
+          "descent_steps": 69,
+          "level_steps": 0,
+          "switches": 0
+        }
+      }
+    },
+    {
+      "xy_heading_bin": [
+        11495,
+        69777,
+        6
+      ],
+      "z_states": 72,
+      "altitude_min_m": 3904.3635515878386,
+      "altitude_max_m": 4330.07311651414,
+      "distinct_full_schedules": 72,
+      "distinct_rle_schedules": 72,
+      "descent_count_min": 11,
+      "descent_count_max": 78,
+      "level_count_min": 10,
+      "level_count_max": 77,
+      "first_descent_earliest_m": 0,
+      "first_descent_latest_m": 0,
+      "switch_min": 20,
+      "switch_max": 87,
+      "geometric_lineages": 1,
+      "max_altitude_variants_one_lineage": 72,
+      "terrain_msl_min_m": 3476.29296875,
+      "terrain_msl_max_m": 3476.29296875,
+      "examples": {
+        "highest": {
+          "altitude_m": 4330.07311651414,
+          "g": 5283.694032694317,
+          "schedule": "D L D L D L D L D L D L D L D L D L D L D L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L",
+          "rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L67",
+          "descent_steps": 11,
+          "level_steps": 77,
+          "switches": 21
+        },
+        "median": {
+          "altitude_m": 4107.578487240948,
+          "g": 5295.447773085329,
+          "schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D D D D",
+          "rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D4",
+          "descent_steps": 46,
+          "level_steps": 42,
+          "switches": 84
+        },
+        "lowest": {
+          "altitude_m": 3904.3635515878386,
+          "g": 5306.172082483421,
+          "schedule": "D L D L D L D L D L D L D L D L D L D L D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D D",
+          "rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D68",
+          "descent_steps": 78,
+          "level_steps": 10,
+          "switches": 20
+        }
+      }
+    }
+  ],
+  "same_descent_count_different_timing": {
+    "same_descent_count_different_timing_states": 1216,
+    "different_total_descent_amount_states": 28784,
+    "same_count_timing_percent": 4.053333333333334
+  },
+  "route_sections": {
+    "first": {
+      "distinct_schedules": 2553,
+      "z_states": 8438,
+      "schedule_to_z_ratio": 0.3025598483052856
+    },
+    "middle": {
+      "distinct_schedules": 6512,
+      "z_states": 18403,
+      "schedule_to_z_ratio": 0.35385534967124926
+    },
+    "final": {
+      "distinct_schedules": 2055,
+      "z_states": 3159,
+      "schedule_to_z_ratio": 0.6505223171889839
+    }
+  },
+  "mode_switch_distribution": {
+    "0": 524,
+    "1": 839,
+    "2": 211,
+    "3": 824,
+    "4": 86,
+    "5": 811,
+    "6": 85,
+    "7": 798,
+    "8": 82,
+    "9": 785,
+    "10": 81,
+    "11": 762,
+    "12": 78,
+    "13": 749,
+    "14": 77,
+    "15": 736,
+    "16": 76,
+    "17": 723,
+    "18": 75,
+    "19": 710,
+    "20": 74,
+    "21": 697,
+    "22": 73,
+    "23": 684,
+    "24": 72,
+    "25": 671,
+    "26": 71,
+    "27": 656,
+    "28": 70,
+    "29": 707,
+    "30": 69,
+    "31": 628,
+    "32": 68,
+    "33": 613,
+    "34": 67,
+    "35": 600,
+    "36": 66,
+    "37": 587,
+    "38": 65,
+    "39": 574,
+    "40": 64,
+    "41": 561,
+    "42": 63,
+    "43": 546,
+    "44": 62,
+    "45": 533,
+    "46": 59,
+    "47": 520,
+    "48": 58,
+    "49": 507,
+    "50": 57,
+    "51": 494,
+    "52": 56,
+    "53": 481,
+    "54": 55,
+    "55": 466,
+    "56": 54,
+    "57": 453,
+    "58": 53,
+    "59": 440,
+    "60": 52,
+    "61": 427,
+    "62": 51,
+    "63": 412,
+    "64": 50,
+    "65": 399,
+    "66": 49,
+    "67": 384,
+    "68": 48,
+    "69": 369,
+    "70": 47,
+    "71": 356,
+    "72": 46,
+    "73": 343,
+    "74": 45,
+    "75": 330,
+    "76": 44,
+    "77": 315,
+    "78": 43,
+    "79": 300,
+    "80": 42,
+    "81": 285,
+    "82": 41,
+    "83": 270,
+    "84": 40,
+    "85": 257,
+    "86": 39,
+    "87": 242,
+    "88": 38,
+    "89": 223,
+    "90": 37,
+    "91": 208,
+    "92": 36,
+    "93": 193,
+    "94": 35,
+    "95": 174,
+    "96": 34,
+    "97": 159,
+    "98": 33,
+    "99": 138,
+    "100": 32,
+    "101": 117,
+    "102": 31,
+    "103": 102,
+    "104": 30,
+    "105": 93,
+    "106": 29,
+    "107": 88,
+    "108": 28,
+    "109": 83,
+    "110": 27,
+    "111": 78,
+    "112": 26,
+    "113": 71,
+    "114": 25,
+    "115": 66,
+    "116": 24,
+    "117": 61,
+    "118": 23,
+    "119": 56,
+    "120": 20,
+    "121": 47,
+    "122": 19,
+    "123": 42,
+    "124": 18,
+    "125": 35,
+    "126": 30,
+    "127": 29,
+    "128": 14,
+    "129": 18,
+    "130": 13,
+    "131": 15,
+    "132": 12,
+    "133": 14,
+    "134": 20,
+    "135": 12,
+    "136": 10,
+    "137": 11,
+    "138": 9,
+    "139": 10,
+    "140": 8,
+    "141": 9,
+    "142": 12,
+    "143": 7,
+    "144": 6,
+    "145": 6,
+    "146": 5,
+    "147": 5,
+    "148": 6,
+    "149": 3,
+    "150": 3,
+    "151": 1,
+    "152": 1
+  },
+  "mode_switch_summary": {
+    "min": 0,
+    "median": 37.0,
+    "p90": 87.0,
+    "max": 152,
+    "zero_switch_states": 524,
+    "full_distribution": {
+      "0": 524,
+      "1": 839,
+      "2": 211,
+      "3": 824,
+      "4": 86,
+      "5": 811,
+      "6": 85,
+      "7": 798,
+      "8": 82,
+      "9": 785,
+      "10": 81,
+      "11": 762,
+      "12": 78,
+      "13": 749,
+      "14": 77,
+      "15": 736,
+      "16": 76,
+      "17": 723,
+      "18": 75,
+      "19": 710,
+      "20": 74,
+      "21": 697,
+      "22": 73,
+      "23": 684,
+      "24": 72,
+      "25": 671,
+      "26": 71,
+      "27": 656,
+      "28": 70,
+      "29": 707,
+      "30": 69,
+      "31": 628,
+      "32": 68,
+      "33": 613,
+      "34": 67,
+      "35": 600,
+      "36": 66,
+      "37": 587,
+      "38": 65,
+      "39": 574,
+      "40": 64,
+      "41": 561,
+      "42": 63,
+      "43": 546,
+      "44": 62,
+      "45": 533,
+      "46": 59,
+      "47": 520,
+      "48": 58,
+      "49": 507,
+      "50": 57,
+      "51": 494,
+      "52": 56,
+      "53": 481,
+      "54": 55,
+      "55": 466,
+      "56": 54,
+      "57": 453,
+      "58": 53,
+      "59": 440,
+      "60": 52,
+      "61": 427,
+      "62": 51,
+      "63": 412,
+      "64": 50,
+      "65": 399,
+      "66": 49,
+      "67": 384,
+      "68": 48,
+      "69": 369,
+      "70": 47,
+      "71": 356,
+      "72": 46,
+      "73": 343,
+      "74": 45,
+      "75": 330,
+      "76": 44,
+      "77": 315,
+      "78": 43,
+      "79": 300,
+      "80": 42,
+      "81": 285,
+      "82": 41,
+      "83": 270,
+      "84": 40,
+      "85": 257,
+      "86": 39,
+      "87": 242,
+      "88": 38,
+      "89": 223,
+      "90": 37,
+      "91": 208,
+      "92": 36,
+      "93": 193,
+      "94": 35,
+      "95": 174,
+      "96": 34,
+      "97": 159,
+      "98": 33,
+      "99": 138,
+      "100": 32,
+      "101": 117,
+      "102": 31,
+      "103": 102,
+      "104": 30,
+      "105": 93,
+      "106": 29,
+      "107": 88,
+      "108": 28,
+      "109": 83,
+      "110": 27,
+      "111": 78,
+      "112": 26,
+      "113": 71,
+      "114": 25,
+      "115": 66,
+      "116": 24,
+      "117": 61,
+      "118": 23,
+      "119": 56,
+      "120": 20,
+      "121": 47,
+      "122": 19,
+      "123": 42,
+      "124": 18,
+      "125": 35,
+      "126": 30,
+      "127": 29,
+      "128": 14,
+      "129": 18,
+      "130": 13,
+      "131": 15,
+      "132": 12,
+      "133": 14,
+      "134": 20,
+      "135": 12,
+      "136": 10,
+      "137": 11,
+      "138": 9,
+      "139": 10,
+      "140": 8,
+      "141": 9,
+      "142": 12,
+      "143": 7,
+      "144": 6,
+      "145": 6,
+      "146": 5,
+      "147": 5,
+      "148": 6,
+      "149": 3,
+      "150": 3,
+      "151": 1,
+      "152": 1
+    }
+  },
+  "schedule_classes": {
+    "NO_DESCENT_YET": {
+      "states": 446,
+      "average_g": 2124.954355244714,
+      "average_remaining_xy_m": 7177.97427844543,
+      "average_z_error_m": 500.0,
+      "average_z_states_per_xy_heading": 33.134529147982065,
+      "thresholds": {
+        "sustained_fragmentation_ratio_p10": 0.18518518518518517,
+        "fragmented_fragmentation_ratio_p90": 1.0,
+        "early_definition": "first descent begins at start (observed mass point)",
+        "late_definition": "first descent begins after start"
+      }
+    },
+    "EARLY_AT_START": {
+      "states": 29552,
+      "average_g": 4145.780141501467,
+      "average_remaining_xy_m": 5168.412486746059,
+      "average_z_error_m": 282.0317263535587,
+      "average_z_states_per_xy_heading": 46.650378992961556,
+      "thresholds": {
+        "sustained_fragmentation_ratio_p10": 0.18518518518518517,
+        "fragmented_fragmentation_ratio_p90": 1.0,
+        "early_definition": "first descent begins at start (observed mass point)",
+        "late_definition": "first descent begins after start"
+      }
+    },
+    "FRAGMENTED": {
+      "states": 14179,
+      "average_g": 4065.5354579447444,
+      "average_remaining_xy_m": 5244.463538887575,
+      "average_z_error_m": 361.52460673896485,
+      "average_z_states_per_xy_heading": 46.738980181959235,
+      "thresholds": {
+        "sustained_fragmentation_ratio_p10": 0.18518518518518517,
+        "fragmented_fragmentation_ratio_p90": 1.0,
+        "early_definition": "first descent begins at start (observed mass point)",
+        "late_definition": "first descent begins after start"
+      }
+    },
+    "SUSTAINED": {
+      "states": 2968,
+      "average_g": 3257.3470679465768,
+      "average_remaining_xy_m": 6061.237237980675,
+      "average_z_error_m": 200.37984912279612,
+      "average_z_states_per_xy_heading": 50.25101078167116,
+      "thresholds": {
+        "sustained_fragmentation_ratio_p10": 0.18518518518518517,
+        "fragmented_fragmentation_ratio_p90": 1.0,
+        "early_definition": "first descent begins at start (observed mass point)",
+        "late_definition": "first descent begins after start"
+      }
+    },
+    "LATE_AFTER_START": {
+      "states": 2,
+      "average_g": 247.6172370028965,
+      "average_remaining_xy_m": 9056.981504493046,
+      "average_z_error_m": 493.6430105921945,
+      "average_z_states_per_xy_heading": 2.0,
+      "thresholds": {
+        "sustained_fragmentation_ratio_p10": 0.18518518518518517,
+        "fragmented_fragmentation_ratio_p90": 1.0,
+        "early_definition": "first descent begins at start (observed mass point)",
+        "late_definition": "first descent begins after start"
+      }
+    }
+  },
+  "schedule_thresholds": {
+    "sustained_fragmentation_ratio_p10": 0.18518518518518517,
+    "fragmented_fragmentation_ratio_p90": 1.0,
+    "early_definition": "first descent begins at start (observed mass point)",
+    "late_definition": "first descent begins after start"
+  },
+  "decision_branching": {
+    "total_expansions": 30000,
+    "both_open_eligible": 4801,
+    "both_open_eligible_percent": 16.003333333333334,
+    "only_level_open_eligible": 8052,
+    "only_descent_open_eligible": 3002,
+    "neither_open_eligible": 14145
+  },
+  "interruption_causality": {
+    "non_terrain_forced": 76,
+    "total_interruptions": 76
+  },
+  "near_goal": {
+    "count": 46,
+    "with_descent_count": 46,
+    "fragmented_count": 26,
+    "sustained_count": 0,
+    "samples": [
+      {
+        "node_id": 48174,
+        "full_primitive_schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D",
+        "vertical_rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1",
+        "level_steps": 73,
+        "descent_steps": 74,
+        "climb_steps": 0,
+        "first_descent_step": 1,
+        "last_descent_step": 147,
+        "longest_descent_run": 1,
+        "descent_runs": 74,
+        "level_runs_between_descents": 73,
+        "vertical_mode_switches": 146,
+        "total_horizontal_distance_m": 8820.0,
+        "total_altitude_lost_m": 470.2641508867191,
+        "first_descent_start_distance_proxy_m": 0,
+        "remaining_xy_when_first_descent_m": 9300.0
+      },
+      {
+        "node_id": 48171,
+        "full_primitive_schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L L",
+        "vertical_rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L2",
+        "level_steps": 74,
+        "descent_steps": 73,
+        "climb_steps": 0,
+        "first_descent_step": 1,
+        "last_descent_step": 145,
+        "longest_descent_run": 1,
+        "descent_runs": 73,
+        "level_runs_between_descents": 72,
+        "vertical_mode_switches": 145,
+        "total_horizontal_distance_m": 8820.0,
+        "total_altitude_lost_m": 463.92107650535854,
+        "first_descent_start_distance_proxy_m": 0,
+        "remaining_xy_when_first_descent_m": 9300.0
+      },
+      {
+        "node_id": 48247,
+        "full_primitive_schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D D D",
+        "vertical_rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D3",
+        "level_steps": 72,
+        "descent_steps": 75,
+        "climb_steps": 0,
+        "first_descent_step": 1,
+        "last_descent_step": 147,
+        "longest_descent_run": 3,
+        "descent_runs": 73,
+        "level_runs_between_descents": 72,
+        "vertical_mode_switches": 144,
+        "total_horizontal_distance_m": 8820.0,
+        "total_altitude_lost_m": 476.6072252680797,
+        "first_descent_start_distance_proxy_m": 0,
+        "remaining_xy_when_first_descent_m": 9300.0
+      },
+      {
+        "node_id": 48655,
+        "full_primitive_schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L",
+        "vertical_rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1",
+        "level_steps": 74,
+        "descent_steps": 74,
+        "climb_steps": 0,
+        "first_descent_step": 1,
+        "last_descent_step": 147,
+        "longest_descent_run": 1,
+        "descent_runs": 74,
+        "level_runs_between_descents": 73,
+        "vertical_mode_switches": 147,
+        "total_horizontal_distance_m": 8880.0,
+        "total_altitude_lost_m": 470.2641508867191,
+        "first_descent_start_distance_proxy_m": 0,
+        "remaining_xy_when_first_descent_m": 9300.0
+      },
+      {
+        "node_id": 48659,
+        "full_primitive_schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D D",
+        "vertical_rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D2",
+        "level_steps": 73,
+        "descent_steps": 75,
+        "climb_steps": 0,
+        "first_descent_step": 1,
+        "last_descent_step": 148,
+        "longest_descent_run": 2,
+        "descent_runs": 74,
+        "level_runs_between_descents": 73,
+        "vertical_mode_switches": 146,
+        "total_horizontal_distance_m": 8880.0,
+        "total_altitude_lost_m": 476.6072252680797,
+        "first_descent_start_distance_proxy_m": 0,
+        "remaining_xy_when_first_descent_m": 9300.0
+      },
+      {
+        "node_id": 49178,
+        "full_primitive_schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D",
+        "vertical_rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1",
+        "level_steps": 74,
+        "descent_steps": 75,
+        "climb_steps": 0,
+        "first_descent_step": 1,
+        "last_descent_step": 149,
+        "longest_descent_run": 1,
+        "descent_runs": 75,
+        "level_runs_between_descents": 74,
+        "vertical_mode_switches": 148,
+        "total_horizontal_distance_m": 8940.0,
+        "total_altitude_lost_m": 476.6072252680797,
+        "first_descent_start_distance_proxy_m": 0,
+        "remaining_xy_when_first_descent_m": 9300.0
+      },
+      {
+        "node_id": 48645,
+        "full_primitive_schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L L L L",
+        "vertical_rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L4",
+        "level_steps": 75,
+        "descent_steps": 72,
+        "climb_steps": 0,
+        "first_descent_step": 1,
+        "last_descent_step": 143,
+        "longest_descent_run": 1,
+        "descent_runs": 72,
+        "level_runs_between_descents": 71,
+        "vertical_mode_switches": 143,
+        "total_horizontal_distance_m": 8820.0,
+        "total_altitude_lost_m": 457.578002123998,
+        "first_descent_start_distance_proxy_m": 0,
+        "remaining_xy_when_first_descent_m": 9300.0
+      },
+      {
+        "node_id": 48834,
+        "full_primitive_schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L L L",
+        "vertical_rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L3",
+        "level_steps": 75,
+        "descent_steps": 73,
+        "climb_steps": 0,
+        "first_descent_step": 1,
+        "last_descent_step": 145,
+        "longest_descent_run": 1,
+        "descent_runs": 73,
+        "level_runs_between_descents": 72,
+        "vertical_mode_switches": 145,
+        "total_horizontal_distance_m": 8880.0,
+        "total_altitude_lost_m": 463.92107650535854,
+        "first_descent_start_distance_proxy_m": 0,
+        "remaining_xy_when_first_descent_m": 9300.0
+      },
+      {
+        "node_id": 49174,
+        "full_primitive_schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L L",
+        "vertical_rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L2",
+        "level_steps": 75,
+        "descent_steps": 74,
+        "climb_steps": 0,
+        "first_descent_step": 1,
+        "last_descent_step": 147,
+        "longest_descent_run": 1,
+        "descent_runs": 74,
+        "level_runs_between_descents": 73,
+        "vertical_mode_switches": 147,
+        "total_horizontal_distance_m": 8940.0,
+        "total_altitude_lost_m": 470.2641508867191,
+        "first_descent_start_distance_proxy_m": 0,
+        "remaining_xy_when_first_descent_m": 9300.0
+      },
+      {
+        "node_id": 48819,
+        "full_primitive_schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D D D D D",
+        "vertical_rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D5",
+        "level_steps": 71,
+        "descent_steps": 76,
+        "climb_steps": 0,
+        "first_descent_step": 1,
+        "last_descent_step": 147,
+        "longest_descent_run": 5,
+        "descent_runs": 72,
+        "level_runs_between_descents": 71,
+        "vertical_mode_switches": 142,
+        "total_horizontal_distance_m": 8820.0,
+        "total_altitude_lost_m": 482.95029964944024,
+        "first_descent_start_distance_proxy_m": 0,
+        "remaining_xy_when_first_descent_m": 9300.0
+      },
+      {
+        "node_id": 48971,
+        "full_primitive_schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D D D D",
+        "vertical_rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D4",
+        "level_steps": 72,
+        "descent_steps": 76,
+        "climb_steps": 0,
+        "first_descent_step": 1,
+        "last_descent_step": 148,
+        "longest_descent_run": 4,
+        "descent_runs": 73,
+        "level_runs_between_descents": 72,
+        "vertical_mode_switches": 144,
+        "total_horizontal_distance_m": 8880.0,
+        "total_altitude_lost_m": 482.95029964944024,
+        "first_descent_start_distance_proxy_m": 0,
+        "remaining_xy_when_first_descent_m": 9300.0
+      },
+      {
+        "node_id": 49303,
+        "full_primitive_schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D D D",
+        "vertical_rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D3",
+        "level_steps": 73,
+        "descent_steps": 76,
+        "climb_steps": 0,
+        "first_descent_step": 1,
+        "last_descent_step": 149,
+        "longest_descent_run": 3,
+        "descent_runs": 74,
+        "level_runs_between_descents": 73,
+        "vertical_mode_switches": 146,
+        "total_horizontal_distance_m": 8940.0,
+        "total_altitude_lost_m": 482.95029964944024,
+        "first_descent_start_distance_proxy_m": 0,
+        "remaining_xy_when_first_descent_m": 9300.0
+      },
+      {
+        "node_id": 49656,
+        "full_primitive_schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L",
+        "vertical_rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1",
+        "level_steps": 75,
+        "descent_steps": 75,
+        "climb_steps": 0,
+        "first_descent_step": 1,
+        "last_descent_step": 149,
+        "longest_descent_run": 1,
+        "descent_runs": 75,
+        "level_runs_between_descents": 74,
+        "vertical_mode_switches": 149,
+        "total_horizontal_distance_m": 9000.0,
+        "total_altitude_lost_m": 476.6072252680797,
+        "first_descent_start_distance_proxy_m": 0,
+        "remaining_xy_when_first_descent_m": 9300.0
+      },
+      {
+        "node_id": 48246,
+        "full_primitive_schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D D C",
+        "vertical_rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D2 C1",
+        "level_steps": 72,
+        "descent_steps": 74,
+        "climb_steps": 1,
+        "first_descent_step": 1,
+        "last_descent_step": 146,
+        "longest_descent_run": 2,
+        "descent_runs": 73,
+        "level_runs_between_descents": 72,
+        "vertical_mode_switches": 145,
+        "total_horizontal_distance_m": 8820.0,
+        "total_altitude_lost_m": 467.04536381150274,
+        "first_descent_start_distance_proxy_m": 0,
+        "remaining_xy_when_first_descent_m": 9300.0
+      },
+      {
+        "node_id": 49660,
+        "full_primitive_schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D D",
+        "vertical_rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D2",
+        "level_steps": 74,
+        "descent_steps": 76,
+        "climb_steps": 0,
+        "first_descent_step": 1,
+        "last_descent_step": 150,
+        "longest_descent_run": 2,
+        "descent_runs": 75,
+        "level_runs_between_descents": 74,
+        "vertical_mode_switches": 148,
+        "total_horizontal_distance_m": 9000.0,
+        "total_altitude_lost_m": 482.95029964944024,
+        "first_descent_start_distance_proxy_m": 0,
+        "remaining_xy_when_first_descent_m": 9300.0
+      },
+      {
+        "node_id": 50507,
+        "full_primitive_schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D",
+        "vertical_rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1",
+        "level_steps": 75,
+        "descent_steps": 76,
+        "climb_steps": 0,
+        "first_descent_step": 1,
+        "last_descent_step": 151,
+        "longest_descent_run": 1,
+        "descent_runs": 76,
+        "level_runs_between_descents": 75,
+        "vertical_mode_switches": 150,
+        "total_horizontal_distance_m": 9060.0,
+        "total_altitude_lost_m": 482.95029964944024,
+        "first_descent_start_distance_proxy_m": 0,
+        "remaining_xy_when_first_descent_m": 9300.0
+      },
+      {
+        "node_id": 48658,
+        "full_primitive_schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D C",
+        "vertical_rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 C1",
+        "level_steps": 73,
+        "descent_steps": 74,
+        "climb_steps": 1,
+        "first_descent_step": 1,
+        "last_descent_step": 147,
+        "longest_descent_run": 1,
+        "descent_runs": 74,
+        "level_runs_between_descents": 73,
+        "vertical_mode_switches": 147,
+        "total_horizontal_distance_m": 8880.0,
+        "total_altitude_lost_m": 467.04536381150274,
+        "first_descent_start_distance_proxy_m": 0,
+        "remaining_xy_when_first_descent_m": 9300.0
+      },
+      {
+        "node_id": 49638,
+        "full_primitive_schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L L L L L L",
+        "vertical_rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L6",
+        "level_steps": 76,
+        "descent_steps": 71,
+        "climb_steps": 0,
+        "first_descent_step": 1,
+        "last_descent_step": 141,
+        "longest_descent_run": 1,
+        "descent_runs": 71,
+        "level_runs_between_descents": 70,
+        "vertical_mode_switches": 141,
+        "total_horizontal_distance_m": 8820.0,
+        "total_altitude_lost_m": 451.2349277426374,
+        "first_descent_start_distance_proxy_m": 0,
+        "remaining_xy_when_first_descent_m": 9300.0
+      },
+      {
+        "node_id": 49831,
+        "full_primitive_schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L L L L L",
+        "vertical_rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L5",
+        "level_steps": 76,
+        "descent_steps": 72,
+        "climb_steps": 0,
+        "first_descent_step": 1,
+        "last_descent_step": 143,
+        "longest_descent_run": 1,
+        "descent_runs": 72,
+        "level_runs_between_descents": 71,
+        "vertical_mode_switches": 143,
+        "total_horizontal_distance_m": 8880.0,
+        "total_altitude_lost_m": 457.578002123998,
+        "first_descent_start_distance_proxy_m": 0,
+        "remaining_xy_when_first_descent_m": 9300.0
+      },
+      {
+        "node_id": 50073,
+        "full_primitive_schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L L L L",
+        "vertical_rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L4",
+        "level_steps": 76,
+        "descent_steps": 73,
+        "climb_steps": 0,
+        "first_descent_step": 1,
+        "last_descent_step": 145,
+        "longest_descent_run": 1,
+        "descent_runs": 73,
+        "level_runs_between_descents": 72,
+        "vertical_mode_switches": 145,
+        "total_horizontal_distance_m": 8940.0,
+        "total_altitude_lost_m": 463.92107650535854,
+        "first_descent_start_distance_proxy_m": 0,
+        "remaining_xy_when_first_descent_m": 9300.0
+      }
+    ]
+  },
+  "goal_open": {
+    "count": 9,
+    "samples": [
+      {
+        "node_id": 52316,
+        "full_primitive_schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D D",
+        "vertical_rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D2",
+        "level_steps": 76,
+        "descent_steps": 78,
+        "climb_steps": 0,
+        "first_descent_step": 1,
+        "last_descent_step": 154,
+        "longest_descent_run": 2,
+        "descent_runs": 77,
+        "level_runs_between_descents": 76,
+        "vertical_mode_switches": 152,
+        "total_horizontal_distance_m": 9240.0,
+        "total_altitude_lost_m": 495.63644841216137,
+        "first_descent_start_distance_proxy_m": 0,
+        "remaining_xy_when_first_descent_m": 9300.0
+      },
+      {
+        "node_id": 54466,
+        "full_primitive_schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D D D D D TL",
+        "vertical_rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D5 L1",
+        "level_steps": 74,
+        "descent_steps": 78,
+        "climb_steps": 0,
+        "first_descent_step": 1,
+        "last_descent_step": 151,
+        "longest_descent_run": 5,
+        "descent_runs": 74,
+        "level_runs_between_descents": 73,
+        "vertical_mode_switches": 147,
+        "total_horizontal_distance_m": 9237.638702676875,
+        "total_altitude_lost_m": 495.63644841216137,
+        "first_descent_start_distance_proxy_m": 0,
+        "remaining_xy_when_first_descent_m": 9300.0
+      },
+      {
+        "node_id": 54467,
+        "full_primitive_schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D D D D D TR",
+        "vertical_rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D5 L1",
+        "level_steps": 74,
+        "descent_steps": 78,
+        "climb_steps": 0,
+        "first_descent_step": 1,
+        "last_descent_step": 151,
+        "longest_descent_run": 5,
+        "descent_runs": 74,
+        "level_runs_between_descents": 73,
+        "vertical_mode_switches": 147,
+        "total_horizontal_distance_m": 9237.638702676875,
+        "total_altitude_lost_m": 495.63644841216137,
+        "first_descent_start_distance_proxy_m": 0,
+        "remaining_xy_when_first_descent_m": 9300.0
+      },
+      {
+        "node_id": 54470,
+        "full_primitive_schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D D D D TL",
+        "vertical_rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D4 L1",
+        "level_steps": 75,
+        "descent_steps": 78,
+        "climb_steps": 0,
+        "first_descent_step": 1,
+        "last_descent_step": 152,
+        "longest_descent_run": 4,
+        "descent_runs": 75,
+        "level_runs_between_descents": 74,
+        "vertical_mode_switches": 149,
+        "total_horizontal_distance_m": 9297.638702676875,
+        "total_altitude_lost_m": 495.63644841216137,
+        "first_descent_start_distance_proxy_m": 0,
+        "remaining_xy_when_first_descent_m": 9300.0
+      },
+      {
+        "node_id": 54471,
+        "full_primitive_schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D D D D TR",
+        "vertical_rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D4 L1",
+        "level_steps": 75,
+        "descent_steps": 78,
+        "climb_steps": 0,
+        "first_descent_step": 1,
+        "last_descent_step": 152,
+        "longest_descent_run": 4,
+        "descent_runs": 75,
+        "level_runs_between_descents": 74,
+        "vertical_mode_switches": 149,
+        "total_horizontal_distance_m": 9297.638702676875,
+        "total_altitude_lost_m": 495.63644841216137,
+        "first_descent_start_distance_proxy_m": 0,
+        "remaining_xy_when_first_descent_m": 9300.0
+      },
+      {
+        "node_id": 54474,
+        "full_primitive_schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D D D TL",
+        "vertical_rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D3 L1",
+        "level_steps": 76,
+        "descent_steps": 78,
+        "climb_steps": 0,
+        "first_descent_step": 1,
+        "last_descent_step": 153,
+        "longest_descent_run": 3,
+        "descent_runs": 76,
+        "level_runs_between_descents": 75,
+        "vertical_mode_switches": 151,
+        "total_horizontal_distance_m": 9357.638702676875,
+        "total_altitude_lost_m": 495.63644841216137,
+        "first_descent_start_distance_proxy_m": 0,
+        "remaining_xy_when_first_descent_m": 9300.0
+      },
+      {
+        "node_id": 54475,
+        "full_primitive_schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D D D TR",
+        "vertical_rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D3 L1",
+        "level_steps": 76,
+        "descent_steps": 78,
+        "climb_steps": 0,
+        "first_descent_step": 1,
+        "last_descent_step": 153,
+        "longest_descent_run": 3,
+        "descent_runs": 76,
+        "level_runs_between_descents": 75,
+        "vertical_mode_switches": 151,
+        "total_horizontal_distance_m": 9357.638702676875,
+        "total_altitude_lost_m": 495.63644841216137,
+        "first_descent_start_distance_proxy_m": 0,
+        "remaining_xy_when_first_descent_m": 9300.0
+      },
+      {
+        "node_id": 54476,
+        "full_primitive_schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D D D C",
+        "vertical_rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D3 C1",
+        "level_steps": 75,
+        "descent_steps": 78,
+        "climb_steps": 1,
+        "first_descent_step": 1,
+        "last_descent_step": 153,
+        "longest_descent_run": 3,
+        "descent_runs": 76,
+        "level_runs_between_descents": 75,
+        "vertical_mode_switches": 151,
+        "total_horizontal_distance_m": 9240.0,
+        "total_altitude_lost_m": 492.417661336945,
+        "first_descent_start_distance_proxy_m": 0,
+        "remaining_xy_when_first_descent_m": 9300.0
+      },
+      {
+        "node_id": 54477,
+        "full_primitive_schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D D D D",
+        "vertical_rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D4",
+        "level_steps": 75,
+        "descent_steps": 79,
+        "climb_steps": 0,
+        "first_descent_step": 1,
+        "last_descent_step": 154,
+        "longest_descent_run": 4,
+        "descent_runs": 76,
+        "level_runs_between_descents": 75,
+        "vertical_mode_switches": 150,
+        "total_horizontal_distance_m": 9240.0,
+        "total_altitude_lost_m": 501.97952279352194,
+        "first_descent_start_distance_proxy_m": 0,
+        "remaining_xy_when_first_descent_m": 9300.0
+      }
+    ]
+  },
+  "best_partial": {
+    "node_id": 52284,
+    "full_primitive_schedule": "D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D L D D D",
+    "vertical_rle": "D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D1 L1 D3",
+    "level_steps": 75,
+    "descent_steps": 78,
+    "climb_steps": 0,
+    "first_descent_step": 1,
+    "last_descent_step": 153,
+    "longest_descent_run": 3,
+    "descent_runs": 76,
+    "level_runs_between_descents": 75,
+    "vertical_mode_switches": 150,
+    "total_horizontal_distance_m": 9180.0,
+    "total_altitude_lost_m": 495.63644841216137,
+    "first_descent_start_distance_proxy_m": 0,
+    "remaining_xy_when_first_descent_m": 9300.0
+  },
+  "best_partial_macro_runs": {
+    "descent_run_count": 76,
+    "run_length_steps_distribution": {
+      "1": 75,
+      "3": 1
+    },
+    "max_run_steps": 3,
+    "runs_at_least_3_steps": 1,
+    "runs": [
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805486
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805486
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805486
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805486
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805486
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805486
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805486
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805486
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805486
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805486
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805486
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805486
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805486
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805486
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805486
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805486
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805486
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805486
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805486
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805486
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805486
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805486
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805486
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805486
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805486
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805486
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805486
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805486
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805486
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805486
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805486
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805486
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805486
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805486
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805486
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805486
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805486
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805486
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805486
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805486
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805486
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805486
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805486
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805486
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805486
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805486
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805486
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805941
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805941
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805941
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805941
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805941
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805941
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805941
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805941
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805941
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805941
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805941
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805941
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805941
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805941
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805941
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.356989407805941
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.343074381360566
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.343074381360566
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.343074381360566
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.343074381360566
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.343074381360566
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.343074381360566
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.343074381360566
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.343074381360566
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.343074381360566
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.343074381360566
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.343074381360566
+      },
+      {
+        "steps": 1,
+        "horizontal_m": 60.0,
+        "altitude_change_m": -6.343074381360566
+      },
+      {
+        "steps": 3,
+        "horizontal_m": 180.0,
+        "altitude_change_m": -19.029223144081698
+      }
+    ]
+  },
+  "conclusion": "PRIMARY Z-DIVERSITY CAUSE: **A. VERTICAL TIMING COMBINATORICS**. In the top 20 groups, 1,540/1,540 representatives have distinct vertical RLE schedules while every inspected group has one geometric lineage. The narrower same-descent-count/different-order screen is 4.05%, so the evidence is repeated LEVEL-vs-DESCENT decisions (including different descent amounts), not merely permutations with an equal descent count. Of observed descent\u2192level interruptions, 0 are terrain-forced and 76 are not. VERTICAL DECISION COMPRESSION POTENTIAL: **MODERATE**. LONGER VERTICAL PRIMITIVE JUSTIFIED: **NO**: near-goal/best-prefix evidence is predominantly fragmented, so a sustained-descent macro is not supported without a design that retains selectable timing and full terrain/envelope validation."
+}
