@@ -13,6 +13,7 @@ from planner.fixed_wing_envelope import FixedWingKinematicEnvelope
 from planner.physical import (
     PhysicalPose, PhysicalTrajectory, TrajectorySample,
     build_helical_turn_trajectory, build_straight_level_trajectory,
+    build_straight_vertical_trajectory,
 )
 from planner.pose_search import (
     GoalPose, GoalTolerance, _trajectory_edge_cost, active_primitive_names, navigation_bearing_deg,
@@ -238,6 +239,60 @@ class PoseAwareSearchTests(unittest.TestCase):
         self.assertEqual(navigation_bearing_deg(0, 0, 1, 0), 90.0)
         self.assertEqual(navigation_bearing_deg(0, 0, 0, -1), 180.0)
         self.assertEqual(navigation_bearing_deg(0, 0, -1, 0), 270.0)
+
+    def test_altitude_detour_survives_cheaper_goal_altitude_arrival(self) -> None:
+        # Controlled successor graph, real kinematic trajectories and terrain
+        # checks: the cheaper level arrival is a dead end. Both early climb
+        # and early descent must survive in their own z bins to reach the goal.
+        terrain = self.flat()
+        start = PhysicalPose(300, 300, 1200, 90)
+        level = build_straight_level_trajectory(start, 60, 10).trajectory
+        for rate in (5.0, -5.0):
+            detour = build_straight_vertical_trajectory(start, 60, rate, 10).trajectory
+            finish = build_straight_vertical_trajectory(detour.end_pose, 60, -rate, 10).trajectory
+
+            def candidates(pose, _envelope, _config):
+                if pose == start:
+                    return (("STRAIGHT_LEVEL", level), ("VERTICAL_DETOUR", detour))
+                if pose == detour.end_pose:
+                    return (("VERTICAL_RETURN", finish),)
+                return ()
+
+            for legacy_flag in (False, True):
+                for soft_cost in (False, True):
+                    with self.subTest(rate=rate, legacy_flag=legacy_flag, soft_cost=soft_cost):
+                        cfg = dataclasses.replace(self.config,
+                            enable_pareto_z_pruning=legacy_flag,
+                            enable_low_altitude_cost=soft_cost)
+                        with patch("planner.pose_search._candidate_trajectories", candidates):
+                            result = self.search(start, GoalPose(420, 300, 1200), terrain,
+                                                 GoalTolerance(.1, .1), 20, cfg)
+                        self.assertTrue(result.success)
+                        self.assertEqual(result.nodes[1].end_pose, detour.end_pose)
+                        self.assertNotIn("PARETO_Z_DOMINANCE", result.rejected_reason_counts)
+
+    def test_dual_queue_terrain_guidance_reaches_goal_with_different_ratios(self) -> None:
+        terrain = self.flat(size=40)
+        start = PhysicalPose(300, 300, 1150, 90)
+        goal = GoalPose(900, 300, 1150)
+        for ratio in (1, 3, 5):
+            with self.subTest(ratio=ratio):
+                cfg = dataclasses.replace(
+                    self.config,
+                    enable_terrain_guidance=True,
+                    guidance_queue_ratio=ratio,
+                    search_heuristic_weight=1.05,
+                )
+                result = pose_aware_astar_search(
+                    start, goal, terrain,
+                    goal_tolerance=GoalTolerance(30.0, 10.0),
+                    config=cfg,
+                    envelope=self.envelope,
+                    max_expansions=500,
+                )
+                self.assertTrue(result.success)
+                self.assertEqual(result.termination_reason, "FOUND")
+                self.assertAlmostEqual(result.nodes[-1].end_pose.x_m, 900.0, delta=30.0)
 
 
 if __name__ == "__main__":

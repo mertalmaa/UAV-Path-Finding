@@ -2,9 +2,14 @@
   "bilecik": {
     "region_id": "bilecik",
     "region_name": "Bilecik - Sakarya Vadisi ve Kanyonları",
-    "description": "Sakarya Nehri kanyon geçişi, Vezirhan, Osmaneli ve Gölpazarı vadileri. Taban rakımı 97m, çevre tepeler 600-1200m.",
-    "canyon_features": "Kanyon derinliği 400-800m. Dik vadi yamaçları, nehir kıvrımları ve alçak irtifa vadi içi uçuş / alçalma manevraları için ideal.",
-    "source_tile": "Copernicus_DSM_COG_10_N40_00_E030_00_DEM.tif",
+    "description": "Sakarya Nehri kanyon geçişi, Vezirhan, Osmaneli, Gölpazarı ve İnhisar vadileri. Taban rakımı 34m, çevre tepeler 600-1683m.",
+    "canyon_features": "Genişletilmiş 90x90 km alan: Sakarya Kanyonu, Bilecik vadileri, güneyde Bozüyük/Eskişehir platosu ve kuzeyde İznik/Adapazarı havzası geçişleri.",
+    "source_tiles": [
+      "Copernicus_DSM_COG_10_N39_00_E029_00_DEM.tif",
+      "Copernicus_DSM_COG_10_N39_00_E030_00_DEM.tif",
+      "Copernicus_DSM_COG_10_N40_00_E029_00_DEM.tif",
+      "Copernicus_DSM_COG_10_N40_00_E030_00_DEM.tif"
+    ],
     "center_lonlat": [
       30.3,
       40.25
@@ -14,32 +19,32 @@
       4459002.851768262
     ],
     "target_crs": "EPSG:32636",
-    "roi_size_m": 30000.0,
+    "roi_size_m": 90000.0,
     "buffer_margin_m": 5000.0,
-    "working_extent_m": 40000.0,
+    "working_extent_m": 100000.0,
     "elevation_stats": {
-      "working_dem_min_m": 97.0,
-      "working_dem_max_m": 1277.5836181640625,
-      "working_dem_median_m": 586.3389892578125,
-      "roi_min_m": 118.37399291992188,
-      "roi_max_m": 1277.5836181640625,
-      "roi_median_m": 639.2739868164062
+      "working_dem_min_m": 28.5,
+      "working_dem_max_m": 1864.74658203125,
+      "working_dem_median_m": 766.9593505859375,
+      "roi_min_m": 34.5,
+      "roi_max_m": 1683.455322265625,
+      "roi_median_m": 756.5574951171875
     },
     "working_dem_shape": [
-      1333,
-      1333
+      3333,
+      3333
     ],
     "roi_dem_shape": [
+      3000,
+      3000
+    ],
+    "coarse_90m_shape": [
       1000,
       1000
     ],
-    "coarse_90m_shape": [
-      333,
-      333
-    ],
     "files": {
       "working_dem": "bilecik\\working_dem.tif",
-      "roi_30km_dem": "bilecik\\roi_30km_dem.tif",
+      "roi_90km_dem": "bilecik\\roi_90km_dem.tif",
       "coarse_90m_max": "bilecik\\coarse_90m_max.tif",
       "coarse_90m_min": "bilecik\\coarse_90m_min.tif",
       "coarse_90m_mean": "bilecik\\coarse_90m_mean.tif",
@@ -50,9 +55,14 @@
   "mugla": {
     "region_id": "mugla",
     "region_name": "Muğla - Gökova Körfezi, Ula Kanyonu ve Sakar Geçidi",
-    "description": "Gökova Körfezi kıyısından (0m) Sakar Geçidi ve Ula kanyonu boyunca Muğla platosuna (700-1891m) yükselen dik topoğrafya.",
-    "canyon_features": "Deniz seviyesinden 1000+ metreye 3 km içinde tırmanan falezler, derin kanyonlar ve plato alçalma/tırmanma koridorları.",
-    "source_tile": "Copernicus_DSM_COG_10_N37_00_E028_00_DEM.tif",
+    "description": "Gökova Körfezi, Datça-Marmaris koridoru, Sakar Geçidi, Ula kanyonu, Milas ve Yatağan havzası. Taban 0m (deniz), zirveler 1891m.",
+    "canyon_features": "Deniz seviyesinden 1800m+ plato ve dağ zirvelerine dik falezler, karmaşık kıyı-dağ topografyası ve derin kanyon koridorları.",
+    "source_tiles": [
+      "Copernicus_DSM_COG_10_N36_00_E027_00_DEM.tif",
+      "Copernicus_DSM_COG_10_N36_00_E028_00_DEM.tif",
+      "Copernicus_DSM_COG_10_N37_00_E027_00_DEM.tif",
+      "Copernicus_DSM_COG_10_N37_00_E028_00_DEM.tif"
+    ],
     "center_lonlat": [
       28.35,
       37.22
@@ -62,32 +72,32 @@
       4129419.8653345928
     ],
     "target_crs": "EPSG:32636",
-    "roi_size_m": 30000.0,
+    "roi_size_m": 90000.0,
     "buffer_margin_m": 5000.0,
-    "working_extent_m": 40000.0,
+    "working_extent_m": 100000.0,
     "elevation_stats": {
-      "working_dem_min_m": -1.3210289478302002,
-      "working_dem_max_m": 1891.2789306640625,
-      "working_dem_median_m": 766.5374145507812,
-      "roi_min_m": 243.3807830810547,
-      "roi_max_m": 1891.2789306640625,
-      "roi_median_m": 781.333740234375
+      "working_dem_min_m": -1.5,
+      "working_dem_max_m": 2291.573486328125,
+      "working_dem_median_m": 576.9122314453125,
+      "roi_min_m": -1.0,
+      "roi_max_m": 2291.573486328125,
+      "roi_median_m": 605.5928344726562
     },
     "working_dem_shape": [
-      1333,
-      1333
+      3333,
+      3333
     ],
     "roi_dem_shape": [
+      3000,
+      3000
+    ],
+    "coarse_90m_shape": [
       1000,
       1000
     ],
-    "coarse_90m_shape": [
-      333,
-      333
-    ],
     "files": {
       "working_dem": "mugla\\working_dem.tif",
-      "roi_30km_dem": "mugla\\roi_30km_dem.tif",
+      "roi_90km_dem": "mugla\\roi_90km_dem.tif",
       "coarse_90m_max": "mugla\\coarse_90m_max.tif",
       "coarse_90m_min": "mugla\\coarse_90m_min.tif",
       "coarse_90m_mean": "mugla\\coarse_90m_mean.tif",
@@ -98,9 +108,14 @@
   "ankara": {
     "region_id": "ankara",
     "region_name": "Ankara - Güdül, Kirmir Çayı Kanyonu ve Ayaş",
-    "description": "Kirmir Çayı Kanyonu, kaya yerleşimleri vadisi, Güdül ve Ayaş volkanik platoları. Taban 518m, tepeler 1000-1984m.",
-    "canyon_features": "Kirmir Çayı boyunca uzanan dar kanyon tabanı, dalgalı tepeler ve tepe aşma/vadi içi süzülüş için mükemmel test alanı.",
-    "source_tile": "Copernicus_DSM_COG_10_N40_00_E032_00_DEM.tif",
+    "description": "Kirmir Çayı Kanyonu, Güdül, Ayaş, Beypazarı, Kızılcahamam ve Çamlıdere volkanik plato ve dağlık arazisi. Taban 460m, tepeler 2000m+.",
+    "canyon_features": "Kirmir Çayı boyunca uzanan dar kanyon tabanı, dik volkanik tepeler, derin vadiler ve tepe aşma (ridge hopping) rotaları.",
+    "source_tiles": [
+      "Copernicus_DSM_COG_10_N39_00_E031_00_DEM.tif",
+      "Copernicus_DSM_COG_10_N39_00_E032_00_DEM.tif",
+      "Copernicus_DSM_COG_10_N40_00_E031_00_DEM.tif",
+      "Copernicus_DSM_COG_10_N40_00_E032_00_DEM.tif"
+    ],
     "center_lonlat": [
       32.25,
       40.25
@@ -110,37 +125,90 @@
       4455775.12523175
     ],
     "target_crs": "EPSG:32636",
-    "roi_size_m": 30000.0,
+    "roi_size_m": 90000.0,
     "buffer_margin_m": 5000.0,
-    "working_extent_m": 40000.0,
+    "working_extent_m": 100000.0,
     "elevation_stats": {
-      "working_dem_min_m": 517.872802734375,
-      "working_dem_max_m": 1983.99658203125,
-      "working_dem_median_m": 1063.4678955078125,
-      "roi_min_m": 536.8500366210938,
-      "roi_max_m": 1983.99658203125,
-      "roi_median_m": 1061.9290771484375
+      "working_dem_min_m": 467.0,
+      "working_dem_max_m": 2389.115478515625,
+      "working_dem_median_m": 1114.529052734375,
+      "roi_min_m": 467.0,
+      "roi_max_m": 2389.115478515625,
+      "roi_median_m": 1098.544189453125
     },
     "working_dem_shape": [
-      1333,
-      1333
+      3333,
+      3333
     ],
     "roi_dem_shape": [
+      3000,
+      3000
+    ],
+    "coarse_90m_shape": [
       1000,
       1000
     ],
-    "coarse_90m_shape": [
-      333,
-      333
-    ],
     "files": {
       "working_dem": "ankara\\working_dem.tif",
-      "roi_30km_dem": "ankara\\roi_30km_dem.tif",
+      "roi_90km_dem": "ankara\\roi_90km_dem.tif",
       "coarse_90m_max": "ankara\\coarse_90m_max.tif",
       "coarse_90m_min": "ankara\\coarse_90m_min.tif",
       "coarse_90m_mean": "ankara\\coarse_90m_mean.tif",
       "coarse_90m_relief": "ankara\\coarse_90m_relief.tif",
       "terrain_cache": "ankara\\terrain_cache"
+    }
+  },
+  "aladaglar": {
+    "region_id": "aladaglar",
+    "region_name": "Aladağlar - Demirkazık Zirvesi ve Çamardı Kanyonları",
+    "description": "Toros Dağları'nın en sarp ve yüksek silsilesi, Demirkazık (3756m), Bolkar Dağları, Ecemiş Fayı koridoru, Çamardı ve Pozantı kanyonları.",
+    "canyon_features": "1000m-3756m arası sarp duvarlar, derin kanyon yarıkları, aşırı irtifa değişimleri ve yüksek irtifa dağ aşma test alanı.",
+    "source_tiles": [
+      "Copernicus_DSM_COG_10_N37_00_E034_00_DEM.tif",
+      "Copernicus_DSM_COG_10_N37_00_E035_00_DEM.tif",
+      "Copernicus_DSM_COG_10_N38_00_E034_00_DEM.tif",
+      "Copernicus_DSM_COG_10_N38_00_E035_00_DEM.tif"
+    ],
+    "center_lonlat": [
+      35.15,
+      37.81
+    ],
+    "center_utm_xy": [
+      689261.3730989331,
+      4186911.953867339
+    ],
+    "target_crs": "EPSG:32636",
+    "roi_size_m": 90000.0,
+    "buffer_margin_m": 5000.0,
+    "working_extent_m": 100000.0,
+    "elevation_stats": {
+      "working_dem_min_m": 81.01764678955078,
+      "working_dem_max_m": 3700.39111328125,
+      "working_dem_median_m": 1443.272216796875,
+      "roi_min_m": 152.8505401611328,
+      "roi_max_m": 3700.39111328125,
+      "roi_median_m": 1481.03173828125
+    },
+    "working_dem_shape": [
+      3333,
+      3333
+    ],
+    "roi_dem_shape": [
+      3000,
+      3000
+    ],
+    "coarse_90m_shape": [
+      1000,
+      1000
+    ],
+    "files": {
+      "working_dem": "aladaglar\\working_dem.tif",
+      "roi_90km_dem": "aladaglar\\roi_90km_dem.tif",
+      "coarse_90m_max": "aladaglar\\coarse_90m_max.tif",
+      "coarse_90m_min": "aladaglar\\coarse_90m_min.tif",
+      "coarse_90m_mean": "aladaglar\\coarse_90m_mean.tif",
+      "coarse_90m_relief": "aladaglar\\coarse_90m_relief.tif",
+      "terrain_cache": "aladaglar\\terrain_cache"
     }
   }
 }

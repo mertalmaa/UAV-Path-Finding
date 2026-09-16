@@ -1,5 +1,22 @@
 # UAV Pathfinder
 
+Current development area: **Bilecik** (`regions/bilecik/working_dem.tif`,
+30 km ROI). Stage 1 removes cross-altitude goal/terrain-proximity pruning;
+each altitude bin retains its own representative. Same-key pruning remains
+approximate, so completeness and optimality are not guaranteed. The legacy
+`enable_pareto_z_pruning` field is retained but has no effect.
+
+Run selected Bilecik checks with `python -B -m scripts.check_bilecik_stage1`.
+Search and terrain-following results are reported separately in
+`results/test_bilecik/stage1_altitude_preservation.json`.
+
+For optional terrain guidance including descent-distance lookahead, run
+`python -B -m scripts.check_bilecik_stage1 --guided`. This orders the search
+without changing geometric edge cost or safety limits; it is not an admissible
+heuristic or an optimality guarantee. Results are saved separately in
+`results/test_bilecik/terrain_guided.json`. See
+[the Bilecik guidance report](docs/BILECIK_ARAZI_REHBERI.md) for timing tradeoffs.
+
 Terrain-aware 3D path-planning research code for a fixed-wing UAV. The authoritative
 production planner uses a continuous fixed-wing pose-aware A* with conservative
 terrain/AGL checks and an authoritative **Generic Constant-Performance Fixed-Wing Kinematic Model**:

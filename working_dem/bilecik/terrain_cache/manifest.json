@@ -1,19 +1,19 @@
 {
   "schema_version": 1,
   "code_version": "terrain_cache_v1",
-  "created_at_utc": "2026-09-15T20:24:12Z",
-  "source_dem_path": "regions\\bilecik\\working_dem.tif",
-  "source_sha256": "02546a871e671a373867057cf222191307b93c20f1781c32e61dcf1e5023d60f",
-  "source_width": 1000,
-  "source_height": 1000,
+  "created_at_utc": "2026-09-16T15:34:20Z",
+  "source_dem_path": "working_dem\\bilecik\\working_dem.tif",
+  "source_sha256": "4005aadf451418cc8967092435c0c50e7799d1fc6fbc6ded80d1c9e862a80d4b",
+  "source_width": 3000,
+  "source_height": 3000,
   "source_crs": "EPSG:32636",
   "source_transform": [
     30.0,
     0.0,
-    255349.01311499794,
+    225352.60525266966,
     0.0,
     -30.0,
-    4474018.777095021
+    4504004.613038366
   ],
   "native_resolution_m": 30.0,
   "nodata": -9999.0,
@@ -23,40 +23,40 @@
   ],
   "array_shapes": {
     "fine_elevation": [
+      3000,
+      3000
+    ],
+    "min_elevation_f2": [
+      1500,
+      1500
+    ],
+    "max_elevation_f2": [
+      1500,
+      1500
+    ],
+    "mean_elevation_f2": [
+      1500,
+      1500
+    ],
+    "relief_f2": [
+      1500,
+      1500
+    ],
+    "min_elevation_f3": [
       1000,
       1000
     ],
-    "min_elevation_f2": [
-      500,
-      500
-    ],
-    "max_elevation_f2": [
-      500,
-      500
-    ],
-    "mean_elevation_f2": [
-      500,
-      500
-    ],
-    "relief_f2": [
-      500,
-      500
-    ],
-    "min_elevation_f3": [
-      333,
-      333
-    ],
     "max_elevation_f3": [
-      333,
-      333
+      1000,
+      1000
     ],
     "mean_elevation_f3": [
-      333,
-      333
+      1000,
+      1000
     ],
     "relief_f3": [
-      333,
-      333
+      1000,
+      1000
     ]
   },
   "array_dtypes": {

@@ -14,13 +14,13 @@ from typing import Optional, Tuple
 @dataclass(frozen=True)
 class PlannerConfig:
     # --- DEM / CRS ---
-    working_dem_path: Path = Path("working_dem/aladaglar_N37_E035_utm36n_max.tif")
-    target_crs: str = "EPSG:32636"  # UTM 36N; covers the Aladaglar tile with <0.01% distortion
+    working_dem_path: Path = Path("regions/bilecik/working_dem.tif")
+    target_crs: str = "EPSG:32636"  # Bilecik working DEM, UTM 36N
     nodata_value: float = -9999.0
 
     # --- ROI geometry ---
-    roi_center_lonlat: Tuple[float, float] = (35.14833, 37.80611)  # source DEM max-elevation pixel, near Demirkazik
-    roi_size_m: float = 10_000.0  # 10x10 km, this stage's scope
+    roi_center_lonlat: Tuple[float, float] = (30.30, 40.25)
+    roi_size_m: float = 30_000.0  # Bilecik mission area, 30x30 km
     xy_resolution_m: float = 30.0  # working DEM pixel size
 
     # CandidateZ terrain-floor event quantization. This rounds the
@@ -54,16 +54,27 @@ class PlannerConfig:
     enable_combined_turns: bool = True
     # Weighted search trades exact optimality for bounded practical search.
     search_heuristic_weight: float = 1.01
-    # Approximate cross-altitude pruning; disable for obstacle diagnosis.
-    enable_pareto_z_pruning: bool = True
+    # Deprecated compatibility field; no effect even when True. Cross-altitude
+    # goal/terrain-proximity pruning was unsound and has been removed.
+    # Each full (x, y, z, heading) key still keeps one approximate representative.
+    enable_pareto_z_pruning: bool = False
     # Optional terrain-relative soft objective.  It is deliberately
     # opt-in: safety is still governed solely by min_agl_m and continuous
     # trajectory validation.  When disabled, pose-aware A* uses its original
     # geometric 3D edge length without terrain queries in the cost path.
     enable_low_altitude_cost: bool = False
-    # Optional topographic Dijkstra ordering and climb lookahead for the soft
-    # AGL objective. Approximate guidance, not an admissible heuristic claim.
+    # Optional topographic Dijkstra ordering with climb/descent lookahead.
+    # Works independently of low-altitude cost. Approximate guidance, not an
+    # admissible heuristic claim; never bypasses full trajectory safety.
     enable_terrain_guidance: bool = False
+    # Soft ordering only: sample the terrain guide at this pixel stride.
+    # Full-resolution trajectory safety remains unchanged.
+    terrain_guidance_stride: int = 3
+    # Dual-queue multi-heuristic search (RR-MHA*): interleave inadmissible
+    # topographic guidance queue with the admissible anchor queue to guarantee
+    # completeness while preventing heuristic deception traps.
+    # guidance_queue_ratio = K means K pops from guided queue for every 1 pop from anchor queue.
+    guidance_queue_ratio: int = 3
     desired_agl_m: float = 120.0
     agl_cost_scale_m: float = 100.0
     lambda_agl: float = 0.0

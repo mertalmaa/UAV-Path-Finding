@@ -195,6 +195,19 @@ class TerrainFollowingTests(unittest.TestCase):
         self.assertIsNone(limited.profile_result)
         self.assertEqual(limited.trajectories, ())
 
+    def test_optimize_records_failure_location_and_detail(self):
+        terrain = self.terrain(width=500)
+        # Create an obstacle that makes level profile impossible
+        source = (self.straight(length=2000.0, altitude=1100.0),)
+        terrain.roi.elevation[59, 100:110] = 1300.0  # Obstacle at x=1000m
+        result = optimize_terrain_following_altitudes(source, terrain, config=self.config)
+        self.assertFalse(result.success)
+        self.assertIsNotNone(result.failure_location)
+        self.assertIsNotNone(result.failure_reason_detail)
+        # Failure location should be near the obstacle x=1000m, y=600.5m
+        self.assertAlmostEqual(result.failure_location[1], 600.5, delta=10.0)
+        self.assertAlmostEqual(result.failure_location[0], 1000.0, delta=150.0)
+
 
 if __name__ == "__main__":
     unittest.main()

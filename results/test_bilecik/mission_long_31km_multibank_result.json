@@ -1,0 +1,204 @@
+{
+  "mission_id": "M_LONG_31KM_NEW_ALGORITHM",
+  "mission_name": "Bilecik Sakarya Kanyonu 31 km Ultra-Uzun Uçuş (Yeni Algoritma)",
+  "region": "bilecik",
+  "algorithm": {
+    "name": "MULTI_BANK_12_25_DEG_SMOOTHED",
+    "search_heading_bin_deg": 7.5,
+    "heading_bins_count": 48,
+    "primitive_arc_length_m": 60.0,
+    "bank_angles_deg": [
+      0.0,
+      12.0,
+      25.0
+    ],
+    "nominal_climb_mps": 3.5,
+    "nominal_descent_mps": -3.0,
+    "max_vertical_rate_mps": 5.0,
+    "smoothing": "CORRIDOR_SAFE_LOCAL_BSPLINE_C2",
+    "max_roll_rate_limit_deg_s": 15.0
+  },
+  "success": true,
+  "comparison_with_baseline": {
+    "baseline_expanded_nodes": 1412,
+    "new_expanded_nodes": 3833,
+    "node_ratio": 2.715,
+    "state_explosion_occurred": false,
+    "baseline_gentle_turns": 0,
+    "new_gentle_turns": 256,
+    "baseline_raw_roll_rate_deg_s": 1000.0000000000018,
+    "new_smoothed_roll_rate_deg_s": 66.91,
+    "roll_rate_reduction_percent": 93.3
+  },
+  "total_distance_m": 30840.0,
+  "total_distance_km": 30.84,
+  "flight_time_s": 771.0,
+  "flight_time_min": 12.85,
+  "planning_runtime_s": 9.493,
+  "total_expanded_nodes": 3833,
+  "total_primitives": 514,
+  "smoothing_metrics": {
+    "runtime_ms": 1036.93,
+    "junctions_smoothed": 396,
+    "junctions_total": 396,
+    "max_corridor_deviation_m": 0.124,
+    "raw_max_bank_rate_deg_s": 1000.0,
+    "smoothed_max_bank_rate_deg_s": 66.91
+  },
+  "vertical_dynamics": {
+    "max_climb_rate_mps": 5.0,
+    "max_descent_rate_mps": -5.0,
+    "max_vertical_accel_g": 18.424
+  },
+  "lateral_dynamics": {
+    "max_bank_angle_deg": 25.0,
+    "max_roll_rate_deg_s": 66.91,
+    "max_load_factor_g": 19.42
+  },
+  "min_agl_m": 120.0,
+  "max_agl_m": 468.2,
+  "mean_agl_m": 180.0,
+  "altitude_msl_min_m": 248.4,
+  "altitude_msl_max_m": 686.4,
+  "maneuvers_count": {
+    "STRAIGHT_DESCENT": 77,
+    "GENTLE_DESCENT_LEFT_TURN": 48,
+    "GENTLE_DESCENT_RIGHT_TURN": 56,
+    "GENTLE_CLIMB_LEFT_TURN": 65,
+    "STRAIGHT_CLIMB": 32,
+    "NORMAL_CLIMB_RIGHT_TURN": 40,
+    "NORMAL_CLIMB_LEFT_TURN": 37,
+    "NORMAL_RIGHT_LEVEL_TURN": 9,
+    "NORMAL_DESCENT_LEFT_TURN": 25,
+    "NORMAL_DESCENT_RIGHT_TURN": 25,
+    "GENTLE_RIGHT_LEVEL_TURN": 15,
+    "GENTLE_CLIMB_RIGHT_TURN": 57,
+    "GENTLE_LEFT_LEVEL_TURN": 15,
+    "STRAIGHT_LEVEL": 10,
+    "NORMAL_LEFT_LEVEL_TURN": 3
+  },
+  "maneuvers_summary": {
+    "gentle_turns_12deg": 256,
+    "normal_turns_25deg": 139,
+    "straights_0deg": 119
+  },
+  "maneuvers_tr": "Düz Süzülüş/Alçalış: 77, Hafif Tırmanan Sola Dönüş (12°): 65, Hafif Tırmanan Sağa Dönüş (12°): 57, Hafif Alçalan Sağa Dönüş (12°): 56, Hafif Alçalan Sola Dönüş (12°): 48, Normal Tırmanan Sağa Dönüş (25°): 40, Normal Tırmanan Sola Dönüş (25°): 37, Düz Tırmanış: 32, Normal Alçalan Sola Dönüş (25°): 25, Normal Alçalan Sağa Dönüş (25°): 25, Hafif Sağa Dönüş (12°): 15, Hafif Sola Dönüş (12°): 15, Düz Düzey Uçuş: 10, Normal Sağa Dönüş (25°): 9, Normal Sola Dönüş (25°): 3",
+  "plot_4panel": "results\\test_bilecik\\plots\\mission_long_31km_multibank_smoothed_4panel.png",
+  "plot_2panel": "results\\test_bilecik\\mission_long_31km_2panel.png",
+  "waypoints": [
+    {
+      "id": "WP0_INHISAR_SOUTH",
+      "x": 261800.0,
+      "y": 4445000.0,
+      "desc": "İnhisar Kanyon Girişi (Güney Sınırı)"
+    },
+    {
+      "id": "WP1_GORGE_BEND_S",
+      "x": 259200.0,
+      "y": 4448000.0,
+      "desc": "Güney Kanyon Dirseği"
+    },
+    {
+      "id": "WP2_VALLEY_NARROWS",
+      "x": 258000.0,
+      "y": 4452000.0,
+      "desc": "Vadi Boğazı Dar Boğaz"
+    },
+    {
+      "id": "WP3_VEZIRHAN_S",
+      "x": 256500.0,
+      "y": 4456500.0,
+      "desc": "Vezirhan Güney Geçiş Koridoru"
+    },
+    {
+      "id": "WP4_VEZIRHAN_GORGE",
+      "x": 256300.0,
+      "y": 4461500.0,
+      "desc": "Vezirhan Kanyon Kanyonu"
+    },
+    {
+      "id": "WP5_BAYIRKOY_PASS",
+      "x": 256800.0,
+      "y": 4466500.0,
+      "desc": "Bayırköy Vadi Geçidi"
+    },
+    {
+      "id": "WP6_OSMANELI_GORGE",
+      "x": 257500.0,
+      "y": 4468500.0,
+      "desc": "Osmaneli Kanyon Dirseği"
+    },
+    {
+      "id": "WP7_OSMANELI_PLAINS",
+      "x": 262800.0,
+      "y": 4471200.0,
+      "desc": "Osmaneli Doğu Ovaları (Kuzey Çıkışı)"
+    }
+  ],
+  "leg_details": [
+    {
+      "leg": 1,
+      "from": "WP0_INHISAR_SOUTH",
+      "to": "WP1_GORGE_BEND_S",
+      "runtime_s": 1.046,
+      "expanded_nodes": 861,
+      "length_m": 3900.0,
+      "primitives_count": 65
+    },
+    {
+      "leg": 2,
+      "from": "WP1_GORGE_BEND_S",
+      "to": "WP2_VALLEY_NARROWS",
+      "runtime_s": 0.57,
+      "expanded_nodes": 299,
+      "length_m": 4140.0,
+      "primitives_count": 69
+    },
+    {
+      "leg": 3,
+      "from": "WP2_VALLEY_NARROWS",
+      "to": "WP3_VEZIRHAN_S",
+      "runtime_s": 0.392,
+      "expanded_nodes": 161,
+      "length_m": 4740.0,
+      "primitives_count": 79
+    },
+    {
+      "leg": 4,
+      "from": "WP3_VEZIRHAN_S",
+      "to": "WP4_VEZIRHAN_GORGE",
+      "runtime_s": 0.359,
+      "expanded_nodes": 84,
+      "length_m": 4980.0,
+      "primitives_count": 83
+    },
+    {
+      "leg": 5,
+      "from": "WP4_VEZIRHAN_GORGE",
+      "to": "WP5_BAYIRKOY_PASS",
+      "runtime_s": 0.538,
+      "expanded_nodes": 96,
+      "length_m": 5040.0,
+      "primitives_count": 84
+    },
+    {
+      "leg": 6,
+      "from": "WP5_BAYIRKOY_PASS",
+      "to": "WP6_OSMANELI_GORGE",
+      "runtime_s": 4.517,
+      "expanded_nodes": 2179,
+      "length_m": 2160.0,
+      "primitives_count": 36
+    },
+    {
+      "leg": 7,
+      "from": "WP6_OSMANELI_GORGE",
+      "to": "WP7_OSMANELI_PLAINS",
+      "runtime_s": 0.593,
+      "expanded_nodes": 153,
+      "length_m": 5880.0,
+      "primitives_count": 98
+    }
+  ],
+  "sample_points_count": 30841
+}

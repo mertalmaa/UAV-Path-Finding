@@ -40,6 +40,8 @@ class TerrainFollowingResult:
     runtime_s: float = 0.0
     refinement_passes: int = 0
     target_agl_m: float = 120.0
+    failure_location: Optional[Tuple[float, float]] = None
+    failure_reason_detail: Optional[str] = None
 
 
 @dataclass(frozen=True)
@@ -87,9 +89,11 @@ def optimize_terrain_following_altitudes(
         if a.end_pose != b.start_pose:
             raise ValueError("trajectory chain must preserve continuous physical endpoints")
 
-    def failure(reason: str, passes: int = 0) -> TerrainFollowingResult:
+    def failure(reason: str, passes: int = 0, location: Optional[Tuple[float, float]] = None,
+                detail: Optional[str] = None) -> TerrainFollowingResult:
         return TerrainFollowingResult(False, reason, runtime_s=time.perf_counter() - started,
-                                      refinement_passes=passes, target_agl_m=target_agl_m)
+                                      refinement_passes=passes, target_agl_m=target_agl_m,
+                                      failure_location=location, failure_reason_detail=detail)
 
     cache = TerrainInfluenceCache(terrain)
     field = cache.field(config.lateral_buffer_m)
@@ -115,10 +119,12 @@ def optimize_terrain_following_altitudes(
             maximum = -math.inf
             for row, col in _covered_cells(terrain, a, b, curve_to_chord_deviation_m(a, b)):
                 if not terrain.in_bounds_rowcol(row, col) or not field.valid[row, col]:
-                    return failure("INVALID_TERRAIN_COVERAGE")
+                    loc = (a.x_m, a.y_m)
+                    return failure("INVALID_TERRAIN_COVERAGE", location=loc)
                 maximum = max(maximum, float(field.elevation_msl[row, col]))
             if not math.isfinite(maximum):
-                return failure("INVALID_TERRAIN_COVERAGE")
+                loc = (a.x_m, a.y_m)
+                return failure("INVALID_TERRAIN_COVERAGE", location=loc)
             ground[-1] = max(ground[-1], maximum)
             ground.append(maximum)
             stations.append(b)
@@ -136,7 +142,8 @@ def optimize_terrain_following_altitudes(
         if angle >= 1e-8:
             radius = ds / math.radians(angle)
             if radius + 1e-6 < envelope.turn_radius_m:
-                return failure("TURN_REQUIRES_HORIZONTAL_REPLAN")
+                loc = (stations[0].x_m, stations[0].y_m)
+                return failure("TURN_REQUIRES_HORIZONTAL_REPLAN", location=loc)
             # A wider combined radius cannot be squeezed into a level arc.
             if (not config.enable_combined_turns or
                     radius + 1e-6 < envelope.turn_radius_m * envelope.model.combined_radius_factor):
@@ -162,7 +169,34 @@ def optimize_terrain_following_altitudes(
             end_altitude_msl_m=end_z,
         )
         if not solved.feasible:
-            return failure("FIXED_TRACK_" + solved.status, passes)
+            fail_idx = solved.failure_index if solved.failure_index is not None and 0 <= solved.failure_index < len(stations) else 0
+            if solved.status == "ENDPOINT_CONFLICT":
+                if fail_idx == 0:
+                    cum = 0.0
+                    worst_val = -math.inf
+                    worst_idx = 0
+                    for j in range(len(stations)):
+                        val = floor[j] - cum
+                        if val > worst_val:
+                            worst_val = val
+                            worst_idx = j
+                        if j < len(climb):
+                            cum += climb[j]
+                    fail_idx = worst_idx
+                elif fail_idx == len(stations) - 1:
+                    cum = 0.0
+                    worst_val = -math.inf
+                    worst_idx = len(stations) - 1
+                    for j in range(len(stations) - 1, -1, -1):
+                        val = floor[j] - cum
+                        if val > worst_val:
+                            worst_val = val
+                            worst_idx = j
+                        if j > 0:
+                            cum += descent[j - 1]
+                    fail_idx = worst_idx
+            loc = (stations[fail_idx].x_m, stations[fail_idx].y_m)
+            return failure("FIXED_TRACK_" + solved.status, passes, location=loc, detail=solved.reason)
         altitudes = solved.altitudes_msl_m
         break
 
@@ -173,7 +207,8 @@ def optimize_terrain_following_altitudes(
         limit = envelope.level_turn(altitudes[i], "LEFT")
         if (limit.availability != "AVAILABLE" or limit.level_turn is None
                 or actual_radius + 1e-6 < limit.level_turn.radius_m):
-            return failure("TURN_REQUIRES_HORIZONTAL_REPLAN", passes)
+            loc = (stations[slices[i][0]].x_m, stations[slices[i][0]].y_m)
+            return failure("TURN_REQUIRES_HORIZONTAL_REPLAN", passes, location=loc)
 
     output = []
     min_agl = math.inf
@@ -188,7 +223,10 @@ def optimize_terrain_following_altitudes(
             terrain_influence_cache=cache,
         )
         if not safety.is_safe:
-            return failure("FINAL_SAFETY_" + str(safety.failure_reason), passes)
+            crit = safety.critical_sample or trajectory.samples[0]
+            loc = (crit.x_m, crit.y_m)
+            return failure("FINAL_SAFETY_" + str(safety.failure_reason), passes,
+                           location=loc, detail=str(safety.failure_reason))
         min_agl = min(min_agl, safety.min_agl_m)
         output.append(trajectory)
     return TerrainFollowingResult(True, "FOUND", tuple(output), min_agl,
@@ -202,21 +240,41 @@ def plan_terrain_following(
     target_agl_m: Optional[float] = None, max_expansions: Optional[int] = None,
     max_search_time_s: Optional[float] = None,
     envelope: Optional[FixedWingKinematicEnvelope] = None,
+    max_feedback_passes: int = 3,
 ) -> TerrainFollowingPlanResult:
-    """Search a ground track, then explicitly plan and validate low altitude."""
+    """Search a ground track, then explicitly plan and validate low altitude with feedback loop."""
     target_agl_m = _resolve_target_agl(config, target_agl_m)
     if envelope is None:
         envelope = FixedWingKinematicEnvelope()
-    search = pose_aware_astar_search(
-        start, goal, terrain, goal_tolerance=goal_tolerance,
-        config=config, max_expansions=max_expansions, max_search_time_s=max_search_time_s,
-        envelope=envelope,
-    )
-    if not search.success:
-        return TerrainFollowingPlanResult(search, None)
-    if not search.trajectories:
-        return TerrainFollowingPlanResult(search, TerrainFollowingResult(False, "EMPTY_GROUND_TRACK"))
-    profile = optimize_terrain_following_altitudes(
-        search.trajectories, terrain, config=config, target_agl_m=target_agl_m, envelope=envelope,
-    )
-    return TerrainFollowingPlanResult(search, profile)
+    
+    penalties = []
+    last_search = None
+    last_profile = None
+
+    for _ in range(max(1, max_feedback_passes)):
+        search = pose_aware_astar_search(
+            start, goal, terrain, goal_tolerance=goal_tolerance,
+            config=config, max_expansions=max_expansions, max_search_time_s=max_search_time_s,
+            envelope=envelope,
+            feedback_penalties=penalties,
+        )
+        last_search = search
+        if not search.success:
+            return TerrainFollowingPlanResult(search, None)
+        if not search.trajectories:
+            return TerrainFollowingPlanResult(search, TerrainFollowingResult(False, "EMPTY_GROUND_TRACK"))
+        
+        profile = optimize_terrain_following_altitudes(
+            search.trajectories, terrain, config=config, target_agl_m=target_agl_m, envelope=envelope,
+        )
+        last_profile = profile
+        if profile.success:
+            return TerrainFollowingPlanResult(search, profile)
+        
+        # If profile failed with a localized failure location, feedback to search cost
+        if profile.failure_location is not None:
+            penalties.append((profile.failure_location[0], profile.failure_location[1], 150.0))
+        else:
+            break
+
+    return TerrainFollowingPlanResult(last_search, last_profile)

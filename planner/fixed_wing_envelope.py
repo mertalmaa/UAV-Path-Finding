@@ -51,6 +51,21 @@ class FixedWingKinematicModel:
     combined_radius_factor: float = 1.00
     combined_vertical_rate_factor: float = 1.00
 
+    def __post_init__(self) -> None:
+        # PhysicalTrajectory derives duration using the fixed planar speed.
+        # Accepting a different model speed would silently disagree with it.
+        if self.horizontal_speed_mps != FIXED_PLANAR_SPEED_MPS:
+            raise ValueError("horizontal_speed_mps must match the fixed 40 m/s trajectory model")
+        for name in ("max_climb_rate_mps", "max_descent_rate_mps",
+                     "combined_radius_factor", "combined_vertical_rate_factor"):
+            value = getattr(self, name)
+            if not math.isfinite(value) or value <= 0:
+                raise ValueError(f"{name} must be finite and positive")
+        if not math.isfinite(self.bank_angle_deg) or not 0 < self.bank_angle_deg < 90:
+            raise ValueError("bank_angle_deg must be finite and in (0, 90)")
+        if self.combined_radius_factor < 1:
+            raise ValueError("combined_radius_factor must be >= 1 to respect the bank limit")
+
     @property
     def turn_radius_m(self) -> float:
         return (self.horizontal_speed_mps ** 2) / (GRAVITY_MPS2 * math.tan(math.radians(self.bank_angle_deg)))

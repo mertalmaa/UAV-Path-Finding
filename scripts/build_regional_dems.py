@@ -1,13 +1,15 @@
-"""Build 30x30 km regional working DEMs with 5 km buffer margins for Bilecik, Mugla, and Ankara.
+"""Build 90x90 km regional working DEMs with 5 km buffer margins (100x100 km working DEM)
+for Bilecik, Mugla, Ankara, and Aladaglar.
 
-Replicates the exact Copernicus GLO-30 processing pipeline from scripts/build_working_dem.py:
-  1. Reproject source GLO-30 tile (EPSG:4326) to UTM at pinned 30.0 m pixel resolution.
-  2. Use block-maximum resampling (Resampling.max) to preserve peaks for terrain avoidance safety.
-  3. Working DEM covers 40x40 km box: 30x30 km ROI + 5 km buffer margin on every side (HALF_EXTENT_M = 20_000.0).
-  4. Extract 30x30 km fine ROI raster (1000x1000 px).
-  5. Compute conservative coarse 90m stats (factor=3: max, min, mean, relief) via planner.coarse.
-  6. Generate persistent terrain cache (manifest.json + arrays.npz) via planner.terrain_cache.
-  7. Store outputs in separate folders: regions/<region>/ and working_dem/<region>/.
+Replicates and scales the exact Copernicus GLO-30 processing pipeline:
+  1. Identifies and mosaics all required Copernicus GLO-30 source tiles (EPSG:4326).
+  2. Reprojects to UTM at pinned 30.0 m pixel resolution using block-maximum resampling (Resampling.max)
+     to strictly preserve peaks for terrain avoidance safety.
+  3. Working DEM covers 100x100 km box: 90x90 km ROI + 5 km buffer margin on every side (HALF_EXTENT_M = 50_000.0).
+  4. Extracts 90x90 km fine ROI raster (3000x3000 px).
+  5. Computes conservative coarse 90m stats (factor=3, 1000x1000 px: max, min, mean, relief) via planner.coarse.
+  6. Generates persistent terrain cache (manifest.json + arrays.npz for factors [2, 3]) via planner.terrain_cache.
+  7. Stores outputs in separate folders: regions/<region>/ and working_dem/<region>/.
 """
 from dataclasses import dataclass
 import json
@@ -22,6 +24,8 @@ import rasterio
 from affine import Affine
 from pyproj import Transformer
 from rasterio.enums import Resampling
+from rasterio.io import MemoryFile
+from rasterio.merge import merge
 from rasterio.vrt import WarpedVRT
 from rasterio.warp import calculate_default_transform
 from rasterio.windows import bounds as window_bounds
@@ -38,16 +42,16 @@ from planner.terrain_cache import build_terrain_cache, validate_terrain_cache
 
 # Copernicus tiles search paths
 COPERNICUS_DIRS = [
-    Path("C:/Users/merta/copernicus_glo30_turkey"),
     Path("copernicus_glo30_turkey"),
+    Path("C:/Users/PC_10004_YD26/Desktop/uav_pathfinder/copernicus_glo30_turkey"),
 ]
 
-# Extents
-ROI_SIZE_M = 30_000.0
+# Extents for 90x90 km ROI
+ROI_SIZE_M = 90_000.0
 BUFFER_MARGIN_M = 5_000.0
-WORKING_EXTENT_M = ROI_SIZE_M + 2 * BUFFER_MARGIN_M  # 40_000.0 m (40x40 km)
-HALF_EXTENT_M = WORKING_EXTENT_M / 2.0  # 20_000.0 m
-ROI_HALF_M = ROI_SIZE_M / 2.0  # 15_000.0 m
+WORKING_EXTENT_M = ROI_SIZE_M + 2 * BUFFER_MARGIN_M  # 100_000.0 m (100x100 km)
+HALF_EXTENT_M = WORKING_EXTENT_M / 2.0  # 50_000.0 m
+ROI_HALF_M = ROI_SIZE_M / 2.0  # 45_000.0 m
 
 DST_NODATA = -9999.0
 PIXEL_RES_M = 30.0
@@ -57,7 +61,6 @@ PIXEL_RES_M = 30.0
 class RegionSpec:
     id: str
     name: str
-    source_tile_filename: str
     center_lonlat: Tuple[float, float]
     target_crs: str
     description: str
@@ -68,168 +71,232 @@ REGIONS = [
     RegionSpec(
         id="bilecik",
         name="Bilecik - Sakarya Vadisi ve Kanyonları",
-        source_tile_filename="Copernicus_DSM_COG_10_N40_00_E030_00_DEM.tif",
         center_lonlat=(30.30, 40.25),
         target_crs="EPSG:32636",
-        description="Sakarya Nehri kanyon geçişi, Vezirhan, Osmaneli ve Gölpazarı vadileri. Taban rakımı 97m, çevre tepeler 600-1200m.",
-        canyon_features="Kanyon derinliği 400-800m. Dik vadi yamaçları, nehir kıvrımları ve alçak irtifa vadi içi uçuş / alçalma manevraları için ideal.",
+        description="Sakarya Nehri kanyon geçişi, Vezirhan, Osmaneli, Gölpazarı ve İnhisar vadileri. Taban rakımı 34m, çevre tepeler 600-1683m.",
+        canyon_features="Genişletilmiş 90x90 km alan: Sakarya Kanyonu, Bilecik vadileri, güneyde Bozüyük/Eskişehir platosu ve kuzeyde İznik/Adapazarı havzası geçişleri.",
     ),
     RegionSpec(
         id="mugla",
         name="Muğla - Gökova Körfezi, Ula Kanyonu ve Sakar Geçidi",
-        source_tile_filename="Copernicus_DSM_COG_10_N37_00_E028_00_DEM.tif",
         center_lonlat=(28.35, 37.22),
         target_crs="EPSG:32636",
-        description="Gökova Körfezi kıyısından (0m) Sakar Geçidi ve Ula kanyonu boyunca Muğla platosuna (700-1891m) yükselen dik topoğrafya.",
-        canyon_features="Deniz seviyesinden 1000+ metreye 3 km içinde tırmanan falezler, derin kanyonlar ve plato alçalma/tırmanma koridorları.",
+        description="Gökova Körfezi, Datça-Marmaris koridoru, Sakar Geçidi, Ula kanyonu, Milas ve Yatağan havzası. Taban 0m (deniz), zirveler 1891m.",
+        canyon_features="Deniz seviyesinden 1800m+ plato ve dağ zirvelerine dik falezler, karmaşık kıyı-dağ topografyası ve derin kanyon koridorları.",
     ),
     RegionSpec(
         id="ankara",
         name="Ankara - Güdül, Kirmir Çayı Kanyonu ve Ayaş",
-        source_tile_filename="Copernicus_DSM_COG_10_N40_00_E032_00_DEM.tif",
         center_lonlat=(32.25, 40.25),
         target_crs="EPSG:32636",
-        description="Kirmir Çayı Kanyonu, kaya yerleşimleri vadisi, Güdül ve Ayaş volkanik platoları. Taban 518m, tepeler 1000-1984m.",
-        canyon_features="Kirmir Çayı boyunca uzanan dar kanyon tabanı, dalgalı tepeler ve tepe aşma/vadi içi süzülüş için mükemmel test alanı.",
+        description="Kirmir Çayı Kanyonu, Güdül, Ayaş, Beypazarı, Kızılcahamam ve Çamlıdere volkanik plato ve dağlık arazisi. Taban 460m, tepeler 2000m+.",
+        canyon_features="Kirmir Çayı boyunca uzanan dar kanyon tabanı, dik volkanik tepeler, derin vadiler ve tepe aşma (ridge hopping) rotaları.",
+    ),
+    RegionSpec(
+        id="aladaglar",
+        name="Aladağlar - Demirkazık Zirvesi ve Çamardı Kanyonları",
+        center_lonlat=(35.15, 37.81),
+        target_crs="EPSG:32636",
+        description="Toros Dağları'nın en sarp ve yüksek silsilesi, Demirkazık (3756m), Bolkar Dağları, Ecemiş Fayı koridoru, Çamardı ve Pozantı kanyonları.",
+        canyon_features="1000m-3756m arası sarp duvarlar, derin kanyon yarıkları, aşırı irtifa değişimleri ve yüksek irtifa dağ aşma test alanı.",
     ),
 ]
 
 
-def find_source_tile(filename: str) -> Path:
+def find_available_tiles() -> List[Path]:
     for d in COPERNICUS_DIRS:
-        p = d / filename
+        if d.exists():
+            tiles = list(d.glob("*.tif"))
+            if tiles:
+                return tiles
+    raise FileNotFoundError(f"No DEM tiles found in {[str(d) for d in COPERNICUS_DIRS]}")
+
+
+def get_intersecting_tiles(spec: RegionSpec, all_tiles: List[Path]) -> List[Path]:
+    to_utm = Transformer.from_crs("EPSG:4326", spec.target_crs, always_xy=True)
+    to_wgs = Transformer.from_crs(spec.target_crs, "EPSG:4326", always_xy=True)
+    cx, cy = to_utm.transform(spec.center_lonlat[0], spec.center_lonlat[1])
+
+    corners_utm = [
+        (cx - HALF_EXTENT_M, cy - HALF_EXTENT_M),
+        (cx + HALF_EXTENT_M, cy - HALF_EXTENT_M),
+        (cx + HALF_EXTENT_M, cy + HALF_EXTENT_M),
+        (cx - HALF_EXTENT_M, cy + HALF_EXTENT_M),
+    ]
+    corners_wgs = [to_wgs.transform(x, y) for x, y in corners_utm]
+    min_lon = min(c[0] for c in corners_wgs)
+    max_lon = max(c[0] for c in corners_wgs)
+    min_lat = min(c[1] for c in corners_wgs)
+    max_lat = max(c[1] for c in corners_wgs)
+
+    matching = []
+    for t in all_tiles:
+        with rasterio.open(t) as src:
+            b = src.bounds
+            if not (b.right <= min_lon or b.left >= max_lon or b.top <= min_lat or b.bottom >= max_lat):
+                matching.append(t)
+    return matching
+
+
+def clean_old_30km_files(region_dir: Path) -> None:
+    """Remove old 30x30 km files from region directory."""
+    old_files = [
+        "roi_30km_dem.tif",
+        "roi_dem.tif",
+    ]
+    for fname in old_files:
+        p = region_dir / fname
         if p.exists():
-            return p
-    raise FileNotFoundError(
-        f"Tile {filename} not found in {[str(d) for d in COPERNICUS_DIRS]}"
-    )
+            p.unlink()
+            print(f"    Removed obsolete file: {p.name}")
 
 
-def process_region(spec: RegionSpec, base_output_dir: Path) -> Dict:
+def process_region(spec: RegionSpec, all_tiles: List[Path], base_output_dir: Path) -> Dict:
     print(f"\n{'='*70}")
-    print(f"Processing Region: {spec.name} ({spec.id})")
+    print(f"Processing 90x90 km Region: {spec.name} ({spec.id})")
     print(f"{'='*70}")
 
-    source_path = find_source_tile(spec.source_tile_filename)
-    print(f"  Source tile: {source_path}")
+    matching_tiles = get_intersecting_tiles(spec, all_tiles)
     print(f"  Center (lon, lat): {spec.center_lonlat}")
     print(f"  Target CRS: {spec.target_crs}")
+    print(f"  Intersecting Copernicus tiles ({len(matching_tiles)}):")
+    for t in sorted(matching_tiles):
+        print(f"    - {t.name}")
 
     region_dir = base_output_dir / spec.id
     region_dir.mkdir(parents=True, exist_ok=True)
+    clean_old_30km_files(region_dir)
 
     working_dem_path = region_dir / "working_dem.tif"
-    roi_dem_path = region_dir / "roi_30km_dem.tif"
+    roi_dem_path = region_dir / "roi_90km_dem.tif"
     cache_dir = region_dir / "terrain_cache"
 
-    # Step 1: Warp & crop 40x40 km Working DEM with 5km buffer
-    with rasterio.open(source_path) as src:
-        dst_transform, dst_width, dst_height = calculate_default_transform(
-            src.crs,
-            spec.target_crs,
-            src.width,
-            src.height,
-            *src.bounds,
-            resolution=(PIXEL_RES_M, PIXEL_RES_M),
-        )
+    # Step 1: Merge source tiles in EPSG:4326
+    t0 = time.time()
+    src_datasets = [rasterio.open(t) for t in matching_tiles]
+    mosaic_arr, mosaic_transform = merge(src_datasets, method="max")
+    mosaic_profile = src_datasets[0].profile.copy()
+    mosaic_profile.update(
+        height=mosaic_arr.shape[1],
+        width=mosaic_arr.shape[2],
+        transform=mosaic_transform,
+        nodata=DST_NODATA,
+    )
+    for s in src_datasets:
+        s.close()
+    print(f"  Mosaicked {len(matching_tiles)} tiles in {time.time() - t0:.2f}s (EPSG:4326 shape: {mosaic_arr.shape})")
 
-        with WarpedVRT(
-            src,
-            crs=spec.target_crs,
-            transform=dst_transform,
-            width=dst_width,
-            height=dst_height,
-            resampling=Resampling.max,
-            nodata=DST_NODATA,
-        ) as vrt:
-            to_working = Transformer.from_crs("EPSG:4326", spec.target_crs, always_xy=True)
-            cx, cy = to_working.transform(spec.center_lonlat[0], spec.center_lonlat[1])
+    # Step 2: Reproject to UTM with Resampling.max and crop working & ROI windows
+    with MemoryFile() as memfile:
+        with memfile.open(**mosaic_profile) as mem_src:
+            mem_src.write(mosaic_arr)
 
-            # 40x40 km working DEM window (30 km ROI + 5 km margin each side)
-            window_40km = from_bounds(
-                cx - HALF_EXTENT_M,
-                cy - HALF_EXTENT_M,
-                cx + HALF_EXTENT_M,
-                cy + HALF_EXTENT_M,
-                transform=vrt.transform,
-            ).round_lengths().round_offsets()
-
-            data_40km = vrt.read(1, window=window_40km)
-            transform_40km = vrt.window_transform(window_40km)
-
-            profile_40km = vrt.profile.copy()
-            profile_40km.update(
-                count=1,
-                height=data_40km.shape[0],
-                width=data_40km.shape[1],
-                transform=transform_40km,
-                nodata=DST_NODATA,
-                dtype=data_40km.dtype,
-                driver="GTiff",
-                compress="deflate",
+            dst_transform, dst_width, dst_height = calculate_default_transform(
+                mem_src.crs,
+                spec.target_crs,
+                mem_src.width,
+                mem_src.height,
+                *mem_src.bounds,
+                resolution=(PIXEL_RES_M, PIXEL_RES_M),
             )
 
-            # Write working_dem.tif (40x40 km)
-            with rasterio.open(working_dem_path, "w", **profile_40km) as dst:
-                dst.write(data_40km, 1)
-
-            # Step 2: Extract exact 30x30 km ROI from the working DEM
-            window_30km = from_bounds(
-                cx - ROI_HALF_M,
-                cy - ROI_HALF_M,
-                cx + ROI_HALF_M,
-                cy + ROI_HALF_M,
-                transform=vrt.transform,
-            ).round_lengths().round_offsets()
-
-            data_30km = vrt.read(1, window=window_30km)
-            transform_30km = vrt.window_transform(window_30km)
-
-            profile_30km = vrt.profile.copy()
-            profile_30km.update(
-                count=1,
-                height=data_30km.shape[0],
-                width=data_30km.shape[1],
-                transform=transform_30km,
+            with WarpedVRT(
+                mem_src,
+                crs=spec.target_crs,
+                transform=dst_transform,
+                width=dst_width,
+                height=dst_height,
+                resampling=Resampling.max,
                 nodata=DST_NODATA,
-                dtype=data_30km.dtype,
-                driver="GTiff",
-                compress="deflate",
-            )
+            ) as vrt:
+                to_working = Transformer.from_crs("EPSG:4326", spec.target_crs, always_xy=True)
+                cx, cy = to_working.transform(spec.center_lonlat[0], spec.center_lonlat[1])
 
-            with rasterio.open(roi_dem_path, "w", **profile_30km) as dst:
-                dst.write(data_30km, 1)
+                # 100x100 km working DEM window (90 km ROI + 5 km margin each side)
+                window_100km = from_bounds(
+                    cx - HALF_EXTENT_M,
+                    cy - HALF_EXTENT_M,
+                    cx + HALF_EXTENT_M,
+                    cy + HALF_EXTENT_M,
+                    transform=vrt.transform,
+                ).round_lengths().round_offsets()
 
-    # Validate 40km & 30km rasters
-    valid_40km = data_40km[data_40km != DST_NODATA]
-    valid_30km = data_30km[data_30km != DST_NODATA]
-    nodata_count_40km = int(np.sum(data_40km == DST_NODATA))
-    nodata_count_30km = int(np.sum(data_30km == DST_NODATA))
+                data_100km = vrt.read(1, window=window_100km)
+                transform_100km = vrt.window_transform(window_100km)
 
-    print(f"  Working DEM (40x40 km with 5 km buffer): {working_dem_path}")
-    print(f"    Dimensions: {data_40km.shape[1]}x{data_40km.shape[0]} px ({data_40km.shape[1]*PIXEL_RES_M/1000:.1f}x{data_40km.shape[0]*PIXEL_RES_M/1000:.1f} km)")
-    print(f"    Elevation (valid px): {valid_40km.min():.1f} - {valid_40km.max():.1f} m (median {np.median(valid_40km):.1f} m)")
-    print(f"    NoData px: {nodata_count_40km} / {data_40km.size}")
+                profile_100km = vrt.profile.copy()
+                profile_100km.update(
+                    count=1,
+                    height=data_100km.shape[0],
+                    width=data_100km.shape[1],
+                    transform=transform_100km,
+                    nodata=DST_NODATA,
+                    dtype=data_100km.dtype,
+                    driver="GTiff",
+                    compress="deflate",
+                )
 
-    print(f"  ROI DEM (30x30 km): {roi_dem_path}")
-    print(f"    Dimensions: {data_30km.shape[1]}x{data_30km.shape[0]} px ({data_30km.shape[1]*PIXEL_RES_M/1000:.1f}x{data_30km.shape[0]*PIXEL_RES_M/1000:.1f} km)")
-    print(f"    Elevation (valid px): {valid_30km.min():.1f} - {valid_30km.max():.1f} m (median {np.median(valid_30km):.1f} m)")
-    print(f"    NoData px: {nodata_count_30km} / {data_30km.size}")
+                # Write working_dem.tif (100x100 km)
+                with rasterio.open(working_dem_path, "w", **profile_100km) as dst:
+                    dst.write(data_100km, 1)
 
-    # Step 3: Build ROIData object for 30x30 km ROI
+                # Extract exact 90x90 km ROI
+                window_90km = from_bounds(
+                    cx - ROI_HALF_M,
+                    cy - ROI_HALF_M,
+                    cx + ROI_HALF_M,
+                    cy + ROI_HALF_M,
+                    transform=vrt.transform,
+                ).round_lengths().round_offsets()
+
+                data_90km = vrt.read(1, window=window_90km)
+                transform_90km = vrt.window_transform(window_90km)
+
+                profile_90km = vrt.profile.copy()
+                profile_90km.update(
+                    count=1,
+                    height=data_90km.shape[0],
+                    width=data_90km.shape[1],
+                    transform=transform_90km,
+                    nodata=DST_NODATA,
+                    dtype=data_90km.dtype,
+                    driver="GTiff",
+                    compress="deflate",
+                )
+
+                with rasterio.open(roi_dem_path, "w", **profile_90km) as dst:
+                    dst.write(data_90km, 1)
+
+    # Validate 100km & 90km rasters
+    valid_100km = data_100km[data_100km != DST_NODATA]
+    valid_90km = data_90km[data_90km != DST_NODATA]
+    nodata_count_100km = int(np.sum(data_100km == DST_NODATA))
+    nodata_count_90km = int(np.sum(data_90km == DST_NODATA))
+
+    print(f"  Working DEM (100x100 km with 5 km buffer): {working_dem_path}")
+    print(f"    Dimensions: {data_100km.shape[1]}x{data_100km.shape[0]} px ({data_100km.shape[1]*PIXEL_RES_M/1000:.1f}x{data_100km.shape[0]*PIXEL_RES_M/1000:.1f} km)")
+    print(f"    Elevation (valid px): {valid_100km.min():.1f} - {valid_100km.max():.1f} m (median {np.median(valid_100km):.1f} m)")
+    print(f"    NoData px: {nodata_count_100km} / {data_100km.size}")
+
+    print(f"  ROI DEM (90x90 km): {roi_dem_path}")
+    print(f"    Dimensions: {data_90km.shape[1]}x{data_90km.shape[0]} px ({data_90km.shape[1]*PIXEL_RES_M/1000:.1f}x{data_90km.shape[0]*PIXEL_RES_M/1000:.1f} km)")
+    print(f"    Elevation (valid px): {valid_90km.min():.1f} - {valid_90km.max():.1f} m (median {np.median(valid_90km):.1f} m)")
+    print(f"    NoData px: {nodata_count_90km} / {data_90km.size}")
+
+    # Step 3: Build ROIData object for 90x90 km ROI
     roi_data = ROIData(
-        elevation=data_30km,
-        transform=transform_30km,
+        elevation=data_90km,
+        transform=transform_90km,
         crs=spec.target_crs,
-        width=data_30km.shape[1],
-        height=data_30km.shape[0],
-        bounds=window_bounds(window_30km, transform_30km),
-        resolution=(abs(transform_30km.a), abs(transform_30km.e)),
+        width=data_90km.shape[1],
+        height=data_90km.shape[0],
+        bounds=window_bounds(window_90km, transform_90km),
+        resolution=(abs(transform_90km.a), abs(transform_90km.e)),
         nodata=DST_NODATA,
     )
 
-    # Step 4: Compute coarse 90m rasters (factor=3)
-    print("  Generating coarse 90m terrain stats (factor=3)...")
+    # Step 4: Compute coarse 90m rasters (factor=3) -> 1000x1000 px
+    print("  Generating coarse 90m terrain stats (factor=3, 1000x1000 px)...")
     coarse_stats = build_coarse_terrain_stats(roi_data, factor=3)
 
     coarse_layers = {
@@ -276,7 +343,7 @@ def process_region(spec: RegionSpec, base_output_dir: Path) -> Dict:
         "region_name": spec.name,
         "description": spec.description,
         "canyon_features": spec.canyon_features,
-        "source_tile": spec.source_tile_filename,
+        "source_tiles": [t.name for t in sorted(matching_tiles)],
         "center_lonlat": spec.center_lonlat,
         "center_utm_xy": [cx, cy],
         "target_crs": spec.target_crs,
@@ -284,19 +351,19 @@ def process_region(spec: RegionSpec, base_output_dir: Path) -> Dict:
         "buffer_margin_m": BUFFER_MARGIN_M,
         "working_extent_m": WORKING_EXTENT_M,
         "elevation_stats": {
-            "working_dem_min_m": float(valid_40km.min()),
-            "working_dem_max_m": float(valid_40km.max()),
-            "working_dem_median_m": float(np.median(valid_40km)),
-            "roi_min_m": float(valid_30km.min()),
-            "roi_max_m": float(valid_30km.max()),
-            "roi_median_m": float(np.median(valid_30km)),
+            "working_dem_min_m": float(valid_100km.min()),
+            "working_dem_max_m": float(valid_100km.max()),
+            "working_dem_median_m": float(np.median(valid_100km)),
+            "roi_min_m": float(valid_90km.min()),
+            "roi_max_m": float(valid_90km.max()),
+            "roi_median_m": float(np.median(valid_90km)),
         },
-        "working_dem_shape": list(data_40km.shape),
-        "roi_dem_shape": list(data_30km.shape),
+        "working_dem_shape": list(data_100km.shape),
+        "roi_dem_shape": list(data_90km.shape),
         "coarse_90m_shape": list(coarse_stats.max_elevation.shape),
         "files": {
             "working_dem": str(working_dem_path.relative_to(base_output_dir)),
-            "roi_30km_dem": str(roi_dem_path.relative_to(base_output_dir)),
+            "roi_90km_dem": str(roi_dem_path.relative_to(base_output_dir)),
             "coarse_90m_max": str((region_dir / "coarse_90m_max.tif").relative_to(base_output_dir)),
             "coarse_90m_min": str((region_dir / "coarse_90m_min.tif").relative_to(base_output_dir)),
             "coarse_90m_mean": str((region_dir / "coarse_90m_mean.tif").relative_to(base_output_dir)),
@@ -317,24 +384,36 @@ def main() -> None:
     working_dem_root = Path("working_dem")
 
     print("======================================================================")
-    print("TURKEY REGIONAL DEM BUILDER (30x30 km ROI + 5 km buffer = 40x40 km)")
+    print("TURKEY REGIONAL 90x90 KM DEM BUILDER (100x100 km working DEM)")
     print("======================================================================")
+
+    all_tiles = find_available_tiles()
+    print(f"Total available Copernicus tiles: {len(all_tiles)}")
 
     all_infos = {}
     for spec in REGIONS:
-        info = process_region(spec, regions_root)
+        info = process_region(spec, all_tiles, regions_root)
         all_infos[spec.id] = info
 
-        # Also mirror into working_dem/<region>/
+        # Mirror into working_dem/<region>/
         target_wd = working_dem_root / spec.id
         target_wd.mkdir(parents=True, exist_ok=True)
-        # Copy working_dem.tif and coarse files for direct compatibility
+        clean_old_30km_files(target_wd)
+
         source_dir = regions_root / spec.id
         for f in source_dir.glob("*.tif"):
             shutil.copy2(f, target_wd / f.name)
         shutil.copytree(source_dir / "terrain_cache", target_wd / "terrain_cache", dirs_exist_ok=True)
+        # Update manifest.json in mirrored terrain_cache to point to its own working_dem.tif
+        wd_manifest_path = target_wd / "terrain_cache" / "manifest.json"
+        if wd_manifest_path.exists():
+            with open(wd_manifest_path, "r", encoding="utf-8") as mf:
+                mdata = json.load(mf)
+            mdata["source_dem_path"] = str(target_wd / "working_dem.tif")
+            with open(wd_manifest_path, "w", encoding="utf-8") as mf:
+                json.dump(mdata, mf, indent=2)
         shutil.copy2(source_dir / "region_info.json", target_wd / "region_info.json")
-        print(f"  Mirrored to {target_wd}")
+        print(f"  Mirrored 90x90 km outputs to {target_wd}")
 
     # Write overall manifest
     with open(regions_root / "regions_manifest.json", "w", encoding="utf-8") as f:
@@ -342,11 +421,10 @@ def main() -> None:
 
     elapsed = time.time() - t0
     print(f"\n{'='*70}")
-    print(f"ALL 3 REGIONS BUILT SUCCESSFULLY in {elapsed:.2f} seconds!")
+    print(f"ALL 4 REGIONS (90x90 km) BUILT SUCCESSFULLY in {elapsed:.2f} seconds!")
     print(f"Output directories:")
-    print(f"  - regions/bilecik/ and working_dem/bilecik/")
-    print(f"  - regions/mugla/ and working_dem/mugla/")
-    print(f"  - regions/ankara/ and working_dem/ankara/")
+    for spec in REGIONS:
+        print(f"  - regions/{spec.id}/ and working_dem/{spec.id}/")
     print(f"{'='*70}")
 
 

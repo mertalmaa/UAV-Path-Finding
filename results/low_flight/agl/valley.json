@@ -5,7 +5,7 @@
     "search_status": "FOUND",
     "profile_status": "FOUND",
     "expanded": 43,
-    "runtime_s": 0.03514169994741678,
+    "runtime_s": 0.03168759999971371,
     "endpoint_mode": "agl",
     "requested_start_msl_m": 2166.1016845703125,
     "requested_goal_msl_m": 1924.8812255859375,

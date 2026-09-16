@@ -1,9 +1,14 @@
 {
   "region_id": "bilecik",
   "region_name": "Bilecik - Sakarya Vadisi ve Kanyonları",
-  "description": "Sakarya Nehri kanyon geçişi, Vezirhan, Osmaneli ve Gölpazarı vadileri. Taban rakımı 97m, çevre tepeler 600-1200m.",
-  "canyon_features": "Kanyon derinliği 400-800m. Dik vadi yamaçları, nehir kıvrımları ve alçak irtifa vadi içi uçuş / alçalma manevraları için ideal.",
-  "source_tile": "Copernicus_DSM_COG_10_N40_00_E030_00_DEM.tif",
+  "description": "Sakarya Nehri kanyon geçişi, Vezirhan, Osmaneli, Gölpazarı ve İnhisar vadileri. Taban rakımı 34m, çevre tepeler 600-1683m.",
+  "canyon_features": "Genişletilmiş 90x90 km alan: Sakarya Kanyonu, Bilecik vadileri, güneyde Bozüyük/Eskişehir platosu ve kuzeyde İznik/Adapazarı havzası geçişleri.",
+  "source_tiles": [
+    "Copernicus_DSM_COG_10_N39_00_E029_00_DEM.tif",
+    "Copernicus_DSM_COG_10_N39_00_E030_00_DEM.tif",
+    "Copernicus_DSM_COG_10_N40_00_E029_00_DEM.tif",
+    "Copernicus_DSM_COG_10_N40_00_E030_00_DEM.tif"
+  ],
   "center_lonlat": [
     30.3,
     40.25
@@ -13,32 +18,32 @@
     4459002.851768262
   ],
   "target_crs": "EPSG:32636",
-  "roi_size_m": 30000.0,
+  "roi_size_m": 90000.0,
   "buffer_margin_m": 5000.0,
-  "working_extent_m": 40000.0,
+  "working_extent_m": 100000.0,
   "elevation_stats": {
-    "working_dem_min_m": 97.0,
-    "working_dem_max_m": 1277.5836181640625,
-    "working_dem_median_m": 586.3389892578125,
-    "roi_min_m": 118.37399291992188,
-    "roi_max_m": 1277.5836181640625,
-    "roi_median_m": 639.2739868164062
+    "working_dem_min_m": 28.5,
+    "working_dem_max_m": 1864.74658203125,
+    "working_dem_median_m": 766.9593505859375,
+    "roi_min_m": 34.5,
+    "roi_max_m": 1683.455322265625,
+    "roi_median_m": 756.5574951171875
   },
   "working_dem_shape": [
-    1333,
-    1333
+    3333,
+    3333
   ],
   "roi_dem_shape": [
+    3000,
+    3000
+  ],
+  "coarse_90m_shape": [
     1000,
     1000
   ],
-  "coarse_90m_shape": [
-    333,
-    333
-  ],
   "files": {
     "working_dem": "bilecik\\working_dem.tif",
-    "roi_30km_dem": "bilecik\\roi_30km_dem.tif",
+    "roi_90km_dem": "bilecik\\roi_90km_dem.tif",
     "coarse_90m_max": "bilecik\\coarse_90m_max.tif",
     "coarse_90m_min": "bilecik\\coarse_90m_min.tif",
     "coarse_90m_mean": "bilecik\\coarse_90m_mean.tif",

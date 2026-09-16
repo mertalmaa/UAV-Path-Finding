@@ -1,0 +1,95 @@
+{
+  "dem": "regions\\bilecik\\working_dem.tif",
+  "min_agl_m": 100.0,
+  "lateral_buffer_m": 60.0,
+  "time_limit_s": 10.0,
+  "expansion_limit": 30000,
+  "terrain_guidance": true,
+  "cross_altitude_pruning": false,
+  "missions": [
+    {
+      "mission": "M01",
+      "name": "Sakarya_Riverbed_North_Transit",
+      "search_status": "FOUND",
+      "search_runtime_s": 1.2007590000000619,
+      "expanded_nodes": 97,
+      "path_length_m": 3542.7162551114616,
+      "search_min_agl_m": 100.58922484988557,
+      "profile_status": "FOUND",
+      "profile_success": true,
+      "profile_min_agl_m": 115.83647596989385,
+      "rejected_reason_counts": {
+        "BELOW_MIN_AGL": 95,
+        "SAME_KEY_DOMINANCE": 160,
+        "SAME_KEY_SELF_TRANSITION": 11
+      }
+    },
+    {
+      "mission": "M03",
+      "name": "Vezirhan_Narrow_Gorge_Passage",
+      "search_status": "FOUND",
+      "search_runtime_s": 1.3851885999999922,
+      "expanded_nodes": 48,
+      "path_length_m": 3124.290627903442,
+      "search_min_agl_m": 100.10972062084807,
+      "profile_status": "FOUND",
+      "profile_success": true,
+      "profile_min_agl_m": 120.0,
+      "rejected_reason_counts": {
+        "BELOW_MIN_AGL": 145,
+        "SAME_KEY_DOMINANCE": 13,
+        "SAME_KEY_SELF_TRANSITION": 2
+      }
+    },
+    {
+      "mission": "M08",
+      "name": "Short_Steep_Valley_Drop",
+      "search_status": "FOUND",
+      "search_runtime_s": 2.2742638999998235,
+      "expanded_nodes": 234,
+      "path_length_m": 4929.486350478987,
+      "search_min_agl_m": 100.67869935560816,
+      "profile_status": "FOUND",
+      "profile_success": true,
+      "profile_min_agl_m": 120.0,
+      "rejected_reason_counts": {
+        "BELOW_MIN_AGL": 1160,
+        "SAME_KEY_DOMINANCE": 129,
+        "SAME_KEY_SELF_TRANSITION": 2
+      }
+    },
+    {
+      "mission": "M11",
+      "name": "Riverbed_To_Plateau_Climb",
+      "search_status": "FOUND",
+      "search_runtime_s": 2.1302998000001026,
+      "expanded_nodes": 66,
+      "path_length_m": 5112.825404203626,
+      "search_min_agl_m": 100.2989634321425,
+      "profile_status": "FOUND",
+      "profile_success": true,
+      "profile_min_agl_m": 120.0,
+      "rejected_reason_counts": {
+        "BELOW_MIN_AGL": 199,
+        "SAME_KEY_SELF_TRANSITION": 1
+      }
+    },
+    {
+      "mission": "M18",
+      "name": "Saddle_Pass_Through_Ridge",
+      "search_status": "FOUND",
+      "search_runtime_s": 2.236259999999902,
+      "expanded_nodes": 69,
+      "path_length_m": 5071.96071204492,
+      "search_min_agl_m": 100.76677308607691,
+      "profile_status": "FOUND",
+      "profile_success": true,
+      "profile_min_agl_m": 120.0,
+      "rejected_reason_counts": {
+        "BELOW_MIN_AGL": 87,
+        "SAME_KEY_DOMINANCE": 3,
+        "SAME_KEY_SELF_TRANSITION": 3
+      }
+    }
+  ]
+}

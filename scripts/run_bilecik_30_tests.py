@@ -84,7 +84,9 @@ def run_all_missions() -> Dict:
         lateral_buffer_m=60.0,
         search_heuristic_weight=1.05,
         enable_combined_turns=True,
-        enable_pareto_z_pruning=True,
+        enable_pareto_z_pruning=False,
+        enable_terrain_guidance=True,
+        guidance_queue_ratio=3,
     )
     print("Loading Bilecik 30x30 km ROI...")
     roi = load_roi(cfg)
@@ -125,9 +127,9 @@ def run_all_missions() -> Dict:
         goal_pose = GoalPose(gx, gy, goal_z)
         tol = GoalTolerance(m.goal_tolerance_xy_m, m.goal_tolerance_z_m)
 
-        print(f"\n[{idx}/30] Running {m.id}: {m.name} ({m.category})")
-        print(f"      Start: ({sx:.0f}, {sy:.0f}, {start_z:.1f}m MSL | Grd: {s_ground:.1f}m)")
-        print(f"      Goal:  ({gx:.0f}, {gy:.0f}, {goal_z:.1f}m MSL | Grd: {g_ground:.1f}m)")
+        print(f"\n[{idx}/30] Running {m.id}: {m.name} ({m.category})", flush=True)
+        print(f"      Start: ({sx:.0f}, {sy:.0f}, {start_z:.1f}m MSL | Grd: {s_ground:.1f}m)", flush=True)
+        print(f"      Goal:  ({gx:.0f}, {gy:.0f}, {goal_z:.1f}m MSL | Grd: {g_ground:.1f}m)", flush=True)
 
         search_res = pose_aware_astar_search(
             start_pose, goal_pose, tq, goal_tolerance=tol,
@@ -192,9 +194,9 @@ def run_all_missions() -> Dict:
         prim_counts = dict(search_res.path_primitive_counts)
         maneuvers_tr = format_maneuvers_tr(search_res.path_primitive_counts)
 
-        print(f"      SUCCESS! Path Length: {cum_dist:.1f} m | Min AGL: {min_agl:.1f} m | Mean AGL: {mean_agl:.1f} m")
-        print(f"      Expanded: {search_res.expanded_nodes} | Runtime: {elapsed:.2f} s")
-        print(f"      Manevralar: {maneuvers_tr}")
+        print(f"      SUCCESS! Path Length: {cum_dist:.1f} m | Min AGL: {min_agl:.1f} m | Mean AGL: {mean_agl:.1f} m", flush=True)
+        print(f"      Expanded: {search_res.expanded_nodes} | Runtime: {elapsed:.2f} s", flush=True)
+        print(f"      Manevralar: {maneuvers_tr}", flush=True)
 
         # -------------------------------------------------------------
         # Generate Individual 2-Panel Figure

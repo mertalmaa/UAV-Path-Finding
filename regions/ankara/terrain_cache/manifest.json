@@ -1,19 +1,19 @@
 {
   "schema_version": 1,
   "code_version": "terrain_cache_v1",
-  "created_at_utc": "2026-09-15T20:24:14Z",
+  "created_at_utc": "2026-09-16T15:35:05Z",
   "source_dem_path": "regions\\ankara\\working_dem.tif",
-  "source_sha256": "4036f426e03f58c5a7b094b0fdd0cfdeec5ea227e01563107c2e0a8991b4a052",
-  "source_width": 1000,
-  "source_height": 1000,
+  "source_sha256": "5821f31755743c501cd9329f2063549fcfeffc6885d9dde43baeb987e6336a6b",
+  "source_width": 3000,
+  "source_height": 3000,
   "source_crs": "EPSG:32636",
   "source_transform": [
     30.0,
     0.0,
-    421197.8553129894,
+    391207.4102952028,
     0.0,
     -30.0,
-    4470794.141466039
+    4500799.216226853
   ],
   "native_resolution_m": 30.0,
   "nodata": -9999.0,
@@ -23,40 +23,40 @@
   ],
   "array_shapes": {
     "fine_elevation": [
+      3000,
+      3000
+    ],
+    "min_elevation_f2": [
+      1500,
+      1500
+    ],
+    "max_elevation_f2": [
+      1500,
+      1500
+    ],
+    "mean_elevation_f2": [
+      1500,
+      1500
+    ],
+    "relief_f2": [
+      1500,
+      1500
+    ],
+    "min_elevation_f3": [
       1000,
       1000
     ],
-    "min_elevation_f2": [
-      500,
-      500
-    ],
-    "max_elevation_f2": [
-      500,
-      500
-    ],
-    "mean_elevation_f2": [
-      500,
-      500
-    ],
-    "relief_f2": [
-      500,
-      500
-    ],
-    "min_elevation_f3": [
-      333,
-      333
-    ],
     "max_elevation_f3": [
-      333,
-      333
+      1000,
+      1000
     ],
     "mean_elevation_f3": [
-      333,
-      333
+      1000,
+      1000
     ],
     "relief_f3": [
-      333,
-      333
+      1000,
+      1000
     ]
   },
   "array_dtypes": {

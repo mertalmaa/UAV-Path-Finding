@@ -3,30 +3,30 @@
   "mission_name": "Bilecik Sakarya Kanyonu 31 km Ultra-Uzun Uçuş",
   "region": "bilecik",
   "success": true,
-  "total_distance_m": 31093.2,
+  "total_distance_m": 31090.0,
   "total_distance_km": 31.09,
-  "flight_time_s": 777.3,
-  "flight_time_min": 12.96,
-  "planning_runtime_s": 2.537,
-  "total_expanded_nodes": 796,
-  "total_primitives": 346,
+  "flight_time_s": 777.2,
+  "flight_time_min": 12.95,
+  "planning_runtime_s": 2.498,
+  "total_expanded_nodes": 1412,
+  "total_primitives": 347,
   "min_agl_m": 120.0,
   "max_agl_m": 466.6,
-  "mean_agl_m": 185.4,
+  "mean_agl_m": 182.9,
   "altitude_msl_min_m": 248.4,
-  "altitude_msl_max_m": 698.9,
+  "altitude_msl_max_m": 686.4,
   "maneuvers_count": {
-    "DESCENDING_RIGHT_TURN": 78,
-    "DESCENDING_LEFT_TURN": 78,
-    "CLIMBING_LEFT_TURN": 72,
-    "CLIMBING_RIGHT_TURN": 79,
-    "LEFT_LEVEL_TURN": 10,
-    "RIGHT_LEVEL_TURN": 10,
-    "STRAIGHT_CLIMB": 13,
-    "STRAIGHT_DESCENT": 5,
+    "DESCENDING_RIGHT_TURN": 80,
+    "DESCENDING_LEFT_TURN": 75,
+    "CLIMBING_LEFT_TURN": 73,
+    "CLIMBING_RIGHT_TURN": 75,
+    "LEFT_LEVEL_TURN": 11,
+    "RIGHT_LEVEL_TURN": 11,
+    "STRAIGHT_CLIMB": 14,
+    "STRAIGHT_DESCENT": 7,
     "STRAIGHT_LEVEL": 1
   },
-  "maneuvers_tr": "Tırmanan Sağa Dönüş: 79, Alçalan Sağa Dönüş: 78, Alçalan Sola Dönüş: 78, Tırmanan Sola Dönüş: 72, Düz Tırmanış: 13, Sola Düzey Dönüş: 10, Sağa Düzey Dönüş: 10, Düz Süzülüş/Alçalış: 5, Düz Düzey Uçuş: 1",
+  "maneuvers_tr": "Alçalan Sağa Dönüş: 80, Alçalan Sola Dönüş: 75, Tırmanan Sağa Dönüş: 75, Tırmanan Sola Dönüş: 73, Düz Tırmanış: 14, Sola Düzey Dönüş: 11, Sağa Düzey Dönüş: 11, Düz Süzülüş/Alçalış: 7, Düz Düzey Uçuş: 1",
   "plot_filename": "mission_long_31km_2panel.png",
   "waypoints": [
     {
@@ -83,58 +83,58 @@
       "leg": 1,
       "from": "WP0_INHISAR_SOUTH",
       "to": "WP1_GORGE_BEND_S",
-      "runtime_s": 0.264,
-      "expanded_nodes": 54,
+      "runtime_s": 0.361,
+      "expanded_nodes": 264,
       "length_m": 3904.0
     },
     {
       "leg": 2,
       "from": "WP1_GORGE_BEND_S",
       "to": "WP2_VALLEY_NARROWS",
-      "runtime_s": 0.264,
-      "expanded_nodes": 51,
+      "runtime_s": 0.249,
+      "expanded_nodes": 60,
       "length_m": 4182.0
     },
     {
       "leg": 3,
       "from": "WP2_VALLEY_NARROWS",
       "to": "WP3_VEZIRHAN_S",
-      "runtime_s": 0.279,
-      "expanded_nodes": 67,
-      "length_m": 4763.2
+      "runtime_s": 0.292,
+      "expanded_nodes": 167,
+      "length_m": 4760.0
     },
     {
       "leg": 4,
       "from": "WP3_VEZIRHAN_S",
       "to": "WP4_VEZIRHAN_GORGE",
-      "runtime_s": 0.498,
-      "expanded_nodes": 379,
+      "runtime_s": 0.595,
+      "expanded_nodes": 692,
       "length_m": 5031.6
     },
     {
       "leg": 5,
       "from": "WP4_VEZIRHAN_GORGE",
       "to": "WP5_BAYIRKOY_PASS",
-      "runtime_s": 0.305,
-      "expanded_nodes": 98,
+      "runtime_s": 0.242,
+      "expanded_nodes": 69,
       "length_m": 5066.4
     },
     {
       "leg": 6,
       "from": "WP5_BAYIRKOY_PASS",
       "to": "WP6_OSMANELI_GORGE",
-      "runtime_s": 0.317,
-      "expanded_nodes": 72,
-      "length_m": 2132.0
+      "runtime_s": 0.215,
+      "expanded_nodes": 26,
+      "length_m": 2135.2
     },
     {
       "leg": 7,
       "from": "WP6_OSMANELI_GORGE",
       "to": "WP7_OSMANELI_PLAINS",
-      "runtime_s": 0.317,
-      "expanded_nodes": 75,
-      "length_m": 6014.0
+      "runtime_s": 0.284,
+      "expanded_nodes": 134,
+      "length_m": 6010.8
     }
   ],
-  "sample_points_count": 3730
+  "sample_points_count": 3729
 }

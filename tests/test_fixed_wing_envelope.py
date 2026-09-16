@@ -43,6 +43,17 @@ class FixedWingKinematicEnvelopeTests(unittest.TestCase):
         self.assertEqual(PRIMITIVE_DURATION_S, 1.5)
         self.assertEqual(PRIMITIVE_VERTICAL_DELTA_M, 7.5)
 
+    def test_incompatible_or_invalid_model_parameters_are_rejected(self) -> None:
+        for parameters in (
+            {"horizontal_speed_mps": 33.0}, {"horizontal_speed_mps": float("nan")},
+            {"max_climb_rate_mps": 0}, {"max_descent_rate_mps": -1},
+            {"bank_angle_deg": 90}, {"bank_angle_deg": float("nan")},
+            {"combined_radius_factor": .9}, {"combined_radius_factor": float("inf")},
+            {"combined_vertical_rate_factor": 0},
+        ):
+            with self.subTest(parameters=parameters), self.assertRaises(ValueError):
+                FixedWingKinematicModel(**parameters)
+
     def test_turn_kinematics_constant_across_altitudes(self) -> None:
         for alt in (0.0, 1500.0, 3000.0, 5000.0, 8000.0):
             left = self.envelope.level_turn(alt, "LEFT")

@@ -1,0 +1,23 @@
+{
+  "mission_id": "M_MAVI_MAVI",
+  "title": "Batı Sakarya Vadisi → Geyve Boğazı (İki Mavılık Arası)",
+  "start_xy": [
+    253500,
+    4483500
+  ],
+  "start_ground_m": 78.0,
+  "start_z_msl": 228.0,
+  "goal_xy": [
+    289500,
+    4501500
+  ],
+  "goal_ground_m": 329.8,
+  "goal_z_msl": 479.8,
+  "straight_km": 40.25,
+  "route_km": 43.57,
+  "search_time_s": 24.605,
+  "expanded_nodes": 4526,
+  "min_agl_m": 120.0,
+  "mean_agl_m": 145.8,
+  "success": true
+}
