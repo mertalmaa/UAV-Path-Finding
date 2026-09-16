@@ -105,7 +105,7 @@ Geliştirme adımları, bağımlılıklar ve kısıtların birbirini doğrulama 
 ## 5. Kapsamlı Değerlendirme ve Raporlama Kriterleri
 
 Sistemin başarısı yalnızca *"arama süresi (saniye)"* ile değil, çok boyutlu uçuş kriterleriyle değerlendirilecektir:
-1. **Çözüm Başarı Oranı:** Bu geliştirme aşamasında yalnızca Bilecik görevleri değerlendirilir. `python -B -m scripts.check_bilecik_stage1`, seçilmiş 5 görevin arama ve irtifa profili sonuçlarını ayrı ayrı `results/test_bilecik/stage1_altitude_preservation.json` dosyasına yazar. Bu alt küme, 30 görevin tamamını temsil eden bir başarı oranı değildir.
+1. **Çözüm Başarı Oranı:** Bilecik görevleri `scripts/run_single_shot_31km.py` (31 km kanyon) ve `scripts/run_bilecik_90km_5_missions.py` (5 adet ~90 km) ile değerlendirilir; sonuçlar `results/test_bilecik/` altına yazılır. Güncel durum için `README.md`.
 2. **Minimum AGL ve Yanal Tampon:** Rota boyunca gözlemlenen en düşük arazi açıklığı ve emniyet ihlali olmaması.
 3. **Manevra Sınırı Uyumu:** Gerçekleşen maksimum yatış açısı ($\phi$), yatış hızı ($\dot{\phi}$), dikey ivme ($a_z$) ve stall güvenlik marjı ($V/V_s$).
 4. **Başarısızlık Teşhisi:** Çözülemeyen senaryolarda nedenin açıkça raporlanması (`EXPANSION_LIMIT`, `TIMEOUT`, `NO_CORRIDOR_WIDTH`, `INSUFFICIENT_CLIMB_DISTANCE`).

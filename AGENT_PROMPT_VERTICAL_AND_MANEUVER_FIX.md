@@ -1,3 +1,7 @@
+> **ARŞİV (2026-09-16):** Bu görev istemi eski duruma aittir. Atıf yaptığı
+> `experiments/`, `scripts/benchmark_low_flight.py` ve `scripts/benchmark_far_missions.py`
+> kaldırıldı. Güncel durum ve komutlar: `README.md`, `project.md`.
+
 # PROMPT: Sabit Kanatlı İHA Yol Planlayıcısı Dikey Hareket (Alçalma/Dikilme), EXPANSION_LIMIT ve Dönüş Manevralarının Çözümü
 
 > **Kullanım Talimatı:** Bu dosya, projeyi devralacak yapay zeka kodlama ajanına (AI Agent) doğrudan verilecek detaylı mimari brifing ve görev istemidir.

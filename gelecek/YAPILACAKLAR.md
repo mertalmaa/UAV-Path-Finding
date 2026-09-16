@@ -64,7 +64,22 @@ Bu doküman; danışman hocanın prensipleri (**"Tüp mantığı olmayacak, uça
 
 ---
 
-## 3. Uygulama ve Kodlama Öncelik Sırası
+## 3. Güncel Durum (2026-09-16)
+
+| # | Madde | Durum |
+| :---: | :--- | :--- |
+| 1 | Pareto budaması | **Tamamlandı.** İrtifalar arası eleme kaldırıldı; `enable_pareto_z_pruning` etkisiz. |
+| 2 | Manevra çözünürlüğü | **Kısmen.** Yerel B-spline yumuşatma var (`local_trajectory_smoothing`); 5° hafif dönüş ilkeli yok. Yumuşatma sonrası roll rate 43.6°/s, limit 15°/s. |
+| 3 | Ters arazi sezgisi | **Tamamlandı.** Vadi-bağıl (HAND) rehber varsayılan; 90 km'de 5/5 görev 8–13 s, rotalar vadilere giriyor. |
+| 4 | `SPIRAL_UP` / `U_TURN_180` | **Yapılmadı.** Zarfta `spiral_up` hesabı var, arama ilkeli değil. |
+| 5 | Hibrit ilkeller (60 m + 180 m) | **Yapılmadı.** |
+| 6 | Yatay-dikey geri besleme | **Tamamlandı (temel).** `plan_terrain_following(max_feedback_passes=...)` profil hatasını arama cezasına çevirir. |
+| 7 | Tek tuş otonom motor | **Yapılmadı.** |
+
+Sıradaki öncelikler: roll rate / dikey ivme limitlerinin yumuşatmada sağlanması,
+hafif dönüş ilkeli, spiral/U-dönüş makroları.
+
+## 4. Uygulama ve Kodlama Öncelik Sırası (ilk plan)
 
 | Sıra | Geliştirme Maddesi | Neden Bu Sırada? |
 | :---: | :--- | :--- |

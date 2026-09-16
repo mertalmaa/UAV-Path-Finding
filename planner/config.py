@@ -53,7 +53,8 @@ class PlannerConfig:
     # BASIC remains available for controlled comparisons.
     enable_combined_turns: bool = True
     # Weighted search trades exact optimality for bounded practical search.
-    search_heuristic_weight: float = 1.01
+    # 1.3: validated on Bilecik 90 km missions (bounded greediness at long range).
+    search_heuristic_weight: float = 1.3
     # Deprecated compatibility field; no effect even when True. Cross-altitude
     # goal/terrain-proximity pruning was unsound and has been removed.
     # Each full (x, y, z, heading) key still keeps one approximate representative.
@@ -66,7 +67,7 @@ class PlannerConfig:
     # Optional topographic Dijkstra ordering with climb/descent lookahead.
     # Works independently of low-altitude cost. Approximate guidance, not an
     # admissible heuristic claim; never bypasses full trajectory safety.
-    enable_terrain_guidance: bool = False
+    enable_terrain_guidance: bool = True
     # Soft ordering only: sample the terrain guide at this pixel stride.
     # Full-resolution trajectory safety remains unchanged.
     terrain_guidance_stride: int = 3
@@ -75,6 +76,30 @@ class PlannerConfig:
     # completeness while preventing heuristic deception traps.
     # guidance_queue_ratio = K means K pops from guided queue for every 1 pop from anchor queue.
     guidance_queue_ratio: int = 3
+    # Guidance cost field shape.
+    #   "absolute_quadratic": historical 1 + 2*((elev-lo)/(hi-lo))^2, normalised by
+    #       the WHOLE ROI relief. Works on 30 km maps where the target valley is the
+    #       global minimum, but its contrast collapses on large maps (90 km).
+    #   "valley_relative": 1 + alpha*min(HAND/scale, cap) where HAND is the height
+    #       above the local terrain floor (moving minimum over valley_window_m).
+    #       Scale-invariant: a valley at 500 m MSL is as attractive as one at 50 m.
+    guidance_cost_mode: str = "valley_relative"
+    valley_window_m: float = 5000.0
+    valley_height_scale_m: float = 300.0
+    # 2.0: 2.5 without an edge margin sent Bilecik M90_02 on a 2x detour.
+    valley_cost_alpha: float = 2.0
+    valley_cost_cap: float = 3.0
+    # Soft ROI edge repulsion for guidance only (0 disables). Cells closer than
+    # this distance to the ROI border get up to +guidance_edge_cost.
+    # Default 0: Bilecik 31 km canyon runs ~300 m from the ROI edge; a 3 km
+    # margin pushed that route onto the ridges (+10 km, +250 m max MSL).
+    guidance_edge_margin_m: float = 0.0
+    guidance_edge_cost: float = 2.0
+    # When True, the A* g-cost integrates the guidance cost multiplier even with
+    # enable_low_altitude_cost=False. This keeps g and the guided heuristic in
+    # the same units (a real valley preference instead of greedy following)
+    # without adding the z-dependent AGL term that floods z bins.
+    guidance_multiplier_in_g: bool = True
     desired_agl_m: float = 120.0
     agl_cost_scale_m: float = 100.0
     lambda_agl: float = 0.0

@@ -44,6 +44,8 @@ from planner.trajectory_safety import (
 
 
 _BOUNDARY_EPSILON = 1e-9
+# Guidance grids at/above this size use the vectorised scipy Dijkstra backend.
+_FAST_GUIDANCE_MIN_CELLS = 40_000
 _BASIC_PRIMITIVES = (
     "STRAIGHT_LEVEL", "LEFT_LEVEL_TURN", "RIGHT_LEVEL_TURN",
     "STRAIGHT_CLIMB", "STRAIGHT_DESCENT",
@@ -248,6 +250,14 @@ def _trajectory_edge_cost(
                     penalty_cost += 500.0
                     break
     if not config.enable_low_altitude_cost:
+        if guidance is not None and getattr(config, "guidance_multiplier_in_g", False):
+            samples = trajectory.samples
+            weights = [guidance.multiplier(s) for s in samples]
+            return sum(
+                math.sqrt((b.x_m - a.x_m) ** 2 + (b.y_m - a.y_m) ** 2 + (b.z_msl_m - a.z_msl_m) ** 2)
+                * (wa + wb) / 2.0
+                for a, b, wa, wb in zip(samples, samples[1:], weights, weights[1:])
+            ) + penalty_cost
         return physical_length + penalty_cost
     shape = config.low_altitude_cost_shape
     if shape not in ("quadratic", "linear", "capped_linear"):
@@ -342,6 +352,7 @@ class _TerrainGuidance:
 
     def __init__(self, terrain, goal, tolerance, config, envelope, influence_cache, feedback_penalties=()):
         self.terrain = terrain
+        self.config = config
         self.feedback_penalties = tuple(feedback_penalties)
         self.stride = getattr(config, "terrain_guidance_stride", 1)
         if not isinstance(self.stride, int) or isinstance(self.stride, bool) or self.stride < 1:
@@ -361,10 +372,31 @@ class _TerrainGuidance:
             return
         lo, hi = float(elevation[valid].min()), float(elevation[valid].max())
         filled = np.where(valid, elevation, hi)
-        # Relief is a soft valley preference; invalid cells stay blocked.
-        self.cost += 2.0 * ((filled - lo) / max(1.0, hi - lo)) ** 2
         rows, cols = elevation.shape
         cell_size_m = abs(terrain.roi.transform.a) * self.stride
+        mode = getattr(config, "guidance_cost_mode", "absolute_quadratic")
+        if mode == "absolute_quadratic":
+            # Relief is a soft valley preference; invalid cells stay blocked.
+            self.cost += 2.0 * ((filled - lo) / max(1.0, hi - lo)) ** 2
+        elif mode == "valley_relative":
+            from scipy import ndimage
+            window = max(3, int(round(config.valley_window_m / cell_size_m)) | 1)
+            # Invalid cells must not create artificial floors.
+            floor = ndimage.minimum_filter(np.where(valid, elevation, np.inf), size=window, mode="nearest")
+            floor = np.where(np.isfinite(floor), floor, filled)
+            hand = np.clip(filled - floor, 0.0, None)
+            self.cost += config.valley_cost_alpha * np.minimum(
+                hand / max(1.0, config.valley_height_scale_m), config.valley_cost_cap)
+        else:
+            raise ValueError("guidance_cost_mode must be absolute_quadratic or valley_relative")
+        # Edge repulsion never covers more than 10% of the ROI short side, so
+        # small synthetic maps are not turned into one uniform penalty field.
+        margin = min(getattr(config, "guidance_edge_margin_m", 0.0), 0.1 * min(rows, cols) * cell_size_m)
+        if margin > 0.0:
+            rr = np.minimum(np.arange(rows), np.arange(rows)[::-1])[:, None]
+            cc = np.minimum(np.arange(cols), np.arange(cols)[::-1])[None, :]
+            edge_distance = np.minimum(rr, cc) * cell_size_m
+            self.cost += config.guidance_edge_cost * np.clip(1.0 - edge_distance / margin, 0.0, 1.0)
         for px, py, pradius in feedback_penalties:
             pr, pc = terrain.xy_to_rowcol(px, py)
             if terrain.in_bounds_rowcol(pr, pc):
@@ -385,6 +417,9 @@ class _TerrainGuidance:
         self.distance[gr, gc] = 0.0
         self.targets[gr, gc] = max(self.targets[gr, gc], goal.z_msl_m - tolerance.altitude_m)
         self.ceilings[gr, gc] = goal.z_msl_m + tolerance.altitude_m
+        if rows * cols >= _FAST_GUIDANCE_MIN_CELLS:
+            self._build_fast(elevation, valid, clearance, gr, gc)
+            return
         queue = [(0.0, gr, gc)]
         transform = terrain.roi.transform
         steps = [(dr, dc, self.stride * math.hypot(transform.a * dc + transform.b * dr,
@@ -410,6 +445,60 @@ class _TerrainGuidance:
                     self.ceilings[nr, nc] = self.ceilings[r, c] + self.descent_slope * step
                     heapq.heappush(queue, (candidate, nr, nc))
 
+    def _build_fast(self, elevation, valid, clearance, gr, gc):
+        """Same reverse-edge Dijkstra as the heapq loop, via scipy.csgraph.
+
+        Targets/ceilings are propagated along the returned shortest-path tree in
+        increasing distance order, exactly like the relaxation formulas above.
+        """
+        from scipy.sparse import coo_matrix
+        from scipy.sparse.csgraph import dijkstra
+
+        rows, cols = elevation.shape
+        transform = self.terrain.roi.transform
+        idx = np.arange(rows * cols).reshape(rows, cols)
+        src, dst, weight, steps_list = [], [], [], []
+        for dr in (-1, 0, 1):
+            for dc in (-1, 0, 1):
+                if not (dr or dc):
+                    continue
+                step = self.stride * math.hypot(transform.a * dc + transform.b * dr,
+                                                transform.d * dc + transform.e * dr)
+                r0, r1 = max(0, -dr), rows - max(0, dr)
+                c0, c1 = max(0, -dc), cols - max(0, dc)
+                r_idx = idx[r0:r1, c0:c1].ravel()              # (r, c): nearer goal
+                n_idx = idx[r0 + dr:r1 + dr, c0 + dc:c1 + dc].ravel()  # (nr, nc)
+                ok = valid.ravel()[r_idx] & valid.ravel()[n_idx]
+                r_idx, n_idx = r_idx[ok], n_idx[ok]
+                delta = elevation.ravel()[r_idx] - elevation.ravel()[n_idx]
+                flight = np.maximum(step, np.maximum(delta / self.climb_slope, -delta / self.descent_slope))
+                src.append(r_idx)
+                dst.append(n_idx)
+                weight.append(flight * (self.cost.ravel()[r_idx] + self.cost.ravel()[n_idx]) * 0.5)
+                steps_list.append(np.full(r_idx.shape, step))
+        src = np.concatenate(src); dst = np.concatenate(dst)
+        graph = coo_matrix((np.concatenate(weight), (src, dst)), shape=(rows * cols, rows * cols)).tocsr()
+        step_graph = coo_matrix((np.concatenate(steps_list), (src, dst)), shape=(rows * cols, rows * cols)).tocsr()
+        goal_index = int(idx[gr, gc])
+        distance, pred = dijkstra(graph, directed=True, indices=goal_index, return_predecessors=True)
+        self.distance = distance.reshape(rows, cols)
+        order = np.argsort(distance, kind="stable")
+        order = order[np.isfinite(distance[order])]
+        targets = self.targets.ravel().copy()
+        ceilings = self.ceilings.ravel().copy()
+        floor = (elevation + clearance).ravel()
+        pred_order = pred[order]
+        has_parent = pred_order >= 0
+        child, parent = order[has_parent], pred_order[has_parent]
+        step_of = np.asarray(step_graph[parent, child]).ravel()
+        tlist, clist, flist = targets.tolist(), ceilings.tolist(), floor.tolist()
+        climb, descent = self.climb_slope, self.descent_slope
+        for n, p, s in zip(child.tolist(), parent.tolist(), step_of.tolist()):
+            tlist[n] = max(flist[n], tlist[p] - climb * s)
+            clist[n] = clist[p] + descent * s
+        self.targets = np.asarray(tlist).reshape(rows, cols)
+        self.ceilings = np.asarray(clist).reshape(rows, cols)
+
     def value(self, array, pose, fallback):
         r, c = self.terrain.xy_to_rowcol(pose.x_m, pose.y_m)
         if not self.terrain.in_bounds_rowcol(r, c):
@@ -422,7 +511,17 @@ class _TerrainGuidance:
     def estimate(self, pose: PhysicalPose, lower_bound: float) -> float:
         distance = self.value(self.distance, pose, lower_bound)
         excess = max(0.0, pose.z_msl_m - self.value(self.ceilings, pose, pose.z_msl_m))
-        return max(lower_bound, distance + excess * 40.0 / 5.0)
+        estimate = distance + excess / self.descent_slope
+        config = self.config
+        if (config.enable_low_altitude_cost and config.low_altitude_cost_shape == "linear"
+                and config.lambda_agl > 0.0 and math.isfinite(distance)):
+            # Altitude above the guide target cannot vanish faster than the
+            # descent slope allows; charge the linear AGL cost of that ramp so
+            # lower-z duplicates of the same XY do not form an f-plateau.
+            above = max(0.0, pose.z_msl_m - self.target(pose))
+            ramp = min(distance, above / self.descent_slope)
+            estimate += config.lambda_agl * (above / config.agl_cost_scale_m) * ramp * 0.5
+        return max(lower_bound, estimate)
 
     def target(self, pose):
         return self.value(self.targets, pose, pose.z_msl_m)
@@ -567,7 +666,9 @@ def pose_aware_astar_search(
         if guidance is not None and open_guided:
             # K:1 Round-Robin interleave: guidance exploitation with anchor completeness
             k = max(1, getattr(config, "guidance_queue_ratio", 3))
-            use_guided = (step_count % (k + 1) != 0)
+            # Stale/duplicate pops do not advance the schedule, so the K:1
+            # ratio holds for real expansions.
+            use_guided = ((expanded + 1) % (k + 1) != 0)
             target_heap = open_guided if use_guided else open_heap
             if not target_heap:
                 target_heap = open_guided if open_guided else open_heap

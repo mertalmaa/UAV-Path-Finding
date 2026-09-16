@@ -1,5 +1,9 @@
 # Bilecik — Durum tanımı, uçak kısıtları ve irtifa elemesi
 
+> **Güncel durum (2026-09-16):** `scripts/check_bilecik_stage1.py` kaldırıldı; buradaki
+> ölçümler tarihseldir. Durum tanımı ve irtifalar arası elemenin kaldırılması
+> hâlâ geçerlidir. Güncel komutlar için `README.md`.
+
 ## Yapılan düzeltme
 
 Arama gerçek `(x, y, z, heading)` konumlarını ilerletir. Kayıt anahtarı

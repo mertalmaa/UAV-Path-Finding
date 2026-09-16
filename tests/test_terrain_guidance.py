@@ -89,3 +89,66 @@ class TerrainGuidanceTests(unittest.TestCase):
                                                   feedback_penalties=[(800.0, 500.0, 150.0)])
         min_dist_penalized = min(np.hypot(s.x_m - 800.0, s.y_m - 500.0) for t in search_penalized.trajectories for s in t.samples)
         self.assertGreaterEqual(min_dist_penalized, 150.0)
+
+
+class ValleyRelativeGuidanceTests(unittest.TestCase):
+    """90 km valley fix: scale-invariant cost, fast backend, multiplier in g."""
+
+    @staticmethod
+    def _config(**kw):
+        return dataclasses.replace(DEFAULT_CONFIG, min_agl_m=100, enable_terrain_guidance=True,
+                                   terrain_guidance_stride=1, **kw)
+
+    def _guide(self, terrain, goal, **kw):
+        return _TerrainGuidance(terrain, goal, GoalTolerance(10, 10), self._config(**kw),
+                                FixedWingKinematicEnvelope(), TerrainInfluenceCache(terrain))
+
+    def test_valley_cost_is_independent_of_absolute_elevation(self):
+        base = np.zeros((20, 20), dtype=np.float32)
+        base[:, 12:] = 300.0  # 300 m bench next to a valley floor
+        low = self._guide(terrain_from_array(base), GoalPose(300, 300, 500),
+                          guidance_cost_mode="valley_relative", valley_window_m=900.0)
+        high = self._guide(terrain_from_array(base + 1000.0), GoalPose(300, 300, 1500),
+                           guidance_cost_mode="valley_relative", valley_window_m=900.0)
+        np.testing.assert_allclose(low.cost, high.cost)
+        self.assertGreater(low.cost[10, 15], low.cost[10, 5])
+
+    def test_invalid_mode_rejected(self):
+        with self.assertRaises(ValueError):
+            self._guide(terrain_from_array(np.zeros((4, 4))), GoalPose(30, 30, 100), guidance_cost_mode="nope")
+
+    def test_scipy_backend_matches_heapq_backend(self):
+        import planner.pose_search as ps
+        rng = np.random.default_rng(3)
+        elevation = (rng.random((40, 45)) * 600.0).astype(np.float32)
+        elevation[10:12, 5:30] = -9999
+        terrain = terrain_from_array(elevation)
+        goal = GoalPose(600, 600, 900)
+        saved = ps._FAST_GUIDANCE_MIN_CELLS
+        try:
+            ps._FAST_GUIDANCE_MIN_CELLS = 10 ** 12
+            slow = self._guide(terrain, goal, guidance_cost_mode="valley_relative", guidance_edge_margin_m=120.0)
+            ps._FAST_GUIDANCE_MIN_CELLS = 1
+            fast = self._guide(terrain, goal, guidance_cost_mode="valley_relative", guidance_edge_margin_m=120.0)
+        finally:
+            ps._FAST_GUIDANCE_MIN_CELLS = saved
+        np.testing.assert_allclose(fast.distance, slow.distance)
+        finite = np.isfinite(slow.distance)
+        np.testing.assert_allclose(fast.targets[finite], slow.targets[finite])
+        np.testing.assert_allclose(fast.ceilings[finite], slow.ceilings[finite])
+
+    def test_guidance_multiplier_in_g_switch(self):
+        elevation = np.zeros((20, 20), dtype=np.float32)
+        elevation[:, 10:] = 200.0
+        terrain = terrain_from_array(elevation)
+        start, goal = PhysicalPose(300, 300, 450, 90), GoalPose(900, 300, 450)
+        common = dict(enable_low_altitude_cost=False, guidance_cost_mode="valley_relative",
+                      valley_window_m=900.0)
+        plain = pose_aware_astar_search(start, goal, terrain, goal_tolerance=GoalTolerance(30, 20),
+            config=self._config(guidance_multiplier_in_g=False, **common), max_expansions=2000)
+        weighted = pose_aware_astar_search(start, goal, terrain, goal_tolerance=GoalTolerance(30, 20),
+            config=self._config(guidance_multiplier_in_g=True, **common), max_expansions=2000)
+        self.assertTrue(plain.success and weighted.success)
+        self.assertAlmostEqual(plain.total_cost, plain.continuous_path_length_m)
+        self.assertGreater(weighted.total_cost, weighted.continuous_path_length_m)
+        self.assertGreaterEqual(weighted.minimum_agl_m, 100)

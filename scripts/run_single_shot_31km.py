@@ -58,13 +58,11 @@ def main():
         min_agl_m=100.0,
         desired_agl_m=120.0,
         lateral_buffer_m=60.0,
-        search_heuristic_weight=1.05,
         enable_combined_turns=True,
-        enable_low_altitude_cost=True,
-        enable_terrain_guidance=True,
-        low_altitude_cost_shape="linear",
-        lambda_agl=0.25,
-        agl_cost_scale_m=1000.0,
+        # Search uses the project defaults (see planner/config.py):
+        # valley_relative terrain guidance integrated into g, weight 1.3,
+        # no z-dependent AGL cost inside A*; altitude comes from the
+        # terrain-following profile stage.
     )
 
     envelope = FixedWingKinematicEnvelope()

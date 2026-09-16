@@ -12,7 +12,7 @@ Bu değişiklikteki çözüm, bulunan yatay rotanın üzerinde tırmanma ve alç
 |---|---|
 | Bulunan yatay rotada irtifa takibi | Uygulanır; `optimize_terrain_following_altitudes` |
 | Mevcut A* aramasından sonra bu profili üretmek | Uygulanır; `plan_terrain_following` |
-| Başka bir vadiyi seçmek, sırtı yataydan dolaşmak | Aşağıda önerilen sonraki mimari aşama |
+| Başka bir vadiyi seçmek, sırtı yataydan dolaşmak | Uygulandı (2026-09-16): vadi-bağıl arazi rehberi, `guidance_cost_mode="valley_relative"` |
 | Bütün sürekli 3B uzayda küresel en iyi NOE rotası | Bu uygulamanın garantisi değildir |
 
 İrtifa iyileştiricisinin optimalite iddiası, **seçilmiş yatay rota, ayrık örnekler, arazi alt sınırları ve kullanılan muhafazakâr hız sınırları** içindir. Yatay rota seçimi aynı optimizasyonun içinde değildir.

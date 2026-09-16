@@ -1,5 +1,12 @@
 # Bilecik: alçalma mesafesi kullanan arazi rehberi
 
+> **Güncel durum (2026-09-16):** Bu rapordaki ölçümler eski `absolute_quadratic`
+> rehber maliyetiyle alınmıştır ve `scripts/check_bilecik_stage1.py` kaldırıldı.
+> Rehber artık varsayılan olarak açık ve `valley_relative` (yerel vadi tabanına
+> göre yükseklik) maliyetini kullanıyor; g-maliyetine de giriyor. Güncel
+> sonuçlar için `README.md` ve `project.md`.
+
+
 M08, aynı 10 saniye / 30.000 düğüm arama bütçesinde çözüldü. Son irtifa
 profili de başarılı; sert minimum AGL ve yanal tampon değiştirilmedi.
 

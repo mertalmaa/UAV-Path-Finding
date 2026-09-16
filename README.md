@@ -1,119 +1,118 @@
 # UAV Pathfinder
 
-Current development area: **Bilecik** (`regions/bilecik/working_dem.tif`,
-30 km ROI). Stage 1 removes cross-altitude goal/terrain-proximity pruning;
-each altitude bin retains its own representative. Same-key pruning remains
-approximate, so completeness and optimality are not guaranteed. The legacy
-`enable_pareto_z_pruning` field is retained but has no effect.
+Sabit kanatlı İHA için araziye duyarlı 3B yol planlama araştırma kodu.
+Güncel çalışma bölgesi **Bilecik** (`regions/bilecik/working_dem.tif`, UTM 36N,
+30 m piksel). Planlayıcı hem 30×30 km hem 90×90 km ROI üzerinde tek seferde
+(ara nokta olmadan) başlangıç→hedef rotası üretir.
 
-Run selected Bilecik checks with `python -B -m scripts.check_bilecik_stage1`.
-Search and terrain-following results are reported separately in
-`results/test_bilecik/stage1_altitude_preservation.json`.
+Son güncelleme: 2026-09-16.
 
-For optional terrain guidance including descent-distance lookahead, run
-`python -B -m scripts.check_bilecik_stage1 --guided`. This orders the search
-without changing geometric edge cost or safety limits; it is not an admissible
-heuristic or an optimality guarantee. Results are saved separately in
-`results/test_bilecik/terrain_guided.json`. See
-[the Bilecik guidance report](docs/BILECIK_ARAZI_REHBERI.md) for timing tradeoffs.
+## Hat (pipeline)
 
-Terrain-aware 3D path-planning research code for a fixed-wing UAV. The authoritative
-production planner uses a continuous fixed-wing pose-aware A* with conservative
-terrain/AGL checks and an authoritative **Generic Constant-Performance Fixed-Wing Kinematic Model**:
+1. **Pose-aware A\*** (`planner.pose_search.pose_aware_astar_search`):
+   sürekli `(x, y, z, heading)` pozlarını 60 m düz, 15° seviye/tırmanan/alçalan
+   dönüş ve düz tırmanış/alçalış ilkelleriyle ilerletir. Her ilkel sürekli
+   arazi/AGL ve yanal tampon denetiminden geçer.
+2. **Vadi-bağıl arazi rehberi** (`_TerrainGuidance`, varsayılan açık):
+   hedeften geriye 90 m ızgarada Dijkstra. Maliyet, noktanın 5 km çevresindeki
+   en alçak zemine göre yüksekliğidir (HAND); bu yüzden harita boyutundan
+   bağımsız olarak vadileri tercih eder. Aynı maliyet A\*'ın g-maliyetine de
+   girer. İki kuyruklu (rehberli + anchor) round-robin arama.
+3. **Arazi takibi irtifa profili**
+   (`planner.terrain_following.optimize_terrain_following_altitudes` /
+   `plan_terrain_following`): bulunan yatay iz üzerinde ±5 m/s sınırlarıyla en
+   alçak güvenli irtifa profili; profil başarısız olursa yatay aramaya geri
+   besleme.
+4. **Koridor güvenli yerel B-spline yumuşatma**
+   (`planner.local_trajectory_smoothing`).
 
-- **Horizontal Kinematic Speed**: 40.0 m/s
-- **Max Climb Rate**: +5.0 m/s (at all altitudes)
-- **Max Descent Rate**: -5.0 m/s (at all altitudes)
-- **Bank Angle**: 25.0 deg (Turn radius ≈ 349.89 m, Turn rate ≈ 6.55 deg/s)
-- **Zero Wind** convention
-- **Same limits at all altitudes** (no altitude-dependent degradation or LUT requirement)
+İrtifayı A\* değil 3. aşama belirler. A\* içinde z'ye bağlı AGL maliyeti
+varsayılan olarak kapalıdır (açıldığında 90 km'de z kovalarını patlatıyordu).
 
-## Alçak uçuşu çalıştırma
+## Uçak modeli (`planner.fixed_wing_envelope`)
 
-```powershell
-python -B -m scripts.benchmark_low_flight
-```
+- Yatay hız 40.0 m/s, sıfır rüzgâr
+- Tırmanış/alçalış ±5.0 m/s (tüm irtifalarda)
+- Yatış 25° → dönüş yarıçapı ≈ 349.89 m, dönüş hızı ≈ 6.55°/s
 
-Bu komut, paylaşılan B1–B6 senaryolarını, A–F görevlerini ve batı vadisini
-**üretim planlayıcısıyla** çalıştırır. Önce yatay rota aranır; ardından seçilen
-rota üzerinde uçak sınırlarıyla mümkün olan en alçak irtifa profili hesaplanır.
-Varsayılan hedef ve sert minimum arazi açıklığı 100 metredir. Son rotanın her
-parçası tekrar arazi çarpışması/açıklığı açısından doğrulanır.
+## Önemli varsayılanlar (`planner/config.py`)
 
-- [B1–B6 önce/sonra grafikleri](results/low_flight/fixed/behavior.png)
-- [A–F önce/sonra grafikleri](results/low_flight/fixed/canonical.png)
-- [Sonuç raporu](results/low_flight/fixed/report.md)
-- JSON dosyaları aynı klasörde gerçek koordinatları, irtifaları, AGL ve hız ölçümlerini içerir.
+| Alan | Değer | Not |
+|---|---|---|
+| `enable_terrain_guidance` | `True` | |
+| `guidance_cost_mode` | `"valley_relative"` | eski davranış: `"absolute_quadratic"` |
+| `valley_window_m` / `valley_height_scale_m` | 5000 / 300 | |
+| `valley_cost_alpha` / `valley_cost_cap` | 2.0 / 3.0 | büyük alpha → daha alçak ama daha uzun rota |
+| `guidance_edge_margin_m` | 0 | ROI kenarına yakın vadileri öldürmemek için |
+| `guidance_multiplier_in_g` | `True` | g ve rehber h aynı birimde |
+| `search_heuristic_weight` | 1.3 | |
+| `guidance_queue_ratio` | 3 | |
+| `enable_low_altitude_cost` | `False` | |
+| `min_agl_m` | 200 | görev scriptleri 100 m kullanır |
 
-Başlangıç ve hedef irtifalarını araziye göre tanımlanan vadi örneği:
+Büyük rehber ızgaraları (≥40 000 hücre) scipy ile çözülür; 90 km ROI'de
+rehber kurulumu ≈1.5 s.
 
-```powershell
-python -B -m scripts.benchmark_low_flight --suite valley --endpoint-mode agl --endpoint-clearance 130 --target-agl 100
-```
-
-`--endpoint-clearance` başlangıç/hedef açıklığıdır; `--target-agl` uçuş boyunca
-istenen açıklıktır. Başlangıçta doğrudan 100 metre seçmek, yakındaki yükselen
-arazi nedeniyle ilk manevrayı olanaksız kılabilir. AGL uç noktaları her görevde
-uçulabilirlik garantisi vermez; başarısız görevler açıkça raporlanır.
-
-İsteğe bağlı doğrusal AGL maliyeti, topografik Dijkstra ve ileri arazi/tırmanma
-rehberi için `--guided-search` ekleyin. Bu seçenek batı vadisinde doğrulandı;
-her görevde daha hızlı veya daha iyi rota üreteceği garanti edilmez.
-
-Koddan alçak uçuş için `planner.terrain_following.plan_terrain_following(...)`
-kullanın ve **dönen `plan.trajectories` rotasını** tüketin. `search_result`
-ilk aramanın tanısal sonucudur; optimize edilmiş alçak uçuş rotası değildir.
-`target_agl_m=100` için `config.min_agl_m=100` seçilmelidir. Genel yapılandırmanın
-mevcut 200 m emniyet değeri otomatik olarak düşürülmez.
-
-### Son doğrulama ve sınırlar
-
-- 80 birim testi geçti; eski ve eksik JSBSim JSON bağımlılığı kaldırıldı.
-- A–F: BASIC ve COMBINED modlarının tamamında `FOUND`.
-- B1–B6 + A–F + vadi: 13/13 alçak uçuş planı başarılı, minimum AGL ≥100 m,
-  dikey hızlar ±5 m/s içinde.
-- Birleşik dönüşler varsayılan olarak açık. Arama: ağırlıklı A* (`w=1.01`),
-  dikey erişilebilirlik rehberi ve kapatılabilir yaklaşık Pareto budaması.
-
-Alçalma sınırını araziyi değiştirerek gizlemek gerekmiyor. Örneğin 40 m/s ile
-3 km uçuşta, aynı irtifada başlayıp biten uçak ±5 m/s sınırıyla en fazla
-187.5 m alçalabilir. Daha düşük uçuş için başlangıç/hedef AGL'sini veya görev
-mesafesini uygun seçin. Mevcut Aladağlar arazisini koruduk.
-
-En düşük profil garantisi **seçilen yatay rota, örnekleme ve kinematik model**
-içindir. Tüm olası 3B rotalar arasında küresel en iyi rota garantisi değildir.
-Pareto budaması farklı irtifalardaki faydalı alternatifleri eleyebilir;
-tanılama için `enable_pareto_z_pruning=False` kullanılabilir. Model rüzgâr,
-dikey ivme/pitch geçişleri ve gerçek uçuş kontrol dinamiğini içermez.
-
-## Repository layout
-
-- `planner/` — production planning code (`planner.fixed_wing_envelope`, `planner.pose_search`, `planner.terrain_following`, etc.).
-- `tests/` — small canonical regression suite.
-- `scripts/` — current data preparation and benchmark runners.
-- `working_dem/` — working terrain rasters used by the planner.
-- `results/` — current planner benchmark evidence.
-- `outputs/terrain_cache/` — reproducible terrain cache used by the real-terrain benchmark.
-- `project.md` — current architecture, decisions, status, and blockers.
-- `docs/` — design and architecture documents.
-
-## Quick validation
-
-From the repository root:
+## Çalıştırma
 
 ```powershell
-python -m unittest discover -v
+python -B scripts/run_single_shot_31km.py                      # Bilecik 31 km kanyon
+python -B scripts/run_bilecik_90km_5_missions.py               # 5 adet ~90 km görev
+python -B scripts/run_bilecik_90km_5_missions.py --mission M90_02
+python -m pytest -q tests                                      # 97 birim test
 ```
 
-This runs fast synthetic and current-contract tests.
+Diğer scriptler: `run_5_long_30km_single_shot.py`, `run_bilecik_30_tests.py`,
+`run_bilecik_5_local_spline_benchmark.py` (+ `create_5mission_summary_atlas.py`),
+`run_mavi_mavi_test.py`; veri hazırlığı: `build_working_dem.py`,
+`build_regional_dems.py`. Bu scriptler yeni varsayılanlarla yeniden
+çalıştırılmadı.
 
-Current production benchmarks:
+## Güncel sonuçlar
 
-```powershell
-python -B -m scripts.benchmark_pose_aware_af
-python -B -m scripts.benchmark_terrain_following --real-terrain
-python -B -m scripts.benchmark_low_flight
-```
+31 km (Bilecik kanyonu, `results/test_bilecik/single_shot_31km_4panel_fidelity.png`):
 
-`experiments/` contains historical research runners, including older copies of
-the search algorithm. Use the commands above for current production evidence.
+| | Eski (mutlak rehber + A\*'da AGL maliyeti) | Güncel |
+|---|---|---|
+| Arama | 3750 düğüm, 4.9 s | 2002 düğüm, 2.6 s |
+| Rota | 31.34 km | 34.62 km |
+| Ortalama / maks. irtifa (MSL) | 415 / 624 m | 352 / 612 m |
+
+90 km (`results/test_bilecik/bilecik_90km_5_missions_valley_benchmark.json`,
+grafikler `results/test_bilecik/plots/m90_0X_valley_fidelity_report.png`):
+
+| Görev | Arama | Rota (düz hatta oran) | Ort. MSL | Eski düz ayar ort. MSL |
+|---|---|---|---|---|
+| M90_01 | 9.2 s | 97.1 km (1.20) | 560 m | 707 m |
+| M90_02 | 11.5 s | 106.5 km (1.34) | 760 m | 1019 m |
+| M90_03 | 8.1 s | 88.6 km (1.12) | 692 m | 758 m |
+| M90_04 | 12.6 s | 108.2 km (1.32) | 546 m | 634 m |
+| M90_05 | 11.1 s | 105.5 km (1.29) | 464 m | 822 m |
+
+Eski A\*'da AGL maliyetli ayar aynı görevlerde 54–108 s sürüyordu, M90_02 300 s'de
+zaman aşımına düştü (`bilecik_90km_5_missions_lowalt_benchmark.json`).
+Tüm görevlerde minimum AGL ≈ 118–120 m, koridor güvenli.
+
+**Metrik notu:** Arazi takibinden sonra ortalama AGL her rotada ~120 m çıkar;
+vadi kullanımını göstermez. Rotaları ortalama/maksimum MSL ve zemin
+yüksekliğiyle karşılaştırın.
+
+## Bilinen sınırlar
+
+- Yumuşatma sonrası maksimum roll rate 43.6°/s (limit 15°/s); 31 km scriptinde
+  ham rota üzerinde 62°/s. Değişiklikten önce de vardı, çözülmedi.
+- Kova tabanlı tek temsilcili arama yaklaşıktır; tamlık/optimalite garantisi yok.
+- Spiral/loiter ve 180° dönüş makroları arama ilkeli değildir.
+- Model rüzgâr, hız değişimi ve gerçek uçuş kontrol dinamiğini içermez.
+
+## Dizin yapısı
+
+- `planner/` — üretim planlayıcı kodu.
+- `tests/` — hızlı sentetik regresyon testleri.
+- `scripts/` — görev/benchmark çalıştırıcıları ve DEM hazırlığı.
+- `regions/`, `working_dem/` — çalışma DEM'leri (bkz. ilgili README'ler).
+- `results/` — benchmark çıktıları (`results/test_bilecik/` güncel; üst
+  seviyedeki JSON/MD dosyaları silinmiş eski deneylerden kalan arşivdir).
+- `outputs/terrain_cache/` — eski A–F benchmarkının arazi önbelleği (arşiv).
+- `project.md` — mimari, sözleşmeler ve durum. `docs/HISTORY.md` — tarihçe.
+- `gelecek/` — yol haritası ve yapılacaklar.
