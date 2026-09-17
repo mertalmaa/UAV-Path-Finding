@@ -16,3 +16,6 @@ JSBout*.csv
 outputs/*
 !outputs/terrain_cache/
 !outputs/terrain_cache/**
+
+# Mission UI terrain tile cache (regenerated on demand)
+mission_ui/.cache/

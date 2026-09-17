@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>UAV Pathfinder · Mission Planner</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230F172A'/%3E%3Cpath d='M5 23l7-9 5 5 4-6 6 10' fill='none' stroke='%2338BDF8' stroke-width='2.5' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/vendor/maplibre-gl/maplibre-gl.css">
+  <link rel="stylesheet" href="/vendor/uplot/uPlot.min.css">
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+  <!-- SVG icon sprite (Lucide-style strokes, 1.75px) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></symbol>
+    <symbol id="i-swap" viewBox="0 0 24 24"><path d="M7 4v14M4 15l3 3 3-3M17 20V6M14 9l3-3 3 3"/></symbol>
+    <symbol id="i-reset" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 5l12 7-12 7z"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18v.01"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+    <symbol id="i-locate" viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></symbol>
+    <symbol id="i-spinner" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9"/></symbol>
+  </svg>
+
+  <header class="topbar">
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M4 23l7-9 5 5 4-6 8 11" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/></svg>
+      <span class="brand-name">UAV Pathfinder</span>
+      <span class="brand-sub">Terrain-aware fixed-wing mission planner</span>
+    </div>
+    <div class="topbar-center">
+      <span class="chip" id="region-chip" title="Planner region containing the mission">No region</span>
+      <span class="chip chip-job" id="job-chip" hidden></span>
+    </div>
+    <div class="topbar-right">
+      <div class="segmented" role="radiogroup" aria-label="Interface mode">
+        <button role="radio" aria-checked="true" data-uimode="mission">Mission</button>
+        <button role="radio" aria-checked="false" data-uimode="engineering">Engineering</button>
+      </div>
+      <span class="server-dot" id="server-dot" title="Backend status" aria-label="Backend status"></span>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="panel" id="panel" aria-label="Mission setup and results">
+      <section class="section">
+        <div class="section-head">
+          <h2>Mission</h2>
+          <div class="head-actions">
+            <button class="icon-btn" id="btn-swap" aria-label="Swap start and goal" title="Swap start / goal"><svg><use href="#i-swap"/></svg></button>
+            <button class="icon-btn" id="btn-reset" aria-label="Reset mission" title="Reset mission"><svg><use href="#i-reset"/></svg></button>
+          </div>
+        </div>
+        <label class="field">
+          <span class="field-label">Preset</span>
+          <select id="preset-select"><option value="">Custom (pick on map)</option></select>
+        </label>
+        <p class="hint" id="pick-hint">Click the map to place <b>START</b>, then <b>GOAL</b>. Drag markers to adjust.</p>
+
+        <div class="point-card" data-point="start">
+          <div class="point-head">
+            <span class="pt-badge pt-start" aria-hidden="true">S</span>
+            <span class="point-title">Start</span>
+            <button class="btn btn-ghost btn-sm pick-btn" data-pick="start" aria-pressed="false"><svg><use href="#i-target"/></svg>Pick</button>
+          </div>
+          <div class="grid2">
+            <label class="field"><span class="field-label">Latitude</span><input type="number" step="0.00001" inputmode="decimal" data-coord="lat" placeholder="—"></label>
+            <label class="field"><span class="field-label">Longitude</span><input type="number" step="0.00001" inputmode="decimal" data-coord="lon" placeholder="—"></label>
+          </div>
+          <div class="alt-row">
+            <label class="field grow"><span class="field-label">Altitude</span>
+              <div class="input-unit"><input type="number" step="1" data-alt="value" value="150"><span class="unit" data-alt-unit>m</span></div>
+            </label>
+            <div class="segmented seg-sm" role="radiogroup" aria-label="Start altitude reference">
+              <button role="radio" aria-checked="true" data-altmode="agl" title="Above planner terrain">AGL</button>
+              <button role="radio" aria-checked="false" data-altmode="msl" title="Mean sea level">MSL</button>
+            </div>
+          </div>
+          <div class="field">
+            <span class="field-label">Initial heading</span>
+            <div class="alt-row">
+              <div class="segmented seg-sm" role="radiogroup" aria-label="Heading source">
+                <button role="radio" aria-checked="true" data-headmode="auto">To goal</button>
+                <button role="radio" aria-checked="false" data-headmode="manual">Manual</button>
+              </div>
+              <div class="input-unit grow"><input type="number" step="1" min="0" max="359" id="heading-input" disabled placeholder="auto"><span class="unit">°</span></div>
+            </div>
+          </div>
+          <div class="point-readout" data-readout aria-live="polite"></div>
+        </div>
+
+        <div class="point-card" data-point="goal">
+          <div class="point-head">
+            <span class="pt-badge pt-goal" aria-hidden="true">G</span>
+            <span class="point-title">Goal</span>
+            <button class="btn btn-ghost btn-sm pick-btn" data-pick="goal" aria-pressed="false"><svg><use href="#i-target"/></svg>Pick</button>
+          </div>
+          <div class="grid2">
+            <label class="field"><span class="field-label">Latitude</span><input type="number" step="0.00001" inputmode="decimal" data-coord="lat" placeholder="—"></label>
+            <label class="field"><span class="field-label">Longitude</span><input type="number" step="0.00001" inputmode="decimal" data-coord="lon" placeholder="—"></label>
+          </div>
+          <div class="alt-row">
+            <label class="field grow"><span class="field-label">Altitude</span>
+              <div class="input-unit"><input type="number" step="1" data-alt="value" value="150"><span class="unit" data-alt-unit>m</span></div>
+            </label>
+            <div class="segmented seg-sm" role="radiogroup" aria-label="Goal altitude reference">
+              <button role="radio" aria-checked="true" data-altmode="agl" title="Above planner terrain">AGL</button>
+              <button role="radio" aria-checked="false" data-altmode="msl" title="Mean sea level">MSL</button>
+            </div>
+          </div>
+          <div class="point-readout" data-readout aria-live="polite"></div>
+        </div>
+
+        <div class="mission-line" id="mission-line"></div>
+      </section>
+
+      <section class="section">
+        <div class="section-head"><h2>Terrain safety</h2></div>
+        <div class="grid3">
+          <label class="field"><span class="field-label" title="Hard floor enforced by the planner">Min AGL</span>
+            <div class="input-unit"><input type="number" id="in-min-agl" step="5" min="0" value="100"><span class="unit">m</span></div></label>
+          <label class="field"><span class="field-label" title="Desired terrain-following height">Target AGL</span>
+            <div class="input-unit"><input type="number" id="in-target-agl" step="5" min="0" value="120"><span class="unit">m</span></div></label>
+          <label class="field"><span class="field-label" title="Lateral terrain max-filter radius">Lat. buffer</span>
+            <div class="input-unit"><input type="number" id="in-buffer" step="10" min="0" value="60"><span class="unit">m</span></div></label>
+        </div>
+        <p class="hint">AGL is measured above <b>planner terrain</b>: block-max 30 m DEM, max-filtered by the lateral buffer.</p>
+        <details class="advanced">
+          <summary><svg><use href="#i-chevron"/></svg>Search budget &amp; smoothing</summary>
+          <div class="grid2">
+            <label class="field"><span class="field-label">Goal tol. XY</span><div class="input-unit"><input type="number" id="in-tol-xy" value="200" min="1"><span class="unit">m</span></div></label>
+            <label class="field"><span class="field-label">Goal tol. alt</span><div class="input-unit"><input type="number" id="in-tol-alt" value="30" min="1"><span class="unit">m</span></div></label>
+            <label class="field"><span class="field-label">Max expansions</span><input type="number" id="in-max-exp" value="120000" min="100" step="1000"></label>
+            <label class="field"><span class="field-label">Time limit</span><div class="input-unit"><input type="number" id="in-max-time" value="120" min="1"><span class="unit">s</span></div></label>
+            <label class="field"><span class="field-label">Feedback passes</span><input type="number" id="in-feedback" value="3" min="1" max="10"></label>
+            <label class="field"><span class="field-label">Corridor dev.</span><div class="input-unit"><input type="number" id="in-corridor" value="12" min="0.5" step="0.5"><span class="unit">m</span></div></label>
+          </div>
+          <label class="check"><input type="checkbox" id="in-smoothing" checked> Corridor-safe B-spline smoothing</label>
+        </details>
+      </section>
+
+      <div class="run-bar">
+        <button class="btn btn-primary btn-run" id="btn-run" disabled>
+          <svg class="ico-play"><use href="#i-play"/></svg><svg class="ico-spin"><use href="#i-spinner"/></svg>
+          <span id="run-label">Run planner</span>
+        </button>
+        <div class="run-status" id="run-status" aria-live="polite"></div>
+      </div>
+
+      <section class="section results" id="results" hidden>
+        <div class="verdict" id="verdict" role="status"></div>
+        <dl class="kv-grid" id="kv-main"></dl>
+        <ul class="checks" id="checks"></ul>
+        <div class="eng-only" id="eng-details"></div>
+      </section>
+    </aside>
+
+    <section class="workspace">
+      <div class="map-wrap">
+        <div id="map" role="application" aria-label="Mission map"></div>
+
+        <div class="map-ctrl map-ctrl-tl">
+          <div class="segmented seg-map" role="radiogroup" aria-label="Map view">
+            <button role="radio" aria-checked="true" data-view="2d">2D</button>
+            <button role="radio" aria-checked="false" data-view="3d">3D</button>
+          </div>
+          <label class="exag" id="exag-wrap" hidden>
+            <span>Vertical</span>
+            <select id="exag-select" aria-label="Vertical exaggeration">
+              <option value="1">×1.0</option><option value="1.5" selected>×1.5</option><option value="2">×2.0</option><option value="3">×3.0</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="map-ctrl map-ctrl-tr">
+          <details class="layers" id="layers">
+            <summary aria-label="Map layers"><svg><use href="#i-layers"/></svg><span>Layers</span></summary>
+            <div class="layers-body">
+              <label class="check"><input type="checkbox" data-layer="relief" checked> Elevation tint</label>
+              <label class="check"><input type="checkbox" data-layer="hillshade" checked> Hillshade</label>
+              <label class="check"><input type="checkbox" data-layer="osm"> OpenStreetMap <small>(online)</small></label>
+              <label class="check"><input type="checkbox" data-layer="roi" checked> Planner regions (ROI)</label>
+              <div class="eng-only">
+                <div class="layers-sep">Trajectory stages</div>
+                <label class="check"><input type="checkbox" data-stage="search"> A* search track</label>
+                <label class="check"><input type="checkbox" data-stage="profiled"> Terrain-following profile</label>
+                <label class="check"><input type="checkbox" data-stage="final" checked> Final (smoothed)</label>
+                <label class="check"><input type="checkbox" data-layer="tile-debug"> Terrain tile LOD grid</label>
+              </div>
+            </div>
+          </details>
+        </div>
+
+        <div class="readout" id="cursor-readout" aria-live="off"></div>
+        <div class="legend" id="legend">
+          <span><i class="lg lg-start"></i>Start</span>
+          <span><i class="lg lg-goal"></i>Goal</span>
+          <span><i class="lg lg-route"></i>Route</span>
+          <span><i class="lg lg-near"></i>&lt; min AGL + 20 m</span>
+          <span class="lg-3d"><i class="lg lg-curtain"></i>Clearance curtain</span>
+          <span class="lg-3d lg-note" title="The 3D surface is display terrain (Copernicus GLO-30) with zoom-dependent detail. Safety, AGL and the profile always use the planner DEM.">Surface: display LOD</span>
+        </div>
+      </div>
+
+      <div class="dock" id="dock">
+        <div class="dock-head">
+          <div class="tabs" role="tablist" aria-label="Trajectory charts">
+            <button role="tab" aria-selected="true" data-tab="profile">Altitude profile</button>
+            <button role="tab" aria-selected="false" data-tab="agl">Terrain clearance</button>
+            <button role="tab" aria-selected="false" data-tab="vertical" class="eng-only">Vertical rate</button>
+            <button role="tab" aria-selected="false" data-tab="lateral" class="eng-only">Bank &amp; roll</button>
+          </div>
+          <div class="dock-readout" id="dock-readout"></div>
+          <button class="icon-btn" id="btn-dock" aria-label="Collapse chart panel" aria-expanded="true"><svg><use href="#i-chevron"/></svg></button>
+        </div>
+        <div class="dock-body">
+          <div class="chart" id="chart" role="img" aria-label="Trajectory chart"></div>
+          <div class="empty" id="chart-empty">Run the planner to see the vertical profile of the computed trajectory.</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="/js/main.js"></script>
+</body>
+</html>

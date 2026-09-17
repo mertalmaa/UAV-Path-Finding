@@ -13,10 +13,10 @@
       "planning_mode": "SINGLE_SHOT_VALLEY_RELATIVE_GUIDANCE",
       "success": true,
       "expanded_nodes": 5654,
-      "search_time_s": 9.242,
-      "profile_time_s": 1.757,
-      "smoothing_time_ms": 2901.0,
-      "total_planning_time_s": 13.9,
+      "search_time_s": 8.305,
+      "profile_time_s": 2.073,
+      "smoothing_time_ms": 3045.2,
+      "total_planning_time_s": 13.423,
       "start_xy": [
         261000.0,
         4419000.0
@@ -43,7 +43,7 @@
       "junctions_smoothed": 764,
       "junctions_total": 764,
       "corridor_safe": true,
-      "plot_png": "results/test_bilecik/plots/m90_01_valley_fidelity_report.png"
+      "plot_png": "results\\test_bilecik\\plots\\m90_01_valley_fidelity_report.png"
     },
     {
       "mission_id": "M90_02",
@@ -53,10 +53,10 @@
       "planning_mode": "SINGLE_SHOT_VALLEY_RELATIVE_GUIDANCE",
       "success": true,
       "expanded_nodes": 7723,
-      "search_time_s": 11.534,
-      "profile_time_s": 1.947,
-      "smoothing_time_ms": 3337.0,
-      "total_planning_time_s": 16.818,
+      "search_time_s": 8.998,
+      "profile_time_s": 2.229,
+      "smoothing_time_ms": 3207.2,
+      "total_planning_time_s": 14.434,
       "start_xy": [
         300000.0,
         4420000.0
@@ -83,7 +83,7 @@
       "junctions_smoothed": 856,
       "junctions_total": 856,
       "corridor_safe": true,
-      "plot_png": "results/test_bilecik/plots/m90_02_valley_fidelity_report.png"
+      "plot_png": "results\\test_bilecik\\plots\\m90_02_valley_fidelity_report.png"
     },
     {
       "mission_id": "M90_03",
@@ -92,11 +92,11 @@
       "description_tr": "Batı sınırından doğu sınırına, orta hattaki dağlık sırtları ve platoları tek seferde aşan ~90 km çapraz rota.",
       "planning_mode": "SINGLE_SHOT_VALLEY_RELATIVE_GUIDANCE",
       "success": true,
-      "expanded_nodes": 3507,
-      "search_time_s": 8.116,
-      "profile_time_s": 1.734,
-      "smoothing_time_ms": 2680.4,
-      "total_planning_time_s": 12.53,
+      "expanded_nodes": 3514,
+      "search_time_s": 6.004,
+      "profile_time_s": 2.047,
+      "smoothing_time_ms": 2925.1,
+      "total_planning_time_s": 10.976,
       "start_xy": [
         230500.0,
         4463000.0
@@ -123,7 +123,7 @@
       "junctions_smoothed": 650,
       "junctions_total": 650,
       "corridor_safe": true,
-      "plot_png": "results/test_bilecik/plots/m90_03_valley_fidelity_report.png"
+      "plot_png": "results\\test_bilecik\\plots\\m90_03_valley_fidelity_report.png"
     },
     {
       "mission_id": "M90_04",
@@ -133,10 +133,10 @@
       "planning_mode": "SINGLE_SHOT_VALLEY_RELATIVE_GUIDANCE",
       "success": true,
       "expanded_nodes": 8249,
-      "search_time_s": 12.598,
-      "profile_time_s": 2.15,
-      "smoothing_time_ms": 3443.7,
-      "total_planning_time_s": 18.192,
+      "search_time_s": 9.285,
+      "profile_time_s": 2.085,
+      "smoothing_time_ms": 3138.9,
+      "total_planning_time_s": 14.509,
       "start_xy": [
         231000.0,
         4421000.0
@@ -163,7 +163,7 @@
       "junctions_smoothed": 787,
       "junctions_total": 787,
       "corridor_safe": true,
-      "plot_png": "results/test_bilecik/plots/m90_04_valley_fidelity_report.png"
+      "plot_png": "results\\test_bilecik\\plots\\m90_04_valley_fidelity_report.png"
     },
     {
       "mission_id": "M90_05",
@@ -173,10 +173,10 @@
       "planning_mode": "SINGLE_SHOT_VALLEY_RELATIVE_GUIDANCE",
       "success": true,
       "expanded_nodes": 6974,
-      "search_time_s": 11.14,
-      "profile_time_s": 2.126,
-      "smoothing_time_ms": 3430.5,
-      "total_planning_time_s": 16.697,
+      "search_time_s": 8.528,
+      "profile_time_s": 2.18,
+      "smoothing_time_ms": 3118.4,
+      "total_planning_time_s": 13.826,
       "start_xy": [
         233000.0,
         4497000.0
@@ -203,7 +203,7 @@
       "junctions_smoothed": 791,
       "junctions_total": 791,
       "corridor_safe": true,
-      "plot_png": "results/test_bilecik/plots/m90_05_valley_fidelity_report.png"
+      "plot_png": "results\\test_bilecik\\plots\\m90_05_valley_fidelity_report.png"
     }
   ]
 }
