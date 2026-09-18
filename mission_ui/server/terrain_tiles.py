@@ -311,8 +311,17 @@ class TerrainTileService:
         """All (z, x, y) tiles intersecting the source coverage up to ``max_zoom``."""
         if not self.coverage:
             return
-        west, south, east, north = self.coverage
-        for z in range(MIN_ZOOM, max_zoom + 1):
+        yield from self.iter_bounds_tiles(self.coverage, MIN_ZOOM, max_zoom)
+
+    @staticmethod
+    def iter_bounds_tiles(bounds, min_zoom: int, max_zoom: int):
+        """All (z, x, y) tiles intersecting a lon/lat ``bounds`` box, for ``min_zoom..max_zoom``.
+
+        Used both for the national coverage pyramid and to warm a single mission
+        region ahead of interactive zooming (see ``App.warm_region_tiles``).
+        """
+        west, south, east, north = bounds
+        for z in range(min_zoom, max_zoom + 1):
             n = 2 ** z
             x0 = int((west + 180.0) / 360.0 * n)
             x1 = int(math.ceil((east + 180.0) / 360.0 * n)) - 1

@@ -15,7 +15,7 @@ const state = {
   view: '2d',
   pick: 'start',
   points: {
-    start: { lon: null, lat: null, info: null, error: null, altMode: 'agl', altValue: 150, headingMode: 'auto', heading: null },
+    start: { lon: null, lat: null, info: null, error: null, altMode: 'agl', altValue: 150 },
     goal: { lon: null, lat: null, info: null, error: null, altMode: 'agl', altValue: 150 },
   },
   job: null,
@@ -90,15 +90,6 @@ function wireMission() {
     $$('[data-altmode]', c).forEach((b) => b.addEventListener('click', () => setAltMode(which, b.dataset.altmode)));
     $('.pick-btn', c).addEventListener('click', () => setPick(state.pick === which ? null : which));
   }
-  $$('[data-headmode]').forEach((b) => b.addEventListener('click', () => {
-    state.points.start.headingMode = b.dataset.headmode;
-    const inp = $('#heading-input');
-    inp.disabled = b.dataset.headmode === 'auto';
-    if (!inp.disabled && !inp.value) inp.value = '0';
-    onMissionEdited(); renderPoint('start');
-  }));
-  $('#heading-input').addEventListener('input', () => { onMissionEdited(); renderAll(); });
-
   for (const id of ['#in-min-agl', '#in-target-agl', '#in-tol-xy', '#in-tol-alt', '#in-max-exp', '#in-max-time', '#in-feedback', '#in-corridor', '#in-smoothing']) {
     $(id).addEventListener('input', () => { onMissionEdited(); renderAll(); });
   }
@@ -187,10 +178,6 @@ function applyPreset(id) {
     mapView.setMissionPoint(which, pr[which]);
     refreshInfo(which);
   }
-  const s = state.points.start;
-  s.headingMode = pr.heading_deg == null ? 'auto' : 'manual';
-  $('#heading-input').disabled = s.headingMode === 'auto';
-  $('#heading-input').value = pr.heading_deg == null ? '' : pr.heading_deg;
   setPick(null);
   mapView.fitTo([pr.start, pr.goal]);
   $('#preset-select').value = id;
@@ -292,8 +279,7 @@ function wireModes() {
 function buildRequest() {
   const s = state.points.start, g = state.points.goal;
   return {
-    start: { lon: s.lon, lat: s.lat, alt: { mode: s.altMode, value: s.altValue },
-      heading_deg: s.headingMode === 'manual' ? parseFloat($('#heading-input').value) : null },
+    start: { lon: s.lon, lat: s.lat, alt: { mode: s.altMode, value: s.altValue }, heading_deg: null },
     goal: { lon: g.lon, lat: g.lat, alt: { mode: g.altMode, value: g.altValue } },
     safety: { min_agl_m: num('#in-min-agl'), target_agl_m: num('#in-target-agl'), lateral_buffer_m: num('#in-buffer') },
     tolerance: { xy_m: num('#in-tol-xy'), alt_m: num('#in-tol-alt') },
@@ -397,7 +383,6 @@ function renderPoint(which) {
   if (document.activeElement !== lon) lon.value = p.lon != null ? p.lon.toFixed(5) : '';
   $$('[data-altmode]', c).forEach((b) => b.setAttribute('aria-checked', String(b.dataset.altmode === p.altMode)));
   $('[data-alt-unit]', c).textContent = p.altMode === 'agl' ? 'm AGL' : 'm MSL';
-  if (which === 'start') $$('[data-headmode]').forEach((b) => b.setAttribute('aria-checked', String(b.dataset.headmode === p.headingMode)));
   const ro = $('[data-readout]', c);
   const altInput = $('input[data-alt="value"]', c);
   altInput.removeAttribute('aria-invalid');

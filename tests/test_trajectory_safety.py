@@ -17,7 +17,7 @@ from planner.physical import (
     build_straight_vertical_trajectory,
 )
 from planner.trajectory_safety import evaluate_physical_trajectory_safety
-from tests.test_current_contracts import NODATA, terrain_from_array
+from tests.terrain_helpers import NODATA, terrain_from_array
 
 
 RESOLUTION_M = 10.0

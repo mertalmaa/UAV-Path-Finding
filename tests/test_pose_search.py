@@ -20,7 +20,7 @@ from planner.pose_search import (
     pose_aware_astar_search, pose_in_goal, search_key_for_pose,
 )
 from planner.trajectory_safety import evaluate_physical_trajectory_safety
-from tests.test_current_contracts import terrain_from_array
+from tests.terrain_helpers import terrain_from_array
 
 
 class PoseAwareSearchTests(unittest.TestCase):

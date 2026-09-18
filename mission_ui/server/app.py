@@ -40,6 +40,13 @@ JOB_RE = re.compile(r"^/api/jobs/([\w-]+)$")
 
 
 class App:
+    # Display tiles are rendered on demand (see TerrainTileService) and a cold
+    # render is slow enough to make interactive zooming flicker. Warming a
+    # region's tile pyramid in the background the first time it is touched
+    # means the tiles are usually already cached by the time the user zooms in.
+    WARM_MIN_ZOOM = 8
+    WARM_MAX_ZOOM = 13
+
     def __init__(self, project_root: Path, cache_dir: Path, planner_mode: str = "process", warm_regions=(),
                  tile_port: int = None):
         self.registry = RegionRegistry(project_root)
@@ -47,6 +54,31 @@ class App:
         self.planner = PlannerService(self.registry, mode=planner_mode, warm_regions=warm_regions)
         self.tile_port = tile_port
         self.started = time.time()
+        self._warmed_regions = set()
+        self._warm_lock = threading.Lock()
+
+    def warm_region_tiles(self, region_id: str) -> None:
+        """Kick off a background render of region_id's display tiles, once."""
+        with self._warm_lock:
+            if region_id in self._warmed_regions:
+                return
+            self._warmed_regions.add(region_id)
+        info = self.registry.regions.get(region_id)
+        if info is None:
+            return
+
+        def _run():
+            xmin, ymin, xmax, ymax = info.roi_bounds_utm
+            _, to_ll = self.registry.transformers(info.crs)
+            lons, lats = to_ll.transform([xmin, xmax], [ymin, ymax])
+            bounds = (min(lons), min(lats), max(lons), max(lats))
+            for z, x, y in self.tiles.iter_bounds_tiles(bounds, self.WARM_MIN_ZOOM, self.WARM_MAX_ZOOM):
+                try:
+                    self.tiles.get_tile(z, x, y)
+                except Exception:
+                    pass
+
+        threading.Thread(target=_run, name=f"warm-tiles-{region_id}", daemon=True).start()
 
     def regions_payload(self) -> dict:
         out = []
@@ -110,7 +142,7 @@ def make_handler(app: App):
         def do_GET(self):
             try:
                 self._route_get()
-            except BrokenPipeError:
+            except (BrokenPipeError, ConnectionResetError, ConnectionAbortedError):
                 pass
             except Exception as exc:
                 traceback.print_exc()
@@ -162,6 +194,8 @@ def make_handler(app: App):
                 else:
                     payload = app.planner.point_info(lon, lat, buf)
                 payload["display_dem_m"] = app.tiles.sample_elevation(lon, lat)
+                if payload.get("region_id"):
+                    app.warm_region_tiles(payload["region_id"])
                 return self._json(200, payload)
             if path == "/api/terrain/stats":
                 return self._json(200, {**app.tiles.stats, "mosaic_build_s": app.tiles.mosaic_build_s})
@@ -201,9 +235,14 @@ def make_handler(app: App):
                         return self._error(400, str(exc))
                     return self._json(202, job.summary(include_result=False))
                 return self._error(404, "not found")
+            except (BrokenPipeError, ConnectionResetError, ConnectionAbortedError):
+                pass
             except Exception as exc:
                 traceback.print_exc()
-                self._error(500, f"{type(exc).__name__}: {exc}")
+                try:
+                    self._error(500, f"{type(exc).__name__}: {exc}")
+                except Exception:
+                    pass
 
     return Handler
 

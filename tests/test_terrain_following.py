@@ -17,7 +17,7 @@ from planner.physical import (
 from planner.pose_search import GoalPose, GoalTolerance
 from planner.terrain_following import optimize_terrain_following_altitudes, plan_terrain_following
 from planner.trajectory_safety import evaluate_physical_trajectory_safety
-from tests.test_current_contracts import NODATA, terrain_from_array
+from tests.terrain_helpers import NODATA, terrain_from_array
 
 
 class TerrainFollowingTests(unittest.TestCase):

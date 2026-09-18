@@ -11,7 +11,7 @@ from planner.physical import PhysicalPose, build_level_turn_trajectory, build_st
 from planner.pose_search import GoalPose, GoalTolerance, _TerrainGuidance, _trajectory_edge_cost, pose_aware_astar_search
 from planner.terrain_following import optimize_terrain_following_altitudes
 from planner.trajectory_safety import TerrainInfluenceCache, evaluate_physical_trajectory_safety
-from tests.test_current_contracts import terrain_from_array
+from tests.terrain_helpers import terrain_from_array
 
 
 class LowFlightTests(unittest.TestCase):

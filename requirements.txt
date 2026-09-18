@@ -1,0 +1,13 @@
+# Core Planner, DEM & GIS Processing
+numpy>=1.24.0
+scipy>=1.10.0
+rasterio>=1.3.0
+pyproj>=3.5.0
+affine>=2.4.0
+
+# Visualization & Image Utilities
+matplotlib>=3.7.0
+pillow>=10.0.0
+
+# Testing Framework
+pytest>=7.0.0

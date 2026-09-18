@@ -39,7 +39,9 @@ export class MapView extends EventTarget {
       attributionControl: { compact: true },
       maxPitch: 80,
       hash: false,
-      fadeDuration: 0,
+      // Default raster fade (do NOT force 0): with fadeDuration 0 MapLibre shows no
+      // placeholder while a new DEM tile renders, so hillshade/relief pop blank on
+      // every zoom step until the cold tile arrives from the backend.
       bounds: terrainMeta.bounds,
       fitBoundsOptions: { padding: 40 },
       style: {

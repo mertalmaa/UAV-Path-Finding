@@ -9,7 +9,7 @@ from planner.fixed_wing_envelope import FixedWingKinematicEnvelope, FixedWingKin
 from planner.physical import PhysicalPose
 from planner.pose_search import _TerrainGuidance, GoalPose, GoalTolerance, pose_aware_astar_search
 from planner.trajectory_safety import TerrainInfluenceCache
-from tests.test_current_contracts import terrain_from_array
+from tests.terrain_helpers import terrain_from_array
 
 
 class TerrainGuidanceTests(unittest.TestCase):

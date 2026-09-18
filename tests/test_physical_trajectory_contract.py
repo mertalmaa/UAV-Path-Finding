@@ -15,7 +15,7 @@ from planner.physical import (
     angular_distance_deg,
     normalize_heading_deg,
 )
-from tests.test_current_contracts import terrain_from_array
+from tests.terrain_helpers import terrain_from_array
 
 
 class PhysicalTrajectoryContracts(unittest.TestCase):
