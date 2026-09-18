@@ -1,6 +1,6 @@
 # Mission UI: terrain-aware fixed-wing mission planner (web)
 
-This is a new standalone web UI for the planner in `planner/`. It is isolated in
+This is a standalone web UI for the planner in `planner/`. It is isolated in
 `mission_ui/`. Planner code is **not modified**, and the Python planner stays the
 single source of truth.
 
@@ -8,14 +8,62 @@ single source of truth.
 # from the repository root
 python -m mission_ui.server --warm bilecik          # http://127.0.0.1:8765
 python -m mission_ui.server --prebuild-zoom 8       # optional: pre-render the national terrain pyramid
-python -m pytest -q mission_ui/tests                # adapter/terrain contract tests
+python -m pytest -q mission_ui/tests                # 6 adapter/terrain contract tests
 ```
+
+On Windows, `UAV_Pathfinder.bat` in the repository root starts the same server
+from a menu and opens the browser once the port answers
+(see [`../scripts/launcher/README.md`](../scripts/launcher/README.md)).
 
 No new Python dependencies: the server uses the stdlib HTTP server plus
 numpy / rasterio / pyproj / Pillow, which the planner already needs.
 No Node or build step is required either: the frontend is plain ES modules
-with vendored MapLibre GL JS 6.10, uPlot 1.6 and Fira fonts. It works offline.
-The optional OpenStreetMap layer is the only thing that needs internet.
+with vendored MapLibre GL JS, uPlot and Fira fonts under `web/vendor/`.
+It works offline. The optional OpenStreetMap layer is the only thing that
+needs internet.
+
+All four planner regions — **bilecik, mugla, ankara, aladaglar** — are served;
+the region is picked from the map position, not from a dropdown. Mission
+presets exist for Bilecik only. See [`../regions/README.md`](../regions/README.md)
+for the data contract behind them.
+
+## Command line
+
+| Flag | Default | Purpose |
+|---|---|---|
+| `--host` | `127.0.0.1` | bind address |
+| `--port` | `8765` | API + static files |
+| `--tile-port` | `--port + 1` | second port for terrain tiles; `0` serves them from the main port |
+| `--warm REGION...` | none | preload region DEM + 60 m buffered field in the background |
+| `--prebuild-zoom Z` | none | render and cache every display-terrain tile up to zoom Z (capped at 12) |
+| `--cache-dir` | `mission_ui/.cache` | terrain tile cache location |
+| `--terrain-source DIR` | `copernicus_glo30_turkey/` in the repo, else next to it | Copernicus GLO-30 COGs for *display* terrain; optional (see below) |
+| `--planner-thread` | off | run the planner in-process instead of a worker process (debugging only) |
+
+## Running without the Copernicus sources
+
+The ~5 GB `copernicus_glo30_turkey/` COG set is **display-only and optional**.
+Planning, AGL and the altitude profile never touch it — they use
+`regions/<id>/working_dem.tif`.
+
+The server picks its display terrain in this order:
+
+1. **COGs present** (`source_mode: cogs`) — full detail up to zoom 12.
+2. **No COGs, cached mosaic present** (`source_mode: cache`) — terrain is sampled
+   from `.cache/terrain/v1/mosaic_8arcsec.npy` (≈65 MB, 8″ ≈ 240 m). Relief is
+   correct everywhere the mosaic covers; above zoom 9 it is coarser than the COGs
+   would be, and those tiles are deliberately *not* written to the cache so that a
+   later run with the COGs present is not stuck with them. Any tiles already in
+   the cache are served as-is, at their original detail.
+3. **Neither** (`source_mode: none`) — flat tiles and a warning on startup. The
+   map still works; it just has no relief.
+
+So to run the UI on another machine, ship the code, at least one region under
+`regions/`, and `mission_ui/.cache/terrain/` — not the COGs.
+`scripts/make_demo_package.ps1` already packages exactly this.
+
+Startup prints which mode is active next to `terrain source tiles: N`, and
+`/api/meta` reports it as `source_mode` in the terrain TileJSON.
 
 ## Workflow
 
@@ -92,7 +140,8 @@ charts.js    uPlot profile      ──GET /api/point───▶  regions.Region
 * `mission`: resolved start/goal (lon, lat, UTM, planner ground, **MSL and AGL**, heading source).
 * `status`: `verdict` (`SAFE`, `SAFE_WITH_ADVISORIES`, `UNSAFE` or `NO_ROUTE`), headline and checks.
   Hard checks are planner validation, final min AGL and corridor safety. Advisory checks are
-  vertical rate, bank and roll rate. The roll-rate cap is a known open issue (see `project.md`).
+  vertical rate, bank and roll rate. The roll-rate cap is a known open issue
+  (see the "Bilinen sınırlar" section of the root [`README.md`](../README.md)).
 * `search`, `profile`, `smoothing`, `flight`, `timing`: planner metrics.
 * `stages`: only stages that exist in the pipeline. Each is columnar and decimated to ≤ 5000
   points, always keeping the endpoints and extreme samples.
@@ -127,9 +176,19 @@ Web Mercator conversion is done only for rendering.
     (8″ ≈ 240 m) and cached as `.npy`.
   * **z 10–12:** windowed, decimated reads of only the intersecting 1° COGs (GDAL uses the overviews).
   * **z > 12:** MapLibre overzooms. GLO-30 has no finer detail.
+* Display tiles are rendered from the `copernicus_glo30_turkey/` COGs, which are **not** part
+  of the repository and are optional at runtime — see "Running without the Copernicus sources"
+  above. Outside the covered box the service returns a flat zero tile.
 * Tiles are rendered on first request and then cached on disk
-  (`mission_ui/.cache/terrain/v1`). The server sends `Cache-Control: immutable` for them.
-  Use `--prebuild-zoom` to warm the cache ahead of time.
+  (`mission_ui/.cache/terrain/v1`, git-ignored). Zoom 0–8 — the levels the map opens on —
+  are always warmed at startup (~175 tiles, ~2 s, all cheap mosaic samples), so
+  country-scale panning never waits for a cold render. `--prebuild-zoom` extends that to
+  the finer levels.
+* Browser caching is per tile *kind*, because the alternative poisons clients: a real tile
+  is `immutable` for a week, a coarse mosaic stand-in is revalidated hourly, and a flat
+  placeholder (no terrain available) is `no-store` and never cached. The tile URL also
+  carries a `?v=<source_mode><source_count>` epoch, so when the terrain situation changes —
+  sources added or removed — clients request new URLs instead of reusing what they hold.
 * MapLibre loads only the tiles covering the viewport at the current zoom
   (quadtree LOD) and draws 3D terrain on the GPU. Picking uses MapLibre's geometric
   unprojection against the terrain; individual DEM cells are never objects.

@@ -125,6 +125,18 @@ class TerrainTileService:
             self.coverage = (min(lons), min(lats), max(lons) + 1, max(lats) + 1)
         else:
             self.coverage = None
+        # Cache-only mode. The source COGs (~5 GB) are optional at runtime: when
+        # they are missing but a mosaic built earlier is present in the cache,
+        # the service keeps serving display terrain from that mosaic, so a
+        # packaged copy of the UI shows relief without shipping the sources.
+        # Coverage then comes from the mosaic manifest instead of the filenames.
+        self.source_mode = "cogs" if self.sources else "cache"
+        if not self.sources:
+            meta = self._read_mosaic_meta()
+            if meta is not None:
+                self.coverage = tuple(meta["coverage"])
+            else:
+                self.source_mode = "none"
         self._mosaic: Optional[np.ndarray] = None
         self._mosaic_lock = threading.Lock()
         # Bound concurrent cold renders so a burst of 3D tile requests cannot
@@ -137,8 +149,22 @@ class TerrainTileService:
         self.mosaic_build_s: Optional[float] = None
 
     # ------------------------------------------------------------------ meta
+    @property
+    def tile_epoch(self) -> str:
+        """Identity of the terrain the server can currently produce.
+
+        Tiles are served with a long immutable cache lifetime, so a browser that
+        once fetched placeholder tiles (sources missing, nothing cached yet)
+        would keep showing them for a week even after the sources come back.
+        The epoch rides along in the tile URL template, so whenever the server's
+        terrain situation changes the client asks for new URLs instead.
+        """
+        return f"{self.source_mode}{len(self.sources)}"
+
     def tilejson(self, tile_url: str) -> dict:
         west, south, east, north = self.coverage or (-180, -85, 180, 85)
+        sep = "&" if "?" in tile_url else "?"
+        tile_url = f"{tile_url}{sep}v={self.tile_epoch}"
         return {
             "tilejson": "3.0.0",
             "name": "copernicus-glo30-display",
@@ -149,6 +175,8 @@ class TerrainTileService:
             "encoding": "terrarium",
             "bounds": [west, south, east, north],
             "source_tiles": len(self.sources),
+            "source_mode": self.source_mode,
+            "tile_epoch": self.tile_epoch,
             "mosaic_max_zoom": MOSAIC_MAX_ZOOM,
             "note": "Display terrain only. Planner terrain = region working DEM (block-max, buffered).",
         }
@@ -156,6 +184,24 @@ class TerrainTileService:
     # --------------------------------------------------------------- mosaic
     def _mosaic_paths(self) -> Tuple[Path, Path]:
         return self.cache_dir / "mosaic_8arcsec.npy", self.cache_dir / "mosaic_8arcsec.json"
+
+    def _read_mosaic_meta(self) -> Optional[dict]:
+        """The cached mosaic's manifest, or None when it is absent or unusable.
+
+        Used in cache-only mode to recover the coverage box that would otherwise
+        come from the source filenames.
+        """
+        npy, meta_path = self._mosaic_paths()
+        if not (npy.exists() and meta_path.exists()):
+            return None
+        try:
+            meta = json.loads(meta_path.read_text())
+        except Exception:
+            return None
+        coverage = meta.get("coverage")
+        if meta.get("px_per_deg") != MOSAIC_PX_PER_DEG or not coverage or len(coverage) != 4:
+            return None
+        return meta
 
     def ensure_mosaic(self) -> np.ndarray:
         if self._mosaic is not None:
@@ -165,13 +211,19 @@ class TerrainTileService:
                 return self._mosaic
             npy, meta_path = self._mosaic_paths()
             key = {"coverage": self.coverage, "files": len(self.sources), "px_per_deg": MOSAIC_PX_PER_DEG}
-            if npy.exists() and meta_path.exists():
-                try:
-                    if json.loads(meta_path.read_text()) == json.loads(json.dumps(key)):
-                        self._mosaic = np.load(npy, mmap_mode="r")
-                        return self._mosaic
-                except Exception:
-                    pass
+            meta = self._read_mosaic_meta()
+            if meta is not None:
+                # With sources present the manifest must match exactly, so a
+                # changed source set rebuilds. In cache-only mode there is
+                # nothing to rebuild from, so the cached mosaic is accepted as is.
+                if not self.sources or meta == json.loads(json.dumps(key)):
+                    self._mosaic = np.load(npy, mmap_mode="r")
+                    return self._mosaic
+            if not self.sources:
+                # Refuse rather than write a zero-filled mosaic over the cache.
+                raise RuntimeError(
+                    "display terrain unavailable: no Copernicus source tiles in "
+                    f"{self.source_dir} and no usable cached mosaic in {self.cache_dir}")
             t0 = time.perf_counter()
             west, south, east, north = self.coverage
             ppd = MOSAIC_PX_PER_DEG
@@ -268,17 +320,25 @@ class TerrainTileService:
         return out
 
     def get_tile(self, z: int, x: int, y: int) -> Tuple[bytes, str]:
-        """Return (png_bytes, source) where source is cache|render|empty."""
+        """Return (png_bytes, source) where source is cache|render|mosaic|empty.
+
+        ``mosaic`` marks a tile sampled from the coarse national mosaic above the
+        zoom it was meant for (cache-only mode). It is a stand-in for a tile the
+        sources would render better, so callers should not cache it for long.
+        ``empty`` is a flat placeholder and should not be cached at all.
+        """
         if not (MIN_ZOOM <= z <= MAX_ZOOM) or not (0 <= x < 2 ** z) or not (0 <= y < 2 ** z):
             raise ValueError("tile out of range")
         bounds = tile_bounds_lonlat(z, x, y)
-        if not self._intersects_coverage(bounds):
-            self.stats["empty"] += 1
-            return self._zero_tile, "empty"
+        # The disk cache is consulted before the coverage test: a packaged copy
+        # can ship tiles without the sources that produced them.
         path = self.cache_dir / str(z) / str(x) / f"{y}.png"
         if path.exists():
             self.stats["cache_hits"] += 1
             return path.read_bytes(), "cache"
+        if not self._intersects_coverage(bounds):
+            self.stats["empty"] += 1
+            return self._zero_tile, "empty"
         with self._render_slots:
             if path.exists():  # rendered by another request while we waited
                 self.stats["cache_hits"] += 1
@@ -286,12 +346,24 @@ class TerrainTileService:
             t0 = time.perf_counter()
             # Never block on the one-off national mosaic build: until it exists,
             # low-zoom tiles are rendered from the COG overviews directly.
-            if z <= MOSAIC_MAX_ZOOM and self._mosaic is not None:
-                elev = self._render_from_mosaic(z, x, y)
-            elif z <= MOSAIC_MAX_ZOOM and not self._mosaic_lock.locked():
-                elev = self._render_from_mosaic(z, x, y)  # loads the cached .npy or builds it
-            else:
-                elev = self._render_from_sources(z, x, y)
+            try:
+                if z <= MOSAIC_MAX_ZOOM and self._mosaic is not None:
+                    elev = self._render_from_mosaic(z, x, y)
+                elif z <= MOSAIC_MAX_ZOOM and not self._mosaic_lock.locked():
+                    elev = self._render_from_mosaic(z, x, y)  # loads the cached .npy or builds it
+                elif self.sources:
+                    elev = self._render_from_sources(z, x, y)
+                else:
+                    # Cache-only mode above the mosaic zoom: sample the mosaic
+                    # anyway. It is coarser than the sources would be (8" vs 1"),
+                    # so it is served but never written to the cache, which a
+                    # later run with the sources present would otherwise inherit.
+                    self.stats["rendered"] += 1
+                    return encode_terrarium(self._render_from_mosaic(z, x, y)), "mosaic"
+            except Exception:
+                # No sources and no usable mosaic: flat tile rather than a 500.
+                self.stats["empty"] += 1
+                return self._zero_tile, "empty"
             png = encode_terrarium(elev)
             path.parent.mkdir(parents=True, exist_ok=True)
             tmp = path.with_suffix(f".{threading.get_ident()}.tmp")

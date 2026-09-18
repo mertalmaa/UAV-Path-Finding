@@ -1,13 +1,32 @@
-# Core Planner, DEM & GIS Processing
-numpy>=1.24.0
-scipy>=1.10.0
-rasterio>=1.3.0
+# UAV Pathfinder -- runtime dependencies
+#
+# Python 3.9+ (Windows'ta 3.11/3.12 ile calisiliyor).
+# Kurulum:
+#     python -m venv .venv
+#     .venv\Scripts\activate
+#     pip install -r requirements.txt
+#
+# Not: rasterio kendi GDAL ikililerini tekerlek (wheel) icinde getirir;
+# ayrica bir GDAL kurulumu gerekmez.
+
+# --- Planlayici cekirdegi: DEM, GIS ve sayisal islemler -------------------
+numpy>=1.24.0,<3.0
+scipy>=1.10.0          # buyuk arazi rehberi izgaralari (csgraph Dijkstra, ndimage)
+rasterio>=1.3.10       # 1.3.10: numpy 2.x ile uyumlu ilk surum
 pyproj>=3.5.0
 affine>=2.4.0
 
-# Visualization & Image Utilities
-matplotlib>=3.7.0
+# --- Mission UI (mission_ui/) --------------------------------------------
+# Sunucu stdlib http.server uzerine kuruludur; Node veya web cercevesi yoktur.
+# Ek olarak yalnizca arazi karolarini PNG'ye yazmak icin Pillow gerekir.
 pillow>=10.0.0
 
-# Testing Framework
+# --- Gorev/benchmark scriptlerinin gorsellestirmesi (scripts/) ------------
+# planner/ ve mission_ui/ bu pakete bagimli degildir; yalnizca scripts/
+# altindaki atlas ve profil grafikleri icin gereklidir.
+matplotlib>=3.7.0
+
+# --- Gelistirme / test ----------------------------------------------------
+# python -m pytest -q tests            (86 test)
+# python -m pytest -q mission_ui/tests (6 test)
 pytest>=7.0.0

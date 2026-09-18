@@ -64,7 +64,11 @@ export class MapView extends EventTarget {
           { id: 'bg', type: 'background', paint: { 'background-color': '#0B1120' } },
           { id: 'relief', type: 'color-relief', source: 'dem-shade', paint: { 'color-relief-color': tintRamp(), 'color-relief-opacity': 1 } },
           { id: 'hillshade', type: 'hillshade', source: 'dem-shade', paint: {
-            'hillshade-method': 'igor', 'hillshade-exaggeration': 0.6, 'hillshade-illumination-direction': 315,
+            'hillshade-method': 'igor', 'hillshade-illumination-direction': 315,
+            // Hillshade reads the DEM gradient per pixel, and a pixel covers
+            // kilometres at country scale, so the same exaggeration that looks
+            // right over a canyon flattens to nothing when zoomed out.
+            'hillshade-exaggeration': ['interpolate', ['linear'], ['zoom'], 4, 1, 7, 0.9, 10, 0.6],
             'hillshade-shadow-color': 'rgba(2,6,14,0.85)', 'hillshade-highlight-color': 'rgba(203,213,225,0.35)', 'hillshade-accent-color': 'rgba(2,6,14,0.5)' } },
           { id: 'osm', type: 'raster', source: 'osm', layout: { visibility: 'none' }, paint: { 'raster-opacity': 0.55, 'raster-saturation': -0.6 } },
           { id: 'roi-fill', type: 'fill', source: 'roi', paint: { 'fill-color': '#38BDF8', 'fill-opacity': 0.03 } },

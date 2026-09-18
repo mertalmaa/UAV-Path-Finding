@@ -36,7 +36,27 @@ mimetypes.add_type("text/javascript", ".js")
 mimetypes.add_type("font/woff2", ".woff2")
 
 TILE_RE = re.compile(r"^/api/terrain/(\d+)/(\d+)/(\d+)\.png$")
+
+# Overview levels the map opens on. Each is a mosaic sample of a few milliseconds,
+# so they are rendered up front rather than on first pan (see warm()).
+OVERVIEW_PREBUILD_ZOOM = 8
 JOB_RE = re.compile(r"^/api/jobs/([\w-]+)$")
+
+
+def resolve_terrain_source(project_root: Path) -> Path:
+    """Where to look for the Copernicus GLO-30 COGs when --terrain-source is unset.
+
+    The sources are display-only and optional (see TerrainTileService), and they
+    are large enough that they are often kept next to the repository rather than
+    inside it. The first existing candidate wins; otherwise the in-repo path is
+    returned so the log line names the place that was looked at.
+    """
+    candidates = [project_root / "copernicus_glo30_turkey",
+                  project_root.parent / "copernicus_glo30_turkey"]
+    for candidate in candidates:
+        if candidate.is_dir():
+            return candidate
+    return candidates[0]
 
 
 class App:
@@ -48,9 +68,11 @@ class App:
     WARM_MAX_ZOOM = 13
 
     def __init__(self, project_root: Path, cache_dir: Path, planner_mode: str = "process", warm_regions=(),
-                 tile_port: int = None):
+                 tile_port: int = None, terrain_source: Path = None):
         self.registry = RegionRegistry(project_root)
-        self.tiles = TerrainTileService(project_root / "copernicus_glo30_turkey", cache_dir)
+        if terrain_source is None:
+            terrain_source = resolve_terrain_source(project_root)
+        self.tiles = TerrainTileService(terrain_source, cache_dir)
         self.planner = PlannerService(self.registry, mode=planner_mode, warm_regions=warm_regions)
         self.tile_port = tile_port
         self.started = time.time()
@@ -163,8 +185,14 @@ def make_handler(app: App):
                     png, src = app.tiles.get_tile(z, x, y)
                 except ValueError as exc:
                     return self._error(404, str(exc))
+                # Only a tile that is what the sources would produce may be cached
+                # hard. A flat placeholder (no terrain available yet) must never
+                # be, or a browser keeps showing it for a week after the terrain
+                # comes back; a coarse mosaic stand-in is revalidated hourly.
+                cache = {"empty": "no-store",
+                         "mosaic": "public, max-age=3600"}.get(src, "public, max-age=604800, immutable")
                 return self._send(200, png, "image/png", {
-                    "Cache-Control": "public, max-age=604800, immutable", "X-Tile-Source": src,
+                    "Cache-Control": cache, "X-Tile-Source": src,
                     "Access-Control-Allow-Origin": "*", "Access-Control-Expose-Headers": "X-Tile-Source"})
             if path == "/api/health":
                 return self._json(200, {"ok": True, "uptime_s": round(time.time() - app.started, 1)})
@@ -261,21 +289,32 @@ def main(argv=None):
                     help="second port for terrain tiles (default: --port + 1; 0 disables)")
     ap.add_argument("--planner-thread", action="store_true",
                     help="run the planner in a thread instead of a separate process (debugging only)")
+    ap.add_argument("--terrain-source", default=None, metavar="DIR",
+                    help="Copernicus GLO-30 COG directory for display terrain (default: "
+                         "copernicus_glo30_turkey/ in the repository, else next to it). "
+                         "Optional: without it the cached mosaic is used.")
     args = ap.parse_args(argv)
     tile_port = args.port + 1 if args.tile_port is None else (args.tile_port or None)
+    terrain_source = Path(args.terrain_source) if args.terrain_source else None
 
     app = App(PROJECT_ROOT, Path(args.cache_dir), planner_mode="thread" if args.planner_thread else "process",
-              warm_regions=args.warm, tile_port=tile_port)
+              warm_regions=args.warm, tile_port=tile_port, terrain_source=terrain_source)
 
     def warm():
         try:
             if app.tiles.coverage:
                 app.tiles.ensure_mosaic()
-            if args.prebuild_zoom is not None:
+            # The overview levels are the ones the map opens on, and every one of
+            # them is a cheap mosaic sample (~12 ms), so they are always warmed:
+            # ~175 tiles, about 2 s, and country-scale panning never waits for a
+            # cold render. --prebuild-zoom extends this to the finer levels.
+            target_zoom = max(OVERVIEW_PREBUILD_ZOOM, min(args.prebuild_zoom, 12)) \
+                if args.prebuild_zoom is not None else OVERVIEW_PREBUILD_ZOOM
+            if app.tiles.coverage:
                 t0 = time.perf_counter(); count = 0
-                for z, x, y in app.tiles.iter_coverage_tiles(min(args.prebuild_zoom, 12)):
+                for z, x, y in app.tiles.iter_coverage_tiles(target_zoom):
                     app.tiles.get_tile(z, x, y); count += 1
-                print(f"[warm] terrain pyramid z0-{args.prebuild_zoom}: {count} tiles in {time.perf_counter() - t0:.1f} s")
+                print(f"[warm] terrain pyramid z0-{target_zoom}: {count} tiles in {time.perf_counter() - t0:.1f} s")
             for rid in args.warm:
                 if rid in app.registry.regions:
                     ctx = app.registry.context(rid)
@@ -293,6 +332,12 @@ def main(argv=None):
         threading.Thread(target=tile_server.serve_forever, name="tile-server", daemon=True).start()
     print(f"UAV mission UI: http://{args.host}:{args.port}  (tiles on :{tile_port}; regions: {', '.join(app.registry.regions)}; "
           f"terrain source tiles: {len(app.tiles.sources)})")
+    if app.tiles.source_mode == "cache":
+        print(f"[terrain] no COGs in {app.tiles.source_dir}; display terrain served from the cached "
+              f"mosaic in {app.tiles.cache_dir} (coarser at high zoom, planning unaffected)")
+    elif app.tiles.source_mode == "none":
+        print(f"[terrain] WARNING no COGs in {app.tiles.source_dir} and no cached mosaic: the map will be "
+              f"flat. Pass --terrain-source <dir> or ship mission_ui/.cache/terrain. Planning is unaffected.")
     try:
         server.serve_forever()
     except KeyboardInterrupt:

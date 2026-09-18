@@ -1,20 +1,33 @@
 # Working DEM Standardı ve Bölgesel Veri İşleme Kılavuzu (90×90 km Standart)
 
-Bu dizin ([`regions/`](file:///c:/Users/PC_10004_YD26/Desktop/uav_pathfinder/regions) ve [`working_dem/`](file:///c:/Users/PC_10004_YD26/Desktop/uav_pathfinder/working_dem)), sabit kanatlı İHA yol planlayıcısı için Copernicus GLO-30 verilerinden türetilmiş, uçuş güvenliği garantili çalışma DEM'lerini (Working DEM), kaba ızgaraları ve kalıcı arazi ön belleklerini barındırır.
+Bu dizin (`regions/`), sabit kanatlı İHA yol planlayıcısı için Copernicus GLO-30
+verilerinden türetilmiş, uçuş güvenliği garantili çalışma DEM'lerini (Working DEM),
+kaba ızgaraları ve kalıcı arazi ön belleklerini barındırır.
 
 4 seçilmiş bölge (**Bilecik, Muğla, Ankara, Aladağlar**) için standart operasyon alanı **90×90 km** ($3000 \times 3000$ piksel) ve $+5\text{ km}$ tampon marjı ile toplam çalışma alanı **100×100 km** ($3333 \times 3333$ piksel) olarak üretilmiştir.
+
+Bu dizindeki veriyi hem komut satırı görev scriptleri (`scripts/`) hem de
+Mission UI (`mission_ui/`) okur. Mission UI bölgeleri
+[`regions_manifest.json`](regions_manifest.json) üzerinden keşfeder ve
+`GET /api/regions` ile arayüze verir; planlama, AGL ve irtifa profili **her zaman**
+buradaki `working_dem.tif` üzerinden hesaplanır, haritadaki görsel arazi karolarından
+değil.
 
 ---
 
 ## 1. Standart Veri İşleme Hattı (Pipeline Standardı)
 
-Her veri seti için [`scripts/build_regional_dems.py`](file:///c:/Users/PC_10004_YD26/Desktop/uav_pathfinder/scripts/build_regional_dems.py) scripti üzerinden şu adımlar uygulanır:
+Her veri seti için [`scripts/build_regional_dems.py`](../scripts/build_regional_dems.py) scripti üzerinden şu adımlar uygulanır:
 
 ### 1.1. Kaynak Veri ve Mozaikleme
 * **Kaynak:** Copernicus GLO-30 DSM (1 yay-saniyesi / ~30 metre, `EPSG:4326`, `copernicus_glo30_turkey/`).
 * **Mozaikleme:** 90×90 km (100×100 km çalışma alanı) sınırlarını kapsayan $2 \times 2$ karo (4 karo / bölge) `rasterio.merge` ile birleştirilir.
 * **Hedef Projeksiyon (CRS):** `EPSG:32636` (WGS 84 / UTM Zone 36N).
 * **Piksel Boyutu:** `calculate_default_transform` ile tam **30.0 metre × 30.0 metre** olarak sabitlenir (`xy_resolution_m = 30.0`).
+
+> `copernicus_glo30_turkey/` kaynak karoları (~5 GB) depoda **yoktur** ve
+> `.gitignore` ile dışlanmıştır. Hazır `regions/` verisiyle planlama yapmak için
+> gerekli değildir; yalnızca yeni bir bölge üretmek istendiğinde indirilmelidir.
 
 ### 1.2. Blok-Maksimum Güvenlik Yeniden Örneklemesi (`Resampling.max`)
 * Reprojection (`WarpedVRT`) sırasında bilineer veya kübik enterpolasyon **kullanılmaz**.
@@ -30,7 +43,7 @@ Her veri seti için [`scripts/build_regional_dems.py`](file:///c:/Users/PC_10004
 ### 1.4. Çok Ölçekli Havuzlama (Multi-scale Coarse Pooling)
 1. **60m Planlama Seviyesi (`factor=2`):**
    * Her $2 \times 2$ (30m) blok havuzlanarak 60m kaba hücreler ($1500 \times 1500$ piksel) üretilir.
-   * `min`, `max`, `mean`, `relief` istatistikleri [`planner/terrain_cache.py`](file:///c:/Users/PC_10004_YD26/Desktop/uav_pathfinder/planner/terrain_cache.py) üzerinden `arrays.npz` içine kaydedilir.
+   * `min`, `max`, `mean`, `relief` istatistikleri [`planner/terrain_cache.py`](../planner/terrain_cache.py) üzerinden `arrays.npz` içine kaydedilir.
    * Planlayıcının 60m durum kovası (`search_xy_bin_m = 60.0`) ve 60m primitif adımı (`PRIMITIVE_HORIZONTAL_DISTANCE_M = 60.0`) ile doğrudan eşleşir.
 2. **90m Genel Rehberlik Seviyesi (`factor=3`):**
    * Her $3 \times 3$ (30m) blok havuzlanarak 90m kaba hücreler ($1000 \times 1000$ piksel) üretilir.
@@ -43,16 +56,26 @@ Her veri seti için [`scripts/build_regional_dems.py`](file:///c:/Users/PC_10004
 
 | Bölge Klasörü | Bölge Adı ve Özellikleri | Merkez (Lon, Lat) | UTM CRS | İrtifa Aralığı (Min - Max) | Medyan | Kullanım Amacı |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **[`bilecik/`](file:///c:/Users/PC_10004_YD26/Desktop/uav_pathfinder/regions/bilecik)** | **Bilecik – Sakarya Vadisi & Kanyonları**<br>Osmaneli, Vezirhan, Gölpazarı, İnhisar | `30.30°E, 40.25°N` | `EPSG:32636` | **35 m – 1683 m** | 757 m | Alçak irtifa uçuşu, vadi içi süzülüş, 400-800m kanyon kot farkları, Sakarya havzası geçişleri |
-| **[`mugla/`](file:///c:/Users/PC_10004_YD26/Desktop/uav_pathfinder/regions/mugla)** | **Muğla – Gökova Körfezi & Sakar Geçidi**<br>Akyaka, Ula Kanyonu, Milas, Yatağan | `28.35°E, 37.22°N` | `EPSG:32636` | **-1 m – 2292 m** | 606 m | Deniz seviyesinden (0m) 2000m+ platoya tırmanma, sahil-dağ geçişi, falez aşma |
-| **[`ankara/`](file:///c:/Users/PC_10004_YD26/Desktop/uav_pathfinder/regions/ankara)** | **Ankara – Güdül & Kirmir Çayı**<br>Kirmir Kanyonu, Ayaş, Beypazarı, Kızılcahamam | `32.25°E, 40.25°N` | `EPSG:32636` | **467 m – 2389 m** | 1099 m | Kanyon tabanı takibi, dalgalı volkanik tepeler, tepe aşma (ridge hopping) rotaları |
-| **[`aladaglar/`](file:///c:/Users/PC_10004_YD26/Desktop/uav_pathfinder/regions/aladaglar)** | **Aladağlar – Demirkazık & Çamardı**<br>Demirkazık (3756m), Bolkar Dağları, Ecemiş Fayı | `35.15°E, 37.81°N` | `EPSG:32636` | **153 m – 3700 m** | 1481 m | Yüksek irtifa dağ aşma, aşırı sarp duvarlar, buzul vadileri, yüksek irtifa seyrüsefer |
+| **[`bilecik/`](bilecik)** | **Bilecik – Sakarya Vadisi & Kanyonları**<br>Osmaneli, Vezirhan, Gölpazarı, İnhisar | `30.30°E, 40.25°N` | `EPSG:32636` | **35 m – 1683 m** | 757 m | Alçak irtifa uçuşu, vadi içi süzülüş, 400-800m kanyon kot farkları, Sakarya havzası geçişleri |
+| **[`mugla/`](mugla)** | **Muğla – Gökova Körfezi & Sakar Geçidi**<br>Akyaka, Ula Kanyonu, Milas, Yatağan | `28.35°E, 37.22°N` | `EPSG:32636` | **-1 m – 2292 m** | 606 m | Deniz seviyesinden (0m) 2000m+ platoya tırmanma, sahil-dağ geçişi, falez aşma |
+| **[`ankara/`](ankara)** | **Ankara – Güdül & Kirmir Çayı**<br>Kirmir Kanyonu, Ayaş, Beypazarı, Kızılcahamam | `32.25°E, 40.25°N` | `EPSG:32636` | **467 m – 2389 m** | 1099 m | Kanyon tabanı takibi, dalgalı volkanik tepeler, tepe aşma (ridge hopping) rotaları |
+| **[`aladaglar/`](aladaglar)** | **Aladağlar – Demirkazık & Çamardı**<br>Demirkazık (3756m), Bolkar Dağları, Ecemiş Fayı | `35.15°E, 37.81°N` | `EPSG:32636` | **153 m – 3700 m** | 1481 m | Yüksek irtifa dağ aşma, aşırı sarp duvarlar, buzul vadileri, yüksek irtifa seyrüsefer |
+
+İrtifa aralıkları 90×90 km ROI içindir; 100×100 km çalışma DEM'inin sınırları
+(`working_dem_min_m` / `working_dem_max_m`) [`regions_manifest.json`](regions_manifest.json)
+içinde ayrıca verilir (ör. Bilecik: 28.5 m – 1864.7 m).
+
+Referans bölge **Bilecik**'tir: hazır görev tanımları
+([`scripts/bilecik_missions_spec.py`](../scripts/bilecik_missions_spec.py)),
+90 km benchmark'ları ve Mission UI hazır ayarları (`mission_ui/server/presets.py`)
+bu bölgeye aittir. Diğer üç bölge aynı dosya sözleşmesine sahiptir ve Mission UI
+üzerinden doğrudan planlanabilir, ancak hazır görev tanımları yoktur.
 
 ---
 
 ## 3. Klasör İçeriği ve Dosya Görevleri
 
-Her bölge klasörü (`working_dem/<bolge>/` ve `regions/<bolge>/`) şu standart dosya setine sahiptir:
+Her bölge klasörü (`regions/<bolge>/`) şu standart dosya setine sahiptir:
 
 ```text
 regions/
@@ -73,6 +96,11 @@ regions/
 ├── ankara/                        <- (Aynı dosya yapısı)
 └── aladaglar/                     <- (Aynı dosya yapısı)
 ```
+
+Yaklaşık boyutlar (bölge başına): `working_dem.tif` ~30 MB, `roi_90km_dem.tif`
+~26 MB, dört `coarse_90m_*.tif` toplam ~13 MB, `terrain_cache/arrays.npz` ~65-70 MB.
+Bölge başına ~132-144 MB, dört bölge toplamı ~557 MB'dır. `terrain_cache/` silinirse ilk çalıştırmada
+yeniden üretilir (bölge başına bir kerelik ~30 sn).
 
 ---
 
@@ -113,6 +141,14 @@ print(f"  Boyut: {roi.width}x{roi.height} px ({roi.resolution[0]}m)")
 print(f"  Sınırlar (UTM): {roi.bounds}")
 ```
 
+Merkez koordinatları elle yazmak yerine manifest'ten de okunabilir:
+
+```python
+import json
+manifest = json.loads(Path("regions/regions_manifest.json").read_text(encoding="utf-8"))
+center = tuple(manifest[region_id]["center_lonlat"])
+```
+
 ---
 
 ## 5. Yeniden Üretilebilirlik (Reproducibility)
@@ -122,3 +158,8 @@ Tüm haritalar, `copernicus_glo30_turkey/` dizinindeki kaynak karolardan tek bir
 ```powershell
 python scripts/build_regional_dems.py
 ```
+
+`terrain_cache/manifest.json` içindeki SHA-256 damgası, önbelleğin hangi DEM ve
+hangi kod sürümünden üretildiğini kaydeder; DEM veya
+[`planner/terrain_cache.py`](../planner/terrain_cache.py) değiştiğinde önbellek
+geçersiz sayılır ve yeniden üretilir.
